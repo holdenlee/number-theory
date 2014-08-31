@@ -1,0 +1,369 @@
+\chapter{Cyclotomic fields}\llabel{cyclotomic}
+
+\index{Cyclotomic polynomials}
+\section{Cyclotomic polynomials}
+\begin{df}
+A \textbf{cyclotomic extension} of $\Q$ is a field $\Q[\zeta]$ where $\zeta$ is a root of unity. 
+We call $\zeta$ a primitive $n$th root of unity if $\zeta^n=1$ but $\zeta^m\neq 1$ for $0<m<n$.
+\end{df}
+We will use $\zeta_n$ to denote a primitive $n$th root of unity.
+
+The $n$th cyclotomic polynomial is defined by
+\[ \Phi_n(x)=\prod_{0\leq j <n,\text{gcd}(j,n)=1}(x-e^{\frac{2\pi ij}{n}})\]
+Equivalently, it can be defined by the recurrence $\Phi_0(x)=1$ and
+\[ \Phi_n(x)=\frac{x^n-1}{\prod_{m\mid n,m<n}\Phi_m(x)}.\]
+Hence, it has integer coefficients.
+\begin{thm}\llabel{cyclotomic-irreducible}
+The cyclotomic polynomials are irreducible over $\mathbb{Q}[x]$.
+\end{thm}
+\begin{proof}
+We need the following lemma:
+
+Suppose $\omega$ is a primitive $n$th root of unity, and that its minimal polynomial is $g(x)$. Let $p$ be a prime not dividing $n$. Then $\omega^p$ is a root of $g(x)=0$.
+
+Since $\Phi_n(\omega)=0$, we can write $\Phi_n=fg$. If $g(\omega^p)\neq 0$ then $f(\omega^p)=0$. Since $\omega$ is a zero of $f(x^p)$, $f(x^p)$ factors as
+\[f(x^p)=g(x)h(x)\]
+for some polynomial $h\in \mathbb{Z}[x]$.
+
+Now, in $\mathbb{Z}/p\mathbb{Z}[x]$ note $(f_1+\ldots+f_k)^p=f_1^p+\ldots +f_k^p$ since the $p$th power map is an homomorphism. %($\Phi:a\to a^p$ is a homomorphism in $\mathbb{Z}/p\mathbb{Z}[x]$ since $(P+Q)^p=P^p+Q^p$ by the binomial theorem.).
+%expand using the multinomial theorem and note $p\mid\binom{p}{i}$ for $0<i<p$
+Hence
+\[g(x)h(x)\equiv f(x^p)\equiv f(x)^p \pmod{p}.\]
+%Since $\omega $ is a root of $f(x^p)$, $\omega$ is also a root of $f(x)
+Hence $f(x)$ and $g(x)$ share a factor modulo $p$.
+However, the derivative of $x^n-1$ modulo $p$ is $nx^{n-1}\neq 0$, showing that $x^n-1$ has no repeated irreducible factor modulo $p$; hence $\Phi_n$ has no repeated factor modulo $p$. Since $\Phi_n=fg$, this produces a contradiction.
+
+Therefore $g(\omega^p)=0$, as needed.
+
+Any primitive $n$th root is in the form $\omega^{k}$ for $k$ relatively prime to $n$. Writing the prime factorization of $k$ as $p_1\cdots p_m$, we get by the lemma that $\omega^{p_1},\omega^{p_1p_2},\ldots, \omega^{p_1\cdots p_m}$ are all roots of $g$. Hence $g$ contains all primitive $n$th roots of unity as roots, and $\Phi_n=g$ is irreducible.
+\end{proof}
+
+\begin{thm}\llabel{cyclotomic-degree}
+\[
+[\Q(\zeta_n):\Q]=\ph(n).
+\]
+\end{thm}
+\begin{proof}
+The minimal polynomial of $\zeta_n$ equals the cyclotomic polynomial by Theorem~\ref{cyclotomic-irreducible}; the latter has degree $\ph(n)$.
+\end{proof}
+We use cyclotomic polynomials to prove a special case of Dirichlet's theorem.
+\begin{thm}[Dirichlet's theorem for $p\equiv 1\pmod n$]\llabel{dirichlet1}($\dagger$)
+Let $n$ be a positive integer. There are infinitely many primes $p$ with $p\equiv 1\pmod n$.
+\end{thm}
+\begin{lem}
+For any integer $m$, all divisors of $\Phi_n(m)$ either divide $n$ or are $1\pmod n$.
+\end{lem}
+\begin{proof}
+Suppose $p$ is prime and $p\mid \Phi_n(m)$. Then $p\mid m^n-1$, i.e.
+\[
+m^n\equiv 1\pmod p
+\]
+so $r:=\ord_p(m)\mid n$. Since $m^{p-1}\equiv 1\pmod p$ by Fermat's little theorem, $r\mid  p-1$.
+
+If $r=n$, then $n\mid p-1$, i.e. $p\equiv 1\pmod n$.
+Suppose that $r<n$. Then
+\[
+p\mid \Phi_n(m)\mid \frac{m^n-1}{m^r-1}=m^{r(\frac nr-1)}+\cdots +m^r+1.
+\]
+However, $m^r\equiv 1\pmod p$ so
+\[
+m^{r(\frac nr-1)}+\cdots +m^r+1\equiv \frac nr\pmod p,
+\]
+so $p\mid \frac{n}{r}\mid n$.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{dirichlet1}]
+Suppose by way of contradiction that only finitely many primes are $1\pmod n$. Let their product be $P$ (if there are no such primes, $P=1$). Consider $\Phi_n(knP)$, $k\in \Z$. Since it divides $(nP)^n-1$, it can't have prime divisors in common with $n$ or $P$. With appropriate choice of $k$ we can be sure $\Phi_n(knP)\ne 0,\pm1$. By the claim all prime divisors of $\Phi_n(knP)$ are $1\pmod n$, but they don't divide $P$, contradiction.
+\end{proof}
+%The Chebyshev polynomials are defined by the recurrence $T_0(x)=1, T_1(x)=x, T_{i+1}(x)=2xT_i(x)-T_{i-1}(x)$ for $i\geq 1$. They satisfy
+%\[T_n(\cos\theta)=\cos n\theta\]
+%since $\cos((n+1)\theta)=2\cos\theta \cos n\theta-\cos(n-1)\theta$.
+%Furthermore,
+%\[T_n\left(\frac{1}{2}\left(x+\frac{1}{x}\right)\right)=\frac{1}{2}\left(x^n+\frac{1}{x^n}\right).\]
+%
+%The roots of $T_n(x)$ are $\cos \left(\frac{\pi}{n}+\frac{2\pi k}{n}\right), 0\leq k<n$.
+
+\section{Ring of integers}
+Our next two propositions will give us information about the ring of integers of $\Q[\zeta]$, as well as some other useful facts. In the process we will rederive Theorem~\ref{cyclotomic-degree}.
+\begin{pr}\llabel{cyclotomic-unit}
+Suppose $\zeta$ and $\zeta'$ are primitive $n$th roots of unity. Then $\frac{1-\zeta'}{1-\zeta}$ is a unit in $\Z[\zeta]=\Z[\zeta']$.
+\end{pr}
+\begin{proof}
+Then we have $\zeta'=\zeta^s$ and $\zeta=\zeta'^t$ for some $s,t$, so $\Z[\zeta]=\Z[\zeta']$ and
+\begin{align*}
+\frac{1-\zeta'}{1-\zeta}&=1+\zeta+\cdots +\zeta^{s-1}\in\Z[\zeta]\\
+\frac{1-\zeta}{1-\zeta'}&=1+\zeta'+\cdots +\zeta'^{t-1}\in\Z[\zeta].
+\end{align*}
+Therefore $\frac{1-\zeta'}{1-\zeta}$ is a unit in $\Z[\zeta]$.
+\end{proof}
+\begin{pr}\llabel{cyclotomic-p}
+Let $p$ be prime and $r\in\N$. 
+Suppose $p^r>2$, let $\ze_{p^r}$ be a primitive $p^r$-th root of unity, and let $K=\Q[\ze_{p^r}]$. Then
+\begin{enumerate}
+\item
+$[\Q[\ze_{p^r}]:\Q]=\ph(p^r)=p^{r-1}(p-1)$.
+\item The element $\pi=1-\ze_{p^r}$ is prime in $\sO_K$, and $(p)=(\pi)^{\ph(p^r)}$.
+\item
+$\sO_K=\Z[\ze_{p^r}]$.
+\item
+$\disc(\sO_K/\Z)=(-1)^{\frac{\ph(p^r)}{2}} p^{p^{r-1}(pr-r-1)}$. Thus $p$ is the only prime ramifying in $\Q[\ze_{p^r}]$. 
+\end{enumerate}
+\end{pr}
+\begin{proof}
+%Suppose $\zeta'$ and $\zeta$ are primitive $n$th root of unity. Then we have $\zeta'=\zeta^s$ and $\zeta=\zeta'^t$ for some $s,t$, so $\Z[\zeta]=\Z[\zeta']$ and
+%\begin{align*}
+%\frac{1-\zeta'}{1-\zeta}&=1+\zeta+\cdots +\zeta^{s-1}\in\Z[\zeta]\\
+%\frac{1-\zeta}{1-\zeta'}&=1+\zeta'+\cdots +\zeta'^{t-1}\in\Z[\zeta].
+%\end{align*}
+%Therefore $\frac{1-\zeta'}{1-\zeta}$ is a unit in $\Z[\zeta]$.
+By Proposition~\ref{cyclotomic-units},
+\begin{align*}
+p&=1+X^{p^{r-1}}+\cdots +X^{(p-1)p^{r-1}}|_{X=1}\\
+&=\Phi_{p^r}(1)\\
+&=\prod_{\zeta' \text{ primitive $p^r$th root of unity}}(1-\zeta')\\
+&=\prod_{\zeta' \text{ primitive $p^r$th root of unity}}\frac{1-\zeta'}{1-\zeta_{p^r}}(1-\zeta_{p^r})\\
+&=u(1-\zeta)^{\ph(p^r)}
+\end{align*}
+where $u=\prod_{\zeta' \text{ primitive $p^r$th root of unity}}\frac{1-\zeta'}{1-\zeta_{p^r}}$ is a unit by Proposition~\ref{cyclotomic-unit}. Thus $(p)=(\pi)^{\ph(p^r)}$.
+
+%Note this gives another proof that $[\Q[\zeta]:\Q]=\ph(p^r)$: From the degree equation (Theorem \ref{factorization}.\ref{deg-eq}), we get that $[\Q[\zeta]:\Q]\ge \ph(p^r)$; on the other hand $[\Q[\zeta]:\Q]\le \ph(p^r)$ since the cyclotomic polynomial has degree $\ph(p^r)$.
+%To finish the proof of (1), note that if $\pi$ is not prime, then factoring $\pi$ further, we get strict inequality in the degree equation, $[\Q[\zeta]:\Q]> \ph(p^r)$, a contradiction. Thus $\pi$ is prime.
+From the degree equation (Theorem~\ref{factorization}.\ref{deg-eq}), we get that $[\Q[\zeta]:\Q]\ge \ph(p^r)$ with strict inequality when $\pi$ factors further. On the other hand $[\Q[\zeta]:\Q]\le \ph(p^r)$ since the cyclotomic polynomial has degree $\ph(p^r)$. Hence equality must hold, and $\pi$ must be prime, giving (1) and (2).
+
+The degree equation for $(p)=(\pi)^{\ph(p^r)}$ reads
+\[
+\ph(p^r)=f((\pi)/(p))\cdot \ph(p^r)
+\]
+so we must have $f((\pi)/(p))=1$, i.e. the natural map \begin{equation}\llabel{f-is-1}
+\Z/(p)\xra{\cong} \sO_K/(\pi)
+\end{equation}
+is an isomorphism.
+
+We first calculate $\disc(\Z[\zeta_p]/\Z)$. By Proposition~\ref{ring-of-integers}.\ref{disc-calc},
+\begin{align*}
+\disc(\Z[\zeta_{p^r}]/\Z)&=\pm \nm_{\Q(\zeta_{p^r})/\Q} (\Phi'_{p^r}(\zeta))\\
+\Phi'_{p^r}(\zeta)
+&=\left.\pf{X^{p^r}-1}{X^{p^{r-1}}-1}'\right|_{x=\ze}\\
+&=\left.\frac
+{p^rX^{p^r-1}(X^{p^{r-1}}-1)-(X^{p^r}-1)p^{r-1}X^{p^{r-1}-1}}
+{(X^{p^{r-1}}-1)^2}\right|_{X=\ze_{p^r}}\\
+&=\frac{p^r\zeta_{p^r}^{p^r-1}}{\ze^{p^{r-1}}-1}
+=\frac{p^r\zeta_{p^r}^{-1}}{\ze_p-1}
+\end{align*}
+where we set $\ze_p=\ze^{p^{r-1}}$; this is a primitive $p$th root of unity. We calculate the norm of each factor.
+\begin{enumerate}
+\item $\nm_{\Q(\ze_p)/\Q}(p^r)=(p^r)^{[\Q(\ze_p):\Q]}=p^{rp^{r-1}(p-1)}$.
+\item $\nm_{\Q(\ze_p)/\Q}(\ze_{p^r}^{-1})=\pm 1$ since $\ze_{p^r}^{-1}$ is a unit.
+\item $\nm_{\Q(\ze_p)/\Q}(\ze_p-1)=p^{p^{r-1}}$: The minimal polynomial of $\ze_p-1$ over $\Q$ is 
+$\Phi_{p^r}(X+1)$, whose constant term is $\Phi_{p}(1)=X^{p^{r-1}(p-1)}+\cdots +X^{p^{r-1}}+1|_{X=1}=p$. Hence by Proposition~\ref{ring-of-integers}.\ref{ntr-fext}(1c), we have
+\[
+\nm_{\Q(\ze_p)/\Q}(\ze_p-1)=(\pm p)^{[\Q(\ze_{p^r}):\Q(\ze_p)]}
+=\pm p^{\frac{\ph(p^r)}{\ph(p)}}=\pm p^{p^{r-1}}.
+\]
+\end{enumerate}
+Combining these we get
+\begin{equation}\llabel{disc-cyclotomic-p}
+\disc(\Z[\ze_{p^r}]/\Z)=\nm_{\Q(\ze_{p^r})/\Q}\frac{p^r \zeta_{p^r}^{-1}}{\ze_p-1}=\frac{p^{r(p-1)p^{r-1}}\cdot \pm1}{\pm p^{p^{r-1}}}=\pm p^{p^{r-1}(pr-r-1)}.
+\end{equation}
+
+By Proposition~\ref{ring-of-integers}.\ref{disc-basis} (fix this a bit), we have
+\[
+\pm p^{p^{r-1}(pr-r-1)}=\disc(\sO_K/\Z)=(\sO_K:\Z[\ze_{p^r}])^2\disc(\Z[\ze]/\Z).
+\]
+Hence both factors are powers of $p$ up to sign. Since $(\sO_K:\Z[\ze_{p^r}])$ is a power of $p$, the quotient module is annihilated by a power of $p$, i.e. then 
+\begin{equation}\llabel{power-p-ok}
+p^m\sO_K\subeq \Z[\ze_{p^r}]
+\end{equation}
+for some $m$.  Note surjectivity in~(\ref{f-is-1}) gives $\sO_K=\Z+\pi\sO_K$ and hence
+\begin{equation}\llabel{okz}
+\sO_K=\Z[\ze_{p^r}]+\pi\sO_K.
+\end{equation}
+Suppose $\sO_K=\Z[\ze_{p^r}]+\pi^n\sO_K$. Then substitution into~(\ref{okz}) gives
+\[
+\sO_K=\Z[\ze_{p^r}]+\pi\sO_K=\Z[\ze_{p^r}]+\pi(\Z[\ze_{p^r}]+\pi^n\sO_K) =\Z[\ze_{p^r}]+\pi^{n+1}\sO_K.
+\]
+Hence by induction, $\sO_K=\Z[\ze_{p^r}]+\pi^n\sO_K$ for all $n$. However, $(p)=(\pi)^{\ph(p^r)}$ so this means $\sO_K=\Z[\ze_{p^r}]+p^n\sO_K$ for all $n$. Taking $n=m$,~\eqref{power-p-ok} gives $\sO_K=\Z[\ze_{p^r}]$, proving (3). Together with~(\ref{disc-cyclotomic-p}), this gives (4). The second part of (4) now follows from Theorem~\ref{factorization}.\ref{crit-ram} (A prime ramifies if and only if it divides the discriminant).
+
+All embeddings of $\Q(\ze_n)$ are complex, and there are $\ph(n)=[\Q(\ze_n):\Q]$ of them. By Theorem~\ref{ring-of-integers}.\ref{stickelberger}(1), the sign is $(-1)^{\ph(p^r)}$.
+\end{proof}
+Now we prove the analogous result for $\Q(\ze_{n})$, for any $n\in\N$, by taking compositums of fields of the form $\Q(\ze_{p^r})$.
+\begin{thm}
+Let $n,r\in\N$ with $n\nequiv 2\pmod 4$\footnote{If $n\equiv 2\pmod{4}$, note $\Q(\ze_n)=\Q(\ze_{n/2})$.}. Let $\ze_n$ be a primitive $n$th root of unity.
+\begin{enumerate}
+\item $[\Q(\ze_n):\Q]=\ph(n)$.
+\item $\sO_K=\Z[\ze_{n}]$.
+\item 
+\[
+\disc(\sO_K/\Z)=\frac{(-1)^{\frac{\ph(n)}2}n^{\ph(n)}}{\prod_{p\mid n} p^{\frac{\ph(n)}{p-1}}}.
+\]
+\end{enumerate}
+Moreover,
+\begin{enumerate}
+\item If $p\ne 2$, then $p$ ramifies iff $p\mid n$.
+\item If $p=2$, then $p$ ramifies iff $4\mid n$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Let $K=\Q(\ze_n)$. Along with the theorem statement, we will show that if $n=p^rm$, $p\nmid m$, then 
+\begin{equation}\llabel{cyclotomic-factorization-1}
+(p)=\pa{\prod \mP_i}^{\ph(p^r)}
+\end{equation}
+for distinct primes $\mP_i$.
+
+We induct on the number of prime factors of $n$. The case when $n$ is a prime power is treated by Proposition~\ref{cyclotomic-p}. Suppose the theorem true for $m$ and $p\nmid m$; consider $n=p^rm$. Writing
+$\ze_{p^r}=\ze_{n}^m$ and $\ze_{m}=\ze_n^{p^r}$, we consider
+\[%begin{equation}%\llabel{cyclotomic-compositum}
+\xymatrix{
+& \Q(\ze_{p^rm})\ar@{-}[ld]\ar@{-}[rd]^{\le \ph(p^r)} & & &(\mfp \sO_K)^{\ph(p^r)}=\prod_i \mfp_i\sO_K\ar@{-}[ld]\ar@{-}[rd]^{\ge\ph(p^r)}&\\
+\Q(\ze_{p^r})&&\Q[\ze_m]&\mfp^{\ph(p^r)}&&\prod \mfp_i\\
+&\Q\ar@{-}[lu]^{\ph(p^r)}\ar@{-}[ru]_{\ph(n)}&&&(p)\ar@{-}[lu]^{\text{totally ramified}}\ar@{-}[ru]_{\text{unramified}}& 
+}
+\]%end{equation}
+By Proposition~\ref{cyclotomic-p}(2), $(p)=\mfp^{\ph(p^r)}$ in $\Q[\ze_{p^r}]$, while by part 2, $p$ splits into disctinct factors. Matching factorizations in $\Q[\ze_{p^rm}]$, we get that each $\mfp_i\sO_K$ must be a perfect $\ph(p^r)$th power. %(clearly, distinct primes are relatively prime).
+Hence $[\Q(\ze_n):\Q]\ge \ph(p^r)$, and equality must hold. Then $[\Q(\ze_n):\Q]=\ph(p^r)\ph(m)=\ph(n)$ showing (1).
+
+Item (2) follows from Proposition~\ref{ring-of-integers}.\ref{disc-compositum} since by (3), $\disc(\Q(\ze_{p^r})/\Q)$ and $\disc(\Q(\ze_{m})/\Q)$ are relatively prime.
+Item (3) follows from Proposition~\ref{ring-of-integers}.\ref{disc-compositum} as well. The factorization comes from the fact that since $[\Q(\ze_{p^rm}):\Q(\ze_m)]=\ph(p^r)$ and each $\mfp_i$ is the $\ph(p^r)$th power of an ideal, 
+%we have equality in~\eqref{cyclotomic-compositum}, 
+the degree equation says each $\mfp_i$ must actually be the  $\ph(p^r)$th power of a {\it prime} ideal.
+\end{proof}
+We now show a more precise version of~(\ref{cyclotomic-factorization-1}), using Theorem~\ref{compute-fact-pB}.
+\begin{thm}\llabel{cyclotomic-factorization-p}
+Suppose that $n=p^rm$, where $p\nmid m$. Let 
+\[
+f=\ord_{m} (p).
+\]
+Then the prime factorization of $(p)$ in $\Q(\ze_n)$ is
+\[
+(p)=(\mP_1\cdots \mP_g)^{\ph(p^r)}
+\]
+where $\mP_j$ are distinct primes, each with residue degree $f$ over $\Q$, and $g=\frac{\ph(m)}{f}$.
+\end{thm}
+\begin{proof}($\dagger$)\footnote{For an alternate proof see Example~\ref{intro-cft}.\ref{cyclotomic-frobenius}.} 
+To use Theorem~\ref{compute-fact-pB}, we find the factorization of $\Phi_n(X)$ modulo $p$. We have
+\begin{equation}\llabel{cyclotomic-factorization-p-eq1}
+\Phi_n(X)=\prod_{j\modt{n}}(X-\ze_n^j)
+=\prod_{j\modt{m}}\prod{k\modt{p^r}} (X-\ze_m^j\ze_{p^r}^k).
+\end{equation}
+Now note that
+\[
+X-\ze_m^j\ze_{p^r}^k\equiv X-\ze_m^j\pmod{\ze_{p^r}-1}.
+\]
+Hence~(\ref{cyclotomic-factorization-p-eq1}) gives
+\[
+\Phi_n(X)\equiv \prod_{j\modt{m}} (X-\ze_m^j)^{\ph(p^r)}
+\equiv \Phi_m(X)^{\ph(p^r)}\pmod{\ze_{p^r}-1}.
+\]
+But both sides are in $\Z[X]$ so this congruence holds modulo $(\ze_{p^r}-1)\cap \Z=(p)$.
+
+Now consider $\Phi_m(X)\pmod{p}$. Note that modulo $p$, $P(X):=X^m-1$ has no repeated factors since it is relatively prime to  $P'(X)=mX^{m-1}\ne 0$; hence its divisor $\Phi_m(X)$ has no repeated factors either. Note $\F_{p^r}^{\times}$ consists exactly of elements with $x^{p^r-1}=1$, any root $\al$ of $\Phi_m(X)$ satisfies $\al^m=1$ (but not $\al^{m'}=1$ for $0<m'<m$). Thus the smallest field extension $\F_{p^r}$ containing $\al$ is hence the smallest $r$ such that $m\mid p^r-1$, i.e. $r=\ord_m(p)$. The irreducible factors of $\Phi_m(X)$ have degree $f$, so $f$ is the residue degree. The number of factors equals $\frac{\ph(m)}{f}$, and this is the number of distinct prime divisors of $(p)$.
+\end{proof}
+\section{Subfields of cyclotomic extensions}
+\begin{pr}\llabel{galois-cyclotomic}
+The Galois group of $\Q(\ze_n)/\Q$ is
+\[
+G(\Q(\ze_n)/\Q)=(\Z/n\Z)^{\times}.
+\]
+\end{pr}
+\begin{proof}
+The conjugates of $\ze_n$ over $\Q$ are $\ze_n^k$ with $k\in (\Z/n\Z)^{\times}$, the roots of $\Phi_n$. The Galois group acts transitively on the conjugates, so for every $k\in (\Z/n\Z)^{\times}$, there is a automorphism $\si_k$ sending $\ze_n\to \ze_n^k$, and these are all the automorphisms (look at the degree). Since $\ze_n$ generates $\Q(\ze_n)$, the action of an automorphism on $\ze_n$ determines it completely. It is clear that $k\to \si_k$ is an isomorphism $(\Z/n\Z)^{\times}\to G(\Q(\ze_n)/\Q)$.
+\end{proof}
+\begin{pr}
+The unique quadratic extension of $\Q$ contained in $\Q(\ze_p)$ is
+\[
+\Q\pa{\sqrt{(-1)^{\frac{p-1}{2}}p}}.
+\]
+\end{pr}
+\begin{proof}
+By the fundamental theorem of Galois theory, a quadratic extension corresponds to a subgroup of index 2 in $(\Z/p\Z)^{\times}\cong \Z/(p-1)\Z$, and there is exactly one such subgroup. If it equals $\Q(\sqrt{d})$, then the only primes ramifying are those dividing $d$; since the only prime ramifying in $\Q(\ze_p)$ is $p$, we must have $d=\pm p$.
+
+To determine the sign, we explicitly find express a generator for $\Q(\sqrt{d})$ in terms of $\ze_p$. Define $\tau$ by the Gauss sum
+\[
+\tau=\sum_{k=1}^{p-1} \pf{k}{p}\ze_p^k.
+\]
+An automorphism $\si\in G(L/K)$ is described by $\si(\ze_p)=\ze_p^j$ for some $j$; we have
+\[
+\si \tau=\sum_{k=1}^{p-1} \pf{k}{p}\ze_p^{jk}
+=\sum_{k=1}^{p-1} \pf{j^{-1}k}{p}\ze_p^{k}
+\]
+so $\si\tau=\tau$ iff $\pf{j}{k}=1$, which happens for exactly half the elements of $G(L/K)$. Hence $\tau$ indeed generates a quadratic field.\footnote{This gives motivation for the Gauss sum appearing in the proof of quadratic reciprocity.}
+
+Now, if $p\equiv 1\pmod 4$, we have $\pf{-1}{p}=1$ and we can pair $\pf{k}{p}\ze_p^k+\pf{-k}{p}\ze_p^{-k}\in \R$, while if $p\equiv 3\pmod 4$, we have $\pf{-1}{p}=-1$ and $\pf{k}{p}\ze_p^k+\pf{-k}{p}\ze_p^{-k}\in \R i$. This gives the sign of $d$.
+
+Alternatively, we can calculate $\tau$ explicitly as in (BLAH).
+\end{proof}
+\begin{pr}
+For $n>2$, $\Q(\ze_n)$ is a CM-field with totally real subfield
+\[
+\Q(\ze_n+\ze_n^{-1})=\Q\pa{\cos\frac{2\pi}{n}}.
+\]
+\end{pr}
+\begin{proof}
+\end{proof}
+\section{Fermat's last theorem: Regular primes}
+\begin{thm}\llabel{cyclotomic-units}
+Any unit $u\in \Z[\ze_n]$ can be written in the form
+\[
+u=\ze_n^k v
+\]
+where $v$ is totally positive, i.e. $\si(v)\in \R$ for any embedding $\si:\Q[\ze_n]\to \C$.
+\end{thm}
+\begin{df}
+A prime $p$ is \textbf{regular} if $p$ does not divide the class number of $\Z[\ze_p]$.
+\end{df}
+\begin{thm}[First case of Fermat's last theorem for regular primes]
+Suppose that $p>2$ is a regular prime. Then any integer solution to
+\[
+x^p+y^p=z^p
+\]
+satisfies $p\mid xyz$.
+\end{thm}
+\begin{proof}
+For $p=3$, note that any cube must be congruent to $0$ or $\pm 1$ modulo 9. Hence in order for $x^3+y^3\equiv z^3\pmod 9$, one of $x,y,z$ is divisible by $3$, as needed.
+
+Now assume $p>3$. By dividing by $\gcd(x,y,z)$ we may assume $x,y,z$ are relatively prime.
+
+\noindent\underline{Step 1:} Factor the equation as
+\begin{equation}\llabel{fermat-factored}
+\prod_{j=0}^{p-1}(x+\ze_p^j y)=z^n.
+\end{equation}
+(Note $p$ is odd.) We show that if $p\nmid xyz$, then the factors on the left are relatively prime. Take $j\ne k$ and consider $\ma:=\gcd((x+\ze_p^j y),((x+\ze_p^k y)))$. We have
+\[
+\ma\mid (x+\ze_p^j y-x-\ze_p^k y)=(\ze_p^j-\ze_p^k)(y).
+\]
+Now $x,y$ have no common factor in $\Z$, so $(x)$ and $(y)$ have no common factor in $\Z[\ze_p]$, %; since $p=(1-\ze)^p$ is the only prime ramifying in $\Z[\ze_p]$, the only prime factor $(x)$ and $(y)$ can have in $\Z[\ze_p]$ is $(1-\ze)$. But in this case, $p\mid x,y$. So $(x), (y)$ have no common factor, 
+and $(x+\ze_p^j y)$ and $(y)$ have no common factor. This shows
+\[
+\ma\mid (\ze_p^j-\ze_p^k).
+\]
+The RHS is prime, so either $\ma=(\ze_p^j-\ze_p^k)=(1-\mfp)$ or $\ma=(1)$. In the first case, we get $(1-\mfp)\mid \prod_{j=0}^{p-1}(x+\ze_p^j y)=z^n$ so $p\mid z^n$, contradiction.\\
+
+\noindent\underline{Step 2:} By uniqueness of ideal factorization, each factor of~(\ref{fermat-factored}) is a perfect $p$th power.
+\[(x+\ze_p^jy)=\ma_j^p\]
+However, $p\nmid |C(\Z[\ze_p])|$ so $C(\Z[\ze_p])$ has no $p$-torsion. Since $(x+\ze_p^jy)$ is a principal ideal, $\ma_j$ must also be a principal ideal $(a_j)$. By Theorem~\ref{cyclotomic-units}, we can write
+\[
+a_j=\ze_p^{r_j}v_j,\quad v_j\in \Q[\ze_p]^+.
+\] 
+\end{proof}
+\section{Exercises}
+\noindent \textbf{Problems}
+\begin{enumerate}
+\item[1.1] Let $p$ be a prime. Prove that any equiangular $p$-gon with rational side lengths is regular.
+
+\item[1.2] (Komal) Prove that there exists a positive integer $n$ so that any prime divisor of $2^n-1$ is smaller that $2^{\frac{n}{1993}}-1$.
+
+\item[1.3] Find all rational $p\in [0,1]$ such that $\cos p\pi$ is...
+\begin{enumerate}
+\item rational
+\item the root of a quadratic polynomial with rational coefficients
+\end{enumerate}
+
+\item[1.4] (China) Prove that there are no solutions to $2\cos p\pi=\sqrt{n+1}-\sqrt{n}$ for rational $p$ rational and positive integer $n$.
+
+\item[1.5] (TST 2007/3) Let $\theta$ be an angle in the interval $(0,\pi/2)$. Given that $\cos \theta$ is irrational and that $\cos k\theta$ and $\cos[(k+1)\theta]$ are both rational for some positive integer $k$, show that $\theta=\pi/6$.
+
+%\item (Chebyshev) Let $p(x)$ be a real polynomial of degree $n\geq 1$ with leading coefficient 1. Then \[\max_{-1\leq x\leq 1} |p(x)|\geq \frac{1}{2^{n-1}}.\]
+
+%\item Prove that $\cos\frac{\pi}{4n}\cdot \cos\frac{3\pi}{4n}\cdots \cos\frac{(2n-1)\pi}{4n}=\frac{1}{2^{n-\frac 12}}$.
+\item[2.1] Show that the ring of integers in $\Q(\cos\frac{2\pi}{n})$ is $\Z[\cos\frac{2\pi}{n}]$.
+\item[?] Show that the class group of $\Q(\ze_{23})$ (is this the right one?) is nontrivial.
+\end{enumerate}

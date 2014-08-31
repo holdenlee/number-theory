@@ -1,0 +1,81 @@
+\chapter{Diophantine sets}
+\section{Diophantine sets}
+\begin{df}
+Let $R$ be an integral domain. A \textbf{Diophantine equation} over $R$ is an equation of the form
+\[
+P(x_1,\ldots, x_n)=0
+\]
+where $P$ is a polynomial with coefficients in $R$. If $R$ is omitted, we assume that $R=\Z$.
+\end{df}
+\begin{df}
+Let $A\subeq R^m$. 
+$A$ is \textbf{Diophantine} if there exists a Diophantine equation in parameters $a_1,\ldots, a_m$ and variables $x_1,\ldots, x_n$, such that $A$ is the set of $(a_1,\ldots, a_m)$ for which the equation is solvable. In other words,
+\[
+A=\set{(a_1,\ldots, a_m)\in R^n}{P(a_1,\ldots, a_m,x_1,\ldots, x_n)=0\text{ has a solution}}.
+\]
+We say a property is Diophantine if the set of elements with that property is Diophantine. We say a function $f:R\to R$ is Diophantine if its graph $\set{(x,f(x)}{x\in R}$ is Diophantine.
+\end{df}
+The following says that all systems of Diophantine equations can be reduced to a single Diophantine equation. Hence we can just consider the special case of a single Diophantine equation.
+\begin{pr}
+Let $K=\Frac(R)$, suppose $K$ is not algebraically closed, and let $f_1,\ldots, f_m$. 
+There exists $g(x_1,\ldots, x_n)$ such that 
+\[
+g(x_1,\ldots, x_n)=0
+\iff\begin{cases}
+f_1(x_1,\ldots, x_n)=0\\
+\qquad\qquad \vdots \\
+f_m(x_1,\ldots, x_n)=0
+\end{cases}
+\]
+\end{pr}
+\begin{proof}
+By induction it suffices to prove this for the $n=2$ case. 
+Take a polynomial $h=\sum_{k=0}^r a_k x^k\in R[x_1,\ldots, x_n]$ with no roots in $K$, and let
+\[
+g:=h\pf{f_1}{f_2}f_2^r=\sum_{k=0}^r a_kf_1^kf_2^{r-k}.
+\]
+If $(x_1,\ldots, x_n)$ is a solution of $f_1=f_2=0$ then it is a solution of $h=0$. Suppose by way of contradiction $(x_1,\ldots, x_n)$ is a solution of $h=0$ but $f_1(x_1,\ldots, x_n)$ and $f_2(x_1,\ldots, x_n)$ are not both 0. Then neither is 0 and $\frac{f_1(x_1,\ldots, x_n)}{f_2(x_1,\ldots, x_n)}$ is a root of $h=0$ in $K$, contradiction. 
+\end{proof}
+\begin{ex}
+For $R=\Z$ take $g=X^2+1$. In this case $h=f_1^2+f_2^2$, and it is clear that $h=0$ has a solution in $\Z$ iff $f_1=f_2=0$ has a solution.
+\end{ex}
+\begin{pr}
+Hilbert's tenth problem is true for $\Z$ if and only if it is true of $\N$.
+\end{pr}
+\begin{proof}
+Lagrange's theorem! (sum of 4 squares)
+\end{proof}
+BIG THM.
+Related notion
+\begin{df}
+A set $A\subeq K^m$ is \text{field-Diophantine} over $R$ if there there exists a polynomial $P(a_1,\ldots, a_m,b,x_1,\ldots, x_n)$ with coefficients in $R$ such that 
+\[
+A=\set{(a_1,\ldots, a_m)}{P=0\text{ has a solution with }b\ne 0}.
+\]
+\end{df}
+\begin{pr}
+The union of two (field-)Diophantine equations is also Diophantine. If $K$ is not algebraically closed the intersection of two (field-)Diophantine equations is also Diophantine.
+\end{pr}
+\begin{proof}
+For the union, take products. For the intersection, similar to proof above.
+\end{proof}
+\begin{thm}[DPRM theorem]
+The Diophantine sets over $\Z$ coincide with the recursively enumerable sets.
+\end{thm}
+\begin{thm}[Hilbert's tenth problem]
+There is no algorithm to decide whether a Diophantine equation over $\Z$ has a solution.
+\end{thm}
+\begin{thm}
+The set of prime numbers is Diophantine.
+\end{thm}
+\begin{thm}[Existence of prime-producing polynomials]
+There exists a nonconstant multivariate polynomial
+$P(x_1,\ldots, x_n)\in R[x_1,\ldots, x_n]$ whose positive range is exactly the prime numbers, i.e.
+\[
+\im(P)\cap \N=\{\text{prime }p\}.
+\]
+\end{thm}
+\begin{proof}
+Since the set of prime numbers is Diophantine, there exists $Q$ such that $Q(a,\vec{x})=0$ iff $a$ is prime. Now take 
+\[P=a(1-Q^2).\]
+\end{proof}

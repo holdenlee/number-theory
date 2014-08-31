@@ -1,0 +1,1003 @@
+\chapter{Class Field Theory: Introduction}
+\llabel{intro-cft}
+We give the main theorems of class field theory, deferring the proofs to the next five chapters. In this chapter we'll focus on the motivation and intuition behind the theorems. The reader may find it helpful to read this chapter along with Chapter~\ref{ch:cft-app}, Applications.
+
+In Section~\ref{sec:frobenius-elements} we'll introduce the Frobenius map, which we need before we can state the theorems of class field theory. In Section~\ref{sec:local-reciprocity} we state the theorems of local class field theory. We state two formulations of global class field theory: using ideals in Section~\ref{sec:global-reciprocity} and using ideles in Section~\ref{sec:global-reciprocity-via-ideles}, after giving the relevant background on ray class groups and ideles. The formulation using ideals is less sophisticated to understand, but the formulation using ideles is more useful theoretically. We'll compare the two formulations in Section~\ref{sec:connecting-formulations}. Finally, we'll present a proof of the Kronecker-Weber Theorem using class field theory in Section~\ref{kw}. Throughout, we'll refer back to the cyclotomic case, because class field theory is easy to understand in this case, and it already shows much of what's at play.
+\section{Frobenius elements}\llabel{sec:frobenius-elements}
+\index{Frobenius element}
+In order to define the Artin map and state the main theorems of class field theory, we first need to understand the Frobenius map. This map takes prime ideals inside a field $K$ to automorphisms in a Galois group $G(L/K)$. One reason for studying the Frobenius map is that $\Frob_{L/K}(\mfp)$ gives information on how the prime ideal $\mfp$ splits in a Galois extension. First, we'll define the Frobenius element and explain what it tells us about the splitting of primes. Next, we'll look at the example of a cyclotomic extension, which suggests that something deeper is going on with the Frobenius map, which we'll attempt to explain with class field theory.
+
+The reader may wish to review Section~\ref{factorization}.\ref{sec:decomposition-and-inertia}, on the decomposition and inertia groups.
+
+The results in this section will apply to both local and global fields.
+\begin{df}\llabel{frobenius-element}
+Let $L/K$ be a Galois extension  with Galois group $G$, and assume that the residue field $k$ is finite. %the corresponding extension of residue fields $l/k$ is finite.\footnote{This also works if $k=\F_q$ and $l=\ol{\F_q}$. In this case $G(l/k)=\wh{\Z}$.} %(This holds when $L$ and $K$ are number fields.)
+\begin{enumerate}
+\item Let $\mP$ be an unramified prime of $L$. Define the \textbf{Frobenius element} 
+\[\Frob_{L/K}(\mP)=(\mP,L/K)\]
+to be the element $\si\in D_{L/K}(\mP)\subeq G(L/K)$ that acts as the Frobenius automorphism on the residue field $l=\sO_L/\mP$ fixing $k=\sO_K/\mfp$. In other words, letting $k=\F_q$,
+\[\si\al =\al^q\text{ for all }\al\in l.\]
+\item Let $\mfp$ be an unramified prime of $K$. %Define the \textbf{Frobenius element} $(\mfp,L/K)$ as follows.
+Let $\mP$ be any prime dividing $\mfp$, and define $\text{Frob}_{L/K}(\mfp)=(\mfp,L/K)$ to be the conjugacy class of $(\mP,L/K)$. Equivalently (see lemma~\ref{lem:frob-lem}),
+\[
+\Frob_{L/K}(\mfp)=(\mfp,L/K):=\{(\mP,L/K)\mid \mP|\mfp\}.
+\]
+\end{enumerate}
+In the local case, when there is only one prime, we will simply write $\Frob_{L/K}$.
+\end{df}
+\begin{proof}[Proof of existence of $(\mP,L/K)$]
+When $\mfp$ is unramified in $L$, $I(\mP)=1$ so from Corollary~\ref{factorization}.\ref{ses-inertia-decomp}, the map $D_{L/K}(\mP)\to G(l/k)$ is an isomorphism. Thus there is a unique element of $D_{L/K}(\mP)$ whose image is the Frobenius element.
+\end{proof}
+%Note that the Frobenius element exists by Theorem~\ref{unramified-is-separable}(3). 
+To show the above definition is valid, we need to show that changing the prime above $\mfp$ corresponds to conjugating the Frobenius element.
+\begin{lem}\llabel{lem:frob-lem}
+Let $\tau\in G(L/K)$. Then
+\begin{align*}
+D(\tau \mP)&=\tau D(\mP)\tau^{-1}\\
+(\tau \mP,L/K)&=\tau (\mP,L/K)\tau^{-1}.
+\end{align*}
+Therefore (since $G(L/K)$ operates transitively on the primes dividing $\mfp$), the conjugacy class of $(\mP, L/K)$ is equal to $\{(\mP,L/K)\mid \mP|\mfp\}$.
+\end{lem}
+\begin{proof}
+The first statement follows from the fact that if $G$ acts on $S$ and $G$ is the stabilizer of $s\in S$, then $tGt^{-1}$ is the stabilizer of $ts$. Recall that the decomposition group $D(\mP)$ is defined as the stabilizer of $\mP$.
+
+For the second statement, let $q=|k|$ and note that $\tau$, as an automorphism, preserves $q$th powers. Hence for all $b\in \sO_L$,
+%=\si(a)\in \si(\mP)$,
+\[
+(\tau(\mP,L/K)\tau^{-1})(b)\equiv \tau(\tau^{-1}(a)^{q})\equiv a^{q}\pmod{\tau(\mP)}.\qedhere
+\]
+\end{proof}
+Note that if $G$ is abelian, then the conjugacy classes are just elements, so we can think of $(\mP,L/K)$ as an element of $G(L/K)$.
+
+One of the most basic applications of the Frobenius map is to the splitting of primes in an extension.
+\begin{pr}\llabel{frob-1-split-completely}
+Let $L/K$ be an extension of degree $n$, unramified at $\mP\mid \mfp$. Then $\mfp$ splits into $\fc{n}{\ab{\an{(\mP,L/K)}}}$ factors, where $\an{(\mP,L/K)}$ is the subgroup of $G$ generated by $(\mP,L/K)$.
+
+In particular, $\mfp$ splits completely iff $(\mfp,L/K)=1$.
+\end{pr}
+\begin{proof}
+%Let $\mP$ be any prime above $\mfp$; 
+Let $l$ and $k$ be the residue fields.
+
+The Frobenius element generates the decomposition group $D(\mP)$, since it acts as the Frobenius automorphism on $l/k$ and $D(\mP)\cong G(l/k)$. Hence $|D(\mP)|=|\an{(\mfp,L/K)}|$. Since $\mfp$ is unramified in $L$, $e(\mP/\mfp)=1$ and $f(\mP/\mfp)=|D(\mP)|=|\an{(\mfp,L/K)}|$. Hence, letting $g$ be the number of primes above $\mfp$, we have 
+\[n=[L:K]=\underbrace{e(\mP/\mfp)}_{1} \underbrace{f(\mP/\mfp)}_{|\an{(\mP,L/K)}|}g.\]
+Then 
+\[g=\fc{n}{\ab{\an{(\mP,L/K)}}},\]
+as needed.
+
+In particular, $\mfp$ splits completely iff $g=n$, %iff $f(\mP/\mfp)$ is trivial, iff 
+iff $\ab{\an{(\mP,L/K)}}=1$, iff $\ab{\an{(\mfp,L/K)}}=1$, i.e. the Frobenius element $(\mfp,L/K)$ is trivial.
+%Let $\mP$ be any prime above $\mfp$; let $l$ and $k$ be the residue fields. Then $\mfp$ splits completely iff $g=[L:K]$, iff $f(\mP/\mfp)=1$, iff $l/k$ is trivial, iff the Frobenius automorphism on $l/k$ is trivial, iff the element of $D(\mP)$ mapping to it is trivial, i.e. $(\mP,L/K)=1$.
+\end{proof}
+%\begin{pr}\llabel{frob-1-split-completely}
+%Let $L/K$ be unramified at $\mfp$. Then
+%$\mfp$ splits completely iff $(\mfp,L/K)=1$.
+%\end{pr}
+%\begin{proof}
+%Since $\mfp$ is unramified in $L$, if there are $g$ primes above $\mfp$ we have 
+%\[[L:K]=\underbrace{e(\mP/\mfp)}_{1}f(\mP/\mfp)g.\]
+%
+%Let $\mP$ be any prime above $\mfp$; let $l$ and $k$ be the residue fields. Then $\mfp$ splits completely iff $g=[L:K]$, iff $f(\mP/\mfp)=1$, iff $l/k$ is trivial, iff the Frobenius automorphism on $l/k$ is trivial, iff the element of $D(\mP)$ mapping to it is trivial, i.e. $(\mP,L/K)=1$.
+%\end{proof}
+
+Next, we'll need a result of how the Frobenius element changes as we change the base field.
+\begin{pr}\llabel{pr:frob-base-ext}
+Suppose that $L/K$ is an unramified Galois extension, $K\subeq K'\subeq L$, and $\mfp$ is a prime of $K'$. Let $k,k'$ be the residue fields of $K$ and $K'$. Then
+\[
+\Frob_{L/K'}(\mfp)=\Frob_{L/K}(\mfp)^{[k':k]}
+\]
+\end{pr}
+Note by taking the $[k':k]$th power we mean that if $\Frob_{L/K}(\mfp)$ is the conjugacy class of $\si$, then $\Frob_{L/K}(\mfp)^{[k':k]}$ is the conjugacy class of $\si^{[k':k]}$.
+\begin{proof}
+By definition, the left hand side induces the $|k'|$th power map on $l$, while the right hand side induces the $|k|\cdot [k':k]$th power map on $l$. Hence they are equal.
+\end{proof}
+\subsection{Examples}
+We calculate the Frobenius map explicitly in two examples. First, a warm-up.
+\begin{ex}
+For the field extension $\Q(i)/\Q$,
+\[
+(p,\Q(i)/\Q)=\begin{cases}
+\text{complex conjugation},&p\equiv 3\pmod 4,\\
+1, & p\equiv 1\pmod 4.
+\end{cases}
+\]
+\end{ex}
+\begin{proof}
+If $p\equiv 3\pmod 4$, then $p$ remains prime in $\Q(i)$. 
+\fixme{Reference} 
+The residue fields are 
+\[
+\xymatrix{
+l =\Z[i]/p\Z[i]=\F_{p^2}\ar@{-}[d]\\
+k=\Z/p\Z=\F_p.}
+\]
+Now $(p,\Q(i)/\Q)$ must induce the $p$th power map on $\ell=\F_{p^2}$. Since this is not the identity, it must be the only element of $G(\Q(i)/\Q)$ that is not the identity, i.e. complex conjugation. (This does act as the $p$th power, since recalling $p\equiv 3\pmod 4$,  
+$(a+bi)^p\equiv a^p+b^pi^p\equiv a-bi\pmod{p}$.)
+%it induces a map $\ph$ on $\ell$ that fixes $k$ and such that $\ph^2=I$. The Frobenius map satisfies the same conditions since $\al^{p^2}=\al$ for any $\al\in \ell$. Since these conditions uniquely characterize the map, $\ph$ is the Frobenius map.)
+
+If $p\equiv 1\pmod 4$, then $p$ splits in $\Q[i]$, say into $\mP_1$ and $\mP_2$ where $\mP_1,\mP_2$ are complex conjugate. Then $\Z[i]/\mP_1=\Z[i]/\mP_2=\Z/p\Z=\F_p$ so the extension of residue fields is trivial and the Frobenius automorphism is trivial. It is induced by the identity map, so $(p,\Q(i)/\Q)=1$. (Note that in this case the decomposition group is trivial and does not contain complex conjugation.)
+\end{proof}
+We generalize the above example to cyclotomic extensions.
+\begin{ex}\llabel{cyclotomic-frobenius}
+Let $K=\Q(\zeta_n)$ where $\zeta_n$ is a primitive $n$th root of unity. Then $G(K/\Q)\cong(\Z/n\Z)^{\times}$ by identifying $k\in (\Z/n\Z)^{\times}$ with the automorphism sending $\zeta_n$ to $\zeta_n^k$ %, i.e. it is the $k$th power map 
+(Proposition~\ref{galois-cyclotomic}).
+
+%Now given $q\nmid n$, we have by Theorem~\ref{cyclotomic-factorization-p} that
+%\[
+%q=\mQ_1\cdots \mQ_r
+%\]
+%where $r=\frac{\ph(n)}{\ord_n(q)}$. Thus the decomposition group has order $
+Suppose $\si:=(p,L/K)$ is the map $\zeta_n\mapsto\zeta_n^k$. By definition $\si$ reduces to the $p$th power map on the residue fields, so $\si(\ze_n)\equiv  \ze_n^p\pmod{p\sO_K}$. Hence
+\[
+\ze_n^p\equiv \ze_n^k\pmod{p\sO_K}.
+\]
+But since $p\nmid n$, the $n$th roots of unity are distinct modulo $p$. (More precisely, they are distinct elements of $\F_{p^m}$ where $m$ is such that $p^m\equiv 1\pmod n$.) Hence we must have $p\equiv k\pmod n$, i.e. $\si$ is the $p$th power map.
+%A different proof. I use the proof above because the analogy with the quadratic imaginary case is better.
+%Take any $\mP\mid p$ in $K$. As the residue field of $p$ is $\F_p$, the Frobenius automorphism is the $p$th power map. Note the automorphism $\si(\zeta_n)=\zeta_n^p$ descends to the $p$th power map: because powers of $\ze_n$ generate $\sO_K$, any element of $\sO_K$ can be written as %is in the decomposition group, because given 
+%$f(\ze_n)$ where $f\in \Z[X]$; we have 
+%\[
+%\si(f(\ze_n))=f(\ze_n^p)\equiv f(\ze_n)^p%\equiv 0
+%\pmod{p}.
+%\]
+%In particular, if $f(\ze_n)\in (p)$ then $\si(f(\ze_n))\in (p)$, i.e. $\si\in D(p)$.  
+%Thus $\si$ is the Frobenius element of $p$. %Hence $\si$ must be the $p$th power map.%\footnote{Note this argument implies $|D(\mP)|=\ord_{n}(p)$; hence combined with~(\ref{cyclotomic-factorization-1}), we can give an alternate proof of Theorem~\ref{cyclotomic}.\ref{cyclotomic-factorization-p}.}
+
+This shows that for a prime $p\nmid n$, under the identification $G(K/\Q)\cong(\Z/n\Z)^{\times}$, we have
+\[
+(p,\Q(\ze_n)/\Q)=p\bmod n.
+\]
+\end{ex}
+This calculation of the Frobenius elements gives a complete characterization of how primes split in cyclotomic extensions. We obtain a simple proof of Theorem~\ref{cyclotomic}.\ref{cyclotomic-factorization-p}, which we restate here.
+\begin{thm}\llabel{thm:cyclotomic-factorization-p-2}
+Suppose that $n=p^rm$, where $p\nmid m$. Let 
+\[
+f=\ord_{m} (p).
+\]
+Then the prime factorization of $(p)$ in $\Q(\ze_n)$ is
+\[
+(p)=(\mP_1\cdots \mP_g)^{\ph(p^r)}
+\]
+where $\mP_j$ are distinct primes, each with residue degree $f$ over $\Q$, and $g=\frac{\ph(m)}{f}$.
+
+In particular, 
+\[(p)
+\text{ splits completely in $\Q(\ze_n)$ iff }p\equiv 1\pmod n.\]
+\end{thm}
+\begin{proof}
+For $r=0$, i.e. $n=m$, the automorphism $\ze_n\mapsto \ze_n^p$ has order $\ord_m(p)$, so the result follows from Example~\ref{cyclotomic-frobenius} and Proposition~\ref{frob-1-split-completely}. For $r>0$, note that $(p)$ totally ramifies in $\Q(\ze_{p^r})$ by Proposition~\ref{cyclotomic}.\ref{cyclotomic-p}, and $\Q(\ze_{n})$ is the compositum $\Q(\ze_{p^r})\Q(\ze_m)$.
+\end{proof}
+
+%Note this example works for $\Q_p(\ze_n)/\Q_p$ as well, provided that $p\nmid n$. No... G(K/Q) not Z/n.
+\subsection{The Frobenius map is a nice homomorphism}
+\llabel{sec:frob-map-nice}
+Because we've defined the Frobenius map on prime ideals $\mfp$ unramified in $L$, and the prime ideals are a free basis for the ideal group, we can extend the Frobenius map to the subgroup of ideals generated by unramified primes. Denoting this subgroup by $I_K^S$, we have a map
+\begin{equation}\llabel{eq:frob-extend}
+\Frob_{L/K}:I_K^S\to G(L/K).
+\end{equation}
+What is nice about this map? Look back to the cyclotomic case, Example~\ref{cyclotomic-frobenius}. The Frobenius map didn't map the primes arbitrarily; it sent $p$ to $p\pmod n$. What's to note here is that {\it $(p,\Q(\ze_n)/\Q)$ only depends on $p\pmod n$, information about $p$ intrinsic to $\Q$}, even though $(p,\Q(\ze_n)/\Q)$ tells us about the field extension $\Q(\ze_n)/\Q$. Thus~(\ref{eq:frob-extend}) factors:
+\begin{equation}\llabel{eq:frob-for-cyclo}
+\xymatrix{
+I_{\Q}^S\ar[r]^{\Frob_{L/\Q}} \ar[d] & G(L/\Q)\\
+I_{\Q}^S/I_{\Q}(1, \iy n).\ar[ur]^{\cong}}
+%\Frob:I_K^S\to G(L/K).
+\end{equation}
+Here, $I_{\Q}^S$ denotes the prime ideals relatively prime to $n$ and $I_{\Q}(1, \iy n)$ denotes the subgroup of ideals generated by $(p)$ with $p\equiv 1\pmod n$ and {\it positive}.
+
+Something like this in fact happens in general: global class field theory tells us that for all abelian extensions, the Frobenius map ``factors through a modulus," that $(\mfp,L/K)$ depends only on what $\mfp$ is modulo a nice subgroup of ideals in $K$. Our example essentially proves class field theory for cyclotomic extensions of $\Q$, by using the roots of unity to ``keep book" on the action of Frobenius. Don't be deceived, though, the general case is much harder.
+
+Before we look at global class field theory, we first study local class field theory. Since there's only one prime in a local field, rather than consider a map from the (rather boring) ideal group, we consider a map from the field itself.
+\section{Local reciprocity}\llabel{sec:local-reciprocity}
+%discrete?
+\index{local reciprocity}
+When $K$ is a nonarchimedean local field, there is a single prime ideal $\mfp=(\pi)$. 
+For every abelian unramified extension, the previous section gives an element of $G(L/K)$ corresponding to $\mfp$, which we can think of as corresponding to $\pi$. %Taking the inverse limit over $L$, we get $G(K^{\text{ab}}/K)$ where $K^{\text{ab}}$ is the maximal unramified extension of $K$.
+
+The main theorem of local class field theory is that we can extend this map to all elements of $K^{\times}$, and get elements in $\varprojlim_{\text{finite abelian }L/K}G(L/K)=G(K^{\text{ab}}/K)$. We will also show that this map behaves well under restricting to subextensions $L/K$.
+\begin{thm}[Local reciprocity law]\llabel{local-reciprocity}
+For any nonarchimedean local field $K$, there exists a unique homomorphism
+\[
+\phi_K:K^{\times} \to G(K^{\text{ab}}/K),
+\]
+called the $\textbf{local Artin (reciprocity) map}$
+with the following properties.
+\begin{enumerate}
+\item (Relationship with Frobenius map)
+For any prime element $\pi$ of $K$ and any finite unramified extension $L$ of $K$, $\phi_K(\pi)$ acts on $L$ as $\Frob_{L/K}(\pi)$.
+\item (Isomorphism)
+Let $p_{L}$ be the projection $G(K\abe/K)\to G(L/K)$. For any finite abelian extension $L/K$, %$\nm_{L/K}(L^{\times}\subeq \ker (p_L\circ \phi_K)$
+$\phi_K$ induces an isomorphism $\phi_{L/K}:K^{\times}/\nm_{L/K}(L^{\times})\to G(L/K)$ making the following commute:
+\[
+\xymatrix{
+K^{\times} \ar[r]^{\phi_K}\ar[d] & G(K^{\text{ab}}/K)\ar[d]^{p_L}\\
+K^{\times}/\nm_{L/K}(L^{\times})\ar[r]^>>>>{\phi_{L/K}}_>>>>{\cong} & G(L/K).
+}
+\]
+\item (Compatibility with norm map) For any $K\subeq K'$, the following diagram commutes.
+\[
+\xymatrix{
+K'^{\times} \ar[r]^-{\phi_{K'}} \ar[d]^{\nm_{K'/K}} & G({K'}\abe/K')\ar[d]^{\bullet|_{K\abe}}\\
+K^{\times} \ar[r]^-{\phi_{K}}& G(K\abe/K)
+}
+\]
+\end{enumerate}
+\end{thm}
+We can also say something about this map topologically.
+\index{norm group}
+\index{Weil group}
+\begin{df}
+A \textbf{norm group} is a subgroup of $K^{\times}$ of the form $\nm_{L/K}(L^{\times})$ for some finite extension $L/K$.
+
+Let $\Frob$ denote the Frobenius element of $l/k$. The \textbf{Weil group} $W(L/K)$ of an extension $L/K$ is equal to the inverse image of $\Frob^{\Z}$ under the map $G(L/K)\to G(l/k)$. The topology on $W(L/K)$ is the topology from considering it as a disjoint union of cosets $I(L/K)\si_n$, where $\si_n$ is any lift of $\Frob^n$.
+\end{df}
+Note that the topology on $W(K^{\text{ab}}/K)$ as defined above is strictly finer than the topology it inherits from $G(K^{\text{ab}}/K)$ (see exercise 2.1).
+\begin{thm}[Local existence theorem]\llabel{local-existence}
+Let $K$ be a nonarchimedean local field. The norm groups of $K$ are exactly the open subgroups of finite index.
+\end{thm}
+\begin{thm}[Topological isomorphism for LCFT]\llabel{thm:lcft-topology}
+The image of the Artin map is the Weil group $W(L/K)$, and $\phi_K$ gives an isomorphism of topological groups $K^{\times}\to W(L/K)$. %Here, $W(L/K)$ is given the topology 
+It restricts to an isomorphism $U_K\to I(L/K)$.
+\end{thm}
+
+Combining Theorems~\ref{local-reciprocity} and~\ref{local-existence} gives the following bijective correspondence.
+\begin{thm}\llabel{lcft-correspondence}
+Let $K$ be a nonarchimedean local field. Then there is a bijective correspondence between finite abelian extensions of $K$ and the set of %norm groups of $K^{\times}$
+open subgroups of finite index of $K^{\times}$, given by
+\[
+L\mapsto\nm_{L/K}(L^{\times}).
+\]
+Furthermore, this is an inclusion-reserving bijection that takes intersections to products and products to intersections:
+%\begin{enumerate}
+%\item 
+%$
+\begin{align*}
+L\subeq M&\iff \nm_{L/K}(L^{\times})\supeq \nm_{M/K}(M^{\times})\\
+%$
+%\item $
+\nm_{L\cdot L'/K}((L\cdot L')^{\times})&=\nm_{L/K}(L^{\times})\cap \nm_{L'/K}(L'^{\times})\\%$.
+%\item $
+\nm_{L\cap L'/K}((L\cap L')^{\times})&=\nm_{L/K}(L^{\times})\cdot \nm_{L'/K}(L'^{\times}).
+%\end{enumerate}
+\end{align*}
+Finally, every subgroup of $K^{\times}$ containing a norm group is a norm group. 
+\end{thm}
+
+The following gives a sort-of converse statement: nonabelian extensions cannot be described by norm groups.
+\begin{thm}[Norm limitation theorem]
+\llabel{thm:lcft-norm-limitation}
+Let $L$ be a finite extension of a local field $K$, and $K'$ be the largest abelian extension of $K$ contained in $L$. Then 
+\[
+\nm_{L/K}(L^{\times})=\nm_{K'/K}(K'^{\times}).
+\]
+\end{thm}
+\section{Ray class groups}\llabel{sec:ray-class-groups}
+\index{ray class group}
+In order to define the Frobenius element of a prime we need the extension to be unramified. However, when $K$ is a global field, we cannot as easily say an extension $L/K$ is ``unramified," because $\sO_K$ has many prime ideals. Requiring that $L/K$ to be unramified at all primes of $K$ is too restrictive, because most fields $L$ do not satisfy this condition.
+
+Thus, we instead focus on a set of primes $S$ and consider extensions $L/K$ that are unramified outside of $S$. 
+%Thus, when we define Frobenius elements, we have to exclude the primes that ramify, and when we define a reciprocity map we have to exclude the subgroup that these primes generate.
+When we define Frobenius elements, we have to exclude $S$, and when we define a reciprocity map we have to exclude the subgroup that these primes generate. (Note that unlike in local reciprocity, we will not define $\phi_K$ with domain $K^{\times}$, but rather with domain a subgroup of the ideal group $I_K$.)
+ 
+Letting $S$ range over all finite subsets, we will account for all finite abelian extensions $L/K$, because each extension is ramified at only finitely many primes (Theorem~\ref{factorization}.\ref{crit-ram}).
+
+%Work with fractional ideals instead
+This motivates the following definition.
+\begin{df}\llabel{i-k-s}
+Let $I_K$ be the group of fractional ideals of $K$. Define $I_K^S$ to be the subgroup of $I_K$ generated by prime ideals not in $S$.
+
+Let $L/K$ be an extension of $K$. Define $I_L^S:=I_L^{S'}$, where $S'$ is the set of prime ideals lying above a prime ideal in $S$.
+\end{df}
+Note that if $S\subeq T$ then $I_K^S\supeq I_K^T$.
+
+Similar to Theorem~\ref{local-reciprocity}, global class field theory will tell us there is a map \[I_K^S/\nm_{L/K}(I^S_L)\to G(L/K)\] when $S$ contains the primes that ramify in $L$. However, this is not an isomorphism until we take a further quotient, namely, the quotient with a subgroup of principal ideals $P_K(1,\mm)$, which we will define. First we need the following.
+\index{modulus}
+\begin{df}
+A \textbf{modulus} $\mm$ is a formal product of places of $K$, where
+\begin{enumerate}
+\item
+Finite primes have exponents in $\N_0$, and only finitely many exponents are nonzero.
+\item
+Infinite real places have exponents 0 or 1.
+\item
+Infinite complex places do not appear.
+\end{enumerate}
+We say a place divides $\mm$ if it appears with positive exponent. We write
+\[
+\mm=\underbrace{\prod_{\mfp \text{ finite}} \mfp^{m(\mfp)}}_{\mm_0}
+\underbrace{
+\prod_{v\text{ real}} v^{m(v)}
+}_{\mm_{\iy}}.
+\]
+\end{df}
+In other words, a modulus is the product of a proper ideal with some number of real places.
+\begin{df}
+Let $S(\mm)$ denote the set of finite primes dividing $\mm$.
+
+Define $K(1,{\mm})$ (``elements of $K$ that are 1 modulo $\mm$") to be the subgroup of elements of $K^{\times}$ satisfying the following.%\footnote{It is a subgroup because $\ord_{\mfp}(a-1)\ge1$ implies that $a.}
+\[
+\begin{cases}
+\ord_{\mfp}(a-1)\ge m(\mfp),&\text{finite }\mfp\mid \mm\\
+a_v>0,&\text{real }v\mid \mm.
+\end{cases}
+\]
+Let $i:K^{\times}\to I_K$ be the map sending $a$ to $(a)$, and let 
+\[
+P_K(1,{\mm}):=i(K(1,{\mm})).
+\]
+Define the \textbf{ray class group} of $\mm$ to be
+\[
+C_K(\mm)=I_K^{S(\mm)}/P_K(1,{\mm}).
+\]
+\end{df}
+Note that $P_K(1,{\mm})\in I_K^{S(\mm)}$ because if $a\in K(1,{\mm})$ and $\mfp\in S(\mm)$, then $\ord_{\mfp}(a-1)\ge 1$ and $\ord_{\mfp}(a)=0$, i.e. $\mfp\nmid (a)$. We will often abbreviate $I^{S(\mm)}$ as $I^{\mm}$.
+\begin{ex}\llabel{ex:ray-class-groups}
+If $\mm=1$ then $P_K(1,{\mm})$ is the subgroup of principal ideals and $C_K(\mm)$ is just the ideal class group.
+
+If $\mm=\prod_{v\text{ real}}v$, then
+\[C_K(\mm)=I_K/\set{(a)\in I_K}{a_v>0\text{ for all real }v}\]
+is called the \textbf{narrow class group}.
+We are only modding out by the ``totally positive" principal ideals, so it is larger than the class group.
+\end{ex}
+\index{congruence subgroup}
+\begin{df}
+A \textbf{congruence subgroup} for $K$ modulo $\mm$ is a subgroup $H$ such that
+\[
+P_K(1,{\mm})\subeq H\subeq I_K^{S(\mm)}.
+\]
+The corresponding \textbf{generalized ideal class group} is $I_K^{S(\mm)}/H$.
+\end{df}
+We will show that generalized ideal class groups are exactly the Galois groups of abelian extensions of $K$.
+
+Finally, in preparation for the global reciprocity theorem, we say what it means exactly for a map to only depend on modulo conditions, like the Frobenius map we considered in Section~\ref{sec:frob-map-nice}.
+\begin{df}
+A homomorphism $\psi:I^S\to G$ \textbf{admits a modulus} if  there exists a modulus $\mm$ with $S(\mm)=\mm$ such that $\psi$ factors through $I^S/P_K(1,{\mm})$. In other words, there exists a modulus $\mm$ with $S(\mm)= S$ such that 
+\[
+\psi(P_K(1,{\mm}))=0.
+\]
+\end{df}
+%\fixme{Differing notation: $i(K(1\bmod{\mm}))$ from Milne is $P_K(1\bmod{\mm})$ from Cox.}
+\section{Global reciprocity}\llabel{sec:global-reciprocity}
+\index{global reciprocity}
+In this section $K$ is a global field.
+\begin{thm}[Global reciprocity theorem]\llabel{global-reciprocity}
+Let $L/K$ be a finite abelian extension. Let $S$ be the set of primes ramifying in $L$. There is a unique map $\psi_{L/K}$ such that for a prime ideal $\mfp\nin S$, $\psi_{L/K}(\mfp)$ acts on $L$ as $\Frob_{L/K}(\mfp)$.
+Moreover, $\psi_{L/K}$ satisfies the following properties.
+%and satisfying the following properties.
+%\begin{enumerate}
+%\item
+%For $\mfp\in I^S$ (i.e. $\mfp\nin S$), $\psi_{K}(\pi)$ acts on $L$ as $\Frob_{L/K}$.
+\begin{enumerate}
+\item (Isomorphism)
+$\psi_{L/K}$ admits a modulus $\mm$ with $S(\mm)=S$ and 
+$\psi_{L/K}$ induces an isomorphism
+%there exists a homomorphism $\psi_{L/K}:I^S\to G(L/K)$ inducing an isomorphism
+\[
+\psi_{L/K}:I_K^S/(P_K(1,{\mm})\cdot \nm_{L/K}(I_L^{S}))
+\xra{\cong}G(L/K).
+\]
+\item (Compatibility over all extensions) Suppose $S\subeq T$, and $L/K$, $M/K$ are finite abelian extensions such that $L\subeq M$ and such that the set of primes ramifying in $L,M$ are contained in $S,T$, respectively. Then the following commutes, where $p_L$ is the projection map.
+\[
+\xymatrix{
+I_K^{T} \ar[r]^{\psi_{M/K}}\ar@{^(->}[d] & G(M/K)\ar[d]^{p_L}\\
+I_K^S \ar[r]^{\psi_{L/K}} & G(L/K).
+}
+\]
+\item (Compatibility with norm map)
+For $K\subeq K'\subeq L$, the following diagram commutes.
+\[
+\xymatrix{
+I_{K'}^S \ar[r]^{\psi_{L/K'}} \ar[d]^{\nm_{K'/K}} & G(L/K')\ar@{^(->}[d]\\
+I_K^S \ar[r]^{\psi_{L/K}}& G(L/K)
+}
+\]
+%\item $\ker(\psi_{L/K})=i(K(1\bmod{\mm}))\cdot \nm(I_K^{S(\mm)})$ is a congruence subgroup for $K$.
+\end{enumerate}
+\end{thm}
+\begin{rem}\llabel{rem:gcft-ideals}
+The uniqueness of $\psi_{L/K}$ is clear from the fact that $I_{K}^S$ is freely generated by prime ideals. Part 2 follows immediately from the definition of $\psi_{L/K}$ and $\psi_{M/K}$, and part 3 follows immediately from the existence of $\psi_{L/K}$ and $\psi_{L/K'}$, as we show below. The crux of the theorem is part 1.
+
+For part 2, since primes generate $I_K^S$, it suffices to show that for any prime $\mfp\in I_{K}^S$,
+\[
+\psi_{L/K}(\mfp)=p_L(\psi_{M/K}(\mfp)).
+\]
+But by definition, the left-hand side is $\Frob_{L/K}(\mfp)$ and the right-hand side is $p_L(\Frob_{M/K}(\mfp))$. Now $p_L$ induces the map $G(m/k)\to G(l/k)$, so both sides act on $k$ as the $|k|$th power Frobenius, and are equal.
+
+For part 3, we need to show for any prime $\mfp\in I_{K'}^S$,
+\[
+\psi_{L/K'}(\mfp)=\psi_{L/K}(\nm_{K'/K}(\mfp)).
+\]
+But by definition, the left-hand side is $\Frob_{L/K'}(\mfp)$ and the right-hand side is $\psi_{L/K}(\mfp^{[k':k]})=\Frob_{L/K}(\mfp)^{[k':k]}$. The result now follows from Proposition~\ref{pr:frob-base-ext}.
+\end{rem}
+\begin{ex}[Cyclotomic extensions]
+\llabel{ex:cyclotomic-gcft} 
+%Continuing the discussion in Section~\ref{sec:frob-map-nice}, we show that the global reciprocity theorem holds for a cyclotomic extension $\Q(\ze_n)/\Q$. Besides serving as a concrete example of global reciprocity, we will need to prove this special case before we can prove the general case.
+In Section~\ref{sec:frob-map-nice}, we showed that the global reciprocity theorem (part 1 above) holds for a cyclotomic extension $\Q(\ze_n)/\Q$. Indeed, letting $\mm$ be $n\iy$, we have that $I_K^{\mm}/P_K(1,{\mm})\xra{\cong}G(\Q(\ze_n)/\Q)$ as in~(\ref{eq:frob-for-cyclo}). (Note that $\nm_{L/K}(I_L^{S})\subeq P_K(1,{\mm})$ will follow from the first inequality~\ref{gcft}.\ref{first-inequality}.) 
+\end{ex}
+
+\index{conductor}
+Note the modulus in Theorem~\ref{global-reciprocity} has to be divisible by all primes ramifying in $L$, and the primes have to have large enough exponents for $\ker(\psi_{L/K})$ to be a congruence subgroup modulo $\mm$. 
+There is a canonical choice for $\mm$, namely the modulus with least exponents. It is called the \textbf{conductor} of the extension $L/K$, and denoted by $\mf(L/K)$.
+
+%Define the \textbf{conductor} of an extension $L/K$ to be the 
+%\begin{thm}[Conductor theorem]
+%Let $L/K$ be a finite abelian extension. There exists a modulus $\mf=\mf(L/K)$ such that
+%\begin{enumerate}
+%\item
+%A place of $K$ ramifies in $L$ iff it divides $\mf$.
+%\item
+%If $\mm$ is a modulus divisible by all primes of $K$ ramifying in $L$, then $\ker(\Phi_m)$ is a congruence subgroup iff $\mf\mid \mm$.
+%\end{enumerate}
+%\end{thm}
+We have the following analogue of Theorem~\ref{local-existence}.
+\begin{thm}[Existence theorem]\llabel{global-existence}
+Let $H$ be a congruence subgroup modulo $\mm$. Then there exists an abelian extension $L/K$ such that
+\[
+H=%i(K(1\bmod{\mm}))
+P_K(1,{\mm})\cdot \nm_{L/K}(I^{\mm}_L)=\ker(\psi_{L/K}).
+\]
+\end{thm}
+In particular, this applies when $H=P_K(1,{\mm})$.
+\begin{df}\llabel{df:ray-class-field}
+For each modulus $\mm$ there is a field $K_{\mm}$, called the \textbf{ray class field} of $K$ modulo $\mm$ such that $\psi_{K_{\mm}/K}$ defines an isomorphism
+\[
+C_K(\mm)\xra{\cong} G(K_{\mm}/K).
+\]
+\end{df}
+\begin{ex}
+Since $\iy(n)$ is the smallest modulus such that $\psi_{\Q(\ze_n)/\Q}$ factors through $I_K^{\mm}/P_K(1,\mm)$, 
+$\iy(n)$ is the conductor of $\Q(\ze_n)$. 
+Since we actually have an isomorphism
+\[
+C_K(\iy n)=I_K^{\iy n}/P_K(1,\iy n)\xra{\cong} G(\Q(\ze_n)/\Q),
+\]
+$\Q(\ze_n)$ is in fact the ray class field of $\iy(n)$.
+
+We have that $\Q(\ze_n+\ze_n^{-1})$ is the ray class field of $(n)$ (see exercise 1.2).
+\end{ex}
+Putting this all together, if we fix a modulus $\mm$ we have the following bijection between extensions and subgroups.
+\begin{thm}\llabel{thm:ray-class-bijection}
+Fix a modulus $\mm$ and a global field $K$. The map $L\mapsto \nm_{L/K}(C_{L}(\mm))$ is a bijection between
+\begin{enumerate}
+\item
+the set of abelian extensions of $K$ in the ray class field $K_{\mm}$ and
+\item
+the set of subgroups of $C_K(\mm)$.
+\end{enumerate}
+Moreover, it reverses inclusions and switches products and intersections:
+\begin{align*}
+L\subeq M&\iff \nm_{L/K}(C_{L}(\mm))\supeq \nm_{M/K}(C_{M}(\mm))\\
+\nm_{L_1\cdot L_2/K}(C_{L_1\cdot L_2,\mm})&=\nm_{L_1/K}(C_{L_1}(\mm))\cap\nm_{L_2/K}(C_{L_2}(\mm))\\
+\nm_{L_1\cap L_2/K}(C_{L_1\cap L_2}(\mm))&=\nm_{L_1/K}(C_{L_1}(\mm))\cdot \nm(C_{L_2}(\mm)).
+\end{align*}
+\end{thm}
+
+Note Theorem~\ref{global-reciprocity} is like Theorem~\ref{local-reciprocity} except that we're only working with finite extensions $L/K$ instead of putting them together into $K^{\text{ab}}/K$. We cannot combine the maps $\psi_{L/K}$ because they are defined on different groups. Hence we now take a different approach, using ideles.
+\index{ideles}\index{adeles}
+\section{Ideles}\llabel{sec:ideles}
+In this section we give an alternate statement of the main theorems of global class field theory.
+
+In local class field theory, we had %a correspondence between finite abelian extensions and norm groups (Corollary~\ref{lcft-correspondence}), and 
+isomorphisms $K^{\times}/\nm_{L/K}(L^{\times})\cong G(L/K)$. For this to be true, $\nm_{L/K}(L^{\times})$ must have finite index in $K^{\times}$. However, this is no longer true when $K$ is a global field. (If $K$ is local, it is complete with respect to a valuation, and $\nm_{L/K}(x)=y$ has solutions in $y$ for many $x$, in the same way that Hensel's lemma often gives solutions over complete fields.)
+
+We want to work with complete fields but $K$ comes with a bunch of different places. The solution is to complete $K$ at {\it every place at once} and combine the information into the adele ring and idele group. Then we will get statements for global class field theory that resemble local class field theory, with $K^{\times}$ replaced by $\mathbf C_K$, a group related to the idele group (to be defined).
+\begin{df}
+Abbreviate $\sO_v=\sO_{K_v}$. 
+The \textbf{adele ring} of $K$ is
+\[
+\mathbb A_K=\set{
+(a_v)\in \prod_{v\in V_K} K_v}
+{a_v\in \sO_{v}\text{ for all but finitely many }v}.
+\]
+We write this as ${\prod_{v\in V_K}'}(K_v,\sO_v)$.
+Equip it with a topology by letting a basis for open sets be $\prod_v U_v$, where $U_v$ is open in $K_v$ for all $v$ and $U_v=\sO_v$ for almost all $v$. In other words, it is the unique topology from which $\prod_v \sO_v$ inherits the product topology and is open.
+
+The \textbf{idele group} of $K$ is the group of units of the above:
+\[
+\I_K=\A_K^{\times}={\prod_{v\in V_K}}'(K_v^{\times},\sO_v^{\times})=\set{
+(a_v)\in \prod_{v\in V_K} K_v^{\times}}
+{a_v\in \sO_{v}^{\times}\text{ for all but finitely many }v}.
+\]
+Equip it with a topology by letting a basis for open sets be $\prod_v U_v$, where $U_v$ is open in $K^{\times}_v$ for all $v$ and $U_v=\sO_v^{\times}$ for almost all $v$. In other words, it is the unique topology from which $\prod_v \sO_v^{\times}$ inherits the product topology and is open.
+\end{df}
+Be careful: the topology of the idele group is not the subspace topology induced from the adele ring.
+
+\begin{df}
+For a finite set $S$ containing all infinite places, let $\mathbb I_K^S=\prod_{v\in S} K^{\times}_v\times \prod_{v\nin S} \sO_v^{\times}$. In other words, $\I_K^S$ contains those ideles that are units away from $S$.
+Give $\I_K^S$ the subspace topology inherited from $\I_K$.
+\end{df}
+Note the topology on $\I_K^S$ is just the product topology, and that $\mathbb I=\bigcup_{S} \mathbb I_K^S$.
+\begin{pr}
+$\I_K^S$ is locally compact.
+\end{pr}
+\begin{proof}
+$\prod_{v\in S} K^{\times}_v$ is a finite product of locally compact spaces; $\prod_{v\nin S} \sO_v^{\times}$ is a product of compact spaces (Proposition~\ref{lg-fields}.\ref{compact-sets-in-lf}) so compact by Tychonoff's Theorem. Since a finite product of locally compact spaces is compact, the result follows.
+\end{proof}
+
+Think of the ideles as a thickening of ideals: it includes factors for infinite places, and includes units at finite primes. We can embed $K^{\times}$ via the diagonal map, and $K_v^{\times}$ via the inclusion map.
+\begin{df}
+Define $i:K\hra \A_K$ by the diagonal map $i(a)=(a,a,\ldots)$ and $i_v:K_v\hra \A_K$ by the inclusion map $i_v(a)=(1,\ldots, 1,\underbrace{a_v}_v,1,\ldots, 1)$. Also denote by $i,i_v$ the maps restricted to $K^{\times}\hra \I_K$ and $i_v:K_v\hra \I_K$.
+\end{df}
+\begin{pr}\llabel{pr:k-discrete}
+$i(K^{\times})$ is discrete in $\I_K$.
+\end{pr}
+\begin{proof}
+Given $a\in K^{\times}$, let $S$ be set of places contining the infinite places and the finite places where $v(a)\ne 0$. 
+Consider the open set
+\[
+U=\set{\mathbf x\in \I_K}{|x_v-a|_v<\ep\text{ for }v\in S, \, x_v\in U_v\text{ for }v\nin S}
+\]
+containing $i(a)$. If $i(b)\in U$ with $a\ne b$, then
+\[
+\prod_v|b-a|_v<\ep^{|S|}<1,
+\]
+contradicting the product formula~\ref{lg-fields}.\ref{product-formula}. Hence $i(K^{\times})\cap U=\{i(a)\}$.
+\end{proof}
+\index{idele class group}
+\begin{df}
+The \textbf{idele class group} is defined to be 
+\[\mathbf C_K=\mathbb I_K/K^{\times},\]
+where $K^{\times}$ is thought of as a subgroup of $\I_K$ by the diagonal map $i$.
+%(We have $i:K^{\times}\hra \mathbb I_K$ by the diagonal map $a\mapsto (a,a,\cdots)$.)
+\end{df}
+%%
+We define a norm on adeles by defining it componentwise.
+\begin{df}
+The \textbf{norm}, from $L$ to $K$ is the function $\nm_{L/K}:\mathbb A_L\to \mathbb A_K$ defined by
+\[
+\nm_{L/K}\pa{(x_w)_{w\in V_L}}=\pa{\prod_{w\mid v} \nm_{L_w/K_v}(x_w)}_{v\in V_K}.
+\]
+\end{df}
+This descends to a function $\nm_{L/K}:\I_L\to \I_K$.
+\subsection{Ray class groups vs. ideles}
+We will need the following to go between the interpretations of global class field theory via ray class groups and via ideles. The statement in terms of ray class groups is easier for concrete applications, but the statement in terms of ideles is better abstractly, and more convenient to prove. (But to complicate things more, certain parts of the proof will be easier to think of in terms of ray class groups.)
+
+We can go from $\I_K\to I_K$  easily, via the map
+\begin{equation}\llabel{eq:idele-to-ideal}
+p(\mathbf a) = \prod_{v=v_{\mfp}\text{ finite}} \mfp^{v(a_v)}
+\end{equation}
+(also denoted simply $(\mathbf a)$).
+However, if we want the image to be in $I_K^{S(\mm)}$, 
+%we need to use the information contained in the modulus $\mm$ to 
+we need to focus our attention on a subset of ideles $\I_K(1,{\mm})$ (defined below). Taking the map $\I_K(1,{\mm})\to I_K^{S(\mm)}$ and modding out by appropriate groups then makes it a bijection. We also need to check that we don't lose anything when we consider only ideles of the form $\I_K(1,{\mm})$; that is, that the inclusion $\I_K(1,{\mm})\hra \I_K$ is a bijection, again after modding out by appropriate groups. This is Proposition~\ref{pr:idele-ray-class} below.
+%To go backwards---give an idele when we're given an ideal---we need to ``fill in" the missing entries corresponding to places in $S$. The weak approximation theorem will allow us to do this.
+\begin{df}\llabel{df:more-idele-dfs}
+%translate defining conditions for $P_K(1\bmod{\mm})$
+For a place $v\mid \mm$, define
+\[
+I(\mm)_v=\begin{cases}
+\R_{>0},&v\text{ real}\\
+1+\mfp^{m(\mfp)},&v=v_{\mfp}\text{ finite}.
+\end{cases}
+\]
+Let $\sO_v^{\times}$ be the group of units of $K_v$. (For $v$ infinite, $\sO_v^{\times}:=K_v^{\times}$).
+Define
+\begin{align}
+\llabel{eq:ik1m}
+\I_K(1, \mm)&=\prod_{v\mid \mm} I(\mm)_v \times {\prod_{v\nmid \mm}}'(K_{v}^{\times},\sO_v^{\times})\\
+%\nonumber
+%\I_K(1,\mm)&=\pa{\prod_{v\mid \mm} 1 \times \prod_{v\nmid \mm}K_{\mfp}^{\times}}\cap \I_K\\
+\nonumber
+\mathbb U_K(1,\mm)&=\prod_{v\mid \mm} I(\mm)_v \times \prod_{v\nmid \mm}\sO_{v}^{\times}\\
+\nonumber
+K(1, \mm)&=i(K^{\times})\cap \I_K(1, \mm).
+\end{align}
+Let $\mathbb U_K:=\mathbb U_K(1,1)$.
+%Note $\I(1,\mm)\sub \I_K(1\bmod \mm)\subeq \I_K$
+\end{df}
+Compare~(\ref{eq:ik1m}) to the definition of $P_{K}(1, \mm)$.
+%As $K(1\bmod{\mm})\subeq K^{\times}$, we can consider it as a subgroup of $\I_K(1\bmod{\mm})$ and $\I_K$.
+\begin{pr}\llabel{pr:idele-ray-class}
+We have the following maps.
+\[
+\xymatrixcolsep{5pc}
+\xymatrix{
+\I_K(1,\mm)/K(1,\mm) \ar[r]^{\cong}\ar[d] & \I_K/K^{\times}=\mathbf C_K\\
+\I_K(1,\mm)/K(1,\mm)\mathbb U_K(1,\mm)\ar[r]^{\cong} & C_K(\mm).
+}
+\]
+The bottom map is induced by the map $p:\I_K\to I_K^{\mm}$ and the top map is induced by inclusion.
+
+Moreover, for any finite Galois $L/K$ such that %$\mm$ is {\it admissible}, i.e. \fixme{def'n here}
+\[
+\mathbb U_K(1,\mm)\subeq \nm_{L/K}(\I_L),
+\]
+this diagram induces isomorphisms
+\[
+\xymatrixcolsep{5pc}
+\xymatrix{
+\I_K(1, \mm)/[%K(1\bmod \mm)
+K^{\times}
+\nm_{L/K} \I_L\cap \I_K(1, \mm)
+%\cdot \nm_{L/K}(\I_L(1,\mm))
+]\ar[r]^{\cong}\ar[rd]^{\cong} & \I_K/K^{\times}\nm_{L/K} \I_L\\
+& I_K^{\mm}/(P_{K}(1,\mm)\cdot \nm_{L/K}(I_L^{\mm})).
+}
+\]
+\end{pr}
+\begin{proof}
+For the bottom map, consider the exact sequence
+\[
+0\to K^{\times}\cap \I_K(1,{\mm})=K(1,\mm)\xra{i} \I_K(1,{\mm})\xra{p} I^{S(\mm)}\to 0.
+\]
+We have that $\I_K(1,{\mm})/K(1,\mm)=\coker i$, so we use the kernel-cokernel sequence.\footnote{Given $A\xra{f}B\xra{g}C$, there is an exact sequence
+\[
+0\to \ker f\to \ker g\circ f\to \ker g\to \coker f\to \coker g\circ f\to \coker g\to 0.
+\]
+This is proven using the snake lemma.
+}
+We have $\ker p=\mathbb U_K(1,\mm)$, and $\coker p\circ i=I^{S(\mm)}/p(K(1,\mm))=I^{S(\mm)}/P_K(1,{\mm})=C_K(\mm)$, so this gives the exact sequence  
+\[
+\mathbb U_K(1,\mm)\to  \I_K(1,{\mm})/K(1,{\mm})\to C_K(\mm)\to 1,
+\]
+which gives the bottom isomorphism.
+
+The top map is clearly injective. For surjectivity, take $a\in \I_K$. By the weak approximation theorem~\ref{valuations-and-completions}.\ref{thm:weak-approx}, there exists $b$ so that $\fc{a_v}{b_v}\in \mfp^{m(\mfp)}+1$ for every $v=v_{\mfp}$ dividing $\mm$. Then $\fc{a}{b}\in \I_K(1,{\mm})$, and its image varies in $\I_K$ from $a$ by the constant factor $b\in K^{\times}$.
+
+Now we show the second diagram. (Warning: this proof is not very enlightening.) Let $p$ and $p'$ denote the maps $\I_K\to I_K$ and $\I_K(1,\mm)\to I_K^S$, respectively. Note that the first diagram gives isomorphisms
+\[
+\xymatrixcolsep{5pc}
+\xymatrix{
+\I_K(1,{\mm})/((K^{\times}\nm_{L/K}\I_L)\cap \I_K(1,\mm)) \ar[r]^{\cong} \ar[d]& \I_K/K^{\times}\nm_{L/K}\I_L\\
+\I_K(1,{\mm})/
+K(1,\mm)\mathbb U_K(1,\mm)
+p'^{-1}(\nm_{L/K}(I_L^{\mm}))\ar[r]^{\cong} & I_K^{\mm}/(P_{K}(1,\mm)\cdot \nm_{L/K}(I_L^{\mm})).
+}
+\]
+We have that
+\begin{align}
+\noindent
+&\quad
+K(1,{\mm})\mathbb U_K(1,{\mm}){p'}^{-1}(\nm_{L/K}(I_L^{S}))\\
+\llabel{eq:irc1}&=
+K(1,{\mm})\mathbb U_K(1,{\mm}){p'}^{-1}(\an{\mfp^{f(w/v)}\mid w\mid v\nin S}),&f_v=\text{residue degree}\\
+\llabel{eq:irc2}
+&=
+K(1,{\mm}) \mathbb U_K(1,{\mm})(\I_K(1,{\mm})\cap \mathbb U_K\nm_{L/K}(\I_L))\\
+\llabel{eq:irc3}
+&=
+\mathbb U_K(1,\mm)( \I_K(1,{\mm})\cap(K^{\times}\nm_{L/K}\I_L))\\
+%(\I_K(1\bmod{\mm})\cap \nm_{L/K}\I_L)\\
+\llabel{eq:irc4}
+&=
+(K^{\times}\nm_{L/K}\I_L)\cap \I_K(1,{\mm}).
+\end{align}
+%We claim that $K^{\times}\nm_{L/K}\I_L\cap \I_K(1\bmod{\mm})=K^{\times}\cap \I_K(1\bmod{\mm}))I_{\mm}'p^{-1}(\nm_{L/K}(I_L^{S}))$. 
+(\ref{eq:irc1}) follows from the fact that if $\mP\mid \mfp$, then $\nm_{L/K}(\mP)=\mfp^{f(\mP/\mfp)}$. %In (\ref{eq:irc2}), $I_1'$ denotes $\prod_{v}\sO_v^{\times}$. 
+To go between~(\ref{eq:irc1}) and~(\ref{eq:irc2}), note that $\mfp^{f(w/v)}=p(\nm_{L/K}(1,\ldots, 1,\underbrace{\pi_w}_w,1,\ldots, 1))$, and that $\ker(p)=\mathbb U_K$. 
+
+Now we go between~(\ref{eq:irc2}) and~(\ref{eq:irc3}). For ``$\subeq$," suppose $a\in \mathbb U_K$ and $b\in \nm_{L/K}(\I_L)$ such that $a\nm_{L/K}b\in\I_K(1,{\mm})$. Suppose $c$ agrees with $a$ for every $v\mid\mm$, and is 1 everywhere else. Then $ac^{-1}\in \mathbb U_{K}(1,\mm)\subeq \I_K(1,{\mm})$. Since $a\nm_{L/K}b\in\I_K(1,{\mm})$ as well and $\I_K(1,{\mm})$ is a group, we must have $c\nm_{L/K}b\in\I_K(1,{\mm})$.
+Hence
+\[
+a\nm_{L/K}b=\underbrace{ac^{-1}}_{\in \mathbb U_K(1,\mm)} 
+\underbrace{c\nm_{L/K}b}_{\in \mathbb I_{K}(1,\mm)\cap (K^{\times}\nm_{L/K}\I_L)},
+\]
+as needed. Furthermore note $K(1,\mm)\subeq \I_K(1,\mm)\cap K^{\times}\nm_{L/K}\I_L$. For ``$\supeq$," suppose $a\in K^{\times}$ and $b\in \nm_{L/K}(\I_L)$ such that $a\nm_{L/K}b\in\I_K(1,{\mm})$. %Suppose $c\in K^{\times}$ agrees with $a$ %on all $v\mid \mm$, and 
+%for all $v$ such that $a_v$ is not a unit. Then $ac^{-1}\in \I_{1}'$. B 
+%Then $ac^{-1}\in I_{\mm}'\subeq \I_K(1\bmod{\mm})$. We have $c\nm_{L/K}b\in\I_K(1\bmod{\mm})$. Hence
+By weak approximation, take $c\in K^{\times}$ sufficiently close to $\rc{b_v}$ with respect to $v$, for every $v\in \mm$, so that $\nm_{L/K}(cb)\in \I_K(1,{\mm})$. Then $a\nm_{L/K}(c^{-1})\in \I_K(1,{\mm})$ as well, and in fact in $K(1,\mm)$. %\footnote{Here $c$ is considered in $\I_K$. It doesn't matter though because of the product formula.} 
+Then
+\[
+a\nm_{L/K}b=\underbrace{a\nm_{L/K}(c^{-1})}_{\in K(1,{\mm})}
+\underbrace{\nm_{L/K}cb}_{\in \I_K(1,{\mm})\cap \nm_{L/K}\I_L},
+\]
+as needed.
+
+%then there exists $c\in K^{\times}$ so that  $\nm_{L/K}(c^{-1}b)\in\I_K(1\bmod{\mm})$. Since $ca\nm_{L/K}(c^{-1}b)\in\I_m$, it follows that $ca\in \I_m$. We can write $ca=c'a'$ with $c'\in I_{\mm}'$ and $a'\in K^{\times}$. Since $c'\in \I_K(1\bmod{\mm})$, $a'\in \I_K(1\bmod{\mm})$ as well, so actually $a'\in K^{\times}\cap \I_K(1\bmod{\mm})$.
+%Now ``$\supeq$" is obvious as $1\in I_1'$. 
+
+The last step~(\ref{eq:irc4}) follows from the assumption on $\mm$.
+%, we show $I_{\mm}'\subeq (K^{\times}\nm_{L/K}\I_L)\cap \I_K(1\bmod{\mm})$. 
+%just note that the first two factors in~(\ref{eq:irc3}) are included in the third.
+%for ``$\subeq$ we have to show $I_{\mm}'(\I_K(1\bmod{\mm})\cap \nm_{L/K}\I_L)\subeq (K^{\times}\nm_{L/K}\I_L)\cap \I_K(1\bmod{\mm})$. This is true as 
+\end{proof}
+\begin{ex}\llabel{ex:class-group-idele-quotient}
+Recall how we realized the class group and narrow class group as ray class groups in Example~\ref{ex:ray-class-groups}. We now realize them as quotients of the idele class group.
+
+Take $\mm$ to be 1. Then the bottom map gives an isomorphism
+\[
+\I_K/K^{\times}\mathbb U_K\cong C_K
+\]
+where $C_K$ is just the class group of $K$. %and $\I_K(1,1)=%\prod_{v\text{ archimedean}}K_v\times 
+%\prod_{v\text{ finite}} U_v$ (the unit group being defined as $\R^{\times}$ or $\C^{\times}$ in the archimedean case). 
+{\it This realizes the class group of $K$ as a quotient of the idele class group.}
+
+%Take $\mm$ to be the $\prod_{v\text{ real}}v$. Then we have an isomorphism
+%\[
+%\I_K/K^{\times}\mathbb U_K(1,\mm)\cong 
+%\I_K(1,\mm)/K(1,\mm)\mathbb U_K(1,\mm)\cong 
+%C_K(\mm)
+%\]
+%where $P_K(1,\mm)$ is the group of principal ideals generated by totally positive elements (also written $P_K^+$)
+%and $\mathbb U_K(1,\mm)=\prod_{v\text{ real}}\R_{>0}\times \prod_{v}\sO_v^{\times}$.
+%{\it This realizes the narrow class group of $K$ as a quotient of the idele class group.}
+
+In general, for any modulus $\mm$,
+\[
+\I_K/K^{\times}\mathbb U_K(1,\mm)\cong 
+\I_K(1,\mm)/K(1,\mm)\mathbb U_K(1,\mm)\cong 
+C_K(\mm).
+\]
+This realizes the ray class group modulo $\mm$ as a quotient of the idele class group.
+
+In particular, $\mm=1$ was the case above. Taking $\mm=\prod_{v\text{ real}}v$, $P_K(1,\mm)$ is the group of principal ideals generated by totally positive elements (also written $P_K^+$)
+and $\mathbb U_K(1,\mm)=\prod_{v\text{ real}}\R_{>0}\times \prod_{v}\sO_v^{\times}$. 
+{\it This realizes the narrow class group of $K$ as a quotient of the idele class group.}
+\end{ex}
+\begin{rem}\llabel{rem:S-ramify}
+The condition on $\mm$ in Proposition~\ref{pr:idele-ray-class} was that $\mathbb U_K(1,\mm)\subeq \nm_{L/K}(\I_L)$. We claim that we can always choose such $\mm$, such that $S(\mm)$ consists of exactly the primes ramifying in $L/K$.
+
+The condition $\mathbb U_K(1,\mm)\subeq \nm_{L/K}(\I_L)$ says that $\sO_v^{\times}\subeq \nm_{L^v/K_v}(L^v)$ for all $v\nmid \mm$ and 
+$I(\mm)_v\subeq \nm_{L^v/K_v}(L^v)$ for all $v\mid \mm$. Now note the following.
+\begin{enumerate}
+\item If $L/K$ is unramified at $v$, i.e. $L^v/K_v$ is unramified, then
+\[
+\nm_{L^v/K_v}(L^{v\times})=\pi_v^{[L^v:K_v]\Z}\sO_v^{\times}\supeq \sO_v^{\times}.
+\]
+This is a consequence of local class field theory (Example~\ref{lcft}.\ref{ex:unramified-rec}).
+\item $\nm_{L^v/K_v}(L^v)$ is an open subgroup of $K_v$ (this is the easy direction in Theorem~\ref{local-existence}) and $U_v^{(n)}:=1+\pi_v^n\sO_v$ is a neighborhood base of 1 in $K_v$.
+\end{enumerate}
+By item 1, $\mm$ doesn't need to include the places where $L/K$ is unramified, and by item 2, for all ramified $v$ we can choose the power of $v$ in $\mm$ large enough to force $U_v^{(n)}\subeq \nm_{L^v/K_v}(L^{v\times})$. Then we will have $\mathbb U_K(1,\mm)\subeq \nm_{L/K}(\I_L)$.
+\end{rem}
+\section{Global reciprocity via ideles}\llabel{sec:global-reciprocity-via-ideles}
+We now state global reciprocity in terms of ideles.
+\begin{thm}[Global reciprocity, ideles]\llabel{thm:global-reciprocity-ideles}
+Given a finite abelian extension $L/K$, there is a unique continuous\footnote{$G(L/K)$ is given the discrete topology.} %continuous homomorphism $\phi_K:\mathbb{I}_K\to G(K^{\text{ab}}/L)$ 
+homomorphism $\phi_{L/K}$ that is compatible with the local Artin maps, i.e. the following diagram commutes\footnote{This implies that if $v=v_{\mfp}$ is unramified in $L$, then $\phi_{L/K}(i_v(\pi_v))=\Frob_{L/K}(\mfp)$. Global reciprocity is sometimes phrased in this way, though the phrasing using the local map gives a bit more information.}: %For any finite extension $L/K$ contained in $K^{\text{ab}}$ and any 
+%for any $w\mid v$ in $L$, the diagram
+\[
+\xymatrix{
+\mathbb I_K\ar[r]^-{\phi_{L/K}}&G(L/K)\\
+K_v^{\times}\ar@{->>}[r]^-{\phi_v}\ar@{^(->}[u]^{i_v}&
+G(L^v/K_v).\ar@{^(->}[u]
+}
+\]
+%if $L/K$ is a finite abelian extension and $(s)$ is an idele not divisible by any prime ramifying in $L$,
+%\[
+%\phi_K(s)|_L=((s),L/K).
+%\]
+Moreover, $\phi_{L/K}$ satisfies the following properties.
+\begin{enumerate}
+%\item It is surjective.
+%\item %$\phi_K(K^{\times})=1$.
+\item (Isomorphism) For every finite abelian extension $L/K$, $\phi_K$ defines an isomorphism
+\[
+\phi_{L/K}:
+\mathbf C_K/\nm_{L/K}(\mathbf C_L)=
+\mathbb I_K/(K^{\times}\cdot \nm_{L/K}(\mathbb I_L))\xra{\cong} G(L/K).
+\]
+\item (Compatibility over all extensions) For $L\subeq M$, $L,M$ both finite abelian extensions of $K$, the following commutes:
+\[
+\xymatrix{
+& G(M/K)\ar[d]^{p_L}\\
+\I_K\ar[ru]^{\phi_{M/K}}\ar[r]^{\phi_{L/K}}& G(L/K)
+}
+\]
+Thus we can define $\phi_K:=\varprojlim_{L/K\text{ abelian}} \phi_{L/K}$ as a map $\I_K\to G(K\abe/K)$.
+\item (Compatibility with norm map) $\phi_K$ is a continuous homomorphism $\mathbb{I}_K\to G(K^{\text{ab}}/K)$, and the following commutes.
+\[
+\xymatrix{
+\I_L\ar[r]^-{\phi_L} \ar[d]^{\nm_{L/K}}& G(L^{\text{ab}}/L)\ar[d]^{\bullet|_{K^{\text{ab}}}}\\
+\I_K\ar[r]^-{\phi_K}&  G(K^{\text{ab}}/K)
+}
+\]
+%In particular, $K^{\times}\subeq \ker(\phi_K)$. 
+\end{enumerate}
+%?$\phi_K(\sO_{\mfp}^{\times})=I_{\mfp}(K^{\text{ab}}/K)$ (inertia group)
+\end{thm}
+Note that in the local reciprocity theorem~\ref{local-reciprocity}, the ``compatibility over all extensions" was automatic when we declared the existence of $\phi_K:K^{\times}\to G(K\abe/K)$. We stated the global reciprocity theorem a bit differently, in the above fashion for easy comparison with global reciprocity in terms of ideals~\ref{global-reciprocity}.% in Theorem~\ref{thm:gcft-equivalent}.
+\begin{rem}\llabel{rem:gcft}
+Uniqueness and existence of $\phi_{L/K}$ is easy, and parts 2 and 3 are easy given the existence of $\phi_L$. The crux of the theorem is again part 1.
+
+For uniqueness, note that the $\phi_{L/K}$ is determined by its action on $K_v^{\times}$, since for $\mathbf x=(x_v)$, we must have
+\[
+\phi_{L/K}(\mathbf x)=\prod_{v\in V_K} \phi_v(x_v).
+\]
+(The product is Cauchy in the topology of $\I_K$.) This does define a continuous map on $\I_K$ because $\phi_v(x_v)=1$ whenever $x_v\in \sO_v^{\times}$ and $v$ is unramified, and this happens for all but finitely many $v$. %add a sentence?
+
+Parts 2 and 3 follow from the corresponding statements for local class field theory (see Theorem~\ref{local-reciprocity} and the paragraph above this remark), by how $\phi$ is defined to be compatible with the local maps.
+\end{rem}
+
+The idele version of global reciprocity allows us to recast the Existence Theorem~\ref{global-existence} in a format more similar to the Existence Theorem in~\ref{local-existence}.
+\begin{thm}[Existence theorem]\llabel{thm:global-et-ideles}
+For every subgroup $N\subeq \mathbf C_K$ of finite index, there exists a unique abelian extension $L/K$ such that $\nm_{L/K} \mathbf C_L=N$.
+\end{thm}
+Combining the two theorems, we can recast the bijective correspondence in Theorem~\ref{thm:ray-class-bijection} in a format more similar to local class field theory~\ref{lcft-correspondence}.
+\begin{thm}\llabel{thm:gcft-bijection}
+The map $L\mapsto \nm_{L/K}(\mathbf C_L)$ is an inclusion-reversing bijection between the set of finite abelian extensions of $K$ and the open subgroups of finite index in $\mathbf C_K$, that switches intersections and products:
+\begin{align*}
+L\subeq M&\iff \nm_{L/K}(\mathbf C_L)\supeq \nm_{M/K}(\mathbf C_M)\\%$ (it is inclusion reversing)
+\nm_{L_1L_2/K}(\mathbf C_{L_1 L_2})&=\nm_{L_1/K}(\mathbf C_{L_1})\cap \nm_{L_2/K}(\mathbf C_{L_2})\\%$.
+\nm_{L_1\cap L_2/K}(\mathbf C_{L_1\cap L_2})&=\nm_{L_1/K}(\mathbf C_{L_1})\cdot \nm_{L_2/K}(\mathbf C_{L_2}).
+\end{align*}
+\end{thm}
+Similar to Theorem~\ref{thm:lcft-topology}, we have the following topological isomorphism for global class field theory.
+\begin{thm}[Topological isomorphism for GCFT]\llabel{thm:gcft-topology}
+Let $K$ be a number field. Let
+\[
+(K_\iy^{\times})^0:=\prod_{v\text{ real}}\R_{>0}\times \prod_{v\text{ complex}}\C\times \prod_{v\in V_K^0} 1.
+\]
+The Artin map $\phi_K$ is surjective
+and induces a topological isomorphism %Here, $W(L/K)$ is given the topology 
+\[
+\I_K/\ol{K^{\times}(K^{\times}_{\iy})^0}\cong G(K\abe/K).
+\]
+\end{thm}
+\subsection{Connecting the two formulations}\llabel{sec:connecting-formulations}
+We now show that the two formulations of global class field theory are equivalent, in the following sense.
+\begin{thm}\llabel{thm:gcft-equivalent}
+We have the following implications.
+\begin{enumerate}
+\item (Global reciprocity, ideles$\implies$ideals)
+If Theorem~\ref{thm:global-reciprocity-ideles}(1) holds for a given $L/K$, then Theorem~\ref{global-reciprocity}(1) holds for $L/K$. If Theorem~\ref{thm:global-reciprocity-ideles} holds for all $L/K$ over a specified basefield (e.g. $\Q$), then Theorem~\ref{global-reciprocity} holds for all such $L/K$.
+\item (Global reciprocity, ideals$\implies$(ideles)$-\ep$) If Theorem~\ref{thm:global-reciprocity-ideles}(1)-(2) holds for a fixed $K$ and a family $\{L/K\}$ such that the compositum of the $L^v$ contains $K\ur_v$ for every finite place $v$, then Theorem~\ref{thm:global-reciprocity-ideles}(1)-(2) holds for the same $K$ and $\{L/K\}$, except that the resulting map $\phi_{L/K}$ may not be compatible with $\phi_v$ when $v$ is archimedean.
+\item (Global existence)
+Given Theorem~\ref{thm:global-reciprocity-ideles}, Theorems~\ref{global-existence} and~\ref{thm:global-et-ideles} are equivalent.
+\item (Bijective correspondence)
+Given Theorem~\ref{thm:global-reciprocity-ideles}, Theorems~\ref{thm:ray-class-bijection} and~\ref{thm:gcft-bijection} are equivalent.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+For parts 1 and 2, we note that by Proposition~\ref{pr:idele-ray-class},
+\beq{eq:gcft-equivalent}
+\mathbf C_K/\nm_{L/K}\mathbf C_L=\I_K/K^{\times}\nm_{L/K}\I_L\cong I_K^S/P_K(1,\mm)\nm_{L/K}(I_L^S),
+\eeq
+where by Remark~\ref{rem:S-ramify}, we can choose $\mm$ to some modulus containing only ramified primes, and $S=S(\mm)$. Thus any one of the dotted isomophisms below gives the other isomorphism.
+\beq{gcft-equivalent2}
+\xymatrix{
+\I_K/K^{\times}\nm_{L/K}(\I_L)\ar[dd]^{\cong}_p  \ar@{.>}[rd]^{\cong}_{\phi_{L/K}} & \\
+& G(L/K)\\
+I_K^S/P_K(1,\mm)\nm_{L/K}(I_L^S)\ar@{.>}[ru]_{\cong}^{\psi_{L/K}}
+}
+\eeq
+For part 1, given $\phi_{L/K}$, we define $\psi_{L/K}$ with the above diagram. Then, supposing $\mfp$ corresponds to the uniformizer $\pi_v\in K_{\mfp}$,
+\[
+\psi_{L/K}(\mfp)=\psi_{L/K}(p(i(\pi_v)))=\phi_{L/K}(i(\pi_v))=\phi_v(\pi_v)=\Frob_{L^v/K_v}((\pi_v))=\Frob_{L/K}(\mfp),
+\]
+as needed. Part 2 is a more complicated; we'll give the proof below after a lemma. The ``$-\ep$" comes from the fact that the formulation in Theorem~\ref{thm:global-reciprocity-ideles} says nothing about archimedean primes.
+
+Parts 3 and 4 now result directly from the fact that~\eqref{eq:gcft-equivalent} gives a bijective correspondence between subgroups of two groups. %, and that all open subgroups of finite index in $\mathbf C_K$ contain $\nm_{L/K}\mathbf C_L$ for soem 
+\end{proof}
+\begin{lem}\llabel{lem:local-uniqueness}
+Suppose that $K$ is a nonarchimedean local field, $K\ur$ is the maximal abelian unramified extension of $K$, and $L$ is an abelian extension containing $K\ur$. Let $f:K^{\times}\to G(L/K)$ be a homomorphism satisfying (1) and either (2) or $(2)'$:
+\begin{enumerate}
+\item
+The composition $K^{\times}\xra{f} G(L/K) \to G(K\ur/K)$ takes $\al$ to $\Frob_{K\ur/K}(\pi)^{v(\al)}$.
+\item
+For any uniformizer $\pi\in K$, $f(\pi)|_{K_{\pi}}=1$, where 
+\[
+K_{\pi}:=L^{\phi_K(\pi)}.
+\]
+\item[2'.]
+For any finite subextension $K'/K$ of $K_{\pi}$, we have
+\[
+f(\nm_{K'/K}({K'}^{\times}))|_{K'}=\{1\}.
+\]
+\end{enumerate}
+Then $f$ equals the reciprocity map $\phi_K$.
+\end{lem}
+For the proof, see Section~\ref{lcft}.\ref{sec:lcft-uniqueness}.
+\begin{proof}[Proof of Theorem~\ref{thm:gcft-equivalent}, Part 2]
+Given $\psi_{L/K}$ we define $\phi_{L/K}$ using~\eqref{gcft-equivalent2}.
+The $\psi_{L/K}$ are compatible by Remark~\eqref{rem:gcft-ideals}, so the $\phi_{L/K}$ are compatible (details omitted) and we can define $\phi_{K}=\varprojlim_{L/K} \phi_{L/K}$ where the limit is over $L/K$ in the given family. Let $L'$ be the compositum of the fields $L$.
+
+We check the hypotheses 1 and $2'$ of Lemma~\ref{lem:local-uniqueness}. Let 
+\[f_v=\phi_K\circ i_v:K_v^{\times}\to G({L'}^v/K_v).\]
+Item 1 is clear as~\eqref{gcft-equivalent2} gives letting $v=v_{\mfp}$, we have
+\[
+\phi_{K}(i_v(\al))|_{K_v\ur}=\psi_{K}(\mfp^{v(\al)})|_{K_v\ur}=\Frob_{K_v\ur/K_v}(\al)^{v(\al)}.
+\]
+Item $2'$ follows from part 3 of Theorem~\ref{global-reciprocity} applied to $K'/K$ (see Remark~\ref{rem:gcft-ideals}): we get $\psi_{{L}/K}(\nm_{K'/K}(I_{K'}^S))|_{K'}=1$ which translates into $\phi_K(i_v(\nm_{K_v'/K_v}({K_v'}^{\times})))|_{K'_v}=1$. Thus $f_v=\phi_v$ for all finite places, as needed.
+\end{proof}
+
+We have proved the ideal version of global class field theory for cyclotomic extensions of $\Q$. Our plan of attack will be to show transfer this to the idele version for cyclotomic extension of $\Q$, then work on proving the idele version. Then we will be done by Theorem~\ref{thm:gcft-equivalent}.
+
+
+\section{Kronecker-Weber Theorem}\llabel{kw}
+\index{Kronecker-Weber theorem}
+As a first application of class field theory, we explicitly describe the maximal abelian extensions of $\Q_p$ and $\Q$.
+\begin{thm}[Local Kronecker-Weber theorem]\llabel{lkwt}
+Every abelian extension of $\Q_p$ is included in  a cyclotomic extension, i.e. an extension $\Q_p(\zeta_n)$, $\zeta_n$ a primitive $n$th root of unity, for some $n$. In other words,
+\[
+\Q_p^{\text{ab}}=\Q_p(\zeta_n\mid n\in \N).
+\]
+%Let $\K_{\pi}$ be the subfield of $K^{\text{ab}}$ fixed by $\phi_K(\pi)$ and $K^{\text{un}}$ be the subfield of $K^{\text{ab}}$ fixed by $\phi_K(U_K)$. Then
+%\[
+%K^{\text{ab}}=K_{\pi}
+%\]
+\end{thm}
+\begin{thm}[Kronecker-Weber theorem]\llabel{kwt}
+Every abelian extension of $\Q$ is included in  a cyclotomic extension $\Q(\zeta_n)$. In other words,
+\[
+\Q^{\text{ab}}=\Q(\zeta_n\mid n\in \N).
+\]
+\end{thm}
+\begin{proof}[Proof of Theorem~\ref{lkwt}]
+Consider $\Q_p(\ze_k)$ where $p\nmid k$. Let $U$ denote the group of units. As $\Q_p(\ze_k)$ is unramified, local class field theory tells us %gives us an isomorphism
+\[
+%\Q_p^{\times}/\nm_{\Q_p(\ze_n)/\Q_p} (\Q_p(\ze_n)^{\times})\xra{\cong} G(\Q_p(\ze_n)/\Q_p).
+\nm_{\Q_p(\ze_k)/\Q_p} (\Q_p(\ze_k)^{\times})\cong \pi^{[\Q_p(\ze_k):\Q_p]\Z}U.
+\]
+Consider $\Q_p(\ze_{p^m})$, which is totally ramified of degree $p^{m-1}(p-1)$ over $\Q_p$. Local reciprocity gives
+\[
+\Q_p^{\times}/\nm_{\Q_p(\ze_{p^m})/\Q_p} (\Q_p(\ze_{p^m})^{\times})\xra{\cong} G(\Q_p(\ze_{p^m})/\Q_p).
+\]
+Thus both sides have the same order, $p^{m-1}(p-1)$, and we must have
+\[
+\nm_{\Q_p(\ze_{p^m})/\Q_p}(\Q_p(\ze_{p^m})^{\times})=U^{(m)}:=p^{\Z}(1+(p^m)).
+\]
+
+Suppose $L/\Q_p$ is an abelian extension. 
+Its corresponding norm group $N$ is open of finite index in $\Q_p$, so contains  
+\[p^{n\Z}(1+(p^m))\]
+for some $n,m$. 
+Choosing $k$ large enough we may suppose $ n\mid [\Q_p(\ze_k):\Q_p]$.  
+Then using Theorem~\ref{lcft-correspondence}\footnote{omitting the subscripts on norms to avoid clutter},
+\[N\supeq\nm%_{\Q_p(\ze_n)/\Q_p} 
+(\Q_p(\ze_n)^{\times})\cap \nm%_{\Q_p(\ze_{p^m})/\Q_p}
+(\Q_p(\ze_{p^m})^{\times})=
+\nm%_{\Q_p(\ze_{np^m})/\Q_p}
+(\Q_p(\ze_{np^m})^{\times}).\]
+By Theorem~\ref{lcft-correspondence}, we get that $\Q_p(\ze_{np^m})\supeq L$.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{kwt}]
+Given an abelian extension $K/\Q$, choose a modulus $\mm$ so that the Artin map is defined.
+Every modulus for $\Q$ divides $\iy (n)$ for some integer $n$. The ray class field of $\iy (n)$ is $\Q(\ze_n)$. If $\mm$ divides $\iy(n)$, then $K$ is contained in $\Q(\ze_n)$. %thm:ray-class-bijection
+Hence the maximal abelian extension is the union of all the $\Q(\ze_n)$.
+%then it corresponds to a congruence subgroup of $C_\Q(\iy(n))$
+\end{proof}
+We can similarly ask how to characterize abelian extensions of other number fields $K$. This is Hilbert's Twelfth Problem and Kronecker's Jugendtraum. 
+Note that another way to phrase this theorem is the following:
+\begin{enumerate}
+\item $\Q\abe$ is generated by the {\it torsion points} of $\Q^{\times}$ under multiplication.
+\item Let $f(z)=e^{2\pi iz}$. Then $\Q^{\text{ab}}$ is generated by $f(\Q)$:
+\[
+\Q\abe=\Q(f(\Q)).
+\]
+\end{enumerate}
+We can ask: for given $K$, can we get $K\abe$ by adjoining torsion points of some algebraic variety, and does there exist a nice function $g(z)$ parameterizing this variety, so that
+\[
+K^{\text{ab}}\approx K(g(K))?
+\]
+It turns out that the answer is affirmative for quadratic extensions: roughly speaking, the maximal abelian extension is generated by torsion points of elliptic curves with complex multiplication. We will give a complete solution to this problem in Chapter~\ref{ch:CM}.
+\section{Problems}
+\begin{enumerate}
+\item[1.1] Why can't we define $\Frob_{\mfp}\in G(L/K)$ when $\mfp$ is a prime in $K$ that is ramified in $L$?
+\item[1.2] Fix $n\in \N$. 
+\begin{enumerate}
+\item
+For which primes $p\in \Z$ does $(p)$ split completely in $\Z[\ze_n+\ze_n^{-1}]$? (Be careful with $p=2$.)
+\item
+Show that the ray class field of $(n)$ is $\Q(\ze_n+\ze_n^{-1})$.
+\end{enumerate}
+\item[1.3] (IberoAmerican Olympiad for University Students, 2010/6) Prove that, for all integers $a>1$, the prime divisors of $5a^4-5a^2+1$ have the form $20k\pm1$.
+\item[1.4] Consider the field extension $\Q(\sqrt[3]{d},\ze_3)/\Q$ where $d\in\Z$ is not a perfect cube. Let $p$ be a prime relatively prime to $3d$.
+Prove that a prime $p$ splits into $n$ factors in $\Q(\sqrt[3]{d},\ze_3)$, where
+\[
+n=\begin{cases}
+2,&p\equiv 1\pmod 3\text{ and $d$ is a cube modulo }p\\
+3,&p\equiv 1\pmod 3\text{ and $d$ is not a cube modulo }p\\
+6,&p\equiv 2\pmod 3.
+\end{cases}
+\]
+%\item[]? Pftb 213 Show that there does not exist a polynomial of degree at most 4, with integer coefficients, that has no rational zeros but has a zero modulo any positive integer.
+\item[2.1] %\llabel{exer:w-finer} 
+Recall that $G(\ol K/K)$ has profinite (Krull) topology. Topologically $W(\ol K/K)$ is a $\Z$-disjoint union of $G(\ol K/K)_0$-cosets $G(\ol K/K)_0\si_n$, where $\si_n$ is any lift of $\Frob_q^n$, $n\in \Z$, where each $G(\ol K/K)_0\si_n$ is given the same topology as the profinite topology on $G(\ol K/K)_0$ via translation by $\si_n$.
+\begin{enumerate}
+\item[(a)]
+Show that the natural inclusion $\iota:W(\ol K/K)\to G(\ol K/K)$ is continuous and has dense image.
+\item[(b)]
+Show that $\iota$ is not a topological isomorphism onto $\iota(W(\ol K/K))$, where the latter is equipped with the topology induced by that of $G(\ol K/K)$.
+\end{enumerate}
+%\item Show that the idele class group $\mathbf C_K$ is not compact.
+\item[4.1] There is a correspondence between quadratic characters (homomorphisms $\chi:(\Z/m)^{\times}\to \C$ such that $\chi^2=1, \chi\nequiv 1$, where characters are naturally identified by restriction) and quadratic extensions,
+\begin{enumerate}
+\item
+Prove this without using the statement of class field theory.
+\item
+How does CFT give the result?
+\item 
+Using CFT for quadratic extensions, prove quadratic reciprocity.
+\end{enumerate}
+\item[4.2] 
+Characterize all quadratic extensions $K/\Q$ that are contained in a $\Z/4$-extension. 
+(Ben Blum-Smith, from~\url{http://math.stackexchange.com/questions/596195/conceptual-reason-why-a-quadratic-field-has-1-as-a-norm-if-and-only-if-it-is/})
+\end{enumerate}

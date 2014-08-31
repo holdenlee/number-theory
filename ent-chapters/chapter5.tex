@@ -1,0 +1,826 @@
+\chapter{Diophantine equations}
+Stuff I want to include in this chapter
+\begin{enumerate}
+\item linear Diophantine equations
+\item quadratic Diophantine equations 
+\begin{enumerate}
+\item Pell
+\item root flipping IMO 89/6. TST 02/6. Find in explicit form all ordered pairs of positive integers $(m,n)$ such that $mn-1\mid m^2+n^2$.
+\item sum of squares
+\item sum of 4 squares
+\end{enumerate}
+\item techniques:
+\begin{enumerate}
+\item
+size comparison, analytical methods
+\item
+taking modulo. enumerating solutions
+\item factoring (SFFT)
+\item infinite descent 
+\item Iurie's ``parameterization" trick. (IMO ??/6: Let $a>b>c>d$ be positive integers and suppose 
+\[
+ac+bd=(b+d+a-c)(b+d-a+c).
+\]
+Prove that $ab+cd$ is not prime.
+\item Constructing solutions
+\item
+geometric methods (Minkowski)
+\end{enumerate}
+\end{enumerate}
+
+\section{Linear Diophantine Equations}
+An equation of the form
+\begin{equation}
+a_1 x_1+ \dots + a_n x_n =b, \label{eq1}
+\end{equation}
+where $a_1,\dots,a_n,b \in \mathbb{Z}$ is called linear diophantine
+equation.
+
+\begin{thm}
+The equation (\ref{eq1}) is solvable if and only if
+$\gcd(a_1,\dots,a_n)\mid b$.
+\end{thm}
+
+\begin{proof}
+Let $d=\gcd(a_1,\dots,a_n)$. If $d\nmid b$ the equation is not
+solvable. If $d\mid b$ we denote $a_i'=\cfrac{a_i}{d}, \
+b'=\cfrac{b}{d}$. Then $\gcd(a_1',\dots,a_n')=1$ and the generalized
+B\'{e}zout Lemma says that there exist $x_i'$ such that
+$a_1'x_1'+\dots +a_n' x_n'=1$, which implies $a_1x_1'+\dots
++a_nx_n'=d$. We obtain $a_1(b'x_1')+\dots +a_n(b'x_n')=b'd=b.$
+\end{proof}
+
+\begin{cor}
+Let $a_1,a_2$ be relatively prime integers. If $(x_1^0,x_2^0)$ is a
+solution to the equation
+$$a_1x_1+a_2x_2=b, $$
+then all its solutions are given by
+\begin{equation*}
+\begin{cases}
+x_1=x_1^0+a_2 t \\
+x_2=x_2^0-a_1 t
+\end{cases}
+,t\in \mathbb{Z}.
+\end{equation*}
+\end{cor}
+
+\begin{prb}
+Solve the equation
+$$15x+84y=39. $$
+\end{prb}
+
+\begin{proof}
+The equation is equivalent to $5x+28y=13$. A solution is $y=1, \
+x=-3$. All solutions are of the form $x=-3+28t, \ y=1-5t, \ t\in
+\mathbb{Z}$.
+\end{proof}
+
+\begin{prb}
+Solve the equation
+$$3x+4y+5z=6. $$
+\end{prb}
+
+\begin{proof}
+The equation can be written as $3x+4y=6-5z$, $s\in \mathbb{Z}$. A
+solution of $3x+4y=1$ is $x=-1$, $y=1$. So a solution of
+$3x+4y=6-5s$ is $x_0=5s-6$, $y_0=6-5s$. Hence all solutions are
+\begin{equation*}
+\begin{cases}
+x=5s-6+4t\\
+y=6-5s-3t
+\end{cases}
+\end{equation*}
+\end{proof}
+
+For any positive integer $a_1,\dots,a_n$ with
+$\gcd(a_1,\dots,a_n)=1$ denote $g(a_1,\dots,a_n)$ to be the greatest
+positive integer $N$ for which the equation
+$$a_1x_1+\dots+a_nx_n=N $$
+is not solvable in nonnegative integers. The problem of determining
+$g(a_1,\dots,a_n)$ is known as the Frobenius coin problem.
+
+\begin{prb}[Sylvester, 1884]
+Let $a,b\in \mathbb{N}$ and $\gcd(a,b)=1$. Then $g(a,b)=ab-a-b.$
+\end{prb}
+
+\begin{proof}
+Suppose $N>ab-a-b$. The solutions to the equation $ax+by=N$ are of
+the form $(x,y)=(x_0+bt,y_0-at)$, $t\in \mathbb{Z}$. Let $t$ be an
+integer such that $0\leq y_0-at\leq a-1$. Then $(x_0+bt)a=N-
+(y_0-at)b > ab-a-b-(a-1)b=-a.$ Hence $x_0+bt>-1$, i.e. $x_0+bt\geq
+0$ and the equation has a nonnegative solution. Thus $g(a,b)\leq
+ab-a-b$.
+
+Now we shall show that the equation
+$$ax+by=ab-a-b $$
+is not solvable in nonnegative integers. Otherwise we have
+$$ab=a(x+1)+b(y+1). $$
+Since $\gcd(a,b)=1$, we get $a\mid y+1, \ b\mid x+1$, thus $y+1\geq
+a$, $x+1\geq b$. We obtain $ab=a(x+1)+b(y+1)\geq 2ab$, a
+contradiction.
+\end{proof}
+\section{Pythagorean Triples}
+A triple $(x,y,z)$ of integers is called Pythagorean if
+\begin{equation}
+x^2+y^2=z^2. \label{eq2}
+\end{equation}
+
+\begin{thm}
+Any solution in positive integers of (\ref{eq2}) has the form
+$$x=(m^2-n^2)k , \ y=2mnk, \ z=(m^2+n^2)k$$
+$$x=2mnk, \ y=(m^2-n^2)k,\ z=(m^2+n^2)k, $$
+where
+\begin{enumerate}
+\item $\gcd(m,n)=1, \ \gcd(x,y)=k.$
+\item $m,n$ are of different parity.
+\item $m>n>0$, $k>0$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Let $\gcd(x,y)=k$. Then $x=ka$, $y=kb$, $\gcd(a,b)=1$. Then
+$k^2(a^2+b^2)=z^2$. We get $k\mid z$ and set $z=kc$. We obtain
+$$a^2+b^2=c^2.$$
+
+Suppose that $a$ is an odd number. Then $b$ is even since otherwise
+$c^2=a^2+b^2 \equiv 2 \pmod{4}$, a contradiction.
+
+Thus $c$ is odd. We have
+$$b^2=(c-a)(c+a), $$
+which is equivalent to
+$$\left( \frac{b}{2}\right)^2=\frac{c-a}{2} \frac{c+a}{2} .$$
+Note that $\gcd\left( \cfrac{c-a}{2},\cfrac{c+a}{2}\right) =1$.
+Otherwise there exists prime $p$ such that $p\mid \cfrac{c-a}{2}$,
+$p\mid \cfrac{c+a}{2}$. We get $p\mid \cfrac{c-a}{2}\pm
+\cfrac{c+a}{2}=c,a$ which implies $p\mid b$, a contradiction. Hence
+$$\frac{c-a}{2}=n^2, \ \frac{c+a}{2}=m^2,\ \frac{b}{2}=mn $$
+and we obtain
+$$c=m^2+n^2, \ a=m^2-n^2, \ b=2mn. $$
+\end{proof}
+
+\begin{prb}
+Solve in positive integers the equation
+$$\frac{1}{x^2}+\frac{1}{y^2}=\frac{1}{z^2}. $$
+\end{prb}
+
+\begin{proof}
+The equation is equivalent to
+$$x^2+y^2=\left( \frac{xy}{2}\right)^2. $$
+We obtain that $z\mid xy$. Hence $x^2+y^2=t^2$, $t=\cfrac{xy}{2}$.
+
+Let $d=\gcd(x,y,t)$. Therefore $x=ad$, $y=bd$, $t=cd$,
+$\gcd(a,b,c)=1$. We get
+$$a^2+b^2=c^2, \ z=\frac{abd}{c}. $$
+Hence $a,b,c$ are pairwise relatively prime and we obtain that
+$c\mid d$, which implies $d=kc$. Thus
+$$x=kac, \ y=kbc, \ t=kc^2, \ z=kab. $$
+We may assume that
+$$a=m^2-n^2, \ b=2mn, \ c=m^2+n^2 $$
+and we obtain
+$$x=k(m^4-n^4), \ y=k2mn(m^2+n^2), \ z=k2mn(m^2-n^2). $$
+\end{proof}
+\section{Size comparison and analytical methods}
+\section{Reducing modulo $n$}
+\section{Factoring}
+\begin{pr}[Simon's favorite factoring trick, SFFT]
+\[
+xy+bx+ay+ab=(x+a)(y+b).
+\]
+\end{pr}
+Example.
+\begin{ex}
+%How many ways can a number $n$ be expressed as the difference of two squares?
+Which numbers $n$ can be expressed as the difference of two squares?
+\end{ex}
+{\it Solution.}
+We wish to solve
+\[
+x^2-y^2=n.
+\]
+Factor this equation as
+\[
+(x+y)(x-y)=n.
+\]
+Note that $x+y$ and $x-y=(x+y)-2y$ are of the same parity. If they are both odd, then $n$ is odd; if they are both even, then $n$ is divisible by 4.
+
+Conversly, if $n$ is odd or $n$ is divisible by 4, then we can write $n=ab$ where $a,b$ are factors of $n$ having the same parity. We wish to have $a=x+y$ and $b=x-y$ so set
+\begin{align*}
+x&=\frac{a+b}{2}\\
+y&=\frac{a-b}{2}.
+\end{align*}
+Note these are integers by the assumption on $a$ and $b$.
+\section{Problems}
+(Analysis)
+(ISL 2004) Let $b\ge 5$ be an integer and define
+\[
+x_n=(\underbrace{11\ldots 1}_{n-1}\underbrace{22\ldots 2}_n5)_b.
+\]
+Prove that $x_n$ is a perfect square for all sufficiently large $n$ if and only if $b=10$.
+
+Looking at prime divisors modulo stuff:
+(ISL 2006/N5) Find all pairs $(x,y)$ of integers satisfying the equation
+\[
+\frac{x^7-1}{x-1}=y^5-1.
+\]
+
+%(AMTC 2010/N3) Find all solutions in positive integers to $a^2+2b^2=(x^5-x^3-1)(x^5-x^3-3)$. (Hint: You may use the fact that $-2$ is a quadratic residue modulo a prime $p$ if and only if $p\equiv 2, 1, $ or $3\pmod{8}$.)
+
+(TST ??) Prove that for no integer $n$ is $n^7+7$ a perfect square.
+%\section{Methods for solving diophantine equations}
+%\textbf{The decomposition method}
+%
+%\begin{prb}
+%Find the integer solutions to the equation
+%$$(x^2+1)(y^2+1)+2(x-y)(1-xy)=4(1+xy). $$
+%\end{prb}
+%
+%\begin{proof}
+%Write the equation in the form
+%$$x^2y^2-2xy+1+x^2+y^2-2xy+2(x-y)(1-xy)=4
+%$$
+%$$(xy-1)^2+(x-y)^2-2(x-y)(xy-1)=4. $$
+%This is equivalent to
+%$$(xy-1-x+y)^2=4 $$
+%and we obtain
+%$$xy-1-x+y=\pm 2 \Rightarrow (x+1)(y-1)=\pm 2. $$
+%
+%If $(x+1)(y-1)=2$, we obtain $(x,y)=(1,2), \ (-3,0), \ (0,3), \
+%(-2,-1)$.
+%
+%If $(x+1)(y-1)=-2$, we obtain $(x,y)=(1,0), \ (-3,2), \ (0,-1), \
+%(-2,3)$.
+%\end{proof}
+%
+%\begin{prb}
+%Let $p$ be a prime. Solve in positive integers the equation
+%$$\frac{1}{x}+\frac{1}{y}=\frac{2}{p}. $$
+%\end{prb}
+%
+%\begin{proof}
+%We have
+%$$2xy=px+py \Leftrightarrow 4xy-2px-2py=0 \Leftrightarrow (2x-p)(2y-p)=p^2.$$
+%
+%1) If $p=2$ we obtain $(x-1)(y-1)=2$, which implies $x=y=2.$
+%
+%2) If $p\geq 3$, we obtain $2x-p=1, \ p^2, \ -1, \ -p^2$ and
+%$2y-p=p^2, \ 1, \ -p^2, \ -1$. We get
+%$$(x,y)=\left( \frac{p+1}{2},\frac{p^2+p}{2}
+%\right),\  \left( \frac{p^2+p}{2}, \frac{p+1}{2} \right), \ (p,p).$$
+%\end{proof}
+%
+%\textbf{Using inequalities}
+%\begin{prb}
+%Find all pairs of integers $(x,y)$ such that $x^3+y^3 = (x+y)^2.$
+%\end{prb}
+%
+%\begin{proof}
+%$0=x^3+y^3-(x+y)^2=(x+y)(x^2-xy+y^2-x-y) \Leftrightarrow x+y=0$,
+%i.e. $x=k$, $y=-k$ or $x^2-xy+y^2-x-y=0$, which is equivalent to
+%$(x-y)^2+(x-1)^2+(y-1)^2=2.$
+%
+%We get $(x-1)^2\leq 1, \ (y-1)^2\leq 2$, which implies $x,y \in
+%[0,2]$. We obtain $(x,y)=(0,1), \ (1,0), \ (1,2), \ (2,1), \ (2,2)$.
+%\end{proof}
+%
+%\begin{prb}
+%Find all triples of positive integers $(x,y,z)$ such that
+%$$\left(1+\frac{1}{x} \right) \left( 1+\frac{1}{y} \right) \left( 1+\frac{1}{z}\right)=2. $$
+%\end{prb}
+%
+%\begin{proof}
+%We may assume that $x\geq y\geq z$. Hence $\left(
+%1+\cfrac{1}{z}\right)^3 \geq 2$, which implies $z\leq 3.$
+%
+%If $z=1$, we obtain $\left(1+\cfrac{1}{x} \right)
+%\left(1+\cfrac{1}{y} \right)=1$, not possible.
+%
+%If $z=2$, we obtain $\left(1+\cfrac{1}{x} \right)
+%\left(1+\cfrac{1}{y} \right)=\cfrac{4}{3}$, which implies
+%$\left(1+\cfrac{1}{y} \right)\geq \cfrac{4}{3} \Rightarrow y<7$.
+%From $1+\cfrac{1}{x}>1$ we get $y>3$. Hence $y=4,5,6 \Rightarrow
+%x=15,9,7.$
+%
+%If $z=3$ we get $\left(1+\cfrac{1}{x} \right) \left(1+\cfrac{1}{y}
+%\right)=\cfrac{3}{2} \Rightarrow y<5$ and $y\geq z=3$, which implies
+%$y=3,4 \Rightarrow x=8,5.$
+%\end{proof}
+%
+%\begin{prb}
+%Find all positive integers $(x,y,z)$ for which
+%$$x^2+y^2+z^2+2xy+2x(z-1)+2y(z+1) $$
+%is a perfect square.
+%\end{prb}
+%
+%\begin{proof}
+%Denote the given expression by $w^2$. Then it is easy to check that
+%$$(x+y+z-1)^2<w^2<(x+y+z+1)^2. $$
+%Hence
+%$$x^2+y^2+z^2+2xy+2x(z-1)+2y(z+1)=(x+y+z)^2. $$
+%We get $x=y$, hence the solutions are $(m,m,n)$.
+%\end{proof}
+%
+%\begin{prb}
+%Find all integers $(x,y)$ such that $(x^2-y^2)^2=1+16y.$
+%\end{prb}
+%
+%\begin{proof}
+%We must have $y\geq 0$. Then $|x|\neq |y|$ and we have $|x|\geq
+%|y|+1$ or $|x|\leq |y|-1$. In either case, $(x^2-y^2)^2\geq
+%(2y-1)^2$, so $16y+1\geq (2y-1)^2$, which implies $y\leq 5$. Now we
+%find $(x,y)=(\pm 1,0), \ (\pm 4,3), \ (\pm 4,5)$.
+%\end{proof}
+%
+%\begin{prb}
+%Let $a$ and $b$ be positive integers such that $ab+1$ divides
+%$a^2+b^2$. Show that $\cfrac{a^2+b^2}{ab+1}$ is a perfect square.
+%\end{prb}
+%
+%\begin{proof}
+%Let $(a,b)$ satisfy the condition. Then $(a,b)$ is a solution of the
+%equation
+%\begin{equation}
+%a^2-kab+b^2=k \label{eq3}
+%\end{equation}
+%If $a=b$ from $(2-k)a^2=k>0$ we deduce $k=1$. Suppose that $a>b>0$
+%and let $(a,b)$ be a solution of (\ref{eq3}) with $b$ minimal. It is
+%easy to see that $(b,kb-a)$ is also a solution. If $kb=a$, we get
+%$b^2=k$, i.e. $k$ is a perfect square. We have that $kb-a>0$, since
+%otherwise
+%$$(kb-a)^2-k(kb-a)b+b^2>k(a-kb)b>k. $$
+%Finally, we shall prove that  $kb-a<b$. Indeed,
+%$$kb-a<b \Leftrightarrow k<\frac{a+b}{b} \Leftrightarrow \frac{a^2+b^2}{ab+1}<\frac{a}{b}+1$$
+%which follows from
+%$$\frac{a^2+b^2}{ab+1}<\frac{a^2+ab}{ab+1}<\frac{a^2+ab}{ab}=\frac{a}{b}+1. $$
+%Hence $(b,kb-a)$ is a solution which contradicts the minimality.
+%\end{proof}
+%
+%\center{\textbf{The Modular Arithmetic Method}}
+%\begin{prb}
+%Show that the equation
+%$$(x+1)^2 + (x+2)^2 + \dots + (x+2001)^2 = y^2$$
+%is not solvable in integers.
+%\end{prb}
+%
+%\begin{proof}
+%Let $x=z-2001$. Then
+%$$(z-1000)^2+\dots +(z+1000)^2=y^2 \Leftrightarrow 2001z^2+2(1^2+2^2+\dots +1000^2)=y^2 \Leftrightarrow$$ $$2001z^2+2\frac{1000 \cdot 1001 \cdot 2001}{6}=y^2 \Leftrightarrow
+%2001z^2+1000 \cdot 1001 \cdot 667 = y^2. $$ Hence $y^2 \equiv 2
+%\pmod{3}$, a contradiction.
+%\end{proof}
+%
+%\begin{prb}
+%Find all primes $p,q$ such that $$p^3-q^5=(p+q)^2 .$$
+%\end{prb}
+%
+%\begin{proof}
+%Suppose that $p,q \neq 3$. Then $p,q \equiv 1,2 \pmod{3}$. If
+%$p\equiv q \pmod{3}$, then $p^3-q^5 \equiv 0 \pmod{3}$, but $(p+q)^2
+%\not\equiv 0 \pmod{3} $.
+%
+%If $p \not\equiv q \pmod{3}$, then $(p+q)^2 \equiv 0 \pmod{3}$, but
+%$p^3-q^5\not\equiv 0\pmod{3}$.
+%
+%If $p=3$, we get $q^5<27$, a contradiction.
+%
+%If $q=3$, we get $p^3-243=(p+3)^2$, which implies $p=7$.
+%\end{proof}
+%
+%\begin{prb}
+%Prove that the equation $x^5-y^2=4$ has no integer solutions.
+%\end{prb}
+%
+%\begin{proof}
+%We consider the equation modulo 11. Since $(x^5)^2=x^{10}\equiv 0,1
+%\pmod{11}$, we get $x^5\equiv 0,\pm 1 \pmod{11}$, which implies
+%$x^5-4\equiv 6,7,8 \pmod{11}$. However $y^2 \equiv 0,1,3,4,5,9
+%\pmod{11}.$
+%\end{proof}
+%
+%\begin{prb}
+%Prove that the equation $x^{10}+y^{10}-z^{10}=2010$ has no integer
+%solutions.
+%\end{prb}
+%
+%\begin{proof}
+%$x^{10}=11m+a$, $y^{10}=11n+b$, $z^{10}=11k+c$, where $a,b,c=0,1.$
+%Then
+%$$11(m+n-k)+a+b-c=182\cdot 11+8. $$
+%Hence $11\mid 8-a-b+c$, a contradiction.
+%\end{proof}
+%
+%\begin{prb}
+%Prove that the equation $4xy-x-y=z^2$ has no solution in positive
+%integers.
+%\end{prb}
+%
+%\begin{proof}
+%$$4xy-x-y=z^2 \Leftrightarrow 16xy-4x-4y=4z^2 \Leftrightarrow (4x-1)(4y-1)=(2z)^2+1.$$
+%The number $4x-1$ has a prime divisor $p$ of the form $4k-1$. Since
+%$p\mid (2z)^2+1$, $p\mid 1$, a contradiction.
+%\end{proof}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%\begin{enumerate}
+%\item Solve the equations:
+%\begin{enumerate}
+%\item $6x+10y+15z=7$.
+%\item $2x+3y+4z+5t=6.$
+%\end{enumerate}
+%
+%\item Solve the equation
+%$$x^2+y^2 = 1997 (x-y) $$
+%in positive integers.
+%\item Find all Pythagorean triangles whose area is equal to the
+%perimeter.
+%
+%\item Solve the following equations in positive integers:
+%\begin{enumerate}
+%\item $3(xy+yz+zx)=4xyz;$
+%\item $xy+yz+zx-xyz=2.$
+%\end{enumerate}
+%\item Solve the equations:
+%\begin{enumerate}
+%\item $(x+y)^2+3x+y+1=z^2$ in positive integers
+%\item $(x+1)^2-(x-1)^4=y^3$ in integers.
+%\end{enumerate}
+%\item Solve the equations:
+%\begin{enumerate}
+%\item $x^2y+y^2z+z^2x=3xyz$ in positive integers
+%\item $(x^2-y^2)^2=1+16y$ in integers.
+%\end{enumerate}
+%\item Prove that the equation
+%$$(x+1)^2+\dots + (x+99)^2=y^z $$
+%is not solvable in positive integers, where $z\geq 2.$
+%
+%\item Find all positive integers $(x,y)$ with $$x^2-y!=2001. $$
+%\item Find all positive integers $(x,y)$ such that
+%$$3^x-2^y=7. $$
+%\item Prove that the equation $x^3+y^4=7$ has no integer solutions.
+%\end{enumerate}
+
+
+%\section{Linear Diophantine equations}
+%A linear Diophantine equation is in the form
+%\[
+%a_1x_1+a_2x_2+\cdots +a_nx_n=N.
+%\]
+%This has a solution in integers iff $d=\gcd(a_1,\ldots, a_n)\mid N$.
+%
+%\begin{thm}[Sylvester, 1886]
+%Let $a,b\in \N$ with $\gcd(a,b)=1$. The largest $n$ for which
+%\[
+%ax+by=n
+%\]
+%has no solution for $x,y\in \N$ is 
+%\[n=ab-a-b.\]
+%\end{thm}
+%\begin{proof}
+%Suppose $ax+by=ab-a-b$. Adding $a+b$ to both sides gives
+%\[
+%a(x+1)+b(y+1)=ab.
+%\] 
+%We find that $b\mid a(x+1)$ since it divides the other two terms; since $\gcd(a,b)=1$ we get $b\mid x+1$. Similarly, $a\mid y+1$. Hence $x\ge b-1$ and $y\ge a-1$. But then
+%\[
+%a(x+1)+b(y+1)=2ab\ne ab,
+%\]
+%contradiction.
+%
+%Now we show that for any $n>ab-a-b$ there is a solution. We can find a solution $x_0,y_0$ by B\'ezout. Now we look for a solution of the form
+%\begin{align*}
+%x&=x_0+bt\\
+%y&=y_0-at.
+%\end{align*}
+%By division, we can choose $t$ such that $0\le y\le a-1$. Then 
+%\[
+%a(x_0+bt)=N-b(y_0-at)\ge N-b(a-1)>ab-a-b-ab+b=-a.
+%\]
+%and hence $x_0+bt\ge 0$, as needed.
+%\end{proof}
+%\section{Pythagorean equation}
+%\begin{thm}[Pythagorean triples]
+%All integer solutions to $x^2+y^2=z^2$ are given by
+%\begin{align*}
+%x&=k(m^2-n^2),&y&=2kmn,&z&=k(m^2+n^2)\\
+%x&=2kmn,&y&=k(m^2-n^2),&z&=k(m^2+n^2).
+%\end{align*}
+%\end{thm}
+%\begin{proof}
+%First note that if $k$ divides 2 of $x,y,z$, then it must divide the third, and we can divide $x,y,z$ by $k$. So we can assume $x,y,z$ are pairwise relatively prime.
+%
+%Note $x,y$ cannot both be odd; else the LHS would be $2$ modulo 4. Hence one of $x,y$ is odd, the other is even, and $z$ is even. Assume without loss of generality that
+%$x$ is even. Then $\frac{z-x}2,\frac{z+x}2$ are in integers, and
+%we can rewrite the equation in the form
+%\begin{align*}
+%y^2&=z^2-x^2\\
+%\pf y2^2&=\pf{z-x}{2}\pf{z+x}{2}.
+%\end{align*}
+%Now $\gcd\pa{\frac{z-x}{2},\frac{z+x}{2}}=1$ since if $p\mid \frac{x-y}{2}$ and $p\mid \frac{z+x}{2}$ then $p\mid z,x$. Hence both $\frac{z-x}{2}$ and $\frac{z+x}2$ must be perfect squares. Let $\frac{z+x}{2}=m^2$ and $\frac{z-x}2=n^2$. Solve for $x,y,z$.
+%\end{proof}
+%Exercise: Find all integer solutions to $\rc{x^2}+\rc{y^2}=\rc{z^2}$.
+%
+%Rewrite as $y^2z^2+x^2z^2=x^2y^2$.
+%\section{Root flipping}
+%\begin{ex}[IMO 1989/6]
+%Let $a$ and $b$ be positive integers such that
+%\[
+%ab+1\mid a^2+b^2.
+%\]
+%Prove that $\frac{a^2+b^2}{ab+1}$ is a perfect square.
+%\end{ex}
+%\begin{proof}
+%Suppose $(a,b)$ satisfies $\frac{a^2+b^2}{ab+1}=k$. Then 
+%\[
+%P(x):=x^2-kxb+b^2-k=0 \text{ when }x=a.
+%\]
+%Treat this as a polynomial in $x$, we find that the other root is $kb-a$. Hence $(b,kb-a)$ is also a solution.
+%
+%If $a=b$ then $a^2(2-k)=k$ so $k=1$.
+%
+%Now suppose $a\ne b$; without loss of generality $a>b>0$. Consider the pair $(a,b)$ where $a>b>0$ and $b$ is minimal. We claim $kb-a>0$. Indeed, if $kb-a<0$ then $k=a(a-nb)+b^2>a$.... contradiction. Next note $b>nk-a$. 
+%%k=a(a-kb)+b^2
+%%a+b)/b>(a^2+b^2)/(ab+1)
+%%a+ab^2+b>b^3
+%%ab^2>b^3
+%\end{proof}
+%Exercise: $4ab-1\mid (4a^2-1)^2$. Prove that $a=b$.
+%
+%$4ab\mid (a-b)^2$. Let $k=\frac{(a-b)^2}{4ab-1}$. Take $a+b$ minimal.
+%%%%%%%%
+%We start with some problems in the field of
+%Diophantine equations.
+%\begin{prb}
+%Prove that the equation $$x^2+2y^2+98z^2 =
+%\underbrace{77\cdots7}_{2005}$$ has no integer solutions.
+%\begin{proof}
+%Suppose that $(x,y,z)$ is a solution to the given equation.  Then we
+%must have $7\mid x^2+2y^2$.  Analysis of the possible remainders of
+%squares modulo 7 reveals that we must have $7 \mid x, 7\mid y$.  As
+%$7^2 \mid 98$, this means that we must have $$7^2 \mid
+%\underbrace{77\cdots7}_{2005} =
+%\frac{7}{9}\left(10^{2005}-1\right).$$  This is equivalent to having
+%$10^{2005}\equiv1\mod{7}$.  As $10^6\equiv1\mod{7}$ by Euler's
+%theorem, and as $6 \mid 2004$, this is equivalent to
+%$10^1\equiv1\mod{7}$, which is obviously false.  Hence there are no
+%integer solutions to the given equation.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Solve in integers the equation $$2^a + 8b^2 - 3^c = 283.$$
+%\begin{proof}
+%It is obvious that we must have $a, c \ge 0$.  As $283 \equiv
+%3\mod{8}$, and as $3^c \equiv 1,3\mod{8}$, we must have $0 \le a \le
+%2$.
+%
+%If $a = 0$ then we have $2 \mid 3^c$, a contradiction.  If $a = 1$,
+%then we have $8\mid 3^c+1$, a contradiction.  Hence $a = 2$.  Thus
+%$8b^2 - 3^c = 279$.  Hence $3 \mid b$; write $b = 3d$.  Then $8d^2 -
+%3^{c-2} = 31$.  If $c \ge 3$, then $3 \mid d^2+1$, a contradiction.
+%We must have $c \ge 2$, hence $c = 2$ or $c = 3$.  If we have $c =
+%2$, then we have $d = \pm 2$.  If we have $c = 3$, then we have
+%$8d^2 = 34$, a contradiction.  Hence our only solutions are $(a,b,c)
+%= (2,-6,2), (2,6,2)$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that if $a,b,c$ are integers such that
+%$$\frac{a(a-b)+b(b-c)+c(c-a)}{2}$$ is a perfect square, then $a = b
+%= c$.
+%\begin{proof}
+%Write $(a(a-b)+b(b-c)+c(c-a))/2 = d^2$.  Let $x = a-b, y = b-c, z =
+%c-a$.  Then we may compute $x+y+z = 0$ and $x^2+y^2+z^2 = 4d^2$.
+%Then we may write $x = 2x_1, y = 2y_1, z = 2z_1$, giving
+%$x_1^2+y_1^2+z_1^2 = d^2$.  But $d^2$ may be either 0 or 1 modulo 4,
+%hence at least two of $x,y,z$ are even.  But if at least two of
+%$x,y,z$ are even, then all three must be even, and we may write $x_1
+%= 2x_2, y_1 = 2x_2, z_1 = 2z_2, d = 2d_1$, with $x_2^2 + y_2^2 +
+%z_2^2 = d_1^2$.  We may proceed as above, obtaining that $2^n$
+%divides $x,y,z$ for any natural number $n$.  Hence we must have $x =
+%y = z = d = 0$ is the only possible solution.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Show that if $a,b$ are positive integers such that $4ab-1 \mid
+%(4a^2-1)^2$, then $a = b$.
+%\begin{proof}
+%If $4ab-1\mid (4a^2-1)^2$, then we have $$4ab-1 \mid
+%2b^2(16a^4-8a^2+1) = (2a^2-1)(16a^2b^2-1)+2a^2+2b^2+1.$$  Hence
+%$4ab-1 \mid 2a^2+2b^2 - 1$.  We may also note that $4ab-1\mid
+%(a-b)^2$.
+%
+%Assume for a contradiction that $a \neq b$; then we have $2(a^2+b^2)
+%- 1 > 4ab - 1$.  As $2a^2+2b^2-1$ is odd, there must exist some
+%natural number $t$ with $2a^2+2b^2-1 = (2t+1)(4ab-1)$.  Hence $a^2 -
+%(2t+1)(2ab)+b^2 + t = 0$.  Consider this equation as a quadratic in
+%$a$.  If $b > 0$ is an integer, then the sum of the two roots of the
+%equation is an integer, and their product is an integer; hence if
+%one of the roots is an integer, both are integers.  The same is true
+%if we consider the equation as a quadratic in $b$.
+%
+%Consider all possible solution pairs $(a,b)$ to this equation, and
+%choose a pair such that $a$ is minimal.  We may do this as $a > 0$
+%is an integer.  By symmetry, $(a,b)$ is a solution if and only if
+%$(b,a)$ is a solution; hence $b \ge a$.  Write $c = b-a$; then $c$
+%takes on two (not necessarily distinct) non-negative integer values
+%over the solution pairs for our fixed $a$.  Then we may manipulate
+%our equation to obtain $c^2 - (4at)c - t(4a^2-1) = 0$.  As the
+%product of the roots is thus $-t(4a^2-1)$ and must be non-negative,
+%we have $-t(4a^2-1) \ge 0$.  As $4a^2-1 \ge 0$, we have $-t \ge 0$,
+%so $t \le 0$.  Hence $t$ is not a natural number.  Contradiction;
+%hence $a = b$ as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Find the least positive integer $a$ such that the system
+%\begin{align*}x+y+z&=a\\x^3+y^3+z^2&=a\end{align*} has no integer
+%solutions.
+%\begin{proof}
+%If $a = 1,2,3$, then we have solutions $(x,y,z) = (1,0,0), (1,1,0),
+%(1,1,1)$ as solutions.  Now suppose that there exist $x,y,z$
+%satisfying the system when $a = 4$.  Then we have $4-z^2 = (x^3+y^3)
+%= (x+y)(x^2+y^2-xy) = (4-z)(x^2-xy+y^2)$ giving that $(4-z^2)(4-z) =
+%4+z+12/(z-4)$ is an integer.  Hence $z-4 = \pm1, \pm2, \pm3, \pm4,
+%\pm6, \pm12$.  But we have $(x+y)^2-3xy = (4-z^2)/(4-z)$, so $3xy =
+%(4-z)^2-(4-z^2)/(4-z)$, so therefore we have the system
+%\begin{align*}x+y&=4-z\\xy&=\frac{(4-z)^3+z^2-4}{3(4-z)}\end{align*}
+%for various values of our parameter $z$.  Then we may check all
+%possible such systems and verify that they have no integer
+%solutions.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Solve in integers the equation $$x^3+10x-1 = y^3+6y^2.$$
+%\begin{proof}
+%It is clear that $x$ and $y$ have opposite parity.  Then $k = x-y$
+%is an odd number satisfying $(k+y)^3+10(k+y)-1 = y^3+6y^2.$  This
+%becomes $$(3k-6)y^2+(3k^2+10)y+(k^3+10k-1) = 0.$$ The discriminant
+%of this equation is given by $$D = -3k^4+24k^3-60k^2+252k+76$$ and
+%must be a perfect square.  Since $D = -3k^2(k^2-8k+20)+252k+76$, and
+%since $k^2-8k+20 = (k-4)^2+4$ is always positive, we have $D < 0$
+%for $k \le -1$.  On the other hand, we have $D =
+%3k^3(8-k)+2(38-k^2)+2k(126-29k)$.  Hence $D < 0$ for $k \ge 8$.  It
+%follows that the only valid $k$ which give $D \ge 0$ are $k =
+%1,3,5,7$.  Of these, $D$ is a perfect square only when $k = 1$ and
+%$D = 289$ and when $k = 5$ and $D = 961$.  From here we find that
+%the only possible solutions are $(x,y) = (6,5)$ and $(x,y) =
+%(2,-3)$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%The positive integers $M$ and $n$ are such that $M$ is divisible by
+%all positive integers from $1$ to $n$ inclusive, but that $M$ is not
+%divisible by $n+1$, $n+2$, or $n+3$.  Find all possible values of
+%$n$.
+%\begin{proof}
+%We claim that $n+1, n+2, n+3$ are prime powers.  Assume that this is
+%not the case; then one of them has the form $ab$, where $a, b \ge 2$
+%and $\gcd{(a,b)} = 1$.  If we have $a,b \le n$, then we have $ab
+%\mid M$.  Suppose without loss of generality that $a > b$; then we
+%have $a \ge n+1$, hence $ab-a = a(b-1) \le 2$.  As $a, b \ge 2$, we
+%have $a(b-1) \ge 2$.  Hence $a = b = 2$, a contradiction; it follows
+%that $n+1, n+2, n+3$ are prime powers.  As these are three
+%consecutive integers, at least one of them is divisible by 2.  If
+%two of $n+1,n+2,n+3$ are divisible by 2, then we must have $n+1 = 2$
+%and $n+3 = 4$, giving $n = 1$.  Otherwise we have $n + 2 = 2^x$.
+%Similarly, one of $n+1, n+3$ must then be divisible by 3, so we have
+%$2^x = 3^y \pm 1$.  We split into two cases.
+%
+%Case 1 is the case where $2^x = 3^y + 1$ holds.  Then $2^x \equiv
+%1\mod{3}$, so $x$ is even.  Writing $x = 2z$, we have
+%$(2^z-1)(2^z+1) = 3^y$.  Then $2^z-1 = 3^a$ and $2^z+1 = 3^b$.
+%Hence $a = 0, b = 1$, so $y = a+b = 1$.  Hence $x = 2$.  These
+%values for $x$ and $y$ give $n = 1$, $n = 2$ as possible solutions.
+%
+%Case 2 is the case where $2^x = 3^y - 1$ holds.  If $x = 1$, then we
+%have $y = 1$, obtaining $n = 1, 2$.  If $x \ge 2$, then we have $3^y
+%\equiv 1\mod{4}$, so $y = 2z$.  Hence $2^x = (3^y+1)(3^y-1)$, so we
+%get $x = 3, y = 2$.  Hence we get $n = 6$ or $n = 7$.  If $n = 7$
+%then we have $n+3 = 10$, which is not a prime power.  Hence our only
+%possible values of $n$ are $n = 1,2,6$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $n$ be a positive integer, and denote $$u_n =
+%\underbrace{11\cdots1}_{n}.$$  Furthermore, denote by $s(n)$ the sum
+%of the digits of $n$.  Show that there does not exist a positive
+%integer $m$ with $u_n \mid m$ and $s(m) < n$.
+%\begin{proof}
+%Assume the contrary; denote by $m$ the least integer with $u_n \mid
+%m$ and $s(m) < n$.  We must have $m > 10^n$; write $m = 10^a+b$ with
+%$b < 10^n$.  Then we have $m = (10^n-1)a+(a+b) = 9u_n+(a+b)$.  Hence
+%$u_n \mid a+b$.  But then we have $s(a+b) \le s(a)+s(b) = s(m) < n$.
+%As $a+b$ satisfies the conditions of the problem, and as $a+b < m$,
+%this contradicts the minimality of $m$.  Hence no such $m$ exists.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Find all triples $(x,y,z)$ of positive integers such that
+%$$\sqrt{\frac{2005}{x+y}}+\sqrt{\frac{2005}{y+z}}+\sqrt{\frac{2005}{z+x}}$$
+%is a positive integer.
+%\begin{proof}
+%We start our proof with the following lemma.
+%\begin{lem}
+%If $p,q,r$ are rational numbers with $\sqrt{p}+\sqrt{q}+\sqrt{r}$
+%rational, then $\sqrt{p}, \sqrt{q}, \sqrt{r}$ are rational.
+%\begin{proof}
+%Write $s = \sqrt{p}+\sqrt{q}+\sqrt{r}$, and for convenience set $t =
+%s^2+r-p-q$.  We know that $s,t$ are rational.  Then we may write
+%\begin{align*}
+%(\sqrt{p}+\sqrt{q})^2&= (s-\sqrt{r})^2\\
+%2\sqrt{pq}&=s^2+r-p-q-2s\sqrt{r} = t-2s\sqrt{r}\\
+%4pq&= t^2+4s^2r-4st\sqrt{r}
+%\end{align*}
+%Hence $\sqrt{r}$ is rational.  In a similar manner we may show that
+%$\sqrt{p}$, $\sqrt{q}$ are rational as desired.  This completes the
+%proof of our lemma.
+%\end{proof}
+%\end{lem}
+%Now let $x,y,z$ be positive integers with the desired property.
+%Then let $a,b$ be positive integers with $\gcd{(a,b)} = 1$ such that
+%$\sqrt{2005/(x+y)} = a/b$.  Hence $2005b^2 = (x+y)a^2$, so $a^2 \mid
+%2005b^2$.  As $\gcd{(a^2,b^2)} = \gcd{(a,b)} = 1$, we have thus $a^2
+%\mid 2005$.  But $2005 = 5\cdot401$, hence $a = 1$, so $x+y =
+%2005b^2$.  In an analogous manner, there exist positive integers
+%$c,d$ with $y+z = 2005c^2$ and $z+x = 2005d^2$.  Hence we have
+%$$\sqrt{\frac{2005}{x+y}}+\sqrt{\frac{2005}{y+z}}+\sqrt{\frac{2005}{z+x}}
+%= \frac{1}{b}+\frac{1}{c}+\frac{1}{d}.$$  We have $1\le
+%\frac{1}{b}+\frac{1}{c}+\frac{1}{d} \le 3$ and
+%$\frac{1}{b}+\frac{1}{c}+\frac{1}{d}$ an integer.  If
+%$\frac{1}{b}+\frac{1}{c}+\frac{1}{d} = 3$, then we have $b = c = d =
+%1$.  But the system $x+y = y+z = z+x = 2005$ gives $2(x+y+z) =
+%3\cdot2005$, which has no solutions in integers $x,y,z$.  If
+%$\frac{1}{b}+\frac{1}{c}+\frac{1}{d} = 2$, then we have $(b,c,d)$
+%some permutation of $1,2,2$.  Without loss of generality, let $b =
+%1$; then we have $x+y = 2005$, $y + z =2005\cdot4$, $z + x =
+%2005\cdot4$.  We may write $2x = (x+y)-(y+z)+(z+x) = 2005$, hence
+%$x$ is not an integer.  Contradiction; hence
+%$\frac{1}{b}+\frac{1}{c}+\frac{1}{d} \neq 2$.
+%
+%Hence we must have $\frac{1}{b}+\frac{1}{c}+\frac{1}{d} = 1$.
+%Assume without loss of generality that $b \ge c \ge d \ge 1$; then
+%$d = 2$ or $d = 3$.  If $d = 3$ then we have $b = c = d = 3$.  But
+%the system $x+y = y+z = z+x = 2005\cdot9$ gives $2(x+y+z) =
+%27\cdot2005$, which has no solutions in integers $x,y,z$.  If $d =
+%2$, then we have $b = c = 4$ or $b = 6, c = 3$.  If $b = 6, c = 3$,
+%then we have the system of equations $x+y = 36\cdot2005, y+z =
+%9\cdot 2005, z+x = 4\cdot2005$.  We write $2x = (x+y)-(y+z)+(z+x) =
+%31\cdot2005$, hence $x$ is not an integer.  Contradiction; hence it
+%remains only to check the case $b = c = 4$.  In this case we have $x
+%+ y = 16\cdot 2005, y+z = 16\cdot 2005, z+x = 4\cdot 2005$.  Then we
+%have $x = ((x+y)-(y+z)+(z+x))/2 = 2\cdot2005$.  Hence $y = 14\cdot
+%2005$ and $z = 2\cdot 2005$.  Thus our only solutions are the
+%permutations of $(14\cdot2005, 2\cdot2005, 2\cdot2005)$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $a,b,c$ be rational numbers such that $a+b+c$ and $a^2+b^2+c^2$
+%are equal integers.  Prove that the number $abc$ can be written as a
+%ratio of a perfect cube and a perfect square that are coprime.
+%\begin{proof}
+%Set $t = a+b+c = a^2+b^2+c^2$.  Then the RMS-AM inequality gives
+%$$\frac{(a^2+b^2+c^2)}{3} \ge \left(\frac{a+b+c}{3}\right)^2,$$
+%hence $3t\ge t^2$, so $t \le 3$.  If $t = 0$ then we have $a=b=c=0$,
+%and if $t = 3$ we have equality in RMS-HM, hence $a = b = c = 1$.
+%Both of these have $abc$ satisfying the desired property.
+%
+%Now suppose that $t = 1$.  Let $d$ be the product of the
+%denominators of $|a|,|b|,|c|$.  Then $x = ad, y = bd, z = cd$ are
+%integers with $x+y+z = d$ and $x^2+y^2+z^2 = d^2$.  Without loss of
+%generality, let $z \ge 0$.  Then we have $(x+y+z)^2 = x^2+y^2+z^2$
+%implies that $xy+yz+zx = 0$, which means that $(x+z)(y+z) = z^2$.
+%Then $x+z$ and $y+z$ have the same sign, so there exist $p,q,r$ with
+%$p,q \ge 0$, $\gcd{(p,q)} = 1$, $x+z = rp^2$, $y+z = rq^2$, and $z =
+%|r|pq$.  Hence $d = x+y+z = r(p^2+q^2)-|r|pq > 0$, so $r > 0$.  We
+%may write thus $x = rp(p-q)$, $y = rq(q-p)$, $z = rpq$.  Hence we
+%may write $$a = \frac{x}{d} = \frac{p(p-q)}{p^2+q^2-pq}, \qquad
+%b=\frac{y}{d} = \frac{q(q-p)}{p^2+q^2-pq}, \qquad c =
+%\frac{pq}{p^2+q^2-pq}.$$  Thus $$abc =
+%\frac{\left(pq(p-q)\right)^2}{\left(pq-p^2-q^2\right)^2}.$$  We now
+%need only show that $\gcd{(pq(p-q),p^2+q^2-pq)} = 1$.  Suppose
+%otherwise; let $s$ be a prime dividing both $pq(p-q)$ and
+%$p^2+q^2-pq$.  If $s \mid p$, then $s \mid p^2-pq$, hence $s \mid
+%q^2$, so $s \mid q$.  This is impossible; hence $s \nmid p,q$.  But
+%$s \mid pq(p-q)$, hence $s \mid p-q$.  Thus $s \mid
+%(p^2+q^2-pq)-(p-q)^2 = pq$, a contradiction.  Our desired conclusion
+%follows.
+%
+%The case $t = 2$ is similar and is left to the reader.
+%\end{proof}
+%\end{prb}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Find the least positive integer $n$ such that $2^{2000}$ divides $2003^n-1$.
+%\item Prove that for any integer $a \ge 4$ there exist infinitely many square free positive integers $n$ that divide $a^n-1$.
+%\item Find all positive integers $x,y,z,t$ such that $3^x5^y+7^z = 2^t$.
+%\item Let $p$ be a prime such that $p^2$ divides $2^{p-1}-1$.  Prove that for any positive integer $n$ the number $(p-1)(p!+2^n)$ has at least three distinct prime divisors.
+%\item Find all primes $p$ and $q$ such that $pq$ divides the product
+%$(5^p-2^p)(5^q-2^q)$.
+%\item Let $a,b,c$ be positive integers such that $ab$ divides $c(c^2-c+1)$ and $a+b$ divides $c^2+1$.  Show that the sets $\{a,b\}$ and $\{c,c^2-c+1\}$ coincide.
+%\end{enumerate}

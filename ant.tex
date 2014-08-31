@@ -1,0 +1,49 @@
+\documentclass[12pt]{book}
+
+\input{beginning/packages.tex}
+\input{beginning/theoremdef.tex}
+\input{beginning/macros.tex}
+\input{beginning/formatting.tex}
+\input{beginning/other.tex}
+
+\def\name{Algebraic Number Theory}
+
+\input{beginning/titlepage.tex}
+
+\begin{document}
+\maketitle
+\input{beginning/ant-intro.tex}
+%\input{beginning/intro.tex}
+
+\frontmatter
+
+\mainmatter 
+\pagestyle{fancy}
+
+\part{Algebraic Number Theory}
+\input{ant-chapters/chapter1.tex}
+\input{ant-chapters/chapter2.tex}
+\input{ant-chapters/chapter3.tex}
+\input{ant-chapters/quadratic.tex}
+\input{ant-chapters/chapter4.tex}
+\input{ant-chapters/chapter5.tex}
+\input{ant-chapters/chapter6.tex}
+\input{ant-chapters/chapter7.tex}
+%This section is not done.
+%\input{ant-chapters/chapter8.tex}
+
+\part{Class Field Theory}
+\input{cft-chapters/chapter1.tex}
+%\input{cft-chapters/chapter2.tex}
+%Lubin-Tate Theory, unfinished.
+\input{cft-chapters/chapter3.tex}
+\input{cft-chapters/chapter4.tex}
+\input{cft-chapters/lcft.tex}
+\input{cft-chapters/chapter6.tex}
+\input{cft-chapters/chapter7.tex}
+\input{ag-chapters/CM.tex}
+
+\bibliographystyle{plain}
+\bibliography{refs}
+\printindex
+\end{document}

@@ -1,0 +1,839 @@
+\chapter{Introduction to Galois cohomology}
+\llabel{galois-cohomology-ch}
+\index{Galois cohomology}
+We will apply group (co)homology as follows: Take a Galois extension $L/K$ and let $G:=G(L/K)$. Take as a $G$-module a multiplicative or additive subgroup $S$ of $L$. The special case that $G$ is cyclic will come up often, since if $L/K$ is an unramified extension of local fields, then $G$ is cyclic. Furthermore, the norm map $N_G$ has a natural interpretation:
+\begin{enumerate}
+\item
+If $S\subeq L^{\times}$ then for $a\in S$,
+\[
+N_G(a)=\prod_{\si\in G}\si(a)=\nm_{L/K}(a).
+\]
+\item
+If $S\subeq L^{+}$ then for $a\in S$,
+\[
+N_G(a)=\sum_{\si\in G}\si(a)=\tr_{L/K}(a).
+\]
+\end{enumerate}
+In Section~\ref{kummer} we give an application to Kummer theory (characterizing certain abelian extensions $L$ of $K$ in terms of $L^{\times n}\cap K$). Kummer theory will allow us to  prove the linear independence of $n$th roots.
+
+Finally, we give two interpretations of Galois cohomology groups.
+\begin{enumerate}
+\item
+$H^1(G(L/K),\Aut(V))$ parameterizes algebraic structures defined over $K$ that become isomorphic in $L$ (Section~\ref{sec:nonabelian-galois-cohom}). This is called {\it descent}.
+\item 
+$H^2(G(L/K),L^{\times})$ parameterizes classes of $K$-algebras ``split" over $L$ (Section~\ref{brauer}), i.e. it is the {\it Brauer group}.
+\end{enumerate}
+\section{Basic results}\llabel{galois-cohomology}
+We prove two fundamental theorems on the cohomology of $L^{\times}$ and $L^+$.
+\index{Hilbert's Theorem 90}
+\begin{thm}[Hilbert's Theorem 90]\llabel{h90} ($\dagger$)
+Let $L/K$ be a Galois extension with Galois group $G$. Then
+\[
+H^1(G, L^{\times})=\{1\}.
+\]
+Moreover, if $G=\an{\si}$ is cyclic and $u\in L^{\times}$, then the following are equivalent.
+\begin{enumerate}
+\item
+$\nm_{L/K} (u)=1$.
+\item There exists $v\in L^{\times}$ such that $u=\si(v)v^{-1}$.
+\end{enumerate}
+\end{thm}
+We will often abbreviate $H^1(G(L/K),L^{\times})$ as $H^1(L/K)$.
+\begin{proof}
+First suppose $G$ is finite. 
+Let $c:G\to L^{\times}$ be a 1-cocycle; we have $c_{\si\tau}=\si(c_{\tau}) c_{\si}$. Consider the function
+\[
+b(e):=\sum_{\tau\in G} c_{\tau} \tau(e).
+\]
+By linear independence of the characters $\tau\in G$, $b$ is not identically zero; hence there exists $e\in L^{\times}$ so that $b(e)\ne 0$. Operating by $\si$ on both sides and using the cocycle condition gives
+\beq{eq:h90pf}
+\si(b(e))=\sum_{\tau\in G} \si(c_{\tau}) (\si\tau)(e)=\sum_{\tau\in G} c_{\si \tau} c_{\si^{-1}} (\si\tau)(e)=c_{\si}^{-1}b(e)
+\eeq
+and $c_{\si}=b(e)\si(b(e))^{-1}$, 
+so $c$ is a coboundary.
+
+The infinite case follows from the finite case and Theorem~\ref{group-hom-cohom}.\ref{profinite-lim2}.
+
+For the second part, note that $H^1(G,L^{\times})=\ker(N)/\im(D)=0$ gives $\ker(N)=\im(D)$. Here $N$ is the norm map $\nm_{L/K}$ and $D$ is the map $\si-1$, i.e. the map $v\mapsto \frac{\si(v)}{v}$.
+\end{proof}
+Next we think of $L$ as an additive group.
+\begin{thm}\llabel{h+0}
+Let $L/K$ be a finite Galois extension. Then
+\[
+H^r(G,L^+)=0, \quad r>0.
+\]
+\end{thm}
+\begin{proof}
+From the normal basis theorem~\ref{galois}.\ref{nbt}, there exists $\al\in L$ such that $\set{\si\al}{\si\in G}$ is a basis for $L$ over $K$. We get that $K[G]\cong L$ as $G$-modules by the map
+\[
+\sum_{\si\in G} a_{\si} \si \mapsto \sum_{\si\in G} a_{\si} \si\al.
+\]
+Since $K[G]\cong \Ind_{\{1\}}^G(K)$,
+\[
+H^r(G,L^+)\cong H^r(\{1\},K)=0
+\]
+by Shapiro's Lemma~\ref{shapiro-lemma}.
+\end{proof}
+
+\index{Kummer theory}
+\section{Kummer theory}\llabel{kummer}
+We use Galois cohomology to prove the following.
+\begin{thm}[Kummer theory]\llabel{kummer-theorem}
+Suppose $K$ is a field containing a primitive $n$th root of 1. Then there is a bijection between
+\begin{enumerate}
+\item Finite abelian extensions of $K$ of exponent dividing $n$ (i.e. for any $\si$ in the Galois group $G(L/K)$, $\si^n=1$).
+\item Subgroups of $K^{\times}$ containing $K^{\times n}$ as a subgroup of finite index (i.e. subgroups of $K^{\times}/K^{\times n}$).
+\end{enumerate}
+This correspondence is given by
+\begin{align*}
+L&\mapsto K^{\times }\cap L^{\times n}\\
+K[B^{\frac{1}{n}}]&\mapsfrom B.\end{align*}
+\end{thm}
+Moreover,
+\begin{equation}
+\llabel{degree-order}
+[L:K]=[K^{\times}\cap L^{\times n}:K^{\times}]
+\end{equation}
+(Note in the reverse map, which $n$th roots we take doesn't matter because $K$ contains $n$th roots of unity.)
+
+In the course of proving this theorem, we will show the following useful proposition.
+\begin{pr}\llabel{pr:kummer-char}
+Let $K$ be a field containing a primitive $n$th root of 1 and $L/K$ an abelian extension with Galois group $G$. Then there is a natural isomorphism
+\begin{align*}
+K^{\times}\cap L^{\times n}/K^{\times n}&\cong H^1(G,\mu_n)=\Hom(G,\mu_n)\\
+a&\mapsto \pa{\si \mapsto \fc{\si\pa{a^{\rc n}}}{a^{\rc n}}}.
+\end{align*}
+In particular, there is a natural isomorphism
+\[
+K^{\times}/K^{\times n} \cong H^1(G(K^s/K),\mu_n)=\Hom(G(K^s/K),\mu_n).
+\]
+\end{pr}
+\begin{proof}
+Let $G=G(L/K)$, and denote the forward map by $B(L)=K^{\times}\cap L^{\times n}$. The key step is showing that~\eqref{degree-order} holds; we do this by interpreting $K^{\times}\cap L^{\times n}$ as a 0th cohomology module.  
+The inclusions $L\supeq K(B(L)^{\rc n})$ and $B(K(B^{\rc n}))\supeq B$ are easily seen to hold (Step 2), so~(\ref{degree-order}) will give that equality holds (Steps 3-4).\\
+
+\noindent\underline{Step 1:} By Theorem~\ref{group-hom-cohom}.\ref{les-ext}, the short exact sequence of $G$-modules 
+\[
+1\to \mu_n \to L^{\times}\xrightarrow{x\mapsto x^n} L^{\times n}\to 1 
+\]
+induces the long exact sequence
+\[
+1\to H^0(G,\mu_n) \to H^0(G,L^{\times})\to H^0(G,L^{\times n})\to H^1(G, \mu_n)\to H^1(G,L^{\times})\to \cdots.
+\]
+We need not go further because Hilbert's Theorem 90 (Theorem~\ref{h90}) tells us
+\[
+H^1(G(L/K), L^{\times})=1.
+\]
+Next, note that $H^0(G, H)$ is simply the subgroup of $H$ fixed by $G$, and that the subfield of $L$ fixed by $G$ is $K$.  %(fixed field theorem~\ref{fields}.\ref{fixed-field}). 
+As $\mu_n\sub K$, $G$ acts trivially on $\mu_n$ and $H^{1}(G,\mu_n)=\Hom(G,\mu_n)$ by Corollary~\ref{group-hom-cohom}.\ref{h1-is-hom}.  
+The sequence becomes
+\[
+1\to \mu_n\to K^{\times}\xra{x\mapsto x^n} K^{\times}\cap L^{\times n} \to \Hom(G, \mu_n)\to 1,
+\]
+giving an isomorphism
+\[
+K^{\times}\cap L^{\times n}/K^{\times n}\cong \Hom(G, \mu_n).
+\]
+The map is $\partial^1(a)=\pa{\si\mapsto\frac{\si(a^{\rc n})}{a^{\rc n}}}$, as shown by tracing through the construction in Theorem~\ref{group-hom-cohom}.\ref{les}. This proves Proposition~\ref{pr:kummer-char}.
+\[
+\xymatrix{
+&& K^{\times}\cap L^{\times n}\ar[d]\\
+\mu_n\ar@{.>}[r]^i \ar@{.>}[d]^{d_1}&  {L^{\times}}\ar[r]^{x\mapsto x^n} \ar[d]^{d_1}
+& L^{\times n}\\
+\Der(G, \mu_n)\ar[r]^i&\Der(G,L^{\times})\\
+}
+\xymatrix{
+&& a\ar[d]\\
+& a^{\rc n} \ar[r]^{x\mapsto x^n} \ar[d]^{d_1}
+& a\\
+\pa{\si\mapsto \frac{\si(a^{\rc n})}{a^{\rc n}}}\ar[r]^i&\pa{\si\mapsto \frac{\si(a^{\rc n})}{a^{\rc n}}}\\
+}
+\]
+
+We claim that $|\Hom(G,\mu_n)|=|G|$. Indeed, by the structure theorem for abelian groups, $G$ decomposes as $(\Z/n_1\Z)\times \cdots \times (\Z/n_m\Z)$ where $n_1,\ldots, n_m\mid n$. To choose a homomorphism for $G$ means choosing images for the generators of $\Z/n_1\Z,\ldots, \Z/n_m\Z$; there are $n_1,\ldots, n_m$ possibilities, respectively, for a total of $|G|$.
+
+Then
+\[
+[L:K]=|G(L/K)|=[K^{\times}\cap L^{\times n}:K^{\times}].
+\]
+This shows~(\ref{degree-order}).
+
+\noindent\underline{Step 2:} Next note the following two inclusions.
+\begin{enumerate}
+\item
+$K[B(L)^{\rc n}]\subeq L$: Anything in $(K^{\times}\cap L^{\times n})^{\rc n}$ is in the form $(\be^n)^{\rc n}$ and hence in $L$.
+\item
+$B(K[B^{\rc n}])\supeq B$: Anything in $B$ is in the form $(b^{\rc n})^n$ and hence in $K^{\times}\cap K(B^{\rc n})^{\times n}$.
+\end{enumerate}
+
+\noindent\underline{Step 3:} We show that $K[B(L)^{\rc n}]= L$. By the inclusions in step 2,
+\[
+[L:K]\ge [K[B(L)^{\rc n}]:K]\stackrel{\eqref{degree-order}}{=}
+[B(K[B(L)^{\rc n}]):K^{\times}]\ge [B(L):K^{\times}].
+\]
+But $[L:K]=[B(L):K^{\times}]$ by~(\ref{degree-order}), so equality holds everywhere. The first equality gives the conclusion.\\
+
+\noindent\underline{Step 4:} We show that $B(K[B^{\rc n}])= B$. We apply step 1 with $L=K[B^{\rc n}]$ to get the isomorphism
+\begin{align*}
+B(L)=K^{\times}\cap L^{\times n}/K^{\times n}&\xra{\cong} \Hom(G,\mu_n)\\
+a&\mapsto \pa{\si\mapsto \frac{\si(a^{\rc n})}{a^{\rc n}}}.
+\end{align*}
+Now $B\subeq B(L)$ gets mapped to a subgroup $H'\subeq \Hom(G,\mu_n)$, which can be identified with $\Hom(G/H,\mu_n)$\footnote{
+The subgroups of $G$ are in bijective correspondence with the subgroups of $\Hom(G,\mu_n)$ via the map
+\begin{align*}
+H&\xra{\Phi} \set{h\in \Hom(G,\mu_n)}{H\subeq \ker h}\cong \Hom(G/H,\mu_n)\\
+\bigcap_{h\in H'} \ker h&\xleftarrow{\Psi} H'
+\end{align*}
+Indeed, clearly $\Psi(\Phi(H))\supeq H$, and we have equality since for every $g\in G\bs H$ we can find $h\in \Hom(G,\mu_n)$ with kernel containing $H$, so that $h(g)\ne 1$. Since $\Hom(G,\mu_n)\cong G$, they have the same number of subgroups, and this is a bijection.
+}.
+But as the $a^{\rc n}$ generate $L$ over $K$ and the fixed field of $G$ is $K$, $\bigcap_{h\in H'} \ker h=1$. Thus $H=\{1\}$.
+%The fixed field of $G$ is $K$ %(fixed field theorem~\ref{field}.\ref{fixed-field}) 
+%so the only element of $B(L)$ fixed by all elements of $H$ is 1. Then $H=\Hom(G,\mu_n)$.
+Hence $|B(L)|=|G|=|B|$, and $B=B(L)$.
+\end{proof}
+\index{roots, linear independence of}
+\begin{cor}[$n$th roots are linearly independent]
+Let $S$ be a set of nonzero integers so that $\frac{a}{b}$ is not a perfect $n$th power for any distinct $a,b\in S$. Then the elements
+\[
+\sqrt[n]{s},\quad s\in S
+\]
+are linearly independent over $\Q$.
+\end{cor}
+\begin{proof}
+\noindent{\underline{Step 1:}}
+It suffices to show that for distinct primes $p_1,\ldots, p_k$, we have
+\begin{equation}\llabel{roots-right-degree}
+[\Q(\sqrt[n]{p_1},\ldots, \sqrt[n]{p_k}):\Q]=n^k.
+\end{equation}
+Then a basis for this extension over $\Q$ is formed by taking products of basis elements for the $\Q(\sqrt[n]{p_j})$:
+\begin{equation}\llabel{basis-sqrt}
+\set{
+\sqrt[n]{p_1^{a_1}\cdots p_k^{a_k}
+}}{0\le a_j<n}.
+\end{equation}
+However, the radicands are exactly the representatives of elements in $\Q^{\times}/\Q^{\times n}$. The elements of $S$ are all represented by distinct elements of~(\ref{basis-sqrt}) modulo $\Q^{\times}$, so the theorem will follow. (To deal with $s\in S$ negative, note if $s$ is negative then $\sqrt[n]{s}$ is a not in $\R$.) 
+
+We want to use Kummer theory to conclude~\eqref{roots-right-degree}. However, $\Q$ only has square roots of unity ($\pm1$), so we have to consider all other roots separately. We may as well assume $2\mid n$.\\
+
+\noindent{\underline{Step 2:}} We first show
+\begin{equation}\llabel{roots-indpt-index1}
+[\Q(\sqrt{p_1},\ldots, \sqrt{p_k}):\Q]=2^k.
+\end{equation}
+
+Let $B$ be the subgroup of $\Q^{\times}$ generated by $p_1,\ldots, p_k$ and $\Q^{\times 2}$. %Note the elements of $S$ form distinct representatives in $\Q^{\times}/\Q^{\times 2}$. 
+By Theorem~\ref{kummer-theorem}, 
+\[
+[\Q(B^{\rc 2}):\Q]=[B:\Q^{\times 2}]=2^k,
+\]
+as needed.\\
+
+\noindent{\underline{Step 3:}} We now adjoin $n$th roots of unity such that we can apply Kummer theory for $n$th roots. Let $N$ be a positive integers such that $n\mid N$ and $\Q(\sqrt{p_1},\ldots, \sqrt{p_k})\subeq\Q(\ze_N)$ (every quadratic extension is contained in a cyclotomic extension; we can take $N=4p_1\cdots p_k n$).
+
+However, if we look at $K:=\Q(\ze_N)$, what if elements that aren't $n$th powers in $\Q$ become $n$th powers? Fortunately, this doesn't happen for $n\ne 2$. We show that for even $n\ne 2$ and $m\in\Q$ not a perfect $\frac n2$th power,
+\begin{equation}\llabel{root-not-in-cyclotomic}
+\sqrt[n]{m}\nin \Q(\ze_N).
+\end{equation}
+By taking roots, we may assume that $m$ is not a perfect $d$th power for any $d\mid n$.
+
+%Indeed, consider $\Q(\sqrt[n]{p})$; if it were contained in a cyclotomic extension then
+%\[
+%\Q(\sqrt[n]{p},\ze_n)\subeq \Q(\ze_M)
+%\]
+%for some $M$.
+Note $L:=\Q(\sqrt[n]{m},\ze_n)$ is a Galois extension of $\Q$ since it is the splitting field of $X^n-m$. Note $X^n-m$ is irreducible over $\Q$ because the constant term of any proper factor must be in the form $m^{\frac jn}\nin \Q$ where $0<j<n$. Hence there exists $\tau\in G(L/\Q)$ sending $\sqrt[n]{m}$ to $\ze_n\sqrt[n]{m}$. 
+Let $\si\in G(L/\Q)$ denote complex conjugation. Then
+\begin{align*}
+\si\tau(\sqrt[n]{m})&=\si(\ze_n\sqrt[n]{m})=\ze_n^{-1}\sqrt[n]{m}\\
+\tau\si(\sqrt[n]{m})&=\tau(\sqrt[n]{m})=\ze_n\sqrt[n]{m}.
+\end{align*}
+Hence $G(L/\Q)$ is not abelian. Since all cyclotomic extensions are abelian, $L$ cannot be contained in an abelian extension, giving~(\ref{root-not-in-cyclotomic}).
+
+Let $C$ be the subgroup of $\Q(\ze_N)^{\times}$ generated by $\sqrt{p_1},\ldots, \sqrt{p_k}$ and $\Q(\ze_N)^{\times \frac n2}$. We showed above that $\sqrt[n]{m}\nin\Q(\ze_N)^{\times \fc n2}$ for any  $m$ not a perfect $\frac n2$th power so $[C:\Q(\ze_N)^{\times \frac n2}]=\pf{n}{2}^k$. By Kummer Theory,
+\[
+[\Q(\ze_N,\sqrt[n]{p_1},\ldots, \sqrt[n]{p_k}):\Q(\ze_N)]=[\Q(C^{\frac n 2}):K]=[C:\Q(\ze_N)^{\times \frac n2}]=\pf{n}{2}^k.
+\]
+Since $\Q(\sqrt{p_1},\ldots, \sqrt{p_k})\subeq \Q(\ze_N)$ we get
+\begin{equation}\llabel{roots-indpt-index2}
+[\Q(\sqrt[n]{p_1},\ldots, \sqrt[n]{p_k}):\Q(\sqrt{p_1},\ldots, \sqrt{p_k})]=\pf n2^k.
+\end{equation}
+
+Combining~(\ref{roots-indpt-index1}) and~(\ref{roots-indpt-index2}) gives~(\ref{roots-right-degree}), as needed.
+%Since representatives of $(B/K^{\times n})^{\rc n}$ generate the field extension, these representatives form a basis, i.e. are linearly independent.
+\end{proof}
+\section{Nonabelian Galois cohomology}\llabel{sec:nonabelian-galois-cohom}
+\index{descent}
+Because of the definition of $H^1$ in Section~\ref{group-hom-cohom}.\ref{nonabelian-cohom}, we find that we can often interpret $H^1(G(L/K),A)$ as parameterizing certain algebraic structures, specifically a set of them defined over $K$ that become isomorphic in $L$. (This is known as {\it descent} because it answers the question, how many ways can an algebraic structure (or in general, a variety) ``descend" from $L$ to $K$?)
+In general,
+\begin{multline}
+H^1(G(L/K),\{\text{automorphisms preserving $V$ over $K$}\})\\
+\cong \{\text{$K$-isomorphism classes that are $L$-congruent to $V$}\}
+\llabel{eq:descent}
+\end{multline}
+
+
+In this section, we will see several examples where $A$ is an algebraic group. We could also take $A$ to be an abelian variety (see Silverman~\cite{Si86}, Theorem X.2.2, for instance).
+
+In particular, we find in the next section that a special cohomology group classifies algebra structures over $K$: the Brauer group.
+
+First, we need the following nonabelian generalization of Hilbert's Theorem 90~(\ref{h90}).
+\begin{thm}[Generalization of Hilbert's Theorem 90]\llabel{thm:gen-h90}
+For any finite Galois extension $L/K$, letting $G=G(L/K)$,
+\[
+H^1(G,\GL_n(L))=H^1(G,\SL_n(L))=1.
+\]
+\end{thm}
+\begin{proof}
+As in Theorem~\ref{h90}, given a 1-cocycle $c:G\to GL_n(L)$, consider the function
+\begin{align*}
+b:\GL_n(L)&\to \cal M_n(L)\\
+b(A)&:=\sum_{\tau \in G}c_{\tau}\tau(A).
+\end{align*}
+Note that unlike in the proof of Theorem~\ref{h90}, we not only have to choose $A$  to be nonzero, but also invertible.
+
+Also define $b$ on $L^n$ in the same way:
+\begin{align*}
+b:L^n&\to L^n\\
+b(\mathbf x)&:=\sum_{\tau \in G}c_{\tau}\tau(\mathbf x).
+\end{align*}
+We show that $\set{b(\mathbf x)}{\mathbf x\in L^n}$ generate $L^n$ as a vector space over $L$.\footnote{Note $b$ is not a $L$-linear transformation; it is a $K$-linear transformation.} Suppose a linear functional $f:L^n\to L$ vanishes on all the $b(\mathbf x)$. Then for every $\al\in L$,
+\[
+0=f(b(\al \mathbf x))=\sum_{\tau\in G}f(c_{\tau}\tau(\al)\tau(\mathbf x))
+=\sum_{\tau\in G} \tau(\al)f(c_{\tau}\tau(\mathbf x)).
+\]
+By linear independence of characters, we get that all the coefficients of the $\tau(\al)$ must be 0, i.e. $f(c_{\tau}\tau(\mathbf x))$ for all $c_{\tau}, \mathbf x$. But $c_{\tau}\in \GL_n(L)$ is invertible, so $f$ must vanish identically on $L^n$. We've shown that every linear functional vanishing on $\{b(\mathbf x)\}$ vanishes on $L^n$; therefore $\spn_L\{b(\mathbf x)\}=L^n$.
+
+Thus we can choose $\mathbf x_1,\ldots, \mathbf x_n$ such that $\mathbf y_j=b(\mathbf x_j)$ form a basis for $L^n$ over $L$. Let $A$ be the matrix sending the canonical basis $\mathbf e_j$ to the $\mathbf x_j$. Then (note $\tau$ acts trivially on the $e_j$)
+\[
+b(A)\mathbf e_j=b(A\mathbf e_j)=\mathbf y_j
+\]
+so $b(A)$ is invertible.
+
+The the rest of the proof of Theorem~\ref{h90} goes through: we have as in~(\ref{eq:h90pf}) that
+\[
+c_{\si}=b(A)\si(b(A))^{-1},
+\]
+i.e. $c$ is a coboundary. This shows $H^1(G,\GL_n(L))=1$.
+
+For the second part, the exact sequence
+\[
+1\to \SL_n(L)\to GL_n(L)\xra{\det} L^{\times}\to 1
+\]
+gives the long exact sequence~\ref{group-hom-cohom}.\ref{thm:nonabelian-les}
+\[
+\xymatrix{
+H^0(G,\GL_n(L))\ar[r]^{\det}\ar@{=}[d] & H^0(G,L^{\times}) \ar[r]\ar@{=}[d] & H^1(G,\SL_n(L))\ar[r] & H^1(G,\GL_n(L))\ar@{=}[d]\\
+\GL_n(K) \ar@{->>}[r]^{\det}& K^{\times} & & 0.
+}
+\]
+As the map on the left is surjective, we get $H^1(G,\SL_n(L))=1$. 
+\end{proof}
+We have now established~\eqref{eq:descent} when $V$ is a vector space: all vector spaces that become isomorphic in $L$ have the same dimension to begin with so are isomorphic in $K$, so the right-hand side of~\eqref{eq:descent} is $\{1\}$, and if $V=K^n$, $\GL_n(L)$ is the group of automorphisms preserving $V$ over $L$, and Theorem~\ref{thm:gen-h90} shows the right-hand side of~\eqref{eq:descent} is $\{1\}$. We now extend this to other algebraic structures.
+
+To encode an algebraic structure, we consider vector spaces and tensors.
+\index{tensor}
+\begin{ex}\llabel{ex:tensors}$\,$\\
+Let $V$ be a finite-dimensional vector space. The space $V^{\ot p}\ot V^{*\ot q}$ encodes$\ldots$
+
+\noindent \begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+$p$ & $q$ & Structure\tabularnewline
+\hline 
+1 & 0 & vectors\tabularnewline
+\hline 
+0 & 1 & linear functionals\tabularnewline
+\hline 
+1 & 1 & linear operators\tabularnewline
+\hline 
+0 & 2 & bilinear forms\tabularnewline
+\hline 
+1 & 2 & algebra structures\tabularnewline
+\hline 
+\end{tabular} \end{center}
+We focus on the case $p=1$, $q=2$. Given a tensor $\sum_i v_i\ot f_i\ot g_i\in V\ot V^{*\ot 2}$, define a (not necessarily commutative or associative) algebra structure on $V$ by
+\[
+v\cdot w = \sum_i f_i(v)g_i(w)v_i.
+\]
+Conversely, any algebra structure can be encoded in this way: Take a basis $\{v_i\}$ for $V$ and a dual basis $f_i$ for $V^*$, and encode the structure by $\sum_{i,j} (v_i\cdot v_j)\ot f_i\ot g_j$.
+\end{ex}
+\begin{df}
+Let $V$ be a vector space over $K$ and $x\in V^{\ot p}\ot V^{*\ot q}$ be a tensor of type $(p,q)$. Two pairs $(V,x)$ and $(V',x')$ are isomorphic if there is a $K$-linear isomorphism 
+\[f:V\to V'\]
+such that $f(x)=x'$. Here, $f$ sends 
+\beq{eq:extend-tensor}
+x_1\ot\cdots \ot x_p\ot f_1\ot \cdots \ot f_q\mapsto f(x_1)\ot \cdots f(x_p)\ot (f_1\circ f^{-1})\ot \cdots \ot (f_q\circ f^{-1}).
+\eeq
+Given $(V,x)$ defined over $K$, we can consider it over $L$ by extending scalars; denote the resulting pair by $(V_L=V\ot_KL,x_L)$.
+
+We say that $(V,x)$ and $(V',x')$ are $L$-isomorphic if $(V_L,x_L)$ and $(V'_L,x'_L)$ are isomorphic.
+Let $E_{V,x}(L/K)$ denote the $L$-isomorphism classes of pairs that are $K$-equivalent to $(V,x)$. If $L/K$ is Galois, let $s\in G(L/K)$ act on $v\ot \al\in V\ot_K L=V_L$ by $s(v\ot_K \al):=v\ot_K s(\al)$ and let $s$ act on $A_L$ by conjugation:
+\[
+f^s:=s\circ f\circ s^{-1}.
+\]
+\end{df}
+\begin{thm}[Descent for tensors]\llabel{thm:descent-tensors}
+Let $L/K$ be a Galois extension, $G=G(L/K)$, and let $A_L$ be the group of $L$-automorphisms of $(V_L,x_L)$.
+Define the map
+\begin{align*}
+\te:E_{V,x}(L/K)&\to H^1(G,A_L)\\
+(V',x')&\mapsto (d:\si \mapsto f^{-1}\circ f^{\si }=f^{-1}\circ \si  \circ f \circ \si ^{-1})
+\end{align*}
+%where $f:V_L\to V_L'$ is any $L$-automorphism, 
+where $f:(V_L,x_L)\to (V_L',x_L')$ is any $L$-automorphism. 
+Then $\te$ is a bijection.
+\end{thm}
+\begin{proof}
+We show the following.
+\begin{enumerate}
+\item $\te$ is well-defined. First, $\te(V',x')$ is a cocycle as
+\[
+d(\si t)=f^{-1}\si tft^{-1}\si^{-1}=(f^{-1}\si f\si^{-1})[\si (f^{-1}tft^{-1})\si^{-1}]=d(\si )\circ d(t)^{\si }.
+\]
+(See Definition~\ref{group-hom-cohom}.\ref{df:nonabelian-cocycles}.) 
+Next, we show $\te(V',x')$ does not depend on the choice of $f$: Let $d_f(\si )=f^{-1}\si f\si^{-1}$ and $d_g(s)=g^{-1}\si g\si^{-1}$. Then
+\[
+d_g(\si )=g^{-1}\si g\si^{-1}= g^{-1}f(f^{-1}\si f\si^{-1})\si f^{-1}g\si^{-1}
+=(fg^{-1})^{-1}d_f(\si ) (fg^{-1})^{\si }
+\]
+so $d_f$ and $d_g$ are cohomologous.
+\item $\te$ is injective. Suppose $\te(V_1',x_1')=\te(V_2',x_2')$. We can choose the isomorphisms $f_1$ and $f_2$ such that $f_1^{-1}f_1^{\si }=f_2^{-1}f_2^{\si}$ for all $\si \in G(L/K)$. Then $(f_2f_1^{-1})^{\si }=f_2f_1^{-1}$ for all $\si \in G(L/K)$, i.e. $f_2f_1^{-1}$ is an isomorphism defined over $K$. %?
+Thus $(V_1',x_1')$ and $(V_2',x_2')$ are $K$-isomorphic.
+\item $\te$ is surjective. Let $c_{\si}$ be a 1-cocycle of $G$ with values in $A_L$. Since $A_L\subeq \GL(V_L)$, by Theorem~\ref{thm:gen-h90} there exists $f\in \GL(V_L)$ such that
+\[
+c_{\si}=f^{-1}\circ f^{\si}
+\]
+Let $f$ operate on $V^{\ot p}\ot V^{*\ot q}$ as in~(\ref{eq:extend-tensor}) and let $x'=f(x)$. As $x\in V_K^{\ot p}\ot V_K^{*\ot q}$ and $c_{\si}$ fixes $K$, we have 
+\[
+\si(x')=f^{\si}(\si(x))=f^{\si}(x)=f\circ c_{\si}(x)=f(x)=x'.
+\]
+Thus $x'$ is rational over $K$ (i.e. in $V_K^{\ot p}\ot V_K^{*\ot q}$), and $(V,x')$ maps to $c_{\si}$.
+\end{enumerate}
+\end{proof}
+Note that since we always take an isomorphism $V\to V'$, we can really consider all the vector spaces to be the ``same," and just vary the tensors $x$. If we consider $V=V'$, then we abbreviate $f:(V_L,x_L)\to (V_L',x_L')$ by $f:x\to x'$.
+\begin{ex}
+We can use Galois cohomology to classify quadratic forms over a field $K$. Let $\Phi$ be a quadratic form (which corresponds to a bilinear form and can be represented by a tensor of type $(0,2)$), and $O_L(\Phi)$ be the orthogonal group of $\Phi$, i.e. linear transformations that preserve $\Phi$. Then $H^1(G(L/K),O_L(\Phi))$ classifies the quadratic forms over $K$ that are $L$-isomorphic to $\Phi$.
+\end{ex}
+
+\section{Brauer group}\llabel{brauer}
+\index{Brauer group}
+The Brauer group characterizes algebras over a field $K$. We already know a simple way of making algebras: just consider the algebra of $n\times n$ matrices, $\cal M_n(K)$. Thus, we will essentially ``mod out'' by these when constructing the group.
+
+As we will see, there is an isomorphism to a second cohomology group. Thus, we can apply results about algebras over $K$ to Galois cohomology, or conversely, apply Galois cohomology to get information on algebras over $K$.
+
+First, we need some results from noncommutative algebra. We refer the reader to Cohn~\cite{Co03}, Chapter 5, or Milne~\cite{Mi08}, Chapter IV.1--2, for the proofs. %a preliminary definition.
+
+\subsection{Background from noncommutative algebra}
+\index{central simple algebra}
+%(Maybe include a subsection on some results from representation theory/noncommutative algebra, Schur, Double centralizer theorem, Wedderburn, Noether-Skolem)
+\begin{df}
+An \textbf{algebra} over a field $K$ is a ring $A$ with $K$ in its center\footnote{The center of a ring $R$ is the set of elements commuting with all elements of $R$.}. Its dimension is the dimension of $A$ as a $K$-vector space, denoted $[A:K]$. {\it In this chapter we assume all algebras to be finite-dimensional as $K$-vector spaces.}
+
+An algebra over $K$ is
+\begin{enumerate}
+\item
+\textbf{simple} if it has no proper two-sided ideals.
+\item
+\textbf{central} if its center in $K$.
+\end{enumerate}
+An algebra is a \textbf{division algebra} if every nonzero element has an inverse.
+\end{df}
+\begin{ex}
+The algebra of $n\times n$ matrices $\cal M_n(K)$ is a central simple algebra over $K$.
+\end{ex}
+\index{representation}
+\begin{df}
+Let $A$ be an algebra over $K$. We use ``$A$-module" to mean any finitely generated left $A$-module $V$; the map $A\to \End(V)$ is called a \textbf{representation} of $A$. The module (or representation) is \textbf{faithful} if $av=0$ for all $v\in V$ implies $a=0$, i.e. $A\hra \End(V)$ is injective. A module is \textbf{simple} if it doesn't contain a proper $A$-submodule, and \textbf{indecomposable} if it is not the direct sum of two proper $A$-submodules. (Note that simple implies indecomposable, but not vice versa.) A module is \textbf{semisimple} if it is the direct sum of simple $A$-modules.\footnote{Equivalently, the radical of $A$ is trivial. If it is semisimple the factors in the decomposition are unique up to isomorphism (Jordan-H\"older).}
+
+We say $A$ is semisimple if it is semisimple as a module.
+\end{df}
+
+We need some basic results from noncommutative algebra.
+\index{centralizer}
+\begin{df}
+Let $B\subeq A$ be a subalgebra. Define the \textbf{centralizer} of $B$ to be the elements of $A$ commuting with $B$:
+\[
+C(B):=\set{a\in A}{ab=ba\text{ for all }b\in B}.
+\]
+\end{df}
+\index{double centralizer theorem}
+\begin{thm}[Double centralizer theorem]\llabel{thm:double-centralizer}
+Let $A$ be a $K$-algebra, and $V$ a faithful semisimple $A$-module. Consider $A$ as a subalgebra of $\End_K(V)$. Then
+\[
+C(C(A))=A.
+\]
+\end{thm}
+\begin{proof}
+Milne~\cite{Mi08}, Theorem IV.1.3, or Etingof~\cite{Et10}, Theorem 4.54.
+\end{proof}
+\index{Wedderburn's structure theorem}
+\begin{thm}[Wedderburn's structure theorem]\llabel{thm:wedderburn}
+An algebra $A$ is semisimple iff it is isomorphic to the direct sum of matrix algebras over division algebras.
+
+If $A$ is an algebra over an algebraically closed field $K$ and $K$, then any semisimple algebra over $K$ is isomorphic to a direct sum of matrix algebras over $K$.
+\end{thm}
+\begin{proof}
+Milne~\cite{Mi08}, Theorem IV.1.15.
+
+For the second part, we need to show the only division algebra over an algebraically closed field $K$ is $K$ itself. Suppose $D$ is a division algebra and $\al\in D$. As $[D:K]$ is finite-dimensional, $K(\al)$ is a finite extension of $K$. Hence $\al\in K$, giving $D=K$.
+\end{proof}
+\index{Noether-Skolem theorem}
+\begin{thm}[Noether-Skolem theorem]\llabel{thm:noether-skolem}
+Let $f,g:A\to B$ be homomorphisms, where $A$ is a simple $K$-algebra and $B$ is a central simple $K$-algebra. Then there exists $b\in B$ such that 
+\[
+f(a)=b\cdot g(a)\cdot b^{-1}
+\]
+for all $a\in A$, i.e. $f,g$ differ by an inner automorphism of $B$.
+
+In particular, taking $A=B$ and $g=1$, all automorphisms of a central simple $K$-algebra are inner (come from conjugation). In particular, this is true for $\cal M_n(K)$. 
+\end{thm}
+\subsection{Central simple algebras and the Brauer group}
+%\begin{pr}
+%The center of a simple $K$-algebra is a field. Thus every simple $K$-algebra is central simple over a finite extension of $K$.
+%\end{pr}
+%\begin{proof}[Proof sketch]
+%By Wedderburn's Theorem, we can write a simple $K$-algebra $A$ as $\cal M_n(D)\cong \cal M_n(K)\ot_K D$, where $D$ is a division algebra. Its center is $Z(\cal M_n(K)\ot_K D)=Z(\cal M_n(K))\ot Z(D)\cong K\ot_K Z(D)=Z(D)$.
+%\end{proof}
+We now define the Brauer group.
+\begin{df}
+Let $A$ and $B$ be simple algebras over $K$. We say $A$ and $B$ are similar and write $A\sim B$ if
+\[
+A\ot_K\cal M_m(K)\cong B\ot_K \cal M_n(K)
+\]
+for some $m,n$.
+
+The \textbf{Brauer group} $\Br_K$ is the set of similarity classes of central simple algebras over $K$, with multiplication defined by
+\[
+[A][B]=[A\ot_K B].
+\]
+
+The Brauer group $\Br_{L/K}$ is the subgroup of classes of central simple algebras over $K$ that are \textbf{split} over $L$, i.e. such that $A\ot_K L$ is a matrix algebra.
+\end{df}
+\begin{proof}[Proof (sketch) that this is a group]
+We need to check that$\ldots$
+\begin{enumerate}
+\item The tensor product of two central simple algebras is central simple. By Wedderburn's Theorem~\ref{thm:wedderburn} we can write the algebras as $A=M_m(D)$ and $B=M_{m'}(D')$, where $D,D'$ are division algebras. One can show $A\ot_K D'$ is simple; hence it equals $M_n(D'')$ for some $D''$. Then $A\ot_K B\cong M_{m'n}(D'')$ is simple. It is central because $C(A\ot_K B)=C(A)\ot_KC(B)=K$.
+\item
+``$\sim$" is an equivalence relation. If $A\sim B$ and $B\sim C$, then $A\ot_K \cal M_m(K)\cong B_K\ot_K \cal M_n(K)$, $B\ot_K\cal M_{n'}(K)\cong C\ot_K \cal M_p(K)$ for some $m,n,n',p$. Then
+\[
+A\ot_K \cal M_{mn'}(K)\cong A\ot_K \cal M_m(K)\ot_K \cal M_{n'}(K)\cong C\ot_K\cal M_n(K)\ot_K \cal M_p(K)\cong C\ot_K M_{np}(K).
+\]
+\item
+``$\sim$" is preserved under the operation $\ot$. If $A_i\ot_K \cal M_{m_i}(K)\cong B_i\ot_K \cal M_{n_i}(K)$ for $i=1,2$, then $A_1\ot_K A_2\ot_K \cal M_{m_1m_2}(K)\cong B_1\ot_K B_2\ot_K \cal M_{n_1n_2}(K)$.
+\item
+$A$ has an inverse. Letting $A^{\text{opp}}$ be the opposite algebra, we find that
+\[
+A\ot_K A^{\text{opp}}\cong \cal M_n(K),\quad n=[A:K].
+\]
+\item
+The operation is commutative and associative. This follows since tensor product is commutative and associative.
+\end{enumerate}
+\end{proof}
+By Wedderburn's Structure Theorem~\ref{thm:wedderburn}, each (central) simple algebra is $M_n(D)\cong M_n(K)\ot_K D$ for some (central) division algebra $D$, so every similarity class is represented by a central division algebra. Thus to determine the Brauer group it suffices to classify central division algebras.
+\begin{ex}
+We have
+\[
+\Br_{\R}=\{\R,\Hq\}
+\]
+where $\Hq$ denotes the quaternions: the algebra with basis $1,\vi,\vj,\vk=\vi\vj$ and relations $\vi^2=1$, $\vj^2=1$, and $\vi\vj=-\vj\vi$.
+
+Indeed, by Frobenius's Theorem, the only finite-dimensional (associative) division algebras over $\R$ are $\R$, $\C$, and $\Hq$, and only $\R$ and $\Hq$ have center equal to $\R$.
+\end{ex}
+%\begin{pr}$\,$
+%\begin{enumerate}
+%\item
+%If $K$ is algebraically closed, then $\Br(K)=0$.
+%\item
+%$\Br(\R)=\{\R,\Hq\}$.
+%\item 
+%If $k$ is a finite field, then $\Br(k)=0$.
+%\item 
+%If $K$ is a nonarchimedean local field then $\Br(K)\cong \Q/\Z$.
+%\end{enumerate}
+%\end{pr}
+%\begin{pr}[Extension of base field]
+%Let $A$ be a central simple algebra over $K$, and let $L/K$ be a field extension. Then $A\ot_K L$ is a sentral simple algebra over $L$.
+%\end{pr}
+%\begin{cor}
+%If $A$ is central simple over $K$ then $[A:K]$ is a square.
+%\end{cor}
+\begin{pr}
+For any algebraically closed field $K$,
+\[
+\Br_{\ol K}=0.
+\]
+%and
+%\[
+%\Br_K=\bigcup_{L\text{ finite extension}} \Br_{L/K}.
+%\]
+\end{pr}
+\begin{proof}
+By Wedderburn's Theorem~\ref{thm:wedderburn}, all central simple algebras over $K$ are $\cal M_n(K)$ for some $n$.
+\end{proof}
+\subsection{Subfields and splitting of central simple algebras}
+An important way of studying a central simple algebra is to look at its subfields.
+\begin{thm}[Double centralizer theorem, generalization]\llabel{thm:dct-gen}
+Let $A$ be a central simple $K$-algebra and $B$ be a simple $K$-subalgebra. Let $C=C(B)$. Then $C$ is simple, $C(C)=A$, and
+\[
+[B:K][C:K]=[A:K].
+\]
+\end{thm}
+\begin{proof}
+See Milne~\cite{Mi08}, Theorem IV.3.1.
+\end{proof}
+\begin{cor}
+Let $A$ be central simple over $K$, and $L$ be a subfield with $K\subeq L\subeq A$. Then the following are equivalent.
+\begin{enumerate}
+\item
+$L=C(L)$.
+\item
+$[A:K]=[L:K]^2$.
+\item
+$L$ is the maximal commutative $K$-subalgebra of $A$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+Milne~\cite{Mi08}, Corollary IV.3.4.
+\end{proof}
+The following describes the fields over which a central simple algebra splits.
+\begin{cor}\llabel{cor:csa-split}
+Let $A$ be central simple over $K$. A finite extension field $M$ splits $A$ iff there exists an algebra $B\sim A$ containing $M$ with $[B:K]=[L:K]^2$. In particular, any subfield $L$ of $A$ of degree $\sqrt{[A:K]}$ splits $A$.
+
+If $D$ is a divison algebra of degree $n^2$ over $K$, and $L$ is a field of degree $n$ over $K$ (equivalently a maximal commutative subfield of $D$), then $L$ splits $D$, i.e. $D\cong \cal M_n(L)$.
+\end{cor}
+\begin{proof}
+Milne~\cite{Mi08}, IV.3.6, and 3.7.
+\end{proof}
+%If $D$ is a central division algebra, and $L$ is a maximal subfield of $D$ containing $K$, then $[
+\begin{thm}\llabel{thm:all-split}
+Every central division algebra over $K$ is split over some finite Galois extension $L/K$. Therefore
+\[
+\Br_K=\Br_{\ol K/K}=\bigcup_{L/K\text{ finite Galois}} \Br_{L/K}.
+\]
+\end{thm}
+\begin{proof}
+When $K$ is perfect, this follows directly from Corollary~\ref{cor:csa-split}. The general case requires a separate argument; see Milne~\cite{Mi08}, IV.3.10.
+\end{proof}
+Similar to the commutative case, we can define a valuation on division algebras.
+\begin{pr}\llabel{pr:div-alg-val}
+Let $D$ be a division algebra of rank $n^2$ over a local field $K$. Then $D$ admits a discrete valuation extending the valuation on $K$, such that for any $a\in (0,1)$, $\ve{x}_D:=a^{v(x)}$ defines a norm on $D$. The set of integral elements $\set{x}{v(x)\ge 0}$ is a subring of $D$.
+\end{pr}
+\section{Brauer group and cohomology}
+\subsection{The Brauer group is a second cohomology group}
+\begin{df}
+Let $\Br_{L/K,n}$ denote the subset of $\Br_{L/K}$ consisting of $[A]$ where $A\ot_K L\cong \cal M_n(L)$. Note that $\Br_{L/K}=\bigcup_{n\in \N}\Br_{L/K,n}$.
+\end{df}
+\begin{thm}[Cohomological interpretation of Brauer group]
+\llabel{thm:brauer-cohom}
+%Let
+%$\cal A(L/K)$ be the classes of central simple algebras over $K$ containing $L$. Then there is a bijection 
+%\[
+%\ga:\Br(L/K)\xra{\cong} A(L/K)/\sim\xra{\cong} H^2(L/K).
+%\]
+%Let $\Br(n,L/K)$ denote the classes of $K$-algebras such that $A\ot_K L\cong \cal M_n(K)$.
+There are canonical bijections
+\[
+\te_n:\Br_{L/K,n}\to H^1(G,\PGL_n(K))
+\]
+and canonical isomorphisms
+\begin{align*}
+\de:\Br_{L/K}&\to H^2(L/K)\\
+\de:\Br_{K}&\to H^2(K)
+\end{align*}
+where $H^2(K):=H(\ol K/K)=\varinjlim_{L/K\text{ finite Galois}} H^2(L/K)$.
+\end{thm}
+\begin{proof}
+We can represent elements of $\Br_{L/K,n}$ as algebras of dimension $n^2$ over $K$, that are $L$-isomorphic to the algebra $\cal M_n(L)$. By Example~\ref{ex:tensors}, we can encode the algebra $\cal M_n(L)$ by a tensor of type $(1,2)$. By Theorem~\ref{thm:descent-tensors},
+\beq{eq:brauer-descent}
+\Br_{L/K,n}\cong H^1(G,\Aut(\cal M_n(L))).
+\eeq
+By the Noether-Skolem Theorem~\ref{thm:noether-skolem}, every automorphism of $\cal M_n(L)$ is conjugation by an element of $\GL_n(K)$. Since the matrices that act trivially by conjugation are just the scalar matrices, we have the short exact sequence
+\beq{eq:noether-skolem}
+1\to L^{\times}\to \GL_n(L)\to \Aut(\cal M_n(L))\cong \PGL_n(L)\to 1.
+\eeq
+%We have
+%\[
+%\Aut(\cal M_n(L))\cong \GL_n(L)/L^{\times}=\PGL_n(L).
+%\]
+Along with~(\ref{eq:brauer-descent}) this proves the first part.
+
+The long exact sequence \ref{group-hom-cohom}.\ref{thm:nonabelian-les} of~\eqref{eq:noether-skolem} gives 
+\[
+0=H^1(G,\GL_n(L))\to H^1(G,\PGL_n(L))\xra{\De_n} H^2(G,L^{\times}),
+\]
+where the LHS follows from Theorem~\ref{thm:gen-h90}. Let $\de_n=\De_n\circ \te_n$; then $\de_n$ is an injective map.
+
+We show the following.
+\begin{enumerate}
+\item The $\de_n$ for different $n$ combine compatibly into an injective group homomorphism $\de:\Br(L/K)\to H^2(L/K)$: 
+We need to show
+\[
+\de_{nn'}(A\ot A')=\de_n(A)\de_{n'}(A')
+\]
+for any $A\in \Br_{L/K,n}$ and $A'\in \Br_{L/K,n'}$.
+%Let $e_{ij}$ be the standard basis for $\cal M_n(K)$ and $e_{ij}'$ be the standard basis for $\cal M_{n'}(K)$. Let $f_{ij}$ and $f_{ij}'$ be the dual bases. Then, using the construction in Example~\ref{ex:tensors}, $\cal M_n(K)$ and $\cal M_{n'}(K)$ are represented by $x=\sum_{1\le i,j,k\le n} f_{ij}\ot f_{jk}\ot e_{ik}$ and $x'=\sum_{1\le i,j,k\le n'}f'_{ij}\ot f_{jk}'\ot e_{ik}'$. If $A$ is represented by $a=\sum_{i,j,k,l,p,q}c_{ijklpq}f_{ij}\ot f_{kl}\ot e_{pq}$ and $A'$ is represented by $\sum_{i,j,k,l,p,q}c'_{ijklpq}f'_{ij}\ot f'_{kl}\ot e'_{pq}$, then $A\ot A'$ is represented by $a'=\sum_{i,j,\ldots, q'}c_{ijklpq} c'_{ijklpq}(f_{ij}\ot f'_{ij})\ot (f_{kl}\ot f'_{kl})\ot (e_{pq}\ot e'_{pq})$, i.e. the structure constants multiply in the obvious way. 
+
+First, note that if $a,a'$ are tensors encoding the algebras $A,A'$ on $V\ot V^{*\ot 2}$ and $V'\ot {V'}^{*\ot 2}$, then $x\ot x'$ encodes the algebra $A\ot A'$ on $(V\ot V')\ot (V\ot V')^{*\ot 2}$. Let $x,x'$ encode $\cal M_n(K)$ and $\cal M_{n'}(K)$, so that $x\ot x'$ encodes $\cal M_{nn'}(K)$. 
+If $f:x\to a$ and $f':x'\to a'$ are $L$-linear maps, then we have the $L$-linear map on $\cal M_{nn'}(L)$,
+%(\cal M_n(L),x)\to (\cal M_n(L),a)$ and $f':(\cal M_{n'}(L),x')\to (\cal M_n(L),a')$ are $L$-linear maps, then we have the $L$-linear map
+\[f\ot f':x\ot x'\to a\ot a'.\]
+%(\cal M_{nn'}(L),x\ot x')\to (\cal M_{nn'}(L),
+Now $\te_n,\te_{n'}$ map $A$ and $A'$ to $c_{\si}=f^{-1}\circ f^{\si}$ and $c'_{\si}={f'}^{-1}\circ {f'}^{\si}$. Suppose $c_{\si}$ and $c'_{\si}$ are represented by conjugation by $S_{\si}$ and $S'_{\si}$, respectively. Now $\te_{nn'}$ maps $A\ot A'$ onto $d_{\si}=(f\ot f')^{-1}\circ (f\ot f')^{\si}$, which corresponds to conjugation by $S_{\si}\ot S'_{\si}$. Then by the description of $\De$ in Theorem~\ref{group-hom-cohom}.\ref{df:nonabelian-cocycles}, we see that
+\[
+\de_{nn'}(A\ot A')=\bc{a_{\si,\tau}= i_{nn'}^{-1}[(S_{\si}\ot S'_{\si}) \si (S_{\tau}\ot S'_{\tau})(S_{\si\tau}\ot S'_{\si\tau})^{-1}]}=\de_n(A)\de_n(A')
+\]
+where $i_{nn'}$ is the inclusion map $L^{\times}\to \GL_{nn'}(L)$. Under the inverse of $i_{nn'}=i_n\ot i_{n'}$, tensor product becomes simply the product.
+%conjugation action becomes just multiplication
+\item
+$\de$ is surjective. It suffices to show $\De_n$ is surjective, where $n=[L:K]$.\footnote{Incidentally, this shows that every equivalence class of algebras is represented by one of dimension at most $[L:K]^2$. This is consistent with results of the previous section.} Take an 2-cocycle $a_{\si,\tau}\in H^2(G,L^{\times})$. We need to show that
+\[
+a_{\si,\tau}=S_{\si} \si(S_{\tau})S_{\si\tau}^{-1}
+\]
+for some values of $S_{\si}\in \GL_n(L)$. We identify $L^n$ with the group algebra $L[G]$, and let $S_{\si}\in \GL(L[G])$ be the map sending $\tau$ to $a_{\si,\tau}\si\tau$ (it is invertible as $a_{\si,\tau}\in L^{\times}$). Then we calculate for every $u\in G\sub L[G]$,
+\bal
+[S_{\si}\si(S_{\tau})]u&=[a_{\si,\tau u} \si(a_{\tau,u})]\si\tau u\\
+[a_{\si\tau} S_{\si\tau}]u&=[a_{\si,\tau}a_{\si\tau, u}]\si\tau u.
+\end{align*}
+The right-hand sides are equal since $a_{\si,\tau}$ is a cocycle. Hence
+\[
+a_{\si,\tau}=S_{\si}\si(S_{\tau})S_{\si\tau}^{-1}
+\]
+is in the image of $\De_n$.
+\item $\de$ gives an isomorphism $\Br_K\cong H^2(K)$: This follows from Theorem~\ref{thm:all-split}, the following easy-to-check commutative diagram (which holds for any $K\subeq L\subeq M$),
+\[
+\xymatrix{
+H^2(L/K)\ar@{^(->}[r]^{\Inf} \ar[d]_{\de} &H^2(M/K)\ar[d]_{\de} \\
+\Br_{L/K} \ar@{^(->}[r] & \Br_{M/K},
+}
+\]
+and taking the direct limit of the maps $\Br_{L/K}\to H^2(L/K)$.
+\end{enumerate}
+\end{proof}
+\begin{rem}
+Milne~\cite{Mi08} makes this correspondence more explicit. The relationship between the two approaches can be seen by choosing a basis for the tensor product $V\ot {V}^{*\ot 2}$; the coefficients are called the {\it structure constants} of the algebra. (We followed Serre; note that the isomorphism in Serre is the opposite of the isomorphism in Milne.)
+\end{rem}
+\subsection{Exact sequence of Brauer groups}
+%
+%\begin{thm}
+%Let $K$ be a given field. 
+%The following are equivalent.
+%\begin{enumerate}
+%\item
+%For every finite separable $L/K$, $\Br(L)=0$. 
+%%The Brauer group of every finite separable extension of $K$ is 0.
+%\item 
+%For any $L/K$ finite separable with $M/L$ finite Galois, $H(L/K)=0$.
+%\item 
+%For any $L/K$ finite separable with $M/L$ finite Galois, 
+%$\nm_{L/K}$ is surjective.
+%\end{enumerate}
+%\end{thm}
+%\begin{proof}
+%Serre, Proposition X.7.11.
+%\end{proof}
+%\begin{thm}\llabel{brkur0}
+%Let $K$ be a local field. Then $\Br(K\ur)=0$. 
+%\end{thm}
+%\begin{proof}[Proof 1]
+%Use surjectivity of norm (Serre, V.4.7).
+%\end{proof}
+%\begin{proof}[Proof 2]
+%Calculate the Brauer group algebraically (Serre, XII). We use two lemmas.
+%\begin{lem}
+%Suppose $D$ is a central division algebra of rank $n^2>1$ over $K$, and $k$ is perfect. Then there exists a  commutative subfield $L$ of $D$ properly containing $K$, unramified over $K$.
+%\end{lem}
+%\begin{lem}
+%Keep the hypotheses. There is a subfield of $D$ of degree $n$ (so it is a maximal subfield) unramified over $K$.
+%\end{lem}
+%Suppose $D$ is a central division algebra over $K\ur$ of rank $n^2$. Then lemma 2 furnishes a subfield of $K\ur$ of degree $n$, unramified over $K\ur$. Hence $n=1$, and $D$ is trivial. Thus $\Br_{K\ur}=0$.
+%\end{proof}
+%Equivalences in Milne (p. 130).
+%%\begin{pr}
+%%Let $A$ be a central simple algebra over $k$, and $L$ any subfield of $A$ containing $k$, of degree $[A:k]^{\rc 2}$. Then $L$ splits $A$, i.e. $A\ot_k L\cong \Mat_n(L)$.
+%%\end{pr}
+%\begin{df}
+%Define the \textbf{reduced norm} $\text{Nrd}:A\to K$ as follows: Let $A$ have dimension $n^2$ over $K$ and think of $a\in A$ as an element in $A\ot_k L\cong \Mat_n(L)$, and set $\text{Nrd}(a)=\det(a)$. (Why is this 
+%
+%Define $v'(x)=v(\text{Nrd}(x))$.
+%\end{df}
+%Note this is well defined since by Noether-Skolem, the only isomorphisms on $\Mat_n(L)$ are given by conjugation, and this doesn't change the determinant. Note this is called the {\it reduced} norm because $\text{Nrd}(x)=x^n$ for $x\in K$, instead of $x^{n^2}$.
+The importance of the Brauer group in class field theory is given by the following proposition.
+\begin{thm}\llabel{brauer2}
+Let $M/L/K$ be Galois extensions. Then there is an exact sequence
+\[
+\xymatrix{
+0\ar[r] & H^2(L/K)\ar[r]\ar@{=}[d] & H^2(M/K)\ar[r]\ar@{=}[d] & H^2(M/L)\ar@{=}[d]\\
+& \Br_{L/K} & \Br_{M/K} & \Br_{M/L}.
+}
+\]
+For any Galois extension $L/K$ there is an exact sequence
+\[
+\xymatrix{
+0\ar[r] & H^2(L/K)\ar[r]\ar@{=}[d] & H^2(K)\ar[r]\ar@{=}[d] & H^2(L)\ar@{=}[d]\\
+& \Br_{L/K} & \Br_{K} & \Br_{L}.
+}
+\]
+%0\to H^2(L/K)\to \Br_K\to \Br_{L}.\]
+\end{thm}
+\begin{proof}
+Since $H^1(L/K)=0$ by Hilbert's Theorem 90 (\ref{h90}), 
+the inflation-restriction exact sequence~\ref{group-hom-cohom}.\ref{inflate-restrict} with $G=G(M/K)$ and $H=G(M/L)$ gives
+\[
+0\to H^2(L/K)\xra{\Inf} H^2(M/K)\xra{\Res} H^2(M/L). 
+\]
+The equality with the Brauer groups follows from Theorem~\ref{thm:brauer-cohom}.
+
+Taking the direct limit over all finite Galois extensions $M/K$ gives the second result.
+\end{proof}
+%\subsection{Brauer group of a local field}
+%\begin{thm}\llabel{brkur0}
+%Let $K$ be a local field. Then $\Br(K\ur)=0$. 
+%\end{thm}
+%\begin{proof}[Proof 1]
+%Use surjectivity of norm (Serre, V.4.7).
+%\end{proof}
+%\begin{proof}[Proof 2]
+%Calculate the Brauer group algebraically (Serre, XII). We use two lemmas.
+%\begin{lem}
+%Suppose $D$ is a central division algebra of rank $n^2>1$ over $K$, and $k$ is perfect. Then there exists a  commutative subfield $L$ of $D$ properly containing $K$, unramified over $K$.
+%\end{lem}
+%\begin{lem}
+%Keep the hypotheses. There is a subfield of $D$ of degree $n$ (so it is a maximal subfield) unramified over $K$.
+%\end{lem}
+%Suppose $D$ is a central division algebra over $K\ur$ of rank $n^2$. Then lemma 2 furnishes a subfield of $K\ur$ of degree $n$, unramified over $K\ur$. Hence $n=1$, and $D$ is trivial. Thus $\Br_{K\ur}=0$.
+%\end{proof}
+\section{Problems}
+\begin{enumerate}
+\item[2.1] (Artin-Schreier) Let $L/K$ be a Galois extension of degree $p$, with $K/\F_p$ a finite extension. Prove that $L=K(\al)$ for some $\al$ such that $\al^p-\al\in K$. (Hint: Consider a short exact sequence as in the proof of Kummer theory. However, use the map $x\mapsto x^p-x$ instead of $x\mapsto x^p$, and consider additive instead of multiplicative groups.)
+\end{enumerate}
+%\begin{comment}
+%\section{Lubin-Tate Theory}
+%\subsection{Formal groups}
+%\begin{df}
+%A \textbf{formal group} $\mathscr F$ over the ring $R$ is a power series $F(X,Y)\in R[[X,Y]]$ satisfying
+%\begin{enumerate}
+%\item
+%$F(X,Y)=X+Y+G(X,Y)$ where all terms of $G$ have degree at least 2.
+%\item (Associativity)
+%$F(F(X,Y),Z)=F(X,F(Y,Z))$.
+%\item (Commutativity)
+%$F(X,Y)=F(Y,X)$.
+%\item (Inverse) There is a unique power series $i(T)\in R[[T]]$ such that $F(T,i(T))=0$.
+%\item (Identity) $F(X,0)=F(0,X)=X$.
+%\end{enumerate}
+%(Note items 1-2 imply 4-5.)
+%\end{df}
+%\begin{df}
+%A homomorphism from $(\mathscr F,F)$ to $(\mathscr G,G)$ is a power series $f(T)\in R[[T]]$ with
+%\[
+%f(F(X,Y))=G(f(X),f(Y)).
+%\]
+%$\mathscr F$ and $\mathscr G$ are isomorphic over $R$ if there are homomorphisms $f:\mathscr F\to \mathscr G$ and $g:\mathscr G\to \mathscr F$ such that $f(g(T))=g(f(T))=T$.
+%\end{df}
+%\begin{ex}
+%The formal additive and multiplicative groups are given by
+%\begin{align*}
+%F(X,Y)&=X+Y\\
+%F(X,Y)&=X+Y+XY=(1+X)(1+Y)-1.
+%\end{align*}
+%\end{ex}
+%\end{comment}

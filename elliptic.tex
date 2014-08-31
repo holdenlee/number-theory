@@ -1,0 +1,113 @@
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+%\def\filepath{C:/Users/holden-lee/Dropbox/Math/templates}
+%\def\filepath{G:/transfer/Math/templates}
+
+\input{\filepath/packages_book.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+\input{\filepath/other.tex}
+\input{\filepath/theorem_num.tex}
+
+\def\name{Elliptic Curves}
+
+\input{\filepath/titlepage.tex}
+
+\begin{document}
+\maketitle
+
+%\input{beginning/intro.tex}
+\tableofcontents
+\frontmatter
+
+\mainmatter 
+\chapter*{Introduction}
+
+\section*{Resources}
+
+These are some notes (in progress) on elliptic curves that I've combined from various sources, including the following classes:
+\begin{enumerate}
+\item
+Andrew Sutherland's course at MIT (18.783) from spring 2012~\url{http://co.mit.edu/18.783} (parts of these notes are from notes scribed by students in the class and edited by Sutherland),
+\item
+a reading course with Sug Woo Shin at MIT on class field theory and complex multiplication, and
+\item
+Tom Fisher's course at the University of Cambridge from autumn 2013 (lecture notes at~\url{https://dl.dropboxusercontent.com/u/27883775/math\%20notes/part_iii_elliptic.pdf}; alternate version at~\url{http://www.pancratz.org/notes/Elliptic.pdf}).
+\end{enumerate}
+I will draw heavily on the following books:
+\begin{enumerate}
+\item
+Silverman, The arithmetic of elliptic cuves~\ref{Si86}.
+\item 
+Silverman, Advanced topics in the arithmetic of elliptic curves, by Silverman~\ref{Si94}.
+\item
+Washington, Elliptic curves and cryptography~\ref{Wa08}.
+\item
+Cox, Primes of the form $x^2+ny^2$~\ref{Co89}.
+\end{enumerate}
+I would also like to put in material such as from the following:
+\begin{enumerate}
+\item
+Silverman and Hindry, Diophantine Geometry: An Introduction~\ref{HS00}.
+\item
+Koblitz, Elliptic Curves and Modular Forms~\ref{Ko84}.
+\item
+Lang, Elliptic functions~\ref{La87}.
+\item 
+Diamond and Shurman, A First Course in Modular Forms~\ref{DS05}.
+\end{enumerate}
+
+\section*{Using these notes}
+I eventually want these to be a complete set of notes, but for the time being, see it more as a ``reading guide" or ``road map," to be used as a supplement to textbooks or course material.
+
+When you see things like ``ADD a discussion on ...", take this as a sign that you should be able to discuss the topic in your studies on elliptic curves.
+
+I would like the prerequisites for these notes to be minimal. However, I will assume familiarity with basic things such as exact sequences and equivalence of categories that make many theorems much more compact to state. Currently, I will have to refer a reader elsewhere for the basics of algebraic geometry.
+
+\section*{Philosophy}
+(I.e., what I'd like to do differently from texts already out there.)
+In these notes I would like to focus on...
+\begin{enumerate}
+\item
+intuition.
+How to talk about the material in a non-rigorous way? A strong way of building intuition is connecting to previous topics, even if the analogies are imperfect. I also hope to add in discussion of big-picture questions such as ``why does geometry matter for arithmetic questions?" and ``what the heck do elliptic curves have to do with modular forms?" As a result, take everything outside of formal statements of theorems and proofs with a grain of salt.
+\item motivations, and connections.  How would someone come up with the statements or proofs? How are different subtopics related to one another? 
+\item
+summaries and ``index-carding." What is the most compact way you can remember the topics? What is the big-picture?
+\item
+road maps. For topics where I do not have notes for yet, what resources are out there? What is the big picture?
+\item
+problem-solving based learning. Have problems before theorems to get the reader thinking, and possibly derive some of the ideas of the theorems on his/her own.
+\item
+fun problems. Stray away from the core material occasionally.
+\item
+algorithms. Elliptic curves is a very computational subject, so it is helpful to learn how to program algorithms involving EC. I'll try to include SAGE code with comments. (For more on SAGE, see~\ref{http://www.sagemath.org/}.)
+\end{enumerate}
+\section*{Collaboration}
+Send me any comments or corrections at holdenlee@alum.mit.edu.
+In particular, let me know if you'd like to collaborate on these notes.
+
+%Add in link to philosophy of math notes on tiddlywiki
+
+\pagestyle{fancy}
+\input{ag-chapters/genus0.tex}
+\input{ag-chapters/basics.tex}
+\input{ag-chapters/ff.tex}
+\input{ag-chapters/applications.tex}
+\chapter{Modular forms}
+(Placeholder)
+\input{ag-chapters/C.tex}
+\input{ag-chapters/formal_groups.tex}
+\input{ag-chapters/local.tex}
+\input{ag-chapters/global.tex}
+\input{ag-chapters/computing_mw.tex}
+\input{ag-chapters/integral_pts.tex}
+%\input{af-chapters/chapter1.tex}
+\input{ag-chapters/CM.tex}
+
+\input{ag-chapters/modular_curves.tex}
+\bibliographystyle{plain}
+\bibliography{\filepath/refs}
+\printindex
+\printnomenclature
+\end{document}

@@ -1,0 +1,1491 @@
+\chapter{Multiplication modulo $n$}
+\label{multiplicative}
+
+\section{Introduction}
+In Chapter~\ref{mod} you learned how modular arithmetic works: you fix a number $n$, and then compute by taking all integers modulo $n$, that is, you throw away all information except the remainder when dividing by $n$. This system obeys all the ``rules" we expect it to, and is especially well-behaved when $n$ is a prime.
+
+%While addition modulo $n$ is relatively transparent, multiplication is a more complicated. 
+There is a lot of similarity between addition and multiplication modulo $n$, but it seems multiplication is less ``transparent." Compare the following.
+\begin{enumerate}
+\item
+We saw how we could use modular arithmetic to solve problems such as: what is the last digit of $7\cdot 2011$? What is the last digit of $7^{2011}$? 
+
+You probably see immediately the first answer is 7. To solve the second problem we looked for a repeating pattern in the powers of 7 modulo 10: 1, 7, 9, 3, $\ldots$ We have $7^4\equiv 1\pmod{10}$, so the ``cycle" repeats after every 4 times, and $7^{2011}\equiv 7^3\equiv 3\pmod{10}$.
+
+Making an analogy, note that if look at the sequence $7, 2\cdot 7, 3\cdot 7,\ldots$ we get back to 0 after 10 steps, while in the sequence $7, 7^2, 7^3$ we get back to 1 after 4 steps. It's easy to understand how the cycle repeats when we add repeatedly (i.e., multiply), but what about when we multiply repeatedly (i.e., take powers)?
+
+In general, given $a\pmod n$, how many times do we have to multiply $a$ by itself to get back to 1 (what is the ``order" of $a$ modulo $n$)? How does this depend on $a$ and $n$? Is there some general rule that determines the order?
+\item We have the notion of inverses. For instance, what is the additive inverse of 7 modulo 19, i.e., what do we add to 7 to get 0 modulo 19? It is simply $-7\equiv 12\pmod{19}$, because
+\[
+7+12\equiv 0\pmod{19}.
+\]
+What is the multiplicative inverse of 7 modulo 19, i.e., what do we multiply 7 by to get 1 modulo 19? You might have to think a bit more on this one---it is $11\pmod{19}$, because
+\[
+7\cdot 11= 77\equiv 1\pmod{19}.
+\]
+\end{enumerate}
+
+In this chapter you will learn to completely determine the multiplicative structure of the integers modulo $n$. In Section~\ref{sec:order}, we will make formalize the notion of the \textbf{order} of an element: how many times we have to multiply a number to get back to 1 modulo $n$. We will develop a toolbox of basic theorems: Euler's Theorem and Fermat's Little Theorem in Section~\ref{sec:euler-thm} and Wilson's Theorem in Section~\ref{sec:wilson}. Euler's Theorem will give us $m$ such that  $a^m\equiv 1\pmod{n}$.
+
+We will use these theorems to solve a variety of problems in Section~\ref{sec:mod-ex}. For instance (keepin in the theme of repeating patterns) we will explain why the period of the repeating decimals $\rc{17}$ and $\rc{19}$ are 16 and 18:
+\begin{align*}
+\rc{17}&=.\underbrace{\overline{0588235294117647}}_{16}\\
+\rc{19}&=.\ub{\overline{052631578947368421}}{18}.
+\end{align*}
+%%
+
+At this point we find that a lot of the stuff we've been doing works in a much more {\it abstract} setting, that of \textbf{groups}. In Section~\ref{groups} we recast all the theorems in the language of group theory, and in this way give a way think about the similarities behind addition and multiplication modulo $n$. With the language of group theory, we give a complete characterization of the multiplicative structure of $\Z/n\Z$ in Sections~\ref{primitive-roots} and~\ref{sec:mult-structure}.
+
+Finally we give two applications, to primality testing (Section~\ref{sec:prime-test}) and basic cryptography (Section~\ref{sec:basic-crypto}).
+
+\section{Order of an element}\llabel{sec:order}
+%Let $a$ and $n > 1$ be relatively prime positive
+%integers.  Then we know that there exist infinitely many positive
+%integers $k$ with $a^k\equiv1\mod{n}$; for example, $k =
+%m\varphi(n)$ for an arbitrary positive integer $m$.  Here we develop
+%further the theory of such congruences; indeed, 
+% This fact provides a
+%useful technique for solving advanced problems in number theory.
+
+%Given $a, n$ ($n > 1$) positive integers with $\gcd{(a,n)} = 1$, we let $\text{ord}_n(a)$ denote the smallest positive integer $d$ such that $a^d\equiv1\mod{n}$.  This quantity is called the order of $a$ modulo $n$.  We claim that $\text{ord}_n(a)$ obeys several useful properties.
+%\begin{pr}
+%Given $a, n$ positive integers with $n > 1$, and let $m$ be a positive integer.  Then $a^m \equiv 1\mod{n}$ if and only if $\textup{ord}_n(a)\mid m$.
+%\begin{proof}
+%Let $d = \text{ord}_n(a)$.  Then if $m = kd$, then we have $a^m =
+%(a^d)^k \equiv 1^k \equiv1\mod{n}$.  Now if $a^m \equiv 1$ and $d
+%\nmid m$, set $m = dq + r$, where $0 < r < d$.  Then we have $a^m =
+%(a^d)^qa^r \equiv a^r\mod{n}$.  Hence $a^r\equiv a^m\equiv1\mod{n}$.
+%But this contradicts the minimality of $d$; hence if
+%$a^m\equiv1\mod{n}$ we must have $d \mid m$.
+%\end{proof}
+
+%In this chapter we will be concerned with the multiplicative structure of numbers modulo $n$. We will be especially interested in the values taken by powers of an element modulo $n$. We find that they 
+We've seen that the values taken by a powers of an element modulo $n$ form a repeating pattern, and under certain relative primality conditions, start each cycle at 1. For example,
+\begin{align*}
+3^0&\equiv 1\pmod{5}\\
+3^1&\equiv 3\pmod{5}\\
+3^2&\equiv %9
+4\pmod{5}\\
+3^3&\equiv %7
+2\pmod{5}\\
+3^4&\equiv 1\pmod{5}\\
+3^5&\equiv 3\pmod{5}, 
+\end{align*}
+so the powers of 3 cycle 1, 3, 4, 2, $\ldots$ modulo 5.
+In particular, we get back to 1 in 4 steps: $3^4\equiv 1\pmod{5}$. Hence we call 4 the {\it order} of 3:
+\index{order}
+\begin{df}
+Let $n>1$ and let $a$ be an integer relatively prime to $a$. 
+The \textbf{order} of $a$ modulo $n$ is the smallest positive integer $m$ such that $a^m\equiv 1\pmod{n}$. In symbols,
+\[
+\ord_n(a)=\min\set{m\in \N}{a^m\equiv 1\pmod{n}}.
+\]
+\end{df}
+For example,
+\[
+\ord_5(3)=4.
+\]
+Note that we place the modulus as an 
+
+Note that the order is well-defined for all $a$ relatively prime to $n$: Indeed, there are only a finite number of residues modulo $n$, so two powers of $a$ must be equal modulo $n$. So suppose $0<m_1<m_2$ and
+\[
+a^{m_1}\equiv a^{m_2}\pmod{n}.
+\]
+Since $a$ is relatively prime to $n$, we can take inverses to find
+$a^{m_2-m_1}\equiv 1\pmod{n}$.
+
+Our first result is that the set
+of all positive integers $k$ for which $a^k\equiv1\pmod{m}$ is
+completely determined by its smallest element, i.e. the order. In the case above, the set of all $m$ such that $3^m\equiv 1\pmod{5}$ is exactly the set of multiples of 4.
+\begin{pr}
+\label{order-pid}
+Let $n>1$ and $a\perp n$.
+\begin{enumerate}
+\item The set of $m$ such that $a^m\equiv 1\pmod{n}$ is exactly the set of multiples of $\ord_n(a)$. In other words, 
+\[
+a^m\equiv 1\pmod{n}\iff \ord_n(a)\mid m.
+\]
+\item The numbers
+\[
+1,a,\ldots, a^{\ord_n(a)-1}
+\]
+are all distinct, and every power of $a$ is congruent to one of these.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+Let $d=\ord_n(a)$.
+\begin{enumerate}
+\item The reverse direction is easy: If $d\mid m$, then write $m=dk$. We have
+\[
+a^m\equiv (a^d)^k \equiv 1^k\equiv 1\pmod{n}.
+\]
+
+Conversely, suppose that $a^m\equiv 1\pmod{n}$. We use the same technique as [gcd?], noting that we picked $\ord_n(a)$ to be the {\it least} positive integer with this property. Using division with remainder, write
+\[
+m=dk+r,\,0\le r<m.
+\]
+We have
+\[
+a^r=a^{m-dk}=a^ma^{-dk}\equiv a^m\equiv 1\pmod{n}.
+\]
+Since $d$ is the least positive integer for which $a^d\equiv 1\pmod n$, and $0\le r<d$, we must have $r=0$. Hence $d\mid m$.\footnote{For another way to phrase this proof, see Problem~\ref{uf}.\ref{ideal-problems}.}
+\item For the second part, writing $m=dk+r$ as above we note that 
+\[
+a^{dk+r}=(a^d)^ka^r\equiv a^r\pmod{n}.
+\]
+If $0\le r_1<r_2<\ord_n(a)$, then $0<r_2-r_1<\ord_n(a)$ implies $a^{r_2-r_1}\nequiv 1\pmod n$ and hence $a^{r_1}\nequiv a^{r_2}\pmod n$.\qedhere
+\end{enumerate}
+\end{proof}
+Now we have an abstract description of the numbers $m$ such that $a^m\equiv 1\pmod{n}$. We know there is some positive integer with this property, and that all others are multiples of that number. 
+But we would like something more concrete: is there some $m$ depending on $n$, so that we will always have $a^m\equiv 1\pmod{n}$? The next section will answer that question.
+\section{Euler's theorem and Fermat's little theorem}
+\llabel{sec:euler-thm}
+%This is an example of Euler's theorem.
+%This is an example of Fermat's little theorem.
+\index{Euler's theorem}
+\begin{thm}[Euler's theorem]\llabel{euler-theorem}
+Let $n>1$ be an integer.
+For any integer $a$ relatively prime to $n$, $\ord_n(a)\mid \ph(n)$ and
+\[
+a^{\ph(n)}\equiv 1 \pmod{n}.
+\]
+\end{thm}
+\index{Fermat's little theorem}
+\begin{cor}[Fermat's little theorem]\llabel{flt}
+Let $p$ be a prime. For any integer $a$,
+\[
+a^p\equiv a\pmod{p}.
+\]
+If $a\nequiv 0\pmod{p}$, then
+\[
+a^{p-1}\equiv 1\pmod{p}.
+\]
+\end{cor}
+Let $G$ be the set of invertible residues modulo $n$.
+We present two proofs.
+\begin{proof}[Proof 1]
+Let $m_a$ denote the function $G\to G$ defined by
+\[
+m_a(g)=ag.
+\]
+Note that this is an invertible function as its inverse is
+\[
+m_a^{-1}(g)=a^{-1}g.
+\]
+Hence it is a bijection $G\to G$. This means that the elements $ag, g\in G$ are an reordering of the elements of $G$. Hence
+\[
+\prod_{g\in G} ag
+\equiv
+\prod_{g\in G}g\pmod{n}.
+\]
+Dividing both sides by $\prod_{g\in G}g$ and noting $|G|=\ph(n)$ gives
+\[
+a^{\ph(n)}\equiv 1\pmod{n}.\qedhere
+\]
+\end{proof}
+\begin{proof}[Proof 2]
+The main idea is that there are $\ph(n)$ possible invertible residues modulo $n$, and so the number of elements in the set $H:=\set{a^m\bmod n}{m\in \N}$ must be a divisor of $\ph(n)$. To show this we show that ``translates" of this set cover all $\ph(n)$ nonzero residues without overlap. The fact that $H$ has nice multiplicative structure will be essential.
+
+First note the following facts.
+\begin{enumerate}
+\item $1\in H$. (This is because $1= a^0$.)
+\item If $h\in H$ then $h^{-1}\in H$. (If $h\equiv a^m\pmod n$ then $h^{-1}\equiv a^{-m}\pmod n$.)
+\item If $h_1,h_2\in H$ then $h_1h_2\in H$. (If $h_j\equiv a^{m_j}\pmod n$ then $h_1h_2\equiv a^{m_1+m_2}\pmod n$.)
+\end{enumerate}
+Given two nonzero residues $b,c$ modulo $p$, we write $b\sim c$ if $\frac{b}{c}\in H$. We claim that $\sim$ is an equivalence relation. We check the following.
+\begin{enumerate}
+\item $b\sim b$: This holds by item 1 above, since $\frac bb=1$.
+\item If $b\sim c$ then $c\sim b$: This holds by item 2 above, since $\frac bc=\frac cb$.
+\item If $b\sim c$ and $c\sim d$ then $b\sim d$: This holds by item 3 above since $\frac bd=\frac bc \cdot \frac cd$.
+\end{enumerate}
+%First, we formalize what it means for the powers to ``cycle." 
+%Let $H=\{1,a,a^2,\ldots\}$.
+Thus $G$ is split into equivalence classes. If $C$ is an equivalence class and $c$ is any element in $C$, then we have
+\[
+C=\set{d}{d\sim c}=\set{d}{\frac dc\in H}=\set{ch}{h\in H}.
+\]
+Since multiplication by $c$ is invertible, $C$ has $|H|$ elements. (It is the RHS that suggests the sets $C$ are ``translates" of $H$.)
+
+Thus, letting $[G:H]$ denote the number of equivalence classes, we have
+\[
+|G|=[G:H]|H|.
+\]
+Hence $|H|$ divides $|G|=\ph(n)$. But by  Proposition~\ref{order-pid}(2), $|H|=\ord_n(a)$. Since $\ord_n(a)\mid \ph(n)$, by Proposition~\ref{order-pid}(1), we get
+\[
+a^{\ph(n)}\equiv 1\pmod n.\qedhere
+\]
+\end{proof}
+Although the first proof is shorter, the first reveals hints at some important ideas with broad generalizations, which we will discuss in Section~\ref{groups}.
+\begin{proof}[Proof of Corollary~\ref{flt}]
+Since $\ph(p)=p-1$ and the invertible residues modulo $p$ are exactly the nonzero residues, we get
+\[
+a^{p-1}\equiv 1\pmod{p}
+\]
+for $a\nequiv 0\pmod{p}$. Multiplying by $a$ gives the first statement for $a\nequiv 0\pmod{p}$. If $a\equiv 0\pmod p$ the first statement obviously holds. 
+\end{proof}
+\begin{rem}
+The converse of Fermat's little theorem is not true: if $a^{p}\equiv a\pmod p$ for all $a$, then $p$ is not necessarily prime.
+For example, $2^{11\cdot31}\equiv2\mod{11\cdot31}$, but $11\cdot31$ is not a prime.  Indeed, there are certain numbers $n$ such that for all integers $a$, we have $a^n \equiv a\mod{n}$ with $n$ not a prime.  Such numbers are called {\em Carmichael numbers}, and the first few are given by $n = 561, 1105, 1729, 2465$.\end{rem}
+\section{Examples}
+\llabel{sec:mod-ex}
+\subsection{Using Euler's theorem}
+Without further ado, we give some applications of Fermat's little theorem and Euler's theorem. The first, most popular application is in finding large powers modulo a certain number. While before, we had to evaluate $a, a^2, a^3,\ldots $ until we got back to 1, our work is now shorter.
+\begin{ex}
+Find $3^{1006}\pmod{2012}$.
+
+The prime factorization of $2012$ is $2^2\cdot 503$, so  $\ph(2012)=2\cdot 502=1004$. As $3$ is relatively prime to $2012$, by Euler's Theorem
+\[
+3^{1006}\equiv 3^2\equiv 9\pmod{2012}.
+\]
+\end{ex}
+
+``Find big power modulo $n$ problem"
+
+``Tower of exponents problem"
+
+Remark about ``thinking backwards"
+
+\begin{ex}
+Show that for all primes $p \ge 7$, the number $\underbrace{11\cdots1}_{p-1}$ is divisible by $p$.
+\end{ex}
+{\it Solution.}
+The key to this problem is writing an algebraic expression for $\underbrace{11\cdots1}_{p-1}$. By the geometric series formula,
+\[\underbrace{11\cdots1}_{p-1} = 1+10+\cdots +10^{p-2}=\fc{10^{p-1}-1}{9}.\]
+Because $p\nmid 10$, by Fermat's little theorem~\ref{flt} we have 
+\[10^{p-1}\equiv 1\mod{p}\implies p\mid 10^{p-1}-1.\] 
+Because $\gcd{(9,p)} = 1$, we have $(10^{p-1}-1)/9\equiv0\mod{p}$ as desired.
+
+\subsection{Computing the order}
+The following proposition gives practical ways to compute the order of an element.
+\begin{pr}
+Let $n>1$, let $a$ be an integer relatively prime to $n$, and set $d = \ord_n(a)$.  \begin{enumerate}
+\item (Power of the base) 
+\[\ord_n(a^k) = \frac{d}{\gcd{(d,k)}}.\]
+\item (Multiplying the base)
+Let $d = \textup{ord}_n(a), c = \textup{ord}_n(b)$.  If $\gcd{(d,c)} = 1$, then $\textup{ord}_n(ab) = dc$.
+\item (Multiplying the modulus)
+Let the prime factorization of $n$ be $n = p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_k^{\alpha_k}$.  Let $d_i = \textup{ord}_{p_i^{\alpha_i}}(a)$.  Then 
+\[d = \textup{lcm}(d_1, d_2, \ldots, d_k).\]
+\end{enumerate}
+Warning: It is not necessarily true that $\ord_n(ab)=\lcm(\ord_n(a),\ord_n(b))$.
+\begin{proof}
+\begin{enumerate}
+\item
+Set $m = \gcd{(d,k)}$.  Write $d = md_1, k = mk_1$, where $\gcd{(d_1,k_1)} = 1$.  Set $t = \text{ord}_n(a^k)$.  Then we have $$(a^k)^{d_1} = a^{mk_1d_1} = (a^d)^{k_1} \equiv1\mod{n}.$$  Hence $t \le d_1$.  On the other hand, $a^{kt} = (a^k)^t \equiv 1\mod{n}$.  Then we have $d \mid kt$, hence $d_1 \mid k_1t$.  As $d_1, k_1$ are relatively prime, we have $d_1 \mid t$, hence $d_1 \le t$.  It follows that $t = d_1$ as desired.
+\item
+Set $e = \text{ord}_n(ab)$.  Then we have $(ab)^e\equiv1\mod{n}$.  Hence $(a^{ce})(b^{ce})= a^{ce}(b^c)^e\equiv a^{ce}\equiv1\mod{n}$.  Hence $d \mid ce$.  As $\gcd{(d,c)} = 1$, we have $d \mid e$.  Analogously, we have $(a^{de})(b^{de}) = (a^d)^eb^{de}\equiv b^{de}\equiv1\mod{n}$.  Hence $c \mid de$, so $c \mid e$.  As $\gcd{(d,c)} = 1$, we have $dc \mid e$.  However, we have $(ab)^{dc} = (a^d)^c(b^c)^e \equiv1\cdot1=1\mod{n}$.  Hence $dc = e$ as desired.
+\item
+Set $e = \text{ord}_n(ab)$.  Then we have $(ab)^e\equiv1\mod{n}$.  Hence $(a^{ce})(b^{ce})= a^{ce}(b^c)^e\equiv a^{ce}\equiv1\mod{n}$.  Hence $d \mid ce$.  As $\gcd{(d,c)} = 1$, we have $d \mid e$.  Analogously, we have $(a^{de})(b^{de}) = (a^d)^eb^{de}\equiv b^{de}\equiv1\mod{n}$.  Hence $c \mid de$, so $c \mid e$.  As $\gcd{(d,c)} = 1$, we have $dc \mid e$.  However, we have $(ab)^{dc} = (a^d)^c(b^c)^e \equiv1\cdot1=1\mod{n}$.  Hence $dc = e$ as desired.
+\end{enumerate}
+\end{proof}
+\end{pr}
+%\begin{prb}
+%Determine $\textup{ord}_n(a)$ if:
+%\begin{enumerate}
+%\item $a = 2$, $n = 3,5,7,11,15$;
+%\item $a = 3$, $n = 5,7,10$;
+%\item $a = 5$, $n = 7,11,23$.
+%\end{enumerate}
+%\begin{proof}We compute the orders as follows:
+%\begin{enumerate}
+%\item We have $\varphi(3) = 2$, and $\text{ord}_3(2) \neq 1$.  Hence $\text{ord}_3(2) = 2$.  Similarly, $\varphi(5) = 4$ and $\text{ord}_5(2)\neq 2$, so $\text{ord}_5(2) = 4$.  On the other hand, $\varphi(7) = 6$, and $\text{ord}_7(2) = 3$.  For 11, we need only check 2 and 5.  As $2^2, 2^5 \not\equiv 1\mod{11}$, we must have $\text{ord}_{11}(2) = 10$.  Working modulo 15, we know that $\text{ord}_{15}(2) = \text{lcm}(\text{ord}_3(2),\text{ord}_5(2)) = \text{lcm}(2,4) = 4$.
+%\item We have $\varphi(5) = 4$, and $3^2 \not\equiv 1\mod{5}$, hence we have $\text{ord}_5(3) = 4$.  Similarly, as we have $3^2, 3^3 \not\equiv 1\mod{7}$, we must have $\text{ord}_7(3) = 6$.  Finally, since we have $3^2\not\equiv1\mod{10}$, we must have $\text{ord}_{10}(3) = \varphi(10) = 4$.
+%\item We have $5^2, 5^3\not\equiv1\mod{7}$.  Hence $\text{ord}_7(5) = 6$.  Similarly, we have $5^2\not\equiv1\mod{11}$, but $5^5 = 3125 \equiv 1\mod{11}$.  Hence $\text{ord}_{11}(5) = 5$.  Finally, we have $5^2\not\equiv1\mod{23}$.  We have $5^{11} = 5\cdot(5^2)^5 \equiv 5\cdot2^5 \equiv 5\cdot9 \equiv -1\mod{23}$, we have $\text{ord}_{23}(5) = 22$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+\begin{prb}
+Let $a > 1$ and $n$ be positive integers.  Show that $n$ divides
+$\varphi(a^n - 1)$.
+\end{prb}
+\begin{proof}
+We have that the order of $a$ modulo $a^n-1$ is $n$.  But we have
+$\text{ord}_{a^n-1}(a) \mid \varphi(a^n-1)$, hence $n \mid
+\varphi(a^n-1)$ as desired.
+\end{proof}
+Note that trying to use the formula for $\varphi(m)$ in terms of the prime factorization of $m$ doesn't work for this problem.
+\begin{prb}
+Determine all positive integers $n$ such that $n$ divides $2^n-1$.
+\begin{proof}
+We shall show that $n = 1$ is the only solution.  Suppose that $n\mid 2^n-1$ for $n > 1$.  Then $n$ must be odd.  Let $p$ be the least prime divisor of $n$; then $2^n \equiv 1\mod{p}$.  Write $d = \text{ord}_p(2)$.  Then $d > 1$ and $d \mid n$.  Hence $p \le d$ since $p$ is the least prime divisor (and hence least divisor greater than 1) of $n$.  But by Fermat's little theorem, $2^{p-1} \equiv 1\mod{p}$.  Hence $d \mid p-1$ - that is, $d \le p-1$.  Hence $p \le p-1$.  Contradiction; hence no such $n$ exist.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $a$ be a positive integer, and let $p, q > 2$ be primes with $a^p\equiv1\mod{q}$.  Prove that either $q \mid a-1$ or $q = 1+2kp$ for some positive integer $k$.
+\begin{proof}
+Obviously we have $\gcd{(a,q)} = 1$.  Write $d = \text{ord}_q(a)$.
+Then we have $d\mid p$, so $d = 1$ or $d = p$.  If $d = 1$, then $a
+\equiv 1\mod{q}$, so $q \mid a-1$.  If $d = p$, then we have $p \mid
+\varphi(q) = q-1$, so $q = 1+np$ for some integer $n$.  But as $q >
+2$ is a prime, $q$ must be odd.  As $p$ is odd, we must have $n$
+even for $q$ to be odd.  Writing $n = 2k$, we find $q = 1+2kp$ as
+desired.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $p, q$ be primes with $a^{p-1}+a^{p-2}+\cdots+a+1 \equiv0\mod{q}$.  Prove that either $q = p$ or $q \equiv 1\mod{p}$.
+\begin{proof}
+If $p = 2$ then either $q = 2 = p$ or $q$ is odd and $q \equiv 1\mod{p}$.  The case $p > 2$, $q = 2$ is impossible since the left-hand expression is odd.  Now we have the case where $p$ and $q$ are odd.  Then we have $a^p-1 = (a-1)(a^{p-1}+a^{p-2}+\cdots+a+1)$, hence $a^p \equiv 1\mod{q}$.  Thus either $q \equiv 1\mod{p}$ or $q \mid a-1$.  If $q \mid a-1$, then we have $a \equiv 1\mod{q}$, hence $1^{p-1}+1^{p-2}+\cdots+1+1 = p\equiv0\mod{q}$, from which it follows that $p = q$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $n$ be an odd positive integer.  Prove that if $n \mid 3^n + 1$ then $n = 1$.
+\begin{proof}
+Obviously $n$ is not divisible by 3.  Suppose that $n > 1$ and let $p$ be the least prime divisor of $n$; then $p \ge 5$.  Write $d = \text{ord}_p(3)$.  As $3^n \equiv -1\mod{n}$, we have $3^{2n} \equiv 1\mod{p}$, so $d \mid 2n$.  As $3^{p-1}\equiv1\mod{p}$, we have also $d \mid p-1$.  If $d$ is odd, then we have $d \mid n$.  As $p$ is the least divisor of $n$ greater than 1, we must have thus $d = 1$.  Hence $3\equiv1\mod{p}$, implying $p = 2$.  But $p \ge 5$; contradiction.  Hence $d$ must be even.  Write $d = 2k$; then $k \mid n$, and if $k > 1$ then we have $1 < k < d < p$, contradicting the fact that $p$ is the minimal divisor of $n$ greater than 1.  Hence $d = 2$ and $3^2\equiv1\mod{p}$, so $p = 2$.  Contradiction; hence $n = 1$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $\gcd{(a,b)} = 1$ with $b$ odd.  Show that $\gcd{(n^a+1,
+n^b-1)}\leq 2$ for any natural number $n$.
+\begin{proof}
+Write $l = \gcd{(n^a+1,n^b-1)}$, and suppose that $l > 1$.  Write $d = \text{ord}_l(n)$.  Then we have $n^b \equiv 1\mod{l}$, so $d \mid b$.  Hence $d$ is odd.  But then as $n^a \equiv -1\mod{l}$, we have $d \mid 2a$.  Hence $d \mid a$.  If $d > 1$ then we have $d \mid a,b$, so $\gcd{(a,b)} > 1$.  Contradiction; hence $d = 1$.  Thus $n^a \equiv 1\mod{l}$, hence $1 \equiv 1\mod{l}$.  Hence $l = 1$ or $l = 2$ as desired.
+\end{proof}
+\end{prb}
+\begin{prb}[IMO 1990/3]
+Determine all positive integers $n$ such that $n^2$ divides $2^n+1$.
+\begin{proof}
+Clearly $n = 1$ is a solution.  Suppose that $n > 1$; then $n$ is odd.  Let $p$ be the least prime divisor of $n$, and write $d = \text{ord}_p(2)$.  As $2^{2n} \equiv 1\mod{p}$ we have $d \mid 2n$.  As $2^{p-1}\equiv1\mod{p}$ we have $d \mid p-1$.  If $d > 2$, then let $q$ be a prime greater than 2 dividing $d$.  Then $q \mid 2n$ and $q \mid p-1$, contradicting the fact that $p$ is the minimal prime dividing $n$.  But we have $d > 1$, hence $d = 2$ so $p = 3$.
+
+Write $n = 3^sm$, with $s,m \ge 1$ and $3 \nmid m$.  Suppose that $s > 1$.  Then we have $$3^{2s}\mid\left(2^{3^s}+1\right)\left(2^{3^s(m-1)}-2^{3^s(m-2)}+\cdot-2^{3^s}+1\right).$$  But since $2^{3^s}\equiv-1\mod{3}$, we have $2^{3^s(m-1)}-2^{3^s(m-2)}+\cdot-2^{3^s}+1\equiv1+1+\cdots+1=m\not\equiv0\mod{3}$.  Hence $3^{2s}\mid 2^{3^s}+1$.
+
+We claim that for all $s$, we have $3^{s+2}\nmid 2^{3^s}+1$.  We may write $$2^{3^s}+1 = \left(3^{3^s}-{3^s\choose 1}3^{3^s-1}+{3^s\choose 2}3^{3^s-2}-\cdots-{3^s\choose 3^s-2}3^2+{3^s\choose 3^s-1}3^1-1\right)+1.$$  But then we have $3^{s+2}$ divides all terms in this expansion except ${3^s\choose 3^s-1}3^1$; hence $3^{s+2}\nmid 2^{3^s}+1$.
+
+As we have $3^{2s}\mid 2^{3^s}+1$, we have thus $2s < s+2$.  Hence $s = 1$, so $n = 3m$.  Suppose that $m > 1$.  Let $q$ be the least prime divisor of $m$; then $q \ge 5$.  Write $e = \text{ord}_q(2)$; then as we have $2^{2n} \equiv 1\mod{q}$, we have $e \mid 2n = 6m$.  As $2^{q-1} \equiv 1\mod{q}$, we have also that $l \mid q-1$.  Hence we cannot have $l \mid n$, as this would contradict the fact that $q$ is the smallest prime divisor of $n$.  Thus as $q \ge 5$ we have $l = 3$ or $l = 6$, meaning that $q = 7$.  But in this case we have $7 \mid 2^n + 1$; however, as $n = 3m$, we have $2^n + 1 = (2^3)^m +1\equiv1^m+1 = 2\mod{7}$.  Contradiction; hence $m = 1$, so $n = 3$.  Thus $n = 1, 3$ are our only solutions.
+\end{proof}
+\end{prb}
+
+%%%%%%%%%
+\begin{ex}
+Let $p,q,r$ be distinct primes such that
+\[pq\mid r^p+r^q.\]
+Prove that either $p$ or $q$ equals 2.
+\end{ex}
+
+\textbf{Solution} Suppose the relation holds but $p\neq 2,q\neq 2$. By Fermat's Little Theorem, $r^p\equiv r\pmod{p}$ and $r^q\equiv r\pmod{q}$. Then since $r$ is relatively prime to $p,q$,
+\begin{align*}
+r^p+r^q&\equiv 0\pmod{p}\implies\\
+r^{q-1}&\equiv -1 \pmod{p}\\
+r^p+r^q&\equiv 0\pmod{q}\implies\\
+r^{p-1}&\equiv -1 \pmod{q}
+\end{align*}
+Since $-1\not \equiv 1\pmod{p,q}$, we get 
+\begin{equation}\ord_p (r)\nmid q-1,\ord_q (r) \nmid p-1.
+\label{n2-1}
+\end{equation}
+ Since
+\begin{align*}
+r^{2(q-1)}&\equiv 1 \pmod{p}\\
+r^{2(p-1)}&\equiv 1 \pmod{q},
+\end{align*}
+we get
+\begin{equation}\ord_p (r)\mid 2(q-1),\ord_q (r) \mid 2(p-1).
+\label{n2-2}
+\end{equation}
+For an integer $n$ let $v_2(n)$ denote the highest power of 2 dividing $n$. Let $x=v_2(\ord_p (r))$ and $y=v_2(\ord_q(r))$. From relations in~(\ref{n2-1}) and~(\ref{n2-2}),
+\begin{align}
+\nonumber x&= v_2 (2(q-1))=v_2(q-1)+1\\
+y&= v_2(p-1)+1.\label{n2-3}
+\end{align}
+
+By Fermat's Little Theorem, $\ord_p (r)\mid p-1$ and $\ord_q (r)\mid q-1$. Hence
+\begin{align}
+\nonumber x&\leq v_2 (p-1)\\
+y&\leq v_2(q-1)\label{n2-4}
+\end{align}
+Putting~(\ref{n2-3}) and~(\ref{n2-4}) together, we get $x\leq y-1, y\leq x-1$, contradiction.%\hspace{\stretch{1}} $\blacksquare$
+
+%%%%%%
+
+\section{Groups}\label{groups}
+For the moment, it is helpful to ``forget" where our set comes from and just work from the basic axioms that it satisfies. %zoom out
+\begin{df}
+A \textbf{group} is a set $G$ together with a binary operation $\circ$, satisfying the following properties: %, for any $a,b,c\in G$.
+\begin{enumerate}
+\item (Associative law) For any $a,b,c\in G$, \[(a\circ b)\circ c=a\circ (b\circ c).\]
+\item (Identity) There exists an element id, called the identity, such that for all $a$,
+\[\text{id}\circ a=a\circ \text{id}=a.\]
+\item (Inverses) For any $a$ there exists an element $a'$, called the inverse of $a$, such that 
+\[a\circ a'=a'\circ a=\text{id}.\]
+\end{enumerate}
+$G$ is called an \textbf{abelian group} if additionally it satisfies the following.
+\begin{enumerate}
+\item[4.] (Commutativity) For all $a,b\in G$, $a\circ b=b\circ a$.
+\end{enumerate}
+\end{df}
+We will be dealing exclusively with abelian groups.
+
+Define order, exponent. Largest order IS the exponent (for abelian groups)
+%\index{Fermat's little theorem@Fermats little theorem}
+%\section{Fermat's little theorem}
+%\label{flt}
+%It is not hard to verify that, for any integer $a$, the quantities $a^2-a$, $a^3-a$, $a^5-a$ are divisible by 2, 3, and 5, respectively.  These results are generalized by Fermat's little theorem, which states that $a^p-a$ is divisible by $p$ for any integer $a$ and prime $p$.
+%\begin{thm}
+%If $p$ is a prime and $a$ is an integer, then $a^p\equiv a\mod{p}$.
+%\begin{proof}
+%The following proofs don't generalize.
+%We give two alternate proofs that the result holds for all $a \ge 0$, and then extend this result to $a < 0$ in the same manner.\\
+%
+%\noindent{\underline{First proof:}} 
+%We may trivially verify the result for $a = 0$.  Now suppose that $a^p \equiv a\mod{p}$; we will show that $(a+1)^p \equiv a+1\mod{p}$.  We have
+%\begin{align*}
+%(a+1)^p-(a+1)&= a^p + {p\choose 1}a^{p-1}+\cdots+{p\choose p-1}a+1 - (a+1)\\
+%&=(a^p-a)+{p\choose 1}a^{p-1}+{p\choose 2}a^{p-2}+\cdots+{p\choose p-1}a.
+%\end{align*}
+%As we have previously showed, $p\mid{p\choose k}$ for $1 \le k\le p-1$ and $p$ prime.  As $p \mid a^p-a$ and $p \mid {p\choose 1}a^{p-1}+{p\choose 2}a^{p-2}+\cdots+{p\choose p-1}a$, we have $p \mid (a+1)^p - (a+1)$.  Hence $(a+1)^p \equiv a+1\mod{p}$.  This completes our induction; hence $a^p\equiv a\mod{p}$ for all $a \ge 0$.\\
+%
+%\noindent{\underline{Second proof:}} We verify $a = 0$ and $a = 1$ trivially.  We also recall from a previous lecture the result $(x+y)^p \equiv x^p+y^p\mod{p}$ for integers $x,y$ and $p$ prime.  We may use induction to verify that this result may be generalized to $(x_1+x_2+\cdots+x_n)^p\equiv x_1^p+x_2^p+\cdots+x_n^p\mod{p}$ for $n \ge 2$, integers $x_1, x_2, \cdots x_n$ and prime $p$.  Taking $n = a$ and $x_1 = x_2 = \cdots = x_n = 1$, we verify that $a^p \equiv a\mod{p}$ for all $a \ge 0$.
+%
+%Now if $a < 0$, then $-a > 0$.  Hence $(-a)^p \equiv (-a)\mod{p}$.  If $p$ is odd, then multiplying both sides by $-1$ gives $a^p \equiv a\mod{p}$.  If $a$ is even, then $(-a)^p = a^p$ and $-a \equiv a\mod{p}$.  Hence $a^p \equiv a\mod{p}$.
+%\end{proof}
+%\end{thm}
+%\begin{rem}The second proof actually uses the exact same machinery as the first proof, as the relation $(x+y)^p \equiv x^p+y^p\mod{p}$ is proven by analysis of binomial coefficients.\end{rem}
+%\begin{cor}
+%If $p\nmid a$, then $a^{p-1}\equiv1\mod{p}$.
+%\begin{proof}
+%This follows simply from the relation $a^p\equiv a\mod{p}$ and the fact that if $p\nmid a$, then $\gcd{(p,a)} = 1$.
+%\end{proof}
+%\end{cor}
+%\begin{prb}
+%Determine the remainder of $a$ upon division by $b$ if:
+%\begin{enumerate}
+%  \item $a = (85^{74}+19^{99})^{16}, b = 13$;
+%  \item $a = 123^{321}+456^{654}+789^{987}, b = 12$.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%  \item We have $85^{12}\equiv1\mod{13}$; hence $85^{74}\equiv85^2\equiv7^2\equiv-3\mod{13}$.  Similarly, $19^{12}\equiv1\mod{13}$, hence $19^{99}\equiv19^3\equiv6^3=216\equiv8\mod{13}$.  Hence $85^{74}+19^{99}\equiv5\mod{13}$.  Then we have $5^{16}\equiv5^{12}5^4\equiv5^4\equiv(-1)^2\equiv1\mod{13}$.
+%  \item As 12 is not a prime, we must first consider this quantity modulo 4, then modulo 3.  We have $123\equiv(-1)\mod{4}$, hence $123^{321}\equiv(-1)^321\equiv-1\mod{4}$.  Similarly, $789\equiv1\mod{4}$, hence $789^{987}\equiv1\mod{4}$.  Finally, since $456\equiv0\mod{4}$, we have $456^{654}\equiv 0\mod{4}$.  Hence $123^{321}+456^{654}+789^{987} \equiv 0\mod{4}$.  Now we work modulo 3.  As $123\equiv456\equiv789\equiv0\mod{3}$, we have $123^{321}+456^{654}+789^{987} \equiv 0\mod{3}$.  Hence $123^{321}+456^{654}+789^{987} \equiv 0\mod{12}$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%
+%\begin{prb}
+%Prove that:
+%\begin{enumerate}
+%\item $(a^4-1)(a^4+15a^2+1)$ is divisible by $35$ if $\gcd{(a,35)} = 1$;
+%\item $a^{13}\equiv a\mod{2^{13}-2}$ if $\gcd{(3,a)}\equiv1$.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item We have $\gcd{(a,5)} = \gcd{(a,7)} = 1$.  Then Fermat's little theorem implies $a^4\equiv1\mod{5}$, so $5\mid a^4-1$.  We have also $(a^4-1)(a^4+15a^2+1)\equiv(a^2+1)(a^2-1)(a^4+a^2+1) = (a^2+1)(a^6-1)\mod{7}$.  But Fermat's little theorem gives $a^6-1\equiv1\mod{7}$; hence $7\mid(a^4-1)(a^4+15a^2+1)$.  It follows that $35\mid(a^4-1)(a^4+15a^2+1)$.
+%\item We may note that $2^{13}-2 = 2(2^{12}-1)$.  But $2^{12}-1$ is divisible by 3, 5, 7, and 13 by Fermat's little theorem.  We may calculate that $2\cdot3\cdot5\cdot7\cdot13 = 2730 = 8190/3$, hence $2^{13}-2 = 2\cdot3^2\cdot5\cdot7\cdot13$.
+%
+%We need show that $a^{13}\equiv a\mod{m}$ for $m = 2,9,5,7,13$.  We have
+%\begin{align*}
+%a^{13}-a&=a(a-1)(a+1)(a^2+1)(a^2-a+1)(a^2+a+1)(a^4-a^2+1)\\
+%&=(a^2-a)(a+1)(a^2+1)(a^2-a+1)(a^2+a+1)(a^4-a^2+1)\\
+%&=(a^5-a)(a^2-a+1)(a^2+a+1)(a^4-a^2+1)\\
+%&=(a^7-a)(a^2+1)(a^4-a^2+1)
+%\end{align*}
+%This shows that $a^{13}\equiv a\mod{m}$ for $m = 2,5,7,13$.  For $m = 9$, as $\gcd{(a,3)} = 1$, we have $a^2 \equiv 1\mod{3}$.  Hence $a^2 = 1+3t$ for some integer $t$, so $a^6 = (a^2)^3 = 1+9t+27t^2+27t^3\equiv1\mod{9}$.  Thus $a^{12}\equiv1\mod{9}$, so $a^13\equiv a\mod{9}$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $p, q$ be distinct primes.  Show that $pq$ divides $p^{q-1}+q^{p-1}-1$.
+%\begin{proof}
+%We have $\gcd{(p,q)} = 1$.  Hence $p^{q-1}+q^{p-1}-1 \equiv 0+1-1 = 0\mod{p}$.  Similarly, $p^{q-1}+q^{p-1}-1\equiv1+0-1=0\mod{q}$.  Hence $pq \mid p^{q-1}+q^{p-1}-1$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Find all primes $p$ such that:
+%\begin{enumerate}
+%\item $p\mid 7^p+13$;
+%\item $p^2\mid 5^{p^2}+1$;
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item We have $7^p+13\equiv 7+13\equiv 20\mod{p}$.  But since $p \mid 7^p+13$, we have $7^p+13\equiv0\mod{p}$.  Hence $p \mid 20$, so $p = 2$ and $p = 5$ are the only solutions.
+%\item We obviously have $p \neq 5$.  We work modulo $p$ instead of modulo $p^2$.  We thus have $5^{p^2}+1 = (5^p)^p+1\equiv5^p+1\equiv5+1=6\mod{p}$.  But since $p \mid 5^{p^2}+1$, we have $5^{p^2}+1\equiv0\mod{p}$.  Hence $p \mid 6$, so $p = 2$ or $p = 3$.  Checking, we have $2^2 = 4\nmid 5^4+1 = 626$.  However, we have $5^9 + 1 \equiv 2^9+1 = (2^3)^3+1 \equiv(-1)^3+1 = 0\mod{9}$, so $p = 3$ is the only solution.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $p$ be a prime of the form $4k+3$ for $k \ge 0$, and let $x$ and $y$ be integers with $p \mid x^2+y^2$.  Then $p \mid x$ and $p \mid y$.
+%\begin{proof}
+%If $p \mid x$, then $p \mid y$, and vice versa.  Suppose that $p \nmid x,y$.  We have $x^2 \equiv -y^2 \mod{p}$.  Furthermore, $(p-1)/2 = 2k+1$ is an odd integer.  Hence $(x^2)^{(p-1)/2} = x^{p-1} \equiv (-1)^{2k+1}(y^2)^{(p-1)/2} \equiv -(y^{p-1})\mod{p}$.  But $x^{p-1}\equiv y^{p-1}\equiv 1\mod{p}$; hence $1 \equiv -1\mod{p}$, so $p = 2$.  Contradiction; hence $p \mid x, y$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Show that the equation $4xy-x-y = z^2$ has no solutions in positive integers.
+%\begin{proof}
+%We rewrite the equation as $(4x-1)(4y-1) = (2z)^2+1$.  Taking $x' = x-1$ and $y' = y-1$, we have $(4x'+3)(4y'+3) \equiv (2z)^2+1$.  Now consider all the prime divisors of $4x'+3$.  If all of them are of the form $4k+1$ for $k \ge 0$, then their product must also be 1 modulo 4.  But $4x'+3 \equiv 3\mod{4}$; hence there must be some prime $p = 4k+3$ for $k \ge 0$ dividing $4x'+3$.  Then we have $p \mid (2z)^2+1$.  But then by the previous problem, we have $p \mid 2z$ and $p \mid 1$.  Contradiction; hence the equation has no solutions.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Determine all positive integers $n$ such that $n2^n+1\equiv0\mod{3}$.
+%\begin{proof}
+%Since $2^2\equiv1\mod{3}$, it is convenient to look at $n$ modulo 6, as if $n \equiv m \mod{6}$ then $2^n\equiv2^m\mod{3}$ and $n\equiv m\mod{3}$.  Consider $n = r\mod{6}$ for $r = 0,1,\cdots,5$.  By our calculations above, $n2^n+1\equiv r2^r+1\mod{3}$.  Calculating, we find that the only solutions are $r = 1, r = 2$.  Hence the solution set is simply $1+6\mathbb{Z}\cup2+6\mathbb{Z}$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Show that:
+%\begin{enumerate}
+%\item if $2a^3-3a^2b+2b^3$ is divisible by 5, then $a$ and $b$ are divisible by 5;
+%\item if $a^5\pm 2b^5$ is divisible by 11, then $a$ and $b$ are divisible by 11.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item Suppose that $5\nmid a,b$.  Then we have $2a^3-3a^2b+2b^3\equiv0\mod{5}$.  We may multiply by $a$ and $b$ to get $2a^4-3a^3b+2ab^3\equiv2a^3b-3a^2b^2+2b^4\equiv0\mod{5}$.  Subtracting, we have $2a^4-5a^3b+3a^2b^2+2ab^3-2b^4\equiv0\mod{5}$.  We have $2a^4\equiv2b^4\equiv2\mod{5}$, $-5a^3b\equiv0\mod{5}$, and $2ab^3\equiv-3ab^3\mod{5}$.  Hence $3a^2b^2-3ab^3 = 3(a-b)ab^2\equiv0\mod{5}$, so $a-b\equiv0\mod{5}$.  It follows that $a^3\equiv0\mod{5}$.  Contradiction; hence $5\mid a$ and $5\mid b$.
+%\item Suppose that $11\nmid a,b$.  Then we have $a^5\equiv\mp b^5\mod{11}$, hence $a^{10}\equiv 4b^{10}\mod{11}$.  But $a^{10}\equiv b^{10}\equiv 1\mod{10}$, hence $1\equiv4\mod{11}$.  Contradiction; hence $11\mid a,b$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Consider the sequence defined by $a_n = 2^n+3^n+6^n-1$ for $n \ge 1$.  Determine all positive integers that are relatively prime to all terms of this sequence.
+%\begin{proof}
+%We claim that the answer is 1.  We show that for any prime $p$, there is some $n$ with $p \mid a_n$.  This will suffice to prove that for all positive integers $m > 1$, there is some $n$ with $\gcd{(m,a_n)} > 1$.
+%
+%We may calculate that $2, 3\mid a_2 = 48$.  Let $p>3$ be a prime; then we have $6a_{p-2} = 3\cdot2^{p-1}+2\cdot3^{p-1}+6^{p-1}-6\equiv3+2+1-6\equiv0\mod{p}$.  Since $\gcd{(6,p)} = 1$, we thus have $a_{p-2} \equiv 0\mod{p}$, hence $p \mid a_{p-2}$.  This completes our proof.
+%\end{proof}
+%\end{prb}
+%\newpage
+%
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%\begin{enumerate}
+%  \item Determine the remainder of $a$ upon division by $b$ if:
+%   \begin{enumerate}
+%    \renewcommand{\theenumii}{\roman{enumii}}
+%    \renewcommand{\labelenumii}{(\theenumii)}
+%     \item $a = 174^{248}, b = 13$;
+%     \item $a = 2^{64}, b = 360$;
+%     \item $a = 2^{37\cdot73-1}, b = 37\cdot73$.
+%   \end{enumerate}
+%  \item Prove that $2^{n-1}(2^n-1)\equiv1\mod{9}$ for any odd positive integer $n$.
+%  \item Let $p$ be a prime.  Prove that the number $$\overline{\underbrace{11\cdots1}_{p}\underbrace{22\cdots2}_{p}\cdots\underbrace{99\cdots9}_{p}}-\overline{12\cdots9}$$ is divisible by $p$.
+%  \item Determine all primes $p$ such that $p^2 \mid 11^{p^2}+1$.
+%  \item Let $p$ be a prime of the form $p = 4k+1$ for $k \ge 1$.  Prove that $k^{2k}\equiv1\mod{p}$.
+%  \item Determine all primes such that $(2^{p-1}-1)/p$ is a perfect power.
+%  \item Let $n$ be an arbitrary positive integer.  Show that
+%   \begin{enumerate}
+%    \renewcommand{\theenumii}{\roman{enumii}}
+%    \renewcommand{\labelenumii}{(\theenumii)}
+%     \item $2^{2^{10n+1}}+19$;
+%     \item $2^{2^{4n+1}}+7$,
+%   \end{enumerate}
+%   is a composite integer.
+%  \item Prove that for any prime $p > 2$ there are infinitely many positive integers $n$ such that $n\cdot2^n+1\equiv0\mod{p}$.
+%  \item Prove that there are infinitely many composite integers of the form
+%   \begin{enumerate}
+%    \renewcommand{\theenumii}{\roman{enumii}}
+%    \renewcommand{\labelenumii}{(\theenumii)}
+%     \item $10^n+3$;
+%     \item $(2^{2n}+1)^2+2^2$.
+%   \end{enumerate}
+%\end{enumerate}
+%
+%\newpage
+%\begin{center}
+%\textbf{Solutions}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Prove that $2^{n-1}(2^n-1)\equiv1 \pmod{9}$ for any odd positive integer $n$.
+%
+%{\it Solution.} We have $2^3\equiv -1 \pmod 9$, which implies
+%$2^6\equiv 1 \pmod 9$.
+%
+%Let $n=6q+r$, $r=1,3,5$. Then $2^n=2^{6q}2^r \equiv 2^r \pmod 9$ and
+%$2^{n-1} \equiv 2^{r-1} \pmod 9$. Thus
+%$$2^{n-1}(2^n-1)\equiv 2^{r-1}(2^r-1) \pmod 9. $$
+%Now it is easy to check that $2^{r-1}(2^r-1)\equiv 1 \pmod 9$ for
+%$r=1,3,5$.
+%
+%
+%\item Let $p$ be a prime.  Prove that the number
+%$$\overline{\underbrace{11\ldots1}_{p}\underbrace{22\ldots2}_{p}\ldots\underbrace{99\ldots9}_{p}}-\overline{12\ldots9}$$ is divisible by $p$.
+%
+%{\it Solution.} The last digit of the given number $N_p$ is 0, so it
+%is divisible by 2 and 5.
+%
+%Let $p=3$. The the sum of the digits of the first number is
+%$p+2p+\dots+9p$ and it is divisible by 3. The same is true for the
+%number $\overline{12\ldots 9}$ since $1+2+\dots+9=\cfrac{9\cdot
+%10}{2}=45$. Hence $N_3$ is divisible by 3.
+%
+%Suppose now that $p>5$ and write $N_p$ in the form
+%$$N_p=\frac{9(10^p-1)}{9}+\frac{8 \cdot 10^p(10^p-1)}{9}+\dots + \frac{1\cdot 10^{8p}(10^p-1)}{9}-\overline{12\ldots 9}. $$
+%Since $\gcd{(p,10)}=1$, it follows from Fermat's little theorem that
+%$p\mid 10^p-10$, i.e. $\cfrac{10^p-1}{9}=kp+1$. Hence
+%\begin{align*}
+%N_p& \equiv 9+8\cdot 10^p+\dots+1\cdot 10^{8p}-\overline{12\ldots
+%9}=(9-9)+8(10^p-10)+\dots +1(10^{8p}-10^8)\\ &\equiv 0 \pmod p,
+%\end{align*}
+%since $10^{kp}-10^k = (10^p-10)L\equiv 0 \pmod p.$
+%
+%\item Determine all primes $p$ such that $p^2 \mid 11^{p^2}+1$.
+%
+%{\it Solution.} Fermat's little theorem gives $11^p\equiv 11
+%\pmod{p}$. Hence $11^{p^2}\equiv 11^p\equiv 11 \pmod{p}$. On the
+%other hand $11^{p^2} \equiv -1 \pmod{p^2}$, i.e. $11^{p^2}\equiv -1
+%\pmod{p}$. Thus $11\equiv -1 \pmod{p}$ which shows that $p=2$ or
+%$p=3$. We have $11\equiv -1 \pmod{4}$, which implies $11^4 \equiv 1
+%\pmod{4}$, i.e. $p=2$ is not a solution.
+%
+%On the other hand $11^{3^2}=11^9 \equiv 2^9 = 8^3 \equiv (-1)^3
+%\equiv -1 \pmod{9}$, i.e. the only solution is $p=3$.
+%
+%\item Let $p$ be a prime of the form $p = 4k+1$ for $k \ge 1$.  Prove that $k^{2k}\equiv1 \pmod{p}$.
+%
+%{\it Solution.} Since $\gcd{(k,p)}=1$, Fermat's little theorem gives
+%$k^{4k}=k^{p-1}\equiv 1 \pmod{p}.$ Hence $p\mid
+%(k^{2k}-1)(k^{2k}+1)$.
+%
+%Suppose that $p\mid k^{2k}+1$. Then $k^{2k}\equiv -1 \equiv 4k
+%\pmod{p}$ and therefore $k^{2k-1}\equiv 2^2 \pmod{p}.$ Since
+%$\cfrac{p-1}{2}=2k$ we get $k^{2k(2k-1)} \equiv 2^{p-1} \pmod{p}$
+%and Fermat's little theorem gives $k^{2k(2k-1)}\equiv 1\pmod{p}$.
+%
+%On the other hand $k^{2k}\equiv -1 \pmod{p}$ gives
+%$k^{2k(2k-1)}\equiv -1\pmod{p}$, a contradiction. Hence $p\nmid
+%k^{2k}+1$, so $p\mid k^{2k}-1$, i.e. $k^{2k} \equiv 1\pmod{p}$.
+%
+%\item Determine all primes $p$ such that $(2^{p-1}-1)/p$ is a perfect power.
+%
+%{\it Solution.} Set $\cfrac{2^{p-1}-1}{p}=x^n$, where $x\geq 1$ and
+%$n>1$. Since $p$ is odd we get
+%$$(2^{\frac{p-1}{2}}-1)(2^{\frac{p-1}{2}}+1)=px^n.$$
+%Note that $\gcd{(2^{\frac{p-1}{2}}-1,2^{\frac{p-1}{2}}+1)}=1$. Hence
+%\begin{equation*}
+%\begin{cases}
+%2^{\frac{p-1}{2}}-1=py^n\\
+%2^{\frac{p-1}{2}}+1=z^n
+%\end{cases}
+%\end{equation*}
+%or
+%\begin{equation*}
+%\begin{cases}
+%2^{\frac{p-1}{2}}-1=z^n\\
+%2^{\frac{p-1}{2}}+1=py^n
+%\end{cases}
+%\end{equation*}
+%where $y,z\in \mathbb{N}$ and $yz=x$. Consider the first case. If
+%$n$ is even then
+%$$2^{\frac{p-1}{2}}=(z^{\frac{n}{2}}-1)(z^{\frac{n}{2}}+1) $$
+%and therefore $z^{\frac{n}{2}}-1$ and $z^{\frac{n}{2}}+1$ are powers
+%of 2. Since their difference is 2, only one of them can be divisible
+%by 4. Thus $z^{\frac{n}{2}}-1=1$ or $z^{\frac{n}{2}}-1=2$. In the
+%first case $z^{\frac{n}{2}}=2$, i.e. $n=2$, $z=2$, a contradiction.
+%If $z^{\frac{n}{2}}=3$ then $n=2$, $z=3$. Hence
+%$2^{\frac{p-1}{2}}=3^2-1=8$ and we get $p=7$.
+%
+%Suppose now that $n$ is odd. Then
+%$$2^{\frac{p-1}{2}}=(z-1)(z^{n-1}+\dots+z+1) $$
+%and since $z$ is odd the second factor is odd, a contradiction.
+%
+%Now we consider the second case. If $n$ is odd, then
+%$$2^{\frac{p-1}{2}}=z^n+1=(z+1)(z^{n-1}-z^{n-2}+\dots+z^2-z+1). $$
+%The second factor is odd and therefore
+%$z^{n-1}-z^{n-2}+\dots+z^2-z+1=1$, i.e. $z=1$. Then
+%$2^{\frac{p-1}{2}}=2$, i.e. $p=3$. In this case
+%$\cfrac{2^{p-1}-1}{p}=1$.
+%
+%Suppose now that $n$ is even. Then $z^2\equiv 1 \pmod{4}$ and
+%therefore $z^n\equiv 1\pmod{4}$. Hence
+%$2^{\frac{p-1}{2}}=z^n+1\equiv 2 \pmod 4$ and we get
+%$\cfrac{p-1}{2}=1$, i.e. $p=3$.
+%
+%Answer: $p=3$ or 7.
+%%%%%%%%INCLUDE THE FOLLOWING
+%\item Let $n$ be an arbitrary positive integer.  Show that
+%   \begin{enumerate}
+%     \item $2^{2^{10n+1}}+19$;
+%     \item $2^{2^{4n+1}}+7$
+%   \end{enumerate}
+%   is a composite integer.
+%
+%{\it Solution.}
+%\begin{enumerate}
+%\item We have $2^{10} \equiv 1 \pmod{11}$. Hence $2^{10n+1}= 2 (2^{10})^n \equiv 2 \pmod{11}.$
+%
+%Set $2^{10n+1}=2+22k.$ Then $2^{2^{10n+1}}=2^2 (2^{22})^k \equiv 4
+%\cdot 1 = 4 \pmod{23}$ and therefore $2^{2^{10n+1}}+19\equiv 0
+%\pmod{23}.$
+%
+%\item We have $2^{4} \equiv 1 \pmod{5}$. Hence $2^{4n+1}= 2 (2^{4})^n \equiv 2 \pmod{5}.$
+%
+%Set $2^{4n+1}=2+10k.$ Then $2^{2^{4n+1}}=2^2 (2^{10})^k \equiv 4
+%\cdot 1 = 4 \pmod{11}$ and therefore $2^{2^{4n+1}}+7\equiv 0
+%\pmod{11}.$
+%\end{enumerate}
+%
+% \item Prove that for any prime $p > 2$ there are infinitely many positive integers $n$ such that $n\cdot2^n+1\equiv 0 \pmod{p}$.
+%
+% {\it Solution.} Set $n=(p-1)(kp+1)$, $k\geq 0$. Then $2^n=(2^{p-1})^{kp+1}\equiv
+% 1\pmod{p}$ and $n2^n+1 \equiv (-1)\cdot 1+1 = 0\pmod{p}$.
+%
+% \item Prove that there are infinitely many composite integers of the form
+%   \begin{enumerate}
+%     \item $10^n+3$;
+%     \item $(2^{2n}+1)^2+2^2$.
+%   \end{enumerate}
+%
+%{\it Solution.}
+%
+%\begin{enumerate}
+%\item We shall show that there are infinitely many $n$ such that
+%$10^n+3 \equiv 0\pmod{7}$.
+%
+%We have $10^n+3 \equiv 3^n+3 \pmod{7}$ and $3^3\equiv -1 \pmod{7}$.
+%Hence $(3^3)^{2k+1}\equiv -1 \pmod{7}$. Thus $3^{6k+3} \equiv -1
+%\pmod{7}$ and we get that $3^{6k+4}+3\equiv 0\pmod{7}$.
+%
+%Hence if $n=6k+4$ then $10^n+3\equiv 0 \pmod{7}$.
+%
+%\item We have $2^{28}\equiv 1\pmod{29}$ and therefore $2^{2\cdot 28k}\equiv 1
+%\pmod{29}$. Take $n=28k+1$. Then $(2^{2n}+1)^2+2^2\equiv
+%(2^2+1)^2+2^2\equiv 0\pmod{29}$.
+%
+%For $k\geq 1$ we have $n\geq 29$ and $(2^{2n}+1)^2+2^2>29$.
+%\end{enumerate}
+%\end{enumerate}
+%%
+%\index{Euler's theorem@Eulers theorem}
+%\section{Euler's theorem}
+%\label{euler-theorem}
+%For congruences modulo a prime $p$, we may use Fermat's little theorem to analyze exponential expressions.  However, when we are working modulo a non-prime, we must resort to different means.  Euler's theorem gives us the machinery necessary to analyze exponential expressions modulo a non-prime.
+%
+%Let $n$ be a positive integer.  We define the Euler totient
+%function as follows: if $n = 1$, then $\varphi(n) = 1$; if $n =
+%p_1^{\alpha_1}p_2^{\alpha_2} \cdots p_k^{\alpha_k}$, then we set
+%$$\varphi(n) =
+%n\left(1-\frac{1}{p_1}\right)\left(1-\frac{1}{p_2}\right)\cdots
+%\left(1-\frac{1}{p_k}\right).$$  Then it is straightforward to see
+%that $\varphi(n)$ is a positive integer for all $n$ satisfying
+%$\varphi(n) < n$ for $n > 1$.  Note that we can alternately write
+%$$\varphi(n) = p_1^{\alpha_1-1}(p_1-1)p_2^{\alpha_2-1}(p_2-1)\cdots
+%p_k^{\alpha_k-1}(p_k-1),$$ which provides a more obvious proof
+%that $\varphi(n)$ is an integer for all $n$.
+%\begin{prb}
+%Find the values of $\varphi(n)$ for:
+%\begin{enumerate}
+%\item $n = 1000$;
+%\item $n = 2009$;
+%\item $n = p^{\alpha}$, $p$ a prime.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item We have $1000 = 2^35^3$; hence $\varphi(1000) =
+%2^2(2-1)5^2(5-1) = 400$. \item We have $2009 = 7^2\cdot41$, hence
+%$\varphi(2009) = 7(6-1)(41-1) = 1680$. \item We have $\varphi(n) =
+%p^{\alpha-1}(p-1)$ by our second expression.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{thm}
+%Let $a$ and $n$ be relatively prime positive integers.  Then
+%$a^{\varphi(n)}\equiv1\mod{n}$.
+%\begin{proof}
+%Let $p$ be a prime with $\gcd{(a,p)} = 1$.  Then it follows from
+%Fermat's little theorem that $a^{p-1} = 1+pN_1$ for some positive
+%integer $N_1$.  Then we have $a^{p(p-1)} = 1+{p\choose1}N_1p +
+%{p\choose2}(N_1p)^2+\cdots+{p\choose p-1}(N_1p)^{p-1}+{p\choose
+%p}(N_1p)^p$.  Hence there is an integer $N_2$ such that
+%$a^{p(p-1)} = 1+N_2p^2$.  Similarly, for arbitrary $k$ we have
+%some $$a^{p^{k-1}(p-1)} = 1+N_kp^k$$ for some positive integer
+%$N_k$.
+%
+%Our theorem is now far more straightforward to prove.  If $n = 1$
+%our theorem is obvious.  Then for $n > 1$ we write $n =
+%p_1^{\alpha_1}p_2^{\alpha_2} \cdots p_k^{\alpha_k}$.  As
+%$\gcd{(a,n)} = 1$, then we have $\gcd{(a,p_i)} = 1$ for $1 \le i
+%\le k$.  For each prime $p$, set $d_i =
+%\varphi(n)/\varphi(p_i^{\alpha_i})$.  Then we have
+%$a^{\varphi(p_i^{\alpha_i})}\equiv1\mod{p_i^{\alpha_i}}$, hence
+%$(a^{\varphi(p_i^{\alpha_i})})^{d_i}\equiv1^{d_i}\equiv1\mod{p_i^{\alpha_i}}$.
+%But $(a^{\varphi(p_i^{\alpha_i})})^{d_i} = a^{\varphi(n)}$.  Hence
+%$a^{\varphi(n)}\equiv1\mod{p_i^{\alpha_i}}$ for all indices $i$.
+%We may combine these congruences over all indices $i$ in a
+%straightforward manner, obtaining $a^{\varphi(n)} \equiv
+%1\mod{n}$.
+%\end{proof}
+%\end{thm}
+%\begin{rem}
+%If $n=p$ is a prime, then $\varphi(p) = p-1$.  Hence Euler's
+%theorem directly implies Fermat's little theorem.
+%\end{rem}
+%\begin{prb}
+%Determine the last two digits of the numbers:
+%\begin{enumerate}
+%\item $137^{42}$;
+%\item $2^{999}$;
+%\item $7^{7^{7^7}}$.
+%\end{enumerate}
+%\begin{proof}
+%We first calculate $\varphi(100) = 2(2-1)5(5-1) = 40$.
+%\begin{enumerate}
+%\item We have $137^{42}\equiv37^{42}\equiv37^2\equiv69\mod{100}$.
+%\item We cannot use $\varphi(100)$ since $\gcd{(2,100)} \neq 1$.
+%However, we know that $2^{999}\equiv1\mod{4}$, hence we need only
+%find $2^{999}\mod{25}$.  We have $\varphi(25) = 20$; hence
+%$2^{999}\equiv2^{19}\mod{25}$.  We have $2^5\equiv7\mod{25}$ and
+%$2^7\equiv3\mod{25}$; hence $2^{19} = 2^5(2^7)^2 \equiv 7\cdot3^2
+%= 63\equiv13\mod25$.  Hence we find that
+%$2^{999}\equiv88\mod{100}$. \item We must find $7^{7^7}\mod{40}$.
+%We have $\varphi(40) = 2^2(2-1)(5-1) = 16$.  Hence we need only
+%find $7^7\mod{16}$.  We have $7^2 \equiv1\mod{16}$; hence
+%$7^7\equiv7\mod{16}$.  Hence
+%$7^{7^7}\equiv7^7\mod{40}\equiv7\cdot9^3\equiv7\cdot81\cdot9\equiv63\equiv23\mod{40}$.
+%Hence $7^{7^{7^7}} \equiv  7^{23}\mod{100}$.   We have
+%$7^4\equiv1\mod{100}$; hence $7^{23}\equiv7^3\equiv43\mod{100}$.
+%
+%Alternately, we could note that $7^4\equiv1\mod{100}$.  Then we need only compute $7^{7^7}\mod{4}$.  But we have $7\equiv(-1)\mod{4}$ and $7^7$ odd; hence $7^{7^7} \equiv -1\mod{4}\equiv3\mod{4}$.  Hence $7^{7^{7^7}} \equiv 7^3\equiv43\mod{100}$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $a$ be a positive integer with $\gcd{(a,10)}=1$.  Show that the last three digits of $a^{101}$ are the same as those of $a$.
+%\begin{proof}
+%We have $\varphi(1000) = 400$; hence we cannot use this result.
+%However, we have $\varphi(125) = 100$ and $\varphi(8) = 4$, both
+%of which divide 100.  If $\gcd{(a,10)} = 1$, then $\gcd{(a,125)} =
+%1$.  Hence $a^{100}\equiv1\mod{125}$, so $a^{101}\equiv
+%a\mod{125}$.  Similarly, $a^4\equiv 1\mod{8}$; hence
+%$a^{100}\equiv1\mod{8}$.  It follows that $a^{101}\equiv
+%a\mod{8}$.  Thus $a^{101}\equiv a\mod{1000}$, as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $a$ be an even positive integer not divisible by 10.  Determine:
+%\begin{enumerate}
+%\item the last two digits of $a^{20}$;
+%\item the last three digits of $a^{100}$;
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item Since $\gcd{(a,5)} = 1$, (otherwise we have $2 \mid a$ and
+%$5 \mid a$, so $10\mid a$) we have $a^{20}\equiv1\mod{25}$ as
+%$\varphi(25) = 20$.  As $2 \mid a$, $2^{20} \mid a^{20}$.  Hence
+%$a \equiv 0\mod{4}$.  It follows that $a^{20}\equiv76\mod{100}$.
+%\item We have similarly that $a^{100} \equiv 1\mod{125}$ as
+%$\varphi(125) = 100$.  As above, $a^{100}\equiv0\mod{8}$, hence
+%$a^{100}\equiv376\mod{1000}$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Determine all primes $p$ and all positive integers $n$ such that $5^{p^n}+1\equiv0\mod{p^n}$.
+%\begin{proof}
+%We first work modulo $p$.  We have $5^{p^n} = \left(5^{p^{n-1}}\right)^p \equiv 5^{p^{n-1}}\mod{p}$.  Applying this repeatedly, we conclude that $5^{p^n} \equiv 5\mod{n}$.  Hence $5+1\equiv0\mod{n}$, so $p = 2$ or $p = 3$.
+%
+%If $p = 2$, then we have $n = 1$ a solution.  However, for $n \ge 2$, we have $5^{p^n}+1\equiv1^{p^n}+1\equiv2\mod{4}$, hence $(p,n) = (2,1)$ is a solution.
+%
+%If $p = 3$, then we may verify that $n = 1$ is a solution.  Now suppose that $5^{3^n}+1\equiv0\mod{n}$; we claim that $5^{3^{n+1}}+1\equiv0\mod{3^{n+1}}$.  We have $5^{3^n}+1 = k3^n$; hence $5^{3^{n+1}} = \left(5^{3^n}\right)^3 = (k3^n-1)^3 = k^33^{3n}-3k^23^{2n}+3k3^n-1 = 3^{n+1}\left(k^33^{2n-1}-k^23^n+k\right)-1$.  It follows that $3^{n+1}\mid 5^{3^{n+1}}+1$; that is, $5^{3^{n+1}} + 1 \equiv 0\mod{3^{n+1}}$.  It follows that $(3,n)$ is a solution for all $n$.
+%
+%To summarize, the only solutions are $(p,n) = (2,1)$ and $(p,n) = (3,k)$ for any positive integer $k$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Show that for any even positive integer $n$, we have $n^2-1 \mid 2^{n!}-1$.
+%\begin{proof}
+%Take $m = n+1$.  Then $m$ is odd, so $\gcd{(2,n+1)} = 1$.  As
+%$\varphi(n) < n$ for all $n > 1$, we have $\varphi(n+1) \le n$.
+%Hence $\varphi(n+1)\mid n!$, so $2^{n!} \equiv 2^{k\varphi(n+1)}
+%\equiv 1\mod{n+1}$ for some $k$.  Hence $n+1 \mid 2^{n!}-1$.
+%
+%Take $m = n-1$.  Then $m$ is odd, so $\gcd{(2,n+1)} = 1$.  As
+%$\varphi(n) < n$ for all $n > 1$, we have $\varphi(n+1) \le n$.
+%Hence $\varphi(n-1)\mid n!$, so $2^{n!} \equiv 2^{k\varphi(n-1)}
+%\equiv 1\mod{n-1}$ for some $k$.  Hence $n-1 \mid 2^{n!}-1$.
+%
+%But as we have $\gcd{(n+1,n-1)} = \gcd{(n-1,2)} = 1$, it follows that $(n+1)(n-1) = n^2-1\mid 2^{n!}-1$ as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that for any positive integer $s$ there is a positive integer $n$ divisible by $s$ and with the sum of the digits of $n$ equal to $s$.
+%\begin{proof}
+%Let $s = 2^a5^bt$ for $a, b\ge 0$ and $\gcd{(t,10)} = 1$.  Then
+%Euler's theorem gives $10^{\varphi(t)} \equiv 1\mod{t}$.  Consider
+%$$n =
+%10^{\max{a,b}}\left(10^{\varphi(t)}+10^{2\varphi(t)}+\cdots+10^{s\varphi(t)}\right).$$
+%
+%Then we must have the sum of the digits of $n$ equal to $s$.  Furthermore, we have $n \equiv 0\mod{2^a5^b}$, so $2^a5^b\mid n$.  In addition, we have $n \equiv 2^a5^b(1+1+\cdots+1) = 2^a5^bs\equiv0\mod{t}$.  Hence $t \mid n$.  As $\gcd{(2^a5^b,t)} = 1$, we thus have $s = 2^a5^bt \mid n$.  Hence our $n$ satisfies the given conditions.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that the sequence $a_n = 2^n - 3$ for $n \ge 3$ has an infinite subsequence all of whose terms are pairwise relatively prime.
+%\begin{proof}
+%We will define such a subsequence $b_i$ by $b_i = a_{n_i}$, where
+%$n_i$ some strictly increasing sequence of positive integers with
+%$n_i \ge 3$ for all $i$.  We take $n_1 = 3$, $n_2 = 4$, so that
+%$b_1 = 5, b_2 = 13$.  Obviously $\gcd{(b_1, b_2)} = 1$.  Then for
+%$k \ge 2$ we define $n_{k+1} = \varphi(b_1,b_2,\cdots,b_k)$, so
+%that $b_{k+1} = 2^{\varphi(b_1b_2\cdots b_k)} - 3$.  Then we have
+%$b_{k+1} \equiv 1-3 = -2\mod{b_1b_2\cdots b_k}$.  As $b_i$ is odd
+%for all $i$, it follows that $\gcd{(b_{k+1},b_i)} = \gcd{(-2,b_i)}
+%= 1$ for $1 \le i \le k$.  Hence all terms of the sequence $b_k$
+%are pairwise relatively prime.  It follows that we have
+%constructed a sequence with the desired property.
+%\end{proof}
+%\end{prb}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Solve the equation:
+%\begin{enumerate}
+%\item $\varphi(7^x) = 294$; \item $\varphi(3^x\cdot5^y\cdot7^z) =
+%3600$; \item $\varphi(pq) = 120$, where $p-q = 2$ with $p,q$ primes.
+%\end{enumerate}
+%\item Determine the last three digits of $137^{402}$.
+%\item Determine all integers $x$ such that $x^{100} \equiv 2\mod{73}$ and $x^{101}\equiv69\mod{73}$.
+%\item Determine all primes $p$ and all positive integers $n$ such that $p^n$ divides $7^{p^n}+1$.
+%\item Determine all positive integers $n > 1$ with at most two prime divisors and such that $n$ divides $3^n+1$.
+%\item Let $n > 1$ be an integer.  Prove that $$N = 1^n+2^n+\cdots+(n-1)^n$$ is divisible by $n$ if and only if $n$ is odd.
+%\item Show that for any fixed positive integer $n$, the sequence $2, 2^2, 2^{2^2}, 2^{2^{2^2}}, \cdots$ is eventually constant modulo $n$.
+%\end{enumerate}
+%
+%\newpage
+%\begin{center}
+%\textbf{Solutions}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Determine the last three digits of $137^{402}$.
+%
+%{\it Solution.} We have $137^{400}\equiv 137^{\varphi{(1000)}}\equiv
+%1 \pmod{1000}$. Hence $137^{402}\equiv 137^2=18769\equiv 769
+%\pmod{1000}$.
+%
+%Answer: 769.
+%
+%\item Determine all integers $x$ such that $x^{100} \equiv 2\pmod{73}$ and $x^{101}\equiv69\pmod{73}$.
+%
+%{\it Solution.} We have $x^{100}\equiv 2\pmod{73}$ which implies
+%$x^{101}\equiv 2x \pmod{73}$. On the other hand we have
+%$x^{101}\equiv 69 \pmod{73}$. Hence $2x\equiv 69\pmod{73}$, i.e.
+%$2x=69+73k$. It is clear that $k$ is odd and setting $k=2l+1$ we get
+%that $x=71+73l$. We shall show that any $x$ of this form is a
+%solution. We have
+%$$x^{100}\equiv 71^{100}\equiv 2^{100} \pmod{73}.$$
+%Fermat's little theorem gives $2^{72}\equiv 1\pmod{73}$ and
+%therefore $2^{100}\equiv 2^{28}=2\cdot 8^9\pmod{73}$. So, we have to
+%prove that $8^9 \equiv 1\pmod{73}$. This follows from $8^3=8\cdot
+%64\equiv -8\cdot 9\equiv 1\pmod{73}$.
+%
+%Also $x^{101}=x\cdot x^{100}\equiv 2x\equiv 142 \equiv 69
+%\pmod{73}$.
+%
+%\item Determine all primes $p$ and all positive integers $n$ such that $p^n$ divides $7^{p^n}+1$.
+%{\it Solution.} Fermat's little theorem implies that $7^p \equiv
+%7\pmod{p}$. Hence
+%$$7^{p^2}\equiv 7^p\equiv 7 \pmod{p},\dots , 7^{p^n}\equiv 7^{p^{n-1}}\equiv 7 \pmod{p}. $$
+%On the other hand, $7^{p^n}\equiv -1 \pmod{p}$ and we get $7\equiv
+%-1 \pmod{p}$, i.e. $p=2$. If $n\geq 2$, then
+%$7^{2^n}+1=(8-1)^{2^n}+1 \equiv 2\pmod{4}$, a contradiction to
+%$7^{2^n}+1\equiv 0\pmod{2^n}$. Hence $n=1$.
+%
+%Answer: $p=2$, $n=1$.
+%
+%\item Determine all positive integers $n > 1$ with at most two prime divisors and such that $n$ divides $3^n+1$.
+%
+%{\it Solution.} Let $n=p^k$, where $p$ is a prime and $k\geq 1$.
+%Fermat's little theorem implies that $3^{p^k}\equiv 3\pmod{p}$ and
+%$3^{p^k}\equiv -1 \pmod{p}$ shows that $p=2$. Hence $3^{2^k}+1\equiv
+%0\pmod{2^k}$. But $3^{2^k}+1=(4-1)^{2^k}+1\equiv 2\pmod{4}$ and it
+%follows that $k=1$, i.e. $n=2$.
+%
+%Suppose now that $n=p^k q^l$, where $p$ and $q$ are distinct primes,
+%$k\geq 1$, $l\geq 1$. We may assume that $p<q$. It follows from
+%$3^{p^k}\equiv 3\pmod{p}$ that $3^n=3^{p^k q^l}\equiv 3^{q^l}
+%\pmod{p}$ and $3^n \equiv -1 \pmod{p}$ shows that $3^{q^l}\equiv -1
+%\pmod{p}$, i.e. $3^{2q^l}\equiv 1\pmod{p}$. From Fermat's little
+%theorem we also have $3^{p-1}\equiv 1\pmod{p}$. Set
+%$d=\gcd{(2q^l,p-1)}$. Then the above two congruences imply that
+%$3^d\equiv 1\pmod{p}$. But $\gcd(2q^l,p-1)=1,2$ (since $p<q$) and we
+%get that $d=1$ or $d=2$. Hence $p=2$ and the same reasoning as above
+%gives $k=1$. Thus $n=2q^l$. Now $3^n=9^{q^l}\equiv -1\pmod{q}$ and
+%$9^{q^l}\equiv 9 \pmod{q}$ from Fermat Little Theorem. Thus $q\mid
+%10$ and we get $q=5$.
+%
+%Now we shall show that for any $l$ the number $n=2\cdot 5^l$
+%satisfies the condition. Euler's theorem gives
+%$$3^{4\cdot 5^l}\equiv 1\pmod{5^{l+1}}. $$
+%Hence
+%$$5^{l+1}\mid (3^{2\cdot 5^l}-1)(3^{2\cdot 5^l}+1). $$
+%But $3^2\equiv -1\pmod{5}$, which implies $3^{2\cdot 5^l}\equiv
+%-1\pmod{5}$ and we obtain $3^{2\cdot 5^l}-1 \equiv -2\pmod{5}$. Thus
+%$5^{l+1}\mid 3^{2\cdot 5^l}+1$ which shows that $2\cdot 5^l\mid
+%3^{2\cdot 5^l}+1.$
+%
+%\item Let $n > 1$ be an integer.  Prove that $$N = 1^n+2^n+\cdots+(n-1)^n$$ is divisible by $n$ if and only if $n$ is odd.
+%
+%{\it Solution.} If $n$ is odd, then
+%$$k^n+(n-k)^n\equiv k^n+(-k)^n \equiv 0 \pmod{n} $$
+%for $k=1,2,\dots,\cfrac{n-1}{2}$. Summing up these congruences we
+%get that $n\mid N$.
+%
+%Let now $n$ be even, $2^s\mid n$, but $2^{s+1}\nmid n$. For any
+%$1\leq k\leq n-1$, if $2\mid k$ then $2^s\mid k^s$ and $2^s\mid k^n$
+%since $s<2^s\leq n$.
+%
+%If $2\nmid k$ (i.e. $k$ is odd), then Euler's theorem gives
+%$$k^{2^{s-1}}\equiv 1\pmod{2^s} $$
+%since $\varphi{(2^s)}=2^{s-1}$. On the other hand $2^{s-1}\mid n$
+%and therefore $k^n \equiv 1\pmod{2^s}$.
+%
+%The number of odd integers $k$, $1\leq k\leq n-1$ is $\cfrac{n}{2}$
+%and we get that
+%$$N\equiv \frac{n}{2} \not \equiv 0\pmod{2^s} $$
+%since $2^{s+1}\nmid n$. Thus $2^s\nmid N$ which shows that $n\nmid
+%N$.
+%
+%\item Show that for any fixed positive integer $n$, the sequence $2, 2^2, 2^{2^2}, 2^{2^{2^2}}, \cdots$ is eventually constant modulo $n$.
+%
+%{\it Solution.} We apply induction on $n$. The base case $n=1$ is
+%obviously true. Assume that the statement is true for $k\leq n$ and
+%consider the case $n=k+1$.
+%
+%If $n=k+1$ is odd then $2^{\varphi{(n)}}\equiv 1\pmod{n}$ by Euler's
+%theorem. We know that $\varphi{(n)}<n$ and the induction hypothesis
+%implies that the sequence $a_1,a_2,\ldots$ is eventually constant
+%modulo $\varphi{(n)}$, i.e. $a_i\equiv c \pmod{\varphi{(n)}}$ for
+%large $i$. Hence $a_{i+1}=2^{a_i}\equiv 2^c\pmod{n}$ for large $i$.
+%
+%If $n=k+1$ is even then $n+1=2^q m$, for some positive integer $q$
+%and odd $m$. By the induction hypothesis the sequence
+%$a_1,a_2,\ldots$ is eventually constant modulo $m$. Also $a_i\equiv
+%0\pmod{2^q}$ for large $i$. Hence $n=2^q m$ divides $a_{i+1}-a_i$
+%for large $i$, i.e. the sequence $a_1,a_2,\ldots$ is eventually
+%constant modulo $n$ and the induction is completed.
+%\end{enumerate}
+%
+%
+%%%
+%\begin{rem}In particular, the above statement implies that $\textup{ord}_n(a) \mid \varphi(n)$.\end{rem}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Determine $\text{ord}_n(a)$ if:
+%\begin{enumerate}
+%\item $a = 7, n = 19$;
+%\item $a = 8, n = 11, 17$;
+%\item $a = 11, n = 23$;
+%\item $a = 3, n = 280$.
+%\end{enumerate}
+%\item Let $p$ and $q$ be primes such that $2^p\equiv-1\mod{q}$.  Prove that either $q = 3$ or $q = 1+2kp$ for some natural number $k$.
+%\item Let $p$ and $q > 7$ be primes such that $2^{2p}+2^p+1\equiv0\mod{q}$.  Prove that $q = 1+6kp$ for some natural number $k$.
+%\item Determine all positive integers $n$ such that $(3^n-2^n)/n$ is an integer.
+%\item Let $\gcd{(a,b)} = 1$.  Prove that any odd divisor of $a^{2^n}+b^{2^n}$ has the form $2^{n+1}m+1$.
+%\item Determine all integers $m, n \ge 2$ for which $(1+m^{3^n}+m^{2\cdot3^n})/n$ is an integer.
+%\item Find all primes $p, q$ such that $pq$ is a divisor of $(5^p-2^p)(5^q-2^q)$.
+%\item Prove that the order of $2$ modulo $5^n$ is equal to $4\cdot5^{n-1}$.
+%\item Determine all positive integers $n, m$ such that $2^n+3 = 11^m$.
+%\end{enumerate}
+%%%
+%\section{Digits of numbers}
+%We will first analyze problems concerning the last digits of a number.
+%
+%Let $\overline{a_na_{n-1}\cdots a_1a_0}$ be the decimal representation of the positive integer $N$.  Then we denote by $\ell_k(N)$ the number $\overline{a_{k-1}\cdots a_0}$, even if $a_{k-1}$ is zero.  (For convenience, we set $\ell(N) = \ell_1(N)$.)  We have thus $$N = 10^k\cdot\overline{a_na_{n-1}\cdots a_k}+\ell_k(N).$$ It must be the case that $0 \le \ell_k(N) < 10^k$, so thus $\ell_k$ is the remainder of $N$ upon division by $10^k$.  Now suppose that we have $\gcd{(N,10)} = 1$ and $m$ some positive integer.  If $\phi$ is Euler's totient function, then set $r$ to be the remainder when $m$ is divided by $\phi(10^k)$.  Then Euler's theorem gives $$N^m\equiv N^r\mod{10^k}$$ from which it immediately follows using our notation that $$\ell_k(N^m) = \ell_k(N^r).$$  This technique is a rather powerful one.  Before we continue, we should verify that $\phi(10^k) = \phi(2^k)\phi(5^k) = 2^{k-1}(2-1)5^{k-1}(5-1) = 4\cdot10^{k-1}$.
+%\begin{prb}
+%Find the last digit of the numbers:
+%\begin{enumerate}
+%\item $3^{1001}$;
+%\item $13^{1003}$;
+%\item $7^{7^{.^{.^{.^7}}}}$.
+%\end{enumerate}
+%\begin{proof}
+%Note first that $\phi(10) = 4$.
+%\begin{enumerate}
+%\item We have that $3^4 \equiv 1\mod{10}$; hence $3^{1001} \equiv 3^1 = 3\mod{10}$, hence $\ell(3^{1001}) = 3$.
+%\item We have $13^{1003}\equiv3^{1003}\equiv3^3\equiv7\mod{10}$, hence $\ell(13^{1003}) = 7$.
+%\item We know that 7 to any power is odd, and that $7\equiv 1\mod{4}$.  Hence 7 to any power of 7 is equivalent to $-1$ (or 3) modulo 4.  Hence we have $7^{7^{.^{.^{.^7}}}} \equiv 7^3 \equiv 3\mod{10}$, so $\ell(7^{7^{.^{.^{.^7}}}}) = 3$.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%In how many zeroes can the number $A_n = 1^n+2^n+3^n+4^n$ end in for natural numbers $n$?
+%\begin{proof}
+%We have $A_1 = 10$, so $A_n$ may end in one zero.  In addition, $A_4 = 1^4+2^4+3^4+4^4\equiv1+1+1+1\equiv4\mod{5}$, so $A_4$ does not end in a zero.  Hence $A_n$ may end in no zeroes.  Finally, $A_3 = 1+8+27+64 = 100$, so $A_n$ may end in two zeroes.  We claim that $A_n$ may not end in more than two zeroes.
+%
+%If $\ell_3(A_n) = 0$ for $n \ge 3$, then $A_n \equiv 0\mod{8}$.  Hence $1+0+3^n+0\equiv0\mod{8}$.  It follows that $3^n \equiv 7\mod{8}$.  However, as $\phi(8) = 4$, we have that $3^{4k+r} \equiv 3^r\mod{8}$.  But we may check that $3^0 \equiv 1,3^1\equiv3,3^2\equiv1,3^3\equiv3\mod{8}$.  Hence $3^n \not\equiv 7\mod{8}$ for all $n$, so it follows that $\ell_3(A_n) \neq 0$ for all $n \ge 3$.  Checking $A_2 = 30$ confirms our result.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Determine the least positive integer $n$ with the following properties:
+%\begin{enumerate}
+%\item the last digit in the decimal representation of $n$ is $6$;
+%\item if we delete the last digit of $n$ and place it as the left-most digit of $n$, shifting all other digits one place to the right, we obtain a number four times as large as $n$.
+%\end{enumerate}
+%\begin{proof}
+%Write $n = \overline{a_ka_{k-1}\cdots a_16}$ and let $N = \overline{a_ka_{k-1}\cdots a_1}$.  Then we have $n = 10N+6$ and $10^{k-1}\le N < 10^k$.  It follows that $$4(10N+6) = 6\cdot 10^k+N,$$ which we may rearrange to write $$N = \frac{2}{13}(10^k-4).$$  Hence we must find the smallest $k$ with $10^k \equiv 4\mod{13}$.  We may check that $10^2 \equiv 9\mod{13}$ and $10^3\equiv-1\mod{13}$; hence $10^5 = 10^310^2 \equiv(-1)(9) = -9\equiv4\mod{13}$.  Hence the smallest such $N$ occurs for $k = 5$, which gives $N = 15384$, so $n = 153846$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Find the least positive integer whose cube ends in 888.
+%\begin{proof}
+%Let $n$ be such that $\ell_3(n^3) = 888$.  Then we must have $n \equiv 2\mod{10}$, as no other final digit, when cubed, gives a final digit of 8.  Write $n = 10k+2$; then $$n^3 = (10k+2)^3 = 1000k^3+600k+120k+8.$$  We must thus have $120k+8\equiv88\mod{100}$, hence $6k\equiv4\mod{5}$.  This has solutions $k \equiv 4\mod{5}$.  Writing $k = 5m+4$, we have $$n^3\equiv600(5m+4)^2+120(5m+4)+8\equiv600m+88\mod{1000}.$$  We must thus have $600m+88\equiv888\mod{1000}$, which we may reduce to $3m\equiv4\mod{5}$.  This has solutions $m\equiv3\mod{5}$; hence the smallest such $n$ occurs when $m = 3$.  This gives $k = 19$, so $n = 192$.
+%\end{proof}
+%\end{prb}
+%%
+\section{Primitive roots}\label{primitive-roots}
+We now know that $a^{\ph(n)}\equiv 1\pmod{n}$ for all $a$ relatively prime to $n$, and that $\ord_n(a)\mid \ph(n)$. We can ask, does there exist $a$ for which $\ord_n(a)$ is exactly $n$?
+
+Equivalently, by the second part of Proposition~\ref{order-pid}, since there are $\ph(n)$ possible invertible residues modulo $n$, this says that the powers of $a$ achieve every possible invertible residue modulo $n$.
+\begin{df}
+A \textbf{primitive root} modulo $n$ is an integer $a$ such that 
+\[
+\ord_n(a)=\ph(n).
+\]
+\end{df}
+For example, 3 is a primitive root modulo 5, as $\ord_5(3)=4$.
+\begin{thm}\label{primitive-roots-exist}
+Primitive roots exist modulo $n$ if and only if $n=2,\, 4,\, p^k,\text{ or } 2p^k$ for $p$ an odd prime.
+
+Moreover, if $g$ is a primitive root modulo $p^2$, then it is a primitive root modulo $p^k$ and $2p^k$ for any $k$.
+\end{thm}
+\begin{proof}
+We will prove the ``if" part of the theorem. The ``only if" part will fall out from Theorem~\ref{mult-structure} in the next section.
+
+For $n=2$ or $4$, we see that 1 and 3 are primitive roots, respectively.\\
+
+\noindent{\underline{Part 1:}} Now suppose $n=p$ is prime. We note that by Fermat's little theorem~\ref{flt} that
+\[
+x^{p-1}-1\equiv 0\pmod{p}
+\]
+for all nonzero residues $x$ modulo $p$.
+
+Note that if there is are elements of order $d_1,\ldots, d_k$ then there is an element of order $\lcm(d_1,\ldots, d_k)$ (Proposition ??). Hence if $d$ is the maximal order of an element in $(\Z/n\Z)^{\times}$, then all orders must divide $d$. Hence
+\[
+x^d-1\equiv 0\pmod{p}.
+\]
+Now we need the following lemma.
+\begin{lem}
+A nonzero polynomial $f(X)\in \Z/p\Z[X]$ of degree $d$ has at most $d$ roots. 
+\end{lem}
+\begin{proof}
+We induct on the degree. If $d=0$ the assertion is clear.
+If $f(X)$ has a root, then
+\[
+f(X)\equiv (X-a)g(X)\pmod{p}
+\]
+for some $g(X)\in\Z/p\Z[X]$ of degree $d-1$. Now $f(X)\equiv 0\pmod{p}$ implies that one of the factors $X-a$ or $g(X)$ is 0 modulo $p$: this is because there are no zerodivisors modulo $p$. Hence the roots are $a$ and the roots of $g(X)$; the latter total at most $d-1$ by the induction hypothesis.
+\end{proof}
+Now $x^d-1=0$ can have at most $d$ roots modulo $p$, but we know all $p-1$ invertible residues are roots. Hence $d\ge p-1$. But we know that the order of any element divides $p-1$, so $d\mid p-1$ and we get $d=p-1$.\\
+
+\noindent{\underline{Part 2:}}
+Now we prove the theorem for $p^k$.
+
+We first show that there %exists a primitive root modulo $p$ that is also 
+is a primitive root modulo $p^2$. Take a primitive root $x$ modulo $p$; suppose it is not primitive modulo $p^2$. Now 
+\[
+p-1=\ord_p(x)\mid \ord_{p^2}(x)\mid p(p-1)
+\]
+where the right-hand divisibility is strict. Hence $\ord_p(x)=p-1$.
+Now note 
+\[\ord_{p^2}(p+1)=p,\]
+since $(1+p)^k\equiv 1+kp\pmod{p^2}$ and this is 1 modulo $p^2$ for the first time when $k=p$.
+By Proposition~\ref{order-props}(2), 
+\[
+\ord_{p^2}(x(p+1))=p(p-1)=\ph(p^2)
+\]
+so $x(p+1)$ is a primitive root modulo $p^2$.
+
+Now suppose $x\in \Z$ is a primitive root modulo $p^2$. It attains every residue modulo $p^2$ so {\it a fortiori} it attains every residue modulo $p$, i.e. is primitive modulo $p$. 
+We show by induction that
+\begin{equation}\label{primitive-root-induction}
+x^{p^{k-1}(p-1)}=p^{k}j+1
+\end{equation}
+for some $j$ not a multiple of $p$. For the case $k=1$, this is since $x$ is a primitive root modulo $p$, but $x^{p-1}\nequiv 1\pmod{p^2}$. Suppose it proved for $k$; then
+\[
+x^{p^{k}(p-1)}=(p^kj+1)^p=1+\binom p1 p^kj+\binom p2p^{2k}j+\cdots
+=1+p^{k+1}(j+pj')
+\]
+for some $j'$. This shows the claim for $k+1$. Since
+\[
+p-1=\ord_p(x)\mid \ord_{p^k}(x)\mid p^{k-1}(p-1)
+\]
+we know $\ord_{p^k}(x)$ must be in the form $p^{j-1}(p-1)$ for some $j$. Equation~(\ref{primitive-root-induction}) shows that $j=k$.\\
+%Here's the idea: from the $n=p$ case we can get $p-1$ to divide the order of $x$. Now we also need $p$ to divide the order of $x$. We in fact want a somewhat stronger condition.
+%Suppose that $x_0$ is a primitive root modulo $p^{k-1}$.
+%For $k=2$, note that $|(\Z/p^2\Z)^{\times}|=p(p-1)$. The key point is that $(\Z/p^2\Z)^{\times}$ must have an element of order $p$. Indeed, the set
+%\[
+%\set{1+kp\bmod{p^2}}{k\in \Z/p\Z}
+%\]
+%is a subgroup of order $p$ of $(\Z/p^2\Z)^{\times}$, so has an element of order $p$. Now if $x_0\in (\Z/p^2\Z)^{\times}$ is a primitive root modulo $p$, then its order modulo $p^2$ must be a multiple of $p-1$ (and divides $p(p-1)$ by Euler's theorem). By Proposition~\ref{}, there is an element with order the lcm of these two orders, i.e. $p(p-1)$.
+%
+%THIS WORKS BUT IT CAN BE SIMPLIFIED
+%\noindent{\underline{Step 2a:}} We first prove the following: For $k\ge 1$, the solution set to the equation
+%\begin{equation}\label{p-order-p}
+%x^p\equiv 1\pmod{p^k}
+%\end{equation}
+%is exactly
+%\[
+%\set{x\in (\Z/p^k\Z)^{\times}}{x\equiv 1\pmod{p^{k-1}}}.
+%\]
+%%First, note $H_k$ is a subgroup of order $p$ so every element of $H_k$ has order $p$, i.e. all elements of $H_k$ are solutions. %Next note that any solution must be a solution modulo $p^{k-1}$, and hence be congruent to 0 modulo $
+%%Now suppose $x^p\equiv 1\pmod{p^
+%First note that by Fermat's little theorem, $x^p\equiv x\pmod{p}$, so~(\ref{p-order-p}) gives $x\equiv 1\pmod{p}$. Now given $x\in (\Z/p^k\Z)^{\times}$ with $x\equiv 1\pmod{p}$, write $x=1+p^mk$ where $m\ge 1$ and $k\nequiv 0\pmod{p}$. Then
+%\[
+%x^p\equiv (1+p^mk)^p\equiv 1+\binom p1 p^mk+\binom p2 p^{2m}k+\cdots \equiv 1+p^{m+1}k\pmod{p^k}
+%\]
+%so (note $p>2$ implies $p\mid \binom p2$)
+%\[
+%x^p\equiv 1\pmod{p^k}\iff m\ge k-1\iff x\equiv 1\pmod{p^{k-1}},
+%\]
+%as needed.\\
+%
+%\noindent{\underline{Step 2b:}} Now we prove the $k=2$ case. For $k=2$ take any solution of~(\ref{p-order-p}) not equal to 1; it has order $p$. Take a primitive root modulo $p$; its order modulo $p^2$ is a multiple of $p-1$. Now $(\Z/p^2\Z)$ must have an element whose order is the lcm of these two, which is $p(p-1)=\ph(p^2)$.\\
+%
+%\noindent{\underline{Step 2c:}}
+%Now we proceed by induction on $k$, the base case being $k=2$. In the induction step, we show that for $k\ge 3$, any primitive root modulo $p^{k-1}$ is a primitive root modulo $p^k$.
+%Choose a primitive root $g$ modulo $p^{k-1}$. Then modulo $p^{k}$, we have 
+%\[p^{k-2}(p-1)=\ph(p^{k-1})\mid\ord_{p^k}(g).\]
+%We also know
+%\[
+%\ord_{p^k}(g)\mid \ph(p^k)=p^{k-1}(p-1).
+%\]
+%Next note
+%$
+%g^{\rc p{\ord_{p^k}(g)}}
+%$
+%is a solution to $x^p\equiv 1\pmod{p^k}$. But this means
+%\[
+%p^{k-2}(p-1)=\ph(p^{k-1})\mid\frac{\ord_{p^k}(g)}{p}.
+%\]
+%Since $\ord_{p^k}(g)\mid \ph(p^k)=p^{k-1}(p-1)$, this shows that equality holds, as needed.\\
+%%For the base case $k=2$, note the set
+%%\[
+%%H:=\set{1+kp\bmod{p^2}}{k\in \Z/p\Z}
+%%\]
+%%is a subgroup of order $p$ of $(\Z/p^2\Z)^{\times}$, so every element has order $p$. Conversely if $x^p\equiv 1\pmod{p}$, then Fermat's little theorem gives $x\equiv 1\pmod{p}$, i.e. $x\in H$.
+%%Now suppose the claim proved for $k-1$. Note there exists a 
+%%
+%%Any solution modulo $p^{k+1}$ must be a solution modulo $p^{k-1}$, and hence reduce to $x_0$ modulo $p^{k-1}$. 
+%%%be in the form $x_0+p^{k-1}d$. 
+%%Hence if f
+
+\noindent{\underline{Part 3:}} Note that $\ph(2p^k)=\ph(p^k)$. Thus any primitive root modulo $p^k$ is automatically a primitive root modulo $2p^k$.
+\end{proof}
+\begin{rem}
+%The structure theorem for abelian groups~\ref{abelian-structure} gives a faster, more motivated proof.
+%
+%First note the existence of a primitive root modulo $n$ is equivalent to the fact that $(\Z/n\Z)^{\times}$ is generated by one element, i.e. it is a cyclic group.
+%
+%By the strucuture theorem for abelian groups, we know that
+%\[
+%(\Z/n\Z)^{\times}\cong C_{d_1}\times \cdots \times C_{d_k}
+%\]
+%for some $d_1\mid \cdots \mid d_k$ and $d_1\cdots d_k=\ph(n)$. Our task is to distinguish between these different possibilities and show that in fact we must have $(\Z/n\Z)^{\times}\cong C_{\ph(n)}$ in the cases mentioned above.
+%
+%\begin{enumerate}
+%\item For the first part, the structure theorem makes it immediately clear that all orders must divide the largest $d$.
+%\item For the second part, note that there is a natural map
+%\[
+%(\Z/p^k\Z)^{\times}\to (\Z/p^{k-1})^{\times}
+%\]
+%just by taking elements modulo $p^{k-1}$. Suppose we know $(\Z/p^{k-1}\Z)^{\times}$ is cyclic:
+%\[
+%(\Z/p^{k-1}\Z)^{\times}\cong C_{p^{k-2}(p-1)}.
+%\]
+%This means that $(\Z/p^k\Z)^{\times}$ must also have an element of order $p^{k-2}(p-1)$, so if we write $(\Z/p^{k}\Z)^{\times}\cong C_{d_1}\times \cdots C_{d_k}$ we see that $p^{k-2}(p-1)\mid d_k$. Thus there are only two possibilities: either $k=1$ and $d_1=p^{k-1}(p-1)$, or $k=2$ and $d_1=p$, $d_2=p^{k-2}(p-2)$. We need to distinguish between these two possibilities.
+%\[
+%\xymatrix{
+%C_{p^{k-1}(p-1)}\ar[rd]&\\
+%{\bf ?}&C_{p^{k-2}(p-1)}\\
+%C_p\times C_{p^{k-2}(p-1)}\ar[ru]&
+%}
+%\]
+%One difference between these two groups is that the kernel of the $p$th power map has $p$ versus $p^2$ elements, respectively. Step 2a above shows that the kernel has $p$ elements, so we are in the first case, and hence $(\Z/p^{k}\Z)^{\times}\cong C_{p^{k-1}(p-1)}$. This shows there is a primitive root modulo $p^k$.
+%
+%Let $g_k$ denote a primitive root (i.e. generator) for $(\Z/p^k \Z)^{\times}$. For $k>2$, we have that the map $\Z/p^k\Z\to \Z/p^{k-1}\Z$ corresponds to the map $C_{p^k}\to C_{p^{k-1}}$ where we mod out by $\{g^{p^{k-2}(p-1)}\}=H_k\cong C_p$. The inverse image of a generator for $C_{p^{k-1}}$ under this map is exactly a generator for $C_{p^k}$. (Work out the details.)
+Note the existence of a primitive root modulo $n$ is equivalent to the fact that $(\Z/n\Z)^{\times}$ is generated by one element, i.e. is the cyclic group $C_{\ph(n)}$. Hence if there are primitive roots modulo $p^k$ for all $k$, then the quotient maps
+\[
+\cdots \twoheadrightarrow(\Z/p^3\Z)^{\times}\twoheadrightarrow (\Z/p^2\Z)^{\times}\twoheadrightarrow (\Z/p\Z)^{\times}
+\]
+correspond to maps
+\[
+\cdots \twoheadrightarrow C_{p^2(p-1)}\twoheadrightarrow C_{p(p-1)}\twoheadrightarrow C_{p-1}.
+\]
+Let $g_k$ be a generator for $C_{p^{k-1}(p-1)}$; the kernel of the map $C_{p^{k-1}(p-1)}\twoheadrightarrow C_{p^{k-2}(p-1)}$ must be the cyclic group of order $p$ generated by $g^{p^{k-2}(p-1)}$. Writing $x\equiv g_k^j\pmod{p^k}$, the conditions that $x\bmod{p^2}$ generates $(\Z/p^2\Z)^{\times}$ translates into the fact that $j$ is relatively prime to both $p(p-1)$, and hence that $x$ is a primitive root modulo $p^k$.
+
+This rationalizes the last statement of the theorem, and suggests that it should be used to prove the existence of primitive roots.
+\end{rem}
+\begin{rem}
+The proof of the first part can be generalized to the fact that all finite {\it fields} have a primitive root. See Proposition~\ref{fields}.\ref{finite-field-pr}(2).
+\end{rem}
+\section{Multiplicative structure of $\Z/n\Z$}
+\llabel{sec:mult-structure}
+\begin{thm}\label{mult-structure}$\,$
+\begin{enumerate}
+\item
+Suppose $p\ne 2$ is prime. Then
+\[
+(\Z/p^n\Z)^{\times}\cong C_{p^{n-1}(p-1)}.
+\]
+\item
+For the case $p=2$, for $n\ge 2$ we have
+\[
+(\Z/2^n\Z)^{\times}\cong C_2\times C_{2^{n-2}}.
+\]
+Moreover, $(\Z/2^n\Z)^{\times}$ is generated by $-1$, which has order 2, and $3$, which has order $2^{n-2}$. The isomorphism is given by $(-1)^a3^b\mapsfrom (a,b)$.
+\item
+In general,
+\[
+(\Z/p_1^{\al_1}\cdots p_n^{\al_n}\Z)^{\times}\cong \prod (\Z/p_k^{\al_k}\Z)^{\times}.
+\]
+\end{enumerate}
+\end{thm}
+\begin{proof}
+The first follows from existence of primitive roots modulo $p^n$.
+
+%For the second, we follow a similar strategy to the proof of Theorem~\ref{primitive-roots-exist}. First note that
+%\begin{align*}
+%(\Z/4\Z)^{\times}&=C_2\\
+%(\Z/8\Z)^{\times}&=C_2\times C_2,
+%\end{align*}
+%and in the latter case $3$ and $-1$ both have order 2. Thus the claim holds for $n=2,3$.\\
+%
+%\noindent{\underline{Step 1:}} As before, we consider the solutions to $x^2\equiv 1\pmod{2^n}$. This is equivalent to $(x-1)(x+1)\equiv 0\pmod{2^n}$. One of $x+1,x-1$ is not divisible by 4, so one must be divisible by $2^{n-1}$. Hence the solution set is $\{1,2^{n-1}-1,2^{n-1}+1,2^n-1\}$. This is a subgroup isomorphic to $C_2\times C_2$.\\
+%
+%\noindent{\underline{Step 2:}} Suppose $n\ge 4$ and the claim is true for $n-1$. 
+%%Note
+%%\[
+%%2\mid \ord_{2^{n-1}}(x)\mid \ord
+%%\]
+%We have that $3^{\rc 2\ord_{2^n}(x)}=1,2^{n-1}+1,2^{n-1}-1$, or $2^n-1$. The last two are impossible as a square cannot be congruent to $-1$ modulo 4. Hence $\ord_{2^{n-1}}(x)\mid \rc 2 \ord_{2^{n}}(x)$, and equality must hold. This proves the claim for $n$.\\
+For the second, we show by induction that for every $k\ge 1$,
+\[
+3^{2^k}=2^{k+2}j+1
+\]
+for some odd $j$. This is true for $k=1$ as $3^2=8+1$. Suppose the above holds; then
+\[
+3^{2^{k+1}}=(2^{k+2}j+1)^2+1=2^{k+3}(j+2^{k+1}j^2)+1,
+\]
+showing the induction step.
+
+Note $\ord_{2^n}(3)$ must divide $|(\Z/2^n\Z)^{\times}|=2^{n-1}$. The above then shows that $\ord_{2^n}(3)=2^{n-2}$. 
+Finally, note that for $n\ge 3$, no power of 3 is equal to $-1$ modulo $2^n$: if so, then by Theorem~\ref{half-order}, $3^{2^{n-3}}=3^{\rc2\ord_{2^n}(3)}\equiv -1\pmod{2^n}$. %For $n=2$, this is not true because $3\nequiv -1\pmod 8$; for $n
+However, $3^{2^{n-3}}\equiv 1\pmod{2^{n-1}}$ by the above, so it is not congruent to $-1$ modulo $2^n$.\\
+
+The last follows from the Chinese Remainder Theorem.
+\end{proof}
+%\begin{rem}
+%This time, given that the map $(\Z/2^n\Z)^{\times}\to (\Z/2^{n-1}\Z)^{\times}\cong C_2\times C_{2^{n-2}}$ is surjective, there are 3 possibilities for $(\Z/2^n\Z)^{\times}$: $C_2\times C_2\times C_{2^{n-2}}, C_4\times C_{2^{n-2}},$ and $C_2\times C_{2^{n-1}}$. The 
+%\end{rem}
+\index{Wilson's theorem}
+\section{Wilson's theorem}
+\label{sec:wilson}
+Wilson's theorem is a multiplicative congruence of a slightly different kind.
+%While Fermat's theorem gives a result that is true for all primes, it does not provide a conclusive test of primality.  Wilson's theorem provides an exact criterion for the primality of an integer.  Here we prove Wilson's theorem and give several applications in number theory of this result.
+
+\begin{thm}[Wilson's theorem]
+A positive integer $p$ is prime if and only if $$(p-1)!\equiv -1 \pmod{p}.$$
+\begin{proof}
+We may easily verify that the theorem is true for $p = 2, 3, 4$.  Suppose that $p \ge 5$ is a prime; consider the set $S = \{2,3,\cdots, p-2\}$.  We will show that for any $s \in S$ there exists some $s' \in S$ with $ss' \equiv 1\mod{p}$.  Indeed, given such $s$ we set $s' = s^{p-2}$.  Then we have that $ss' = s^{p-1}\equiv1\mod{p}$.  Now if $s' \notin S$, then we have either $s' \equiv 1\mod{p}$ or $s' \equiv -1\mod{p}$.  If $s' \equiv1\mod{p}$, then $s \equiv 1\mod{p}$.  This is obviously impossible.  Similarly, if $s' \equiv -1\mod{p}$, then $s \equiv -1\mod{p}$.  This is similarly impossible; hence we have $s' \in S$.  Similarly, if we have $s, t \in S$ with $s' = t'$, then $s = t$.  We may see that $ss' - tt' = (s-t)s' \equiv 0\mod{p}$.  As $s' \not\equiv0\mod{p}$, we must have $p \mid s-t$.  As $|s - t| < p$, we thus have $|s - t| = 0$ as desired.  Finally, $s \neq s'$; if $s = s'$, then we have $ss' = s^2 \equiv 1\mod{p}$, implying that $p \mid s-1$ or $p \mid s+1$.  This cannot be true, as $s \not\equiv \pm1\mod{p}$; it follows that $s \neq s'$.
+
+Now we are ready to prove Wilson's theorem.  As $p$ is odd, and as $|S| = p-3$, there are an even number of elements in $S$.  We pair these elements up into disjoint 2-element sets $\{s_1, s_1'\}, \{s_2, s_2'\}, \cdots, \{s_{(p-3)/2},s_{(p-3)/2}'\}$.  These sets must contain all elements of $S$ exactly once.  Furthermore, when we take the product $s_1s_1's_2s_2'\cdots s_{(p-3)/2}s_{(p-3)/2}'$ we will obtain 1, as the product of each pair is congruent to 1 modulo $p$.  Hence we have $$(p-1)! = 1\cdot2\cdots p-1 \equiv 1\cdot s_1s_1's_2s_2'\cdots s_{(p-3)/2}s_{(p-3)/2}'\cdot p-1 \equiv 1\cdot1\cdot-1 = -1\mod{p}$$ exactly as desired.
+\end{proof}
+\end{thm}
+%\begin{prb}
+%Prove that for any prime $p$ and any $0 \le k \le p-1$ we have $k!(p-k-1)!+(-1)^k\equiv0\mod{p}$.
+%\begin{proof}
+%Set $a_k = k!(p-k-1)!+(-1)^k$.  Then
+%\begin{align*}
+%a_k+a_{k+1}&=k!(p-k-1)!+(-1)^k+(k+1)!(p-k-2)!+(-1)^{k+1}\\
+%&=k!(p-k-2)!\left[(p-k-1)+(k+1)\right]\\
+%&=k!(p-k-2)!p \equiv0\mod{p}
+%\end{align*}
+%But then from Wilson's theorem we have $a_0 = (p-1)!+1\equiv0\mod{p}$, hence $a_k \equiv 0\mod{p}$ for all $0 \le k \le p-1$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $p$ be a prime and $a_1, a_2, \cdots, a_{p-1}$ be consecutive positive integers.  Determine the possible remainders of $a_1a_2\cdots a_{p-1}$ upon division by $p$.
+%\begin{proof}
+%Without loss of generality we may assume that $a_1 < a_2 < \cdots < a_{p-1}$.  Then if any of the $a_k$ are divisible by $p$, then we have $a_1a_2\cdots a_{p-1} \equiv 0\mod{p}$.  Now if none of the $a_k$ are divisble by $p$, then we must have $a_1 \equiv 1\mod{p}$: indeed, if $a_1 \equiv r\mod{p}$ with $r > 1$, then we have $a_{p-r+1}\equiv0\mod{p}$, so $p\mid a_{p-r+1}$.
+%
+%Now that we have $a_1 \equiv 1\mod{p}$, we find that $a_k \equiv k\mod{p}$ for all $1 \le k \le p-1$.  Hence $$a_1a_2\cdots a_{p-1} \equiv 1\cdot2\cdots p-1 = (p-1)! \equiv -1\mod{p}.$$  Hence all possible remainders are $0, p-1$.
+%\end{proof}
+%\end{prb}
+\begin{prb}
+Let $p$ be a prime of the form $4k+3$, and let $a_1, a_2, \cdots, a_{p-1}$ be consecutive positive integers.  Prove that these numbers cannot be partitioned into two sets such that the products of the elements of the two sets are equal.
+\begin{proof}
+Suppose for a contradiction that there do exist sets $X = \{x_1, x_2, \cdots, x_m\}, Y = \{y_1, y_2, \cdots, y_n\}$ such that the product of the elements of $X$ (denoted $P(X)$) and the product of the elements of $Y$ (denoted $P(Y)$) are equal.  If any of the $a_i$ are divisible by $p$, then exactly one of the $a_i$ may be divisible by $p$.  In this case we have $p$ dividing exactly one of $P(X), P(Y)$, so these products cannot be equal.
+
+Now if $p \nmid a_i$ for $i = 1, 2, \cdots, p-1$, then $a_i \equiv i\mod{p}$.  Hence $$[P(X)]^2 = P(X)P(Y) = x_1x_2\cdots x_my_1 y_2 \cdots y_n = a_1a_2\cdots a_{p-1} \equiv 1\cdot2\cdots p-1\mod{p}.$$  But from this we immediately have $[P(X)]^2 \equiv (p-1)! \equiv -1\mod{p}$; hence we have $[P(X)]^2 + 1 \equiv 0\mod{p}$, so $p \mid [P(X)]^2+1^2$.  As $p$ is of the form $4k+3$, we have thus $p \mid P(X)$ and $p \mid 1$.  Contradiction; hence these numbers cannot be so partitioned.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $p$ be a prime.  Prove that the congruence $x^2 \equiv -1\mod{p}$ has a solution if and only if $p = 2$ or $p$ is of the form $4k+1$.
+\begin{proof}
+If $p = 2$, the conclusion is clear.  If $p$ is of the form $4k+3$ and there does exist such an $x$, then we have $p \mid x^2 + 1$, so $p \mid x, p \mid 1$.  Contradiction; hence there are no solutions for $p = 4k+3$.  Now if $p = 4k+1$, then set $U = (2k)!$.  We claim that $U^2 \equiv -1\mod{p}$.  We write
+\begin{align*}
+U^2&= 1\cdot2\cdots (2k)\cdot (2k)\cdot (2k-1)\cdots 1\\
+&\equiv1\cdot2\cdots (2k)\cdot(p-2k)(-1)(p-(2k-1))(-1)\cdots(p-1)(-1)\mod{p}\\
+&\equiv 1\cdot2\cdots (2k)\cdot(2k+1)\cdot(2k+2)\cdots (4k)\cdot(-1)^{2k}\\
+&\equiv (p-1)! \equiv -1\mod{p}
+\end{align*}
+Hence there does exist some $x = U$ with $x^2 \equiv -1\mod{p}$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Determine all positive integers $p, m$ such that $$(p-1)!+1 = p^m.$$
+\begin{proof}
+Note that if $p \le 5$, then we have the solutions $(p,m) = (2,1), (3, 1), (5,2)$.  Now suppose that $p > 5$.  Then Wilson's theorem gives the result that $p$ must be a prime.  We have $2 < (p-1)/2 < p-1$, hence $(p-1)^2 \mid (p-1)!$.  Hence $(p-1)^2 \mid p^m - 1$, so $p-1 \mid p^{m-1}+p^{m-2}+\cdots+p+1$.  It follows from work in previous lectures that $p - 1 \mid m$, hence $m \ge p-1$.  Hence $$p^m \ge p^{p-1} > 2\cdot2\cdot3\cdot4\cdots (p-2)\cdot(p-1) = 2(p-1)! > (p-1)!+1,$$ hence there are no solutions for $p > 5$.  Thus the solutions given above are the only such $p, m$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $p$ be an odd prime, and let $A = \{a_1, a_2, \cdots, a_{p-1}\}, B = \{b_1, b_2, \cdots, b_{p-1}\}$ be complete sets of nonzero residue classes modulo $p$ - that is, if for some $n$ we have $p \nmid n$, then there exist $i, j$ with $n \equiv a_i \equiv b_j$.  Show that the set $\{a_1b_1, \cdots, a_{p-1}b_{p-1}\}$ is not a complete set of nonzero residue classes.
+\begin{proof}
+We have $$a_1a_2\cdots a_{p-1} \equiv 1\cdot2\cdots p-1 = (p-1)! \equiv -1\mod{p}.$$  Similarly, $b_1b_2\cdots b_{p-1} \equiv -1\mod{p}$.  Wilson's theorem implies that if any set $S$ is a complete set of nonzero residue classes, then the product of all of its elements must be congruent to $-1$ modulo $p$.  But we have $$(a_1b_1)(a_2b_2)\cdots(a_{p-1}b_{p-1}) = (a_1a_2\cdots a_{p-1})(b_1b_2\cdots b_{p-1}) \equiv (-1)\cdot(-1) = 1\mod{p}.$$  As $p > 2$, we have $1 \not\equiv -1\mod{p}$.  Hence $\{a_1b_1, \cdots, a_{p-1}b_{p-1}\}$ cannot be a complete set of nonzero residue classes modulo $p$.
+\end{proof}
+\end{prb}
+%\begin{prb}
+%Prove that for every natural number $n$ the integer part of $\frac{(n-1)!}{n(n+1)}$ is an even number.
+%\begin{proof}
+%Let $A(n) = \left\lfloor \frac{(n-1)!}{n(n+1)}\right\rfloor$.  Then for $n \le 5$, we have $A_n = 0$.  Now suppose that $n \ge 6$.  Then we write $$A_n = \left\lfloor\frac{(n-1)!}{n} - \frac{(n-1)!}{n+1}\right\rfloor = \left\lfloor\frac{(n-1)!}{n}-\frac{n!}{n+1}\right\rfloor = \left\lfloor\frac{(n-1)!}{n}+\frac{n!}{n+1}\right\rfloor-(n-1)!.$$  As $(n-1)!$ will always be an even integer we need only show that $$B_n = \left\lfloor\frac{(n-1)!}{n}+\frac{n!}{n+1}\right\rfloor$$ is an even integer for all $n$.
+%
+%We claim that if $n \ge 6$ is composite, then $\frac{(n-1)!}{n}$ is an even integer.  We have two cases: either $n = p^2$, or $n = kl$ for $1 < k < l < n$.  If $n = p^2$, then since $p > 2$, we have $p, 2p \mid (n-1)!$, hence $2n = 2p^2 \mid (n-1)!$.  Hence $2 \mid \frac{(n-1)!}{p^2} = \frac{(n-1)!}{n}$.  If $n = kl$, then we have $k, l$ products in $(n-1)!$, hence $kl \mid (n-1)!$ and $\frac{(n-1)!}{n}$ is an integer.  We now show that it is an even integer.  Write $n = 2^sm$.  If $s = 0$ we have $(n-1)!$ even and $n$ odd, so $\frac{(n-1)!}{n}$ is even.  If $s = 1$ or $s = 2$, then we have $8 = 2\cdot4\mid(n-1)!$, hence $2 \mid \frac{(n-1)!}{n}$.  If $s \ge 3$, then we have $(2)(2^s-2)(2^{s-1}) \mid (n-1)!$.  But $2 \mid 2^s-2$, hence $2^{s+1}\mid (n-1)!$.  Hence $\frac{(n-1)!}{n}$ is an even integer.
+%
+%It follows that if $n$ and $n+1$ are composite, then we have $B_n$ an even integer.  Thus the cases that remain are when $n$ is prime, and when $n+1$ is prime.  (Both cannot be prime as $n \ge 6$.)  If $n$ is prime, then $n+1$ is composite and we need only show that $\left\lfloor\frac{(n-1)!}{n}\right\rfloor$ is an even integer.  By Wilson's theorem, $\frac{(n-1)!+1}{n}$ is an integer.  But $(n-1)!+1$ is odd, hence $\frac{(n-1)!+1}{n}$ is odd.  As $\frac{(n-1)!+1}{n} - 1 < \frac{(n-1)!}{n} < \frac{(n-1)!+1}{n}$, we have $\left\lfloor\frac{(n-1)!}{n}\right\rfloor = \frac{(n-1)!+1}{n} - 1$.  As $\frac{(n-1)!+1}{n}$ is odd, $\frac{(n-1)!+1}{n} - 1$ must be even as desired.  The case when $n+1$ is prime is analogous; this completes our proof.
+%\end{proof}
+%\end{prb}
+
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Find three positive integers $n$ such that $(n-1)!+1$ is a perfect square.
+%\item Find the least $p$ with $(p-1)!+1\equiv0\mod{p}^2$.
+%\item Let $n > 1$ and $0 \le k \le n-1$ be integers such that $k(n-k-1)!+(-1)^k \equiv0\mod{n}$.  Then $n$ is a prime.
+%\item Prove that there are infinitely many primes $p$ with the following property: there is a prime $q < p$ such that $p\mid (q-1)!+1$.
+%\item Prove that for every $n \ge 5$ and $2 \le k \le n$ the integer part of $(n-1)!/k$ is divisible by $k-1$.
+%\item Prove that $p$ and $p+2$ are primes if and only if $4\left[(p-1)!+1\right]+p\equiv0\mod{p}$.
+%\end{enumerate}
+\section{Problems}
+Some challenging problems on order.
+
+(ISL 2000/N4) Find all solutions to $a^m+1\mid (a+1)^n$.
+
+(IMO 2000/5) Does there exist an integer $n$ with 2000 prime divisors such that $n\mid 2^n+1$? +variant with squarefree
+
+(IMO 1999/4) Solve: $p$ prime, $x\le 2p$, $x^{p-1}\mid (p-1)^x+1$.
+
+(ISL 1997) Let $b>1,m\ne n$. If $b^m-1$ and $b^n-1$ have the same prime divisors then $b+1$ is a power of 2. (In fact, stronger thing.)
+
+(TST 2003/3) Find all ordered triples of primes $(p,q,r)$ such that $p\mid q^r+1$, $q\mid r^p+1$, and $r\mid p^q+1$.
+
+(IMO 2003/6) Prove that for any prime $p$ there is a prime number $q$ that does not divide any of the numbers $n^p-p$ with $n\ge 1$.
+
+(MOSP 2007/5.4) Given positive integers $a$ and $c$ and integer $b$, prove that there exists a positive integer $x$ such that $a^x+x\equiv b\pmod c$.
+
+
+%THat fraction imo thing, where to put?
+\begin{enumerate}
+\item
+Let $p$ be a prime number. Find all natural numbers $n$ such that $p$ divides $\ph(n)$ and such that $n$ divides $a^{\frac{\ph(n)}{p}}-1$ for all positive integers $a$ relatively prime to $n$.
+\end{enumerate}
+%what is the possible number of solutions to polynomial equation mod n (is everything possible?)
+%
+%What condition on polynoimal allows just one solution to lift to p solutions?

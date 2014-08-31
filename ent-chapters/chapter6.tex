@@ -1,0 +1,295 @@
+\chapter{Quadratic residues}
+\index{quadratic residue}
+\section{Quadratic residues}
+\index{Legendre symbol}
+\begin{df}
+Let $p>2$ be a prime and $a$ an integer. The \textbf{Legendre symbol} $\pf{a}{p}$ is defined as follows.
+\begin{equation}
+\pf ap=
+\begin{cases}
+1,&\text{if $a$ is a square modulo $p$ and $p\nmid a$}\\
+-1,&\text{if $a$ is not a square modulo $p$}\\
+0,&\text{if $p|a$.}
+\end{cases}
+\end{equation}
+Note $\pf ap$ is pronounced ``$a$ on $p$." If $a$ is a square modulo $p$ we also say $a$ is a \textbf{quadratic residue} modulo $p$.
+\end{df}
+Note that $\pf ap$ depends only on the residue of $a$ modulo $p$, so we may think of $\pf{\bullet}{p}$ as a map
+\[
+\pf{\bullet}{p}:\Z/p\Z\to \{\pm 1\}.
+\]
+The following offers a theoretical, although impractical, way to calculate $\pf{a}{p}$.
+\begin{lem}\label{legpower}
+For $p>2$,
+\[
+\pf{a}{p}\equiv a^{\frac{p-1}{2}}\pmod{p}.
+\]
+\end{lem}
+Note this gives the actual value of $\pf ap$ since $-1\nequiv 1\pmod{p}$.
+\begin{proof}
+The lemma clearly holds for $a\equiv 0\pmod{p}$. Now suppose $a\nequiv 0\pmod{p}$. Note that $a^{\frac{p-1}{2}}\equiv \pm 1$, since $(a^{\frac{p-1}{2}})^2\equiv 1\pmod p$ by Fermat's Little Theorem.
+
+First suppose $a$ is a square modulo $p$. Write $a\equiv b^2\pmod{p}$. Then
+\[
+a^{\frac{p-1}2}\equiv b^{p-1}\equiv 1\pmod{p}
+\]
+by Fermat's Little Theorem.
+
+Now suppose $a^{\frac{p-1}{2}}=1$. Let $g$ be a primitive root modulo $p$. Then we can write $a\equiv g^k\pmod{p}$ for some integer $k$. The hypothesis gives
+\[
+g^{\frac{k(p-1)}2}\equiv a^{\frac{p-1}{2}}\equiv 1\pmod{p}.
+\]
+Since $g$ is a primitive root, this implies $p-1|\frac{k(p-1)}{2}$, i.e. $k$ is even. Then $a\equiv (b^{\frac k2})^2$ is a square modulo $p$.
+\footnote{
+Alternatively, we can avoid the use of primitive roots as follows. In the first part we've shown that
+\[
+\sett{a}{a^{\frac{p-1}{2}}\equiv 1\pmod{p}}\subeq (\Z/p\Z)^{\times 2}.
+\]
+The set on the LHS has $\frac{p-1}{2}$ elements. Indeed,  $x^{p-1}-1=0$ splits completely modulo $p$ and has distinct roots, namely $1, \ldots, p-1$ by Fermat's little theorem. Then $x^{\frac{p-1}{2}}-1$, as a factor of $x^{p-1}-1$, must have $\frac{p-1}{2}$ distinct roots.
+
+It suffices to show the set on the RHS has at most $\frac{p-1}2$ elements. This is true since for every $a$, $a^2$ and $(-a)^2$ are equal. Hence there are at most $\frac{p-1}{2}$ nonzero squares modulo $p$, namely $1^2, \ldots, \pf{p-1}{2}^2$.
+}
+\end{proof}
+As a corollary of the preceding lemma, we obtain the following multiplicative property.
+\begin{pr}\label{leg-grp-hom}
+For any integers $a$ and $b$ and any prime $p>2$,
+\[
+\pf{ab}{p}=\pf ap\pf bp.
+\]
+In other words,
+\[
+\pf{\bullet}p:(\Z/p\Z)^{\times}\to \{\pm 1\}
+\]
+is a group homomorphism.
+\end{pr}
+\begin{proof}
+By Lemma~\ref{legpower},
+\[
+\pf{ab}p=(ab)^{\frac{p-1}2}=a^{\frac{p-1}2}b^{\frac{p-1}2} =\pf ap\pf bp.
+\]
+The second statement follows from the first and the fact that $\pf 1p=1$.
+\end{proof}
+This means that to calculate $\pf ap$, we can factor $a$ into primes
+\[
+a=q_1^{\al_1}\cdots q_n^{\al_n}
+\]
+and find that
+\[
+\pf ap=\pf{q_1}p^{\al_1}\cdots \pf{q_n}p^{\al_n},
+\]
+so it remains to find an easy way to evaluate $\frac{q}{p}$ where both $p$ and $q$ are prime. We do this in the next section.
+\index{quadratic reciprocity}
+\section{Quadratic reciprocity}
+Quadratic reciprocity relates $\pf{p}q$ with $\pf qp$, i.e., it gives a relationship between whether $p$ is a square modulo $q$ and whether $q$ is a square modulo $p$. (See example. ADD.)
+\begin{thm}[Quadratic reciprocity]\label{qr}
+Let $p\ne q$ be odd primes. Then
+\[
+\pf pq\pf qp=(-1)^{\frac{p-1}{4}\frac{q-1}{4}}.
+\]
+In other words,
+\[
+\pf qp=\begin{cases}
+-\pf pq,&p\equiv q\equiv 3\pmod 4\\
+\pf pq,&\text{otherwise.}
+\end{cases}
+\]
+\end{thm}
+For the prime 2, or when $p=-1$, we use the following instead.
+\begin{thm}[Complement to quadratic reciprocity]\label{qr2}
+Let $p$ be an odd prime. Then
+\begin{align*}
+\pf{-1}p&=(-1)^{\frac{p-1}2}\\
+\pf 2p&=(-1)^{\frac{p^2-1}{8}}.
+\end{align*}
+In other words,
+\begin{align*}
+\pf{-1}p&=\begin{cases}
+1,&p\equiv 1\pmod 4\\
+-1,&p\equiv 3\pmod 4.
+\end{cases}\\
+\pf{2}p&=\begin{cases}
+1,&p\equiv \pm1\pmod 8\\
+-1,&p\equiv \pm3\pmod 8.
+\end{cases}
+\end{align*}
+\end{thm}
+We know $\pf{q}p\equiv q^{\frac{q-1}{2}}\pmod{p}$ by Lemma~\ref{legpower}. To prove quadratic reciprocity, we first find an alternate way to express $q^{\frac{p-1}{2}}$.
+\index{Gauss's lemma}
+\begin{lem}[Gauss's lemma]\label{gauss-leg}
+For an integer $a$ and an odd prime $p$, define the \textbf{least residue} of $a$ modulo $p$, denoted $\text{LR}_p(a)$, to be the element $b\in \pa{-\frac p2,\frac p2}$ such that
+\[
+a\equiv b\pmod{p}.
+\]
+(In other words, $\text{LR}_p(a)$ is the integer of smallest absolute value congruent to $a$ modulo $p$.)
+
+Let $\mu$ be the number of elements of $\sett{ka}{1\le k\le \frac{q-1}{2}}$ such that $\text{LR}_p(a)<0$. Then
+\[
+a^{\frac{p-1}{2}}\equiv (-1)^{\mu}\pmod{p}
+\]
+Hence,
+\[
+\pf ap=(-1)^{\mu}.
+\]
+\end{lem}
+\begin{proof}
+We calculate the product
+\[
+a\cdot 2a\cdots \pa{\frac{p-1}{2}\cdot a}
+\]
+modulo $p$ in two ways.
+
+First, combining powers of $a$ we get
+\begin{equation}\label{gauss-leg1}
+a\cdot 2a\cdots \pa{\frac{p-1}{2}\cdot a}
+\equiv a^{\frac{p-1}{2}}\pf{p-1}{2}!\pmod{a}.
+\end{equation}
+
+Secondly, reducing each factor to the least residue first gives
+\begin{align}
+\nonumber a\cdot 2a\cdots \frac{p-1}{2}\cdot a
+&\equiv \text{LR}_p(a)\cdot \text{LR}_p(2a)\cdots \text{LR}_p\pf{p-1}{2}\\
+\nonumber &\equiv (-1)^{\mu}|\text{LR}_p(a)|\cdots \ab{\text{LR}_p\pf{p-1}2}\\
+&\equiv (-1)^{\mu} \pf{p-1}{2}!\pmod{p}.\label{gauss-leg2}
+\end{align}
+In the last step we used the fact that $|\text{LR}_p(a)|,\ldots ,\ab{\text{LR}_p\pf{p-1}2}$ is a permutation of $1,\ldots, \frac{p-1}2$. To see this, note $-\text{LR}_p(m)=\text{LR}_p(-m)$, so
+\begin{align*}
+\set{\pm\text{LR}_p(ka)}{1\le k\le \frac{p-1}2}
+&=\set{\pm\text{LR}_p(ka)}{1\le k\le p-1}\\
+&=\bc{-\frac{p-1}{2},\ldots, -1, 1, \ldots, \frac{p-1}2}.
+\end{align*}
+Hence $\set{\pm\text{LR}_p(ka)}{1\le k\le \frac{p-1}2}$ must contain one element from each pair $\pm 1, \ldots, \pm \frac{p-1}{2}$, as needed.
+
+Equating~(\ref{gauss-leg1}) and~(\ref{gauss-leg2}) and cancelling $\pf{p-1}{2}!$ gives the desired result.
+
+The second statement follows because $1\nequiv -1\pmod{p}$.
+\end{proof}
+
+Now we prove quadratic reciprocity.
+\begin{proof}[Proof of Theorem~\ref{qr}]
+The strategy is as follows.
+\begin{enumerate}
+\item 
+Establish a correspondence between $x\in \pa{0,\frac q2}$ such that $\text{LR}_p(xq)<0$, with lattice points in a certain region~(\ref{qr-the-region}). Similarly establish such a correspondence with $y\in \pa{0,\frac p2}$ such that $\text{LR}_q(yp)<0$. By Lemma~\ref{gauss-leg}, $\pf qp \pf pq$ is the total number of lattice points in this region.
+\item
+Pair up the points in the region. We will find that there is an odd point out exactly when $p\equiv q\equiv 3\pmod 4$.
+\end{enumerate}
+Let
+\begin{align*}
+\mu_1&=\ab{\set{x\in\pa{0,\frac q2}}{\text{LR}_q(xp)}}\\
+\mu_2&=\ab{\set{y\in\pa{0,\frac p2}}{\text{LR}_p(yq)}}
+\end{align*}
+By Lemma~\ref{gauss-leg},
+\begin{equation}\label{qr-mu}
+\pf pq\pf qp=(-1)^{\mu_1}(-1)^{\mu_2} =(-1)^{\mu_1+\mu_2}.
+\end{equation}
+We would like to know the parity of $\mu_1+\mu_2$.
+
+\begin{clm}\label{qr-reg}
+There is a bijection between integers $x\in \pa{0,\frac q2}$ satisfying $\text{LR}_q(xp)<0$ and lattice points $(x,y)$ satisfying
+\begin{gather}
+0<x<\frac{q+1}{2}\label{qr-reg1}\\
+0<y<\frac{p+1}{2}\label{qr-reg2}\\
+-\frac{q}{2}<xp-yq<0.\label{qr-reg3}
+\end{gather}
+\end{clm}
+\begin{proof}
+If $(x,y)$ satisfies the above inequalities, then inequality~(\ref{qr-reg3}) gives that the the least residue of $xp$ is in $\pa{-\frac q2,0}$.
+
+Conversely, given such a $x$, choose $y$ so that $yq$ is the closest multiple of $q$ to $xp$. Then $\text{LR}_q(xp)=xp-yq$, so inequality~(\ref{qr-reg3}) follows. Moreover, this is the only value of $y$ that will satisfy~(\ref{qr-reg3}). 
+Then~(\ref{qr-reg2}) follows since~(\ref{qr-reg3}) gives 
+\[
+0<\frac pq x<y<\frac pqx+\frac 12< \frac pq\cdot \frac q2+\frac 12=\frac{p+1}2.
+\]
+\end{proof}
+Note~(\ref{qr-reg3}) is equivalent to
+\begin{equation}\label{qr-reg4}
+\frac pq x<y<\frac pq x+\frac 1{2}.
+\end{equation}
+Applying the claim with $p$ and $q$ switched, and $x$ and $y$ switched, inequality~(\ref{qr-reg3}) becomes $-\frac p2<yq-xp<0$, which rearranges to
+\begin{equation}\label{qr-reg5}
+\frac pq x-\frac p{2q}<y<\frac pq x.
+\end{equation}
+Noting that there are no points on the line $y=\frac pq x$ in the following region, we see that $\mu_1+\mu_2$ equals the number of lattice points in the region $\cal R$ defined by
+\begin{gather}
+\nonumber 0<x<\frac{q+1}{2}\\
+\label{qr-the-region}0<y<\frac{p+1}{2}\\
+\nonumber \frac pq x-\frac p{2q}<y<\frac pqx+\rc 2.
+\end{gather}
+This region is symmetric around the point $\pa{\frac{q+1}{4},\frac{p+1}4}$. Indeed, making the change of variables $x'=x-\frac{q+1}{4}$ and $y'=y-\frac{p+1}{4}$, we get
+\begin{gather*}
+-\frac{q+1}{4}<x'<\frac{q+1}{4}\\
+-\frac{p+1}{4}<y'<\frac{p+1}{4}\\
+\frac pqx'-\pa{\frac p{4q}+\rc4}<y'<\frac pqx'+\pa{\frac p{4q}+\rc4}.
+\end{gather*}
+Hence we can pair up the lattice points in $\cal R$ by matching $(x,y)$ with $\pa{\frac{q+1}2-x,\frac{p+1}2-y}$ (this corresponds to $(x',y')\lra (-x',-y')$). The only point which would not be paired up is $\pa{\frac{q+1}4,\frac{p+1}4}$, but this is an integer if and only if $p\equiv q\equiv 3\pmod 4$. Thus $\mu_1+\mu_2$ is odd iff $p\equiv q\equiv 3\pmod 4$. In light of~(\ref{qr-mu}), this proves the theorem.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{qr2}]
+The fact that $\pf{-1}p=(-1)^{\frac{p-1}{2}}$ comes directly from Proposition~\ref{legpower}.
+
+To calculate $\pf 2p$, we can use Lemma~\ref{gauss-leg} directly. In this case $\mu$ is the number of elements in the set $\{2,4,\ldots, p-1\}$ in the interval $\pa{\frac p2,p}$. By casework, this is even when $p\equiv \pm 1\pmod 8$ and odd when $p\equiv \pm 3\pmod 8$. 
+\end{proof}
+\section*{Problems}
+\begin{enumerate}
+\item (IMO 1996/4) The positive integers $a,b$ are such that $15a+16b$ and $16a-15b$ are both squares of positive integers. What is the least possible value that can be taken by the smaller of these two squares?
+\end{enumerate}
+\section{Jacobi symbol}
+%\section{Quadratic forms}
+%\subsection{Linear algebra stuff}
+%\subsection{Representing integers}
+%\begin{lem}\label{prop-rep}%Cox, lemma 2.3
+%A form $f(x,y)$ properly represents $n$ if and only if $f(x,y)$ is (properly) equivalent to the form $nx^2+bxy+cy^2$ for some $b,c\in \Z$.
+%\end{lem}
+%\begin{proof}
+%If $f(p,q)=m$ with $(p,q)$ relatively prime, then by B\'ezout we can find $r,s$ such that $ps-qr=0$. Then $f$ is equivalent to
+%\begin{align*}
+%f(px+ry, qx+sy) &=f(p,q)x^2+(2apr+bps+brq+2cqs)xy+f(r,s)y^2\\
+%&=nx^2+bxy+cy^2.
+%\end{align*}
+%
+%For the converse, note that $nx^2+bxy+cy^2$ properly represents $n$ by taking $(x,y)=(1,0)$.
+%\end{proof}
+%
+%\begin{thm}
+%Let $n\ne 0$ and $d$ be integers. Then the following are equivalent.
+%\begin{enumerate}
+%\item There exists a binary quadratic form of discriminant $d$ which represents $n$ properly.
+%\item $d$ is square modulo $4n$.
+%\end{enumerate}•
+%\end{thm}
+%\begin{proof}
+%Suppose $f$ is a binary quadratic form of discriminant $d$ representing $n$ properly. Then by Lemma~\ref{prop-rep}, $f$ is equivalent to some form $nx^2+bxy+cy^2$. Hence the discriminant is $d=b^2-4nc$, and $d\equiv b^2\pmod{4n}$.
+%
+%Conversely, suppose $b^2\equiv d\mod{4n}$, so $b^2=d+4nc$ for some integer $n$, i.e. $d=b^2-4nc$. Then
+%\[
+%f(x,y)=nx^2+bxy+cy^2
+%\]
+%properly represents $n$, as $f(1,0)=n$, and $\disc(f)=b^2-4nc=d$.
+%%Conversely, suppose $f(x_0,y_0)$ for some $f(x,y)=ax^2+bxy+cy^2$. First consider the case when $\gcd(y_0,4n)=1$. Then
+%%\begin{align*}
+%%n&=ax_0^2+bx_0y_0+cy_0^2\\
+%%4an&=
+%%\end{align*}
+%\end{proof}
+%\begin{cor}
+%Let $n$ be an integer. Then $\pf{-n}{p}=1$ iff $p$ is represented by a primitive form of discriminant $-4n$.
+%%(prim.?)
+%\end{cor}
+%\begin{proof}
+%Note $\pf{-n}{p}=1$ iff $\pf{-4n}{p}=1$, and this is equivalent to the second statement by the theorem.
+%\end{proof}
+%
+%We would like to have a canonical representative for every equivalence class of binary quadratic forms. We choose the one with ``smallest" coefficients. This is made precise by the following definition.
+%\begin{df}
+%A positive definite binary quadratic form $ax^2+bxy+cy^2$ is \textbf{reduced} if it is primitive and
+%\[
+%|b|\le a\le c
+%\]
+%and
+%\[
+%b\ge 0\text{ if } |b|=a\text{ or }a=c.
+%\]
+%\end{df}
+%\begin{proof}
+%BLAH BLAH
+%
+%\end{proof}

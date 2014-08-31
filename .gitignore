@@ -1,0 +1,25 @@
+# Auxiliary files
+
+*.aux
+*.bbl
+*.blg
+*.idx
+*.ilg
+*.ind
+*.log
+*.nlo
+*.out
+*.gz
+*.toc
+*~
+*conflicted*
+*Copy*
+*old*
+
+# folders on my computer
+
+_aux
+beginning
+other
+drp
+EGA

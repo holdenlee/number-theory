@@ -1,0 +1,16 @@
+local/global artin compat (268) D
+
+I^m_K (268 top) D
+(a/p) change to (p/q) D
+
+p. 269 (NO: (15.2)) D
+
+3rd eq (270) 1.6
+
+S(b) on second product.
+
+Is there a -1 exponent? YES!
+
++ only care about ideal generated.
+
+-1 on 271

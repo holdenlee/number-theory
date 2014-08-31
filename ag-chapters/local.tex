@@ -1,0 +1,413 @@
+\chapter{Elliptic curves over local fields}
+\fixme{
+Summary.
+\begin{enumerate}
+\item
+\item
+\item
+\item Define unramified for $G(\ol K/K)$-sets by saying that the action is entirely captured by $G(K\ur/K)$, i.e, $I_v$ acts trivially. $E[m], T_{\ell}(E)$ are unramified for $m,\ell\perp \chr(k)$ because of injectivity $E[m]\hra \wt E(k')$, which means it suffices to look at the action on $l/k$, i.e. $G(K\ur /K)\cong G(k^s/k)$.
+\item Define good, multiplicative (split/nonsplit), additive reduction. 5.4
+\begin{enumerate}
+\item
+Cannot improve from unramified extension (any change of coordinates over an unramified extension can be done over the base field, up to a unit, since the $u'$ doesn't have fractional valuation).
+\item Good/multiplicative reduction preserved: we'll still have $v(\De), v(c_4)=/\ne0$ in extension.
+\item Can improve from additive reduction: intuition---$v(c_4)>0$---by extending valuation can make CoC so that $v(c_4)=0$. Use Legendre form.
+\item Good reduction iff $j$-invariant integral: if good reduction, then $\De\in (R')^{\times}$, need to show in $R$. But $j=\fc{c_4'}{\De'}$, and by good reduction $\De'$ is in $R'^{\times}$. If $j$-invariant integral---note that $j$-invariant is most closely linked to the Legendre form, so we look at that---$\la$ must be integral, and not ``almost" a repeated root, so $\De$ (think of it as the discriminant of the polynomial!) is good.  
+\end{enumerate}
+\item With NOS, we have a strong link between good reduction and non-ramification, in the sense that a weak result about non-ramification of torsion points (just $E[m]$ unramified at $v$ for infinitely many integers $\perp \chr(k)$) implies good reduction.
+
+Pf. Choose $m$ super-large and relatively prime. The key is that $m$ is more than $E/E_0(K^{\text{nr}})$---because then $E_1$ can't capture everything and this forces the existence of $(\Z/\ell\Z)^2$ in the reduction part, which cannot happen for mult/add reduction.
+
+7.2 Isogenous $\implies$ both have good reduction, or bad reduction. Look at $m$-torsion!
+
+7.3 Pot good reduction iff $I_v$ acts on $T_{\ell}(E)$ through finite quotient for some/all primes $\ell\ne \chr(k)$. Forward direction easy---just extend field until good reduction. Backwards direction: look at fixed field, can find finite subfield giving good reduction (use giving compositum).
+\end{enumerate}
+}
+
+\section{Introduction}
+Let $K$ be a field. 
+\begin{df}\llabel{df:cam8-1}
+$v:\Kt\to \Z$ is a \textbf{discrete valuation} if
+\begin{enumerate}
+\item
+$v(xy)=v(x)+x(y)$.
+\item
+$v(x+y)\ge \min(v(x),v(y))$.
+\end{enumerate}
+($v(0)$ is either 0 or undefined.)
+\end{df}
+\begin{ex}
+\begin{enumerate}
+\item
+$K=\Q$ prime. $v=v_p$ where $v_p(p^r\fc{a}{b})=r$ with $a,b\in \Z$ coprime to $p$.
+\item
+$[K:\Q]<\iy$, ring of integers $\sO_K$ where $\mfp\subeq \sO_K$ is a prime ideal.
+\end{enumerate}
+We have $v=v_{\mfp}$ where $v_{\mfp}(x)$ is the power of $\mfp$ in the factorization of $x\sO_K$ into prime ideals. 
+\end{ex}
+\begin{rem}
+Let $x,y\in K$. The definition gives 
+\[
+\begin{cases}
+v(x+y)&\ge \min(v(x),v(y))\\
+v(x)&\ge \min(v(x+y),v(y)=v(-y)).
+\end{cases}
+\]
+So if $v(x)<x(y)$ then $v(x+y)=v(x)$. Hence if $v(x)\ne v(y)$, then $v(x+y)=\min(v(x),v(y))$. 
+\end{rem}
+\begin{lem}\llabel{lem:cam8-2}
+Let $E/K$ be an elliptic curve, with Weierstrass equation 
+\[
+y^2+a_1xy+a_3y=x^3+a_2x^2+a_4x+a_6.
+\]
+Assume $v(a_i)\ge 0$ for all $i$. Let $O\ne P=(x,y)\in E(K)$. Then either
+\begin{enumerate}
+\item
+$v(x),v(y)\ge 0$, or
+\item
+$v(x)=-2r, v(y)=-3r$ for some $r\ge 1$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\ul{Case $v(x)\ge 0$:} Suppose $v(y)<0$. Then $v(y^2+a_1xy+a_3y)=2v(y)<0$ and $v(RHS)\ge 0$, contradiction. Thus $v(y)\ge 0$.\\
+
+\ul{Case $v(x)<0$:} We have $v(LHS)\ge \min(2v(y),v(x)+v(y),v(y))$, $v(RHS)=3v(x)$, and therefore (checking a few cases) $v(y)<v(x)<0$. Then $v(LHS)=2v(y)$. Thus $v(x)=-2r$, $v(y)=-3r$ for some $r\ge 1$.
+\end{proof}
+Notation: Denote the valuation ring, unit group, maximal ideal, and residue field by 
+\begin{align*}
+\sO_K&=\set{x\in K^{\times}}{v(x)\ge 0}\cup \{0\}\\
+\sO_K^{\times}&=\set{x\in K^{\times}}{v(x)=0}\cup \{0\}\\
+\pi\sO_K&=\set{x\in K^{\times}}{v(x)\ge 1}&\text{picking }\pi\in K,v(\pi)=1.\\
+%setdry
+k&=\sO_K/\pi\sO_K.
+\end{align*}
+\begin{df}
+A Weierstrass equation for $E$ with coefficients $a_1,\ldots, a_6\in K$ is
+\begin{enumerate}
+\item
+\textbf{integral} if $a_1,\ldots,a_6\in \sO_K$.
+\item
+\textbf{minimal} if $v(\De)$ is minimal among all integral models for $E$ (among all the Weierstrass equations you can write down).
+\end{enumerate}
+\end{df}
+%amongst all the Weierstrass equations you can write down, the discriminant is as small as possible.
+\begin{rem}
+\begin{enumerate}
+\item
+Putting $x=u^2x'$ and $y=u^3y'$ gives $a_i=u^ia_i'$, therefore integral models exist.
+\item
+$a_1,\ldots, a_6\in \sO_K$ gives $\De\in \sO_K$ and $v(\De)\in \N_0$.
+\end{enumerate}
+\end{rem}
+We'd like to apply formal groups to elliptic curves over local fields.
+
+Fixing any $0<c<1$ we define a metric on $K$ by
+\[
+\begin{cases}
+c^{v(x-y)}&\text{if }x\ne y\\
+0&\text{ if}x=y.
+\end{cases}
+\]
+Definition~\ref{df:cam8-1} gives 
+\[
+d(x,z)\le \max(d(x,y),d(y,z)),
+\]
+the ultrametric inequality (much stronger than the triangle inequality). 
+Let $\hat K$ be the completion of $K$ with respect to $d$. By continuity, $+,\times$ extend to $\hat K$, so $\hat K$ is a field. $v$ extends to $\hat K$ and is a discrete valuation. Note that the residue field does not change.
+
+In examples 1 and 2, we write $\hat K=\Q_p$ and $K_{\mfp}$. For the rest of this section, $K$ is a field complete with respect to a discrete valuation $v:\Kt\to \Z$. $\sO_K,\pi,k$ are defined as before.
+
+We further assume $\chr(K)=0$ and $\chr(k)=p>0$. (For example, $K=\Q_p$, $\sO_K=\Z_p$, $\pi\sO_K=p\Z_p$, $k=\F_p$.) $K$ is complete so $\sO_K$ is complete with respect to $\pi^r\sO_K$ for any $r\ge 1$. In \S7 we put $t=-\fc xy$ we put $t=-\fc xy$, $w=-\rc y$. Then 
+\begin{align*}
+\hat E(\pi^r\sO_K)&=
+\set{(x,y)\in E(K)}{-\fc xy,-\rc y \in \pi^r\sO_K}\cup \{0\}\\
+&=\set{(x,y)\in E(K)}{v\pf{x}{y},v\pf{1}{y} \ge r}\cup \{0\}\\
+&\stackrel{\text{Lem.~\ref{lem:cam8-2}}}= 
+\set{(x,y)\in E(K)}{v(x)\le -2r,v(y)\le -3r}\cup \{0\}.
+\end{align*}
+By Lemma~\ref{lem:cam7-2}, this is a subgroup of $E(K)$, say $E_r(K)$.
+
+Thu. 7/11
+
+We get a filtration
+\[
+\cdots \subeq E_3(K)\subeq E_2(K)\subeq E_1(K)=\hat E(\pi \sO_K).
+\]
+More generally, if $\cF$ is a formal group over $\sO_K$, 
+\[
+\cdots\subeq  \cF(\pi^3\sO_K)\subeq \cF(\pi^2\sO_K)\subeq \cF(\pi\sO_K).
+\]
+\begin{pr}\llabel{pr:cam8-3}
+Let $\cF$ be a formal group over $\sO_K$. Let $e=v(p)$. If $r>\fc{e}{p-1}$, then
+\begin{align*}
+\log:\cF(\pi^r\sO_K)& \to \wh{\G}_a(\pi^r \sO_K)\\
+\exp:\wh{\G}_a(\pi^r\sO_K)& \to\cF(\pi^r \sO_K)
+\end{align*}
+are inverse homomorphisms.
+\end{pr}
+\begin{proof}
+%We need to show the power series converge; then the fact they are homomorphism and inverses will follow from what we've already shown.
+
+Let $x\in \pi^r\sO_K$. We must show the power series $\exp$ and $\log$ of Theorem~\ref{thm:cam7-3} converge. Then the fact they are homomorphism and inverses will follow from what we've already shown. Recall 
+\[
+\exp(T)=T+\fc{b_2}{2!}T^2+\fc{b_3}{3!}T^3+\cdots
+\]
+for $b_2,b_3,\ldots, \in \sO_K$. We have
+\bal
+v(n!)&=ev_p(n!)\\
+&=e\pa{\sum_{j=1}^{m} \ff{n}{p^j}},\qquad p^m\le n<p^{m+1}\\
+&\le e\sum_{j=1}^m \fc{n}{p^j}\\
+&=en \fc{\rc p-\rc{p^{m+1}}}{1-\rc p}\\
+&=en\rc{p-1} (1-p^{-m})\le \fc{e}{p-1}(n-1).
+\end{align*}
+Therefore 
+\begin{align*}
+v\pa{\fc{b_n}{n!}x^n}&\ge nr-\fc{e}{p-1}(n-1)\\
+&=(n-1)\ub{\pa{r-\fc{e}{p-1}}}{>0}+r.
+\end{align*}
+This is $\ge r$ and goes to $\iy$ as $n\to \iy$. 
+Because we have the ultrametric law, convergence of terms in a sum implies convergence of the sum. Thus $\exp(x)$ converges and belongs to $\pi^r\sO_K$. 
+
+For $\log$ the denominators are smaller, so a fortiori the series for $\log$ converges.\footnote{In complex analysis we're used to $\exp$ having better convergence, but here it's the other way around.}
+\end{proof}
+So for $r$ sufficiently large,
+\[
+\cF(\pi^r\sO_K)\cong \wh{\G}_a(\pi^r\sO_K)\cong (\pi^r\sO_K,+)\cong (\sO_K,+).
+\]
+\begin{lem}[Filtration of formal groups]\llabel{lem:cam8-4}
+If $r\ge 1$ then $\fc{\cF(\pi^r\sO_K)}{\cF(\pi^{r+1}\sO_K)}\cong (k,+)$.
+\end{lem}
+\begin{proof}
+note $F(X,Y)=X+Y+XY(\cdots)$. If $x,y\in \sO_K$ then $F(\pi^rx,\pi^ry)\equiv \pi^r(x+y)\pmod{\pi^{r+1}}$. We get a  group homomorphism
+\bal
+\cF(\pi^r\sO_K)&\to k\\
+\pi^rx &\mapsto x\pmod \pi
+\end{align*}
+surjective (by definition of $k$ as a residue field) with kernel $\cF(\pi^{r+1}\sO_K)$. Hence
+\[
+\fc{\cF(\pi^r\sO_K)}{\cF(\pi^{r+1}\sO_K)}\xrc (k,+).
+\]
+\end{proof}
+\begin{cor}
+If $|k|<\iy$ then $\cF(\pi\sO_K)$ has a subgroup of finite index isomorphic to $(\sO_K,+)$. 
+\end{cor}
+We use the following notation for reduction modulo $\pi$:
+\bal
+\sO_K&\to \frac{\sO_K}{\pi \sO_K}=k\\
+x&\mapsto \wt x.
+\end{align*}
+
+Let $E/K$ be an elliptic curve. 
+\begin{pr}
+The reductions modulo $\pi$ of two minimal Weierstrass equations for $E$ define isomorphic curves over $k$. 
+\end{pr}
+\begin{proof}
+Say the Weierstrass equations are related by $[u;r,s,t]$, $u\in \Kt$ and $r,s,t\in K$. Then $\De_1=u^{12}\De_2$. If both equations are minimal, then $v(\De_1)=v(\De_2)$, then $v(u)=0$, i.e., $u\in \sO_K^{\times}$.
+
+In the case where $\chr(k)\ne 2,3$, we can work with shorter Weierstrass forms, and we only need to worry about $u$.
+
+In the general case, the transformation formulae for $a_i$'s and $b_i$'s (for example $u^2b_2'=b_2+12r$) gives $r,s,t\in \sO_K$. The Weierstrass equations for the reduction $\pi$ are now related by $[\wt u\ne 0;\wt r,\wt s,\wt t]$. 
+\end{proof}
+\begin{df}\llabel{df:ec-reduction}
+The \textbf{reduction} $\wt E/k$ of $E/K$ is defined by the reduction of the reduction of a minimal Weierstrass equation modulo $pi$. We say $E$ has \textbf{good reduction} if $\wt E$ is non-singular (i.e., $\wt E$ is an elliptic curve). Otherwise, it has \textbf{bad reduction}.
+\end{df}
+For an integral Weierstrass equation, 
+\begin{itemize}
+\item
+$v(\De)=0$ implies good reduction,
+\item
+$0<v(\De)<12$ implies bad reduction (we can only change $\De$ by powers of 12 so we can't get $v(\De)=0$; the discriminant vanishes when you reduce modulo $\pi$.), and 
+\item
+when $v(\De)\ge12$, the Weierstrass equation might not be minimal. \fixme{good or bad reduction?}
+\end{itemize}
+
+There is a well-defined map 
+\begin{align*}
+\Pj^2(K)&\to \Pj^2(k)\\
+(x:y:z)&\mapsto (\wt x:\wt y:\wt z)
+\end{align*}
+where we choose the representative with $\min(v(x),v(y),v(z))=0$. 
+
+We restrict this map to get 
+\begin{align*}
+E(K)&\to \wt E(k)\\
+P&\mapsto \wt P.
+\end{align*}
+Lemma~\ref{lem:cam8-2} gives that $E_1(K)=\set{P\in E(K)}{\wt P=O}$.
+
+Why should $\wt E(k)$ be a group? In the case of bad reduction we don't have a group law... but we can get one by deleting a singular point. Let 
+\[
+\wt E_{ns} =\begin{cases}
+ \wt E &\text{ if $E$ has good reduction,}\\
+\wt E\bs \{\text{singular point}\}&\text{ if $E$ has bad reduction.} 
+\end{cases}
+\]
+
+The chord and tangent process defines a group law on $\wt E_{ns}$: If the line passes through the singular point, it passes through with multiplicity 2. Hence the third point of intersection will not be the singular point.
+
+In the case of bad reduction, then over $\ol k$, $\wt E\cong \G_a$ or $\G_m$.
+
+For simplicity, assume $\chr(k)\ne 2$. Note $\wt E:y^2-f(x)$ has $\deg(f)=3$. There are two possibilities.
+\begin{enumerate}
+\item
+The singular point is a double root, for example $y^2=x^2(x+1)$. This is a curve with a node, and we get multiplicative reduction.
+\item
+The singular point is a triple root, for example, $y^2=x^3$. This is a curve with a cusp, and we get additive reduction.
+\end{enumerate}
+
+{\color{blue}Lecture 9/11}
+
+(Picture)
+
+We check that we have a group law on a singular curve with the singular point removed. We'll just do the special case of $y^2=x^3$.
+We have 
+\bal
+\G_a&\xrc \wh E_{ns}\\
+t&\mapsto (t^{-2},t^{-3})\\
+O&\mapsto O \text{ (point at $\iy$)}\\
+\fc xy& \mapsfrom (x,y).
+\end{align*}
+We check this is a group homomorphism. Let $P_1,P_2,P_3$ be on the line $ax+by=1$. Let $P_i=(x_i,y_i)$. Then  $x_i^3=y_i^2=y_i^2(ax_i+by_i)$, so $t_i=\fc{x_i}{y_i}$ is a root of $x^3-aX-b$, and $t_1+t_2+t_3$. 
+
+This is the additive case; there is a similar calculation for the multiplicative case. The one thing to notice is that rational parametrizations aren't unique, because we can compose by a Mobius transformation. We want to make sure that the point at $\iy$ on $\Pj^1$ goes to the singular line. In the multiplicative case, 2 points on the projective line map to the singular point.
+We get a rational map between the curve and $\Pj^1$ with $0,\iy$ deleted, the multiplicative group. We want 1 to be mapped to the identity; this helps us pick the right Mobius map.
+
+\begin{df}
+Define
+\[
+E_0(K)=\set{P\in E(K)}{\wt P\in \wt E_{ns}(k)}.
+\]
+\end{df}
+\begin{pr}\llabel{pr:cam8-6}
+$E_0(K)\subeq E(K)$ is a subgroup, and reduction modulo $\pi$ is a surjective group homomorphism, $E_0(K)\rra \wt E_{ns}(k)$. 
+%good reduction: no singular point to delete.
+\end{pr}
+%chord and tangent process
+\begin{proof}
+(Group homomorphism) A line in $\Pj^2$ defined over $K$ is given by $\ell:aX+bY+cZ=0$ for some $a,b,c\in K$ not all 0. We may assume $\min(v(a),v(b),v(c))=0$. Reduction modulo $\pi$ gives a line $\wt{\ell}:\wt aX+\wt bY+\wt cZ$ where $\wt a,\wt b,\wt c$ re not all 0. 
+Thinking of lines as points in dual projective space, our method of reducing lines is the same as our method of reducing points.
+
+If $P_1,P_2,P_3\in E(k)$ with $P_1+P_2+P_3=O$, then they lie on a line $\ell$. Then $\wt P_1,\wt P_2,\wt P_3\in \wt E(k)$ lie on the line $\wt{\ell}$.
+%original 3 points distinct
+%intersect at line, look for roots of cubic polynomial
+
+If $\wt P_1,\wt P_2\in \wt E_{ns}(k)$, then $\wt P_3\in \wt E_{ns}(k)$. So of $P_1,P_2\in E_0(K)$ then $P_3\in E_0(K)$ and $\wt P_1+\wt P_2+\wt P_3=0$.
+
+(Surjective) Let $f(x,y)=y^2+a_1xy+a_3y-x^3-a_2x^2-a_4x-a_6$. Let $\wt P\in \wt E_{ns}(k)\bs \{0\}$, say $\wt P=(\wt x_0,\wt y_0)$ for some $x_0,y_0\in \sO_K$. Since $\wt P$ is nonsingular, either $\pd fx(x_0,y_0)\nequiv 0\pmod{\pi}$ or $\pd fy(x_0,y_0)\nequiv 0\pmod{\pi}$. If $\pd fx(x_0,y_0)\nequiv 0 \pmod{\pi}$ then let $g(t)=f(t,y_0)\in \sO_K[t]$. We will use Hensel's lemma~\ref{lem:hensel-ring} to turn our approximate root into an exact root.
+
+Then
+\[
+\begin{cases}
+g(x_0)\equiv 0\pmod{\pi}\\
+g'(x_0)\in \sO_K^{\times}.
+\end{cases}
+\]
+Hensel's lemma gives $b\in \sO_K$ such that $g(b)=0$, $b\equiv x_0\pmod{\pi}$. Then $P=(b,y_0)\in E(K)$ reduces to $\wt P=(\wt x_0,\wt y_0)$. (In fact, $P\in E_0(K)$.) The case where $\pd fy(x_0,y_0)\nequiv 0\pmod{\pi}$ works in the same way.
+\end{proof}
+This is a general argument to lift points on curves by Hensel's lemma;  the form of $f$ didn't really matter.
+
+We have for $r>\fc{e}{p-1}$,
+\[
+\xymatrix{
+\hat E(\pi^r\sO_K)\aq{d} &&&\hat E(\pi\sO_K)\aq{d}&&\\
+E_r(K)\aq{d} \ha{r}_{(k,+)} & \cdots \ha{r}_{(k,+)} & E_2(K)\ha{r}_{(k,+)} & E_1(K)\ha{r}_{\wt E_{ns}(k)} & E_0(K) \ha{r} & E(K)\\
+(\sO_K,+) &&&&&
+}
+\]
+where each quotient before $E_1(K)$ is isomorphic to $(k,+)$ and $\fc{E_0(K)}{E_1(K)}\cong \wt E_{ns}(k)$. 
+%keep passing to groups of finite index. 
+Our goal is to show $E(K)$ contains a subgroup of finite index isomorphic to $(\sO_K,+)$; it remains to  study the top layer, how $E_0(K)$ sits inside $E(K)$. 
+If good reduction we're already done; we just need to consider bad reduction. %Neron model, we will do a compactness model to show the index is finite
+
+\begin{lem}
+If $|k|<\iy$, then $\Pj^n(K)$ is compact with respect to the $\pi$-adic topology. 
+\end{lem}
+\begin{proof}
+We have
+\[
+\fc{\pi^r \sO_K}{\pi^{r+1} \sO_K} \cong \fc{\sO_K}{\pi\sO_K}\cong k
+\]
+by $\pi^r x\bmod{\pi^{r+1}}\mapsto x\bmod \pi$. Because $k$ is finite, $\fc{\sO_K}{\pi^r\sO_K}$ is finite for all $r$. 
+
+Let $(x_n)$ be a squence in $\sO_K$. $(x_n)$ has a subsequence $(x_n^{(1)})$ that is constant modulo $\pi$, and inductively $(x_n^{(i)})$ has a subsequence $(x_n^{(i+1)})$ that is constant modulo $\pi^{i+1}$. Then $(x_n^{(n)})$ is a Cauchy sequence, and hence converges. Thus $\sO_K$ is sequentially compact and hence compact. (In general, profinite groups are compact.)
+
+$\Pj^n(K)$ is the union of compact sets $\set{[a_0:\cdots a_{i-1}:1:a_{i+1}:\cdots a_n]}{a_i\in \sO_K}$ and hence compact.
+\end{proof}
+\begin{lem}
+Suppose $E_0(K)\subeq E(K)$ has finite index.
+\end{lem}
+\begin{proof}
+$E(K)\subeq \Pj^2(K)$ is a closed subset and hence a compact topological group. If $\wt E$ has a singular point $(\wt x_0,\wt y_0)$, $E(K)\bs E_0(K)=\set{(x,y)\in E(K)}{v(x-x_0)\ge 1, v(y-y_0)\ge 1}$ is a closed subset (as $v$ is continuous). Thus $E_0(K)\subeq E(K)$ is an open subgroup. 
+The cosets of $E_0(K)$ in $E(K)$ form an open cover of $E(K)$. 
+%subgroup open iff closed of finite index?
+Then $E(K)$ is compact, and $[E(K):E_0(K)]<\iy$. The index
+\[
+c_K(E)=[E(K):E_0(K)]<\iy
+\]
+is called the \textbf{Tamagawa number}.
+\end{proof}
+\begin{rem}
+If $E$ has good reduction, then $c_K(E)=1$, but the converse is false. If you do more geometry, using Neron models, then you get a better understanding of $c_K$.
+
+If you work in a more abstract setting, reduction consists of several components. When we look at the Weierstrass equation, we see only one component; the other ones get contracted to a singular point and we don't see them. ($c_K$ is the number of components.) One can prove various nice facts about $c_K$: either $c_K(E)=v(\De)$ or $c_K(E)\le 4$. We've insisted on the minimal Weierstrass equation, but only needed it in two places: the reduction is well-defined, and in the above fact on $c_K$.
+
+%Note that we get additive or multiplicative reduction when we assume completeness
+Split multiplicative reduction is where get multiplicative reduction without having to make a field extension.
+\end{rem}
+\begin{thm}\llabel{thm:cam8-9}
+Let $K$ be a field complete with respect to a discrete valuation, $\chr(K)=0$ with finite residue field. Then $E(K)$ contains a subgroup of finite index isomorphic to $K^+$. 
+In particular, $E(K)\tors$ is finite.
+%whenever have abelian group, can look at torsion subgroup.
+\end{thm}
+\begin{rem}
+The fields in Theorem~\ref{thm:cam8-9} are exactly the finite extensions of $\Q_p$. 
+%The hypotheses for this theorem $K$ finite extension for $\Q_p$. 
+\end{rem}
+Next time we'll prove a result useful when we look at elliptic curves over global fields, about unramified extensions.
+
+{\color{blue}{Lecture 12-11}}
+We recall some facts on local fields. Let $K$ be a finite extension of $\Q_p$. Let $K$ be a finite extension of $\Q_p$. Note that $K$ is complete wrt $v_K$. Let $L/K$ be a finite extension. Then we have a commutative diagram
+\[
+\xymatrix{
+\Kt\sj{r}^{v_K} \ha{d} & \Z\ar[d]^{\times e}\\
+L^{\times} \sj{r}^{v_L} & \Z.
+}
+\]
+where $[L:K]=ef, f=[k':k]$, and $k,k'$ are the residue fields of $K$ and $L$ (and have characteristic $p$). If $L/K$ is Galois then there is a natural group homomorphism 
+\[G(L/K)\to G(k'/k)\] (since the Galois action preserves the valuation). This map is surjective with kernel of order $e$.
+\begin{df}
+$L/K$ is unramified if $e=1$.
+\end{df}
+\begin{pr}
+For each integer $m\ge 1$,
+\begin{enumerate}
+\item
+$k$ has a unique extension of degree $m$, and
+\item
+$K$ has a unique unramified extension of degree $m$.
+\end{enumerate}
+Moreover, these extensions are Galois with cyclic Galois group.
+\end{pr}
+The takeaway is that given any extension of residue fields, you can find an unramified extension with that residue field.
+\begin{thm}\llabel{thm:cam8-10}
+Let $[K:\Q_p]<\iy$. Suppose $E/K$ has good reduction and $p\nmid n$. If $P\in E(K)$ then $K([n]^{-1}P)/K$ is unramified.
+\end{thm}
+(We use the notation $[n]^{-1}P=\set{Q\in E(\ol K)}{nQ=P}$, $K(\{P_1,\ldots, P_r\})=K(x_1,\ldots, x_r,y_1,\ldots, y_r)$ where $P_i=(x_i,y_i)$.)
+\begin{proof}
+%size $n^2$ because the size of the fiber is the degree (we are over characteristic 0 so everything is separable).
+$[n]:\wt E\to \wt E$ is a separable isogeny, since $p\nmid n$. Thus $|[n]^{-1}\wt P|=\deg[n]=n^2$. Here $[n]^{-1}\wt P=\set{Q'\in \wt E(\ol k)}{nQ'=\wt P}$. 
+%
+Consider the extension of residue fields $k'=k([n]^{-1}\wt P)$. 
+Let $m=[k':k]$. let $L/K$ be the unramified extension of degree $m$, so $L$ has residue field $k'$. We claim that each $Q'\in \wt E(k')$ with $nQ'=\wt P$ is the reduction of some $Q\in E(L)$ with $nQ=P$. 
+%really working with fact complete fields
+
+By Proposition~\ref{pr:cam8-6}, there exists $Q_0\in E(L)$ reducing to $Q'$. Then $nQ_0-P\in E_1(L)$. 
+Since $p\nmid n$, Corollary~\ref{cor:cam7-5} tells us multiplication by $n$ on $E_1(L)$ is an isomorphism, so there exists $Q_1\in E_1(L)$ such that $nQ_0-P=nQ_1$.
+Then $P=n(Q_0+Q_1)$. Taking $Q=Q_0+Q_1$ proves the claim.
+
+We found $n^2$ points just by finding points defined over $L$. Thus all $n^2$ points in $[n]^{-1}P$ are defined over $L$.
+
+Thus $K([n]^{-1}P)= L$ and $K([n]^{-1}P)/K$ is unramified.
+\end{proof}
+%2:15 tues.
+%visiting nottingham

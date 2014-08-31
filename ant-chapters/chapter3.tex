@@ -1,0 +1,579 @@
+\chapter{The class group}\llabel{class-group}
+\index{class group}
+\section{Norms of ideals}
+Assume AKLB, $A$ is Dedekind, and $L/K$ is separable. 
+We generalize the definition of norm to ideals, not just elements, so that it is a map $\text{Id}(B)\to \text{Id}(A)$ that is consistent with our old condition, i.e.
+\[
+\nm_{L/K}((a))=\pa{\nm_{L/K}(b)}.
+\]
+%To come up with the right definition, 
+Consider a principal ideal $\mfp=(p)\subeq A$, and suppose it factors in $B$ as $\mfp B=\prod_{i=1}^g \mP^{e_i}$. We want the norm to satisfy
+\begin{equation}\llabel{norm-ideal-motivate}
+\nm_{L/K}(p)=\nm_{L/K}(\mfp B)=\prod_{i=1}^g \nm_{L/K}(\mP)^{e_i},
+\end{equation}
+since we want it to be multiplicative. But $\nm(p)=p^n$ where $n=[L:K]$. By the degree equation, if $\nm(\mP)=\mP^{f_i}$ where $f_i=[B/\mP_i:A/\mfp]$, then~(\ref{norm-ideal-motivate}) will be satisfied. Hence we make the following definition.
+\begin{df}
+For $\mP$ is a prime of $B$, let $\mfp=\mP\cap A$ and $f(\mP/\mfp)=[B/\mP:A/\mfp]$. Define the norm of $\mP$ to be
+\[
+\nm_{L/K}(\mP)=\mfp^{f(\mP/\mfp)}.
+\]
+This extends uniquely to a homomorphism $\text{Id}(A)\to \text{Id}(B)$, since the ideal group is free.
+\end{df}
+%Consistency with the previous definition of the norm follows from the degree equation (Theorem~\ref{deg-eq}).
+\begin{pr}[Behavior with respect to field extensions]$\,$
+\begin{enumerate}
+\item
+For an ideal $\ma\subeq A$, 
+\[
+\nm_{L/K}(\ma B)=\ma^m,
+\]
+where $m=[L:K]$.
+\item
+If $L/K$ is Galois and $\mfp\ne 0$ is a prime ideal of $A$, and $\mP\mid \mfp$, then %, $\mfp B=(\mP_1\cdots \mP_g)^e$, and $\mP\mid \mfp$, then
+\[
+%\cal \mP \cdot B = (\mP_1\cdots \mP_g)^{ef}
+\nm_{L/K}(\mfp)
+=\prod_{\si\in G(L/K)}\si \mP.
+\]
+\item For any nonzero $\be\in B$, $\nm_{L/K}(\be B)=\nm_{L/K}(\be)A$. (I.e. this is consistent with our previous definition.)
+\end{enumerate}
+\end{pr}
+Compare the first two items to Chapter~\ref{ring-of-integers}, Proposition~\ref{nm-elem-pr}(5) and Proposition~\ref{ntr-fext}(2b), respectively.
+\begin{proof}$\,$
+\begin{enumerate}
+\item
+By the degree equation (Theorem~\ref{deg-eq}), for $\mfp$ prime
+\[
+\nm_{L/K}(\mfp B)=\nm_{L/K}\pa{\prod_i \mP_i^{e_i}}=\mfp^{\sum_{i} e_if_i}=\mfp^m.
+\]
+The general statement follows by multiplicativity of $\nm_{L/K}$.
+\item $G(L/K)$ acts transitively on $\{\mP_1,\ldots, \mP_g\}$, so each $\mP_i$ occurs $\frac{m}{g}=ef$ times in $\{\si \mP\mid \si\in G(L/K)\}$.
+\item 
+First suppose $L/K$ is Galois. We use the description in terms of Galois conjugates to relate the norms of elements with the norms of ideals.
+By part 2 and Proposition~\ref{ring-of-integers}.\ref{ntr-fext}(2b), we have
+\[
+\nm_{L/K}(\be B)\cdot B\stackrel{(2)}=\prod_{\si\in G(L/K)} \si(\be B) =\pa{\prod_{\si\in G(L/K)}\si(\be)}B\stackrel{\ref{ring-of-integers}.\ref{ntr-fext}}=\nm_{L/K}(\be) \cdot B.
+\]
+Hence, $\nm_{L/K}(\be)\cdot A$ and $\nm_{L/K}(\be\cdot B)$ determine the same ideal in $B$. Since $\Id(A)\to \Id(B)$ is injective, they are equal in $A$.
+
+Now consider the general case. Let $M$ be the Galois closure of $L$ over $K$, let $C=\sO_M$, and let $d=[M:L]$. Then the above, together with part 1 and Proposition~\ref{ring-of-integers}.\ref{nm-elem-pr}(5), give
+\[
+\nm_{L/K}(\be\cdot B)^d\stackrel{(1)}= \nm_{M/K}(\be\cdot B)=\nm_{M/K}(\be) \cdot A \stackrel{\ref{ring-of-integers}.\ref{nm-elem-pr}(5)}= \nm_{L/K}(\be)^d\cdot A.
+\]
+Since $\Id(B)$ is torsion-free, $\nm_{L/K}(\be\cdot B)=\nm_{L/K}(\be)\cdot A$.\qedhere
+\end{enumerate}
+\end{proof}
+\index{numerical norm}
+\begin{df}
+The \textbf{numerical norm} of $\ma$ in $\sO_K$ is its index in the lattice of integers:
+\[
+\mathfrak N \ma =[\sO_K:\ma].
+\]
+\end{df}
+Note the following comparisons between the ideal and numerical norms.
+\begin{enumerate}
+\item The ideal norm is defined for a field extension $K/F$ while the numerical norm is defined for any number field $K/\Q$.
+\item The ideal norm returns an ideal while the numerical norm returns an integer.
+\item However, if we take the base field $F$ to be $\Q$, and identify integers with the ideals they generate, the two norms are equivalent. This is the content of the following proposition.
+\end{enumerate}
+\begin{pr}[Relationship between ideal and numerical norm]
+$\,$
+\begin{enumerate}
+\item
+For any ideal $\ma\subeq \sO_K$,
+\[
+\nm_{K/\Q}(\ma)=(\mathfrak N(a)).
+\]
+Therefore, $\mathfrak N(ab)=\mathfrak N(a)\mathfrak N(b)$.
+\item
+Let $\mb\subeq \ma\subeq K$ be fractional ideals. Then
+\[
+[\ma:\mb]=\mathfrak N(\ma^{-1}\mb).
+\]
+\end{enumerate}
+\end{pr}
+In other words, {\it the norm of an ideal is its index in the ring of integers}.
+\begin{proof}$\,$
+\begin{enumerate}
+\item
+Write $\ma=\prod \mfp_i^{e_i}$ and let $(p_i)=\Z\cap \mfp_i$, $f_i=f(\mfp_i/(p_i))$. 
+By the Chinese remainder theorem,
+\[
+\sO_K/\ma\cong \prod_i \sO_K/\mfp_i^{e_i}.
+\]
+Since $\sO_K/\mfp_i^{e_i}$ is a vector space over $\F_{p_i}$ of dimension ${e_if_i}$, we find
+\[
+\mathfrak N \ma=|\sO_K/\ma|=\prod_i p_i^{e_if_i}=\nm_{K/\Q}(\ma).
+\] 
+Multiplicativity follows from the same property for the ideal norm.
+\item We can multiply by an integer $d$ so that $\ma$ and $\mb$ are integral ideals. Then
+\[
+[\ma:\mb]=[d\ma:d\mb]=\frac{[\sO_K:d\mb]}{[\sO_K:d\ma]}
+=\frac{\mathfrak N(d\mb)}{\mathfrak N(d\ma)}\stackrel{(1)}=\mathfrak N(\ma^{-1}\mb).
+\qedhere\]
+\end{enumerate}
+
+\end{proof}
+%Let $V$ be a vector space of dimension $n$ over $\R$. A \textbf{lattice} $\Ga$ in $V$ is a subgroup of the form $\Ga=\Ze_1+\cdots +\Ze_r$ where $e_1,\ldots, e_r$ are linearly independent.
+\index{Minkowski's Theorem}
+\section{Minkowski's Theorem}
+\begin{thm}[Minkowski]
+Let $V$ be a subset of $\R^n$ that is convex and symmetric around the origin (``centrally symmetric"). %Let $D$ be the fundamental parallelopiped of the lattice $L$. 
+Let $L$ be a full lattice with fundamental paralleopiped $D$. 
+If
+\[
+\mu(T) > 2^n \mu(D)
+\]
+then $T$ contains a point of $L$ other than the origin. If furthermore $D$ is compact, we can weaken the hypothesis to
+\[
+\mu(T)\ge 2^n\mu(D).
+\]
+\end{thm}
+\begin{proof}
+First note that if $S$ is a measurable set such that $\mu(S)>\mu(D)$, then $S$ contains two points $a,b$ such that $a-b\in L$. Indeed, we can tile the space with fundamental parallelopipeds, and translate each of them to the origin. We consider the intersections of these parallelopipeds with $S$. 
+Since the sum of these volumes is $\mu(S)>\mu(D)$, and they are all packed in $D$, there must be overlap, i.e. unequal $a,b\in S$ that were translated to the same point. This implies $a-b\in L$.
+
+The set $S=\rc 2T$ has volume $\rc{2^n}T>\mu(D)$. Hence by the above, there exist $\rc2 a\ne \rc2 b\in S$ ($a,b\in T$) such that $\rc2a-\rc2b\in L$. Since $T$ is symmetric, $-b\in T$; since $T$ is convex, $\rc2 (a-b)\in T$. This is the desired lattice point.
+
+Now suppose instead $T$ is convex and $\mu(T)\ge 2^n\mu(D)$. Let $L_n$ be the set of lattice points in $\pa{1+\rc n}T$ other than the origin. By the first part, $L_n$ is nonempty; since $T$ is bounded it must be finite. We have that $L_n\subeq L_m$ when $n\ge m$. Hence \[T\cap L=\bigcap_{n=1}^{\iy} \pa{1+\rc n}T \cap L=\bigcap_{n=1}^{\iy} L_n\ne \phi.\qedhere\]
+\end{proof}
+\begin{thm}[Sums of four squares]
+(A digression, but nice to talk about)
+\end{thm}
+\section{Finiteness of the class number}\llabel{finite-class}
+\fixme{There's a more natural way to ``transfer" the inner product on $\C^n$ to $\R^r\times \C^s$...}
+
+We now show that the class number is finite (Theorem~\ref{class-number-finite}). The idea of the proof is as follows.
+\begin{enumerate}
+\item Embed $K$ as a $\Q$-vector space in $\R^r\times \C^s$. Under the $\R$-vector space isomorphism $K\ot_{\Q} \R\to \R^r\times \C^s$, the ideal $\ma$ is realized as a lattice $L$ in $V=\R^r\times \C^s$ (Proposition~\ref{ideal-lattice}). The norm on $K$ translates into a ``norm" on $V$.
+\item Find an element in $\ma$ of small norm (Theorem~\ref{ideal-representative}): Find a compact, symmetric convex set in $V$ consisting of elements of norm at most $R$. Choosing $R$ large enough, we can make sure $V$ has large volume. By Minkowski's Theorem, $V$ contains an element of $L$.
+\item Using step 2, show that every ideal class contains an representative of norm at most a constant (Theorem~\ref{ideal-class-group-rep}).
+\item Show that there are a finite number of ideals with bounded norm (Lemma~\ref{finite-bounded-norm}).
+\end{enumerate}
+We first embed $\ma$ as a full lattice using the embeddings of $K$, and find the volume of the fundamental parallelopiped in terms of the discriminant (the discriminant is related to the embeddings by Proposition~\ref{disc-and-fe}).
+
+Let $\{\si_1,\ldots, \si_r\}$ be the real embeddings and $\{\si_{r+1},\bar{\si}_{r+1},\ldots, \si_{r+s},\bar{\si}_{r+s}\}$ be the complex embeddings of $K$. This gives an embedding\footnote{This is the canonical embedding $K\hra K\ot_{\Q}\R$: Indeed, by Chinese Remainder
+\[
+K\ot_{\Q}\R = \Q[x]/(f(x))\ot_{\Q}\R = \prod_{i=1}^r \R[x]/(x-\si_i\al) \times \prod_{j=1}^s (\R[x]/(x-\si_{r+j}\al)(x-\ol{\si_{r+j}}\al))\cong \R^r\times \C^s.
+\]}
+\begin{gather*}
+\si:K\hra \R^r\times \C^s\\
+\si(\al)=(\si_1\al,\ldots, \si_{r+s}\al).
+\end{gather*}
+Identify $V=\R^r\times \C^s$ with $\R^n$ using the basis $\{1,i\}$ for $\C$.
+
+\begin{pr}\llabel{ideal-lattice}
+Let $\ma$ be an ideal in $\sO_K$. Then $\si(\ma)$ is a full lattice in $V$ and the volume of its parallelopiped is 
+$2^{-s}\cdot\N  \ma \cdot |\De_K|^{\rc 2}$.
+\end{pr}
+\begin{proof}
+Let $\al_1,\ldots, \al_n$ be a basis for $\ma$ as a $\Z$-module. To prove that $\si(\ma)$ is a lattice, we need to show $\si(\al_1),\ldots, \si(\al_n)$ are linearly independent, i.e. the following has nonzero determinant:
+\[
+A=\begin{pmatrix}
+\si_1(\al_1) & \cdots & \si_r(\al_1) & \Re(\si_{r+1}(\al_1)) & \Im(\si_{r+1}(\al_1)) & \cdots\\
+\si_1(\al_2) & \cdots & \si_r(\al_2) & \Re(\si_{r+1}(\al_2)) & \Im(\si_{r+1}(\al_2)) & \cdots\\
+\vdots &\vdots &\vdots &\vdots &\vdots &\ddots
+\end{pmatrix}
+\]
+To do this we relate this to the matrix
+\[
+B=\begin{pmatrix}
+\si_1(\al_1) & \cdots & \si_r(\al_1) & \si_{r+1}(\al_1) & \ol{\si_{r+1}(\al_1)} & \cdots\\
+\si_1(\al_2) & \cdots & \si_r(\al_2) & \si_{r+1}(\al_2) & \ol{\si_{r+1}(\al_1)} & \cdots\\
+\vdots &\vdots &\vdots &\vdots &\vdots &\ddots
+\end{pmatrix}.
+\]
+Note $\det(B)=\pm \disc(\al_1,\ldots, \al_n)^{\rc 2}\ne 0$. 
+Let $J=%\matt{\rc2}{\rc 2}{\rc{2i}}{-\rc{2i}}
+\matt{\rc2}{\rc{2i}}{\rc2}{-\rc{2i}}$. Then
+\[
+A=B\begin{pmatrix}I_r & 0& 0& \cdots\\ 0 & J & 0 & \cdots\\ 0 & 0 & J &\cdots \\ \vdots & \vdots & \vdots &\ddots\end{pmatrix}.
+\]
+%so
+%\[
+%\det(A)=(-2i)^{-s}\det(B)=(-2i)^{-s}\cdot \pm \disc(\al_1,\ldots, \al_n)\ne 0.
+%\]
+
+Using
+\[
+\disc(\al_1,\ldots, \al_n)=[\sO_K:\ma]^2\cdot |\disc(\sO_K/\Z)|
+\]
+we get that the volume of a fundamental parallelopiped for $D$ is
+\[
+\mu(D)=|\det(A)|=2^{-s}|\det(B)|=2^{-s}|\disc(\al_1,\ldots, \al_n)|^{\rc 2}=2^{-s}\cdot \N \ma \cdot |\De_K|^{\rc 2}.
+\]
+(In particular, this is nonzero.)
+\end{proof}
+
+\begin{thm}\llabel{ideal-representative}
+Let $\ma$ be a nonzero ideal in $\sO_K$. Then $\ma$ contains a nonzero element $\al$ of $K$ with 
+\[
+|\nm(\al)|\le %B_K \cdot \N\ma
+\pf{4}{\pi}^s \frac{n!}{n^n} \N\ma |\De_K|^{\rc 2}.
+\]
+\end{thm}
+\begin{proof}
+The norm on $K$ translates into the ``norm" 
+\[\nm(x_1,\ldots, x_r,z_{r+1},\ldots, z_{r+s})=|x_1|\cdots |x_r||z_{r+1}|^2\cdots|z_{r+s}|^2.\] However, $\N\mathbf x<r$ is by no means a compact convex set. Fortunately, however, we note by the AM-GM inequality that
+%\begin{align*}
+\begin{equation}\llabel{norm-ineq-am-gm}
+|\nm (\mathbf x)|=|x_1|\cdots |x_r|
+|z_{r+1}|^2\cdots|z_{r+s}|^2 \le
+\pf{
+\sum_{k=1}^r |x_k|+2\sum_{k=1}^s |z_{r+k}|
+}{n}^n.
+\end{equation}
+Defining the norm $\ve{\cdot}$ on $V=\R^r\times \C^s$ by
+\[
+\ve{(x_1,\ldots,x_r,z_{r+1},\ldots,  z_{r+s})}=\sum_{k=1}^r |x_i|+2\sum_{k=r+1}^s |z_i|,
+\]
+and letting $B(t)=\set{x\in V}{\ve{x}<t}$, $B(\nm,t)=\set{x\in V}{|\nm(x)|<t}$, we see from~(\ref{norm-ineq-am-gm}) that
+\begin{equation}\llabel{norm-ineq-am-gm2}
+B(t)\subeq B\pa{\nm,\frac{t^n}{n^n}}.
+\end{equation}
+To apply Minkowski we need some computations.
+\begin{lem}\llabel{class-volume}
+The volume of $B(t)=\set{x\in V}{\ve{x}<t}$ is
+\[
+\mu(B(t))=2^{r-s} \pi^s\frac{t^n}{n!}.
+\]
+\end{lem}
+\begin{proof}
+We write the complex variables as $z_k=x_k+y_ki$. 
+Let 
+\[
+B'(t)=\set{(x_1,\ldots,x_r,x_{r+1},y_{r+1},\ldots,
+x_{r+s},y_{r+s})\in B(t)}{x_1,\ldots, x_{r}\ge 0}.\]
+Write $dV=dx_1\cdots dx_n$. Using symmetry and a polar change of coordinates, we compute
+\begin{align}
+\llabel{volume1}\mu(B(t))&=2^{r} \int_{B'(t)}dV\,dx_{r+1}\,dy_{r+1}\cdots dx_{r+s}\,dy_{r+s}\\%&\text{symmetry}\\
+\llabel{volume2}&=2^{r}\int_{x_1,\ldots, x_r\ge 0, \sum x_k+2\sum \rh_k\le t}(\rh_{r+1}\cdots \,\rh_{r+s})\,
+dV\,d\rh_{r+1}\,d\theta_{r+1}\cdots d\rh_{r+s}\,d\te_{r+s}\\%&\text{polar coordinates}\\%\text{change of variable $x_k+y_ki=\rh_k\cis \te_k$}
+\nonumber &=2^{r-2s} \int_{x_1,\ldots, x_r\ge 0, \sum x_k+\sum \rh_k\le t}(\rh_{r+1}\cdots \,\rh_{r+s})\,
+dV\,d\rh_{r+1}\,d\theta_{r+1}\cdots d\rh_{r+s}\,d\te_{r+s}\\
+\nonumber &=2^{r-2s} (2\pi)^s\int_{x_1,\ldots, x_r\ge 0, \sum x_k+\sum \rh_k\le t}(\rh_{r+1}\cdots \rh_{r+s})\,
+dV\,d\rh_{r+1}\cdots d\rh_{r+s}\\
+\llabel{volume3}&=2^{r-s}\pi^st^{(r+s)+s}\frac{1}{((r+s)+s)!}\\
+\nonumber  &=2^{r-s}\pi^s\frac{t^n}{n!}.
+\end{align}
+Note~(\ref{volume1}) follows by symmetry,~(\ref{volume2}) follows from polar change of coordinates, and~(\ref{volume3}) follows from the lemma below.
+\end{proof}
+\begin{lem}
+\[
+\int_{x_i\ge 0,\sum x_i\le t} x_1^{a_1}\cdots x_m^{a_m}\,dx_1\cdots dx_m=t^{m+\sum_{i=1}^m a_i} \frac{\Ga(a_1+1)\cdots \Ga(a_m+1)}{\Ga(a_1+\cdots +a_m+m+1)}.
+\]
+\end{lem}
+\begin{proof}
+Making the substitution $x_i=tx_i'$, $dx_i=t \,dx_i'$, we find that the integral equals
+\[
+t^{m+\sum_{i=1}^m a_i} \int_{x_i\ge 0,\sum x_i\le 1} x_1^{a_1}\cdots x_m^{a_m}\,dx_1\cdots dx_m.
+\]
+Hence it suffices to prove the lemma for $t=1$.
+
+For $m=1$, note
+\[
+\int_0^1 x^a\,dx=\frac{1}{a+1}=\frac{\Ga(a+1)}{\Ga(a+2)}.
+\]
+
+For $m=2$, let $B(\al,\be)=\int_0^1 v^{\al-1} (1-v)^{\be-1}\,dv$. We need to show $B(\al,\be)=\frac{\Ga(\al)\Ga(\be)}{\Ga(\al+\be)}$. 
+By Fubini,
+\[
+\Ga(\al)\Ga(\be)=\int_0^{\iy} \int_0^{\iy} s^{\al-1}e^{-s}t^{\be-1}e^{-t}\,ds\,dt
+=\int_0^{\iy}\int_0^{\iy} s^{\al-1}t^{\be-1} e^{-(s+t)}\,ds\,dt.
+\]
+Note $F: (0,\iy)\times (0,1)\to (0,\iy)^2$ with $F(u,v)=(uv,u(1-v))$ is a diffeomorphism. Indeed, it has an inverse $F^{-1}(s,t)=\pa{t+s,\frac{s}{t+s}}$ hence is bijective and its Jacobian is $\det\smatt vu{1-u}{-u}=u\ne0$. Using the change of variables $(s,t)=F(u,v)$ gives
+\begin{align*}
+\int_0^1\int_0^{\iy} (uv)^{\al-1} (u(1-v))^{\be-1} e^{-(uv+u(1-v))}u\,du\,dv
+&=\int_0^1\int_0^{\iy}u^{\al+\be-1} e^{-u} v^{\al-1} (1-v)^{\be-1}\,du\,dv\\
+&=\pa{\int_0^{\iy}u^{\al+\be-1} e^{-u}\,du}\pa{\int_0^1 v^{\al-1} (1-v)^{\be-1}\,dv}\\
+&=\Ga(\al+\be)B(\al,\be),
+\end{align*}
+%Hence $B(\al,\be)=\frac{\Ga(\al)\Ga(\be)}{\Ga(\al+\be)}$.\\
+as needed.
+%The $m=2$ case now follows from rescaling:
+%\[
+%\int_{x_1,x_2\ge 0,x_1+x_2\le t}
+%\]
+
+Now we use induction; suppose the theorem proved for $m-1$. We have 
+\begin{align*}
+\int_{x_i\ge 0,\sum_{i=1}^m x_i\le 1} x_1^{a_1}\cdots x_m^{a_m}\,dx_1\cdots dx_m
+&=\int_0^1 x_m^{a_m}\int_{x_i\ge 0, \sum_{i=1}^{m-1} x_i\le 1-x_m} x_1^{a_1}\cdots x_{m-1}^{a_{m-1}}\,dx_1\cdots dx_{m-1}\,dx_m\\
+&=\int_0^1 x_m^{a_m} (1-x_m)^{m-1+\sum_{i=1}^{m-1} a_i}\frac{\Ga(a_1+1)\cdots \Ga(a_{m-1}+1)}{\Ga(a_1+\cdots +a_{m-1}+m)}\,dx_m\\%&\text{induction hypothesis}\\
+&=%t^{m+\sum_{i=1}^m a_i} 
+\frac{\Ga(a_m+1)\Ga(\sum_{i=1}^{m-1}a_i +m)}{\Ga(a_1+\cdots +a_m+m+1)}\cdot \frac{\Ga(a_1+1)\cdots \Ga(a_{m-1}+1)}{\Ga(a_1+\cdots +a_{m-1}+m)}\\%&\text{$m=2$ case}\\
+&=%t^{m+\sum_{i=1}^m a_i} 
+\frac{\Ga(a_1+1)\cdots \Ga(a_m+1)}{\Ga(a_1+\cdots +a_m+m+1)},
+\end{align*}
+using the induction hypothesis and the $m=2$ case.
+\end{proof}
+Taking
+\[
+t=\sqrt[n]{n!\cdot \frac{2^{n-r}}{\pi^s} \cdot \N\ma |\De_K|^{\rc 2}}
+\]
+we find by Lemma~\ref{class-volume} that
+\[
+\mu(B(t))=2^{r-s}\pi^s\frac{t^n}{n!}=2^n\pa{2^{-s}%\cdot 
+\N\ma%\cdot 
+|\De_K|^{\rc 2}}=2^n \mu(D)
+\]
+where $D$ is the fundamental parallelopiped. 
+Note that $B(t)$ is a closed ball, and it is convex by the triangle inequality. 
+Hence by Minkowski's Theorem, $B(t)$ contains an element of $\si(\ma)$. For this element, we have by~(\ref{norm-ineq-am-gm2}) that
+\[
+\nm_{K/\Q}(a)\le \frac{t^n}{n^n}=\pf{4}{\pi}^s \frac{n!}{n^n} \N\ma |\De_K|^{\rc 2}.\qedhere
+\]
+\end{proof}
+\begin{thm}\llabel{ideal-class-group-rep}
+Suppose $K/\Q$ is an extension of degree $n$, and let $\De_K=\disc(K/\Q)$. Let $2s$ be the number of nonreal complex embeddings of $K$. Then there exists a set of representatives for the ideal class group $\Cl(K)$ consisting of integral ideals $\ma$ with
+\[
+\N(\ma)\le \underbrace{\frac{n!}{n^n}\pf 4{\pi}^s}_{C_K}|\De_K|^{\rc 2}.
+\]
+\end{thm}
+\begin{proof}
+Given a fractional ideal $\mc$, there exists $\mb$ such that
+\[
+\mb\mc=(d)
+\]
+is principal. 
+By Theorem~\ref{ideal-representative}, there is an element $\be\in \mb$ of norm at most $\pf{4}{\pi}^s \frac{n!}{n^n} \N\mb |\De_K|^{\rc 2}$. Since $(\be)\subeq \mb$ we have
+\[
+\ma\mb=(\be)
+\]
+for some $\ma$. Note $\ma\sim \mb^{-1}\sim \mc$, and taking norms of the above equation gives
+\[
+\mathfrak N\ma\mathfrak N\mb=\mathfrak N(\be)\le \pf{4}{\pi}^2 \frac{n!}{n^n} \N\mb |\De_K|^{\rc 2}.
+\]
+Canceling $\mathfrak N\mb$ gives that $\ma$ is the desired representative.
+\end{proof}
+
+\begin{thm}\llabel{class-number-finite}
+The class number of $K$ is finite. 
+\end{thm}
+\begin{proof}
+By Theorem~\ref{ideal-class-group-rep}, every ideal class has a representative with norm at most $C_K|\De_K|^{\rc2}$. Thus it suffices show 
+the following (take $C=C_K|\De_K|^{\rc2}$).
+\begin{lem}\llabel{finite-bounded-norm}
+There are only a finite number of integral ideals $\ma$ with $\N\ma\le C$ (take $C=C_K|\De_K|^{\rc2}$).
+\end{lem}
+\begin{proof}
+Suppose $\ma$ is an integral ideal. Write $\ma=\prod \mfp_i^{r_i}$. Let $(p_i)=\mfp_i\cap \Z$ and $f_i=[\sO_K/\mfp_i:\Z/(p_i)]$. Then
+\[
+\N\ma=\prod_i p_i^{f_ir_i}.
+\]
+Given $\N\ma\le C$, there are a finite possibilities for the $p_i$ and hence $\mfp_i$, as well as for the $r_i$.
+\end{proof}
+\end{proof}
+The bound in Theorem~\ref{ideal-class-group-rep} also gives the following corollaries.
+\begin{thm}\llabel{q-ramifies}
+Every algebraic extension of $\Q$ ramifies over $\Q$.
+\end{thm}
+\begin{proof}
+It suffices to prove this statement for finite extensions. 
+Let $K/\Q$ be a finite extension.
+By Theorem~\ref{ideal-representative}, every ideal contains a representative $\al$ with
+\[
+1\le |\nm(\al)|\le \pf 4{\pi}^s\frac{n!}{n^n}.
+\]
+Hence we have
+\begin{equation}
+\llabel{dk-bound}
+|\De_K|\ge \frac{n^{2n}}{n!^2}\pf{\pi}{4}^{2s}>1.
+\end{equation}
+The last inequality comes from the fact that defining $a_n=\frac{n^{2n}}{n!^2}\pf{\pi}{4}^{2s}$, we have that $a_2>1$ and $\frac{a_{n+1}}{a_n}=\pf{\pi}{4}^{\rc 2}\pa{1+\rc n}^n>1$ for $n\ge 2$.
+
+Since $\De_K>1$ and every prime dividing the discriminant ramifies (Theorem~\ref{crit-ram}), $K/\Q$ is ramified.
+\end{proof}
+\begin{cor}
+There does not exist an irreducible monic polynomial $f(X)\in \Z[X]$ of degree greater than 1 with discriminant $\pm 1$.
+\end{cor}
+\begin{proof}
+Let $f$ be an irreducible monic polynomial of degree greater than 1. Let $\al$ be a root of $f$. By Theorem~\ref{q-ramifies}, $\Q[\al]$ is ramified over $\Q$. By~(\ref{dk-bound}), $|\De_K|>1$. Then 
+\[\disc(f)=\disc(\Z[\al]/\Z)=|\De_K|\cdot [\sO_K:\Z[\al]]^2>1.\qedhere\]
+\end{proof}
+\section{Example: Quadratic extensions}
+To compute the class group in quadratic extensions, note the following two facts.
+\begin{enumerate}
+\item
+The complete description of prime ideals is given by Example~\ref{quad-ext-ref} (actually put this in!).
+\item
+By Theorem~\ref{ideal-representative}, each ideal class has a representative of norm at most $\frac{4}{\pi}|\De_K|^{\rc 2}$.
+\end{enumerate}
+In fact, Minkowski's bound can be improved in the quadratic case.
+\begin{thm}(*)
+Let $K=\Q(\sqrt{d})$ where $d$ is a negative squarefree integer. Let
+\[
+\mu = \begin{cases}
+\sqrt{\frac{|d|}3},&d\equiv 1\pmod 4\\
+2\sqrt{\frac{|d|}3},&d\equiv 2,3\pmod 4.
+\end{cases}
+\]
+Every ideal class in $\sO_K$ has a representative $\ma$ with
+\[
+\mathfrak N\ma\le\mu.
+\]
+\end{thm}
+\begin{proof}
+First we show that every ideal $\ma$ has an element $a\ne 0$ with $\nm_{K/\Q}(a)\le\mu\mathfrak N(\ma)$. For a lattice $L$ let $\De(L)$ be the area of a fundamental parallelogram.
+
+Note that $\nm_{K/\Q}(z)=|z|^2$. An ideal $\ma$ of $K$ forms a lattice in $\C$. Let $a$ be the element of minimal nonzero norm in $\ma$ and $b$ be the element of minimal nonzero norm that is not a integer multiple of $a$. By the minimality assumption, since $b-a$ cannot be a integer multiple of $a$, we have
+\[
+|b-a|\ge|b|\ge|a|.
+\] 
+Let $A,B$ denote the points $a,b$ and $O$ the origin.
+Using the fact that in a triangle the side lengths are in the  same order least-to-greatest as the opposite angles, 
+we get that in the triangle $AOB$, the angle at $O$ is largest, in particular at least $60^{\circ}$. Let $O'$ be so that $OAO'B$ is a parallelogram. %Note %$\angle OBO'\ge 60^{\circ}$ as well, since otherwise $OO'<$
+The minimality assumption similarly forces $OO'\ge AO,AO'$, so we get $\angle OAO'\ge 60^{\circ}$. Thus
+\begin{equation}
+\llabel{angle}
+60^{\circ}\le\angle AOB\le 120^{\circ}.
+\end{equation}
+
+Furthermore, the parallelogram with sides $OA$ and $OB$ is a fundamental parallelogram: Suppose $C$ is the point $c\in \ma$, and is in the triangle $OAB$ but not any of the vertices. Let $OC$ intersect $AB$ at $C'$. We have $\angle OC'B> \angle OAB\ge\angle ABO=\angle C'BO$, where the middle inequality is from $OB\ge OA$. Hence looking at $\triangle OC'B$, $OB> OC'\ge OC$, contradicting minimality of $b$. Similarly, if $C$ is in $ABO'$, then we have $|a+b-c|<|b|$, also a contradiction.
+
+By~(\ref{angle}), the area of the fundamental parallelogram is
+\[
+\De(\sO_K)\mathfrak N\ma=\De(\ma)=|ab|\sin \angle AOB\ge  |a|^2 \frac{\sqrt3} 2 =\frac{\sqrt3}2\nm_{K/\Q}(a).
+\]
+Solving gives
+\[
+\nm_{K/\Q}(a)\le \frac{2}{\sqrt3} \De(\sO_K)\mathfrak N \ma.
+\]
+Finally note that for $d\equiv 1\pmod 4$, a basis for $\sO_K$ is $\pa{1,\frac{1+\sqrt d}2}$ while for $d\equiv 2,3\pmod 4$ the basis is $\pa{1,\sqrt d}$. The fundamental parallelograms have areas $\frac{\sqrt d}2$ and $\sqrt d$, respectively, giving
+\[
+\nm_{K/\Q}(a)\le \mu\mathfrak N\ma.
+\]
+
+Given a fractional ideal $\mc$, there exists $\mb$ such that
+\[
+\mb\mc=(d)
+\]
+is principal. 
+By the above, there is an element $b\in \mb$ of norm at most $\mu\mathfrak N\mb$. Since $(b)\subeq \mb$ we have
+\[
+\ma\mb=(b)
+\]
+for some $\ma$. Note $\ma\sim \mb^{-1}\sim \mc$, and taking norms of the above equation gives
+\[
+\mathfrak N\ma\mathfrak N\mb=\mathfrak N(b)\le \mu \mathfrak N\mb.
+\]
+Canceling $\mathfrak N\mb$ gives that $\ma$ is the desired representative.
+\end{proof}
+
+
+We give an example of computing the class group. The general procedure to compute the class group of $A=\sO_{K}$ where $K=\Q(\sqrt d)$ and $d$ is negative and squarefree is as follows.
+\begin{enumerate}
+\item
+List the primes $p\le \fl{\mu}$.
+\item
+For each $p$, determine whether $p$ splits in $A$ by checking whether 
+\[
+f(x):=
+\begin{cases}
+x^2-x+\frac{d-1}{4},&d\equiv 1\pmod 4\\
+x^2-d,&d\equiv 2,3\pmod 4
+\end{cases}
+\]
+is irreducible.
+\item If $p=\ma\ol{\ma}$ splits in $A$, include it in the list of generators.
+\item Compute the norm of some small elements (with prime divisors in the list found above), like $k+\de$ for $k\in \N_0$, $\de=\sqrt{d}$ or $\frac{1+\sqrt{d}}2$ depending on $d\pmod 4$. Factor $\nm_{K/\Q}(a)$ to factor
+\[
+(a)(\ol{a})=(\nm_{K/\Q}(a));
+\]
+match factors using unique factorization. Note $(a)\sim (\ol{a})\sim 1$. %As long as $a$ is not divisible by one of the prime factors of $\nm_{K/\Q}(a)$, this amounts to replacing each prime in the factorization of $\nm_{K/\Q}(a)$ by one of its corresponding ideals in item 3 and setting equal to 1.
+Repeat until there are enough relations to determine the group.
+%This works since if $\prod_i \mfp_i^{a_i}\sim 1$, then there is an element $a$, $\nm_{K/\Q}(a)=\prod_i p_i^{a_i}$.
+\item For the prime 2, 
+ if $d\equiv 2,3\pmod 4$, 2 ramifies, $(2)=\mfp^2$, and $\mfp$ has order 2 for $d\ne -1,-2$. (Note $\mfp=(2,\de)$ and $(2,1+\de)$ in these two cases, respectively.)
+\end{enumerate}
+We first consider the cases when the class group is trivial.
+\begin{thm}
+The rings
+\[
+\Z[\sqrt{-1}],\,\Z[\sqrt{-2}],\,\Z\ba{\frac{1+\sqrt{d}}{2}},\,d=-3,-7,-19,-43,-67,-163
+\]
+are unique factorization domains.
+\end{thm}
+In fact, they are the only ones (part of Gauss's class number problem).
+\begin{proof}
+Note $\Z[\sqrt{-1}],\,\Z[\sqrt{-2}]$, and $\Z\ba{\frac{1+\sqrt{d}}{2}}$ are Euclidean domains and hence unique factorization domain.
+
+The class group of $\Z\ba{\frac{1+\sqrt{d}}2}$ is generated by the classes of prime ideals whose norms are prime integers $p\leq \mu$, which are the factors of $(p)$ when it splits. When $d\equiv 1\pmod{4}$ as in all the remaining cases, an integer prime $p$ remains prime in $\Z\ba{\frac{1+\sqrt{-d}}2}$  iff $x^2-x-\frac{1}{4}(1-d)$ is irreducible modulo $p$, iff $x^2-x-\frac{1}{4}(1-d)$ has no zero modulo $p$. We show that for $d=-7,-11,-19,-43,-67,-163$, $x^2-x-\frac{1}{4}(1-d)$ is irreducible modulo all primes less than $\mu$. Then no prime ideals have norms that are prime integers $p\leq\mu$, and the only ideal class is that of the principal ideals. It follows that $\Z[\sqrt{d}]$ is a principal ideal domain and hence a unique factorization domain.
+
+\noindent \begin{tabular}{|l|>{\raggedright}p{1.2in}|>{\raggedright}p{1.2in}|>{\raggedright}p{3.2in}|}
+\hline 
+$d$ & $\fl{\mu},\mu=\sqrt{\frac{|d|}{3}}$ & $x^{2}-x+\frac{1}{4}(1-d)$ & Primes $p\leq\fl{\mu}$, $x^{2}-x+\frac{1}{4}(1-d)\pmod{p}$\tabularnewline
+\hline 
+-7 & $\fl{\sqrt{\frac{7}{3}}}=1$ &  & None\tabularnewline
+\hline 
+-11 & $\fl{\sqrt{\frac{11}{3}}}=1$ &  & None\tabularnewline
+\hline 
+-19 & $\fl{\sqrt{\frac{19}{3}}}=2$ & $x^{2}-x+5$ & 2: $x^{2}+x+1=1$ for $x=0,1$ \tabularnewline
+\hline 
+-43 & $\fl{\sqrt{\frac{43}{3}}}=3$ & $x^{2}-x+11$ & 2: $x^{2}+x+1=1$ for $x=0,1$\\3: $x^{2}-x-1=\begin{cases}
+-1 & \mbox{for \ensuremath{x=0,1}}\\
+1 & \mbox{for \ensuremath{x=2}}\end{cases}$\tabularnewline
+\hline 
+-67 & $\fl{\sqrt{\frac{67}{3}}}=4$ & $x^{2}-x+17$ & 2: $x^{2}+x+1=1$ for $x=0,1$ \\3: $x^{2}-x-1=\begin{cases}
+-1 & \mbox{for \ensuremath{x=0,1}}\\
+1 & \mbox{for \ensuremath{x=2}}\end{cases}$ \tabularnewline
+\hline 
+-163 & $\fl{\sqrt{\frac{163}{3}}}=7$ & $x^{2}-x+41$ & 2: $x^{2}+x+1=1$ for $x=0,1$ \\3: $x^{2}-x-1=\begin{cases}
+-1 & \mbox{for \ensuremath{x=0,1}}\\
+1 & \mbox{for \ensuremath{x=2}}\end{cases}$\\
+%
+5: $x^{2}-x+1=\begin{cases}
+1 & \mbox{for }x=0,1\\
+3 & \mbox{for }x=4,2\\
+2 & \mbox{for }x=3\end{cases}$\\
+%
+7: $x^{2}-x-1=\begin{cases}
+-1 & \mbox{for \ensuremath{x=0,1}}\\
+1 & \mbox{for \ensuremath{x=2,6}}\\
+5 & \mbox{for \ensuremath{x=3,5}}\\
+4 & \mbox{for \ensuremath{x=4}}\end{cases}$\tabularnewline
+\hline
+\end{tabular}
+\end{proof}
+%Artin, 13.37a-b
+\fixme{Change for consistent notation.}
+\begin{ex}
+We compute the class group of $\Z[\sqrt{-41}]$.
+
+For $d=-41$, $\lfloor\mu\rfloor=\fl{2\sqrt{\frac{41}{3}}}=7$. Modulo 2, 3, 5, and 7, -41 is congruent to 1, 1, 4, and 1, which are all squares. Factor 
+\begin{eqnarray*}
+(2)&=&A\overline{A}\\
+(3)&=&B\overline{B}\\
+(5)&=&C\overline{C}\\
+(7)&=&D\overline{D}
+\end{eqnarray*}
+Then the class group is generated by $\an{A},\an{B},\an{C}, \an{D}$. (Note that $\an{\overline{A}}=\an{A}^{-1}$, etc.) We have%Since $N(1+\delta)=42=2\cdot3\cdot7$,
+\[(1+\delta)(\overline{1+\delta})=(42)=(2)(3)(7)=A\overline{A}B\overline{B}D\overline{D}.\]
+If a prime ideal $P$ divides $(1+\de)$ then $\overline{P}$ divides $(\overline{1+\de})$. Hence the conjugate factors are divided between $(1+\delta)$ and $(\overline{1+\delta})$. Without loss of generality, we can suppose
+\[(1+\de)=ABD.\]
+The class of a principal ideal is the identity in the class group, so
+\begin{equation}\an{A}\an{B}\an{D}=1.\llabel{e1}\end{equation}
+Next consider
+\[(2+\delta)(\overline{2+\delta})=(45)=(3)^2(5)=B^2\overline{B}^2 C\overline{C}.\]
+Note that 3 does not divide $2+\de$ so $B\overline{B}=(3)$ doesn't divide $(2+\delta)$. Thus $B^2$, $\overline{B}^2$ divide $(2+\delta)$, $(\overline{2+\delta})$ in some order. Since we haven't distinguished between $C$ and $\overline{C}$ yet, we may assume WLOG that $\an{B}^2\an{\overline{C}}$, $\an{\overline{B}}^2\an{C}$ are equal to $(2+\de)$ and $(\overline{2+\de})$ in some order, and
+\[\an{B}^2\an{\overline{C}}=\an{B}^2\an{C}^{-1}=1\]
+or
+\begin{equation}
+\an{C}=\an{B}^2.\llabel{cb2}
+\end{equation}
+Similarly, looking at 
+\[(3+\delta)(\overline{3+\delta})=(50)=(2)(5)^2=A\overline{A} C^2\overline{C}^2,\]
+ we get that 
+\[\an{A}\an{\overline{C}}^{2}=1\ore \an{\overline{A}}\an{\overline{C}}^{2}=1.\]
+Noting that $A=\overline{A}$ (since $(2)=(2,1+\delta)(2,1-\delta)$ and $(2,1+\delta)=(2,1-\delta)$ when $d\equiv 3\pmod{4}$ by [Artin, 13.8.4]),
+\begin{equation}
+\an{A}=\an{C}^2.\llabel{ac2}
+\end{equation}
+From~(\ref{cb2}) we may omit $\an{C}$ from the list of generators for the group, from~(\ref{ac2}) we may omit $\an{A}$, and from~(\ref{e1}) we may omit $\an{D}$. Thus the class group is the cyclic group generated by $\an{B}$. From~(\ref{cb2}) and~(\ref{ac2}), we get 
+\begin{equation}
+\an{A}=\an{B}^4.\llabel{ab4}
+\end{equation} Since $A$ is not principal, $\an{B}^4\neq 1$. %Substituting~(\ref{ab4}) into~(\ref{e1}) give that $\an{B}^8=1$. 
+Note $\an{A}=\an{\overline{A}}=\an{A}^{-1}$ implies %$\an{A}^2=\an{A}\an{\overline{A}}=\an{(2)}=1$, so 
+$\an{A}^2=1$. Combining this with~(\ref{ab4}) gives
+that $\an{B}^8=1$. Since $\an{B}^n\neq 1$ for any proper divisor $n$ of 8 (it sufficed to check $n=4$), the class group is cyclic of order 8, $C_8$.\\
+\end{ex}

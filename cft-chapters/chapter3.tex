@@ -1,0 +1,1973 @@
+\chapter{Group homology and cohomology}\llabel{group-hom-cohom}
+In this chapter we introduce the theory of group homology and cohomology. In the next chapter we'll specialize to the case of Galois groups, and then we'll use Galois cohomology to prove the theorems of class field theory. Some results in this chapter will be given without proof; for detailed proofs see Rotman~\cite{Ro09}. We assume knowledge of some basic terminology and facts from category theory and commutative algebra (covariant and contravariant functors, natural transformations, left and right exactness).
+
+The idea of homology and cohomology---used in many different areas of mathematics---is that after applying a functor, a short exact sequence of modules may no longer be exact. Instead, we get the {\it long exact sequence in (co)homology}, with the (co)homology groups measuring the deviation from exactness.
+
+Exactly what functors are we applying? In group cohomology (Section~\ref{group-cohomology}), we apply $\Hom_G(\Z,\bullet)$, turning a short exact sequence of $G$-modules
+\[
+0\to A \to B\to C\to 0
+\]
+into
+\begin{equation}\llabel{les-intro}
+0\to A^G\to B^G \to C^G\to H^1(G,A)\to  \cdots
+\end{equation}
+where $A^G$ is the submodule of $A$ fixed by $G$. In the next chapter we will take $A,B,C$ to be a multiplicative or additive subgroup of a field $L$, and $G=G(L/K)$. Then $A^G$ is just $A\cap K$. Thus we see that the sequence~(\ref{les-intro}) gives information about the relationship between a field $K$ and an extension field. For example, in Kummer Theory~\ref{galois-cohomology-ch}.\ref{kummer}, we take $C=L^{\times n}$; then $C^G=L^{\times n}\cap K$, and we can characterize $G(L/K)$ and hence $L/K$ in terms of the $n$th powers of $L$ appearing in $K$. This is representative a general trend in class field theory: characterize extensions of $K$ in terms of information intrinsic to $K$.
+
+We also get a sequence in group homology (Section~\ref{group-homology}), and we can splice the sequences for homology and cohomology together to get the Tate groups (Section~\ref{tate-groups}). Norm groups will make their appearance here---which is how, in class field theory, we get a correspondence between norm groups and field extensions.
+
+Finally, we assemble a toolbox of other constructions from group cohomology and homology, including cup products (Section~\ref{cup-products}), changes of group (Section~\ref{change-of-group}), the corestriction map (Section~\ref{hom-transfer}), results on cyclic groups and the Herbrand quotient (Section~\ref{cyclic-groups}), and Tate's theorem (Section~\ref{tate-thm-section}). We include generalizations of cohomology to profinite groups (Section~\ref{profinite-cohom}) and nonabelian groups (Section~\ref{nonabelian-cohom}).
+
+\section{Projectives and injectives}
+Let $\cal A$ be an abelian category.\footnote{A category is an \textbf{abelian category} if it is an additive category such that every morphism has a kernel and cokernel, every monomorphism (injection) is a kernel, and every epimorphism (surjection) is a cokernel.} %Any abelian category has finite direct sums, and finite direct and inverse limits.} 
+The reader unfamiliar with category theory may assume that $\cal A$ is the class of $R$-modules, since we will be primarily working with modules throughout. 
+\index{projective object}
+\index{injective object}
+\begin{df}
+Let $\cal A$ be an abelian category.
+\begin{enumerate}
+\item An object $P\in \cal A$ is \textbf{projective} if for every surjection $p:M\tra N$ and morphism $f:P\to N$, there exists a unique morphism $g:P\to M$ such that $f=p\circ g$:
+\[
+\xymatrix{
+& P\ar@{-->}[ld]_{g}\ar[d]^{f}\\
+M\ar@{->>}[r]_p& N
+}
+\]
+Equivalently, $\Hom(P,\bullet)$ is exact (or equivalently, right exact as it is always left exact).\footnote{The diagram is equivalent to saying that if $p:M\tra N$ is surjective, then so is the map $\Hom(P,M)\xra{\Hom(\bullet,p)} \Hom(P,N)$, i.e. $\Hom(P,\bullet)$ is right exact.}
+\item An object $I\in \cal A$ is \textbf{injective} if for every injection $i:M\hra N$ and morphism $f:M\to I$, there exists a unique morphism $g:N\to I$, such that $f=g\circ i$:
+\[
+\xymatrix{
+M\ar[d]^f\ar@{^(->}[r]^{i} &N \ar@{-->}[ld]^{g}\\
+I&
+}
+\]
+Equivalently, $\Hom(\bullet,I)$ is exact (or equivalently, just right exact).
+\end{enumerate}
+\end{df}
+\begin{ex}
+A free $R$-module (a direct sum of copies of $R$) is projective.
+\end{ex}
+\begin{df}
+An abelian category $\cal A\ldots$
+\begin{enumerate}
+\item
+\textbf{has enough injectives} if for every object $A\in \cal A$ there exists an injective object $E$ with a monic (injective) morphism $A\hra E$.
+\item
+\textbf{has enough projectives} if for every object $A\in \cal A$ there exists a projective object $P$ with an epic (surjective) morphism $P\tra A$.
+\end{enumerate}
+\end{df}
+\index{resolutions}
+\begin{df}
+A \textbf{projective resolution} of $A$ is an exact sequence
+\[
+\mathbf{P}: \cdots \to P_2\xra{d_2}P_1\xra{d_1}P_0 \xra{\ep}A\to 0
+\]
+where each $P_n$ is projective.
+
+An \textbf{injective resolution} of $A$ is an exact sequence
+\[
+\mathbf{E}: 0\to A\xra{\eta} E^0\xra{d^0} E^1 \xra{d^1} E^2\to\cdots
+\]
+where each $E^n$ is injective.
+\end{df}
+\begin{pr}
+If $\cal A$ is an abelian category with enough projectives (injectives), then every object has a projective (injective) resolution. In particular, every $R$-module has a projective (injective) resolution.
+\end{pr}
+\begin{proof}
+Build the resolution step-by-step. See Rotman~\cite{Ro09}, Proposition 6.2-5. For the second part, note that the category of $R$-modules has enough projectives and enough injectives.
+\end{proof}
+\section{Complexes}
+\index{complex}
+\begin{df}
+A \textbf{complex} in an abelian category (for example, the category of $R$-modules or abelian groups) is a sequence of morphisms
+\[
+\mathbf C:\cdots\to C_{n+1}\xra{d_{n+1}}C_n\xra{d_n}C_{n-1}\to \cdots
+\]
+such that the composition of any two adjacent morphisms is 0:
+\[
+d_nd_{n+1}=0.
+\]
+\end{df}
+We often work with complexes only going off to the left or right (positive and negative complexes, respectively), and label them
+\begin{gather*}
+%\mathbf{C}:
+\cdots \to C_n\xra{d_n} C_{n-1}\to \cdots \to C_0\to 0\\
+%\mathbf{C}':
+0\to C^0\to \cdots \to C^{n-1}\xra{d^{n-1}} C^n\to \cdots 
+\end{gather*}
+We will want to work with complexes like they are single objects.
+\index{chain map}
+\begin{thm}
+The class of complexes in $\cal A$ can be made into an abelian category, $\Comp(\cal A)$ as follows: The objects are the complexes
+and the morphisms are \textbf{chain maps} $f=(f_n):\mathbf C\to \mathbf C'$, i.e. a sequence of maps making the following commute.
+\[
+\xymatrix{
+\ar[r]& C_{n+1}\ar[r]^{d_{n+1}} \ar[d]^{f_{n+1}}& C_n\ar[r]^{d_n}\ar[d]^{f_n} & C_{n-1}\ar[r]^{d_{n-1}}\ar[d]^{f_{n-1}}&\\
+\ar[r]& C'_{n+1}\ar[r]^{d'_{n+1}} &C'_n\ar[r]^{d'_n} &C'_{n-1}\ar[r]^{d'_{n-1}}&
+}
+\]
+\end{thm}
+\begin{proof}
+See Rotman~\cite{Ro09}, Proposition 5.100.
+\end{proof}
+We will be interested in cohomology and homology modules associated to chain complexes. For this, we have the following notion of what it means for chain maps to be ``the same" (See Theorem~\ref{thm:hn-functor}).
+\index{homotopy}
+\begin{df}
+Two chain maps $f,g:\mathbf C\to \mathbf C'$ are \textbf{homotopic} if there exist a family of morphisms $s_n: C_n\to C'_{n+1}$ such that
+\[
+f_n-g_n=d'_{n+1}s_n+s_{n-1}d_n.
+\]
+\end{df}
+In Section~\ref{sec:derived-functors} we will define the homology modules and cohomology modules from projective and injective resolutions. To show this does not depend on the choice of projective or injective resolution, we need the following theorem.
+\index{Comparison theorem}
+\begin{thm}[Comparison Theorem]\llabel{thm:comparison}
+Let $\cal A$ be an abelian category, and suppose we have two complexes $\mathbf C:\cdots \to P_1\to P_0\to A\to 0$ and $\mathbf C':\cdots P_1'\to P_0'\to A'\to 0$ and a map $g:A\to A'$. Then there exists a chain map $f$ extending $g$:
+\[
+\xymatrix{
+\cdots \ar[r] & P_1\ar[d]^{f_1}\ar[r] & P_0\ar[r]\ar[d]^{f_0}& A\ar[r]\ar@{.>}[d]^g &0\\
+\cdots \ar[r] & P_1'\ar[r] & P_0'\ar[r] & A'\ar[r] & 0. 
+}
+\]
+Moreover, $f$ is unique up to homotopy.
+
+The same is true of complexes going off to the right (reverse the arrows above).
+\end{thm}
+\begin{proof}
+Rotman~\cite{Ro09}, Theorem 6.16.
+\end{proof}
+\section{Homology and cohomology}
+\index{homology}
+\index{cohomology}
+\begin{df}
+Given a complex $\mathbf{C}$, define
+\begin{align*}
+Z_n(\mathbf C)&=\ker(d_n)\\
+B_n(\mathbf C)&=\im(d_{n+1})\\
+H_n(\mathbf C)&=Z_n(\mathbf C)/B_n(\mathbf C).
+\end{align*}
+$H_n$ is called the $n$th \textbf{homology module}. For upper indexing, we let $Z^n(\mathbf C)=\ker(d^n)$, $B^n(\mathbf C)=\im(d^{n-1})$, and $H^n(\mathbf C)=Z^n(\mathbf C)/B^n(\mathbf C)$, and call $H^n$ the $n$th \textbf{cohomology module}.
+\end{df}
+Think of $H_n$ as measuring how far the complex is from being exact at $C_n$.
+\begin{thm}\llabel{thm:hn-functor}
+Let $\cal A$ be an abelian category. For every integer $n$, 
+$H_n$ is an additive functor from $\Comp(\cal A)\to \cal A$. Moreover, homotopic chain maps induce the same map in homology.
+\end{thm}
+\begin{proof}
+See Rotman~\cite{Ro09}, Proposition 6.8.
+\end{proof}
+\begin{thm}[Long exact sequence]\llabel{les}
+A short exact sequence of chain complexes
+\[
+\xymatrix{0\ar[r]&\mathbf C'\ar[r]^{i}& \mathbf C\ar[r]^p& \mathbf C''\ar[r]&0}
+\]
+induces a long exact sequence of homology modules
+\[
+\xymatrix{\cdots \ar[r]&
+H_{n}'\ar[r]^{i_n} & H_n\ar[r]^{p_n} & H_n'' \ar[r]^{\partial_n}& H_{n-1}'\ar[r]&\cdots%\ar[r]&\ar[r]H_0''\ar[r]& 0.
+}
+\]
+The map $\partial_n$ 
+is defined by
+\[
+\partial_n[c_n'']=[i_{n-1}^{-1}d_{n-1}p_n^{-1}c_n'']\in C_{n-1}'.
+\]
+%sends $[c_n'']$ to $[c_{n-1}']$ where $c_{n-1}'\in C_{n-1}'$ is such that $i_{n-1}(c_{n-1})=d_{n-1}(c_n)$ for some $c_n$ such that $p_n([c_n])=[c_n'']$.
+\end{thm}
+\begin{proof}
+Let $H_n=H_n(\mathbf C)$, $B_n=\im(d^{n+1})$, and $Z_n=\ker(d^n)$ for the complex $\mathbf C$, and define $H_n'$, $H_n''$, and so forth similarly.  By the Snake Lemma, the gray sequence below is exact.
+\[
+\begin{tikzpicture}[>=triangle 60]
+\matrix[matrix of math nodes,column sep={60pt,between origins},row sep={60pt,between origins},nodes={anchor=center}] (s)
+{
+&|[name=ka]| H_n' &|[name=kb]| H_n &|[name=kc]| H_n'' \\
+%
+&|[name=A]| C_n'/B_n' &|[name=B]| C_n/B_n &|[name=C]| C_n''/B_n'' &|[name=01]| 0 \\
+%
+|[name=02]| 0 &|[name=A']| Z_{n-1}' &|[name=B']| Z_{n-1} &|[name=C']| Z_{n-1}'' \\
+%
+&|[name=ca]| H_{n-1}' &|[name=cb]| H_{n-1} &|[name=cc]| H_{n-1}'' \\
+};
+\draw[->] (ka) edge (A) 
+          (kb) edge (B)
+          (kc) edge (C)
+          (A) edge node[auto] {\(i_{n}\)
+} (B)
+          (B) edge node[auto] {\(p_n\)
+} (C)
+          (C) edge (01)
+          (A) edge node[auto] {\(d_{n-1}'\)} (A')
+          (B) edge node[auto] {\(d_{n-1}\)} (B')
+          (C) edge node[auto] {\(d_{n-1}''\)} (C')
+          (02) edge (A')
+          (A') edge node[auto] {\(i_{n-1}\)
+} (B')
+          (B') edge node[auto] {\(p_{n-1}\)
+} (C')
+          (A') edge (ca)
+          (B') edge (cb)
+          (C') edge (cc)
+;
+\draw[->,gray] (ka.mid east) -- (kb.mid west);
+\draw[->,gray] (kb.mid east) -- (kc.mid west);
+\draw[->,gray] (ca.mid east) -- (cb.mid west);
+\draw[->,gray] (cb.mid east) -- (cc.mid west);
+
+\draw[->,gray,rounded corners] (kc.mid east) -| 
+  node[auto,text=black,pos=.7] {\(\partial_{n}\)} ($(01.east)+(.5,0)$)
+ |- ($(B)!.35!(B')$) -| ($(02.west)+(-.5,0)$) |- (ca.mid west);
+\end{tikzpicture}\]
+Note that the connecting homomorphism is exactly that in the Snake Lemma.
+\end{proof}
+\index{derived functors}
+\section{Derived functors}\llabel{sec:derived-functors}
+\subsection{Right derived functors and $\Ext$}
+\subsubsection{Covariant case}
+Given an injective resolution of $B$,
+\[
+E^B:\quad
+0\to B\xra{\eta} E^0 \xra{d^0} E^1\xra{d^1}E_2\xra{d^2}\cdots,
+\]
+%(call this cochain complex $E^B$) 
+applying a (covariant) functor $T$ gives (after deleting $TB$)
+\beq{eq:TEB}
+0\to %TB\xra{T\eta} 
+TE^0 \xra{Td^0} TE^1\xra{Td^1}TE_2\xra{Td^2}\cdots. 
+\eeq
+We will primarily be concerned with the case where $T=\Hom_R(A, \bullet)$, so the above becomes
+\beq{eq:THom}
+%\begin{align*}
+0%\to \Hom(A,B)&
+\to \Hom(A,E^0) \xra{\Hom(A,d^0)} \Hom(A,E^1)
+\xra{\Hom(A,d^1)}\Hom(A,E^2) \xra{\Hom(A,d^2)}\cdots. 
+\eeq%\end{align*}
+\index{Ext}
+\begin{df}
+Let $T$ be a covariant functor.
+The $n$th \textbf{(covariant) right derived functor} of $T$ is
+\[
+(R^nT)B:=H^n(TE^B)=\frac{\ker(Td^n)}{\im(Td^{n-1})},
+\]
+i.e. it is the $n$th cohomology module of~(\ref{eq:TEB}).
+
+For a $R$-module $E$, define
+\[
+\Ext_R^n(A, B):=(R^n\Hom_R(A,\bullet))B=H^n(\Hom_R(A, E^B)),
+\]
+i.e. it is the $n$th cohomology module of~(\ref{eq:THom}).
+\end{df}
+Here $d^{-1}$ is the trivial map $0\to E^0$. 
+We need to show that this definition does not depend on the injective resolution chosen.
+%\footnote{This can be proven by constructing a \textbf{chain homotopy} between the resulting chain complexes corresponding to different injective resolutions.}
+\begin{proof}[Proof of well-definedness]
+Suppose we have two injective resolutions of $B$:
+\[
+\xymatrix{
+0\ar[r] & B \ar[r]^{\eta} \ar@{=}[d]& E^0 \ar[r]^{d^0}\ar@{.>}[d]^{f_0} & E^1\ar[r]^{d^1}\ar@{.>}[d]^{f_1}&\cdots\\
+0\ar[r] & B \ar[r]^{\eta'} & {E'}^0 \ar[r]^{{d'}^0} & {E'}^1\ar[r]^{{d'}^1}&\cdots 
+}
+\]
+Let $(R^nT)B=\fc{\ker(Td^n)}{\im(Td^{n-1})}$ and $({R'}^nT)B=\fc{\ker(T{d'}^n)}{\im(T{d'}^{n-1})}$. 
+
+By the Comparison Theorem~\ref{thm:comparison}, there is a unique chain map $f$ between the two resolutions, up to homotopy (the dotted lines above). Apply $T$ to this diagram to get a chain map $Tf_n:TE^n\to T{E'}^n$. As $H_n$ is a functor by Theorem~\ref{thm:hn-functor}, $Tf$ induces a map on the cohomology modules $(R^nT)B\to ({R'}^nT)B$. Since we can construct a chain map $g$ from the second to the first resolution as well, $(R^nT)B\to ({R'}^nT)B$ must be an isomorphism.
+
+For the details, see~\cite{Ro09}, Proposition 6.20. (The argument there is written for left derived functors, but the idea is the same.)
+\end{proof}
+\subsubsection{Contravariant case}
+We can define a companion functor $\ext_R^n$ that is contravariant instead of covariant. Given an projective resolution of $A$
+\[
+P_A:\quad \cdots \xra{d_2} P_2\xra{d_1}P_1\xra{d_0}P_0 \xra{\ep} A\to 0,
+\]
+applying a contravariant functor $T$ gives
+\beq{eq:TPB}
+0\xra{Td_{-1}=0} %TA\xra{T\ep} 
+TP_0 \xra{Td_0} TP_1\xra{Td_1}TP_2\xra{Td_2}\cdots. 
+\eeq
+To define $\ext$, let $T=\Hom_R(\bullet, B)$.
+\begin{df}
+Let $T$ be a contravariant functor.
+The $n$th \textbf{(contravariant) right derived functor} of $T$ is
+\[
+(R^nT)A:=H^n(TP_A)=\frac{\ker(Td^n)}{\im(Td^{n-1})},
+\]
+i.e. it is the $n$th cohomology module of~(\ref{eq:TPB}).
+
+For $R$-modules $A,B$, define
+\[
+\ext_R^n(A, B):=(R^n\Hom_R(\bullet,B))A=H^n(\Hom_R(P_A,B))
+\]
+\end{df}
+\begin{thm}\llabel{Extisext}
+For $R$-modules $A,B$,
+\[
+\Ext_R^n(A,B)=\ext_R^n(A,B).
+\]
+\end{thm}
+This theorem says that we have two choices when we need to calculate $\Ext_R^n(A,B)$, namely,
+\begin{enumerate}
+\item Find a injective resolution of $B$ and apply $\Hom(A,\bullet)$ (the $\Ext$ perspective), or
+\item Find a projective (e.g. free) resolution of $A$ and apply $\Hom(\bullet, B)$ (the $\ext$ perspective).
+\end{enumerate}
+
+%BLAH BLAH TEXT.
+
+\begin{proof}
+See Rotman~\cite{Ro09}, Theorem 6.67.
+\end{proof}
+\subsection{Left derived functors and $\Tor$}
+Next we define left derived functors and $\Tor$ analogously. Given a projective resolution of $A$
+\[
+P_A:\quad \cdots \xra{d_2} P_2\xra{d_1}P_1\xra{d_0}P_0 \xra{\ep} A\to 0,
+\]
+applying a covariant functor $T$ gives
+\[
+ \cdots \xra{Td_2} TP_2\xra{Td_1}TP_1\xra{Td_0}TP_0 %\xra{T\ep} A
+\xra{Td_{-1}} 0.
+\]
+To define $\Tor$, let $T=\bullet \ot_R B$.
+\index{Tor}
+\begin{df}
+The $n$th \textbf{left derived functor} of $T$ is
+\[
+(L_nT)B:=H_n(TP_A)=\frac{\ker(Td_{n-1})}{\im(Td_{n})}.
+\]
+For $A$ an $R$-module, define
+\begin{align*}
+\Tor^R_n(A,B)&:=(L_n (\bullet \ot_R B))A=H^n(P_A\ot_R B)\\
+\tor^R_n(A,B)&:=(L_n (A\ot_R \bullet))A=H^n(A\ot_R P_B).
+\end{align*}
+(Note $\Tor^R_n(A,B)=\tor^R_n(B,A)$.)
+\end{df}
+Note unlike the case with $\Ext$, we need only consider covariant derived functors: $\Hom_R$ is contravariant in the first entry and covariant in the second, while $\ot_R$ is covariant in both entries. Similar to Theorem~\ref{Extisext}, we have the following.
+\begin{thm}\llabel{Toristor}
+For $A,B$ $R$-modules,
+\[
+\Tor^R_n(A,B)=\tor^R_n(A,B).
+\]
+\end{thm}
+\begin{proof}
+See Rotman~\cite{Ro09}, Theorem 6.32.
+\end{proof}
+\subsection{Long exact sequences}
+\index{long exact sequence}
+The most important property of the derived functors is that they repair ``loss of exactness" after applying the functor.
+\begin{thm}[Long exact sequence]\llabel{les-ext}
+Let $0\to A\to B\to C\to 0$ be a short exact sequence of $G$-modules. 
+\begin{enumerate}
+\item
+Let $T$ be a left exact covariant functor. Then there is a long exact sequence
+\[
+\xymatrix{
+0\ar[r]& (R^0T)A\ar[r]\ar@{=}[d]& (R^0T)B\ar[r]\ar@{=}[d]& (R^0T)C\ar[r]^{\partial^0}\ar@{=}[d]&(R^1T)A\ar[r]&\cdots\\
+&TA &TB&TC & &
+}
+\]
+\item
+Let $T$ be a right exact covariant functor. Then there is a long exact sequence
+\[
+\xymatrix{
+\cdots \ar[r]&
+(L_1T)C\ar[r]^{\partial_1} &
+(L_0T)A\ar[r] \ar@{=}[d] &
+(L_0T)B\ar[r] \ar@{=}[d] &
+(L_0T)C\ar[r] \ar@{=}[d] &
+0\\
+&& TA & TB & TC&
+}
+\]
+\end{enumerate}•
+%\[
+%\xymatrix{
+%0\ar[r]& \Ext^0_R(A,B')\ar[r]\ar@{=}[d]& \Ext^0_R(A,B)\ar[r]\ar@{=}[d]& \Ext^0_R(A,B'')\ar[r]^{\partial^0}\ar@{=}[d]&\Ext^1_R(A,B')\ar[r]&\cdots\\
+%&\Hom_R(A,B') &\Hom_R(A,B) &\Hom_R(A,B'') & &
+%}
+%\]
+\end{thm}
+The maps $\partial^n$ are given by the snake lemma.
+\begin{proof}
+The long exact sequences exist by Theorem~\ref{les}. (Note that the complexes only go off to the right/left in the two cases, respectively.) It remains to show the equalities. Take a projective resolution of $A$, 
+\[\cdots\xra{d_2} P_2\xra{d_1} P_1\xra{d_0} P_0 \xra{\ep}A\to 0.\]
+By right exactness of $T$, the following is exact:
+\[
+\xymatrix{
+TP_1\ar[r]^{Td_1} & TP_0 \ar@{->>}[r]^{T\ep} & TA \ar[r] & 0.
+}
+\]
+Hence $(L_0T)A=TP_0/\im(TP_1)\cong TA$.
+
+The second part is similar.
+\end{proof}
+\begin{cor}\llabel{les-ext-tor}
+We have the long exact sequences
+\[
+\xymatrix{
+0\ar[r]& \Ext^0_R(M,A)\ar[r]\ar@{=}[d]& \Ext^0_R(M,B)\ar[r]\ar@{=}[d]& \Ext^0_R(M,C)\ar[r]^{\partial^0}\ar@{=}[d]&\Ext^1_R(M,A)\ar[r]&\cdots\\
+&\Hom_R(M,A) &\Hom_R(M,B) &\Hom_R(M,C) & &
+}
+\]
+and
+\[
+\xymatrix{
+\cdots \ar[r]&
+\Tor^R_1(C,M)\ar[r]^{\partial_1} &
+\Tor^R_0(A,M)\ar[r] \ar@{=}[d] &
+\Tor^R_0(B,M)\ar[r] \ar@{=}[d] &
+\Tor^R_0(C,M)\ar[r] \ar@{=}[d] &
+0\\
+&& M\ot_R A & M\ot_R B& M\ot_R C&
+}
+\]
+\end{cor}
+\begin{proof}
+$\Hom_R(A,\bullet)$ is left exact and $\bullet \ot_R B$ is right exact.
+\end{proof}
+%\[
+%\xymatrix{
+%0\ar[r]& \Ext^0_R(A,B')\ar[r]\ar@{=}[d]& \Ext^0_R(A,B)\ar[r]\ar@{=}[d]& \Ext^0_R(A,B'')\ar[r]^{\partial^0}\ar@{=}[d]&\Ext^1_R(A,B')\ar[r]&\cdots\\
+%&\Hom_R(A,B') &\Hom_R(A,B) &\Hom_R(A,B'') & &
+%}
+%\]
+\begin{ex}\llabel{ex:ext-inj}
+We have the following.
+\begin{align*}
+B\text{ injective}&\implies \Ext^n_R(A,B)=0\text{ for all }A,\, n\ge 1\\
+A\text{ projective}&\implies \Tor^n_R(A,B)=0\text{ for all }B,\,n\ge 1.
+\end{align*}
+Indeed, recall that $\Ext$ is defined by taking an injective resolution of $B$ and $\Tor$ is defined by taking a projective resolution of $A$, and in these cases we can take the trivial resolutions $0\to B\to B\to 0$ and $0\to A\to A \to 0$.
+%remark on short exactness in corollary?
+\end{ex}
+\begin{ex}\llabel{ex:abelian-tor2=0}
+Take $R=\Z$. Then a $R$-module is just an abelian group. Every group $H$ has a free resolution of length 2:
+\[
+0\to F_1\to F_0\to H\to 0.
+\]
+Thus $\ext^n_{\Z}(H,G)=0$ and $\Tor_n^{\Z}(H,G)=0$ for $n\ge 2$.
+\end{ex}
+\section{Homological and cohomological functors}
+\llabel{sec:cohom-functor}
+\index{cohomological functor}
+This section is more abstract and may be skipped.
+
+As we saw in Corollary~\ref{les-ext-tor} and Example~\ref{ex:ext-inj}, the key properties of $\Ext^n_R$ are roughly the following:
+\begin{enumerate}
+\item
+$\Ext_R^n(A,B)=0$ when $B$ is injective and $n\ge 1$.
+\item
+Short exact sequences give rise to long exact sequences.
+\item
+In dimension 0, $\Ext_R^0(A,B)=\Hom_R(A,B)$.
+\end{enumerate}
+We have a similar description for $\Tor^R_n$.
+
+We abstract the definition for $\Ext$ and $\Tor$, by defining homological and cohomological functors. There are several reasons for doing this:
+\begin{enumerate}
+\item
+We want to talk about {\it natural transformations} between cohomological functors.
+\item
+In the last section we showed the existence of $\Ext$ satisfying the above properties (and similarly for $\Tor$). It turns out that these properties characterize it uniquely. Thus we can just ``remember" these properties and forget the details of the construction.
+
+There are similarly other (co)homological functors, and we sometimes want to show they are equal. To do this, it turns out we can just construct an isomorphism in dimension 0, and the rest works out by abstract nonsense. (See Theorem~\ref{thm:hom-functor-uniqueness}.)
+\end{enumerate}
+Note in the above characterization of $\Ext$ we said $\Ext^R_n(A,B)=0$ for $n\ge 1$ when $B$ is injective. This is useful because every $R$-module has an injective resolution. In general, though, we may want to work with a general class of objects, say $\chi$ (which in our case is the class of injective modules). The key property is that for every module $A$ there is an injective module $E$ and an injective morphism $A\to E$, i.e. the category of $R$-modules has enough injectives. 
+\begin{df}
+Let $(T^n:\cal A\to \cal B)_{n\ge 0}$ be a set of additive functors on abelian categories, and let $\chi$ be a class of objects in $A$. We say $A$ has \textbf{enough $\chi$-objects} is every object in $\cal A$ can be embedded in an object in $\chi$.
+
+Supposing $A$ has enough $\chi$-objects, $(T^n)_{n\ge 0}$ is a \textbf{cohomological $\partial$-functor} if the following hold.
+\begin{enumerate}
+\item
+$(T^{n})_{n\ge 0}$ is $\chi$-\textbf{coeffaceable}: $T^n(X)=0$ for all $X\in \chi$ and $n\ge 1$.
+\item
+For every short exact sequence $0\to A\to B\to C\to 0$ there is a long exact sequence
+\[
+0\to T^0(A)\to \cdots \to T^n(A)\to T^n(B)\to T^n(C)\xra{\partial^n} T^{n+1}(A)\to \cdots
+\]
+such that the diagonal morphisms $\partial^n$ are natural (with respect to maps between two short exact sequences).
+\end{enumerate}
+%for every short exact sequence $0\to A\to B\to C\to 0$
+A morphism of cohomological $\partial$-functors is a natural transformation $\tau^n:T^n\to H^n$ commuting with the diagonal maps $\partial^n$.
+%i folded the bottom page of the algebra notebook where the diagram is
+\end{df}
+There is a similar definition for effaceability and homological $\partial$-functors. We can also consider $(T^n)_{n\in \Z}$, that is $\partial$-functors extending infinitely in both directions, replacing the long exact sequence with an infinite exact sequence extending in both directions.
+
+The following theorem gives existence and uniqueness of (co)homological $\partial$-functors.
+\begin{thm}\llabel{thm:hom-functor-uniqueness}
+\begin{enumerate}
+\item
+Suppose $\tau^0:T^0\to {T'}^0$ is a natural transformation of cohomological $\partial$-functors in degree 0. Then there exists a unique morphism of cohomological $\partial$-functors $\tau:T\to T'$ extending $\tau^0$.
+\item
+Suppose $T^n,{T'}^n:\cal A\to \cal B$ are two cohomological functors, and there is a natural isomorphism $T^0\cong {T'}^0$. Then $T^n\cong {T'}^n$.
+\end{enumerate}
+The same is true of homological $\partial$-functors, and $\partial$-functors extending in both directions.
+\end{thm} 
+\begin{proof}
+See Rotman~\cite{Ro09}, 6.35.
+\end{proof}
+For example, $\Ext_R$ is characterized completely by the 3 properties we gave: it is a cohomological $\partial$-functor by items 1 and 2, and uniqueness comes from knowing it in dimension 0 (item 3). Ditto for $\Tor_R$.
+%%
+\section{Group cohomology}\llabel{group-cohomology}
+\index{group cohomology}
+To apply homology to groups, we will turn a group $G$ into a ring, and consider modules over that ring.
+\index{group ring}
+\begin{df}
+Let $R$ be a ring. 
+The \textbf{group ring} $R[G]$ or $RG$ is the ring 
+\[R^{\opl G}=\set{\sum_{g\in G} a_gg}{a_g\in R}\]
+with multiplication given by
+\[
+\pa{\sum_{g\in G} a_gg}\pa{\sum_{h\in G} b_hh}=\sum_{g,h\in G} a_gb_hgh.
+\]
+\end{df}
+We will always work with $R=\Z$.
+
+Note that any action of $G$ on a $\Z$-module makes the module into a $\Z G$-module. We often just abbreviate ``$\Z G$-module" as ``$G$-module."
+\begin{df}
+Let $G$ be a group and $A,B$ be left $\Z G$-modules.
+\begin{enumerate}
+\item %Let $A,B$ be left $\Z G$-modules. 
+The \textbf{diagonal action} of $G$ on $\Hom_{\Z}(A,B)$ is given by
+\[
+(g\ph)(a)=g(\ph(g^{-1}a)).
+\]
+\item %Let $A$ be a right $\Z G$-module and $B$ be a left $\Z G$-module. 
+The \textbf{diagonal action} of $G$ on $A\ot_{\Z G} B$ is given by
+\[
+g(a\ot b)=(ga)\ot (gb).
+\]
+\end{enumerate}
+\end{df}
+
+We now apply cohomology as follows.
+\begin{df}
+Let $M$ be a $G$-module. 
+Equip $\Z$ with the trivial $G$-module structure.
+The \textbf{cohomology groups} of $G$ with coefficients in $M$ are defined by
+\begin{align*}
+H^n(G,M)&=\Ext^n_{\Z G}(\Z, M)=H^n(\Hom_{\Z G} (\Z, E^M))\\
+&=\ext^n_{\Z G}(\Z, M)=H^n(\Hom_{\Z G} (P_{\Z}, M)).
+\end{align*}
+\end{df}
+Note from Theorem~\ref{Extisext}, we have two choices in finding $H^n(G, M)$: find a $\Z G$-injective resolution of $M$, or a $\Z G$-projective resolution of $\Z$. %ADVANTAGES OF EACH APPROACH.
+
+There is a nice interpretation of $H^0(G,M)$.
+\begin{df}
+Let $L,M$ be $G$-modules and $\ph$ be a map $L\to M$. Define the \textbf{fixed point functor} by the following.
+\begin{enumerate}
+\item Action on modules:
+\[
+M^G=\set{m\in M}{gm=m\text{ for all }g\in G}.
+\]
+\item Action on maps: Since $\ph(L^G)\subeq M^G$ we can define
+\[
+\ph^G=\ph|_{L^G}.
+\]
+\end{enumerate}
+\end{df}
+
+\begin{pr}\llabel{cohom1}
+As functors,
+\[
+H^0(G, \bullet)=\Hom_{\Z G}(\Z,\bullet)= \bullet^G.
+\]
+In particular, the fixed point functor is left exact since $\Hom_{\Z G}(\Z, \bullet)$ is.
+\end{pr}
+\begin{proof}
+$\Z$ is equipped with the trivial $G$-action. A $G$-homomorphism $\ph$ from $\Z$ to $M$ is determined by $\ph(1)$, and $\ph(1)$ must be a fixed point. Hence $\Hom_{\Z G}(\Z,M)= M^G$ via the map $\ph\mapsto \ph(1)$.
+\end{proof}
+\begin{rem}
+This gives us another way to think about group cohomology. Given $M$, take an injective resolution $0\to M\to E^0\to E^1\to \cdots$. Applying $\Hom_{\Z G}(\Z,\bullet)$ to this resolution is the same as applying $\bullet^G$, so we get $0\to (E^0)^G\to (E^1)^G\to \cdots$. Then $H^n(G,M)$ is the $n$th cohomology group of this complex.
+\end{rem}
+We will need the fact that cohomology preserves products.
+\begin{pr}\llabel{cohom-preserve-prod}
+Let $G$ be a group and $M_i$ be $G$-modules. Then
+\[
+H^n\pa{G,\prod_{i\in I}M_i}\cong \prod_{i\in I} H^n(G,M_i).
+\]
+\end{pr}
+\begin{proof}
+%We note the following facts.
+%\begin{enumerate}
+%\item $\Hom$ preserves products in the second component:
+%\[
+%\Hom_R\pa{A,\prod_i B_i}=\prod_i \Hom_R(A,B_i)
+%\]
+%where $A,B_i$ are $R$-modules.
+%\item The product of injective modules is an injective module: By definition a module $M$ is injective iff $\Hom_{\Z G}(\bullet, M)$ is exact. The result follows from item 1 with $B_i=M_i$, and the fact that a product of exact sequences is exact.
+%%\Hom_{\Z G}\pa{\bullet, \prod_{i\in I}M_i}=\prod_{i\in I}\Hom_{\Z G}(\bullet,  M_i).
+%\end{enumerate}
+First note that the product of injective modules is an injective module: By definition a $R$-module $I$ is injective iff $\Hom_{R}(\bullet, I)$ is exact. Thus, the statement follows from the fact that $\Hom_R\pa{\bullet,\prod_i I_i}=\prod_i \Hom_R(\bullet,I_i)$, and the fact that a product of exact sequences is exact.
+%%\Hom_{\Z G}\pa{\bullet, \prod_{i\in I}M_i}=\prod_{i\in I}\Hom_{\Z G}(\bullet,  M_i).
+
+Thus if $E^{M_i}$ is an injective resolution for $M_i$, then $\prod_i E^{M_i}$ is an injective resolution for $\prod_i M_i$, and we get
+%we can calculate $H^n\pa{G,\prod_{i\in I}M_i}$ using the product of injective resolutions $E^{M_i}$ of the $M_i$:
+\[
+H^n\pa{G,\prod_{i\in I}M_i}=H^n\pa{\Hom_{\Z G}\pa{\Z, E^{\prod_{i\in I} M_i}}}=H^n\pa{\Hom_{\Z G}\pa{\Z, \prod_{i\in I} E^{M_i}}}=\prod_{i\in I} H^n(G,M_i).
+\]
+\end{proof}
+\index{bar resolution}
+\section{Bar resolutions}
+\llabel{sec:bar-res}
+We now describe the cohomology groups, by working with an explicit presentation of $\Z$. (We use the $\ext$ approach.) This will give practical interpretations of $H^1(G,M)$ and $H^2(G,M)$. For proofs, see Rotman~\cite{Ro09}, Section 9.3.
+\begin{df}
+Define the \textbf{bar resolution} $B(G)$ to be the exact sequence
+\[
+\xymatrix{\cdots \ar[r]^{d_3} &B_2\ar[r]^{d_2} &B_1\ar[r]^{d_1}& B_0\ar[r]^{d_0=\ep} &\Z\ar[r] &0}
+\]
+where
+\[
+B_n\cong \Z G^{\oplus G^n}
+\]
+is the free abelian group with basis elements denoted by $[x_1|\cdots |x_n]$, and 
+\beq{eq:bar-d}
+d_n([x_1|\cdots |x_n])=x_1[x_2|\cdots |x_n]+\sum_{i=1}^{n-1} (-1)^i [x_1|\cdots |\underbrace{x_ix_{i+1}}_i|\cdots |x_n]+(-1)^n [x_1|\cdots |x_{n-1}].
+\eeq
+Let $U_n\subeq B_n$ be the submodule generated by $[x_1|\cdots |x_n]$ where at least one of the $x_i$ equals 1, and define the \textbf{normalized bar resolution} to be the quotient complex $B^*(G):=B(G)/U(G)$.
+\end{df}
+Note in particular 
+\begin{align*}
+d_3[x|y|z]&=x[y|z]-[xy|z]+[x|yz]-[x|y]\\
+d_2[x|y]&=x[y]-[xy]+[x]\\
+d_1[x]&=x[]-[]\\
+d_0[]&=1.
+\end{align*}
+We have $\Hom_G(B_n,M)=\Hom_G(\Z G^{\bigoplus G^n},M)$, so it can be identified with the set of functions $G^n\to M$. Working out the kernels and images, we get the following.
+%\begin{proof}[Proof that sequences are exact]
+%BLAH.
+%\end{proof}
+%By calculation (omitted, the sequence is exact).
+\index{derivation}
+\index{factor set}
+\begin{thm}\llabel{explicit-h1}
+We have the following descriptions of $H^1(G,M)$ and $H^2(G,M)$.
+\begin{enumerate}
+\item Define a \textbf{derivation} (or crossed homomorphism) of $G$ to be a function $G\to M$ such that
+\[
+d(xy)=d(x)+xd(y)
+\]
+and a \textbf{principal derivation} to be one in the form
+\[
+d(x)=a-xa,\,\text{for some }a\in M.
+\]
+Denote the set of derivations and principal derivations by $\Der(G,M)$ and $\PDer(G,M)$. Then 
+\[
+H^1(G,M)\cong\Der(G,M)/\PDer(G,M).
+\]
+\item We have
+\[
+H^2(G,M)\cong
+\frac{
+\set{f:G\times G\to M}{f(x,y)+f(xy,z)=xf(y,z)+f(x,yz),\,f(x,1)=f(1,y)=0}}
+{
+\set{g:G\times G\to M}{g(x,y)=xh(y)-h(xy)+h(x) \text{ for some }h:G\to M}
+}.
+\]
+The elements in the top set are called \textbf{factor sets}.
+\end{enumerate}
+\end{thm}
+%\begin{proof}
+%Work out the kernels and images.
+%\end{proof}
+A particularly important case is the following.
+\begin{cor}\llabel{h1-is-hom}
+Suppose $G$ acts trivially on $M$. Then
+\[
+H^1(G,M)\cong \Hom_{\Z}(G,M).
+\]
+(On the RHS, $G$ and $M$ are thought of as groups.)
+\end{cor}
+\begin{proof}
+Because the action is trivial, a derivation is just a function with $d(xy)=d(x)+d(y)$, i.e. a homomorphism. Moreover, any principal derivation is trivial.
+\end{proof}
+\section{Group homology}\llabel{group-homology}
+\index{group homology}
+\begin{df}
+Let $A$ be a $G$-module. 
+Equip $\Z$ with the trivial $G$-module structure.
+The \textbf{homology groups} of $G$ with coefficients in $\Z$ are defined by
+\begin{align*}
+H_n(G,A)&=\Tor_n^{\Z G}(\Z, A)=H_n(P_{\Z}\ot_{\Z G} A)\\
+&=\tor_n^{\Z G}(\Z, A)=H_n(\Z\ot_{\Z G} P_A).
+\end{align*}
+\end{df}
+There is similarly a nice interpretation of $H_0(G,M)$, as well as of $H_1(G,\Z)$. Given a group $G$, define the map $\ep:\Z G\to \Z$ by $\ep\pa{\sum_{g\in G} a_gg}=\sum_{g\in G}a_g$, and define
+\[
+ I_G:=\ker(\ep)=\set{\sum_{g\in G} a_gg}{\sum_{g\in G}a_g=0}.
+\]
+\begin{pr}\llabel{hom1}
+As functors,
+\[
+H_0(G,\bullet)=\bullet/ I_G\bullet;
+\]
+i.e. there is a natural isomorphism
+\begin{align*}
+H_0(G,A)=\Z\ot_G A&\to A/ I_G A\\
+m\ot a &\mapsto ma+ I_G A.
+\end{align*}
+\end{pr}
+\begin{proof}
+The short exact sequence $0\to I_G\to \Z G\xra{\ep} \Z$ gives exactness of
+\[
+I_G\ot_G A \to \Z G\ot_G A\to \Z\ot_G A\to 0
+\]
+since tensoring is right exact. ($G$ acts trivially on the $\Z$ on the right.) Thus,
+\[
+H_0(G,A)=\Z \ot_G A=(\Z G\ot_G A)/(I_G\ot_G A)=A/I_GA.
+\]
+\end{proof}
+\begin{pr}\llabel{h1-is-gab}
+There are canonical homomorphisms $H_1(G,\Z)\cong I_G/I_G^2\cong G^{\text{ab}}$.
+\end{pr}
+Here $G^{\text{ab}}$ denotes the {\it abelianization} of $G$, i.e. $G/G'$, where $G'$ is the derived subgroup, the (normal) subgroup generated by the commutators $aba^{-1}b^{-1}$.
+\begin{proof}
+The long exact sequence in homology for $0\to I_G\to \Z G\xra{\ep} \Z\to 0$ is
+\[
+\xymatrix{
+H_1(G,\Z G)\ar[r] \ar@{=}[d]&H_1(G,\Z)\ar[r]^{\partial_1} & H_0(G,I_G)\ar[r]\ar@{=}[d] & H_0(G,\Z G) \ar@{->>}[r] \ar@{=}[d]& H_0(G,\Z)\ar[r] \ar@{=}[d]& 0\\
+0 & & I_G/I_G^2 & \Z & \Z}
+\]
+The left term is 0 by Example~\ref{ex:ext-inj} since $\Z G$ is free, hence projective. Thus $\partial_1$ is injective. From Proposition~\ref{hom1}, we get the middle two inequalities (since $H_0(G,\Z G)=\Z G/I_G\Z G=\Z$). Surjectivity of the map $\Z\to \Z$ gives that it is actually an isomorphism, so exactness gives $\partial_1$ is an isomorphism. It remains to show
+\begin{equation}\llabel{iggg}
+I_G/I_G^2 \cong G/G'.
+\end{equation}
+Define a map $f:G\to I_G/I_G^2$ by letting $f(x)=(x-1)\bmod I_G^2$. This is a homomorphism because
+\begin{align*}
+f(xy)&=xy-1\bmod{I_G^2}\\
+&=(x-1)+(y-1)\bmod{I_G^2}&(x-1)(y-1)\in I_G^2\\
+&=f(x)f(y).
+\end{align*}
+Now $G'\in \ker f$ since $I_G/I_G^2$ is abelian ($\Z G$, as an additive group, is abelian), so we get a map $f:G/G'\to I_G/I_G^2$.
+
+Now define $g:I_G\to G/G'$ by $g(x-1)=xG'$. (Note $x-1,x\in G\bs\{1\}$, is a free basis for $G$.) We have
+\begin{align*}
+g\pa{\sum_{x\in G\bs\{1\}}m_x(x-1)\sum_{y\in G\bs\{1\}}m_y(y-1)}
+&=g\pa{\sum_{x,y\in G\bs\{1\}} m_xn_y((xy-1)-(x-1)-(y-1))}\\
+&=\prod_{x,y\in G\bs\{1\}} (xyx^{-1}y^{-1})^{m_xn_x}G'=G'
+\end{align*}
+so $g$ induces $g:I_G/I_G^2\to G/G'$.
+
+Now $f$ and $g$ are inverse, showing~(\ref{iggg}).
+\end{proof}
+\subsection{Shapiro's lemma}\llabel{shapiro}
+Shapiro's lemma will be helpful in computing (co)homology groups, especially in the guise of Corollary~\ref{shapiro-cor}.
+\index{induced module}
+\index{coinduced module}
+\begin{df}
+Let $S\subeq G$ be a subgroup of finite index. %\footnote{In general we have to define $\Ind_S^G(A)=\Hom_S(\Z[G],A)$; this is equal to our definition in the finite index case. The isomorphism $\Hom_S(\Z[G],A)\to A\ot_{\Z[S]}\Z[G]$ is given by $\ph\mapsto \sum_{g\in G/S} g\ot_{\Z[S]}\ph(g^{-1})$. See Milne~\cite{Mi08}, II.1.2-11.} and $A$ be a $S$-module. 
+Define the \textbf{induced} and \textbf{coinduced modules} to be\footnote{Be careful; in some books the definitions are reversed. We follow Serre's definition, which is the opposite of Milne's definitions.}
+\begin{align*}
+\Ind_S^G (A)&=A\ot_{\Z S} \Z G.\\
+\Coind_S^G (A)&=\Hom_{\Z S}(\Z G,A).
+\end{align*}
+
+If $S=\{1\}$ we simply write $\Ind^G(A)$ or $\Coind^G(A)$. 
+An \textbf{induced module} of $G$ is a module in the form $\Ind^G(A)$; a \textbf{coinduced module} of $G$ is a module in the form $\Coind^G(A)$.
+\end{df}
+\begin{rem}\llabel{rem:finite-induced}
+If $G$ is finite, the induced and coinduced modules  are canonically isomorphic via the below map, so there is no need to distinguish between them.
+\begin{align*}
+\Hom_S(\Z G,A)&\to A\ot_{\Z S}\Z G \\
+\ph& \mapsto \sum_{g\in G/S} \ph(g^{-1})\ot_{\Z S}g.
+\end{align*}
+\end{rem}
+\begin{pr}\llabel{pr:coinduced-subgroup}
+If $M$ is a coinduced $G$-module, and $H\subeq G$ is a subgroup, then $M$ is a coinduced $H$-module.
+\end{pr}
+\begin{proof}
+Write $M=\Hom_{\Z}(\Z[G],A)$; we can write $\Z[G]=\Z[H]\ot B$; then we have by adjoint associativity\footnote{If $R,R'$ are rings, $M$ is a $R$-module, $N$ is a $(R,R')$-bimodule, and $P$ is a $R'$-module, then there is a canonical $(R,R')$-isomorphism $\Hom_R(M,\Hom_{R'}(N,P))\cong\Hom_{R'}(M\ot_R N,P) $.} that $M=\Hom(\Z[H]\ot M,A)=\Hom(\Z[H],\Hom(M,A))$. 
+\end{proof}
+The cohomology of coinduced modules and the homology of induced modules are easy to calculate.
+\index{Shapiro's lemma}
+\begin{lem}[Shapiro's lemma]\llabel{shapiro-lemma}
+The following hold.
+\begin{align*}
+H^n(G,\Coind_S^G(A))&=H^n(S,A)\\
+H_n(G,\Ind_S^G(A))&=H_n(S,A).
+\end{align*}
+\end{lem}
+\begin{proof}
+Let $P_{\Z}$ be a $\Z G$-projective resolution of $\Z$. Note it is also a $\Z S$-projective resolution, as any $\Z G$-projective module is $\Z S$-projective. 
+
+By definition of cohomology group,
+\begin{multline*}
+H^n(G,\Coind_S^G(A))=H^n(\Hom_{\Z G}(P_{\Z},\Hom_{\Z S} (\Z G,A)))\\
+\stackrel{(*)}{=} H^n(\Hom_{\Z S}(P_{\Z}\ot_{\Z G} \Z G,A))=H^n(\Hom_{\Z S}(P_{\Z},A))=H^n(S, A).
+\end{multline*}
+In $(*)$ we used adjoint associativity.
+
+By the definition of homology group,
+\[
+H_n(G,\Ind_S^G(A))=H_n(P_{\Z}\ot_{\Z G} (\Z G\ot_{\Z S} A))
+=H_n(P_{\Z}\ot_{\Z S}A)=H_n(S,A).\qedhere
+\]
+\end{proof}
+\begin{cor}\llabel{shapiro-cor}
+Suppose that $A=\bigoplus_{i\in I}A_i$, $S=\Stab(A_j)$ (defined as $\set{g\in G}{gA_j=A_j}$), and $G$ permutes the submodules $A_i$ transitively. Then
+\[
+H_n(G,A)=H_n(S,A_j).
+\]
+If $G$ is finite, then
+\[
+H^n(G,A)=H^n(S,A_j).
+\]
+\end{cor}
+\begin{proof}
+We have $A=\Ind_{S}^G A_j$. If $G$ is finite then $A\cong \Coind_S^G A_j$ as well.
+\end{proof}
+\begin{cor}\llabel{cor:ind-0}
+If $M$ is an coinduced $G$-module, then $H^n(G,M)=0$ for all $n\ge 1$.
+
+If $M$ is an induced $G$-module, then $H_n(G,M)=0$ for all $n\ge 1$.
+\end{cor}
+\begin{proof}
+By Shapiro's lemma~\ref{shapiro-lemma},
+\begin{align*}
+M&=\Coind^G(A)&\implies&& H^n(G,M)&=H^n(1,M)=0\\
+M&=\Ind^G(A)&\implies&& H_n(G,M)&=H_n(1,M)=0.
+\end{align*}
+We used the fact that $\Z$ is $\Z[\{1\}]$-projective.
+\end{proof}
+\section{Tate groups}\llabel{tate-groups}
+\index{Tate groups}
+By Corollary~\ref{les-ext-tor}, given a short exact sequence of $G$-modules we get a long exact sequence in homology and cohomology. We splice these sequences together using the Snake Lemma to obtain a long exact sequence extending in both directions.
+\begin{df}\llabel{df:ngs}
+Let $G$ be a group, $S$ be a subgroup of finite index, and $A$ be a $G$-module. Define the \textbf{norm} $N_{G/S}:A^S\to A^G$ by 
+\[
+N_{G/S}(a)=\sum_{j=1}^n t_ja,
+\]
+where $\{t_1,\ldots, t_n\}$ is a left transversal (i.e. coset representatives) of $S$ in $G$. In particular, for $S=\{1\}$ the norm map is
+\[
+N_G(a)=N(a)=\pa{\sum_{g\in G} g}a.
+\]
+\end{df}
+\begin{df}\llabel{tate-df}
+Suppose $G$ is a finite group and $A$ is a $G$-module. 
+Define the \textbf{Tate groups} by
+\[
+H_T^q(G,A)
+=\begin{cases}
+H^q(G,A),&q\ge 1\\
+A^G/NA,&q=0\\
+{}_NA/ I_GA, &q=-1\\
+H_{-q-1}(G,A),& q\le -2.
+\end{cases}•
+\] 
+Here ${}_NA$ denotes $\set{a\in A}{Na=0}$.
+\end{df}
+\begin{thm}\llabel{double-les}
+If $G$ is a finite group and $0\to A\to B\to C\to 0$ is an exact sequence of $G$-modules, then there is a long exact sequence
+\[
+\cdots \to H_T^q(G,A)\to H_T^q(G,B)\to H_T^q(G,C) \to H_T^{q-1}(G,A)\to \cdots
+\]
+\end{thm}
+\begin{proof}
+It suffices to prove exactness for $q=-1$ and $q=0$. %, since exactness elsewhere follows from exactness in homology and cohomology. 
+We apply to the snake lemma to obtain the following (the top and bottom rows in the middle are the long exact sequence in homology and cohomology, respectively).
+\[
+\begin{tikzpicture}[>=triangle 60]
+\matrix[matrix of math nodes,column sep={80pt,between origins},row sep={60pt,between origins},nodes={anchor=center}] (s)
+{
+&|[name=ka]| \ker N_A &|[name=kb]| \ker N_B &|[name=kc]| \ker N_C \\
+%
+|[name=h1]| H_1(G,C)&|[name=A]| H_0(G,A) &|[name=B]| H_0(G,B) &|[name=C]| H_0(G,C) &|[name=01]| 0 \\
+%
+|[name=02]| 0 &|[name=A']| H^0(G,A) &|[name=B']| H^0(G,B) &|[name=C']| H^0(G,C) &|[name=ch1]| H^1(G,A)\\
+%
+&|[name=ca]| \coker(N_A) &|[name=cb]| \coker(N_B) &|[name=cc]| \coker(N_C) \\
+};
+\draw[->] (ka) edge (A) 
+          (kb) edge (B)
+          (kc) edge (C)
+          (A) edge (B)
+          (B) edge (C)
+          (C) edge (01)
+          (A) edge node[auto] {\(N_A\)} (A')
+          (B) edge node[auto] {\(N_B\)} (B')
+          (C) edge node[auto] {\(N_C\)} (C')
+          (02) edge (A')
+          (A') edge (B')
+          (B') edge (C')
+          (A') edge (ca)
+          (B') edge (cb)
+          (C') edge (cc)
+		 (h1) edge node[auto] {\(\partial_1\)} (A)
+		 (C') edge node[auto] {\(\partial^0\)} (ch1)
+;
+
+\draw[->,gray] (h1) edge (ka);
+\draw[->,gray] (cc) edge (ch1);
+
+\draw[->,gray] (ka.mid east) -- (kb.mid west);
+\draw[->,gray] (kb.mid east) -- (kc.mid west);
+\draw[->,gray] (ca.mid east) -- (cb.mid west);
+\draw[->,gray] (cb.mid east) -- (cc.mid west);
+%\draw[->,gray] (cc.mid east) -- (ch1.mid south);
+%\draw[->,gray] (h1.mid north) -- (ka.mid west);
+
+\draw[->,gray,rounded corners] (kc.mid east) -| 
+  node[auto,text=black,pos=.7] {\( \)} 
+($(01.east)+(.5,0)$)
+ |- ($(B)!.35!(B')$) -| ($(02.west)+(-.5,0)$) |- (ca.mid west);
+\end{tikzpicture}\]
+The maps $N_A$, $N_B$, $N_C$ are the norm maps on $A$, $B$, and $C$ after associating $H_0$ and $H^0$ with their descriptions in Propositions~\ref{cohom1} and~\ref{hom1}:
+\[
+\begin{tikzpicture}[>=triangle 60]
+\matrix[matrix of math nodes,column sep={80pt,between origins},row sep={60pt,between origins},nodes={anchor=center}] (s)
+{
+&|[name=ka]| {}_NA/ I_GA &|[name=kb]| {}_NB/ I_GB &|[name=kc]| {}_NC/ I_GC\\
+%
+|[name=h1]| H_1(G,C)&|[name=A]| A/ I_GA &|[name=B]| B/ I_GB &|[name=C]| C/ I_GC &|[name=01]| 0 \\
+%
+|[name=02]| 0 &|[name=A']| A^G &|[name=B']| B^G &|[name=C']| C^G &|[name=ch1]| H^1(G,A)\\
+%
+&|[name=ca]| A^G/NA &|[name=cb]| B^G/NB &|[name=cc]| C_G/NC \\
+};
+\draw[->] (ka) edge (A) 
+          (kb) edge (B)
+          (kc) edge (C)
+          (A) edge (B)
+          (B) edge (C)
+          (C) edge (01)
+          (A) edge node[auto] {\(N_A\)} (A')
+          (B) edge node[auto] {\(N_B\)} (B')
+          (C) edge node[auto] {\(N_C\)} (C')
+          (02) edge (A')
+          (A') edge (B')
+          (B') edge (C')
+          (A') edge (ca)
+          (B') edge (cb)
+          (C') edge (cc)
+		 (h1) edge node[auto] {\(\partial_1\)} (A)
+		 (C') edge node[auto] {\(\partial^0\)} (ch1)
+;
+
+\draw[->,gray] (h1) edge (ka);
+\draw[->,gray] (cc) edge (ch1);
+
+\draw[->,gray] (ka.mid east) -- (kb.mid west);
+\draw[->,gray] (kb.mid east) -- (kc.mid west);
+\draw[->,gray] (ca.mid east) -- (cb.mid west);
+\draw[->,gray] (cb.mid east) -- (cc.mid west);
+%\draw[->,gray] (cc.mid east) -- (ch1.mid south);
+%\draw[->,gray] (h1.mid north) -- (ka.mid west);
+
+\draw[->,gray,rounded corners] (kc.mid east) -| 
+  node[auto,text=black,pos=.7] {\( \)} 
+($(01.east)+(.5,0)$)
+ |- ($(B)!.35!(B')$) -| ($(02.west)+(-.5,0)$) |- (ca.mid west);
+\end{tikzpicture}\]
+\end{proof}
+\subsection{Complete resolution*}
+\index{complete resolution}
+\footnote{This section will not be used and can be omitted.}
+The description of Tate groups in the last section is somewhat unwieldy (because you can see the glue marks...). We give a different interpretation here, where the Tate groups at 0 and $-1$ are less distinguished. Then we use the technique of ``dimension shifting" to extend results for cohomology (or homology) groups to results for Tate groups.
+\begin{df}
+A \textbf{complete resolution} of a group $G$ is an exact sequence $\mathbf X$
+\[
+\xymatrix{
+\cdots \ar[r] & X_1\ar[r] & X_0 \ar[rr]^{d_0}\ar@{->>}[rd]_{\ep} & &X_{-1} \ar[r] & X_{-2}\ar[r] & \cdots\\
+&&&\Z\ha{ru}_{\eta} &&&
+}
+\]
+where each $X_q$ is a finitely generated $G$-free module, $\ep$ is surjective, and $\eta$ is injective.
+\end{df}
+\begin{pr}\llabel{complete-resolution}
+Every finite group $G$ has a complete resolution $\mathbf X$.
+\end{pr}
+\begin{proof}
+Take a $G$-free resolution of $\Z$ and its dual ($A^*=\Hom_{\Z}(A,\Z)$), and splice them together.
+\[
+\xymatrix{
+\cdots \ar[r] & P_1 \ar[r] & P_0 \ar[rrd] \ar@{->>}[r] & \Z\ar[r]\ar@{=}[d] &0&&\\
+& & 0 \ar[r] & \Z\ha{r} & P_0^* \ar[r] & P_1^* \ar[r]& \cdots
+}
+\]
+\end{proof}
+\begin{pr}
+Let $G$ be a finite group, $A$ a $G$-module, and $\mathbf X$ a complete resolution. Then the Tate groups are exactly the cohomology groups
+\[
+H_T^n(G, A)=H^n(\Hom_G(\mathbf X,A)).
+\] 
+\end{pr}
+\begin{proof}
+Since any two resolutions are chain-homotopic (going both ways) by the Comparison Theorem~\ref{thm:comparison}, it suffices to prove this for one resolution. We take a resolution as in Proposition~\ref{complete-resolution} and apply $\Hom_G(\bullet, A)$ to it. We obtain the following.
+\[
+\xymatrix{
+&-2&-1&0&1&\\
+\cdots \ar[r] & \Hom_G(P_1^*,A)\ar[d]^{\cong} \ar[r] & \Hom_G(P_0^*,A)\ar[d]^{\cong} \ar[r] & \Hom_G(P_0,A) \ar[r]\ar@{=}[d] &  \Hom_G(P_1,A) \ar[r]\ar@{=}[d] & \cdots\\
+\ar[r] & P_1\ot_{\Z G} A \ar[r]^{d^{-2}} \ar[rd]& P_0\ot_{\Z G} A \ar[r]^{d^{-1}}\ar@{->>}[d]^{\ep\ot \bullet} & \Hom_G(P_0,A) \ar[r]^{d^0} & \Hom_G(P_1,A) \ar[r] & \\
+&& \Z\ot_{G} A \ar[r]^{N_A}\ar@{=}[d] & \Hom_G(\Z,A)\ha{u}_{\ep^*} \ar[ru]\ar@{=}[d] & &\\
+&& A/I_GA & A^G &&
+}
+\]
+The isomorphisms on the left are given by the natural isomorphism
+\begin{align*}
+M\ot_{\Z G} A & \to
+\Hom_G(M^*,A)\\
+m \ot a & \mapsto  (f\mapsto f(m)a).
+\end{align*}
+The bent complex along the bottom is the complex for Tate cohomology; some diagram chasing gives that these groups are isomorphic to the cohomology groups in the middle complex.
+\end{proof}
+\subsection{Dimension shifting}
+\index{dimension shifting}
+Given a result or construction in dimension $n$, we can get the result in dimensions $n\pm 1$ by utilizing the long exact sequence~\ref{double-les} and the two propositions.
+\begin{pr}\llabel{induced-tate-0}
+Let $G$ be a finite group. If $M$ is an induced module then
+\[
+H_T^n(G,M)=0
+\]
+for all $n$.
+\end{pr}
+\begin{proof}
+Since $G$ is finite, induced and coinduced modules are the same. The statement for homology and cohomology is Corollary~\ref{cor:ind-0}; this takes care of all $n\ne 0,-1$. For $n=0,-1$ we calculate $H_T^n(G,M)$ directly. Writing $M=A\ot_{\Z}\Z G$, we see that every element of $m$ can be uniquely written as $\sum_{g\in G} a_g\ot g$. We find that
+\begin{align*}
+M^G&=\set{a\ot\sum_{g\in G} g}{a\in A}=N(M)\\
+{}_NM&=\set{\sum_{g\in G} a_g\ot g}{\sum_{g\in G}a_g=0}=I_GM
+\end{align*}
+so $H_T^0(G,M)=H_T^{-1}(G,M)=0$.
+\end{proof}
+\begin{pr}\llabel{in-induced}
+Let $M$ be a module. Then there exist (canonical) short exact sequences
+\begin{gather*}
+0\to M\to M^* \to M^*/M\to 0\\
+0\to M'\to M_* \to M\to 0
+\end{gather*}
+such that $M^*$ is coinduced and $M_*$ is induced, and these sequences are split as abelian groups (i.e. as $\Z$-modules, but not necessarily as $\Z G$-modules).
+%Every module is a subgroup of an induced module, as well as a quotient of an induced module.
+\end{pr}
+\begin{proof}
+The desired maps are
+\begin{align*}
+M &\hra \Coind_{\{1\}}^G(M)\\
+m&\to \ph_m(g)=gm.\\
+\Z[G]\ot_{\Z} M&\tra M\\
+g\ot m&\mapsto gm
+%0\to \ker \to \Z[G]\ot_{\Z}\to M.
+\end{align*}
+Splitness follows from the fact that these maps have left and right inverses, respectively: $\ph\mapsto \ph(1)$ and $m\mapsto 1\ot m$. (They are only $\Z$-homomorphisms, not necessarily $\Z G$-homomorphisms.)
+%where the map $M\to \Z[G]\ot_{\Z} M$ is given by $m\to 1\ot m$.
+%$A$ is a subgroup of $\Ind_{\{1\}}^G(A)$ and a quotient group of $.
+\end{proof}
+Now suppose $G$ is finite; then coinduced and induced modules coincide. Taking the long exact sequence~\ref{double-les} of the above short exact sequences and using Proposition~\ref{induced-tate-0} gives
+%Embedding $M$ in an induced $M^*$, we get a short exact sequence $0\to M\to M^* \to M^*/M\to 0$; then the long exact sequence~\ref{double-les} and Proposition~\ref{induced-tate-0} give
+\begin{align*}
+H_T^n(G,M)&\cong H_T^{n-1}(G,M^*/M)\\
+H_T^n(G,M)&\cong H_T^{n+1}(G,M').
+\end{align*}
+Thus we reduce a problem about cohomology in degree $n$ to a problem about cohomology in degree $n+1$ or degree $n-1$.
+\section{Cup products}\llabel{cup-products}
+\index{cup product}
+There is a natural product defined in Tate cohomology.
+
+Define $A\ot B$ to be $A\ot_{\Z} B$ with the structure of a $G$-module given by $g(a\ot b)=ga\ot gb$ (the diagonal action).
+\begin{thm}\llabel{thm:cup-product}
+Let $G$ be a finite group and $A,B$ be $G$-modules. There exists a unique family of bilinear maps indexed by $(p,q)\in \Z^2$, together called the \textbf{cup product}, 
+\[
+\cup: H_T^p(G,A)\times H_T^q(G,B) \to H_T^{p+q}(G,A\ot B),
+\]
+satisfying the following four properties.
+\begin{enumerate}
+\item
+The homomorphisms are functorial in $A$ and $B$.
+\item
+For $p=q=0$, the cup product is induced by the map
+\[
+A^G\ot B^G \rightarrow (A\ot B)^G.
+\]
+\item If 
+\begin{gather*}
+0\to A'\to A\to A''\to 0\\
+0\to A'\ot B\to A\ot B\to A''\ot B\to 0
+\end{gather*}
+are exact\footnote{Recall $\bullet \ot B$ is right exact, so the content is in left exactness.}, and $a''\in H_T^p(G,A''), b\in H_T^q(G,B)$, then
+\[
+(\de a'')\cup b = \de(a''\cup b)
+\]
+in $H_T^{p+q+1}(G,A'\ot B)$. ($\de$ is the map in the corresponding long exact sequence.) %Here $\de$ is the map $H_T^n(G,A'')\to H_T^{n+1}(G,A')$ in the long exact sequence.)
+\item If 
+\begin{gather*}
+0\to B'\to B\to B''\to 0\\
+0\to A\ot B'\to A\ot B\to A\ot B''\to 0
+\end{gather*}
+are exact, and $a\in H_T^p(G,A), b''\in H_T^q(G,B'')$, then
+\[
+a\cup (\de b'') = (-1)^p\de(a\cup b'')
+\]
+in $H_T^{p+q+1}(G,A\ot B')$. %(Here $\de$ is the map $H_T^n(G,B'')\to H_T^{n+1}(G,B')$ in the long exact sequence.)
+\end{enumerate}
+\end{thm}
+\begin{proof}
+We first define the cup product for cohomology groups and then use dimension shifting to define it for Tate groups.
+
+%
+We use the bar resolution\footnote{We can also use the standard resolution (not defined here); in that case the map is $(f\cup g)(x_0,\ldots, x_{p+q})=f(x_0,\ldots, x_p)\ot g(x_p,\ldots, x_{p+q})$.}, so that $n$-chains are functions $G^n\to A$.
+For $p,q\ge 0$, define
+\[
+\cup: C^p(G,A)\times C^q(G,B)\to C^{p+q}(G,A\ot B)
+\]
+by
+\[
+(f\cup g)[x_1|\cdots |x_{p+q}] = f([x_1|\cdots |x_p])\ot g([x_{p+1}|\cdots |x_{p+q}]).
+\]
+For $n=0$, %$f\in \ker d_0^*$ corresponds to $f[]\in A^G$; 
+we have $(f\cup g)[]=f[]\ot g[]$ which shows property 2 is satisfied. We\footnote{i.e. you} can laboriously verify with~\eqref{eq:bar-d} that
+\[
+d(f\cup g)=(df)\cup g+(-1)^p f\cup (dg).
+\]
+From this we get a well-defined map
+\[
+\cup:H^p(G,A)\times H^q(G,B)\to H^{p+q}(G,A\ot B).
+\]
+%Define $\ph_{p,q}:P_{p+q}\to P_p\ot P_q$ by
+%\begin{enumerate}
+%\item
+%If $p,q\ge 0$ then
+%\[
+%\ph_{p,q}(g_0,\ldots, g_{p+q})=(g_0,\ldots, g_p)\ot(g_p,\ldots, g_{p+q}).
+%\]
+%\item
+%If $p,q\ge 1$,
+%\[
+%\ph_{-p,-q}(g_1^*,\ldots, g_{p+q}^*) = (g_1^*,\ldots, g_p^*)\ot (g_{p+1}^*,\ldots, g_{p+q}^*).
+%\]
+%\item
+%If $g\ge 0$ and $q\ge 1$,
+%\begin{align*}
+%\ph_{p,-p-q}(g_1^*,\ldots, g_q^*)&= \sum (g_1,s_1,\ldots, s_p)\ot(s_p^*,\ldots, s_1^*,g_1^*,\ldots, g_q^*)\\
+%BLAH
+%\end{align*}
+%\end{enumerate}
+We can verify properties 3 and 4 by calculation.
+
+Now we extend this definition by dimension shifting. Suppose the product is defined for $(p+1,q)$, we define it for $(p,q)$ as follows. Write $A$ (canonically) as a quotient of a induced module as in Proposition~\ref{in-induced}, $0\to A' \to A_*\to A\to 0$. Since this is split, so is
+\[
+0\to A'\ot B\to A_*\ot B\to A\ot B\to 0.
+\]
+Since $A_*$ is induced, so is $A_*\ot B$ (be slightly careful about the $G$-action here). Thus by Theorem~\ref{double-les}, we get $H_T^p(A)\cong H_T^{p+1}(A')$ and $H_T^{p+q}(A)\cong H_T^{p+q+1}(A'\ot B)$ (naturally), and thus we can define the cup product
+\[
+\xymatrix{
+H_T^{p}(A)\times H_T^q(B)\ar[d]^{\cong} \ar@{.>}[r]^{\cup} & H_T^{p+q}(A\ot B)\\
+H_T^{p+1}(A')\times H_T^q(B) \ar[r]^{\cup} & H_T^{p+q+1}(A'\ot B)\ar[u]_{\cong}
+}
+\]
+Similarly define it for $(p,q)$ given $(p,q+1)$, but this time introduce a factor of $(-1)^p$ (in order to make the second condition hold). Note this is consistent with our defintions for $p,q\ge 0$, by conditions 3 and 4. It is not hard to verify that these maps are well-defined, and that conditions 3 and 4 continue to be satisfied. By the way we defined the maps, it also doesn't matter what order we define the maps in (so going from $(p+1,q+1)\to (p,q+1)\to (p,q)$ is the same as going from $(p+1,q+1)\to (p+1,q)\to (p,q)$, for instance).
+
+%Uniqueness follows from the fact that the map is determined for $(p,q)=(0,0)$, and that conditions 3 and 4 basically force us to define the map for $(p,q)$ as above at each stage. A dimension shift in the opposite 
+Given the map for $(p,q)$, conditions 3 and 4 basically force us to define the map for $(p-1,q)$ and $(p,q-1)$ as above. Similarly we can dimension-shift in the opposite direction, and we get uniqueness for all $(p,q)$.
+\end{proof}
+Cup products are rather nasty to work with when they aren't purely in cohomology, so if we need to do cup product computation, we work in cohomology whenever possible.
+\begin{pr}
+The following hold:
+\begin{enumerate}
+\item
+Cup product is associative: For $x\in H^m(G,M)$, $y\in H^n(G,N)$, and $z\in H^p(G,P)$, 
+$(x\cup y)\cup z=x\cup (y\cup z)$ (viewing the equation in $H^{m+n+p}(G,M\ot N\ot P)$.
+\item
+Cup product is anticommutative: For $x\in H^m(G,M)$ and $y\in H^n(G,N)$, $x\cup y=(-1)^{mn} y \cup x$. 
+\end{enumerate}
+\end{pr}
+\begin{proof}
+Omitted. The idea is to verify the formula in degree 0 and then dimension-shift to get the general case.
+\end{proof}
+\subsection{Cup product calculations}
+To compute the Artin map in class field theory, we will need to calculate the cup product of things in dimensions $-2$ and $2$. We will get there incrementally using dimension shifting and properties 3--4 of the cup product, first calculating the cup product on dimensions $(0,n)$ (especially $(0,1)$), then on $(-1,1)$, and then finally on $(-2,1)$. %, and then finally on $(-2,2)$. 
+\begin{thm}\llabel{thm:cup-prod-calc}
+Let $G$ be a finite group and $A,B$ $G$-modules. If $a\in A^G$, let $\ol{a}^0$ denote its image in $H_T^0(G,A)$, and if $Na=0$, let $\ol{a}_0$ denote its image in $H_T^{-1}(G,A)$. For $g\in G$ let $\ol{g}$ denote its image in $G/G'=H_T^{-2}(G,\Z)$.
+\begin{enumerate}
+\item $(0,n)$. Suppose $n\ge 0$, $a\in A^G$, %Let $f_a:\Z\to A$ be the multiplication by $a$ map; it is a co
+and $x\in H_T^n(G,B)$. Let $f_a:B\to A\ot B$ be the map sending $y$ to $a\ot y$; it induces a map $H_T^n(G,A)\to H_T^n(G,A\ot B)$. Then
+\[
+\underbrace{\ol{a}^0}_{\in H_T^0(G,A)}\cup \underbrace{x}_{\in H_T^n(G,B)}=f_a(x)\in H_T^n(G,A\ot B).
+\]
+\item $(-1,1)$. Suppose $Na=0$, and $[f]\in H^1(G,B)$ is represented by a cocycle $f:G\to B$. Then
+\[
+\underbrace{\ol{a}_0}_{\in H_T^{-1}(G,B)}\cup \underbrace{[f]}_{\in H_T^{1}(G,B)} = \ol{\pa{-\sum_{t\in G} ta\ot f(t)}}^0.
+\]
+\item $(-2,1)$. Let $s\in G$ and $[f]\in H^1(G,B)$. Then
+\[
+\underbrace{\ol{s}}_{\in H_T^{-2}(G,\Z)}\cup \underbrace{\ol{f}}_{\in H_T^1(G,B)}=\ol{f(s)}_0\in H_T^{-1}(G,B).
+\]
+%\item $(-2,2)$. Let $s\in G$ and $[u]\in H^2(G,B)$ be represented by the cocycle $u:G\times G\to B$. Then
+%\[
+%\underbrace{\ol{s}}_{\in H_T^{-2}(G,\Z)}\cup \underbrace{[u]}_{\in H_T^2(G,B)} =\ol{\sum_{t\in G} u(t,s)}^0. 
+%\]
+\end{enumerate}
+\begin{proof}
+We omit details of the calculations. See Serre~\cite{Se79}, pg. 176-178.
+\begin{enumerate}
+\item
+For $n=0$, this follows from definition of cup product. Now use dimension shifting, with the exact sequence $0\to B\to B^*\to B^*/B\to 0$, $B^*$ coinduced.
+\item
+Dimension shift from part 1 with $0\to B\to B^*\to B^*/B\to 0$: suppose $b''\in (B^*/B)^G$ is sent to $f$ under the diagonal morphism. Write $\ol{a}_0\cup \ol{f}=\ol{a}_0\cup d(\ol{b''}^0)=-d(\ol{a}_0\cup \ol{b''}^0)$ and use part 1.
+\item
+Show that
+\[
+d(\ol{s}\cup [f])=d(\ol{f}(s)_0).
+\]
+Evaluate the LHS using property 3 and part 2.
+%\item
+%Dimension shift using $0\to B\to B^*\to B^*/B\to 0$ again; write $\ol{s}\cup [u]=\ol{s}\cup d([f''])=d(\ol{s}\cup [f''])$ for some $f''$ and use part 3.
+\end{enumerate}
+\end{proof}
+\end{thm}
+\section{Change of group}\llabel{change-of-group}
+\index{change of group}
+\index{restriction}
+\index{corestriction}
+\index{inflation}
+We would like to be able to connect (co)homology groups corresponding to different groups $G$, $G'$ and different modules over $G$, $G'$. This will allow us, for example, to define maps
+\begin{align*}
+\Res^n:&H^n(G,A)\to H^n(S,A)\\
+\Cor_n:&H_n(S,A)\to H_n(G,A)\\
+\Inf^n:&H^n(G/S,A^S)\to H^n(G,A)&S\trianglelefteq G.\\
+%\Res_n:&H_n(S,A)\to H_n(G,A)\\
+%\Coinf_n:& H^n(G,A)\to H^n(G/S,A^S)&S\trianglelefteq G
+\end{align*}
+\subsection{Construction of maps}
+For there to be a map $H^n(G,A)\to H^n(G',A')$ we need there to be a map $G'\to G$, with some compatibility condition on the modules $A$, $A'$.
+\begin{df}
+Let $G,G'$ be groups, let $A$ be a $G$-module and $A'$ be a $G'$-module. 
+A \textbf{cocompatible pair} is a pair $(\al, f)$ where $\al:G'\to G$ is a group homomorphism and $f:A\to A'$ is a $\Z$-homomorphism such that
+\[
+f((\al x')a)=x'f(a)
+\]
+for all $x'\in G'$ and $a\in A$.
+\[
+\xymatrix{
+G'\ar[r]^{\al} \ar@{~}[d]& G\ar@{~}[d]\\
+A'& A\ar[l]^{f}
+}
+\]
+Let ((Pairs*)) denote the category whose objects are pairs $(G,A)$ and whose morphisms are cocompatible $(\al,f)$.
+
+Define a \textbf{compatible pair} to be a pair $(\al,f)$ where $\al:G\to G'$ is a group homomorphism and $g:A\to A'$ is a $\Z$-homomorphism such that
+\[
+f(xa)=(\al x)f(a)
+\]
+for all $x\in G$.
+\[
+\xymatrix{
+G\ar[r]^{\al} \ar@{~}[d]& G'\ar@{~}[d]\\
+A\ar[r]^{f}& A'
+}
+\]
+Let ((Pairs)) denote the category whose objects are ordered pairs $(G,A)$ and whose morphisms are compatible $(\al,f)$.
+\end{df}
+Given a cocompatible pair, let $P'$ be a $G'$-projective resolution of $\Z$ and $P$ be a $G$-projective resolution of $\Z$. By the Comparison Theorem~\ref{thm:comparison} there is a chain map $\tau(\al): P'\to P$ induced by the map $1_{\Z}:\Z\to \Z$ and $\al$, unique up to homotopy. Define
+%; then $\al P$ is a $G$-projective resolution of $\Z$. We get a map between chain complexes
+\begin{align*}
+C^n(G,A)=\Hom_{\Z G}(P_n,A)&\to \Hom_{\Z G}(P_n',A')=C^n(G',A')\\
+\ph&\mapsto f\circ \ph \circ \tau(\al)^n.
+\end{align*}
+Similarly, for a compatible pair, there is a chain map $\tau(\al):P\to P'$ induced by $1_{\Z}:\Z\to \Z$ and $\al$; we get a map
+\begin{align*}
+\tau(\al)_n\ot f
+:C_n(G,A)=P_n \ot_{\Z G} A&\to P_n'\ot_{\Z G'} A' =C_n(G',A')
+ & %\ph&\mapsto f\circ \ph \circ \be^n.
+\end{align*}
+These maps descend to cohomology and homology, respectively.
+\begin{df}
+Define the maps below using the (co)compatible pairs shown.\\
+
+\noindent
+\begin{tabular}{|c|c|c|c|}
+\hline 
+Name & Map on $G$ & Map on $M$ & Map\tabularnewline
+\hline 
+Restriction & $i:S\to G$ & $M\xleftarrow{\cong} M$ & $\Res_{G/S}^{n}:H^{n}(G,M)\to H^{n}(S,M)$\tabularnewline
+\hline 
+Corestriction & $i:S\to G$ & $M\xrightarrow{\cong} M$ & $\Cor_{S/G}^{n}:H_{n}(S,M)\to H_{n}(G,M)$\tabularnewline
+\hline 
+Inflation & $q:G\to G/S$ & $M\hookleftarrow M^{S}$ & $\Inf_{S/G}^{n}:H^{n}(G/S,M^{S})\to H^{n}(G,M)$\tabularnewline
+\hline 
+Conjugation & $\sigma\mapsto g\sigma g^{-1}$ & $g^{-1}m\mapsfrom m$ & $H^{n}(G,M)\to H^{n}(G,M)$\tabularnewline
+\hline 
+\end{tabular}\\
+
+For inflation, we require that $S\trianglelefteq G$ ($S$ be a normal subgroup of $G$).
+
+%Note that the pair for restriction is also compatible, so gives a map on homology groups $\Res_n^{G/S}:H_n(G,M)\to H_n(S,M)$. THIS IS A DIFFERENT MAP.
+\end{df}
+\begin{pr}\llabel{change-group-conjugation}
+The conjugation map $H^n(G,M)\to H^n(G,M)$ is the identity.
+\end{pr}
+This is important because when we are defining maps between different cohomology groups, we can be assured that conjugation won't change it, i.e. we have a canonical map.
+\begin{proof}
+For $n=0$ this is the identity map $M^G\to M^G$. Since the conjugation $H^n(G,M)\to H^n(G,M)$ is a map of cohomological functors, and the identity map $H^n(G,M)\to H^n(G,M)$ is also a map of cohomological functors, and they agree for $n=0$, by Theorem~\ref{thm:hom-functor-uniqueness}(2) they must be equal for all $n$.
+
+%You were waiting to see whether this would get used, weren't you? There's also a proof using DIMENSION SHIFTING, if you're allergic to abstract nonsense.
+Alternatively, use dimension shifting.
+\end{proof}
+\subsection{Extending maps to Tate cohomology}\llabel{corestriction}
+%\begin{df}
+%Let $G$ be a group and $S$ be a subgroup of finite index $n$. Let $\{t_i\}$ be a left transversal of $S$ in $G$. Define the \textbf{norm} $N_{G/S}:A^S\to A^G$ by
+%\[
+%N_{G/S}(a)=\sum_{i=1}^n t_ia.
+%\] 
+%%and the \textbf{conorm} $\nu_{G/S}:A\to A$ by 
+%%\[
+%%\nu_{G/S}(a)=\sum_{t\in T} t^{-1}a
+%%\]
+%%where $T$ is a left transversal of $S$ in $G$, i.e. $G=\bigcup_{t\in T}tS$.
+%\end{df}
+%%Relate to norm map for field extension!
+Right now $\Res^n$ is only defined on cohomology and $\Cor_n$ is only defined on homology. We would like to define them on Tate cohomology.
+\begin{pr}\llabel{pr:extend-to-tate}
+Let $G$ be a finite group. The maps $\Res^n$ and $\Cor_n$ can be defined on Tate cohomology, such that the definitions for $H_T^n$ agree with the original definitions on cohomology and homology for $n\ge 0$ and $n\le -1$, respectively, and such that $\Res$ and $\Cor$ are natural transformations compatible with forming the long exact sequence in homology and cohomology from a short exact sequence.
+Moreover, $\Res^n$ and $\Cor_n$ satisfy the following properties.
+\begin{enumerate}
+\item
+$\Cor_{S/G}^{0}:H_T^0(S,M)\to H_T^0(G,M)$ is the map $N_{G/S}:M^S/N_SM\to M^G/N_GM$.
+\item
+$\Res_{G/S}^{-1}:H_T^{-1}(G,M)\to H_T^{-1}(S,M)$ is the map
+$C_{G/S}:{}_{N_G}M/I_GM\to {}_{N_S}M/I_SM$, where $C_{G/S}$ is the \textbf{conorm} map defined by 
+\[
+C_{G/S}(a):=\sum_{i} t_i^{-1}a
+\]
+where $\{t_i\}$ is a left transversal of $G/S$. (Equivalently, let $\{t_i\}$ be a {\it right} transversal and let $C_{G/S}(a):=\sum_{i} t_ia$.\footnote{To see this, note $t_1S=t_2S$ iff $t_1^{-1}t_2\in S$, iff $St_1^{-1}=St_2^{-1}$.})
+\item
+$\Cor_{S/G}^{-2}:H_T^{-2}(S,M)\to H_T^{-2}(G,M)$ is the natural map $S\abe\to G\abe$. (See Proposition~\ref{h1-is-gab}.)
+\end{enumerate}
+\end{pr}
+\begin{proof}
+First, the construction. We will use Theorem~\ref{thm:hom-functor-uniqueness}. 
+Let $\chi$ be the class of coinduced $\Z G$-modules. Note that the category of $\Z G$-modules has enough coinduced $\Z G$-modules, by Proposition~\ref{in-induced}. 
+Note that $\{H_T^n(S,\bullet_S)\}$ and $\{H_T^n(G,\bullet)\}$ are cohomological $\partial$-functors on the category of $\Z G$-modules, with respect to $\chi$ (by $M_S$, we mean think of $M$ as a $S$-module). Indeed, any coinduced module for $G$ is coinduced for $S$ by Proposition~\ref{pr:coinduced-subgroup}.\footnote{Note this would fail if we take $\chi$ to be the class of $\Z G$-injective modules, as $\Z G$-injective modules are not necessarily $\Z S$-injective.} Since \[\Res_{G/S}^0:M^G/N_GM\to M^S/N_SM,\quad 
+\Cor^{S/G}_0:{}_{N_S}M/I_SM\to {}_{N_G}M/I_GM\]
+are natural transformations, Theorem~\ref{thm:hom-functor-uniqueness}(1) applies to give unique morphisms $\Res$ and $\Cor$ extending $N_{G/S}$. (They agree in cohomology and homology with the original definitions by uniqueness in Theorem~\ref{thm:hom-functor-uniqueness}(1)).
+
+Alternatively, we can extend the definitions of $\Res$ and $\Cor$ using dimension shifting (which is simpler, really).\footnote{Alternatively, we can construct $\Cor^n$ explicitly as the map
+\[
+H^n(S,M)\stackrel{\text{Shapiro}}{\cong} H^n(G,\Coind^G_S M)\to H^n(G,M)
+\]
+where the last map is the change of group map induced by $G\cong G$ and $\Coind^G_S M\to M$ given by $\phi\mapsto \sum_{i} t_i\ph(t_i^{-1})$, for some transversal $\{t_i\}$ for $S$ in $G$. This is just the norm map in dimension 0.}
+
+We now calculate the maps using dimension shifting.
+\begin{enumerate}
+\item Use the short exact sequence $0\to M'\to M^*=\Z G\ot_{\Z} M\to M\to 0$ from Proposition~\ref{in-induced} to get the vertical isomorphisms in the diagram on the left below. (Note as before that $M^*$ is both $G$ and $S$-(co)induced.)
+\[
+\xymatrix{
+H_T^{-1}(S,M)\ar[d]^{\cong}_{\de}\ar[r]^{\Cor_{S/G}^{-1}} &
+H_T^{-1}(G,M)\ar[d]^{\cong}_{\de}\\
+H_T^0(S,M')\ar[r]^{\Cor_{S/G}^0} & H_T^0(G,M).
+}\quad 
+\xymatrix{
+{}_{N_S}M/I_SM\ar[d]^{\cong}_{N_S( 1\ot \bullet)}\ar[r] &
+{}_{N_G}M/I_GM\ar[d]^{\cong}_{N_G( 1\ot \bullet)}\\
+H_T^0(S,M')\ar[r]^{?} & H_T^0(G,M).
+}
+\]
+The left-hand diagram gives the right-hand diagram, after noting that $\de$ is the map in the snake lemma in the proof of Theorem~\ref{double-les}. From the right-hand diagram it is clear that the bottom map has to be $N_{G/S}$, because $N_{G/S}\circ N_S=N_G$.
+\item
+From $0\to M\to M^*\xra{f} M^*/M\to 0$ we get the commutative diagrams
+\[
+\xymatrix{
+H_T^{-1}(G,M^*/M)\ar[d]^{\cong}_{\de}\ar[r]^{\Res_{G/S}^{-1}} &
+H_T^{-1}(S,M^*/M)\ar[d]^{\cong}_{\de}\\
+H_T^0(G,M)\ar[r]^{\Res_{G/S}^0} & H_T^0(S,M).
+}\quad 
+\xymatrix{
+H_T^{-1}(G,M^*/M)\ar[d]^{\cong}_{N_{G}\circ f^{-1}}\ar[r]^{?} &
+H_T^{-1}(S,M^*/M)\ar[d]^{\cong}_{N_S\circ f^{-1}}\\
+M^G/N_GM\ar[r] & M^S/N_SM.
+}
+\]
+From $N_G=N_S\circ C_{G/S}$, the top map has to be $C_{G/S}$. %\footnote{Note the inverse in the definition of $C_{G/S}$ is because $\sum_{s\in S,\,i}st_i^{-1}=\sum_{g\in G}g$, since the $t$ are {\it left}, not right coset representatives.}
+\item
+Recall the isomorphism $H_1(G\abe,\Z)\cong G\abe$ was defined using the horizontal maps below.
+\[
+\xymatrix{
+H_1(S,\Z) \ar[d]^{\Cor_1} \ar[r]^{\partial_1}_{\cong} & H_0(S,I_S)\ar@{=}[r]\ar[d]^{\Cor_0} & I_S/I_S^2 \ar[r] & S/S'\ar[d]\\
+H_1(G,\Z) \ar[r]^{\partial_1}_{\cong} & H_0(G,I_G)\ar@{=}[r] & I_G/I_G^2 \ar[r] & G/G'
+}
+\]
+The left square commutes by functoriality of $\Cor$ and the right rectangle commutes by tracing the map in Proposition~\ref{h1-is-gab}.\qedhere
+\end{enumerate}
+\end{proof}
+%There is a related map, called corestriction, that doesn't quite come from change of group.
+%\begin{df}
+%Let $S$ be a subgroup of finite index in $G$. 
+%Define the \textbf{corestriction} map in cohomology %and in homology 
+%to be the unique homomorphism
+%\begin{align*}
+%\Cor^n:H^n(S,M)&\to H^n(G,M)%\\
+%%\Cor_n:H_n(S,A)&\to H_n(G,A)
+%\end{align*}
+%such that
+%\begin{enumerate}
+%\item $\Cor^0$ is the norm map $N_{G/S}:M^S\to M^G$.
+%%\item $\Cor_0=\nu_{G/S}: A/I_GA\to A/I_SA$.
+%\item $\Cor^n$ %and $\Cor_n$ are 
+%is compatible with forming the long exact sequence in homology and cohomology from a short exact sequence.
+%\end{enumerate}
+%\end{df}
+%Note that if $G$ is finite we can define the corestriction on Tate groups (by dimension shifting, to take care of positions $0$ and $-1$).
+%\begin{proof}[Proof of existence and uniqueness]
+%We will use Theorem~\ref{thm:hom-functor-uniqueness}. 
+%Let $\chi$ be the class of coinduced $\Z G$-modules. Note that the category of $\Z G$-modules has enough coinduced $\Z G$-modules, by Proposition~\ref{in-induced}. 
+%Note that $\{H^n(S,\bullet_S)\}$ and $\{H^n(G,\bullet)\}$ are cohomological $\partial$-functors on the category of $\Z G$-modules, with respect to $\chi$ (by $H^n(S,M_S)$, we mean think of $M$ as a $S$-module). Indeed, any coinduced module for $G$ is coinduced for $S$ by Proposition~\ref{pr:coinduced-subgroup}.\footnote{Note this would fail if we take $\chi$ to be the class of $\Z G$-injective modules, as $\Z G$-injective modules are not necessarily $\Z S$-injective.} Since $N_{G/S}$ is a natural transformation, Theorem~\ref{thm:hom-functor-uniqueness}(1) applies to give a unique morphism $\Cor$ extending $N_{G/S}$.
+%%Rotman, Proposition 9.87. %and 9.93.
+%\end{proof}
+\subsection{Further properties}
+\begin{thm}\llabel{corres}
+Suppose $H$ is a subgroup of $G$ of finite index. Then $\Cor^n\circ \Res^n$ is multiplication by $[G:H]$.
+\end{thm}
+\begin{proof}
+In degree 0, we have $\Cor^0\circ \Res^0=[G:H]$ because $N_{G/H}$ is just multiplication by $[G:H]$ on $M^G$. As in the proof of Proposition~\ref{change-group-conjugation}, the general case then follows from either Theorem~\ref{thm:hom-functor-uniqueness} or dimension shifting.
+\end{proof}
+\begin{cor}\llabel{hn-torsion}$\,$
+\begin{enumerate}
+\item If $G$ is finite, then $|G|H^n(G,M)=1$ for any $n>0$.
+\item If $G$ is finite and $M$ is finitely generated as an abelian group, then $H^n(G,M)$ is finite.
+\end{enumerate}
+\end{cor}
+\begin{proof}$\,$
+\begin{enumerate}
+\item
+By Theorem~\ref{corres}, 
+\[
+H^n(G,M)\xra{\Res} H^n(1,M)\xra{\Cor} H^n(G,M)
+\]
+is multiplication by $|G|$. But $H^n(1,M)=0$.
+\item
+By the explicit description of $H^n(G,M)$ using the bar resolution, $H^n(G,M)$ is finitely generated. By item 1 it has finite exponent, so it must be finite.
+\end{enumerate}
+\end{proof}
+\begin{cor}\llabel{res-inj-p-prim}
+Let $G$ be a finite group and $G_p$ its $p$-SSG. For any $G$-module $M$, the map
+\[
+\Res^n: H^n(G,M)\to H^n(G_p,M)
+\]
+is injective on the $p$-primary component.
+\end{cor}
+\begin{proof}
+Suppose that $x\in \ker(\Res)$. Then $[G:G_p]x=\Cor\circ \Res(x)=0$. Since the order of $x$ is a power of $p$ but $p\nmid [G:G_p]$, we get that $x=0$.
+\end{proof}
+\begin{cor}\llabel{cor:all-gp-0}
+If $H_T^n(G_p,A)=0$ for all primes $p$ then $H_T^n(G,A)=0$.
+\end{cor}
+We will also need to know how restriction and corestriction affect cup products.
+\begin{pr}\llabel{res-cup}
+The following hold.
+\begin{enumerate}
+\item $\Res(x\cup y)=\Res(x)\cup \Res(y)$.
+\item $\Cor(x\cup \Res(y))=\Cor(x)\cup y$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+See Cartan-Eilenberg~\cite{CE56}, Chapter 12, or Atiyah-Wall in Cassels-Frohlich~\cite{CF69}, p. 107.
+\end{proof}
+\subsection{Inflation-restriction exact sequence}
+\index{inflation-restriction exact sequence}
+\begin{pr}\llabel{inflate-restrict}
+Suppose $H\trianglelefteq G$, $A$ is a $G$-module, and $n>0$. If $H^i(H,A)=0$ for all $i$ with $0< i< r$, then
+\[
+0\to H^r(G/H,A^H)\xra{\Inf} H^r(G,A)\xra{\Res} H^r(H,A)
+\]
+is exact.
+\end{pr}
+\begin{proof}
+We first prove the case $r=1$. We show the following.
+\begin{enumerate}
+\item $\Res\circ \Inf = 0$: 
+Change of group is functorial (easy to see from the definition), so $\Res\circ \Inf$ is induced by the maps $G/H\leftarrow G\hookleftarrow H$ and $M^H\hra M\cong M$. The first map is 0 so $\Res\circ\Inf =0$.
+\item $\Inf$ is injective: Suppose $f:G/H\to A^H$ is a cocycle such that $\Inf([f])=0$. Note $\Inf([f])=[f\circ p]$ where $p:G\to G/H$ is the projection. $\Inf([f])=0$ means $f(s)=sa-a$ for some $a\in A$. Since $f$ is constant on cosets, $sa-a=sta-a$ for all $t\in H$, giving $ta=a$, and $a\in A^H$. Thus $[f]=0$ in $H^1(G/H,A^H)=0$.
+\item $\ker(\Res)\subeq \im(\Inf)$: Suppose $f:G\to A$ is a cocycle such that $[f]\in \ker(\Res)$. Since $\Res[f]=[f\circ i]$, this means $f(t)=ta-a$ for some $a\in A$ and all $t\in H$. Define the coboundary $g:G\to A$ by $g(s)=sa-a$ for all $s\in G$; let $f_1=f-g$; we have $[f_1]=[f]$.
+
+Now $f_1=0$ on $H$, and by definition of cocycle,
+\[
+f_1(st)=f_1(s)+sf_1(t).
+\]
+Letting $t$ range over $H$, we get that $f_1(st)=f_1(s)$, i.e. $f$ is constant on cosets of $H$. Letting $s\in H$ we have $f(st)=sf(t)$, so $\im(f)$ is invariant under $H$. Thus $f$ descends to $f:G/H\to A^H$, i.e. $f\in \im(\Inf)$.
+\end{enumerate}
+Now we proceed by induction. Suppose the proposition holds for $r-1$. By dimension-shifting (Proposition~\ref{in-induced}), the exact sequence 
+\begin{equation}\llabel{eq:inf-res-shift}
+0\to A\to A^*\to A^*/A\to 0
+\end{equation}
+with $A^*$ coinduced gives $\partial^{n-1}:H_T^{r-1}(G,A^*/A)\xra{\cong}H_T^r(G,A) $.  We now show there is a commutative diagram
+\[
+\xymatrix{
+0 \ar[r] & H^{r-1}(G/H,(A^*/A)^H) \ar[r]^-{\Inf^{r-1}}\ar[d]^{\partial^{n-1}} & H^{r-1}(G,A^*/A)\ar[r]^{\Res^{r-1}}\ar[d]^{\partial^{n-1}} & H^{r-1}(H,A^*/A)\ar[d]^{\partial^{n-1}}\\
+0\ar[r] & H^{r}(G/H,A^H) \ar[r]^{\Inf^{r}} & H^r(G,A) \ar[r]^{\Res^r} & H^r(H,A).
+}
+\]
+where all the vertical arrows are isomorphisms. We already know this for the middle arrow.
+
+Since $A^*$ is $G$-coinduced, it is $H$-coinduced (Proposition~\ref{pr:coinduced-subgroup}), so the right vertical arrow is an isomorphism.
+
+Since $H^1(H,A)=0$, taking cohomology of~(\ref{eq:inf-res-shift}) gives the exact sequence
+\[
+0\to A^H\to (A^*)^H\to (A^*/A)^H\to 0.
+\]
+Recall $A^*=\Hom(\Z[G],A)$, so $(A^*)^H=\Hom(\Z[G/H],A)$ is $G/H$-coinduced. Thus we get the left vertical arrow is an isomorphism.
+
+By (cohomological) functoriality of $\Inf$ and $\Res$, the diagram commutes.
+\end{proof}
+\subsection{Transfer}\llabel{hom-transfer}
+\index{transfer}
+Especially important for our purposes will be the restriction map on the first homology group.
+\begin{df}
+The map $V_{G\to S}$ defined by the diagram below
+\[
+\xymatrix{
+H_1(G,\Z) \ar@{=}[r] \ar[d]^{\Res_1}& G/G'\ar[d]^{V_{G\to S}}\\
+H_1(S,\Z) \ar@{=}[r] & S/S'
+}
+\]
+is called the \textbf{transfer} or \textbf{Verlagerung}.
+\end{df}
+(The map $\Res$ defined on Tate cohomology in Section~\ref{corestriction} also gives a map on homology.)
+\begin{pr}\llabel{pr:compute-transfer}
+Let $G$ be a group and $S$ be a subgroup of finite index. 
+The transfer is given by the following: Let $\{l_1,\ldots,l_n\}$ be a left transversal of $S$ in $G$. Then
+\[
+\Res_1(g)=\prod_{i=1}^n g_i S'
+\]
+where the $g_i\in S$ are such that $gl_i=l_{\pi(i)}g_{\pi(i)}$ for some permutation $\pi\in S_n$.
+\end{pr}
+\begin{proof}
+By functoriality of $\Res$ we have the commutative diagram (cf. Proposition~\ref{h1-is-gab})
+\[
+\xymatrix{
+H_1(G,\Z)\ar[d]^{\Res_1}\ar[r]^{\partial_1}_{\cong} & H_0(G,I_G) \ar@{=}[r]\ar[d]^{\Res_0=C_{G/S}} & I_G/I_G^2\ar[d]^{C_{G/S}}\\
+H_1(S,\Z)\ar[r]^{\partial_1}\ar[rd]^{\partial_1}_{\cong} & H_0(S,I_G)\ar@{=}[r] & I_G/I_SI_G\\
+& H_0(S,I_S)\ar[u]\ar@{=}[r] & I_S/I_S^2\ar@{^(->}[u].
+}
+\]
+where the top two $\partial_1$'s are from the exact sequence $0\to I_G\to \Z G\to \Z\to 0$, the bottom $\partial_1$ is from the exact sequence $0\to I_H \to \Z H\to \Z \to 0$, and the lower right square is induced by the inclusion $I_H\hra I_G$. Replacing $H_1$ with $G\abe$, we get
+\[
+\xymatrix{
+G/G'\ar[d]^{V_{G\to S}}\ar[r]^{\cong} & I_G/I_G^2\ar[d]^{C_{G/S}}\\
+S/S'\ar[r]\ar[rd]^{\cong} & I_G/I_SI_G\\
+& I_S/I_S^2\ar@{^(->}[u].
+}
+\]
+Given $g\in G/G'$, it maps to $g-1$ in $I_G/I_G^2$. We have
+\[
+C_{G/S}(g-1)=\sum_{i=1}^n l_i^{-1}(g-1)=\sum_{i=1}^n g_il_{\pi^{-1}(i)}^{-1}-l_i^{-1}=\sum_{i=1}^ni (g_i-1)l_{\pi^{-1}(i)}^{-1}\equiv \sum_{i=1}^n (g_i-1)\pmod{I_SI_G}.
+\]
+The inverse image of this in $S/S'$ is $\prod_{i=1}^n g_iS'$, as needed.
+%from Serre~\cite{Se79}, \S VII.8 or Rotman~\cite{Ro09}, Theorem 9.97.
+\end{proof}
+%\begin{thm}
+%Let $G$ be a group and $S$ a subgroup of finite index. Then the following commutes.
+%\[
+%\xymatrix{
+%G/G'\ar[r]^{\partial_G} \ar[d]^{V_{G\to S}}& I_G/ I_G^2 \ar[d]^{f}\\
+%S/S'\ar[r]^{\cong} &  I_S+ I_G I_S/ I_G I_S
+%}
+%\]
+%The map $f$ is given by
+%\[
+%f(x\bmod{I_G^2})=x\sum_{l\in L} l\bmod{I_GI_S}.
+%\]
+%for any left transversal $L$ of $G/S$.
+%\end{thm}
+%\begin{proof}
+%This is because $\Res=\Cor^1$, $N_{G/S}=\Cor^0$, and $\Cor$ is a homological $\partial$-functor.
+%%Consider the commutative diagram
+%%\[
+%%\xymatrix{
+%%0\ar[r]& I_G\ar[r]& \Z I_G\ar[r]&\Z\ar[r]&0\\
+%%0\ar[r]& I_S\ar@{^(->}[u]^{\la}\ar[r]& \Z S\ar[r] \ar@{^(->}[u] & \Z\ar[r]\ar[u]^{=}&0.
+%%}
+%%\]
+%%Take homology!
+%%See Neukrich~\cite{Ne99} VI.7.7.
+%\end{proof}
+\begin{thm}\llabel{transfer0}
+Let $G$ be a finite group. Then the transfer map
+\[
+V:G^{\text{ab}}\to (G')^{\text{ab}}
+\]
+is zero.
+\end{thm}
+\begin{proof}
+See Neukirch,~\cite[VI.7.6]{Ne99}. The proof uses the computation in Proposition~\ref{pr:compute-transfer}.
+\end{proof}
+This will be important when we study the Hilbert class field.
+
+\section{Cohomology of cyclic groups}\llabel{cyclic-groups}
+The cohomology of cyclic groups is especially easy to understand, and will be very useful to us: when $L/K$ is an unramified extension of local fields, the Galois group $G(L/K)=G(l/k)$ is cyclic.
+
+%This is a nice hands-on proof, but we want the more abstract proof that gives the iso in Thm iso+2 with cup products.
+%To compute the Tate cohomology of cyclic groups we first compute a %$G$-projective 
+%complete resolution of $\Z$.
+%\begin{pr}\llabel{cyclic-resolution}
+%Suppose $G=\an{x}$ is a cyclic group of order $k$. Let $D$ be the multiplication by $x-1$ map and $N$ be the norm map (multiplication by $x^{k-1}+\cdots +x+1$). Then
+%\[
+%\xymatrix{
+%\cdots \ar[r]^D& 
+%%\Z G\ar[r]^{D}&
+%\Z G\ar[r]^{N}&
+%\Z G\ar[r]^{D}&
+%\Z G\ar@{->>}[rd]^{\ep}\ar[rr]^N&&
+%\Z G\ar[r]^D& 
+%\Z G\ar[r]^N&
+%\cdots \\
+%&&&&
+%\Z \ar@{^(->}[ru]^{\eta}
+%&&&
+%}
+%%\\
+%%&3&2&1&0&
+%\]
+%is a complete resolution of $\Z$, where $\ep\pa{\sum_{j=0}^k a_jx^j}=\sum_{j=0}^k a_j$ and $\eta(a)=a(1+x+\cdots +x^{k-1})$.
+%\end{pr}
+%\begin{proof}
+%We show the following.
+%\begin{enumerate}
+%\item $\ker D=\im N$. Note ``$\supeq$" follows directly from $(x-1)(x^{k-1}+\cdots +x+1)=x^k-1=0$. For $\subeq$, suppose $u=\sum_{j=0}^{k-1} a_jx^j\in \ker D$. Then
+%\begin{equation}\llabel{mult-x-1}
+%(x-1)u=(a_{k-1}-a_0) +(a_0-a_1)x+\cdots + (a_{k-2}-a_{k-1}) x^{k-1}=0.
+%\end{equation}
+%This gives $a_0=a_1=\cdots =a_{k-1}$, so
+%\[
+%u=a_0(1+x+\cdots +x^{k-1})\in \im N.
+%\]
+%\item $\ker N=\im D$. Again ``$\supeq$" follows directly from $(x-1)(x^{k-1}+\cdots +x+1)=x^k-1=0$. For $\subeq$, suppose $u=\sum_{j=0}^{k-1} a_jx^j\in \ker N$. Then 
+%\[
+%(1+x+\cdots +x^{k-1})u=\pa{\sum_{j=0}^{k-1}a_j} (1+x+\cdots +x^{k-1})=0.
+%\]
+%Hence $\sum_{j=0}^{k-1}a_j=0$. 
+%By~(\ref{mult-x-1}), we have
+%\[
+%u=(x-1)(-a_0-(a_0+a_1)x-\cdots -(\underbrace{a_0+\cdots +a_{k-1}}_0)x^{k-1})
+%\in \im D.
+%\]
+%%\item $\ker \ep=\im D$. Note that the map $\ep$ factors as follows:
+%%\[
+%%\xymatrix{
+%%\Z G\ar@{->>}[r]^-{N} &\Z(1+x+\cdots+ x^{k-1})\ar[r]^-{\cong}& \Z},
+%%\]
+%%so this follows from step 2.
+%\item $N=\eta\circ \ep$. This is clear.\qedhere
+%\end{enumerate}
+%\end{proof}
+%\begin{thm}\llabel{cyclic-cohomology}
+%Let $G=\an x$ be a finite cyclic group and $A$ a $G$-module. Define ${}_NA=\set{a\in A}{Na=0}$. Then
+%\begin{align*}
+%%H^0(G, A)&=A^G\\
+%H_T^{2n-1}(G, A)&={}_NA/DA\\
+%H_T^{2n}(G, A)&=A^G/NA.
+%\end{align*}
+%\end{thm}
+%\begin{proof}
+%Apply $\Hom_G(\bullet,A)$ to the resolution in Proposition~\ref{cyclic-resolution} to get
+%\[
+%\xymatrix{
+%\cdots %\ar[r]^N& 
+%%\Z G
+%\ar[r]^{D}&
+%\Z G\ar[r]^{N}&
+%\Z G\ar[r]^{D}&
+%\Z G\ar[r]^{N}&
+%\cdots \\
+%%\Z\ar[r]& 0\\
+%\cdots & 
+%%\Hom_G(\Z G,A)\ar[l]^{N_*}\ar[d]^{\cong}&
+%\Hom_G(\Z G,A)\ar[l]_-{D_*}\ar[d]^{\cong}&
+%\Hom_G(\Z G,A)\ar[l]_{N_*}\ar[d]^{\cong}&
+%\Hom_G(\Z G,A)\ar[l]_{D_*}\ar[d]^{\cong}&
+%\ar[l]_-{N_*}\cdots \\
+%%\Hom_G(\Z G,A)\ar[l]_{\ep_*}\ar[d]^{\cong}& 0\ar[l]\\
+%\cdots & 
+%%A\ar[l]^{N}&
+%A\ar[l]_{D}&
+%A\ar[l]_{N}&
+%A\ar[l]_{D}&
+%\cdots \ar[l]_N\\
+%%0\ar[l]& 0\ar[l]\\
+%&2&1&0&%&
+%}
+%\]
+%The vertical isomorphisms are given by $\phi\mapsto\phi(1)$. It remains to note that on $A$, $\ker(D)=\set{a\in A}{(x-1)a=0}=A^G$.
+%\end{proof}
+%\begin{pr}\llabel{iso+2}
+%Let $G$ be a cyclic group of finite order. A generator for $G$ determines isomorphisms
+%\[
+%H_T^r(G,M)\xra{\cong} H_T^{r+2}(G,M)
+%\]
+%for all $G$-modules $M$ and $r\in \Z$.
+%\end{pr}
+%\begin{proof}
+%A choice of a generator $x$ defines $D$ as in Proposition~\ref{cyclic-resolution} and Theorem~\ref{cyclic-cohomology}. Then the odd groups are all identified with ${}_NA/DA$ and the even groups are all identified with $A^G/NA$.
+%\end{proof}
+%\begin{rem}
+%In fact, the isomorphisms can be described using the cup product. Let $\chi_x$ be the element of $H^1(G,\Q/\Z)\cong \Hom(G,\Q/\Z)$ that sends $x$ to $\rc{|G|}$, and let $\de$ denote the diagonal map corresponding to the exact sequence $1\to \Z\to \Q\to \Q/\Z\to 1$. Then the map in Proposition~\ref{iso+2} is $a\mapsto a\cup \de \chi_x$. See Atiyah-Wall in Cassels-Frohlich, p. 108. \fixme{ADD THIS PROOF!}
+%\end{rem}
+%%%
+\begin{thm}\llabel{iso+2}
+Let $G$ be a cyclic group and $x$ a generator. Let $\chi_x\in \Hom(G,\Q/\Z)=H_T^1(G,\Q/\Z)$ be the homomorphism sending $x$ to $\rc{|G|}$. Let $\de:H_T^1(G,\Q/\Z)\to H_T^2(G,\Z)$ be the diagonal map from the exact sequence $0\to \Z\to \Q\to \Q/\Z\to 0$. 
+The map $\bullet \cup \de \chi_x$ gives an isomorphism
+\[
+H_T^r(G,M)\xra{\cong} H_T^{r+2}(G,M)
+\]
+for all $G$-modules $M$ and $r\in \Z$.
+
+Hence for all $n\in \Z$,
+\bal
+H_T^{2n-1}(G, A)&={}_NA/DA\\
+H_T^{2n}(G, A)&=A^G/NA.
+\end{align*}
+where $D$ is multiplication by $x-1$ .
+\end{thm}
+\begin{proof}
+Since $\Q$ is a divisible group, so is $H^n(G,\Q)$, by looking at the description of $H^n$ in terms of cocycles (Section~\ref{sec:bar-res}). Hence $\de:H_T^1(G,\Q/\Z)\to H_T^2(G,\Z)$ is an isomorphism and $\de\chi_x$ is a generator of $H_T^2(G,\Z)$.
+
+The short exact sequence $0\to I_G\to \Z G\to \Z\to 0$ splits because $G$ is cyclic:
+\begin{align*}
+0 \autorightleftharpoons{}{} I_G
+\autorightleftharpoons{}{$D$} \Z G \autorightleftharpoons{$\ep$}{} \Z \autorightleftharpoons{}{} 0
+\end{align*}
+where $\ep\pa{\sum_{g\in G}a_gg}=\sum_{g\in G}a_g$. Now $\Z G$ has trivial Tate cohomology by Proposition~\ref{induced-tate-0}, so the diagonal maps in either direction are isomorphisms:
+\[
+\xymatrix{
+H_T^0(G,\Z) \ar[r]^{\de^0}_{\cong} &
+H_T^1(G,I_G)\ar[r]^{\de^1}_{\cong} &
+H_T^2(G,\Z).
+}
+\]
+Thus we can write $\de \chi_x=\de^0\de^1c$ for a generator $c$ of $H_T^0(G,\Z)=\Z/|G|\Z$. Then by Theorem~\ref{thm:cup-product}(4),
+\[
+b\cup \de\chi_x=b\cup \de^0\de^1c=\de^0 \de^1(b\cup c).
+\]
+It suffices to show that the map $H_T^r(G,M)\xra{\bullet\cup c} H_T^r(G,M)$ is an isomorphism. But this map is just multiplication by $c$ for $r=0$, so it is multiplication by $c$ for all $r$. Now by Proposition~\ref{hn-torsion} (true for $r>0$ and hence true for all $r$ by dimension-shifting) $|G|H_T^r(G,M)=0$. As $c$ is a generator of $\Z/|G|\Z$ it is relatively prime to $|G|$; hence multiplication by $c$ is an isomorphism on $H_T^r(G,M)$. This shows the isomorphism $H_T^r(G,M)\xra{\cong}H_T^{r+2}(G,M)$.
+
+For the second part, note $H_T^{-1}(G,A)={}_NA/DA$ and 
+$H_T^{0}(G, A)=A^G/NA$.
+\end{proof}
+%%%
+\begin{cor}%(to Proposition~\ref{iso+2})
+\llabel{cor:exact-hex}
+Let $G$ be a finite cyclic group. Suppose that $1\to A\to B \to C\to 1$ is an exact sequence of $G$-modules. Then there is an exact hexagon
+\begin{equation}\llabel{exact-hexagon}
+\xymatrix{
+& H_T^0(G,A) \ar[r]^{f_1} & H_T^0(G,B) \ar[rd]^{f_2}& \\
+H_T^1(G,C)\ar[ru]^{f_6} & & & H_T^0(G,C) \ar[ld]^{f_3}\\
+&H_T^1(G,B)\ar[lu]^{f_5} & H_T^1(G,A)\ar[l]^{f_4} &
+}
+\end{equation}
+\end{cor}
+\begin{proof}
+We have $H_T^2(G,A)\cong H_T^0(G,A)$.
+\end{proof}
+\subsection{Herbrand quotient}\llabel{herbrand}
+\index{Herbrand quotient}
+\begin{df}
+Let $G$ be a finite cyclic group and $A$ a finite $G$-module. Define the \textbf{Herbrand quotient} to be
+\[
+h(A)=h(G,A)=\frac{|H_T^{2n}(G,A)|}{|H_T^{2n-1}(G,A)|}
+\]
+for any $n$.
+\end{df}
+This is well-defined by Theorem~\ref{iso+2}.
+
+The following key properties of the Herbrand quotient will help us in computations.
+\begin{pr}\llabel{herbrand-1}
+Let $G$ be a finite cyclic group. The Herbrand quotient satisfies the following.
+\begin{enumerate}
+\item If $A$ is a finite $G$-module, then $h(G,A)=1$.
+\item ($h$ is an Euler-Poincar\'e function) If $1\to A\to B\to C\to 1$ is an exact sequence of $G$-modules, then
+\[
+h(G,B)=h(G,A)h(G,C).
+\]
+(If two of these are defined then the other is defined.)
+\item If $G$ acts trivially on $\Z$, then $h(G,\Z)=|G|$.
+\item If $f:A\to B$ has finite kernel and cokernel, then $h(A)=h(B)$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+\begin{enumerate}
+\item
+We use Theorem~\ref{iso+2} to calculate the quotient. 
+We have the exact sequences
+\[
+\xymatrix{
+0\ar[r] & {}_N A \ar[r] &A \ar[r]^N &NA \ar[r] &0 &
+0\ar[r] &\ker D\ar@{=}[d]\ar[r] & A\ar[r] & DA \ar[r] & 0.\\
+&&&&&&A^G&&&
+}
+\]
+Hence
+\[
+|NA||{}_NA|=|A|=|A^G||DA|,
+\]
+giving
+\[
+|H^1(G,A)|=|{}_NA/DA|=|A^G/NA|=|H^2(G,A)|.
+\]
+\item Keeping the notation in the hexagon~\ref{exact-hexagon}, we have
+\[
+H^0(G,A)=|\ker f_1|\cdot \fc{|H^0(G,A)|}{|\ker f_1|}
+=|\im f_6||\im f_1|.
+\]
+We can similarly calculate the other quantities to get the result.
+%Similarly,
+%\begin{align*}
+%H^
+%\end{align*}
+\item Let $|G|=n$, and $[n]$ denote multiplication by $n$. We have
+\[
+h(G,\Z)=\fc{|H_T^0(G,\Z)|}{|H_T^{-1}(G,\Z)|}
+=\fc{|\Z^G/N\Z|}{|{}_N\Z/I_G\Z|}=\fc{|\Z/n\Z|}{|\ker[n]|}=\fc{|G|}{1}=|G|.
+\]
+\item The exact sequence $1\to \ker f\to A\to B \to \coker f\to 1$ gives $h(G,\ker f)h(G,B)=h(G,A)h(G,\coker f)$ (split the exact sequence into 2 short exact sequences and use part 2). The result now follows from part 1.\qedhere
+\end{enumerate}
+\end{proof}
+
+\section{Tate's Theorem}\llabel{tate-thm-section}
+\index{Tate's Theorem}
+\fixme{Our main goal in this section is to prove the following.}
+\begin{thm}[Tate's Theorem]\llabel{tate-thm}
+Let $G$ be a finite group and $M$ be a $G$-module. Suppose that for all subgroups $H\subeq G$,
+\begin{enumerate}
+\item $H^1(H,M)=0$ and
+\item $H^2(H,M)$ is cyclic of order $|H|$.
+\end{enumerate}
+Then given a generator $u\in H^2(G,M)$, there is an isomorphism
+\[
+H_T^r(G,\Z)\xra{\bullet\cup u}H_T^{r+2}(G,M)
+\]
+for all $r$. %INDUCED BY CUP PRODUCT.
+\end{thm}
+This is the main application of group cohomology to class field theory, as this will be the inverse of the Artin map: for instance, in local class field theory we have 
+\begin{align*}
+H_T^{-2}(G(L/K),\Z)&=G(L/K)^{\text{ab}}\\
+H_T^{0}(G(L/K),L^{\times})&=(L^{\times})^{G(L/K)}/\nm_{L/K}
+(L^{\times}) =K^{\times}/\nm_{L/K}(L^{\times}).
+\end{align*} 
+The conditions of Tate's Theorem may seem unmotivated, but keep in mind that they are basically the key conditions satisfied in the number-theoretic setting, when $G$ is taken to be a Galois group and $M$ is taken to be a field (or idele group).
+
+Class field theory was initially proved without group cohomology, but group cohomology gives a much nicer way to organize and abstract the proof. This theorem is a key part of that abstraction: isolating the key number-theoretic conditions that result in the Artin isomorphism. In proving both local and global class field theory, we will spend significant time showing that the hypothesis of Tate's Theorem holds. (The key difference in local and global class field theory is that we put in different things for $M$.)
+\begin{proof}
+Serre~\cite{Se79}, Section IX.8.
+\end{proof}
+
+\section{Profinite groups}\llabel{profinite-cohom}
+In this section we study the cohomology groups when $G$ is a profinite group. %(For basics on profinite groups see Section~\ref{galois}.\ref{profinite}.) %Uncomment this if this is compiled with the Galois theory chapters.
+In this case topology becomes important. We will apply the results when $G$ is an infinite Galois group.
+
+We find that we have two ways of interpreting the resulting cohomology groups:
+\begin{enumerate}
+\item
+Imitate the previous construction but work in the category of topological $G$-modules instead. I.e. feed in ``category of topological groups" into our cohomology functor.
+\item
+Take the direct limit over finite quotients of $G$.
+\end{enumerate}
+%This is similar to when we defined profinite groups: we could feed in the ``category of topological groups" into a functor (the inverse limit), or we can view it as 
+\index{topological G-module}
+\begin{df}\llabel{top-g-mod}
+A \textbf{topological $G$-module} is a $G$-module that is a topological group, and such that the map
+\begin{align*}
+\ph:G\times M&\to M\\
+(g,m)&\mapsto gm
+\end{align*}
+is continuous.
+\end{df}
+We will always give $M$ the discrete topology, so this is equivalent to the following condition:
+\[
+M=\bigcup_{H\text{ open subgroup of }G} M^H.
+\]
+Indeed, because $M$ has the discrete topology, for the action to be continuous, $\pi_G(\ph^{-1}(m))$ must be open, where $\pi_G:G\times M\to G$ is the projection. This is just the stabilizer of $m$, so the stabilizer of $m$ must contain an open subgroup of $G$. Hence, every $m\in M$ must be contained in some $M^H$.
+
+We define $H^n(G,M)$ as before, but now in the category of topological $G$-modules, i.e. we replace every instance of $\Hom_G$ with $\Hom_G^{\text{cont}}$, since in this category the morphisms are {\it continuous} $G$-homomorphisms. Note that the category of discrete $G$-modules has enough injectives.
+\begin{thm}\llabel{profinite-lim2}
+Let $G$ be a profinite group. 
+We have
+\[
+H^n(G,M)=\varinjlim H^n(G/S,M^S)%=H^n(G,S)
+\]
+where the limit is over open normal subgroups $S$ and the maps are the inflation maps
+\[
+\Inf^n : H^n(G/S,M^S)\to H^n(G/T, M^T),\quad S\supeq T.
+\]
+\end{thm}
+\begin{proof}
+Milne~\cite{Mi08}, II.4.2.
+\end{proof}
+We have a similar result if we take the limit over $M$.
+\begin{pr}\llabel{pr:H-commutes-lim}
+Let $G$ be a profinite group and suppose $M=\varinjlim H^r(G,M_i)$ is a discrete $G$-module, and each $M_i$ injects into $M$. Then
+\[
+H^n(G,M)=\varinjlim H^n(G,M_i).
+\]
+\end{pr}
+\begin{proof}
+Milne~\cite{Mi08}, II.4.4.
+\end{proof}
+\section{Nonabelian cohomology}\llabel{nonabelian-cohom}
+\index{nonabelian cohomology}
+In this section we define cohomology $H^n(G,A)$ when $A$ is {\it non-abelian}. (It was okay for $G$ to be non-abelian because we saw it in the guise of $\Z G$, but we needed $A$ to be in an abelian category.) The cohomological construction fails and we instead imitate the results of Theorem~\ref{explicit-h1}. (The description of $H^1$ and $H^2$ in Theorem~\ref{explicit-h1} are useful because derivations and factor sets are used to classify a lot of things.)
+
+We will only be able to get a ``piece" of the long exact sequence. Cohomology also lacks a lot of structure: we speak not of cohomology groups, because they are now only pointed sets. We write $A$ multiplicatively, as is the convention for nonabelian groups.
+
+\index{pointed set}
+\begin{df}
+The category of \textbf{pointed sets} is the category whose objects are pairs $(A,a)$, where $A$ is a set and $a\in A$, and such that a morphism $(A,a)\to (B,b)$ is a function $A\to B$ taking $a$ to $b$.
+
+The \textbf{kernel} of $f:(A,a)\to (B,b)$ is $f^{-1}(b)$. Thus we can define an exact sequence of pointed sets.
+\end{df}
+
+We now define the cohomology (pointed) sets. These will coincide with the definition in the abelian case by Theorem~\ref{explicit-h1}, except we only retain the structure of a pointed set.
+\begin{df}\llabel{df:nonabelian-cocycles}
+Let $G$ be a group and $A$ a group with $G$-action.
+\begin{enumerate}
+\item
+Define
+\[
+H^0(G,A)=A^G:=\set{a\in A}{sa=a\text{ for all }s\in G}.
+\]
+The distinguished element is 1.
+\item
+Define a \textbf{1-cocycle} to be a map $d:G\to A$ such that 
+\[
+d(xy)=d(x)\cdot xd(y)
+\]
+and let $\Der(G,A)$ be the set of 1-cocycles.
+Two cocycles $d_1,d_2$ are \textbf{cohomologous} if there exists $a\in A$ so that\footnote{The analogue in the abelian case was $d_2(x)=-a+d_1(x)+xa$.}
+\[
+d_2(x)=a^{-1}\cdot d_1(x)\cdot xa.
+\]
+Note this is an equivalence relation; define $H^1(G,A)$ to be the pointed set of 1-cocycles modulo equivalence. The distinguished element is the unit cocycle $d(x)\equiv 1$.
+\end{enumerate}
+For an exact sequence of non-abelian $G$-modules
+\[
+1\to A \xra{i} B \xra{p}C\to 1
+\]
+with $i(A)\trianglelefteq B$, define the \textbf{coboundary operator} $\de:H^0(G,C)\to H^1(G,A)$ as follows: given $c\in G^G$, choose any $b\in p^{-1}(c)$ and set
+\[
+\de (c)=d\text{ where } d(s)=i^{-1}(b^{-1} s(b)).
+\]
+
+If furthermore $i(A)$ is in the center of $B$ (so $A$ is abelian), define $\De:H^1(G,C)\to H^2(G,A)$ as follows: for $d_c\in H^1(G,C)$, choose $d_b$ such that $p_*d_b=d_c$, and set
+\[
+[\De(d)](x,y)=d_b(s)\cdot s(d_b(t))\cdot d_b(st)^{-1}.
+\]
+\end{df}
+\begin{proof}[Proof of well-definedness]
+Note the coboundary operator is defined by imitating the construction in the snake lemma.
+\[
+\xymatrix{
+&& C^G\ar[d]\\
+A\ar@{.>}[r]^i \ar@{.>}[d]^{d_1}&  B\ar[r]^{p} \ar[d]^{d_1}
+& C\\
+\Der(G, A)\ar[r]^i&\Der(G,B)\\
+}
+\xymatrix{
+&& c\ar[d]\\
+& b \ar[r]^{p} \ar[d]^{d_1}
+& c\\
+\pa{s\mapsto i^{-1}(b^{-1}s(b))}\ar[r]^i&\pa{s\mapsto b^{-1}s(b)}\\
+}
+\]
+We need to show that $s\mapsto b^{-1}s(b)$ is actually a cocycle; its image is in $A$ because $s(b)\equiv b^{-1} \pmod{i(A)}$ by exactness; show that the cohomology class is independent of the choice of $b$.
+
+The second part is similar. Everything is easy to prove so we omit it. See Serre~\cite{Se79}, Appendix to Chapter VII.
+\end{proof}
+\begin{thm}[Exact sequence in nonabelian cohomology]\llabel{thm:nonabelian-les}
+Let $1\to A\xra{i} B \xra{p} C\to 1$ be an exact sequence of non-abelian $G$-modules. Then the following is exact.
+\[
+\xymatrix{
+1\ar[r] & H^0(G,A) \ar[r]^{i_0} & H^0(G,B) \ar[r]^{p_0} & H^0(G,C) \ar[r]^{\de} & H^1(G,A) \ar[r]^{i_1} & H^1(G,B) \ar[r]^{p_1} & H^1(G,C) \ar@{.>}[d]^{\De}\\
+&&&&& & H^2(G,A)
+}
+\]
+(with the last map present if $A$ is in the center of $B$).
+\end{thm}

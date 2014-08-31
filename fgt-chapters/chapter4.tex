@@ -1,0 +1,494 @@
+\chapter{Galois Theory}\label{galois}
+\index{Galois group}
+\index{Galois extension}
+\section{Galois groups and Galois extensions}
+\begin{df}
+The \textbf{Galois group} of an extension $L/K$, denoted 
+\[
+\text{Gal}(L/K)=G(L/K)
+\]
+is the group of field automorphisms of $L$ fixing $K$. 
+\end{df}
+\fixme{Also talk about stuff from an embedding point of view.}
+\begin{df}
+A \textbf{Galois extension} of $K$ is a normal, separable extension.
+\end{df}
+\begin{thm}\label{galois-extension-order}
+Suppose $L/K$ is a finite field extension. $L/K$ is a Galois extension if and only if
+\[
+|G(L/K)|=[L:K].
+\]
+\end{thm}
+\section{Fixed fields}
+\begin{df}
+Let $H$ be a group of automorphisms of a field $K$. The \textbf{fixed field} of $H$, $K^H$, is the set of elements of $K$ fixed by every group element.
+\[
+K^H=\set{\al\in K}{\si(\al)=\al\text{ for every }\si\in H}.
+\]
+\end{df}
+The following relationship between $H$ and $K^H$ will be instrumental in proving the Fundamental Theorem of Galois Theory. 
+\index{fixed field theorem}
+\begin{thm}[Fixed field theorem]\label{fixed-field}
+\begin{enumerate}
+\item $[K:K^H]=|H|$: The degree of $K$ over $K^H$ is the order of the group.
+\item $H=G(K/K^H)$: $K$ is a Galois extension of $K^H$ with Galois group $H$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+%\begin{enumerate}
+%\item 
+%
+%\end{enumerate}
+\end{proof}
+\index{splitting field}
+\section{Splitting fields}
+\begin{df}
+A \textbf{splitting field} of $f\in K[X]$ over $K$ is an extension $L/K$ such that 
+\begin{enumerate}
+\item
+$f$ splits completely in $K$: $f=(X-\al_1)\cdots (X-\al_n)$, $\al_k\in K$.
+\item
+$L=K(\al_1,\ldots, \al_n)$.
+\end{enumerate}
+\end{df}
+A splitting field is a finite extension, and every finite extension is contained in a splitting field.
+
+The following shows that the splitting property of a splitting field is in a sense independent of the polynomial chosen. This will help us relate splitting fields to Galois extensions.
+\index{normal extension}
+\begin{df}
+A field extension $L/K$ is \textbf{normal} if every polynomial $g(X)\in K[X]$ with one root in $K$ splits completely in $K$.
+\end{df}
+\begin{thm}[Splitting theorem]
+%If $L$ is a splitting field of some $f(X)\in K[X]$, then any irreducible polynomial $g(X)\in K[X]$ with one root in $K$ splits completely in $K$. Conversely, any finite normal extension is a splitting field.
+The normal extensions $L/K$ are exactly the splitting fields of polynomials in $K[X]$.
+\end{thm}
+\fixme{Move this to before Galois extensions so ``normal" extension is defined.}
+\begin{proof}
+Suppose $g(X)$ has the root $\be\in K$. Then $p_1(\al_1,\ldots, \al_n)=\be$ for some $p_1\in K[X_1,\ldots, X_n]$. Let $p_1,\ldots, p_k$ be the orbit of $p_1$ under the symmetric group. Then $\prod_{i=1}^k (X-p_i(\al_1,\ldots, \al_n))\in K[X]$ by symmetry so it is divisible by $g(X)$, the irreducible polynomial of $\be$.
+%If $L$ is an extension of $K$, then an intermediate field extension sat
+\end{proof}
+The order of $G=G(L/K)$ divides $[L:K]$, since 
+\[
+[L:K]=\underbrace{[L:L^G]}_{|G|}[L^G:K].
+\]
+\begin{thm}[Characteristic properties of Galois extensions]
+For a finite extension $L/K$, the following are equivalent.
+\fixme{Merge with $|G|=[L:K]$?}
+\begin{enumerate}
+\item $L/K$ is a Galois extension.
+\item $L^{G(L/K)}=L$.
+\item $L$ is a splitting field over $K$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+$(1)\iff (2)$: By the Fixed Field Theorem, $|G|=[L:L^G]$.
+
+$(1)\iff (3)$: Let $\ga_1$ be a primitive element for $L$ with irreducible polynomial $f$. Let $\ga_1,\ldots, \ga_r$ be the roots of $f$ in $L$. There is a unique $K$-automorphism $\si_i$ sending $\ga_1\mapsto \ga_i$ for each $i$ and these make up the group $G(L/K)$. Thus the order of $G(L/K)$ is equal to the number of conjugates of $\ga_1$ in $L$. Hence we get the following chain of equivalences.
+\begin{enumerate}
+\item
+$L/K$ Galois
+\item 
+$|G|=[L:L^G]$
+\item
+$f$ splits completely in $K$
+\item
+$K$ is a splitting field.
+\end{enumerate}
+\end{proof}
+\begin{pr}[Properties of the Galois group]
+If $L/K$ is a Galois extension, and $g\in K[X]$ splits completely in $L$ with roots $\be_1,\ldots, \be_r$, then
+\begin{enumerate}
+\item
+$G$ operates on the set of roots $\be_i$.
+\item
+$G$ operates faithfully if $L$ is a splitting field of $g$ over $K$.
+\item
+$G$ operates transitively if $g$ is irreducible over $K$.
+\item
+If $L$ is the splitting field of irreducible $g$, then $G$ embeds as a transitive subgroup of $S_r$.
+\end{enumerate}
+\end{pr}
+\index{Fundamental theorem of Galois theory}
+\section{Fundamental theorem of Galois theory}
+\begin{thm}[Fundamental theorem of Galois theory]\label{ftogt}
+Let $L/K$ be a finite Galois extension and let $G=G(L/K)$. Then there is a bijection between subgroups of $G$ and intermediate fields, defined by
+\begin{align*}
+H&\mapsto K^H\\
+G(L/K')&\mapsfrom K'.
+\end{align*}
+Moreover, letting $K'=K^H$, $K'/K$ is a Galois extension iff $H$ is a normal subgroup of $G$. If so, then $G(K'/K)\cong G/H$. [Diagram here.]
+\end{thm}
+\begin{proof}
+Let $\ga_1$ be a primitive element for $K'/K$ and $g$ the irreducible polynomial for $\ga_1$ over $K$. Let the roots of $g$ in $K$ be $\ga_1,\ldots, \ga_r$. For $\si\in G$, $\si(\ga_1)=\ga_1$, the stabilizer of $\ga_i$ is $\si H\si^{-1}$. Thus $\si H \si^{-1}=H$ if and only if $\ga_i\in K'=K^H$. $H$ is normal iff all $\ga_i\in L$ iff $K'/K$ Galois. Restricting $\si$ to $L$ gives  a homomorphism $\ph:G\to G(K'/K)$ with kernel $H$.
+\end{proof}
+\index{normal basis}
+\begin{df}
+A \textbf{normal basis} of a Galois extension $L/K$ is a basis in the form
+\[
+\set{\si(\be)}{\si\in G(L/K)}
+\]
+for some $\be\in L$.
+\end{df}
+\begin{thm}[Normal basis theorem]\label{nbt}
+Every Galois extension has a normal basis.
+\end{thm}
+\begin{proof}
+Write $G(L/K)=\{\si_1,\ldots,\si_m\}$. Consider two cases.\\
+
+\noindent\underline{Case 1:} $K$ is infinite. We show the following.
+\begin{lem}\label{poly-of-galois-0}
+If $f\in K[X_1,\ldots, X_m]$ is such that $f(\si_1\al,\ldots,\si_m\al)=0$ for all $\al\in E$, then $f=0$.
+\end{lem}
+\begin{proof}
+Let $X=(X_1,\ldots, X_m)^T$; we write $f(X)$ for $f(X_1,\ldots, X_m)$. Let $Y=(Y_1,\ldots, Y_m)$, and define
+\[
+g(Y)=
+g\begin{pmatrix}\si_{1}\al_{1} & \cdots & \si_{1}\al_{m}\\
+\vdots & \ddots & \vdots\\
+\si_{m}\al_{1} & \cdots & \si_{m}\al_{m}
+\end{pmatrix}X.
+\]
+Then by assumption $g(\al)=0$ for each $\al\in K$. Since $K$ is infinite $g$ is the zero polynomial. \fixme{Add proof.}  Note the matrix $\pa{\begin{smallmatrix}\si_{1}\al_{1} & \cdots & \si_{1}\al_{m}\\
+\vdots & \ddots & \vdots\\
+\si_{m}\al_{1} & \cdots & \si_{m}\al_{m}
+\end{smallmatrix}}$ is invertible (this is corollary of indep. of char - \fixme{ADD}). Hence $f$ must also be the zero polynomial.
+\end{proof}
+Let $A$ be the matrix with $X_k$ in entry $(i, j)$ if $\si_i\circ \si_j=\si_k$. Let 
+\[
+f(X_1,\ldots, X_m)=\det(A).
+\]
+Note $f(1,0,\ldots, 0)$ is the determinant of a permutation matrix (since given any $g,h$ in a group, there is exactly one element $k$ and one element $l$ so that $lg=gk=h$), so equals $\pm1$. This shows $f$ is not the zero polynomial. Therefore, by Lemma~\ref{poly-of-galois-0}, there exists $\al\in K$ such that $f(\si_1\al,\ldots, \si_m\al)\ne 0$. %Suppose by way of contradiction that the $\si_1(\al),\ldots, \si_m(\al)$ are linearly dependent. Then there are $a_1,\ldots, a_m\in K$, not all zero, so that
+Suppose that $a_1,\ldots, a_m\in K$ and 
+\[
+\sum_{k=1}^m a_k\si_k(\al)=0.
+\]
+Then
+\[
+\sum_{k=1}^m a_k\si_i\si_k(\al)=0
+\]
+for all $i$. Think of this as a system in the $a_i$. The matrix corresponding to this system is $\det(A)\ne 0$, so all the $a_i=0$. This shows that $\si_k(\al)$ are linearly independent.\\
+
+\noindent\underline{Case 2:} $K$ is a finite field. Then the Galois group is cyclic (Theorem~\ref{galois-finite-field}); say $G=\an{\si}$. By independence of characters, $I, \si,\ldots, \si^{n-1}$ are linearly independent so the minimal polynomial of $\si$ is $X^n-1$. %(Consider it as a linear transformation.)
+Consider $L$ as a $K[\si]\cong K[X]/(X^n-1)$-module. By the structure theorem for modules, we have
+\[
+L\cong K[X]/(p_1)\oplus \cdots\oplus K[X]/(p_m)
+\]
+for some polynomials $(p_1)$ dividing $X^n-1$ with $p_1\mid \cdots \mid p_m$. Since the minimal polynomial of $\si$ is $X^n-1$, we must have $p_m=X^n-1$. But $[L:K]=n$ so $m=1$ and $L\cong K[X]$.\footnote{Compare this to the proof of primitive elements in finite fields.} This means there exists an element $\al$ such that $\al, \si\al,\ldots, \si^{n-1}\al$ generate $L$ over $K$.
+\end{proof}
+\section{Cubic and quartic equations}
+\index{quintic equations}
+\section{Quintic equations}
+\begin{thm}[Quintic impossibility theorem]
+\end{thm}
+\section{Inverse limits and profinite groups}
+To study infinite Galois groups, it is fruitful to view them as the ``limit" of finite Galois groups. Thus we first introduce the notion of an inverse limit. This gives infinite Galois groups the structure of a {\it profinite group}, and its topology becomes important.
+\subsection{Limits}
+We will eventually care about limits not just for abelian groups but also topological groups, modules, and so forth. To take care of all this in one fell swoop, we introduce a bit of abstraction, via category theory.
+\begin{df}
+A \textbf{category} $\cal C$ is a collection of \textbf{objects} and \textbf{morphisms} (or maps). Each morphism $\ph$ has a source and target object $A$ and $B$; let $\Hom_{\cal C}(A,B)$ be the set of morphisms from $A$ to $B$. There is a composition law
+\begin{align*}
+\Hom_{\cal C}(A,B)\times \Hom_{\cal C}(B,C)&\to \Hom_{\cal C}(A,C)\\
+(\al,\be)&\mapsto \be \circ \al
+\end{align*}
+satisfying the following:
+\begin{enumerate}
+\item
+For each object $B$ there exists an \textbf{identity morphism} $1_B\in \Hom_{\cal C}(B,B)$ such that $1_B\circ \al=\al$ for any $\al\in \Hom_{\cal C}(A,B)$ and $\be\circ 1_B=\be$ for any $\be\in \Hom_{\cal C}(B,C)$.
+\item Composition is associative:
+\[
+\ga\circ (\be \circ \al)=(\ga\circ \be)\circ \al
+\]
+for any $\al\in \Hom_{\cal C}(A,B)$, $\be\in \Hom_{\cal C}(B,C)$, and $\ga\in \Hom_{\cal C}(C,D)$.
+\end{enumerate}
+
+A morphism $\al\in\Hom_{\cal C}(A,B)$ is an $\textbf{isomorphism}$ if there exists $\be\in \Hom_{\cal C}(B,A)$ such that $\be\circ \al=1_A$ and $\al\circ \be=1_B$.
+\end{df}
+
+\begin{ex}\footnote{We have to be careful about the word ``sets"... See~\cite{Ma71} for all the stuff we're sweeping under the rug.}
+We can often think of the objects as sets, possibly endowed with extra structure, and morphisms as maps between them preserving the structure.
+\begin{enumerate}
+\item ((Sets)) Objects: sets. Morphisms: functions.
+\item ((Rings)) Objects: rings. Morphisms: ring homomorphisms.
+\item (($R$-mod)), where $R$ is a ring. Objects: $R$-modules. Morphisms: ring homomorphisms.
+%\begin{enumerate}
+\item ((Groups)) Objects: groups. Morphisms: group homomorphisms. %(This is the special case $R=\Z$.)
+%\end{enumerate}
+\begin{enumerate}
+\item
+((Ab Groups)) Objects: abelian groups. Morphisms: group homomorphisms.
+\end{enumerate}•
+\item ((Top)) Objects: topological spaces. Morphisms: Continuous maps.
+\item ((Top Groups)) Objects: topological groups.\footnote{Groups endowed with a topology such that multiplication is continuous on $G\times G$ and taking the inverse is continuous.}
+Morphisms: Continuous homomorphisms.
+\end{enumerate}
+However, objects in categories do not have to be sets. For instance, any poset $S$ can be turned into a category, by letting the elements be the objects, and declaring a morphism $\ph^i_j$ whenever $i,j\in S$ and $i\preccurlyeq j$.
+\end{ex}
+\begin{df}
+Let $\cal C$ be a category. 
+Let $\{A_i\}$ and $\{\ph^i_j\}$ be a set of objects in $\cal C$ and homomorphisms between them.\footnote{We're allowed to have different maps between $A_i$ and $A_j$; however in our examples we usually won't.} 
+We say that $(\{A_i\}, \{\ph^i_j\})$ form a \textbf{inverse} (or projective) \textbf{system} if the following two conditions are satisfied.
+\begin{enumerate}
+\item For every $A_i\ne A_j$ there exists $A_k$ such that there are morphisms $\ph^k_i:A_k\to A_i$ and $\ph^k_j:A_k\to A_j$.
+\[
+\xymatrix{
+& A_i\\
+A_k\ar[ru]^{\ph^k_i}\ar[rd]_{\ph^i_j} &\\
+&A_j
+}
+\]
+\item For every pair of maps $\ph^j_k:A_j\to A_k$ and $\ph'^j_k:A_j\to A_k$ there exists a map\footnote{called the {\it equalizer}} $\al^i_j:A_i\to A_j$ such that $\ph^j_k\circ \ph^i_j=\ph^j_k\circ \ph'^i_j$.
+\end{enumerate}
+\end{df}
+In our applications there will only ever be one map $A_i\to A_j$, so the second condition is empty.
+
+Finally, we define the notion of inverse limit.
+\begin{df}
+Let $\{A_i\}$ and $\{\ph^i_j\}$ be a set of objects in $\cal C$ and homomorphisms between them. Suppose that $\{\ph^i_j\}$ is closed under composition.\footnote{Equivalently, the $A_i$ and $\ph^i_j$ are indexed by a category, i.e. there is a functor from a small category into $\cal C$.}
+We say a sequence of maps $\al_i:A\to A_i$ is \textbf{compatible} if for every map $\ph^i_j:A_i\to A_j$ in our set of maps,
+\[
+\al_j=\ph^i_j\circ \al_i.
+\]
+%directed set = set + preorder + upper bound
+
+The \textbf{inverse limit}
+\[
+A=\varprojlim A_i
+\]
+is the unique object in $\cal C$ (up to isomorphism) with compatible maps $\al_i$, satisfying the following universal mapping property (UMP):
+For every object $B$ with compatible maps $\be_i$, there is a map $\ph:B\to A$ such that $\be_i=\al_i\circ\ph$ for every $i$, i.e. the following commutes:
+\begin{equation}\llabel{cone}
+\xymatrix{
+& B\ar[ldd]_{\be_i}\ar[d]^{\ph} \ar[rdd]^{\be_j} &\\
+& A\ar[ld]_{\al_i}\ar[rd]^{\al_j} \\
+A_i \ar[rr]^{\ph^i_j} & & A_j.
+}
+\end{equation}
+\end{df}
+This is a very abstract definition, but we will be able to construct $A$ explicitly in the cases we care about. Uniqueness follows from the UMP; the inverse limit exists for all inverse systems if and only if $\cal C$ has {\it products} and {\it equalizers}. (See 18.705 notes.)
+%ex. \Z,m\le n if m|n
+%We say the $A_i$ form a {\it filtered} system if 
+%\begin{enumerate}
+%\item for every $\ph^j_l:A_j\to A_l$ and $\ph^k_l:A_k\to A_l$ there exist $\ph^i_j:A_i\to A_j$ and $\ph^i_k:A_i\to A_k$, and
+%\item for every $\ph^j_k,{\ph^j_k}':A_j\to A_k$ there exists $\ph^i_j$ such that $\ph^j_k\circ \ph^i_j = {\ph^j_k}'\circ \ph^i_j$.
+%\end{enumerate}
+\begin{thm}\llabel{inv-limit-comp-seq}
+Suppose $\cal C$ is ((Sets)), ((Groups)), (($R$-mod)), or (($R$-alg)).
+If $(\{A_i\}, \{\ph^i_j\})$ is an inverse system, then $\varprojlim A_i$ can be realized as the set of all sequences
+\[\set{
+(a_i)}{ a_i\in A_i,\,\ph^i_j(a_i)=a_j \text{ for all $\ph^i_j$}
+},\]
+with the natural module or algebra structure, as applicable.
+%and ring structure defined by componentwise addition and multiplication.
+\end{thm}
+\begin{proof}
+Just verify that the UMP is satisfied.
+\end{proof}
+\begin{ex}
+The ring of $p$-adic integers 
+\[\Z_p=\varprojlim \Z/p^n\Z\]
+is defined the inverse limit of %the following:
+%\[
+%\cdots \to
+%\Z/p^3\Z\to \Z/p^2\Z\to \Z/p\Z
+%\]
+$(\{\Z/p^n\Z\}_{n\in \Z},\ph^n_m)$ where $\ph^n_m:\Z/p^n\Z\to \Z/p^m\Z$, for $n\ge m$, are the natural projection maps.
+An element of $\Z_p$ can be thought of as a number modulo arbitrarily high powers of $p$. We have an injective map $\Z\hra \Z_p$, but there are elements of $\Z_p$ not in $\Z$ (think this through).
+
+We will explore $p$-adics in depth in Chapter~\ref{valuations-and-completions}.
+\end{ex}
+\begin{ex}\llabel{zhat}
+Define 
+\[\wh{\Z}=\varprojlim\Z/n\Z\]
+as the inverse limit of $(\{\Z/n\Z\}_{n\in \Z}, \ph^n_m)$, where the maps $\ph^n_m:\Z/n\Z\to \Z/m\Z$ with $m\mid n$ are given by projection. %We can think of elements of $\Z$ as integers modulo ``arbitrarily divisible" integers.
+\end{ex}
+In the next section we will interpret these limits not just as limit of groups, but of topological groups.
+\subsection{Profinite groups}\llabel{profinite}
+We assume knowledge of topology (continuous maps, compactness, separation axioms, connectedness, product topology, Tychonoff's theorem).
+\begin{df}
+A \textbf{profinite group} is a inverse limit $\varprojlim_{i\in I} G_i$ of finite discrete topological groups $G_i$. 
+
+Suppose that $\ph_i:G\to G_i$ are all surjective. The \textbf{order} $\# G$ of $G$ is the formal product
+\[
+\prod_p p^{\max_{i\in I}v_p(|G_i|)}.
+\]
+In other words it is the ``least common multiple" of the $|G_i|$.
+\end{df}
+We know that if we only consider the $G_i$ as {\it groups}, then by Theorem~\ref{inv-limit-comp-seq}, the inverse limit can be described as the the set of tuples $(g_i)_{i\in I}$ such that $\ph^i_j(g_i)=g_j$ for every transition map $\ph^i_j:G_i\to G_j$. But we need to show that the inverse limit is well-defined when the $G_i$ are {\it topological groups}. We give a topology on the inverse limit of groups, $\varprojlim_{i\in I} G_i$, so that it satisfies the UMP for the inverse limit of topological groups. (In the category of topological groups, homomorphisms must be continuous.)
+\begin{pr}
+%It is equipped with a \textbf{profinite topology} as follows: 
+Give \[
+G=\varprojlim_{\text{groups}} G_i\]
+the following topology:
+Equip each finite group $G_i$ with the discrete topology and $\prod_{i\in I} G_i$ with the product topology. 
+Then $G=\varprojlim_{i\in I}G_i$ is the closed subspace of $\prod_{i\in I} G_i$ of compatible sequences; %(as it is the intersection of closed subspaces); 
+give it the subspace topology.
+
+Then
+\[
+G=\varprojlim_{\text{top. group}} G_i.
+\]
+\end{pr}
+\begin{proof}
+We show that $G$ satisfies the UMP.
+
+First, note that the maps $\ph_i:G\to G_i$ are continuous. Indeed for any open $U_i\in G_i$, letting $\pi_i$ be the projection map $\prod_{i\in I} G_i$, $\pi_i^{-1}(U_i)$ is open. Hence $\ph_i^{-1}(U_i)=\pi_i^{-1}(U_i)\cap G$ is open in $G$.
+
+Now let $H$ be a topological group with compatible maps $\be_i:H\to G_i$. In order for~\ref{cone} to commute, we must define
+\[
+\ph(h)=(\be_i(h))_i.
+\]
+This is a continuous map $\be_i:H\to \prod_i G_i$ because it is the product of continuous maps; it is also a homomorphism. Its image is in $G\subeq \prod_i G_i$ because the $\be_i$ are compatible. Since $G$ is given the subspace topology, $\be$ is continuous, as desired.
+\end{proof}
+The following characterizes the topology of profinite groups.
+\begin{pr}
+A topological group $G$ is profinite iff it is compact, Hausdorff, and totally disconnected.
+\end{pr}
+\begin{proof}
+First suppose $G=\varprojlim_{i\in I}G_i$ is profinite.
+\begin{enumerate}
+%\item
+%Represent $g,h\in G$ as $(g_i)$ and $(h_i)$. If $g\ne h$ then there exists $i$ such that $g_i\ne h_i$. Then $\al_i^{-1}(g_i)$ and $\al_j^{-1}(g_j)$ are disjoint open sets containing $g$ and $h$.
+\item
+$\prod_{i\in I} G_i$ is compact by Tychonoff's Theorem (an arbitrary product of compact spaces is compact) so the closed subspace $G$ is compact.
+\item 
+Given $g=(g_i)$ and $h=(h_i)$, suppose $g_i\ne h_i$. Partition $G_i$ into two sets $A$ and $B$ containing $g_i$ and $h_i$, respectively. Then $\al_i^{-1}(g_i)$ and $\al_j^{-1}(g_j)$ are disjoint clopen (open and closed) sets containing $g$ and $h$, respectively. This shows that $G$ is Hausdorff and totally disconnected.
+\end{enumerate}
+The converse is left as an exercise (we won't need it).
+\end{proof}
+Profinite groups can be constructed from arbitrary abelian groups as follows.
+\begin{df}
+Let $G$ be a group. Define the \textbf{profinite completion} of $G$ to be
+\[
+\wh{G}=\varprojlim_{N\text{ normal of finite index}}G/N
+\]
+with the natural projection maps.
+\end{df}
+\begin{ex}
+This agrees with our definition of $\wh{\Z}$ in Example~\ref{zhat}. In the profinite topology of $\wh{\Z}$, the subsets $n\wh{\Z}$ form a neighborhood base of 0. 
+\end{ex}
+\section{Infinite Galois theory}
+Let $\Om/K$ be an infinite Galois extension. We equip $G(\Om/K)$ with a topology by interpreting it as a profinite group, as follows.
+\begin{pr}
+\[G(\Om/K)=\varprojlim_{L/K\text{ finite}}G(L/K),\]
+where the limit is with respect to the quotient maps $G(M/K)\to G(L/K)$.
+\end{pr}
+\begin{proof}
+Identify the right side with compatible elements of $\prod_{L/K} G(L/K)$ and send $\si\in G(\Om/K)$ to $(\si|_L)_L$. This is a bijection because any element of $\Om$ is in a finite extension over $K$, so specifying a map $\Om\to \Om$ is the same as specifying a compatible sequence of maps $L\to L$ for every finite Galois extension.
+\end{proof}
+Now we give $G(\Om/K)$ the profinite topology. Equivalently, it is the topology such that a neighborhood base of 1 is
+\[
+G(S)=\set{\si \in G(\Om/K)}{\si s=s\text{ for all } s\in S},\quad S\text{ finite}.
+\]
+
+%We next show that $G(\Om/K)\twoheadrightarrow G(L/K)$
+We next show surjectivity of the quotient map.
+\begin{pr}
+Every homomorphism $\si:L\to \Om$ extends to a homomorphism $\Om\to \Om$.
+
+If $L/K$ is Galois, then the restriction map $G(\Om/K)\twoheadrightarrow G(L/K)$ is surjective.
+\end{pr}
+\begin{proof}
+Use Zorn's lemma, as follows. Define a poset $P$ whose elements are pairs $(M,\ph_M)$, where $M$ is a field with $L\subeq M\subeq \Om$ and $\ph_M$ is a homomorphism $M\to \Om$. Introduce a partial ordering by saying
+\[
+(M,\ph_M)\preccurlyeq (N,\ph_N)
+\]
+if $M\subeq N$ and $\ph_N|_M=\ph_M$. If $(M_i,\ph_{M_i})$ is a chain (totally ordered subset), then it has a maximal element in $P$, namely,
+\[
+\pa{\bigcup_i M_i,\ph}
+\]
+where $\ph$ is defined as $\ph(x)=\ph_i(x)$ if $x\in M_i$. Thus by Zorn's lemma $P$ has a maximal element $(M,\ph_M)$.
+
+%Suppose this element is $(M,\ph_M)$ where $M\ne \Om$. 
+For any element $\al\in \Om$, by finite Galois theory (ref) we can extend $(M,\ph_M)$ to $(M(\al),\ph_{M(\al)})$. By maximiality of $M$, $M=M(\al)$, i.e. $M=\Om$.
+
+The second part follows directly.
+\end{proof}
+%Thus we can identify
+%\[
+%G(\Om/K)=\varprojlim_{L/K\text{ finite}}G(L/K),
+%\]
+%where the limit is with respect to the quotient maps $G(M/K)\to G(L/K)$. To do this, identify the right side with compatible elements of $\prod_{L/K} G(L/K)$ and send $\si\in G(\Om/K)$ to $(\si|_L)_L$. 
+%\begin{thm}[Topology of $G(\Om/K)$]
+%$G(\Om/K)$ is Hausdorff, compact, and totally disconnected.
+%\end{thm}
+%\begin{proof}
+%\begin{enumerate}
+%\item
+%Given distinct elements $\si,\tau\in G(\Om/K)$, there exist $s\in S$ such that $\si(s)\ne \tau(s)$. Simply take $S=\{s\}$ to find that $\si G(S)$ and $\tau G(S)$ are disjoint neighborhoods around $\si$ and $\tau$.
+%\item
+%There is a closed imbedding.
+%\[
+%G(\Om/K)\hra \prod_{S\text{ finite}} G/G(S).
+%\]
+%... Each term is a finite set, so compact. By Tychonoff's Theorem, the product is compact; then $G(\Om/K)$ is compact since it is isomorphic to a closed subset of this space.
+%\item 
+%\end{enumerate}•
+%\end{proof}
+The following is the analogue of the fixed field theorem. Note that topology now plays a role.
+\begin{thm}[Fixed field theorem, infinite extensions]
+Suppose $\Om/K$ is Galois and $G=G(\Om/K)$.
+\begin{enumerate}
+%\item
+%$\Om^{G(\Om/K)}=K$. \fixme{do we need Galois here?{
+\item
+%$\Om$ is Galois over every field extension $L$ of $K$, 
+$G(\Om/L)$ is closed, and $\Om^{G(\Om/L)}=L$.
+\item
+For every subgroup $H\subeq G$, $G(\Om/\Om^H)=\ol H$.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item %The projection map $\pi_L:G(\Om/K)\to G(\Om/L)$, is continuous, by definition of the profinite topology. Hence $
+%For every finite Galois extension $K'/K$, $G(\Om/K')$ is closed (as it is equal to $\al_{K'}^{-1}(\Id)$ where $\al_{K'}: G(\Om/K)\to G(K'/K)$ is the projection. Hence $G(\Om/L)=\bigcap_{K'/K\text{ finite Galois}}
+The sets $G(S)$ are open of finite index, hence closed.
+Hence $G(\Om/L)=\bigcap_{\text{finite }S\subeq L} G(S)$ is closed.
+
+For the second part, 
+note that for every finite Galois extension $M/L$, we know
+\[
+\Om^{G(M/L)}\cap M=L.
+\]
+Since this is true for every such $M/L$, and $G(\Om/L)\tra G(M/L)$ is surjective, the result follows.
+%$\Om^{G(\Om/L)}\supeq L$ is clear. For the reverse direction, note that
+\item It is clear that $G(\Om/\Om^H)\supeq H$. 
+By part 1, $G(\Om/\Om^H)$ is closed, so it contains $\ol H$.  FINISH...
+\end{enumerate}
+\end{proof}
+\begin{thm}[Fundamental theorem of infinite Galois theory]\label{ftogt-infinite}
+There is a bijection between {\it closed} subgroups of $G$ and intermediate fields $L$ with $K\subeq L\subeq \Om$.
+\begin{align*}
+H&\mapsto \Om^H\\
+G(\Om/L)&\mapsfrom L.
+\end{align*}
+We have the following.
+\begin{enumerate}
+\item
+This map is inclusion-reversing.
+\item
+$H$ is open if and only if $[\Om^H:K]<\iy$. Then $[G:H]=[\Om^H:K]$.
+\item $\si H\si^{-1}$ corresponds to $\si M$, so $H$ is normal if and only if $\Om^H/K$ is Galois. Then $G(\Om^H/K)\cong G/H$.
+\end{enumerate}
+\end{thm}
+Note given closed, open iff of finite index.
+\end{thm}
+\fixme{Proofs! + Some more silly properties.}
+\begin{ex}
+We have 
+\[
+G(\ol{\F}_p/\F_p)=\varprojlim G(\Om/\F_p)=\varprojlim \Z/n\Z=%\prod_{p\text{ prime}} \Z_p
+=\wh{\Z}.
+\]
+%This is called $\widehat{\Z}$. \fixme{Expand.}
+\end{ex}
+\begin{ex}
+Let
+\[
+\Q(\ze_{\iy}):=\Q(\set{\ze_n}{n\in \N}).
+\]
+Then
+\[
+G(\Q(\ze_{\iy})/\Q)=
+\varprojlim_{n\in \N} G(\Q(\ze_n)/\Q)=\varprojlim (\Z/n\Z)^{\times}=\wh{\Z}^{\times}
+\]
+(Note that, by the Kronecker-Weber Theorem~\ref{intro-cft},\ref{kwt}, $\Q(\ze_{\iy})=\Q\abe$.)
+\end{ex}

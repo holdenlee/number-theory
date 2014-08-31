@@ -1,0 +1,286 @@
+\chapter{Local dynamics: Good reduction}
+In order to study the dynamics of rational maps on $\Q$ or a global number field, we reduce it modulo various primes to rational maps on local fields, and then piece the information together to get information about our original system. 
+\index{chordal metric}
+\section{Nonarchimedean chordal metric}
+Inspired by the chordal metric on the projective line $\Pj^1(\C)$
+\[
+\rho([x_1:y_1],[x_2:y_2])=\frac{|x_1y_2-x_2y_1|}{\sqrt{|x_1|^2+|y_1|^2}\sqrt{|x_2|^2+|y_2|^2}}
+\]
+giving $\Pj^1(\C)$ the topology of the Riemann sphere, we define for a nonarchimedean valuation $v$ the following:
+\[
+\rh_v([x_1:y_1],[x_2:y_2])=\frac{|x_1y_2-x_2y_1|_v}{\max(|x_1|_v,|y_1|_v)\max(|x_2|_v,|y_2|_v)}.
+\]
+It is clear that scaling the coordinates for the two points does not change this value. For convenience, we will often ``normalize" coordinates so that $x_1,y_1,x_2,y_2\in R$ and $\max(|x_1|_v,|y_1|_v)=\max(|x_2|_v,|y_2|_v)=1$ (i.e. at least one of $x_1,y_1$ and at least one of $x_2,y_2$ is a unit). Then the formula becomes
+\[
+\rh_v([x_1:y_1],[x_2:y_2])=|x_1y_2-x_2y_1|_v=\ab{\smatt{x_1}{x_2}{y_1}{y_2}}_v.
+\]
+In particular,
+\[
+\rh_v([x_1:y_1],[0:1])=|x_1|_v.
+\]
+\begin{pr}\label{chordal-metric-basic}
+$\rh_v$ is a nonarchimedean metric satisfying $\rh_v(P_1,P_2)\le 1$ for any $P_1,P_2$.
+\end{pr}
+\begin{pr}\label{chordal-metric-invar}
+The metric $\rh_v$ is invariant under fractional linear transformations. That is, letting 
+\[
+f(x,y)=\frac{ax+by}{cx+dy}, \quad \matt abcd\in \PGL_2(R),
+\]
+we have that
+\[
+\rh_v(f(P_1),f(P_2))=\rh_v(P_1,P_2).
+\]
+\end{pr}
+Note: for convenience, we will sometimes write $f\in \PGL_2(R)$.
+\begin{proof}
+Normalize coordinates. Note that $[ax_i+by_i:cx_i+dy_i]$ are normalized coordinates for $f(P_i)$ because multiplying the coordinates by the inverse matrix of $\smatt abcd$ gives
+\[
+\matt d{-b}{-c}{a}\coltwo{ax_i+by_i}{cx_i+dy_i}=\coltwo{x_i}{y_i};
+\]
+since $\max(|x_i|_v,|y_i|_v)=1$ and $x_i,y_i$ are $R$-linear combinations of $ax_i+by_i$ and $cx_i+dy_i$, we must have $\max(|ax_i+by_i|_v)=\max(|cx_i+dy_i|_v)$.
+
+Hence
+\[
+\rh_v(f(P_1),f(P_2))=\ab{\det\ba{\matt abcd\matt{x_1}{x_2}{y_1}{y_2}}}_v=\ab{\det\matt{x_1}{x_2}{y_1}{y_2}}_v=\rh_v(P_1,P_2).\qedhere
+\]
+\end{proof}
+\begin{proof}[Proof of~\ref{chordal-metric-basic}(2)]
+We may operate by linear fractional transformations on the points $P_1,P_2,P_3$ without changing the values on either side. Hence we make the following reductions.
+\begin{enumerate}
+\item
+Applying $f=\frac{Y}{X}$ as necessary, we can assume $|x_2|_v\le |y_2|_v=1$.
+\item
+Apply $f=\frac{y_2X-x_2Y}{Y}$ so that $|P_2|=[0:1]$. (Note $\smatt{y_2}{-x_2}{0}{1}\in \PGL_2(R)$ since $|y_2|_v=1$.)
+\end{enumerate}
+The inequality now follows from
+\begin{align*}
+\rh_v(P_1,P_3)&=
+|x_1y_3-x_3y_1|_v\\
+&\le \max \{|x_1y_3|_v,|x_3y_1|_v\}\\
+&=\max\{|x_1|_v,|x_3|_v\}\\
+&=\max\{\rh_v(P_1,P_2),\rh_v(P_2,P_3)\}&\text{since }P_2=[0:1].\qedhere
+\end{align*}
+\end{proof}
+\begin{df}
+Let $(K,\ad)$ be a field with valuation, and $\phi(z)\in K(z)$ be a nonconstant rational map. The \textbf{multiplier} of $\phi$ at a fixed point $\al\in K$ is
+\[
+\la_{\al}(\phi)=\phi'(\al).
+\]
+If $\al$ has exact period $n$ for $\phi$, then we define
+\[
+\la_{\al}(\phi)=(\phi^n)'(\al)=\phi'(\al)\phi'(\phi(\al))\cdots \phi'(\phi^{n-1}(\al)).
+\]
+(The latter follows by the chain rule.)
+We say that
+\[
+\al\text{ is}
+\begin{cases}
+\text{superattracting,}&\text{if }\la_{\al}(\phi)=0\\
+\text{attracting,}&\text{if }\la_{\al}(\phi)<1\\
+\text{neutral,}&\text{if }\la_{\al}(\phi)=1\\
+\text{repelling,}&\text{if }\la_{\al}(\phi)>1.
+\end{cases}
+\]
+If $\la_{\al}(\phi)=1$, we say that $\phi$ is rationally or irrationally neutral according to whether or not $\la_{\al}(\phi)$ is a root of unity.
+[Analogy with $\C$ case?]
+\end{df}
+\section{Reduction of maps}
+Let $K$ be a field with normalized discrete valuation $v$, let $R$ be the ring of integers, $\mfp$ the maximal ideal, and $k=R/\mfp$ the residue field. Given a point $P\in\Pj^N(K)$,  %\in [x_0:\ldots:x_n]\in \Pj^N(K)$ we define its reduction as follows: Let $x_j$ be the coordinate with minimum valuation, and define
+%\[
+%\widetilde{P}=\ba{\widetilde{x_0^{-1}x_j}:\ldots:\widetilde{x_0^{-1}x_n}}\in\Pj^1(k).
+%\]
+choose coordinates $[x_0:\ldots:x_n]$ so that $x_j\in R$ for all $j$ and at least one $x_i$ has valuation 0, and define $\wt P=[\wt{x_0},\ldots, \wt{x_n}]$.
+
+We similarly define the reduction of a rational map $\phi$ as follows: 
+First write $\phi(X,Y)=[F(X,Y):G(X,Y)]$ in normalized form, i.e. $F,G\in R[X,Y]$ and at least one coefficient of $F$ or $G$ is in $R^{\times}$. Then we let $\wt{\phi}=[\wt F:\wt G]$.
+\begin{pr}[Basic properties of reduction]$\,$
+\begin{enumerate}
+\item
+$\widetilde{P_1}=\widetilde{P_2}$ if and only if $\rh_v(P_1,P_2)<1$.
+\item
+For $P,Q\in \Pj^1(K)$ and $f\in \PGL_2(R)$, $\widetilde{P}=\widetilde{Q}$ if and only if $\wt{f(P)}=\wt{f(Q)}$.
+\item Let $P_1,P_2,P_3$ be points with distinct reductions. There exists a fractional linear transformation $f\in \PGL_2(R)$ such that 
+\[
+f(P_1)=0,\qquad f(P_2)=1, \text{ and}\qquad f(P_3)=\iy.
+\]
+(Note that we can always find $f\in \PGL_2(K)$.)
+\end{enumerate}
+\end{pr}
+\begin{proof}Normalize coordinates. 
+\begin{enumerate}
+\item
+Suppose $x_1y_2\equiv x_2y_1\pmod{\mfp}$. If $x_1x_2\nequiv 0\pmod{\mfp}$, then 
+\[
+\wt{P_2}=[\wt{x_1}\wt{x_2}:\wt{x_1}\wt{y_2}]
+=[\wt{x_1}\wt{x_2}:\wt{y_1}\wt{x_2}]=\wt{P_1}.
+\]
+If $x_1x_2\equiv 0\pmod{\mfp}$, then $P_1=P_2=[0:1]$.
+\item Combine part 1 with Proposition~\ref{chordal-metric-invar}.
+\item We build $f$ as a composition of the following.
+\begin{enumerate}
+\item
+Applying $f_1=\frac YX=\smatt 0110$ as necessary, we may assume $v(x_1)\ge v(y_1)$. Normalize again so $v(y_1)=0$.
+\item
+Apply $f_2=\frac{y_1X-x_1Y}{Y}=\smatt{y_1}{-x_1}{0}{1}$ so $P_1=[0:1]=0$.
+\item
+Apply $f_3=\frac{X}{y_3X-x_3Y}=\smatt 10{y_3}{-x_3}$, which fixes $P_1$ and send $P_3$ to $[1:0]=\iy$.
+\item
+Apply $f_4=\frac{y_2X}{x_2Y}=\smatt{y_2}00{x_2}$ to scale $P_2$. (Map in PGL(R)?)\qedhere
+\end{enumerate}
+\end{enumerate}
+\end{proof}
+Define the \textbf{resultant} of $\phi=[F:G]$ to be $\Res(F,G)$ (see Section~\ref{polynomials}.\ref{resultant}). Note $\phi$ is defined up to $(R^{\times})^{2d}$ where $d=\deg \phi$.
+\begin{thm}[Upper bound on expansion in chordal metric]\label{bd-exp-chordal}
+Let $\phi:\Pj^1(K)\to \Pj^1(K)$. Then
+\[
+\rh_v(\phi(P_1),\phi(P_2))\le |\Res(\phi)|_v^{-2}\rh_v(P_1,P_2).
+\] 
+\end{thm}
+\begin{proof}
+Let $[x:y]$ be normalized. 
+By Proposition~\ref{resultant-properties}(2) (suitably homogenized), there exist $F_1, G_1,F_2,G_2$ such that 
+\begin{align*}
+F_1F+G_1G&=\Res(\phi)X^{2d-1}\\
+F_2F+G_2G&=\Res(\phi)Y^{2d-1}.
+\end{align*}
+By the triangle inequality,
+\begin{align*}
+|\Res(\phi)X^{2d-1}|_v&\le \max(|F(x,y)|_v,|G(x,y)|_v)\\
+|\Res(\phi)Y^{2d-1}|_v&\le \max(|F(x,y)|_v,|G(x,y)|_v)
+\end{align*}
+Since $\max\{|x|_v,|y|_v\}=1$, we get
+\begin{equation}\label{res-bd1}
+|\Res(\phi)|_v \le \max(|F(x,y)|_v,|G(x,y)|_v)
+\end{equation}
+which bounds the extent to which $F(x,y), G(x,y)$ can both be divisible by high powers of $\mfp$.
+
+Take $P_1,P_2$ to be normalized. We have the factorization
+\begin{equation}\label{exp-chordal-factor}
+F(X_1,Y_1)G(X_2,Y_2)-F(X_2,Y_2)G(X_1,Y_1)=(X_1Y_2-X_2Y_1)\underbrace{H(X_1,Y_1,X_2,Y_2)}_{\in R[X_1,Y_1,X_2,Y_2]}.
+\end{equation}
+Hence
+\begin{align*}
+\rh_v(\phi(P_1),\phi(P_2))&=\frac{|F(X_1,Y_1)G(X_2,Y_2)-F(X_2,Y_2)G(X_1,Y_1)|_v}{\max\{|F(X_1,Y_1)|_v,|G(X_1,Y_1)|_v\}\max\{|F(X_2,Y_2)|_v,|G(X_2,Y_2)|_v\} }\\
+&\stackrel{\eqref{res-bd1}}{\le}
+\frac{|F(X_1,Y_1)G(X_2,Y_2)-F(X_2,Y_2)G(X_1,Y_1)|_v}{|\Res(\phi)|_v^2}\\
+&\stackrel{\eqref{exp-chordal-factor}}=\frac{|(X_1Y_2-X_2Y_1)H(X_1,X_2,Y_1,Y_2|_v}{|\Res(\phi)|_v^2}\\
+&\le \frac{\rh_v(P_1,P_2)}{|\Res(\phi)|_v^2}.
+\end{align*}
+\end{proof}
+\begin{pr}\label{good-reduction-prop}
+Let $\phi:\Pj^1\to \Pj^1$ be defined over $K$, and write $\phi=[F:G]$ in normalized form. The following are equivalent.
+\begin{enumerate}
+\item
+$\deg\phi=\deg\wt{\phi}$.
+\item
+$\wt F(X,Y)=\wt G(X,Y)=0$ has no solutions $[\al:\be]\in \Pj^1(\ol k)$.
+\item $\Res(\phi)\in R^{\times}$.
+\item $\Res(\wt F,\wt G)\ne 0$.
+\end{enumerate}
+We say that $\phi$ has \textbf{good reduction} if the above are satisfied.
+\begin{proof}
+Note that $\deg\phi-\deg\wt{\phi}$ equals the number of common roots of $\wt F=\wt G$. This shows $(1)\iff (2)$. Now (2), (3), and (4) are equivalent by applying Proposition~\ref{polynomials}.\ref{resultant-properties} to $\wt F$ and $\wt G$.
+\end{proof}
+\end{pr}
+\begin{pr}[Basic facts about reduction]
+Let $\phi,\psi:\Pj^1\to \Pj^1$ be rational maps with good reduction.
+\begin{enumerate}
+\item $\wt{\phi}(\wt P)=\wt{\phi(P)}$ for all $P\in \Pj^1(K)$.
+\item $\phi\circ\psi$ has good reduction and $\tilde{\phi\circ \psi}=\tilde{\phi}\circ \tilde{\psi}$.
+\item Reduction sends $\Per(\phi)\to \Per(\wt{\phi})$ and $\PrePer(\phi)\to \PrePer(\wt{\phi})$. Moreover it preserves exact periods.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+Use the characterization of good reduction given by Proposition~\ref{good-reduction-prop}(2).
+\end{proof}
+\begin{df}
+The \textbf{Fatou set} of $\phi$ is the maximal {\it open} set on which $\set{\phi^n}{n\in \N}$ is equicontinuous. The \textbf{Julia set} is the complement of the Fatou set.
+\end{df}
+\begin{thm}
+Let $\phi:\Pj^1\to \Pj^1$ be a rational map with good reduction. Then
+\begin{enumerate}
+\item
+$\phi$ is everywhere nonexpanding:
+\[
+\rh_v(\phi(P_1),\phi(P_2))\le \rh_v(P_1,P_2).
+\]
+\item $\phi$ has empty Julia set.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+Use Theorem~\ref{bd-exp-chordal} and the fact that $\rh_v(P_1,P_2)<1$ when $\wt{P_1}=\wt{P_2}$ (Proposition~\ref{reduction-properties}(1)).
+\item
+A nonexpanding map is equicontinuous with constant 1.
+\end{enumerate}•
+\end{proof}
+\section{Periodic points}
+We now characterize periodic points of $\phi$.
+\begin{thm}\label{possible-periods}
+Let $(K,\ad_v)$ be a nonarchimedean local field, $k$ be its residue field, and $\phi:\Pj^1(K)\to \Pj^1(K)$ be a rational function of degree $d\ge 2$ with good reduction. Let $P\in \Pj^1(K)$ be a periodic point of $\phi$. Let 
+\begin{align*}
+n&=\text{period of }P\text{ for }\phi\\
+m&=\text{period of }\wt{P}\text{ for }\wt{\phi}\\
+r&=\text{order of }\la_{\wt{\phi}}(\wt{P})=(\wt{\phi}^m)'(P) \text{ in }k^{\times}\\
+p&=|k|.
+\end{align*}
+Then $n=m, \text{ or }mrp^e$ for some $e\in \N_0$.
+\end{thm}
+\begin{proof}
+Replacing $\phi$ by $\phi^m$ and $m$ by 1, we may assume $m=1$, i.e. $\wt P$ is a fixed point of $\wt \phi$. If $\phi(P)=P$ we are in the first case, so assume this does not happen. We may further assume $P=[0:1]$, by taking $f$ sending $[0,1]$ to $P$ and replacing $\phi$ with $f^{-1}\circ \phi \circ f$. 
+
+Our main technique is to write the iterates $\phi^i(0)$ in terms of $\phi'(0)$ by considering the Taylor expansion.
+%Write the Taylor expansion of $\phi(z)$: 
+Write
+\[\phi(z)
+=\frac{a_dX^d+\cdots +a_0}{b_dz^d+\cdots + b_0}
+=\mu+\la z+\cdots\]
+where $\mu=\frac{a_0}{b_0}\in \mfp$ (because $\wr{\phi}(0)=0$) and $\la=\phi'(0)$. By induction, we find that
+\[
+\phi^i(z)= \underbrace{\mu(1+\la+\cdots +\la^{i-1})}_{\phi^i(0)}+\underbrace{\la^i}_{(\phi^i)'(0)}z+\cdots 
+%\phi^i(0)\equiv \mu(1+\la+\cdots +\la^{i-1})\pmod{\mu^2}.
+\]
+Since $\phi^n(0)=0$, this gives
+\begin{equation}
+\label{la-sum}
+1+\la+\cdots +\la^{n-1}\equiv 0\pmod{\mfp}.
+\end{equation}
+Consider two cases.
+\begin{enumerate}
+\item
+$\la\nequiv 1\pmod{\mfp}$. Then $r\ge 2$.  Multiplying~(\ref{la-sum}) by $\la-1$ gives $\la^n\equiv 1\pmod{\mfp}$. This shows $r\mid n$. If $n\neq r$, then replace $\phi$ with $\phi^r$. Then $\la$ is replaced with $\la^r$, so we are in the second case.
+\item
+$\la\equiv 1\pmod{\mfp}$. Then~(\ref{la-sum}) gives us $n\equiv 0\pmod{\mfp}$; hence $p\mid n$ and we can replace $\phi$ with $\phi^p$ and $n$ by $\frac np$. Then we are in this case again, and we repeat until $n=1$.\qedhere
+\end{enumerate}
+\end{proof}
+\begin{cor}
+Let $\phi:\Pj^1\to \Pj^1$ be a rational map with good reduction.
+\begin{enumerate}
+\item
+Every periodic point of $\phi$ is nonrepelling.
+\item
+If $\wt{\phi}$ is separable, then $\phi$ has finitely many attracting periodic points.
+\end{enumerate}
+\end{cor}
+\begin{thm}
+Let $K$ be  number field, and $\phi:\Pj^1\to \Pj^1$ be a rational map over $K$. Suppose $\phi$ has good reduction at $\mfp$ and $\mq$, with different residue characteristics. Let $P$ be a periodic point with period $n$. Then
+\[
+n\le (\N\mfp^2-1)(\N\mq^2-1).
+\]
+In particular, $\Per(\phi,K)$ is finite for any $\phi$. %, and any polynomial over $K$ has finitely many rational periodic points.
+\end{thm}
+\begin{proof}
+We have that 
+\begin{align*}
+m_{\mfp}&\le |\Pj^1(\F_p)|=\N\mfp+1\\
+r_{\mfp}&\le |\F_p^{\times}|=\N\mfp-1
+\end{align*}
+and similarly for $\mq$. By Theorem~\ref{possible-periods}, we get
+\[
+n=m_{\mfp}r_{\mfp}^{e}p^{e'}=m_{\mq}r_{\mq}^fq^{f'}
+\]
+for some $e,f\in \{0,1\}$ and $e',f'\in \N_0$. Since $p,q$ are relatively prime, $n\le  m_{\mfp}r_{\mfp}m_{\mq}r_{\mq}$, giving the desired bound.
+
+The second part now follows from the fact that the coefficients of $\phi$ can have nonzero valuation only for a finite number of primes, and the fact that $\phi^n(P)=P$ can only have finitely many solutions for a fixed $n$.
+\end{proof}

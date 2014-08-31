@@ -1,0 +1,167 @@
+\chapter{Elliptic curves}
+Why are we interested in elliptic curves over different fields? We are interested in elliptic curves over $\Q$ because much of number theory is concerned with solving equations over $\Q$; we are interested in elliptic curves over finite fields $k$ because of its applications to cryptography, factoring, and primality proving.
+
+On the other hand, even if we just wanted information about an elliptic curve $E$ over $\Q$, it helps to investigate it over other fields. $\Q$ is a difficult field to work with because it is a {\it global} field. So we make two reductions.
+\begin{enumerate}
+\item Consider $E$ over the local fields $\Q_p$ (and $\C$!). Then combine this information to get information on $E(\Q)$.
+\item Consider $E$ over finite fields $\F_p=\Q_p/p\Q_p$. Use this to get information about $E$ over local fields $\Q_p$.
+\end{enumerate}
+We look at item 2 more closely. Suppose $K$ is a local field; let $k$ be its residue field. 
+Note that when we reduce an elliptic curve modulo $p$, some points will get sent to 0; this is the kernel of reduction $E_1(K)$. Thus we get a exact sequence
+\[
+\xymatrix{
+0\ar[r]& E_1(K)\ar[r]&  E_0(K)\ar[r]&  \wt{E}_{\text{ns}}(k)\ar[r]&  0\\%criteria and consequences for good/bad reduction.
+%nonsingular points form a group.
+& \wh{E}(\mm)\ar@{=}[u] &  & &}
+\]
+How can we study $E_0(K)$? We know these are points whose coordinates are in the maximal ideal $\mm$ associated to $K$ (so get sent to 0 upon reduction). 
+%To go from elliptic curves over finite fields to elliptic curves over local fields, we use the following exact sequences.
+To get these points we take a uniformizer $z\in \mm$, and write the coordinates of a point in $E_0(K)$ as power series in $z$. Thus we investigate the elliptic curve over a {\it ring of formal power series}, and the group law becomes a group law for power series, called a {\it formal group law} (see Section BLAH). We then get to $E(K)$ from the exact sequence $0\to E_0(K)\to E(K)\to E(K)/E_0(K)\to 0$; fortunately, $E(K)/E_0(K)$ is finite.
+
+To get from $E$ over local fields to $E$ over global fields, we would like to use the Hasse principle as in quadratic forms. However, this fails. There is, however, a way of measuring the failure of the Hasse principle using the Selmer and Shafarevich-Tate groups (see Silverman, X).
+\subsection{Elliptic curves over finite fields}
+Consider the finite field $\F_q$ where $q=p^n$. 
+We know that $E(\F_q)$ is a finite abelian group. The main questions we seek to answer are the following.
+\begin{enumerate}
+\item
+How big is it?
+\item
+What is its structure? In particular, what is its $p$-torsion?
+\item
+How does it vary as $q$ varies over all powers of a prime $p$?
+\end{enumerate}
+We will answer these questions in this chapter.
+\begin{enumerate}
+\item
+By Hasse's Theorem, $|E(\F_q)-q-1|\le 2\sqrt q$.
+\item
+$E[p^r]$ (over $\ol{\F_p}$) is either 0 or $\Z/p^r\Z$; we give criterion for these to happen. (Which case occurs, is called the Hasse invariant.)
+\item
+Let $t_n=|E(\F_{p^n})|$. Then the $t_n$ are coefficients of a nice generating function. This follows from the Weil conjectures for elliptic curves.
+\end{enumerate}
+\subsection{Hasse's Theorem}
+Let $E$ be the curve $y^2+a_1xy+a_3y=x^3+a_2x^2+a_4x+a_6$. A quadratic function $ay^2+by+c$ in a finite field attains about half of the values, so given a value of $x$, there is about a $\rc2$ chance that the equation is solvable in $y$. When it is solvable, there will usually be 2 solution. Thus we expect the number of solutions to be close to $p$. Including the point at infinite, the expected number becomes $p+1$. Hasse's Theorem tells us that the number of solutions is not too far from $p+1$.
+\begin{thm}
+Let $E/\F_q$ be an elliptic curve. Then
+\[
+||E(\F_q)|-q-1|\le 2\sqrt q.
+\]
+\end{thm}
+\begin{proof}
+The idea is to count the number of points of $E(\ol{\F_q})$ in $E(\F_q)$ by viewing $E(\F_q)$ as the kernel of $1-\phi_q$, where $\phi_q$ is the Frobenius map. The kernel equals the degree of the map. We know the degree of $1$ and $\phi_q$; to get the degree of $1-\phi_q$ we use the fact that $\deg$ is a quadratic form, and a version of the Cauchy-Schwarz inequality.
+
+Let $\phi_q:E\to E$ be the $q$th power Frobenius morphism. 
+Since $\F_q$ consists of exactly the solutions to $x^q=x$, we have
+\[
+\ol{\F_q}^{\ph_q}=\F_q,
+\]
+i.e. the fixed field of $\ol{\F_q}$ under $\phi_q$ is $\F_q$. Hence $P\in E(\F_q)$ iff $\phi_q(P)=P$, iff $P\in \ker(1-\phi_q)$. We have
+\[
+|E(K)|=|\ker(1-\phi_q)|=\deg(1-\phi).
+\] 
+The latter from CITE. SEPARABLE. Now $\deg$ is a positive definite quadratic form. We use the following.
+\begin{lem}[Cauchy-Schwarz inequality for groups]
+Let $A$ be an abelian group and $d:A\to \Z$ be a positive definite quadratic form. Then for all $\psi,\phi\in A$,
+\[
+|d(\psi-\phi)-d(\phi)-d(\psi)|\le 2\sqrt{d(\phi)d(\psi)}
+\]
+\end{lem}
+\begin{proof}
+The proof is similar to the proof for the ordinary Cauchy-Schwarz inequality. Since $d$ is a quadratic form,
+\[
+B(\psi,\phi)=d(\psi-\phi)-d(\psi)-d(\phi)
+\]
+is bilinear. Since $d$ is positive definite,
+\[
+0\le d(m\psi-n\phi)=m^2d(\psi)+mnB(\psi,\phi)+n^2d(\phi).
+%-\rc2L(m\psi-n\psi,m\psi-n\psi)=
+%(d(m\psi)+d(n\phi)+L(\psi,\phi))^2
+\]
+The RHS is quadratic in $m$ and $n$, hence obtains minimum at $\fc mn=-\fc{B(\psi,\phi)}{2d(\psi)}$. So take $m=-B(\psi,\phi)$ and $n=2d(\psi)$. We get 
+\[
+0\le d(\psi)[4d(\psi)d(\phi)-L(\psi,\phi)^2].
+\]
+When $\psi\ne 0$, we get $4d(\psi)d(\phi)\ge L(\psi,\phi)^2$, from which the desired inequality follows from taking square roots.
+For $\psi=0$ the result is obvious.
+\end{proof}
+Since $\deg \phi_q=q$, the Cauchy-Schwarz inequality gives
+\[
+||E(\F_q)|-1-q|=| \deg(1-\phi)-\deg(1)-\deg(\phi)|\le 2\sqrt q
+\]
+as needed.
+\end{proof}
+Application to character sums (Silverman, p. 132).
+%Given a value for $x$, there are 
+\chapter{Elliptic curves over $\C$}
+\section{Elliptic curves and lattices}
+%We show that elliptic curves correspond to lattices in $\C$ by parametrization using the Weierstrass $\wp$-function.
+We show that the Weierstrass $\wp$-function can parametrize elliptic curves.
+\begin{thm}
+Let $\La$ be a lattice. Then 
+\[E:y^2=4x^3-g_2x-g_3\] is an elliptic curve (i.e. $\De(\Ga):=g_2^m-27g_3^2\ne 0$ and $4x^3-g_2x-g_3=0$ has distinct roots).
+
+The map
+\begin{align*}
+\phi:\C/\La&\to E\\
+z&\mapsto [\wp(z),\wp'(z),1]
+\end{align*}
+is a complex analytic isomorphism of complex Lie groups.
+\end{thm}
+
+Now we show that every elliptic curve over $\C$ arises in this way, and moreover, the maps between the lattices correspond to maps between the curves.
+\begin{thm}
+There is an equivalence of categories between the following categories.
+\begin{enumerate}
+\item
+Objects: Elliptic curves over $\C$.\\
+Maps: Isogenies.
+\item
+Objects: Lattices $\La\sub \C$ up to homothety.\\
+Maps: The maps between $\La_1$ and $\La_2$ are $\set{\al\in \C}{\al\La_1\subeq \La_2}$.
+\end{enumerate}
+\end{thm}
+\begin{thm}
+Let $E/\C$ be an elliptic curve, and let $\La:=\an{\om_1,\om_2}$ be its associated lattice.
+\begin{enumerate}
+\item
+If $\fc{\om_1}{\om_2}$ is not quadratic over $\Q$, then
+\[
+\End(E)=\Z.
+\]
+\item 
+If $\fc{\om_1}{\om_2}$ is quadratic over $\Q$, then
+$\End(E)$ is isomorphic to an order in an imaginary quadratic extension, i.e. $E$ has complex multiplication.
+\end{enumerate}
+\end{thm}
+\section{Moduli spaces of elliptic curves}
+(Eventually move to its own chapter)
+We know elliptic curves correspond to lattices. The space of lattices can be considered as the upper half place quotiented out by the action of $\SL_2(\Z)$, $\cal H/\Ga(1)$, which is a Riemann surface, called the \textbf{moduli space}. This surface can be mapped to an algebraic curve using the modular function $j$ (this algebraic curve is obtained because $j$ satisfies the modular equation REF). Thus, to study the space of all elliptic curves, we can just study the resulting curve. 
+
+In fact we look at elliptic curves with additional structure.
+For instance, to study the torsion points of an elliptic curve we could consider the set of pairs $(E,P)$ where $E$ is an elliptic curve and $P$ is a point of order $N$. More possibilities are given below.
+
+An example of a theorem proved with using moduli spaces is the following.
+\begin{thm}[Mazur]
+Let $E$ be an elliptic curve defined over $\Q$. Then $E_{tors}(\Q)$ is isomorphic to one of the following 15 groups.
+\begin{itemize}
+\item
+$\Z/n\Z$ for $1\le n\le 10$ or $n=12$.
+\item
+$\Z/2\Z\times \Z/m\Z$, $m=2,4,6,8$.
+\end{itemize}
+\end{thm}
+Essentially, consider the moduli space associated to $(E,C)$ for other subgroups, and show they have no rational points.
+
+Also Fermat's last theorem...
+
+A summary.
+
+\begin{tabular}{|c|c|c|c|}
+\hline
+Enhanced elliptic curve & Equivalence relation &Consider $\cal H$ mod...&Moduli space\\
+\hline
+$(E,C)$, $C$ subgroup of order $N$ & & $\Ga_0(N)$ & $S_0(N)$\\
+\hline$(E,Q)$, $Q$ point of order $N$ & & $\Ga_1(N)$ & $S_1(N)$\\
+\hline$(E,(P,Q))$, $P,Q$ points of order $N$& &$\Ga(N)$& $S(N)$\\
+\hline
+\end{tabular}

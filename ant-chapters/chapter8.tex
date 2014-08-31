@@ -1,0 +1,73 @@
+\chapter{Geometric algebraic number theory}\llabel{gant}
+In this chapter we answer the following two questions.
+\begin{enumerate}
+\item
+Suppose, for every place $v$, we are given positive reals $a_v$, all but finitely many of them equal to 1. How many elements of $x\in K$ satisfy
+\[
+|x|_v\le a_v
+\]
+for every $v$?
+\item
+Given a generalized ideal class $\mathfrak K$ (to be defined) and a number $L$, how many ideals $\ma\in \mathfrak K$ satisfy $\fN \ma\le L$? (What are the asymptotics as $L\to \iy$?) In particular, how many integral ideals satisfy $\fN\ma\le L$?
+\end{enumerate}
+The first question is known as the {\it Riemann-Roch problem} for number fields, because it is analogous to the Riemann-Roch problem in algebraic geometry\footnote{We will not attempt to draw a parallel in our discussion. The reader interested in seeing the correspondence should consult Neukirch~\cite{Ne99}. We follow Lang~\cite{La94}, Chapter 6.}: Given a curve $C$, and an integer $a_P$ for every point (all but finitely many equal to 0), what is the dimension of the space of functions $f$ with 
+\[
+\ord_v(f)\ge -a_P
+\]
+for every $P$? ($\ord_v(P)$ is the ``order" of the zero of $f$ at $P$.)
+
+The second question is important because the answer will appear again when we define $L$-functions (because $L$-functions involve a sum over all ideals). This will allow us to get ``explicit" formulas for quantities of interest (class number, regulator). And because it's not much of a detour, we might as well answer the first question as well.
+
+Our technique will be similar to that used in Chapters~\ref{class-group} and \ref{units-in-nf}.
+\section{Generalized ideal classes}
+Also talk about adeles and stuff.
+\begin{pr}\llabel{gen-id-class}
+We have the following diagram
+\[
+\xymatrix{
+ & & I(\mc)\ar[r]\ls{d} & I\ls{d}\\
+ & K(\mc) \ar[r]\ls{d}& P(\mc) \ar[r]\ls{d} & P\\
+ U \ar[r]\ls{d} & UK_{\mc} \ar[r]\ls{d} & P_{\mc} & \\
+ U_{\mc} \ar[r] & K_{\mc} &&
+}
+\]
+where each square
+\[
+\xymatrix{
+A \ar[r]^{\ph}\ls{d} & B\ls{d}\\
+C\ar[r] & D
+}
+\]
+means $C=\ph^{-1}(D)$ and $A/C\cong B/D$.
+\end{pr}
+\begin{pr}
+The group of $\mc$-ideal classes has order
+\[
+h_{\mc}=\fc{h2^{r(\mc)}\prod_{\mfp\mid \mc_0}\fN \mfp^{m(\mfp)}\pa{1-\rc{\fN \mfp}}}{[U:U_{\mc}]}
+\]
+where $r(\mc)$ is the number of real places dividing $\mc$.
+\end{pr}
+We will define the totient function by $\ph(\mc)=2^{r(\mc)}\prod_{\mfp\mid \mc_0}\fN \mfp^{m(\mfp)}\pa{1-\rc{\fN \mfp}}$.
+\section{Counting lattice points}
+\begin{df}
+A subset $T\subeq \R^N$ is $k$-Lipschitz parametrizable if there exist a finite number of Lipschitz maps $\ph_j:[0,1]^k\to T$ whose images cover $T$.
+\end{df}
+\begin{thm}
+Let $L\sub \R^N$ a lattice with fundamental domain $F$ and $D\sub\R^N$ a subset whose boundary is $(N-1)$-Lipschitz parametrizable. Then 
+\[
+|\set{x\in L}{x\in tD}|=\text{\Vol(D)}{\Vol(F)}t^N+O(t^{N-1}).
+\]
+\end{thm}
+\section{Riemann-Roch problem}
+\section{Asymptotics of generalized ideal classes}
+\begin{df}
+For a generalized ideal class $\mathfrak K\in I(\mc)/P_{\mc}$, let
+\[
+j(\mathfrak K,t)=\set{\ma\in \mathfrak K}{\fN \ma\le t}.
+\]
+\end{df}
+\begin{thm}
+\[
+j(\mathfrak K,t)=\frac{2^r(2\pi)^s R_{\mc}}{w_{\mc} \sqrt{d_k}\fN \mc}.
+\]
+\end{thm}

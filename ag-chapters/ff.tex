@@ -1,0 +1,455 @@
+\chapter{Elliptic curves over finite fields}
+
+Now that we know how to do arithmetic in finite fields, we can talk about elliptic curves over finite fields.  We know that an elliptic curve over a finite field $E(\Fp)$ forms a finite abelian group.  The two main questions we will answer are the following:
+\begin{enumerate}
+\item
+How big is $E( \Fp)$?
+\item
+What is the structure of $E( \Fp)$?
+\end{enumerate}
+Hasse's Theorem answers the first question by saying that the size of $E(\Fp)$ is remarkably close to the ``expected value" $p+1$.
+
+For the second question, we know that any finite abelian group can be written as a direct sum of cyclic groups.  Can any direct sum of cyclic groups show up as a possible $E(\Fp)$, or are there constraints? 
+
+%We will answer these two questions in this lecture and the next. 
+%In this lecture, we will first discuss homomorphism of elliptic curves (Section~\ref{sec:hom}). Then we look at two important examples that will help us understand $E(\F_q)$: the Frobenius endomorphism (Example~\ref{ex:frob-end}) and multiplication by $m$ (Section~\ref{sec:mult-m}).
+%
+%\section{Hasse's Theorem}
+%
+%Blahblah
+%
+%
+%The two possibilities for $E[p]$ admitted by the theorem lead to the following definitions.
+%We do not need this terminology today, but it will be important in the weeks that follow.
+%\begin{df}
+%Let $E$ be an elliptic curve defined over a field of characteristic $p>0$.
+%If $E[p]\cong \Z/p\Z$ then $E$ is said to be \emph{ordinary}, and if $E[p]\cong \{0\}$, we say that $E$ is \emph{supersingular}.
+%\end{df}
+%
+%\begin{rem}
+%The term ``supersingular" is unrelated to the term ``singular" (recall that an elliptic curve is nonsingular by definition: it must have a well-defined tangent at every point).
+%Supersingular refers to the fact that such elliptic curves are rare and interesting.
+%\end{rem}
+%
+%\begin{cor}
+%Let $E$ be defined over a field $k$. Every finite subgroup of $E(\ol{k})$ is a product of two (possibly trivial) cyclic groups.
+%\end{cor}
+%
+%\begin{proof}
+%Let $p$ be the characteristic of $k$, and let $T$ be a subgroup of $E(K)$ with finite order~$n$.
+%If $p\nmid n$, then $T\subseteq E[n]\cong \Z/n\Z\otimes\Z/n\Z$ can clearly be written as a product of two cyclic groups.
+%Otherwise we may write $T\cong G\otimes H$ where $H$ is the $p$-Sylow subgroup of $T$, and we have $G\subset E[m]\cong \Z/m\Z\otimes\Z/m\Z$, where $m=|G|$ is prime to $p$ and $H$ has $p$-rank at most 1.  It follows that $T$ can always be written as a product of two cyclic groups (at most one of which has order divisible by $p$).
+%\end{proof}
+%
+%\begin{rem}
+%If we let $k$ be a finite field $\F_q$, then the group $E(\F_q)$ is a finite torsion subgroup of $E(\ol{\F_q})$, and therefore the product of two (possibly trivial) cyclic groups.
+%\end{rem}
+%
+%\subsection{Preliminaries for Hasse's Theorem}
+%
+%For any endomorphism $\alpha\colon E\rightarrow E$, let $\alpha_n$ denote the restriction of $\alpha$ to $E[n]$.
+%Then $\alpha_n\colon E[n]\rightarrow E[n]$ is a group endomorphism.
+%For $p\nmid n$, we have $E[n]\cong \Z/n\Z\oplus\Z/n\Z$, and after choosing a basis for $\Z/n\Z\oplus\Z/n\Z$ we may identify $\alpha_n$ with the $2\times 2$ matrix over $\Z/n\Z$ determined by the action of $\alpha_n$ on this basis (which is $\Z/n\Z$-linear, since $\alpha_n$ is an endomorphism of $E[n]$).
+%Note that the matrix $\alpha_n$ is only determined up to conjugacy, but its determinant and trace do not depend on the choice of basis.
+%The following theorem allows us to compute the determinant of $\alpha_n$.
+%
+%\begin{thm}
+%$\det \alpha_n \equiv \deg \alpha \bmod n$.
+%\end{thm}
+%
+%We will postpone the proof until later in the course, after we introduce the Weil pairing, which will make the proof much easier.\\
+%
+%\begin{rem}
+%The restriction of $[m]$ to $E[n]$ is just the scalar matrix
+%\[
+%[m]_n = \begin{pmatrix}m_n & 0\\0 & m_ n\end{pmatrix},
+%\]
+%where $m_n \equiv m\bmod n$.
+%\end{rem}
+%
+%\subsection{Hasse's Theorem}
+%We now state Hasse's theorem.
+%
+%\begin{thm}\textbf{\emph{(Hasse's Theorem)} }
+%Let $E/\F_q$ be an elliptic curve. Then:
+%$$\#E(\F_q)=q+1-t,$$
+%where $|t|\le 2\sqrt{q}$.
+%\end{thm}
+%
+%This theorem will be proved in the next lecture, but we note here how remarkable it~is.
+%For an elliptic curve $E/\F_q$ in Weierstrass from $y^2=x^3+Ax+B$, the cardinality of $E(\F_q)$ is determined by how often $f(x)=x^3+Ax+B$ is a quadratic residue in $\F_q$, as $x$ varies.
+%On average, we expect this to occur about half the time, but \emph{a priori} there is no obvious reason why it couldn't happen for \emph{every} $x$, in which case we would have $\#E(\F_q)=2q$, or \emph{none} of them, in which case we would have $\#E(\F_q)=1$.
+%Hasse's theorem tells us that the maximum variation from the expected value is bounded by $O(\sqrt{q})$, rather than $O(q)$.
+%
+%We are now ready to prove Hasse's theorem, which bounds the number of rational points on an elliptic curve $E/\F_q$.
+%The proof relies on three key facts that we saw in Lecture 6:
+%\begin{enumerate}
+%\item[(1)] The degree of a nonzero separable isogeny is equal to the size of its kernel.
+%\item[(2)] For any integers $r$ and $s$ with $s$ prime to $q$, the endomorphism $r\pi+s$ is separable.
+%\item[(3)] For any endomorphism $\alpha$ and any integer $n$ prime to $q$ we have $\deg\alpha\equiv_n\det \alpha_n$.
+%\end{enumerate}
+%Recall that $\alpha_n$ is a $2\times 2$ matrix with entries in $\Z/n\Z$ that gives the action of $\alpha$ on the $n$-torsion subgroup $E[n]$ with respect to some chosen basis; its determinant does not depend on the choice of basis.
+%The first two facts were proven in class.  We will prove the third later in the course when we cover the Weil pairing, at which point it will be an easy corollary  (see Proposition 3.15 in Washington \cite{Washington}).
+%
+%\begin{thm}[Hasse] Let $E/\F_q$ be an elliptic curve.  The cardinality of $E(\F_q)$ is given by
+%\[
+%\#E(\F_q)=q+1-t,
+%\]
+%where the integer $t$ satisfies $|t|\le 2\sqrt{q}$
+%\end{thm}
+%\begin{proof}
+%Let $\pi(x,y)=(x^q,y^q)$ be the Frobenius endomorphism.
+%The finite field $\F_q$ is precisely the subset of $\ol{\F_q}$ fixed by the Frobenius automorphism $x\to x^q$.
+%It follows that $E(\F_q)$ is precisely the subset of $E(\ol{\F_q})$ fixed by $\pi$.  Therefore $E(\Fp)=\ker (\pi-1)$.
+%The endomorphism $\pi-1$ is separable, since $-1$ is not divisible by the characteristic $p$ of $\F_q$, by (2) .
+%It then follows from (1) that
+%\[
+%\#E(\F_q) = \#\ker(\pi-1) = \deg (\pi-1).
+%\]
+%Let $t$ be the integer
+%\[
+%t=q+1-\#(\F_q) = q+1-\deg(\pi-1).
+%\]
+%Let $r$, $s$, and $n$ be integers with $s$ and $n$ prime to $q$, and let $\pi_n=\begin{bmatrix}a&b\\c&d\end{bmatrix}$.  By (3) we have
+%\begin{align*}
+%\deg (r\pi-s) &\equiv_n \det \left(r\begin{bmatrix}a&b\\c&d\end{bmatrix} - s\begin{bmatrix}1&0\\0&1\end{bmatrix}\right)\\
+%&\equiv_n \det\begin{bmatrix}ra-s&rb\\rc&rd-s\end{bmatrix}\\
+%&\equiv_n (ra-s)(rd-s)-r^2bc\\
+%&\equiv_n r^2(ad-bc)-rs(a+d)+s^2\\
+%&\equiv_n r^2\det \pi_n - rs\tr \pi_n + s^2
+%\end{align*}
+%But note that $\det \pi_n\equiv_n q$, and $\tr\pi_n\equiv t$ since
+%\begin{align*}
+%t &= q+1-\det(\pi-1)\\
+%&\equiv_n \det\pi_n+1-\det(\pi_n-[1]_n)\\
+%&\equiv_n ad-bc+1-\bigl((a-1)(d-1)-bc)\bigr)\\
+%&\equiv_n a+d = \tr \pi_n
+%\end{align*}
+%Thus we have $\deg(r\pi-s)\equiv_n r^q-rst+s^2$.
+%This holds for arbitrarily large $n$ and $\deg(r\pi-s)$ is finite, so it must actually be an equality over $\Z$, and we have
+%\[
+%\deg(r\pi-s) = r^q-rst+s^2
+%\]
+%for any integers $r$ and $s$ with $s$ prime to $q$.  Dividing by $s^2$ and noting that $\deg(r-\pi s)\ge 0$ yields the inequality
+%\[
+%q\left(\frac{r}{s}\right)^2 - \left(\frac{r}{s}\right)t+1\ge 0.
+%\]
+%This holds for a set of rational numbers $\frac{r}{s}$ that are dense in $\R$, so we must have $qx^2-tx+1\ge 0$ for all real numbers $x$.
+%It follows that the discriminant $t^2-4q$ cannot be positive, and this yields the desired bound $|t|\le 2\sqrt{q}$.
+%\end{proof}
+%
+%The bound in Hasse's theorem is the best possible.
+%Later in the course we will see how to explicitly construct elliptic curves $E/\F_q$ with cardinalities matching every integer value in the interval $[q+1-2\sqrt{q},q+1+2\sqrt{q}]$ when $q$ is prime, and all but at most two integers when~$q$ is not prime.
+%
+%
+%\begin{cor}
+%Let $E/\F_q$ be an elliptic curve, with $t=q+1-\#E(\F_q)$.
+%The Frobenius endomorphism $\pi$ satisfies the identity $\pi^2-t\pi+q=0$.
+%\end{cor}
+%\begin{proof}
+%Let $n$ be any integer prime to $q$ and let $\pi_n=\begin{bmatrix}a&b\\c&d\end{bmatrix} $.
+%The characteristic polynomial of $\pi_n$ is
+%\begin{align*}
+%\det(\pi_n-\lambda I) &= \det \begin{bmatrix}a-\lambda&b\\c&d-\lambda\end{bmatrix}\\
+%&= \lambda^2-(a+d)\lambda+ad-bc\\
+%&=\lambda^2-(\tr \pi_n)\lambda + \det\pi_n\\
+%&\equiv_n \lambda^2-t\lambda+q.
+%\end{align*}
+%Thus $\pi_n-t\pi_n+qI \equiv_n 0$, which implies that $E[n]$ lies in the kernel of of the endomorphism $\pi^2-t\pi+q$.
+%This holds for infinitely many $n$, hence the kernel is infinite and $\pi^2-t\pi+q$ must then be the zero endomorphism.
+%\end{proof}
+%
+%The polynomial $\lambda^2-t\lambda+q$ is called the \emph{characteristic polynomial of Frobenius}.
+%%%%%%%%%%%%
+\section{Hasse's Theorem}
+Let $E$ be the curve $y^2+a_1xy+a_3y=x^3+a_2x^2+a_4x+a_6$. A quadratic function $ay^2+by+c$ in a finite field $\F_q$ attains about half of the values, so given a value of $x$, there is about a $\rc2$ chance that the equation is solvable in $y$. When it is solvable, there will usually be 2 solutions. Thus we expect the number of solutions to be close to $q$. Including the point at infinite, the expected number becomes $q+1$. Hasse's Theorem tells us that the number of solutions is not too far from $q+1$.
+\begin{thm}
+Let $E/\F_q$ be an elliptic curve. Then
+\[
+||E(\F_q)|-(q+1)|\le 2\sqrt q.
+\]
+\end{thm}
+\begin{proof}
+The idea is to count the number of points of $E(\ol{\F_q})$ in $E(\F_q)$ by viewing $E(\F_q)$ as the kernel of $1-\phi_q$, where $\phi_q$ is the Frobenius map. The kernel equals the degree of the map. We know the degree of $1$ and $\phi_q$; to get the degree of $1-\phi_q$ we use the fact that $\deg$ is a quadratic form, and a version of the Cauchy-Schwarz inequality.
+
+Let $\phi_q:E\to E$ be the $q$th power Frobenius morphism. 
+Since $\F_q$ consists of exactly the solutions to $x^q=x$, we have
+\[
+\ol{\F_q}^{\phi_q}=\F_q,
+\]
+i.e. the fixed field of $\ol{\F_q}$ under $\phi_q$ is $\F_q$. Hence $P\in E(\F_q)$ iff $\phi_q(P)=P$, iff $P\in \ker(1-\phi_q)$. We have
+\[
+|E(K)|=|\ker(1-\phi_q)|=\deg(1-\phi).
+\] 
+The latter from CITE. SEPARABLE. Now $\deg$ is a positive definite quadratic form. We use the following.
+\begin{lem}[Cauchy-Schwarz inequality for groups]
+Let $A$ be an abelian group and $d:A\to \Z$ be a positive definite quadratic form. Then for all $\psi,\phi\in A$,
+\[
+|d(\psi-\phi)-d(\phi)-d(\psi)|\le 2\sqrt{d(\phi)d(\psi)}
+\]
+\end{lem}
+(If $d(\phi)=\an{\phi,\phi}$, then the LHS is $2\an{\phi,\phi}$. We don't divide by 2, just so we can stick to something $\Z$-valued.)
+\begin{proof}
+The proof is similar to the proof for the ordinary Cauchy-Schwarz inequality. Since $d$ is a quadratic form,
+\[
+B(\psi,\phi)=d(\psi-\phi)-d(\psi)-d(\phi)
+\]
+is bilinear. Since $d$ is positive definite,
+\[
+0\le d(m\psi-n\phi)=m^2d(\psi)+mnB(\psi,\phi)+n^2d(\phi).
+%-\rc2L(m\psi-n\psi,m\psi-n\psi)=
+%(d(m\psi)+d(n\phi)+L(\psi,\phi))^2
+\]
+The RHS is quadratic in $m$ and $n$, hence obtains minimum at $\fc mn=-\fc{B(\psi,\phi)}{2d(\psi)}$. So take $m=-B(\psi,\phi)$ and $n=2d(\psi)$. We get 
+\[
+0\le d(\psi)[4d(\psi)d(\phi)-L(\psi,\phi)^2].
+\]
+When $\psi\ne 0$, we get $4d(\psi)d(\phi)\ge L(\psi,\phi)^2$, from which the desired inequality follows from taking square roots.
+For $\psi=0$ the result is obvious.
+\end{proof}
+Since $\deg \phi_q=q$, the Cauchy-Schwarz inequality gives
+\[
+||E(\F_q)|-1-q|=| \deg(1-\phi)-\deg(1)-\deg(\phi)|\le 2\sqrt q
+\]
+as needed.
+\end{proof}
+Application to character sums (Silverman, p. 132).
+%Given a value for $x$, there are 
+
+%%%%%%%%%%%%
+
+\section{Counting points on elliptic curves over finite fields}
+
+We now consider the problem of actually computing $\#E(\F_q)$ for an elliptic curve $E/\F_q$ given by a Weierstrass equation $y^2=x^3+Ax+B$.
+The most na\"ive approach one could take would be to simply evaluate this equation for every pair $(x,y)\in\F_q^2$, count the number of solutions, and then remember to add 1 for the point at infinity.  This take $O(q^2\textsf{M}(\log q))$ time.
+Note that the input to this problem is simply the pair of coefficients $A,B\in\F_q$, which each have $O(n)$ bits, where $n=\log q$.
+Thus in terms of the size of the input, this algorithm takes time $O(\exp (2n) \textsf{M}(n))$, exponential in $n$.
+But we can certainly do better.
+
+Recall that for an odd prime $p$ the Legendre symbol $\pf{a}{p}$ satisfies
+\[
+\left(\frac{a}{p}\right) =
+\begin{cases}
+1\qquad&\text{if $x^2=a$ has two solutions mod $p$},\\
+0\qquad&\text{if $x^2=a$ has one solution mod $p$},\\
+-1\qquad&\text{if $x^2=a$ has no solutions mod $p$}.\\
+\end{cases}
+\]
+We extend the Legendre symbol to finite fields $\F_q$ of odd characteristic by defining
+\[
+\left(\frac{a}{\F_q}\right) =
+\begin{cases}
+1\qquad&\text{if $x^2=a$ has two solutions in $\F_q$},\\
+0\qquad&\text{if $x^2=a$ has one solution in $\F_q$},\\
+-1\qquad&\text{if $x^2=a$ has no solutions in $\F_q$}.\\
+\end{cases}
+\]
+Note that in every case, $1+\pf{a}{\F_q}$ counts the solutions to $x^2=a$ in $\F_q$.  It follows that
+\begin{align}\notag
+\#E(\F_q) &= 1 + \sum_{x\in\F_q} \left(1 + \left(\frac{x^3+Ax+B}{\F_q}\right)\right)\\
+&= q+1+\sum_{x\in\F_q} \left(\frac{x^3+Ax+B}{\F_q}\right).\label{eq:sum}
+\end{align}
+We note that Hasse's Theorem is equivalent to the statement that the sum in \eqref{eq:sum} has absolute value bounded by $2\sqrt{q}$.
+This is remarkable, given that one might na\"ively suppose that the sum could potentially have absolute value as large as $q$.
+
+We can apply \eqref{eq:sum} to compute $\#E(\F_q)$ in $O(\exp(n)\textsf{M}(n))$ time by computing a table of quadratic residues in $\F_q$ and then evaluating $x^3+Ax+B$ for all $x\in\F_q$.  Alternatively, we can compute the Legendre symbol using Euler's criterion $\pf{a}{p}=a^{(p-1)/2}$, which generalizes to any finite field $\F_q$.
+This uses much less space, since we don't need to store a table of quadratic residues, but it increases the running time slightly, to $O(\exp(n)\textsf{M}(n)n)$.
+
+So far we have not yet taken advantage of Hasse's theorem, which tells us that the integer $\#E(\F_q)$ which roughly the same size as $q$ actually lies in an interval of width $4\sqrt{q}$.
+This suggests that we ought to be able to compute it more efficiently by exploiting this fact.
+To do so we first consider the problem of computing the order of a point $P\in E(\F_q)$.
+
+\subsection{Computing the order of a point}\label{sec:pointorder}
+
+The least positive integer $m$ for which $mP=0$ is the \emph{order} of $P$, which we denote $|P|$.
+We know that $|P|$ must divide the group order $\#E(\F_q)$, thus the \emph{Hasse interval}
+\[
+\mathcal{H}(q)=\bigl[q+1-2\sqrt{q},\ q+1+2\sqrt{q}\bigr],
+\]
+contains at least one multiple $M$ of $|P|$, namely, $\#E(\F_q)$.
+To find such a multiple, we set $M_0=\lceil q+1-2\sqrt{q}\rceil$, compute $M_0P$, and then generate the sequence of points
+\[
+M_0P, (M_0+1)P, (M_0+2)P, \ldots, MP=0,
+\]
+using repeated addition by $P$. 
+We then compute the prime factorization $M=p_1^{e_1}\cdots p_w^{e_w}$, which is easy compared to the time required to find $M$), and compute $m=|P|$ as follows:
+\begin{enumerate}
+\item Set $m=M$.
+\item For each prime $p_i|M$, while $p_i|m$ and $(m/p_i)P=0$ replace $m$ by $m/p_i$.
+\end{enumerate}
+When this procedure is complete we know that $mP=0$ and $(m/p)\ne 0$ for every prime $p$ dividing $m$, which implies that $m=|P|$.
+You will analyze the efficiency of this algorithm and develop several improvements to it in Problem Set 2.
+
+The time to compute $|P|$ is dominated by the time for find the initial multiple $M$, which involves $O(\sqrt{q})$ operations in $E(\Fp)$, yielding a bit complexity of $O(\sqrt{q}\ \textsf{M}(\log q))$ or $O(\exp (n/2)\textsf{M}(n)$.
+We will shortly see how to improve this to $O(\exp(n/4)\textsf{M}(n))$, but first we consider how we may use our algorithm for computing $|P|$ to compute $\#E(\Fp)$.
+If we are lucky (and when $q$ is large we usually will be), the multiple $M$ of $|P$ that we find will actually be the \emph{unique} multiple of $|P|$ in $\mathcal{H}(q)$.
+If this happens, then we must have $M=\#E(\F_q)$.  Otherwise, we might try our luck with a different point $P$.  If we can find any combination of points such that the least common multiple of their orders has a unique multiple in $\mathcal{H}(q)$, then we can determine the group order.
+
+\subsection{The group exponent}
+\begin{df}
+For a finite group $G$, the \emph{exponent} of $G$, denoted $\lambda(G)$, is defined by
+\[
+\lambda(G) = \lcm \{|\alpha|:\alpha\in G\}.
+\]
+\end{df}
+Note that $\lambda(G)$ is a divisor of $|G|$ and is divisible by the order of every element of $G$.
+Thus $\lambda(G)$ is the maximal possible order of an element of $G$, and when $G$ is abelian this maximum is achieved: their necessarily exists an element with order $\lambda(G)$.
+To see this, note that the structure theorem for finite abelian groups allows us to write 
+\[
+G\simeq \Z/n_1\Z \times \Z/n_2\Z\times\cdots\times\Z/n_r\Z
+\]
+with $n_i|n_{i+1}$ for $1\le i < r$.
+Thus $\lambda(G)=n_r$, and any generator for $\Z/n_r\Z$ has order $\lambda(G)$.
+
+It is clear that if we compute the least common multiple of a sufficiently large subset of a finite abelian group $G$ we will obtain $\lambda(G)$.
+If we pick points at random, how many points do we expect to need in order to obtain $\lambda(G)$?
+The answer is surprisingly small: just two random points are usually enough.
+
+\begin{thm}\label{thm:exponent}
+Let $G$ be a finite abelian group with exponent $\lambda(G)$.  Let $\alpha$ and $\beta$ be uniformly distributed random elements of $G$.
+Then
+\[
+\Pr[\lcm(|\alpha|,|\beta|) = \lambda(G)] > \frac{6}{\pi^2}.
+\]
+\end{thm}
+\begin{proof}
+We first reduce to the case that $G$ is cyclic.
+As noted above, $G$ is isomorphic to a direct product of cyclic groups $C_1\times C_2\times \cdots\times C_r$, where $C_r$ has order $\lambda(G)$.
+Let $\alpha_r$ and $\beta_r$ be the projection of $\alpha$ and $\beta$ to $C_r$.
+Then $\lcm(|\alpha_r|,|\beta_r|)=\lambda(G)$ implies $\lcm(|\alpha|,|\beta|)=\lambda(G)$, and therefore
+\[
+\Pr[\lcm(|\alpha|,|\beta|) = \lambda(G)] \ge \Pr[\lcm(|\alpha_r|,|\beta_r|) = \lambda(G)] .
+\]
+
+So we now assume that $G$ is cyclic with generator $\gamma$.  Let $p_1^{e_1}\cdots p_k^{e_k}$ be the prime factorization of $\lambda(G)$.
+Let $\alpha=a\gamma$, with $0\le a <  \lambda(G)$.  Unless $a$ is a multiple of $p_i$, which occurs with probability $1/p_i$,
+the order of $\alpha$ will be divisible by $p_i^{e_i}$, and similarly for $\beta$.  These two probabilities are independent, thus with probability $1-1/p_i^2$ at least one of $\alpha$ and $\beta$ has order divisible by $p_i^{e_i}$.   Call this event $E_i$.
+The events $E_1,\ldots, E_k$ are independent, since we may write $G$ as a direct product of cyclic groups of order $p_1^{e_1},\ldots p_k^{e_k}$, and the projections of $\alpha$ and $\beta$ in each of these cyclic groups are uniformly and independently distributed.  Thus
+\[
+\Pr[\lcm(|\alpha|,|\beta|)=\lambda(G)] = \prod_{p|\lambda(G)}( 1-p^{-2}) >\prod_p (1-p^{-2})= \left(\sum_{n=1}^\infty\frac{1}{n^2}\right)^{-1} = \frac{1}{\zeta(2)} = \frac{6}{\pi^2},
+\]
+where $\zeta(s)=\sum n^{-s}$ is the Riemann zeta function.
+\end{proof}
+
+The theorem implies that if we generate random points $P\in E(\F_q)$ and accumulate the least common multiple $N$ of their orders, we should expect to obtain $\lambda(E(\F_q))$ within $O(1)$ iterations.
+Regardless of when we obtain $\lambda(E(\F_q))$, at every stage we know that $N$ divides $\#E(\F_q)$, and if we ever find that $N$ has a unique multiple in the Hasse interval, then we know that this multiple is the group order.
+Unfortunately this might not ever happen, it could be that $\lambda(E(\F_q))$ is smaller than $4\sqrt{q}$ and actually has more than one multiple in the Hasse interval.
+To deal with this problem we need to consider the \emph{quadratic twist} of $E$.
+
+\subsection{The quadratic twist of an elliptic curve}
+Suppose $d$ is an element of $\F_q$ that is \emph{not} a quadratic residue, so that $\pf{d}{\Fp}=-1$.
+If we consider the elliptic curve $\tilde{E}$ defined by $y^2=d(x^3+Ax+B)$, then
+\begin{align*}
+\#\tilde{E}(\F_q) &= q+1+\sum_{x\in\F_q}\left(\frac{d(x^3+Ax+B)}{\F_q}\right)\\
+&= q+ 1 + \sum_{x\in\F_q}\left(\frac{d}{\F_q}\right)\left(\frac{(x^3+Ax+B)}{\F_q}\right) \\
+&= q+1 - \sum_{x\in\F_q}\left(\frac{x^3+Ax+B}{\F_q}\right).
+\end{align*}
+Thus if $\#E(\F_q)=q+1-t$, then $\#\tilde{E}(\F_q)=q+1+t$.
+The curve $\tilde{E}$ is called the \emph{quadratic twist} of $E$ (by $d$).
+We can put the curve equation for $\tilde{E}$ in standard Weierstrass form by substituting $x/d$ for $x$ and $y/d$ for $y$ and then clearing denominators,  yielding
+\[
+y^2=x^3+d^2Ax+d^3B.
+\]
+If we instead choose $d$ to be a (nonzero) quadratic residue, say $d=a^2$, then $\tilde{E}$ is isomorphic to $E$ over $\F_q$ (substitute $a^2x$ for $x$ and $a^3y$ for $y$ and divide both sides by~$a^6$).
+Moreover, it does not matter which non-residue $d$ we choose:
+if $d$ and $d'$ are any two non-residues in~$\F_q$, then the corresponding curves $\tilde{E}$ and$\tilde{E'}$ are isomorphic over $\F_q$ (use $a^2=d/d'$ to obtain the isomorphism).
+
+Note that the curves $E$ and $\tilde{E}$  are isomorphic over the quadratic extension $\F_q[x]/(x^2-d)\simeq \F_{q^2}$.
+In general, curves defined over a field $k$ that are isomorphic over $\ol{k}$ are called \emph{twists}, and if they are isomorphic over a quadratic extension of $k$ they are called \emph{quadratic twists}, as above.
+This technically includes the case where the curves are already isomorphic over $k$, but when we refer to ``the" quadratic twist of an elliptic curve $E$ we always mean a curve $\tilde{E}$ constructed as above using a non-residue $d\in k$ so that $E$ and $\tilde{E}$ is not isomorphic.
+
+Our interest in the quadratic twist of $E$ lies in the fact that
+\[
+\#E(\F_q) + \#\tilde{E}(\F_q) = 2q+2.
+\]
+Thus if we can compute either $\#E(\F_q)$ or $\#\tilde{E}(\F_q)$ than we can easily determine both values.
+
+
+\subsection{Mestre's Theorem}
+
+It is not necessarily the case that the group exponent of $\lambda(E(\Fp))$ has a unique multiple in the Hasse interval.
+But if we also consider the quadratic twist $\tilde{E}(\Fp)$, then a theorem of Mestre (published by Schoof in \cite{Schoof}) ensures that for all sufficiently large $p$, either $\lambda(E(\Fp))$ or $\lambda(\tilde{E}(\Fp))$ has a unique multiple in the Hasse interval $\mathcal{H}(p)=[(\sqrt{p}-1)^2,(\sqrt{p}+1)^2]$.
+
+\begin{thm}[Mestre]\label{thm:mestre}
+Let $p>229$ be prime, and let $E/\Fp$ be an elliptic curve with quadratic twist $\tilde{E}/\Fp$.
+Then either $\lambda(E(\Fp))$ or $\lambda(\tilde{E}(\Fp)$  has a unique multiple in $\mathcal{H}(p)$.
+\end{thm}
+\begin{proof}
+Let $E(\Fp)\simeq \Z/n\Z\times\Z/N\Z$ and  $\tilde E(\Fp)\simeq \Z/m\Z\times\Z/M\Z$, where $n|N$ and $m|M$.
+We have $E[n]=E(\Fp)[n]$, so the Frobenius endomorphism $\pi$ fixes $E[n]$ and the matrix $\pi_n$ is the identity.
+Thus $p=\deg\pi\equiv_n\det\pi_n = 1$, thus $n$ divides $p-1$.  By the same argument, so does $m$.
+
+Let $t=p+1-nN$ be the trace of Frobenius of $E$.  Then
+\begin{align*}
+4p-t^2 &= 4p-(p+1-nN)^2\\
+               &\equiv_{n^2} 4p-(p+1)^2 = 4p-p^2-2p-1 = -(p-1)^2\\
+               &\equiv_{n^2} 0
+\end{align*}
+Thus $n^2$ divides $4p-t^2$, and so does $m^2$, by the same argument.
+
+Since $n$ divides $nN$ and $p-1$, we have $t=p-1+2-nN\equiv_n 2$, and similarly $t\equiv_m -2$.
+Thus $t=an+2$ and $t=bm-2$, for some integers $a$ and $b$, and subtracting these equations yields $an-bm=4$, which implies $\gcd(m,n)\le 4$.
+Therefore $\gcd(m^2,n^2)\le 16$, and since $m^2$ and $n^2$ both divide $4p-t^2$, we have
+\begin{equation}\label{eq:m1}
+\frac{m^2n^2}{16} \le 4p-t^2 \le 4p
+\end{equation}
+Now suppose for the sake of contradiction that $N=\lambda(E(\Fp))$ and $M=\lambda(\tilde{E}(\Fp))$ both have more than one multiple in $\mathcal{H}(p)$.
+Then $M$ and $N$ are both at most $\sqrt{4p}$, so $MN\le 4p$.
+Since $mM$ and $nN$ lie in $\mathcal{H}(p)$, they are both greater than $(\sqrt{p}-1)^2$, hence $mnMN \ge (\sqrt{p}-1)^4$.
+It follows that $mn\ge (\sqrt{p}-1)^4/(4p)$.  Dividing by 4 and squaring both sides yields
+\begin{equation}\label{eq:m2}
+\frac{m^2n^2}{16}\ge\frac{(\sqrt{p}-1)^8}{256p^2}.
+\end{equation}
+ Combining \eqref{eq:m1} and \eqref{eq:m2} yields
+\begin{equation}
+1024p^3\ge (\sqrt{p}-1)^8.
+\end{equation}
+This implies that if neither $M$ nor $N$ have a unique multiple in $\mathcal{H}(p)$, then $p\le 1284$.
+An exhaustive computer search for $p\le 1284$ then finds that in fact we must have $p\le 229$.
+\end{proof}
+
+
+
+\subsection{Computing the group order with Mestre's Theorem}
+We now give a complete algorithm to compute $\#E(\Fp)$ using Mestre's theorem, assuming that $p$ is a prime greater than 229 (if $p$ is smaller than this we can easily just count points as before).\footnote{There is a generalization of Mestre's theorem that applies to arbitrary finite fields $\F_q$, and handles all $q>49$, see \cite{CS10}.
+With this the algorithm we give here can be modified to handle arbitrary finite fields.}
+As usual, $\mathcal{H}(p)=[p+1-2\sqrt{p},\ p+1+2\sqrt{p}]$ denotes the Hasse interval.
+
+\renewcommand{\labelenumii}{\alph{enumii}.}
+\begin{enumerate}
+\item Compute a quadratic twist $\tilde{E}$ of $E$ using a randomly chosen non-residue $d\in\F_q$.
+\item Let $E_0=E$ and $E_1=\tilde{E}$, set $N_0=N_1=1$ and $i=0$.
+\item While neither $N_0$ nor $N_1$ has a unique multiple in $\mathcal{H}(p)$:
+\begin{enumerate}
+\item Generate a random point $P\in E_i(\Fp)$.
+\item Find an integer $M\in\mathcal{H}{p}$ such that $MP=0$.
+\item Use $M$ to compute $|P|$ as in \S\ref{sec:pointorder}.
+\item Set $N_i=\lcm(N_i,|P|)$ and set $i=1-i$.
+\end{enumerate}
+\item If $N_0$ has a unique multiple $M$ in $\mathcal{H}(p)$ then return $M$, otherwise return $2p+2-M$, where $M$ is the unique multiple of $N_1$ in $\mathcal{H}(p)$.
+\end{enumerate}
+
+It is clear that the output of the algorithm is correct, and it follows from Theorems~\ref{thm:exponent} and \ref{thm:mestre} that the expected number of iterations of step 3 is $O(1)$.  Thus we have a Las Vegas algorithm to compute $\#E(\Fp)$.  Its running time is dominated by the time to find $M$ in step~3b.
+If we simply compute $aP$ for every integer $a\in\mathcal{H}(p)$, we obtain an expected running time of $O(\sqrt{p}\ \textsf{M}(\log p)$, or $O(\exp(n/2)\textsf{M}(n)$,
+but this can be improved to $O(\exp(n/4)\textsf{M}(n))$ if we speed up step 3b using the baby-steps giant-steps method discussed below.
+
+\subsection{The baby-steps giant-steps method}
+Let $a=\lceil p+1-2\sqrt{p}\rceil$ and let $b=\lceil p+1+2\sqrt{p}\rceil$, so $[a,b)$ contains every integer in the Hasse interval $\mathcal{H}(p)$.
+In its simplest form, the baby-steps giant-steps method proceeds as follows:
+\begin{enumerate}
+\item Pick integers $r$ and $s$ such that $rs \ge b-a$.
+\item Compute the set $S_{\rm baby}=\{0,P,2P,\ldots,(r-1)P\}$ of \emph{baby steps}.
+\item Compute the set $S_{\rm giant}=\{aP,(a+r)P, (a+2r)P,\ldots,(a+(s-1)r)P\}$ of \emph{giant steps}.
+\item For each giant step $P_{\rm giant}=(a+ir)P\in S_{\rm giant}$, check whether its negation is equal to a baby step $P_{\rm baby}=jP\in S_{\rm baby}$, and if so output $M=a+ir+j$.
+\end{enumerate}
+
+Note that $-P_{\rm giant}=P_{\rm baby}$ implies $P_{\rm giant}+P_{\rm baby}=(a+ir)P+jP=MP=0$, thus $M$ is a multiple of~$|P|$.
+Since \emph{every} integer in $\mathcal{H}(p)$ can be written in the form $a+i+jr$ with $0\le i < r$ and $0\le j < s$, the algorithm is guaranteed to find such an $M$.
+
+To implement this algorithm efficiently, we typically store the baby steps $S_{\rm baby}$ in a lookup table (e.g. a binary tree or a hash table) and as each giant step $P_{rm giant}$ is computed, we lookup $-P_{\rm giant}$ in this table.  Alternatively, one may compute the sets $S_{\rm baby}$ and $S_{\rm giant}$ in their entirety, sort both sets, and then efficiently search for a match.
+In both cases, we assume that the points in $S_{\rm baby}$ and $S_{\rm giant}$ are uniquely represented, which may require converting them to affine form.
+In the next lecture we will see how \emph{batching} can be used to do this efficiently.
+Assuming this is done, if we choose $r\approx s \approx 2p^{1/4}$, then the running time of the algorithm above is $O(\exp(n/4)\textsf{M}(n))$.
+
+Note that its space complexity is $O(\exp(n/4)n)$, which is actually the limiting factor in practically implementations, thus one may choose to make a time-space trade-off by picking a smaller value for $r$ and a larger values of $s$.
+We will discuss this and other optimizations to the baby-steps giant-steps method in the next lecture.

@@ -1,0 +1,230 @@
+\chapter{Modular Arithmetic}
+\label{mod}
+\section{Modular Arithmetic}
+Let $a, b$ be integers and let $m$ be a positive integer.  We say that $a$ and $b$ are congruent modulo $m$ if $m$ divides $a-b$.  This is denoted as $a\equiv b\mod{m}$.  If $m$ does not divide $a-b$, then we write $a\not\equiv b\mod{m}$.  The relation $a \equiv b$ for integers $a, b$ has many of the same properties as the relation $a = b$.
+\begin{pr}
+The following properties hold for integers $a,b,c$ and positive integers $m$.
+\begin{enumerate}
+\item $a\equiv a\mod{m}$;
+\item If $a\equiv b\mod{m}$, then $b\equiv a\mod{m}$;;
+\item If $a\equiv b\mod{m}$ and $b\equiv c\mod{m}$, then $a\equiv c\mod{m}$;
+\item If $a_i\equiv b_i\mod{m}$ for $1 \le i \le n$, then $a_1+a_2+\cdots+a_n\equiv b_1+b_2+\cdots+b_n\mod{m}$;
+\item If $a+b\equiv c\mod{m}$, then $a\equiv c-b\mod{m}$;
+\item If $a\equiv b\mod{m}$, then $a+c\equiv b+c\mod{m}$;
+\item If $a_i\equiv b_i\mod{m}$, then $a_1a_2\cdots a_n\equiv b_1b_2\cdots b_n\mod{m}$;
+\item If $a\equiv b\mod{m}$, then $ac\equiv bc\mod{m}$;
+\item If $a\equiv b\mod{m}$, then $a^n \equiv b^n\mod{m}$ for all positive integers $n$;
+\item If $a\equiv b\mod{m}$ and $f(x)$ is a polynomial with integer coefficients, then $f(a) \equiv f(b)\mod{m}$.
+\end{enumerate}
+\begin{proof}
+The above properties can be proven as follows:
+\begin{enumerate}
+\item $m \mid a-a = 0$ for all $m$.
+\item As $m\mid a-b$, $a-b = km$.  Then $b-a = (-k)m$, so $b\equiv a\mod{m}$.
+\item As $m\mid a-b, b-c$, we have $m\mid (a-b)+(b-c) = a-c$.  Hence $c\equiv a\mod{m}$.
+\item As $m\mid a_i-b_i$ for $1\le i\le n$, we have $m\mid (a_1-b_1)+(a_2-b_2)+\cdots+(a_n-b_n)$.  Hence $a_1+a_2+\cdots+a_n \equiv b_1+b_2+\cdots+b_n\mod{m}$.
+\item As $m\mid (a+b)-c$, we have $m\mid a-(c-b)$.  Hence $a\equiv c-b\mod{m}$.
+\item As $m\mid a-b$ and $m\mid c-c$, we have $m\mid (a-b)+(c-c) = (a+c)-(b+c)$.  Hence $a+c\equiv b+c\mod{m}$.
+\item As $m\mid a_i-b_i$, we have $a_i-b_i = t_im$ for integers $t_i$ and $1 \le i \le n$.  Hence $a_1a_2\cdots a_n = (b_1+t_1m)(b_2+t_2m)\cdots(b_n+t_nm)$.  Expanding the left side gives the form $b_1b_2\cdots b_n + tm$ for some integer $t$.  Hence $a_1a_2\cdots a_n\equiv b_1b_2\cdots b_n\mod{m}$.
+\item If $m\mid a-b$, then $m\mid c(a-b) = (ca)-(cb)$.  Hence $ca \equiv cb\mod{m}$.
+\item Set $a_i = a$ and $b_i = b$ for $1 \le i \le n$ and use result 7.
+\item Set $f(x) = c_0+c_1x+\cdots+c_nx^n$.  Then $f(a)-f(b) = c_1(a-b)+c_2(a^2-b^2)+\cdots+c_n(a^n-b^n)$.  All of these terms are divisible by $a-b$, hence $a-b \mid f(a)-f(b)$.  As $m \mid a-b$, we have thus $m \mid f(a)-f(b)$.  Hence $f(a)\equiv f(b)\mod{m}$ as desired.
+\end{enumerate}
+\end{proof}
+\end{pr}
+\begin{pr}
+\begin{enumerate}
+\item If $a \equiv b\mod{m}$, then $\gcd{(a,m)} = \gcd{(b,m)}$.
+\item $a \equiv b\mod{m}$ if and only if $a$ and $b$ have the same remainder upon division by $m$.
+\item $a\equiv b\mod{m_i}$ for $1 \le i \le n$ if and only if $a \equiv b\mod{\textup{lcm}\:(m_1,m_2,\cdots,m_n)}$.
+\item If $ka = kb\mod{m}$, then $a\equiv b\mod{\left(\frac{m}{\gcd{(m,k)}}\right)}$.  In particular, if $\gcd{(m,k)} = 1$, then $a \equiv b\mod{m}$.
+\end{enumerate}
+\begin{proof}
+We show the desired results as follows:
+\begin{enumerate}
+\item As $a \equiv b\mod{m}$, we have $m\mid a-b$, and thus $a-b = tm$ for some integer $t$.  Let $d_1 = \gcd{(a,m)}, d_2 = \gcd{(b,m)}$.  Then $d_1 \mid a,m$, so $d_1 \mid a-tm = b$.  Hence $d_1 \mid \gcd{(b,m)} = d_2$.  We may similarly show $d_2 \mid d_1$.  As $d_1, d_2 > 0$, we have thus $d_1 = d_2$.
+\item Let $a = mq_1+r_1, b = mq_2+r_2$, where $0 \le r_1, r_2 < m$.  Then $a-b = m(q_1-q_2)+(r_1-r_2)$.  We have $a \equiv b\mod{m}$ iff $m \mid a-b$, which is in turn equivalent to $m \mid m(q_1-q_2)+(r_1-r_2)$.  This is equivalent to $m \mid r_1-r_2$.  As $|r_1-r_2| < m$, we have $m \mid r_1-r_2$ iff $r_1 - r_2 = 0$, or $r_1 = r_2$.  This achieves the desired result.
+\item If $m_i \mid a-b$ for $1 \le i \le n$, then $a-b$ is a common multiple of the $m_i$ and hence is divisible by $\text{lcm}\:(m_1,m_2,\cdots,m_n)$.  On the other hand, if $\text{lcm}\:(m_1,m_2,\cdots,m_n) \mid a-b$, then $m_i \mid a-b$ for all $i$.  This proves our result.
+\item Let $d = \gcd{(m,k)}$.  Write $k = dk_1, m = dm_1$; then $\gcd{(m_1,k_1)} = 1$.  As $k(a-b)/m = k_1(a-b)/m_1$ is an integer, and as $\gcd{(m_1,k_1)} = 1$, we must have $m_1 \mid a-b$.  As $m_1 = \frac{m}{\gcd{(m,k)}}$, we achieve the desired result.
+\end{enumerate}
+\end{proof}
+\end{pr}
+\begin{prb}
+Verify the following congruences:
+\begin{enumerate}
+\item $2^{70}+3^{70}\equiv0\mod{13}$;
+\item $3^{2009}\equiv3\mod{10}$;
+\item $(207^{19}-41)^{10}\equiv24\mod{100}$;
+\item $2^{2^5}\equiv-1\mod{641}$.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item We have $2^6\equiv-1\mod{13}$.  Hence $2^{70} = 2^4\cdot(2^6)^{11}\equiv-2^4\equiv10\mod{13}$.  We have $3^3\equiv1\mod{13}$.  Hence $3^{70}=3\cdot(3^3)^{23}\equiv3\cdot1^{23}\equiv3\mod{13}$.  Hence $2^{70}+3^{70}\equiv10+3\equiv0\mod{13}$.
+\item We have $3^4=81\equiv1\mod{10}$.  Hence $3^{2009} = 3\cdot(3^4)^{502}\equiv3\cdot1^{502}\equiv3\mod{10}$.
+\item We have $7^4 = 2401\equiv1\mod{100}$.  Hence $207^{19}\equiv7^{19}=7^3\cdot(7^4)^4\equiv7^3\cdot1^4=343\equiv43\mod{100}$.  Hence $207^{19}-41\equiv2\mod{100}$.  But then $(207^{19}-41)^{10}\equiv2^{10}=1024\equiv24\mod{100}$.
+\item We have $641 = 5\cdot2^7+1 = 5^4+2^4$.  Hence $5\cdot2^7\equiv-1\mod{641}$ and $5^4\equiv-(2^4)\mod{641}$.  Then we have $2^{2^5} = 2^{32} = 2^4\cdot(2^7)^4\equiv-(5^4)(2^7)^4=-(5\cdot2^7)^4\equiv(-1)^5=-1\mod{641}$.
+\end{enumerate}
+\end{proof}
+\end{prb}
+\begin{rem}If we define the Fermat numbers as in the lecture on greatest common divisors and least common multiples, it may be verified that $F_0, F_1,\cdots, F_4$ are prime.  The above result shows that $F_5$ is not prime; it has been computed that none of $F_5$ through $F_{20}$ are prime.  It is still an open question as to whether there are any $k > 4$ for which $F_k$ is prime.\end{rem}
+\begin{prb}
+Find the last digit of:
+\begin{enumerate}
+\item $223^{12}-44^{15}$;
+\item $9^{1003}-7^{902}+3^{801}$.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item We have
+$223^{12}\equiv3^{12}\equiv(3^4)^4\equiv1^3\equiv1\mod{10}$.
+Similarly,
+$44^{15}\equiv4^{15}\equiv(4^5)^3\equiv4^3\equiv4\mod{10}$.  Hence
+$223^{12}-44^{15}\equiv1-4\equiv7\mod{10}$, so its last digit is
+7. \item We have
+$9^{1003}\equiv(-1)^{1003}\equiv-1\equiv9\mod{10}$.  In addition,
+$7^{902}\equiv49^{451}\equiv(-1)^{451}\equiv-1\mod{10}$.  Finally,
+$3^{801}\equiv3\cdot(3^4)^{200}\equiv3\cdot1^{200}\equiv3\mod{10}$.
+Hence $9^{1003}-7^{902}+3^{801}\equiv(-1)-(-1)+3\equiv3\mod{10}$,
+so the last digit is 3.
+\end{enumerate}
+\end{proof}
+\end{prb}
+\begin{prb}
+Prove that for integers $x,y$ and prime $p$, we have $(x+y)^p\equiv x^p+y^p\mod{p}$.
+\begin{proof}
+The binomial theorem gives $(x+y)^p = {p\choose 0}x^py^0 + {p\choose 1}x^{p-1}y^1+\cdots+{p\choose p-1}x^1y^{p-1}+{p\choose p}x^0y^p$.  As proved in the previous day's lecture, $p \mid {p\choose k}$ for $1\le k\le p-1$.  Hence $p \mid (x+y)^p-(x^p+y^p)$, so $(x+y)^p\equiv x^p+y^p\mod{p}$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Show that if $p$ is a prime and $0 \le k \le p-1$ is an integer, then ${p-1\choose k}\equiv(-1)^k\mod{p}$.
+\begin{proof}
+The case $k = 0$ is trivial.  If $k \ge 1$, we have $p-1 \equiv-1\mod{p}$, $p-2\equiv -2\mod{p}$, and so on till $p-k\equiv-k\mod{p}$.  Hence ${p-1\choose k}k! = (p-1)(p-2)\cdots(p-k)\equiv(-1)^kk!\mod{p}$.  As $\gcd{(p,k!)} = 1$, we have thus ${p-1\choose k}\equiv(-1)^k\mod{p}$.
+\end{proof}
+\end{prb}
+{\large \bfseries Residue Classes}
+
+Given $m$ a positive integer, we say that two integers $a$ and $b$ belong to the same residue class modulo $m$ if $a\equiv b\mod{m}$ - that is, if they have equal remainder upon division by $m$.  Congruence modulo $m$ divides the set of integers $\mathbb{Z}$ into $m$ disjoint residue classes, commonly denoted by $a+m\mathbb{Z}$ for $a = 0, 1, \cdots, m-1$ and defined as $a+m\mathbb{Z} = \{a+mk: k\in \mathbb{Z}\}$.
+
+A set $S$ of integers is called a complete set of residue classes modulo $m$ if for each $0 \le i \le m-1$ there is some $s \in S$ such that $s \equiv i\mod{m}$.  It is obvious that any set $S$ of $m$ consecutive integers is a complete set of residue classes modulo $n$ for all $1 \le n \le m$.
+\begin{prb}
+Prove that:
+\begin{enumerate}
+\item $n^2\equiv0,1\mod{3}$;
+\item $n^2\equiv0,\pm1\mod{5}$;
+\item $n^2\equiv0,1,2,4\mod{7}$;
+\item $n^3\equiv0,\pm1\mod{9}$;
+\item $n^4\equiv0,1\mod{16}$.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item For all $n$, $n = 0,\pm1\mod{3}$.  Hence $n^2\equiv0,1\mod{3}$.
+\item For all $n$, $n\equiv0,\pm1,\pm2\mod{5}$.  Hence $n^2\equiv0,1,4\equiv0,1,-1\mod{5}$.
+\item For all $n$, $n\equiv0,\pm1,\pm2,\pm3\mod{7}$.  Hence $n^2\equiv0,1,4,2\mod{7}$.
+\item For all $n$, $n = 3k, 3k\pm1$.  If $n = 3k$, then $(3k)^3=27k^3\equiv0\mod{9}$.  If $n = 3k\pm1$, then $n^3=27k^3\pm27k^2+9k\pm1\equiv\pm1\mod{9}$.  Hence for all $n$, $n^3\equiv0,\pm1\mod{9}$.
+\item If $n = 2k$, then $n^4=16k^4\equiv0\mod{16}$.  If $n = 2k+1$, then $n^2 = 1+4k+4k^2 = 1+4k(k+1)$.  Since $k(k+1)$ is even for all $k$, we may write $k(k+1) = 2s$.  Hence $n^2 = 1+8s$.  Thus $n^4 = 64s^2+16s+1\equiv1\mod{16}$.
+\end{enumerate}
+\end{proof}
+\end{prb}
+\begin{prb}
+Prove that if $p\mid x^2+y^2$, where $p = 3$ or $p = 7$, then $p\mid x$ and $p \mid y$.
+\begin{proof}
+We first deal with the case $p = 3$.  If $3 \mid x$, then $3 \mid y$, and vice versa.  Suppose that $3\mid x^2+y^2$ and $3\nmid x,y$.  Then $x^2+y^2\equiv0\mod{3}$, and $x^2, y^2\neq 0\mod{3}$.  Hence $x^2\equiv y^2\equiv1\mod{3}$, so $x^2+y^2\equiv2\mod{3}$.  Contradiction; hence $3 \mid x,y$.
+Now we take the case $p = 7$.  If $7 \mid x$, then $7 \mid y$, and vice versa.  If $7\mid x^2+y^2$, but $7\nmid x,y$, then we have $x^2+y^2\equiv0\mod{7}$ and $x^2,y^2 = 1,2,4\mod{7}$.  We may check that no two of $\{1,2,4\}$ add to 0 modulo 7.  Contradiction; hence $7\mid x,y$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Let $a$ and $m$ be positive integers.  Then $S = \{1\cdot a,2\cdot a,\cdots,m\cdot a\}$ is a complete set of residue classes modulo $m$ iff $\gcd{(a,m)} = 1$.
+\begin{proof}
+Suppose that $\gcd{(a,m)} = 1$.  If $S$ is not a complete set of
+residue classes modulo $m$, then we have $ia\equiv ja\mod{m}$ for $i
+\neq j$.  Hence $m\mid a(i-j)$.  As $\gcd{(a,m)} = 1$, we have
+$m\mid i-j$.  But as $i > 1$ and $j < m$, we have $-(m-1) < i-j <
+m-1$.  Hence $i-j = 0$, so $i = j$.  Contradiction; hence $S$ is a
+complete set of residue classes modulo $m$. Now assume that $S$ is a
+complete set of residue classes modulo $m$, and suppose that $d =
+\gcd{(a,m)} > 1$.  Set $a = da_1, m = dm_1$, where $\gcd{(a_1,m_1)}
+= 1$ and $m_1 < m$.  Then we have $m_1a = m_1a_1d = a_1(m_1d) = a_1m
+\equiv ma \equiv 0\mod{m}$.  Hence $S$ cannot contain $m$ distinct
+elements modulo $m$, so $S$ cannot be a complete set of residue
+classes modulo $m$.  Contradiction; hence $\gcd{(a,m)} = 1$.
+\end{proof}
+\end{prb}
+\begin{prb}
+For any positive integer $m$, any integer $a$ with $\gcd{(a,m)} = 1$, and any integer $b$, there is some integer $x$ with $ax\equiv b\mod{m}$.  The set of all such $x$ form a residue class modulo $m$.
+\begin{proof}
+By the previous result, the set $S = \{a\cdot1,a\cdot2,\cdots,a\cdot m\}$ is a complete set of residue classes modulo $m$.  Hence there is exactly one element $x_1 \in S$ with $a\cdot x_1 \equiv b\mod{m}$.
+  Now we must only show that the solution set to this congruence is a residue class modulo $m$.
+
+If we have some $x_2 \in \mathbb{Z}$ with $ax_2 \equiv b\mod{m}$,
+then we have $ax_1\equiv ax_2\mod{m}$.  Hence as $\gcd{(a,m)} = 1$,
+we have $x_1\equiv x_2\mod{m}$.  Thus $x_1, x_2$ are in the same
+residue class modulo $m$.  Conversely, if $x_1$ and $x_2$ are in the
+same residue class modulo $m$, then we have $x_1 \equiv x_2\mod{m}$.
+Hence $b\equiv ax_1\equiv ax_2\mod{m}$, so $ax_2\equiv b\mod{m}$. It
+follows that the set of solutions to $ax\equiv b\mod{m}$ forms a
+residue class modulo $m$.
+\end{proof}
+\end{prb}
+\begin{prb}
+Find all solutions to the congruence:
+\begin{enumerate}
+\item $2x\equiv3\mod{5}$;
+\item $3x\equiv1\mod{10}$;
+\item $15x\equiv5\mod{20}$.
+\end{enumerate}
+\begin{proof}
+We give the following solutions:
+\begin{enumerate}
+\item As $x = 4$ satisfies the congruence, and as $\gcd{(2,5)} = 1$, the solution set is the residue class $4+5\mathbb{Z}$.
+\item As $x = 7$ satisfies the congruence, and as $\gcd{(3,10)} = 1$, the solution set is the residue class $7+10\mathbb{Z}$.
+\item As $\gcd{(15,20)} \neq 1$, we must reduce the congruence to a different modulus.  We may reduce the congruence to $3x\equiv1\mod{4}$, as $4 = \frac{20}{\gcd{(5,20)}}$.  Then $x = 3$ satisfies this congruence; hence the solution set is the residue class $3+4\mathbb{Z}$.
+\end{enumerate}
+\end{proof}
+\end{prb}
+\newpage
+
+\begin{center}
+\textbf{Problems}
+\end{center}
+
+\begin{enumerate}
+
+  \item Prove the congruences:
+   \begin{enumerate}
+     \item $2^{25}+3^{26}\equiv 2\mod{11}$;
+     \item $13^{682}\equiv1\mod{7}$;
+     \item $(21^{103}-133^6)^2\equiv4\mod{11}$;
+     \item $2^{11\cdot31}\equiv2\mod{11\cdot31}$
+   \end{enumerate}
+  \item Determine the last two digits of:
+   \begin{enumerate}
+     \item $7^{129}$;
+     \item $229^{10}+37^{10}$.
+   \end{enumerate}
+  \item Determine all natural numbers $n$ such that:
+   \begin{enumerate}
+     \item $5\mid2^n+3^n$;
+     \item $7\mid3^n-2$.
+   \end{enumerate}
+  \item Prove that the sequence $a_n = 2^n - 3$ for $n \ge 0$ has infinitely many terms divisible by 5 and infinitely many terms divisible by 13 but no terms divisible by $5\cdot13$.
+  \item Determine all integers $x, y, z$ with:
+   \begin{enumerate}
+     \item $x^2+y^2 = 3^{2008}$;
+     \item $x^4+y^4+z^4 = 2^{100}$.
+   \end{enumerate}
+  \item Let $p_1 < p_2 < \cdots < p_{31}$ be prime numbers such that $30$ evenly divides $p_1^4+p_2^4+\cdots+p_{31}^4$.  Determine $p_1, p_2$, and $p_3$.
+  \item Determine all solutions of the congruence:
+   \begin{enumerate}
+    \item $5x+2\equiv0\mod{11}$;
+    \item $10x+25\equiv0\mod{215}$;
+   \end{enumerate}
+  \item Determine all primes $p$ and $q$ such that $p+q = (p-q)^3$.
+  \item Let $a$ be an odd integer.  Prove that $a^{2^m}+2^{2^m}$ and $a^{2^n}+2^{2^n}$ are relatively prime for all distinct positive integers $n$ and $m$.
+  \item Determine all positive integers for which $n!+5$ is a perfect cube.
+  \item Prove that if $a\equiv b\mod{n}$ then $a^n \equiv b^n\mod{n^2}$.  Is the converse true?
+  \item Determine all $n$ such that $1!+2!+\cdots+n!$ is a perfect power.
+
+\end{enumerate}
+\index{Chinese remainder theorem}
+\section{Chinese remainder theorem}
+\label{chinese-remainder}

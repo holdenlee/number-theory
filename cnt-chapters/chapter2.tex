@@ -1,0 +1,643 @@
+\chapter{Roth's Theorem via Szemer\'edi Regularity}
+\llabel{ch:sz}
+
+In this chapter we prove Roth's Theorem using graph theoretic methods, namely, the Szemer\'edi Regularity Lemma. Our main steps are as follows.
+\begin{enumerate}
+\item
+Prove Szemer\'edi Regularity via an energy increment argument (Section~\ref{sec:sz-reg-pf}).
+\item
+Prove the Triangle Removal Lemma using Szemer\'edi Regularity (Section~\ref{sec:tri-rem}).
+\item
+Rephrase Roth's Theorem as a statement about a graph, and apply the Triangle Removal Lemma (Section~\ref{sec:sz-roth}).
+\end{enumerate}
+
+Note that each section can be read as a black box, using just the statement of the theorem in the previous section. Thus, the reader anxious to see how Roth's Theorem is related to graph theory may wish to read Section~\ref{sec:sz-roth} first.
+
+We follow Diestel~\cite[\S7.4]{Di05} for the proof of Szemer\'edi's Theorem.
+
+\section{Szemer\'edi Regularity}
+\llabel{sec:sz-reg}
+The Szemer\'edi Regularity Lemma gives a way to describe a graph using a ``structured" component of bounded complexity, with small error (the error being the ``pseudorandom" component of the graph). What do we mean by this?
+\begin{itemize}
+\item
+By {\it structured of bounded complexity}, we mean that we can group the vertices into a constant number of parts, so that the graph is well-described by the density of edges between these parts.
+\item
+Here, {\it pseudorandom} means that the density of edges between two different parts of the partition doesn't vary too much within subsets of the partition, as we'll describe below.
+%{\it most of the time}, if we take a {\it large enough} subsets of two parts of the partition, 
+In other words, the edges between two different parts are distributed fairly randomly. 
+\end{itemize}
+
+We need to make precise the notion of what it means for the graph to be well-approximated by its structured component. Thus we define the notion of {\it $\ep$-regularity}.
+
+First, we need to make some preliminary definitions.
+
+\begin{df}
+Let $G$ be a graph and $A,B$ be two subsets of vertices. Let $e(A,B)$ denote the number of edges between $A$ and $B$ (counting edges twice if both their endpoints are in $A\cap B$):
+\[
+e(A,B):=|\set{(v,w)}{v\in A,w\in B,vw\text{ is an edge}}|%|\set{e\text{ edge between }v\text{ and }w}{v\in A,w\in B}|.
+\]
+The \textbf{edge density} between $A$ and $B$ is
+\[
+d(A,B):=\fc{e(A,B)}{|A||B|}.
+\]
+\end{df}
+
+\begin{df}
+Let $V$ be a set. A \textbf{partition} of $V$ is a family of subsets $\cal P=\{V_1,\ldots, V_k\}$ whose disjoint union equals $V$.
+
+A \textbf{equipartition} of $V$ is a partition $\cal P=\cal V_0\cup \{V_1,\ldots,V_k\}$ such that $|V_1|=\cdots =|V_k|$ and $\cal V_0=\{\{v_{0,1}\},\ldots, \{v_{0,j}\}\}$. We call $\cal V_0$ or $V_0=\cup \cal V_0$ the exceptional set of the partition; it consists of singletons. We let $|\cal P|=k$ denote the size of $\cal P$.
+
+For a graph $G$, a (equi)partition of $G$ simply means a (equi)partition of the vertex set $V$ of $G$.
+
+Let $\cal P$, $\cal Q$ be two partitions. We say $\cal Q$ \textbf{refines} $\cal P$, written $\cal P\le \cal Q$, if each set in $\cal P$ is the union of sets in $\cal Q$.
+
+For two partitions $\cal P,\cal Q$, define the \textbf{join} $\cal P\vee \cal Q$ to be the smallest partition refining both of them. If $P,Q$ are partitions of $V$ and $W$, define $\cal P\ot \cal Q=\set{A\times B}{A\in \cal P,B\in \cal Q}$ as a partition of $V\times W$.
+\end{df}
+The role of the exceptional set in an equipartition is simply to ensure that all other sets are the same size. 
+
+\begin{df}
+Let $G$ be a graph and let $0<\ep\le1$.
+
+We say that subsets $A,B$ are \textbf{$\ep$-regular} if
+for all subsets $A'\subeq A$ and $B'\subeq B$ such that {\color{green}$|A'|\ge \ep|A|$ and $|B'|\ge \ep |B|$}, we have 
+\[
+\color{blue}|d(A',B')-d(A,B)|< \ep.
+\]
+
+Let $\cal P=\cal V_0\cup \{V_1,\ldots,V_k\}$ be an equipartition of $G$ with exceptional set $V_0$.
+We say that $G$ is \textbf{$\ep$-regular} with respect to $\cal P$ if %with exceptional set $A_0$ if 
+\begin{enumerate}
+%\item
+%$|A_1|=\cdots =|A_k|$, 
+\item
+$|V_0|<\ep|G|$, and 
+\item
+{\color{purple} for all but $\ep m^2$ pairs} $(A_i,A_j)$ with $1\le i<j\le k$, $(V_i,V_j)$ is {$\ep$-regular}.\footnote{Note that there are different definitions of $\ep$-regularity; for instance some authors define an $\ep$-regular partition to be a partition $\{V_1,\ldots, V_m\}$ such that the $V_i$ have sizes varying by at most 1.}
+\end{enumerate}
+\end{df}
+In plain language, a graph $G$ is $\ep$-regular with respect to a partition $\cal P$ is for {\color{purple} most pairs of sets $A,B$ in the partition}, if {\color{green}we take two not-too-small subsets $A',B'$ of these sets}, the {\color{blue} the edge density for the sets and the subsets is approximately the same}.
+
+We also require that all except one set of $\cal P$ have the same size, and that the exceptional set is small (it may be empty).
+
+We can now state Szemer\'edi's Regularity Lemma.
+\begin{thm}[Szemer\'edi Regularity]\llabel{lem:sz}
+Let $m$ be a positive integer constant, and let $0<\ep<1$ be constant. There exists an integer $C(m,\ep)$ such that every graph $G$ with at least $m$ vertices has an $\ep$-regular partition $\cal P$, such that 
+\[
+m\le |\cal P| \le C(m,\ep).
+\]
+\end{thm}
+\begin{rem}
+The proof gives a value of $C(m,\ep)$ that works; see~\eqref{eq:sz-constant}.
+\end{rem}
+Note that the upper bound $C(m,\ep)$ is essential because otherwise, the partition consisting of single vertices is trivially an $\ep$-regular partition for any $\ep$. This upper bound is the reason we say that $G$ can be described by a structure of {\it bounded} complexity.
+
+\subsection{The characteristic function}
+Before we proceed with the proof of Theorem~\ref{lem:sz}, we give another way to interpret Szemer\'edi Regularity. We said repeatedly that we're ``decomposing" $G$ into a structured and pseudorandom part, but haven't explicitly made this into a decomposition. We'll do this now.
+
+It doesn't really make sense to ``decompose" a graph into two graphs. Instead, we should look at the decomposition from another viewpoint: interpret a graph as a {\it function}. It is clear what we mean by a decomposition of a function: a way to write it as $f=f_1+f_2$.
+
+\begin{df}
+Let $G$ be a graph and $V$ its vertex set. 
+Define the \textbf{characteristic function} of $G$ to be the function $V\times V\to \{0,1\}$, with
+\[
+1_{G}(a,b)=\begin{cases}
+0,&ab\text{ is not an edge,}\\
+1,&ab\text{ is an edge.}
+\end{cases}
+\]
+\end{df}
+Then you can think of Szemer\'edi Regularity as saying we have a decomposition
+\[
+1_G=\ub{\E(1_G|\cal P\ot \cal P)}{\text{structured}}
++ \ub{(1_G-\E(1_G|\cal P\ot \cal P))}{\text{pseudorandom}}.
+\]
+We explain the notation. If $A$ is finite, $f:A\to \C$ is a function, and $\cal P$ is a partition of $A$, then define the function $\E(f|\cal P):A\to \C$ by
+\[
+\E(f|\cal P)(x)=\rc{|A|}\sum_{a\in A} f(a), \text{ where }x\in A\in \cal P.
+\]
+%We define $\cal P\ot \cal P$ as the partition $\set{A\times B}{A\in \cal P,B\in \cal P}$ of $V\times V$.
+\footnote{For those familiar with measure theory, we are essentially saying the following:
+\begin{enumerate}
+\item
+Let $(A, \cal A, \mu)$ be a measure space, and $\cal B$ be a sub-$\si$-algebra of $A$. Define $\E(f|\cal B):A\to \C$ as the projection of $f$ onto the space of $\cal B$-measurable functions.
+\item
+To recover the above, give $A$ the constant measure, and identify $\cal P$ with the $\si$-algebra that it generates.
+\end{enumerate}}
+Because by definition%\footnote{Actually if $A=B$ this doesn't quite correspond, as edges are counted once in one definition but not the other, but this is a minor point.}
+\beq{eq:e(A,B)}
+\E(1_G|\cal P\ot \cal P)(a,b)=d(A,B),\qquad a\in A, b\in B,
+\eeq
+pictorially you can think of $\E(1_G|\cal P\ot \cal P)$ as dividing the vertices of the graph $G$ into the parts of $\cal P$, and writing a single number between every two sets $A,B$ giving the edge density between $A,B$. This takes much less space to write down (or draw) than the graph $G$, and we choose $\cal P$ so this is a good approximation of the structure of $G$.
+
+\fixme{A picture here!}
+
+While we won't bother to give an actual definition of ``pseudorandom" in the context of functions, note that this can be done so that it corresponds to the definition of $\ep$-regularity, but perhaps with a different constant.
+
+Also note that by thinking of a graph as a {\it function} $1_G:V\times V\to \{0,1\}$, we can generalize the statement of Szem\'eredi Regularity to {\it generalized graphs}, which are functions $f:V\times V\to [0,1]$.
+
+\section{Proof of Szemer\'edi Regularity}
+\llabel{sec:sz-reg-pf}
+\subsection{Defining the energy}
+The basic idea is simple: start with any partition $\cal P$ into $k+1$ approximately equal parts. If this partition is $\ep$-regular, then we are done. Otherwise, we look at every pair $A,B\in \cal P$ that is not $\ep$-regular, and refine the sets $A,B$, in order to separate the subsets that cause the problem. This is essentially a ``greedy" algorithm.
+
+The main problem, however, is that we need to make sure we {\it stop} in a bounded number of steps (depending on $k,\ep$). We know we'll eventually terminate---because the partition of singletons is $\ep$-regular---but this is not good enough for us.
+
+We need to {\it quantify} the progress we've made towards $\ep$-regularity. To do this, we define a quantity called the \textbf{energy} of $\cal P$: the higher the energy, the closer that $G$ is to being described completely by $\cal P$ (and the edge densities between the sets of $\cal P$). Now we show the following.
+\begin{itemize}
+\item
+The energy is \emph{bounded above} (Lemma~\ref{lem:energy-bound}).
+\item
+In our ``greedy" algorithm, each step we must increase the energy of $\cal P$ by at least a certain amount.
+\end{itemize}•
+%$\E(1_G|\cal P\ot \cal P)$
+This shows that we will only need to take a bounded number of steps, and hence that when we finish, we have a bounded number of sets in $\cal P$.
+
+How do we define the energy? Here it is again helpful to think of a graph $G$ as a function; we want to know how close $1_G$ is to $\E(1_G|\cal P\ot \cal P)$, our ``approximation" of $1_G$.  
+%Probability theory tells us that a good way to measure the difference between two functions is using the \textbf{variance}: the sum (or average) of the squares of the differences:
+Probability theory (or analysis) tells us that a good way to measure the size of a function is using its $L^2$ norm, so we consider
+\[
+\E(\E(1_G|\cal P\ot \cal P)^2).
+\]
+Note that this tells us how close $1_G$ is to $\E(1_G|\cal P\ot \cal P)^2$, as we have the following inequalities, with the differences between successive terms being the {\it variances}:
+\begin{equation}\label{eq:energy-and-variance}
+\E(1_G)^2 \underbrace{\qquad\le\qquad}_{\Var(\E(1_G|\cal P\ot \cal P))}\E(\E(1_G|\cal P\ot \cal P)^2)\underbrace{\qquad\le\qquad}_{\Var(1_G-\E(1_G|\cal P\ot \cal P))}
+\E(1_G^2)=\E(1_G).
+\end{equation}
+%
+%\[
+%\Var(1_G-\E(1_G|\cal P\ot \cal P))
+%=\E((1_G-\E(1_G|\cal P\ot \cal P))^2)
+%=\E(1_G^2)-\E(\E(1_G|\cal P\ot \cal P)^2).
+%\]
+%Since $\E(1_G^2)$ doesn't change, we can just focus on $\E(\E(1_G|\cal P\ot \cal P)^2)$. (Or, looking at it in terms of analysis, we're measuring the size of a function using the $L^2$ norm.)\\
+As we refine $\cal P$, we expect $\E(1_G|\cal P\ot \cal P)$ to be a better approximation, so it will get further from $\E(1_G)$ and closer to $1_G$ in the $L^2$ sense, i.e., the variance at the left will decrease and the variance at the right will increase.\\
+
+\cpbox{
+The \textbf{energy increment argument} goes as follows: define a quantity called the energy, usually as an expectation of a square. Show that the energy is bounded above, and that in each step the energy must increase by at least a certain amount, so that an algorithm ends after a finite number of steps.
+}
+
+%\vskip0.15in
+\begin{df}\llabel{df:energy-P}
+\begin{enumerate}
+\item
+Let $A$ be a set and $\cal P$ be a partition of $A$. Define the \textbf{energy} of $\cal P$ to be
+\[
+E_f(\cal P)=\E(\E(f|\cal P)^2).
+\]
+%\item
+%Let $G$ be a graph and $A,B$ two sets. Define the energy
+%\[
+%E_G(A,B)=\E(1_G|_{A\times B})^2=d(A,B)^2.
+%\]
+\item
+Let $G$ be a graph, $V_1,V_2$ be two subsets of its vertices, and $\cal P, \cal Q$ be partitions of $V_1,V_2$.
+Define
+\[
+E_G(\cal P, \cal Q):=E_{1_G|_{V_1\times V_2}}(\cal P\ot \cal Q)=\E(\E(1_G|_{V_1\times V_2}|\cal P\ot \cal Q)^2).
+\]
+\item
+Let $G$ be a graph and $\cal P$ be a partition.
+Define the \textbf{energy} of the $\cal P$ to be
+\[
+E_G(\cal P):=E_{1_G}(\cal P\ot \cal P)=\E(\E(1_G|\cal P\ot \cal P)^2).
+\]
+\end{enumerate}
+\end{df}
+Let's unravel this formula, noting $\sum_{(x,y)\in V\times V}=\sum_{A,B\in \cal P}\sum_{a\in A,b\in B}$ and using~\eqref{eq:e(A,B)}:
+\begin{align}
+\nonumber
+E_G(\cal P)&=\rc{|V|^2}\sum_{A,B\in \cal P}\sum_{a\in A,b\in B}
+d(A,B)^2\\
+&=\rc{|V|^2}\sum_{A,B\in \cal P}|A||B|
+d(A,B)^2
+\llabel{eq:energy-formula}
+\end{align}
+For convenience, we let $E_G(A,B):=E_G(\{A\},\{B\})=d(A,B)$.
+
+We have the following.
+\begin{lem}\llabel{lem:energy-bound}
+Let $\cal P$ be a partition of graph $G$. Then
+\[
+0\le E_G(\cal P)\le 1.
+\]
+\end{lem}
+\begin{proof}
+This is clear from Definition~\ref{df:energy-P} and the fact that $\E(1_G|\cal P\ot \cal P)(x)\in [0,1]$.
+\end{proof}
+
+\subsection{Refining a partition}
+What happens to the expectation when we refine a partition?
+\begin{lem}\llabel{lem:refine-1}
+Let $A$ be a finite set and let $f:A\to \R_{\ge0}$ be a function. Suppose $\{B,C\}$ is a partition of $A$, and suppose
+\[
+\E(f|_B)-\E(f)=\ep.
+\]
+Then
+\[
+E_f(\{B,C\})=E_f(\{A\})+\ep^2\fc{|B|}{|A|}\pa{1+\fc{|B|}{|C|}}\ge E_f(\{A\}).
+%\E\E(f|\{A_1,A_2\})^2
+\]
+\end{lem}
+Note the fact that $E_f(\{B,C\})\ge E_f(\{A\})$ actually follows from the Quadratic Mean--Arithmetic Mean inequality. Here we want more than inequality, though: we want to know that if $\E(f|_B)$ is far away from $\E(f)$ then the energy of $\{B,C\}$ is significantly more than the energy of $\{A\}$.
+
+Later we will apply this to a subset that violates $\ep$-regularity.
+\begin{proof}
+We calculate
+\begin{align*}
+E_f(\{B,C\})=\E(\E(f|\{B,C\})^2)
+&=E(f)^2+\Var(\E(f|\{B,C\}))\\
+&=E(f)^2+\fc{|B|}{|A|}[\E(f|_{B})-\E(f)]^2+\fc{|C|}{|A|}[\E(f|_{C})-\E(f)]^2\\
+&=E(f)^2+\fc{|B|}{|A|}\ep^2+\fc{|C|}{|A|}\pa{\fc{|B|}{|C|}\ep}^2\\
+&=E_f(\{A\})+\ep^2\fc{|B|}{|A|}\pa{1+\fc{|B|}{|C|}}.
+\end{align*}
+\end{proof}
+%\begin{cor}
+%Let $A$ be a finite set and $f:A\to \R_{\ge 0}$ be a function. Suppose $\cal P=\{A_1,\ldots,A_m\}$ and $\cal Q=\{B,C,A_2,\ldots, A_m\}$. Suppose
+%\[
+%\E(f|_B)-\E(f)=\ep.
+%\]
+%Then
+%\[
+%E_f(\cal Q)=E_f(\cal P)+\ep^2\fc{|B|}{|A|^2}\pa{1+\fc{|B|}{|C|}}\ge E_f(\cal P)
+%\]
+%\end{cor}
+%\begin{proof}
+%This follows directly from Lemma~\ref{lem:refine-1} and averaging, which adds a factor $\rc{|A|}$.
+%\end{proof}
+Now we apply this to our setting.
+\begin{lem}\llabel{lem:refine-2}
+Let $G$ be a graph %$\cal P$ be a partition, 
+and $A,B\in \cal P$ be a non-$\ep$-regular pair.
+Let $A',B'$ be such that 
+\[
+|d(A',B')-d(A,B)|>\ep.
+\]
+%Then there exist $A',B'$ such that 
+%Let $\cal Q=\cal P\vee \{A',A'^c\}\vee \{B',B'^c\}$. Then
+Then
+\[
+E_G(A,B)\ge E_{G}(\{A',A\bs A'\},\{B',B\bs B'\})+\ep^4.%\rc{|A\times B|}.
+\]
+\end{lem}
+\begin{proof}
+%Because $A,B$ are not $\ep$-regular, there exist $A',B'$ such that 
+%\[
+%|d(A',B')-d(A,B)|>\ep.
+%\]
+Apply Lemma~\ref{lem:refine-1} to $f=1_G|_{A\times B}$ with $A\times B$ in place of $A$ and $A'\times B'$ in place of $B$ to get
+\begin{align*}
+E_{1_G|_{A,B}}(\{A'\times B',A\times B\bs A'\times B'\})
+&\ge E_{1_G|_{A,B}}(\{A\times B\}) +\ep^2\fc{|A'\times B'|}{|A\times B|}\\
+&\ge E_{1_G|_{A,B}}(\{A\times B\}) +\ep^4.
+\end{align*}
+Now note $\{A',A\bs A'\}\otimes\{B',B\bs B'\}$ is a further refinement of $\{A'\times B',A\times B\bs A'\times B'\}$.
+\end{proof}
+\subsection{Energy Increment Argument}
+We now prove Szemer\'edi's Theorem.
+\begin{proof}[Proof of Theorem~\ref{lem:sz}]
+We will iterate the following construction.
+\begin{lem}[Energy increment argument]\llabel{lem:energy-increment}
+Let $G$ be a graph with $n$ vertices and let $0< \ep\le \rc4$.
+
+Suppose $\cal P=\cal V_0\cup \{V_1,\ldots,V_k\}$ is a non-$\ep$-regular equipartition of the vertices of $G$ with $|V_0|\le \ep n$. Then there exists $k\le\ell\le k4^k$ and an equipartition
+\[
+\cal Q=\cal W_0\cup \{W_1,\ldots, W_{\ell}\}
+\]
+such that $|\cal W_0|\le |\cal V_0|+\fc{n}{2^k}$ and 
+\[
+E_G(\cal Q)\ge E_G(\cal P)+{\ep^5}.
+\]
+\end{lem}
+\begin{proof}
+Because $\cal P$ is not $\ep$-regular, for at least $2\ep k^2$ pairs $(i,j)\in [1,n]^2$, $(V_i,V_j)$ is not $\ep$-regular. Call these {\it bad pairs}. Let $V_{ij}\sub V_i$ and $V_{ji}\sub V_j$ be such that
+\[
+|d(V_{ij},V_{ji})-d(V_i,V_j)|>\ep.
+\]
+
+\step1 We refine $\cal P$ using the sets that obstruct $\ep$-regularity. 
+Consider the partition
+\[
+\cal P'=\cal P\vee\bigvee \{V_{ij},V_{ij}^c\}.
+\]
+We first show that 
+\beq{eq:sz-1}
+E_G(\cal P')\ge E_G(\cal P)+\ep^5.
+\eeq
+Write 
+\begin{align*}
+%\cal P&=\cal V_0\cup \cal V_1\cup \cdots \cup\cal V_k\\
+\cal P'&=\cal V'_0\cup \cal V'_1\cup \cdots \cup\cal V'_k
+\end{align*}
+where $\cal V_i'$ are partitions of $V_i$. 
+Let $\cal V_i=\{V_i\}$ for $i\ge 0$; we have
+\[
+\cal V_i\le \{V_{ij},V_i\bs V_{ij}\}\le \cal V_i',
+\]
+we have
+\begin{align*}
+E_G(\cal P')&=\sum_{i,j} \fc{|V_i||V_j|}{n^2}E_G(\cal V_i',\cal V_j')\\
+&=\sum_{(i,j)\text{ bad}}\fc{|V_i||V_j|}{n^2}E_G(\cal V_i',\cal V_j')
++\sum_{(i,j)\text{ not bad}}\fc{|V_i||V_j|}{n^2}E_G(\cal V_i',\cal V_j')\\
+&\ge \sum_{(i,j)\text{ bad}}\fc{|V_i||V_j|}{n^2} E_G(\{V_{ij},V_i\bs V_{ij}\},\{V_{ji},V_j\bs V_{ji}\})
++\sum_{(i,j)\text{ not bad}}\fc{|V_i||V_j|}{n^2}E_G(\cal V_i, \cal V_j)\\
+&= \sum_{(i,j)\text{ bad}}\fc{|V_i||V_j|}{n^2}\ba{E_G(V_i,V_j)+\ep^4
+}+\sum_{(i,j)\text{ not bad}}E_G( \cal V_i,\cal V_j)&\text{by Lemma~\ref{lem:refine-2}}\\
+&\ge E_G(\cal P)+2\ep^5\fc{k^2|V_1|^2}{n^2}.&(\ge \ep k^2\text{ bad pairs})
+\end{align*}
+Finally note that $\fc{k^2|V_1|^2}{n^2}=\pf{|V_1\cup \cdots \cup V_k|}{n^2}^2\ge (1-\ep)^2>\rc2$ since $\ep\le\rc 4$.\\
+
+\step2 We modify $\cal P'$ so that all except one set has the same number of elements. To do this, we chop up all the sets in $\cal P$ into even smaller pieces of equal size, and then throw the leftovers into $W_0$.
+
+Note that $|\cal P'|\le k2^k$ because we defined at most $k$ sets $V_{ij}\sub V_{i}$, and these sets split up $V_i$ into at most $2^k$ different subsets.
+
+Now cut up each nonexceptional set in $\cal P'$ into parts of size $\ff{n}{k4^k}$, and let these be the sets of $\cal Q$: there are at most $k4^k$ of them. There are at least $k$ such sets, because the sets of $\cal P'$ contained in $\cal V_i$ number at most $2^k$; hence one of these sets contains at least $\fc{(1-\ep)n}{k2^k}>\fc{n}{k4^k}$ elements.  
+
+Place the leftover elements into $W_0$: there are at most $|V_0|+k2^k\ff{n}{k4^k}\le |V_0|+\fc{n}{2^k}$ of these.
+
+Because $\cal Q$ refines $\cal P'$, we have
+\[
+E_G(\cal Q)\ge E_G(\cal P').
+\]
+Together with~\eqref{eq:sz-1}, this proves the lemma.
+\end{proof}
+
+Suppose $G$ has $n$ vertices, and let $\cal P$ be any equipartition of $G$ with sets of size $\ff{n}{k}$, where $k\ge m$ is to be chosen.
+
+Now we iterate the energy increment argument, Lemma~\ref{lem:energy-increment}. Because $0\le E_G(\cal Q)\le 1$ for any partition $\cal Q$ (Lemma~\ref{lem:energy-bound}), we know that after at most $\rc{\ep^5}$ iterations we will have an $\ep$-regular partition.\footnote{We can do better:~\eqref{eq:energy-and-variance} tells us we can need at most $\fc{\E(1_G)-\E(1_G)^2}{\ep^5}=\fc{d(V,V)-d(V,V)^2}{\ep^5}\le \rc{4\ep^5}$ iterations.}
+
+%To make sure that the resulting partition $\cal Q$ meets the requirements of the theorem, we now set the following constants. 
+Let $s:=\ff{1}{\ep^5}$ (or as we noted, $\ff{1}{4\ep^5}$).
+It remains to choose $k$ (the number of sets to start with) and $C(m,\ep)\ge f^{s}(m)$ appropriately. Note that whatever we choose for $C(m,\ep)$, the theorem is trivial for $n\le C(m,\ep)$, because we can just divide $G$ into singleton sets. Hence, we will just have to make sure the energy increment argument works for $n>C(m,\ep)$.
+
+%\begin{itemize}
+%\item Choose $k$ such that 
+%\[
+%\fc{1}{k}+\fc{1}{\ep^5 2^k}< \ep.
+%\]
+Note that initially the exceptional set has size less than $k$.
+After all the iterations, the exceptional set has size less than $k+\fc{sn}{2^k}$. We have $k+\fc{sn}{2^k}\le \ep n$ if
+\[
+n\ge\fc{2k}{\ep}\text{ and }2^k\ge \fc{s}{2\ep }.
+\]
+%We now choose the $k$ (the number of sets to start with) and $C(m,\ep)$ as follows.
+\begin{itemize}
+\item
+First, choose $k$ such that
+\[
+k\ge\max\pa{ \log_2\pa{\fc{s}{2\ep }},m}.
+\]
+\item
+Let $f(x):=x4^x$. We would like
+\[C(m,\ep)\ge f^{(s)}(m)\]
+because this makes sure that the final partition has size at most $C(m,\ep)$. Since we want $n\ge\fc{2k}{\ep}$, we let
+\beq{eq:sz-constant}
+C(m,\ep):=\max\pa{f^{(s)}(m),\fc{2k}{\ep}}.
+\eeq
+\end{itemize}
+Iterating the lemma repeatedly then gives the theorem.
+\end{proof}
+
+\section{Triangle Removal Lemma}
+\llabel{sec:tri-rem}
+
+Using the Szemer\'edi Regularity Lemma, we can prove the Triangle Removal Lemma.
+\begin{lem}\llabel{lem:tri-removal}
+For all $\ep>0$, there exists $\de=\de(\ep)>0$ such that for every graph $G$ with $n$ vertices, at least one of the following is true:
+\begin{enumerate}
+\item
+$G$ can be made triangle-free by removing less than $\ep n^2$ edges.
+\item
+$G$ has at least $\ge \de n^3$ triangles.
+\end{enumerate}
+\end{lem}
+In other words, if $G$ has a small number of triangles compared to $n^3$, then it is possible to delete all of them by removing few edges compared to $n^2$; if $G$ cannot be made triangle-free by removing a small number of edges compared to $n^2$, then $G$ must have a lot of triangles compared to $n^3$.
+\begin{rem}
+Our proof of the Triangle Removal Lemma using Szemer\'edi Regularity gives a very weak bound for $\de$. A direct (but more difficult) proof of Triangle Removal shows we can take
+\[
+\de^{-1}\le 2\uparrow O\pa{\ln\rc{\ep}}
+\]
+where $a\uparrow b=\overbrace{2^{\cdots ^2}}^b$. Instead of measuring the energy using squares, $d(A,B)^2$, one measures energy using the {\it entropy} function $d(A,B)\ln d(A,B)$. 
+On the other hand, Behrend's construction shows that $\de^{-1}\succeq \prc{\ep}^{\ln \prc{\ep}}$.
+\end{rem}
+
+The main idea of the proof is as follows. First, we choose an $\ep'$-regular partition $\cal P$ for appropriate $\ep$, then remove all the edges that obstruct $\ep$-regularity (as well as edges between low-density pairs), so that the resulting graph is very ``random." Because we can choose $\ep$ small, we can make sure we remove very few edges. It there still exists a triangle with edges between 3 sets $A,B,C\in \cal P$---i.e., we failed to make $G$ triangle-free---then actually there must exist a lot of triangles, since edges between $A,B,C$ are distributed fairly randomly, and there is a positive proportion of edges between each pair among $A,B,C$.
+
+This proof shows the general pattern of proofs involving Szemer\'edi regularity: by removing (or ignoring) a few edges, we can make the distribution of edges in $G$ very random (uniform, regular) with respect to densities between components. The theorem is then easy to prove using under this regularity hypothesis.
+
+\begin{proof}[Proof of Theorem~\ref{lem:tri-removal}]
+By the Szemer\'edi Regularity Lemma~\ref{lem:sz}, given $\ep'>0$ and $m$, there exists $M:=C(\ep',m)$ such that for any graph $G$, there exists an $\ep'$-regular partition $\cal P$ of $G$ into $k$ components, for some $m\le k\le M$.
+
+Given $\ep>0$, take $\ep'=\fc{\ep}{4}$ and $m=\fc2{\ep}=\fc{1}{2\ep'}$.
+
+We now remove the following edges from $\cal P$:
+\begin{enumerate}
+\item Edges within one component: There are $k$ components and each component has at most $\binom{n/k}{2}$ edges, so there are at most $k\binom{n/k}2<\fc{n^2}{2k}\le \boxed{\fc{1}{2m}n^2}$ such edges.
+\item Edges between non-$\ep$-regular pairs: There are at most $\ep'k^2$ non-$\ep$-regular pairs and each has at most $\pf{n}{k}^2$ edges, so there are at most $\ep'k^2\pf nk^2\le \boxed{\ep'n^2}$ such edges.
+\item Edges involving the exceptional set $V_0$: $V_0$ has at most $\ep' n$ vertices, so there are at most $\boxed{\ep'n^2}$ such edges.
+\item Edges between pairs with edge density at most $d:=\fc{\ep}{2}$: There are at most $\binom k2$ pairs and at most $d \pf{n}{k}^2$ edges between each pair, so less than $\boxed{\fc{d}{2}n^2}$ such edges.
+\end{enumerate}
+In total we've removed less than
+\[
+\pa{\rc{2m}+2\ep'+\fc{d}{2}}n^2\le \pa{\frac{\ep}{4}+\fc{\ep}{2}+\fc{\ep}{4}}n^2=\ep n^2
+\]
+edges. (The choice of $\ep'$, $m$, and $d$ should be clear from this inequality.)
+
+If $G$ is triangle-free, we are done. Otherwise, at least one triangle still remains. Since we've removed all edges within pairs and edges to $V_0$, it must go between three different components $A$, $B$, and $C$. Because $A,B,C$ still have edges between them, all pairs among $A,B,C$ are regular with density at least $d$. We show that there are many triangles between $A$, $B$, and $C$. Note we will not use the existence of a triangle again.
+
+Let $p$ be the size of each component in $\cal P$. For a vertex $v$, let $N_B(v)$, $N_C(v)$ denote the neighbors in $B$ and $C$, respectively.
+Consider 
+\[
+A_B=\set{v\in A}{N_B(v)\ge (d-\ep')p}.
+\]
+Note that $d(A\bs A_B,B)<d-\ep'$ because every vertex in $A\bs A_B$ has less than $d-\ep'$ neighbors in $B$. Since $A,B$ is a regular pair, we must have $|A\bs A_B|< \ep'|A|$ and 
+\[
+|A_B|>(1-\ep')|A|=(1-\ep')p.
+\]
+Similarly defining $A_C$, the same inequality holds for $A_C$, and by inclusion-exclusion,
+\[
+|A_B\cap A_C|\ge (1-2\ep')p.
+\]
+For a vertex $v$, let $N_B(v)$, $N_C(v)$ denote the neighbors in $B$ and $C$, respectively. For every $v\in A_B\cap A_C$, we have that 
+\[|N_B(v)|,|N_C(v)|\ge (d-\ep')p\ge \ep' p,\]
+so by the regularity hypothesis,
+\[
+e(N_B(v),N_C(v))
+=d(N_B(v),N_C(v))\cdot |N_B(v)||N_C(v)|
+\ge (d(B,C)-\ep')\cdot [(d-\ep')p]^2> (d-\ep')^3p^2,
+\]
+and $v$ is part of at least $(d-\ep')p^2$ triangles.\footnote{Figure taken from~\cite{Li12}.}
+
+\ig{cnt-chapters/sz-1}{1}
+
+This is true for every $v\in A_B\cap A_C$, so we get that there are more than
+\[
+\ub{(1-2\ep')}{\fc{\ep}2}p\cdot{\ub{(d-\ep')}{\fc{\ep}4}}^3p^2
+=\fc{\ep^3}{128}p^3
+\]
+triangles.
+
+Finally, note that $p\ge \fc{(1-\ep')n}{M}$: $p$ is bounded below because the number of components $k$ is bounded above by $M$. Hence there are at least $\de n^3$ triangles where
+\[
+\de:=\fc{\ep^3}{128}\cdot \pf{1-\ep'}{M}^3.
+\]
+%at most $\ep'p$ vertices in $A$ have less than $(d-\ep')p$ neighbors in $B$, because otherwise 
+\end{proof}
+
+\section{Proof of Roth's Theorem}
+\llabel{sec:sz-roth}
+
+\begin{thm}[Varnavides's Theorem]
+\llabel{thm:varn}
+For every $\ep>0$ there exists $\de>0$ with the following property: for any $n\in \N$, if $A$ is a subset of $\{1,2,\ldots, n\}$ with density $\fc{|A|}{n}\ge \ep$, then $A$ has at least $\de n^2$ 3-term arithmetic progressions (including the trivial ones).
+\end{thm}
+\begin{cor}[Roth's Theorem]
+\llabel{thm:roth}
+For every $\ep>0$ there exists $L$ with the following property: for any $n>L$, if $A$ is a subset of $\{1,2,\ldots, n\}$ with density $\ep$, then $A$ contains a nontrivial 3-term arithmetic progression. 
+\end{cor}
+
+As a stepping stone to this theorem, we first prove the following.
+
+\begin{thm}[Varnavides's Theorem for groups]
+\llabel{thm:varn-group}
+For every $\ep>0$ there exists $\de>0$ with the following property: if $H$ is a finite group of odd order $n$ and $A\subeq H$ with density $\fc{|A|}{n}\ge \ep$, then $A$ has at least $\de n^2$ 3-term arithmetic progressions.
+\end{thm}
+
+We will translate this to a graph-theoretic problem. We would like each arithmetic progression $a,b,c\in H$ to correspond to a triangle. Because $a,b,c$ do not play symmetric roles, and because we want to count trivial arithmetic progressions, we actually consider a graph $G$ whose vertices are {\it three} copies of the vertices of $H$.
+
+The presence of trivial arithmetic progressions forces there to be a lot of disjoint triangles, which forces us to remove a lot of edges to make $G$ triangle-free. This in turn forces a lot of triangles (on the order of $n^3$), and hence arithmetic progressions (on the order of $n^2$). In particular, there is a {\it nontrivial} arithmetic progression, for $n$ large. (Note how the presence of trivial AP's forces the presence of nontrivial AP's!)
+
+\subsection{Varnavides's Theorem for Groups}
+\begin{proof}
+\step1 Construct the graph $G$ depending on $A$ and $H$: 
+Let $X,Y,Z$ be 3 copies of the elements of $H$, and let the vertices of $G$ be labeled by $X\sqcup Y\sqcup Z$.
+%Let the vertices of $G$ be labeled by 3 copies of the elements of $H$:
+%\[
+%V=\set{x_1}{x\in H}\cup \set{x_2}{x\in H}\cup \set{x_3}{x\in H}.
+%\]
+Now draw the following edges:
+\begin{itemize}
+\item
+Draw an edge between $x\in X$ and $y\in Y$ if $y-x\in A$.%=a$ for some $a\in A$.
+\item
+Draw an edge between $x\in X$ and $z\in Z$ if $\fc{z-x}2\in A$. %=2b$ for some $b\in B$.
+\item
+Draw an edge between $y\in Y$ and $z\in Z$ if $z-y\in A$. %for some $c\in C$. 
+\end{itemize}
+We claim that each arithmetic progression in $A$ corresponds to $n$ triangles. 
+%Indeed, each triangle $xyz$ corresponds to an arithmetic progression
+%\[
+%\pa{y-x,\fc{z-x}{2},z-y}=(a,b,c)
+%\]
+%with common difference $-\fc{x}{2}+\fc{z}{2}$, and each arithmetic progression
+Indeed, consider the map %group homomorphism
+\begin{align*}
+\ph: H\times H\times H&\mapsto H\times H\times H\\
+(x,y,z)&\mapsto (a,b,c)=\pa{y-x,\fc{z-x}{2},z-y}.
+\end{align*}
+We check:
+\begin{enumerate}
+\item
+$\ph(x,y,z)$ is an arithmetic progression: $\pa{y-x,\fc{z-x}{2},z-y}$  has common difference $-\fc{x}{2}+\fc{z}{2}$.
+\item
+Each arithmetic progression has $n$ preimages: We have
+\[
+\ph(x,x+a,x+a+c)=\pa{a,\fc{a+c}{2},c}
+\]
+for every $x\in H$. There are $n^2$ arithmetic progressions as there are $n$ choices for the first term and $n$ choices for the common difference; hence this accounts for all possibilities for $(x,y,z)$.
+\end{enumerate}
+By the way we defined the edges, each AP $(a,b,c)$ corresponds to exactly $n$ triangles $\ph^{-1}(a,b,c)$.
+%the set of triangles $(x,y,z)$ is exactly the preimage $\ph^{-1}(A\times A\times A)$.
+
+%has image consisting of the arithmetic progressions (as $\pa{y-x,\fc{z-x}{2},z-y}$  has common difference $-\fc{x}{2}+\fc{z}{2}$; $\ph$ is surjective as $\ph(0,a,a+c)=\pa{a,\fc{a+c}{2},c}). 
+%There are $n^2$ arithmetic progressions as there are $n$ choices for the first term and $n$ choices for the common difference. Hence $|\ker\ph|=n$, i.e., the fibers of $\ph$ have
+There are at least $\ep n$ trivial arithmetic progressions in $A$,
+\[
+\set{(a,a,a)}{a\in A}.
+\]
+These correspond to $\ep n^2$ edge disjoint triangles in $G$:
+\[
+(x\in X,x+a\in Y,x+2a\in Z).
+\]
+Because these triangles do not share an edge in common---knowing any two elements of $(x,x+a,x+2a)$ automatically determines the third one---{\it in order to make $G$ triangle free we have to remove $\ep n^2$ edges}.
+
+This is the reason we defined $G$ the way we did: in order to draw the above conclusion we need each arithmetic progression in $G$ to correspond to $n$ triangles, so we needed a map $\ph$ that took $n$ triangles into a single arithmetic progression in $A$. Moreover, a triangle is made up of edges, which are structures between {\it two} vertices, so we must be able to describe each component of $\ph(x,y,z)$ with just {\it two} of the variables $x,y,z$. (Note there are other choices for $\ph$ that work.)\\
+
+\step 2
+Choose $\de=\de\pf{\ep}{9}$ as in the Triangle Removal Lemma~\ref{lem:tri-removal}. Because we cannot make $G$ triangle-free by removing less than $\fc{\ep}{9} (3n)^2$ edges, $G$ has at least $\de (3n)^3$ triangles, and hence $A$ has at least $\de 27n^2$ AP's.
+\end{proof}
+\subsection{Varnavides's Theorem for Integers}
+\begin{proof}[Proof of Theorem~\ref{thm:varn}]
+Consider $A$ as a subset of $\Z/(2n-1)$. Note that the arithmetic progressions in $A$ are the same whether $A$ is considered as a subset of $\{1,\ldots, n\}\subeq \Z$ or $\Z/(2n-1)$, because a 3-term AP cannot ``wrap-around": if $(a,b,c)$ is an arithmetic progression with $1\le a,b\le n$, then $c\le 2n-1$.
+
+Now $A$ has density at least $\fc{\ep n}{2n-1}>\fc{\ep}{2}$ in $\Z/(2n-1)$, so the theorem follows from Theorem~\ref{thm:varn-group} with $\ep\mapsfrom \fc{\ep}{2}$.
+\end{proof}
+
+Note we could have adapted the proof of Theorem~\ref{thm:varn-group} to give the proof of Theorem~\ref{thm:varn} directly, without the intermediate theorem on groups. However, it is worth knowing that the theorem holds true for general groups.
+
+\begin{proof}[Proof of Roth's Theorem]
+Let $\de$ be as in Varnavides's Theorem~\ref{thm:varn}. Let $L=\fc{\de}{\ep}$. Then $A$ has at least $\de n^2$ arithmetic progressions, and hence at least
+\[
+\de n^2-\ep n>0
+\]
+nontrivial arithmetic progressions.
+\end{proof}
+\section{Problems}
+\begin{enumerate}
+\item[3.1] (Hypergraph removal)
+Just as we rephrased Roth's Theorem in the language of graphs, rephrase Szemer\'edi's Theorem in the language of hypergraphs.
+\item[3.2]
+Define a {\it corner}  to be an axis-aligned isosceles triangle of $\Z^2$, that is, a set of three elements
+\[
+\{(x,y),(x+h,y),(x,y+h)\}
+\]
+with $h\ne 0$.
+
+\begin{enumerate}
+\item
+Prove the following.
+\begin{thm}[Corner Theorem]
+For every $\ep>0$, there exists $L$ such that for $n>L$, any subset $A$ of $\{1,\ldots, n\}\times \{1,\ldots, n\}$ with at least $\ep n^2$ points has a corner.
+\end{thm}
+\item
+Deduce Roth's Theorem from Corner Theorem.
+\end{enumerate}
+\end{enumerate}
+%a good exercise is to relate the $\ep$-regularity to the cube norm.
+
+\pagebreak
+
+\subsection{Solutions}
+\begin{enumerate}
+\item[3.1] Suppose we're looking for $m$-term AP's. We'll do the case $m=4$. We can reduce to the problem for groups with order relatively prime to $(m-1)!=6$, just as we did for $m=3$. Given such a group $H$, consider a graph whose vertices are 4 copies of $H$, labeled $H_1,\ldots, H_4$. Now draw a face between...
+\begin{align*}
+x,y,z,\text{ if}&&3x+2y+z\quad\qquad &\in H\\
+x,y,w\text{ if}&&2x+y\quad \qquad -w&\in H\\
+x,w,z\text{ if}&&x\quad \qquad -z-2w&\in H\\
+y,w,z\text{ if}&&\quad \qquad -y-2z-3w&\in H.
+\end{align*}
+Here, $x\in H_1$, $y\in H_2$, $z\in H_3$, and $w\in H_4$.
+Each $m$-term AP corresponds to $n^{m-2}=n^2$ simplices. The claim is that there is a simplex corresponding to a nontrivial AP.
+\item[3.2] 
+\begin{enumerate}
+\item
+Let $G$ be the graph with vertices coming from 3 sets $L_h$, $L_v$, and $L_d$, defined as follows. Let
+\begin{itemize}
+\item
+$L_h$ consist of horizontal lines $y=i$ for $1\le i \le n$,
+\item
+$L_v$ consist of vertical lines $x=i$ for $1\le i\le n$, and 
+\item
+$L_d$ consist of diagonal lines $y=x+i$ for $-(n-1)\le i\le n-1$.
+\end{itemize}
+Now connect two vertices if the lines that they represent intersect at a point in $A$.
+Each triangle then corresponds to a corner (possibly trivial) in $A$.
+
+Note that every ``trivial" corner corresponds to exactly one triangle, whose vertices are 3 lines that intersect at a point. Knowing any 2 of these lines determines the third. Hence the trivial corners correspond to $\ep n^2$ edge-disjoint triangles. To make $G$ triangle-free, we must remove at least $\ep n^2$ edges.
+
+Now there are $2n+(2n-1)=4n-1$ vertices, and $n^2$ is quadratic in $4n-1$. Hence by the triangle removal lemma, there is $\de$ such that $G$ actually has $\de n^3$ triangles. This means there are $\de n^3-\ep n^2$ triangles corresponding to nontrivial corners.
+
+Let $L=\fc{\ep}{\de}$. Then for $n>L$, there is a nontrivial corner.
+\item
+Let $A$ be a subset of $\{1,\ldots, n\}$ of density $\ep$. Consider the subset $A'$ of $\{1,\ldots,2n\}\times \{1,\ldots,2n\}$ consisting of $(x,y)$ such that $y-x\in A+n$. Then $A'$ has a corner iff $A$ has a 3-AP. Moreover, each point of $A$ corresponds to more than $n$ points in $A'$, so $A'$ has at least $\fc{\ep}{4}n^2$ edges, and hence has a corner for $n$ large enough.
+\end{enumerate}
+\end{enumerate}

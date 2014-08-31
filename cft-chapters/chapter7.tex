@@ -1,0 +1,1592 @@
+\chapter{Applications}\llabel{ch:cft-app}
+%The last few chapters were pretty theory-intensive.
+In this chapter we give several important applications of class field theory to number theory, rewarding the reader for reading the difficult proofs in the last few chapters (or conversely, motivating the reader to read the proofs).
+
+Why is class field theory useful? It relates a field $K$ to its Galois group $G(K^{\text{ab}}/K)$, so transfers information about the extensions of a field into information {\it contained in the field itself}, or conversely, relates the behavior of elements in the field $K$, to their behavior in various extension fields. Moreover, because the global Artin map is constructed from the local Artin maps, questions in number theory involving global fields like $\Q$ can be understood by patching together information from its completions (local fields). In the chapter, we will use the full power of class field theory to give solutions to the following problems.
+
+Throughout, we will assume that $K$ is a number field.
+\begin{enumerate}
+\item \textbf{Reciprocity laws}: We show, roughly, that whether a prime $p$ is a perfect $n$th power modulo $q$, depends {only} on $q\bmod p$ (actually, some multiple of $p$). Reciprocity hence shows that the Legendre symbol $\pf{*}{\bullet}$, is like a group homomorphism in {\it both} the top and bottom. The Artin isomorphism will give us the homomorphism in the bottom.
+\item \textbf{Local-to-global principle}: We show the \textbf{Hasse-Minkowski theorem}: a quadratic form has a solution in $K$ iff it has a solution in every completion of $K$.
+\item \textbf{Density of primes}: We prove the \textbf{Chebotarev density theorem} on the distribution of prime ideals in a number field.
+\item \textbf{Splitting of primes}: We show how a prime $\mfp$ splits in an abelian extension $L/K$ depends only on $\mfp$ modulo a {\it ray class group}, since splitting behavior can be expressed in terms of the Artin map (Proposition~\ref{intro-cft}.\ref{frob-1-split-completely}). We show this characterization is unique to abelian extensions, and give some examples for splitting in nonabelian extensions.
+%outline what is known about splitting in nonabelian extensions.
+\item \textbf{Maximal unramified abelian extension}: We characterize the maximal unramified abelian extension $H_K$ of a number field $K$, and show that all ideals of $K$ become principal in $H_K$. $H_K$ can be computed for quadratic extensions using the modular function $j$, which we show in Chapter~\ref{ch:CM}.
+\item \textbf{Primes representated by quadratic forms}: We relate quadratic forms to primes using the Gauss correspondence (Theorem~\ref{quadratic-forms}.\ref{ideal-form-correspondence}), then use the Hilbert class field to characterize which primes are represented by a given quadratic form.
+\item \textbf{Artin and Hecke $L$-functions}: We use class field theory to show that for abelian extensions, all Artin L-functions are Hecke L-functions. This is useful because it is relatively easy to show Hecke L-functions satisfy nice properties such as analytic continuation and functional equation. 
+This was Emil Artin's original motivation for class field theory.
+\end{enumerate}
+Finally, we describle how class field theory fits as the ``1-dimensional case" of the Langlands program.
+\section{Reciprocity laws}\llabel{sec:rec-laws}
+\index{reciprocity laws}
+First we interpret and generalize the Legendre symbol using class field theory. We derive a generalize reciprocity law using class field theory, and then specialize to quadratic, cubic, and biquadratic reciprocity.
+
+Reciprocity laws take two forms. The first is as follows.
+\index{weak reciprocity}
+\begin{thm}[Weak reciprocity]
+\llabel{thm:weak-rec}
+Let $K$ be a number field containing all $n$th roots of unity. Let $p$ be a fixed prime. Then there exists a modulus $\mm$ and a finite subset $S\in I_K^{\mm}/P_{K,1}(\mm)$, such that for all $p$ relatively prime to $\mm$, 
+\[
+p\text{ is a perfect }n\text{th power }\bmod q\iff
+(q\bmod{P_{K,1}(\mm)}) \in S.
+\]
+In fact, $S$ is the kernel of a certain homomorphism $I_K(\mm)/P_{K,1}(\mm)\to \mu_n$.
+\end{thm}
+This tells us that whether $p$ is a perfect $n$th power modulo $q$, depends only on the modular properties of $q$, and is moreover characterized by a group homomorphism. However, it does not give an efficient method to actually determine whether $p$ is a perfect $n$th power modulo $q$. To get this we turn to strong reciprocity.
+
+We know that the Legendre symbol $\pf{\bullet}{p}$ (and its generalizations to $n$th powers, $\pf{\bullet}{p}_n$), is a homomorphism in the upper component as well, so it is natural to relate these two homomorphisms: what is their ratio $\pf{p}{q}_n\pf{q}{p}_n^{-1}$? This will give us a natural algorithm to compute the Legendre symbol $\pf ap_n$. We will prove strong reciprocity at the end of this section, after we discuss the Hilbert symbol.
+
+\subsection{Weak reciprocity and the Legendre symbol}
+The key observations linking reciprocity to the Artin map are that $a$ is a perfect $n$th power modulo $\mfp$ iff $a^{\fc{\fN \mfp-1}n}\equiv 1\pmod{\mfp}$ (just like $\pf{a}{p}=a^{\fc{p-1}2}$ in the quadratic case), and the homomorphism $a\mapsto a^{\fc{\fN p-1}n}$ can be linked to the Frobenius map.
+\index{Legendre symbol}
+\begin{df}
+Let $K$ be a number field containing an $n$th root of unity, and let $\mfp$ be a prime ideal with $an\perp \mathfrak N\mfp$. Define the \textbf{Legendre symbol} $\pf{a}{\mfp}_n$ to be the unique $n$th root of unity $\ze$ such that 
+\[
+\ze\equiv a^{\fc{\mathfrak N \mfp-1}{n}}\pmod{\mfp}.
+\]
+\end{df}
+To see this is well-defined, note the following two points.
+\begin{enumerate}
+\item
+The $n$th roots of unity are distinct modulo $\mfp$ because $n\perp \fN\mfp$. Hence $\fc{\fN \mfp-1}{n}$ is an integer.
+\item
+$(a^{\fc{\fN\mfp-1}n})^n=1\equiv 1\pmod{\mfp}$ by Fermat's little theorem so $a^{\fc{\fN\mfp-1}n}$ is equivalent to a unique $n$th root of unity.
+\end{enumerate}
+%Here we fix a $n$th root of unity. 
+%Note that since %$\mathfrak N\mfp=|\sO_K/\mfp\sO_K|$, we have 
+\begin{pr}
+Let $K$ be a number field containing an $n$th root of unity, let $\mfp$ be a prime ideal with $an\perp \mathfrak N\mfp$.
+Then $a$ is a perfect $n$th power modulo $\mfp$ iff $\pf{a}{\mfp}_n=1$.
+\end{pr}
+\begin{proof}
+Let the residue field of $\mfp$ be $k$. 
+As $k^{\times}$ has order $\mathfrak N \mfp-1$ and is generated by 1 element, $a$ is a perfect $n$th power modulo $\mfp$ iff $a^{\fc{\fN \mfp-1}n}=\pf{a}{\mfp}_n=1$.
+\end{proof}
+\begin{pr}
+$\pf a{\mfp}$ is a group homomorphism factoring through $\sO_K/\mfp$.
+\end{pr}
+\begin{proof}
+Clear.
+\end{proof}
+How can class field theory give us an expression like this? Well, the Frobenius element corresponding to $\mfp$ acts like taking the $\mathfrak N\mfp$ power modulo $p$. How do we get to $a^{\fc{\mathfrak N \mfp-1}{n}}$? By acting by the Frobenius on $\sqrt[n]{a}$ instead.
+\begin{pr}\llabel{pr:leg-cft}
+The following holds:
+\[
+\pf{a}{\mfp}_n=\fc{[\psi_{L/K}(\mfp)](\sqrt[n]{a})}{\sqrt[n]a},
+%(\mfp,L/K)\sqrt[n]{a}=\pf{a}{\mfp}_n\sqrt[n]{a}.
+\]
+where $L=K(\sqrt[n] a)$.
+\end{pr}
+\begin{proof}
+First note $\mfp \nmid an$ implies that $K(\sqrt[n]a)/K$ is unramified at $\mfp$, by Theorem~\ref{lg-fields}.\ref{nroot-unram}.
+
+By definition $\psi_{L/K}(\mfp)$ is the homomorphism that sends $b$ to $b^{\mathfrak N\mfp}$ modulo $\mfp$. Thus
+\[
+[\psi_{L/K}(\mfp)](\sqrt[n]{a})
+%=(\mfp,L/K)\sqrt[n]{a}
+\equiv \sqrt[n]{a}^{\mathfrak N\mfp}\equiv a^{\fc{\mathfrak N\mfp-1}{n}}\sqrt[n]{a}\pmod{\mfp}.
+\]
+But $\sqrt[n]{a}$ satisfies $X^n-a=0$, so $(\mfp,L/K)$ must send $\sqrt[n]{a}$ to $\ze\sqrt[n]{a}$ where $\ze$ is some root of unity. The above equation shows that we must have $\ze=\pf{a}{\mfp}_n$, as needed.
+\end{proof}
+We define $\pf{a}{\mb}_n$ for any $\mb\in I_K^{(na)}$ by extending multiplicatively the map $\pf{a}{\bullet}$, originally defined for primes $\mfp$. Equivalently (by Proposition~\ref{pr:leg-cft}), define $\pf{a}{\mb}=\fc{[\psi_{L/K}(\mb)](\sqrt[n]{a})}{\sqrt[n]a}$.\footnote{We can extend the definition to all prime elements $p$ by definining $\pf{a}{p}_n=\fc{\phi_{L/K}(i_v(p))(\sqrt[n]a)}{\sqrt[n]a}$, then extend the definition of $\pf{a}{b}_n$ to encompass any $b\in K^{\times}$ by multiplicativity. For instance, in the case $n=2$, this gives the Jacobi symbol. For $b=2$, $\pf ab$ tells us whether $a$ is a perfect square modulo {\it any power of }2.}
+%???
+
+We can now prove weak reciprocity.
+\begin{proof}[Proof of Theorem~\ref{thm:weak-rec}]
+By Proposition~\ref{pr:leg-cft}, 
+\begin{equation}\llabel{eq:leg-symb-cft}
+\pf{a}{\mfp}_n=\fc{[\psi_{K(\sqrt[n]a)/K}(\mfp)](\sqrt[n]{a})}{\sqrt[n]a}.
+\end{equation}
+Taking $a=p$ and $\mfp=(q)$, we get
+\[
+\pf{p}{q}_n=\fc{[\psi_{K(\sqrt[n]p)/K}(q)](\sqrt[n]{p})}{\sqrt[n]p}.
+\]
+Let $\mm$ be the conductor of $K(\sqrt[n]p)/K$. 
+Since $\psi_{K(\sqrt[n]p)/K}$ is an homomorphism on $I_K^{\mm}/i(P_{K,1}(\mm))$ (Theorem~\ref{intro-cft}.\ref{global-reciprocity}), its kernel contains $i(P_{K,1}(\mm))$. In other words, when $q\in i(P_{K,1}(\mm))$, then $\pf{p}{q}=\fc{[\psi_{K(\sqrt[n]q)/K}(q)](\sqrt[n]{p})}{\sqrt[n]p}=\fc{\id(\sqrt[n]{p})}{\sqrt[n]p}=1$ and $p$ is a perfect $n$th power modulo $q$.
+\end{proof}
+\subsection{Strong reciprocity and the Hilbert symbol}
+%In order for their to be reciprocity
+To prove strong reciprocity we need to actually compute~(\ref{eq:leg-symb-cft}). Supposing $\mfp$ is a principal ideal $(b)$, our statement about reciprocity seems to suggest that $b$ and $a$ play similar roles in the equation:\footnote{Caution: we're using the Artin map on ideals; we write $\psi_{L/K}(b)$ to mean $\psi_{L/K}((b))$. In contrast, $\phi_{L/K}(b)=1$ since $b\in K$.}
+\begin{equation}\llabel{eq:leg-symb-cft2}
+\pf{a}{b}_n=\fc{[\psi_{L/K}(b)](\sqrt[n]{a})}{\sqrt[n]a}.
+\end{equation}
+However,~(\ref{eq:leg-symb-cft2}) is not symmetric. We seek to symmetrize it.
+
+But look at Proposition~\ref{galois-cohomology-ch}.\ref{pr:kummer-char}. Equation~(\ref{eq:leg-symb-cft}) is the character corresponding to the element $a\in K^{\times}$. Using the map in Kummer Theory, we can get the equation symmetric in $a$ and $b$. In fact, we did this already when we defined the Hilbert symbol.
+
+If motivation was lacking when we defined the Hilbert symbol, hopefully this clears things up: it explains and clarify the duality in $a$ and $b$ observed above by making it symmetric in $a$ and $b$.
+% $a$ and $b$ both $K^{\times}
+\begin{pr}\llabel{pr:hilbert-is-rec}
+Let $b\nmid n$ be prime in $K$ and $K_b$ the completion at $b$. 
+Let $(,)_b:K_b^{\times}/K_b^{\times n}\times K_b^{\times}/K_b^{\times n}\to \mu_n$ denote the Hilbert symbol. Then for $a\perp b$,
+\[
+(a,b)_{b,n}=\pf{a}{b}_n.
+\]
+In general, if $K_{\pi}(\sqrt[n] a)/K_{\pi}(a)$ is unramified,  %tame ram?
+\[
+(a,b)_{\pi,n}=\pf{(-1)^{v(a)v(b)}a^{v(b)}b^{-v(a)}}{\pi}_n.
+\]
+where $(a,b)_{v,n}$ denotes $(a,b)_n$ when $a,b$ are considered in $K_v$.
+\end{pr}
+\begin{proof}
+%\fixme{What is the right local field here?}
+%\fixme{FIX FIX FIX.} 
+%Just combine~(\ref{eq:leg-symb-cft}) and Proposition~\ref{lcft}.\ref{pr:hilbert-explicit}.
+Proposition~\ref{pr:leg-cft} and Proposition~\ref{lcft}.\ref{pr:hilbert-explicit} give
+\[
+\pf{a}{b}_n=\fc{[\psi_{L/K}(b)](\sqrt[n]{a})}{\sqrt[n]a}=\fc{[\psi_{L_b/K_b}(b)](\sqrt[n]{a})}{\sqrt[n]a}=(a,b)_{b,n}.
+\]
+
+For the second part write $a=\pi^ju$ and $b=\pi^ku'$ where $u,u'$ are units, and use bilinearity~\ref{lcft}.\ref{thm:hilbert-bilinear} to compute
+\begin{align*}
+(\pi^ju,\pi^ku')&=(\pi, \pi^ku')^j(u,\pi)^k&(u,u')=1\text{ since }K(\sqrt[n]a)\text{ unramified,~\ref{lcft}.\ref{cor:hilbert-local}}\\
+&=(\pi,-\pi)^{jk}(\pi, (-1)^ku')^j\pf{u}{\pi}_n^k&\text{by the first part}\\
+&=((-1)^ku',\pi)^{-j}\pf{u}{\pi}_n^k&(\pi,-\pi)=1,\text{ Theorem~\ref{lcft}.\ref{thm:hilbert-bilinear}(2)}\\
+&=\pf{(-1)^ku'}{\pi}_n^{-j}\pf{u}{\pi}_n^k\\
+&=\pf{(-1)^{jk}u^ku'^{-j}}{\pi}_n\\
+&=\pf{(-1)^{v(a)v(b)}a^{v(b)}b^{-v(a)}}{\pi}_n.
+\end{align*}
+\end{proof}
+The last main ingredient is the product formula for Hilbert symbols.
+\index{product formula for Hilbert symbols}
+\begin{thm}[Product formula for Hilbert symbols]\llabel{thm:hilbert-prod}
+Let $K$ be a number field containing the $n$th roots of unity. Then
+\[
+\prod_{v\in V_K} (a,b)_v=1.
+\]
+\end{thm}
+\begin{proof}
+Using the fact that the global Artin map can be written as the product of local Artin maps,
+\[
+\prod_{v\in V_K}\phi_{K_v(\sqrt[n]{a})/K_v}(b)=\phi_K(b)=1,
+\]
+because $\phi_K$ is the identity on $K$. 
+Now operate on this by the character $\chi(\si)=\fc{\si(\sqrt[n]a)}{\sqrt[n]a}\in K$ and use Proposition~\ref{lcft}.\ref{pr:hilbert-explicit} %and~(\ref{eq:leg-symb-cft2})
+ to get
+\[
+\prod_{v\in V_K} (a,b)_{v}=\prod_{v\in V_K}\chi(\phi_{K(\sqrt[n]{a})/K}(b))=1.
+\]
+%be a bit more precise
+\end{proof}
+Combining Proposition~\ref{pr:hilbert-is-rec} and~\ref{thm:hilbert-prod} gives the strong reciprocity law.
+\index{strong reciprocity}
+\begin{thm}[Strong reciprocity]\llabel{thm:strong-rec}
+Let $K$ be a number field containing a primitive $n$th root of unity and suppose $a,b, n$ are pairwise relatively prime. Then
+\[
+\pf{a}{b}_n\pf{b}{a}_n^{-1}=
+%\prod_{v} (b,a)_n =
+\prod_{v\mid n\iy} (b,a)_{v,n}.
+\]
+Suppose $b,n$ are relatively prime and $a$ is a prime dividing $n$. Then
+\[
+\pf{a}{b}_n=\prod_{v\mid n\iy}(a,b)_{v,n}.
+\]
+\end{thm}
+\begin{proof}
+%%%%%%%%%%%%
+Suppose $a,b,n$ are pairwise relatively prime. For a number $c$ let $S(c)$ denote the finite places $v$ where $v(c)\ne 0$. We calculate $\pf ab_n$ and $\pf ba_n$ using multiplicativity. We have
+\bal
+\pf ab_n\pf ba_n^{-1}&=\pf{a}{\prod_{\pi\in S(b)}\pi^{v_{\pi}(b)}}\pf{b}{\prod_{\pi\in S(a)}\pi^{v_{\pi}(a)}}^{-1}&(b)=\pa{\prod_{\pi\in S(b)}\pi^{v_{\pi}(b)}},\, (a)=\pa{\prod_{\pi\in S(a)}\pi^{v_{\pi}(a)}}\\
+&=\prod_{v_{\pi}\in S(b)}\pf{a}{\pi}_n^{v_{\pi}(b)}\prod_{v_{\pi}\in S(a)}\pf{b}{\pi}_n^{-v_{\pi}(a)}
+\\
+&=\prod_{v_{\pi}\in S(b)}\pf{a}{\pi}_n^{v_{\pi}(b)}\prod_{v_{\pi}\in S(a)}\pf{b^{-v_{\pi}(a)}}{\pi}_n
+\\
+&=\prod_{v\in S(b)}(a,b)_v\prod_{v\in S(a)} (a,b)_v&\text{by  Proposition }\ref{pr:hilbert-is-rec}\\
+&=\prod_{v\nmid n\iy} (a,b)_v&
+(a,b)_{\C}=1,\,(a,b)_v=1 \text{ when }a,b\in U_v,\text{ %Corollary
+ \ref{lcft}.\ref{cor:hilbert-local}}
+\\
+&=\prod_{v\mid n\iy}(b,a)_v
+\end{align*}
+where in the last step we used the product formula~\ref{thm:hilbert-prod}, which tells us $\prod_{v\in V_K}(a,b)_v=1$.\\ %FIX S(c) notation elsewhere
+
+Now suppose $a$ is a prime dividing $n$. Then again using multiplicativity, Proposition~\ref{pr:hilbert-is-rec}, and the fact that $(a,b)_v=1$ for $v\mid n\iy$, $n\nmid a$ (Corollary~\ref{lcft}.\ref{cor:hilbert-local}),
+\[
+\pf ab_n=\prod_{v_{\pi}\in S(b)}\pf{a}{\pi}^{v_{\pi}(b)}=\prod_{v\in S(b)} (a,b)_v=\prod_{v\mid n\iy} (a,b)_v.
+\]
+\end{proof}
+
+In practice, we can compute the action of the Hilbert symbol for each $v\mid n\iy$, since $K_v^{\times}/K_v^{\times n}$ is a finite set. We will carry out these computations in the cases $n=2,4$, for $K=\Q$ and $\Q(i)$.
+\index{quadratic reciprocity}
+\subsection{Quadratic and biquadratic reciprocity}
+We derive quadratic and biquadratic reciprocity using Theorem~\ref{thm:strong-rec}.
+\begin{thm}[Quadratic reciprocity]
+Let $p,q$ be odd primes. Then
+\[
+\pf{-1}{p}=(-1)^{\fc{p-1}2},\qquad \pf{2}{p}=(-1)^{\fc{p^2-1}8},\qquad \pf pq \pf qp=(-1)^{\fc{p-1}2\cdot \fc{q-1}2}.
+\]
+\end{thm}
+\begin{proof}
+The first follows from definition of the Legendre symbol. 
+By strong reciprocity~\ref{thm:strong-rec}, 
+\begin{align*}
+\pf 2p&=(2,p)_2\\
+\pf pq\pf qp&=(p,q)_2.
+\end{align*}
+Let $U^{(i)}$ denote $1+(2)^i$ in $\Q_2$.
+\begin{enumerate}
+\item We have $(2,p)_2=1$ iff $p$ is a norm from $\Q_2(\sqrt 2)$ (Theorem~\ref{lcft}.\ref{thm:hilbert-bilinear}), iff $p$ is in the form $x^2-2y^2$ in $\Q_2$. Looking at this modulo 8, we must have $p\in \{1,5\}2^{\Z}$. This is sufficient as we know $[\Q_2^{\times}:\nm_{\Q_2(\sqrt2)/\Q_2}(\Q_2(\sqrt2)^{\times})]=[\Q_2(\sqrt2):\Q_2]=2$, so we must have $\nm_{\Q_2(\sqrt2)/\Q_2}(\Q_2(\sqrt2)^{\times})=\{1,5\}2^{\Z}$. Hence $(2,p)_2=1$ iff $p\equiv 1,5\pmod 8$, iff $\fc{p^2-1}8$ is even. This gives
+\[
+\pf{2}{p}=(-1)^{\fc{p^2-1}8}.
+\]
+\item We have $(p,q)_2=1$ iff $q\in N:=\nm_{\Q_2(\sqrt p)/\Q_2}(\Q_2(\sqrt p)^{\times})$, iff $q$ is in the form $x^2-py^2$. 
+\begin{enumerate}
+\item
+If $p\equiv 1\pmod 4$, then $x^2-py^2$ can attain any odd residue modulo 8. Since $[Q:N]=[\Q_2(\sqrt p):\Q_2]\le 2$, we have $U^{(3)}2^{2\Z}= \Q_2^{\times 2} \subeq N$. Since $N$ contains all residues modulo 8, $U2^{2\Z}\subeq N$. Hence $q\in N$, and $(p,q)_2=1$.
+\item
+If $p\equiv 3\pmod 4$, then $x^2-py^2$ cannot be $3\pmod 4$. Hence $N=U^{(2)}2^{\Z}$, and $q\in N$ iff $q\equiv 1\pmod 4$. Hence $(p,q)_2=1$ iff $q\equiv 1\pmod 4$.
+\end{enumerate}
+It remains to note $(-1)^{\fc{p-1}2\cdot \fc{q-1}2}=1$ iff either $p\equiv 1\pmod 4$ or $q\equiv 1\pmod 4$.
+\qedhere
+\end{enumerate}
+\end{proof}
+\index{biquadratic reciprocity}
+\begin{thm}[Biquadratic reciprocity]
+Suppose $p,q$ are primes in $\Z[i]$ with $p,q\equiv 1\pmod{(1+i)^3}$. Then
+\[
+\pf pq_4=(-1)^{\fc{\fN p-1}{4}\cdot \fc{\fN q-1}4}\pf qp_4.
+\]
+\end{thm}
+Note every prime contains an associate that is equivalent to $1\pmod{4}$.
+\begin{proof}
+Note $p\equiv 1\pmod{(1+i)^3}$ means $p\equiv1$ or $1+2i\pmod{(1+i)^3}$. 
+
+By strong reciprocity~\ref{thm:strong-rec}, 
+\[\pf pq_4\pf qp_4^{-1}=(q,p)_{2,4}=(p,q)_{2,4}^{-1}.\]
+We have $(p,q)_{2,4}=1$ iff $q\in \nm_{\Q_2(\sqrt p)/\Q_2}(\Q_2(\sqrt p)^{\times})$. %This is true if $b=x^4-ay^4$ for some $x,y\in \Z[i]$. NONONO
+%The possibilities for $x^4\pmod{4}$ where $x\in \Z[i]$ are $0$ and $1$. 
+Consider 2 cases.
+\begin{enumerate}
+\item $\fN p\equiv 1\pmod 8$. Equivalently (writing out $p=a+bi$ and calculating the norm), $p\equiv 1\pmod 8$. %Norms are in the form $x^4-by^4$. Using $x^4\equiv 0,1\pmod{4}$, we get that the norm group is contained in $\{1,3\}4^{\Z}$. Since
+We can calculate %\fixme{(how? I have no idea how to do this)} 
+that $(1+i)^{3\Z}U^{(3)}\subeq N:=\nm_{\Q_2(\sqrt p,i)/\Q_2(i)}(\Q_2(\sqrt p,i)^{\times})$, so $q\in N$. (The calculations are lengthy, but here's the idea: by examining the structure of $\Q_2(i)$, or using Proposition~\ref{gcft}.\ref{pr:local-power-index}, we find that $\Q_2(i)^{\times 4}=U^{(7)}(1+i)^{4\Z}$. %index 2^6*4
+ Hence the norm group $N$ satisfies
+\[
+U^{(7)}(1+i)^{4\Z}\subeq N\subeq \Q_2(i)^{\times}
+\]
+and has index at most 4. 
+Now calculate the norm of enough numbers in $\Q_2(\sqrt p,i)$ until we can determine $(1+i)^{3\Z}U^{(3)}\subeq N$. Using a computer algebra system is advised.)
+\item $\fN p\equiv 5\pmod 8$. Equivalently, $p\equiv 5\pmod 8$. We can calculate that $(1+i)^{4\Z}U^{(3)} \subeq \nm_{\Q_2(\sqrt p)/\Q_2}(\Q_2(\sqrt p)^{\times})$ but $(1+2i)(1+i)^{4\Z}U^{(3)} \nsubeq \nm_{\Q_2(\sqrt p)/\Q_2}(\Q_2(\sqrt p)^{\times})$. Hence $(p,q)_4=1$ iff $q\equiv 1\pmod 4$, i.e. iff $\fN q\equiv 1\pmod 8$.
+\end{enumerate}
+In the case where $\fN p,\fN q\equiv 5\pmod 8$, we have $(p,q)_4^2=(p,q^2)_4=1$ but $(p,q)_4\neq 1$ so $(p,q)_4=-1$.
+\end{proof}
+\subsection{Reciprocity for odd primes}
+We give an algorithm for finding reciprocity laws for $\Q(\ze_p)/\Q$ for $p$ prime, and then specialize to $p=3$.
+\begin{thm}\llabel{thm:explicit-rec}
+Let $p$ be an odd prime, let $K=\Q(\ze_p)$, and let $v$ be the valuation corresponding to $1-\ze_p$. Let $\pi=1-\ze_p$. Then the elements
+\begin{align*}
+\pi&\\
+\eta_1&=1-\pi=\ze_p\\
+\eta_2&=1-\pi^2\\
+\vdots & \quad \vdots\\
+\eta_p&=1-\pi^p
+\end{align*}
+generate $K_v^{\times}/K_v^{\times p}$, and $(a,b)_v$ is the unique skew-symmetric pairing $K_v^{\times}\times K_v^{\times}\to \mu_p$ satisfying the following.
+\begin{enumerate}
+\item $(\eta_i,\eta_j)_v=(\eta_i,\eta_{i+j})_v(\eta_{i+j},\eta_j)_v (\eta_{i+j},\pi)_v^{-j}$.
+\item $(\eta_i,\pi)_v=\begin{cases}
+1,&1\le i\le p-1\\
+\ze,&i=p.
+\end{cases}$
+\end{enumerate}
+Moreover, if $i+j\ge p+1$, then $(a,b)_v=1$ for all $a\in U^{(i)}$ and $b\in U^{(j)}$.
+\end{thm}
+We start with the following lemma.
+\begin{lem}
+Let $K$ be a number field containing $p$th roots of unity. Let $\ze$ be a primitive $p$th root of unity, $\pi=1-\ze$, and $\mfp$ a prime dividing $\pi$. 
+Suppose $a=1+\pi^pc$ with $\pi=1-\ze$ and $c\in \sO_v$. Then for all $b$,
+\[
+(a,b)_{\mfp}=\ze^{-\tr_{k/\F_p}(\ol c)v_{\mfp}(b)}.
+\]
+\end{lem}
+We will just need the case where $K=\Q(\ze_p)$, in which case $k=\F_p$.
+\begin{proof}
+%Call an element $a\in K$ $\mfp$-primary for $m$ if $K(\sqrt[m]{a})/K$ is unramified at $\mfp$. If $\mfp\nmid m$, blah. 
+Because $a\nin \mfp$, $K(\sqrt[p]{a})/K$ is unramified by Lemma~\ref{valuations-and-completions}.\ref{nroot-unram}. 
+%Suppose $v\mid m$ and $m=p$ is a prime number. Let $\ze$ be a primitive $p$th root of unity and $\pi=1-\ze$, $\mfp=(\pi)$. Then 
+We have (cf. Proposition~\ref{cyclotomic}.\ref{cyclotomic-p}) 
+\begin{align*}
+\fc{\ze^p-1}{\ze-1}&=0\\
+\implies \fc{(1-\pi)^p-1}{(1-\pi)-1}&=0\\
+\implies \pi^{p-1}-p\pi^{p-2}+\cdots +p&=0\\
+\implies \pi^{p-1}\equiv -p\pmod{p\pi}
+\end{align*}
+and we get 
+\beq{eq:explicit-rec1}
+\fc{\pi^{p-1}}p\equiv -1\pmod{\mfp}.
+\eeq
+
+%Since $v_{\mfp}(a)=0$, $L:=K(\sqrt[m]{a})$ is unramified by Theorem~\ref{valuations-and-completions}.\ref{nroot-unram}, so $a$ is $\mfp$-primary. 
+Let $\al=\sqrt[p]{a}$ be a $p$th root of $a$, and write $\al=1+\pi x$, where $x\in L$. Now $\al^m-a=0$ becomes $(1+\pi x)^p-(1+\pi^pc)=0$. Hence $x$ is a zero of the polynomial $f(X)=\rc{\pi^p}\pa{(1+\pi x)^p-(1+\pi^pc)}$. 
+Using~(\ref{eq:explicit-rec1}), we find that $f(X)$ is integral, so $x\in \sO_L$, and that modulo $\pi$,
+\[
+f(X)=\rc{\pi^p}\pa{ \pi^px^p+p\pi x-\pi^pc}\equiv x^p-x-c\pmod{\pi}\]
+%If $c\equiv 0\pmod{\pi}$, then by Hensel's Lemma, 
+% $K_{\mfp}(\sqrt[m]{\al})=K_{\mfp}$. 
+Let $\fN\mfp=p^f$. Letting $\si$ be the Frobenius, we find that 
+$\si(x)\equiv x^{p^f}\pmod{\mfp}$. Note that
+\[
+x^{p^j}\equiv (x+c)^{p^{j-1}}\equiv x^{p^{j-1}}+c^{p^{j-1}}\pmod{\mfp}.
+\]
+Hence by induction
+\beq{eq:explicit-rec1}
+\si(x)=x^{p^f}=x+\ol c+\ol c^p+\cdots +\ol c^{p^{j-1}}=x+\tr_{k/\F_p}(\ol c)
+\eeq
+in $k$. Now by Proposition~\ref{lcft}.\ref{pr:hilbert-explicit},
+\[
+(a,b)_{\mfp}=\fc{[\phi_{K_{\pi}(\al)/K_{\pi}}(b)](\al)}{\al}=\fc{\si^{v(b)}(\al)}{\al}
+\]
+To get the second equality, note that by construction, $\phi_{K_{\pi}(\al)/K_{\pi}}(\pi)$ is the Frobenius element; as $K_{\pi}(\al)/K_{\pi}$ is unramified, $U_{K_{\pi}}\subeq \ker \phi_{K_{\pi}(\al)/K_{\pi}}$ (Example~\ref{lcft}.\ref{ex:unramified-rec}), and the Artin map depends only on $v(b)$. We have
+\[
+(a,b)_v=\ze^n\text{ where }\ze^n\al=\si^{v(b)}(\al);
+\]
+to find $n$ we reduce both sides modulo $\mfp\pi$. We calculate
+\begin{align}
+\ze\al&\equiv (1-\pi)(1+\pi x)\equiv 1+(x-1)\pi\pmod{\mfp\pi}\\
+\implies \ze^n\al & \equiv 1+(x-n)\pi\pmod{\mfp\pi}
+\llabel{eq:explicit-rec2}\\
+\si^{v(b)}(x)&\equiv x+v(b)\tr_{k/\F_p}(\ol c)\pmod{\pi}&\text{by~(\ref{eq:explicit-rec1})}\\
+\implies \si^{v(b)}(\al)&\equiv 1+(x+v(b)\tr_{k/\F_p}(\ol c))\pi\pmod{\mfp\pi}.\llabel{eq:explicit-rec3}
+\end{align}
+Matching~(\ref{eq:explicit-rec2}) and~(\ref{eq:explicit-rec3}) gives $n=-v(b)\tr_{k/\F_p}(\ol c)$ and
+\[
+(a,b)_v=\ze^{-v(b)\tr_{k/\F_p}(\ol c)}\pmod{\pi}.
+\]
+%valuations-and-completions
+\end{proof}
+In particular, note that $(a,b)_{v}=1$ if $a\equiv 1\pmod{\pi^{p+1}}$. By nondegeneracy of the pairing (Theorem~\ref{lcft}.\ref{thm:hilbert-bilinear}), we get that $a\in(K_v^{\times})^p$. Hence $U^{(p+1)}\subeq (K_v^{\times})^p$.
+\begin{proof}[Proof of Theorem~\ref{thm:explicit-rec}] 
+Note that $\eta_i$ generates $U^{(i)}/U^{(i+1)}$, and $\pi$ generates $K_{\pi}^{\times}/(K_{\pi}^{\times})^pU^{(1)}$. As mentioned above, $U^{(p+1)}\subeq (K_{\pi}^{\times})^p$ so $\pi,\eta_1,\ldots, \eta_p$  generate $K_{\pi}^{\times}/(K_{\pi}^{\times})^p$. Since the group has order $\fc{p^2}{|p|_{v_{\pi}}}=p^{p+1}$ (Proposition~\ref{gcft}.\ref{pr:local-power-index}), these generators are independent.
+
+We use a relation between the $\eta_i,\eta_j$ to derive the first relation. Namely, we have $\fc{\eta_j}{\eta_{i+j}}+\pi^j\fc{\eta_i}{\eta_{i+j}}=1$, so
+\[
+\pa{\fc{\eta_j}{\eta_{i+j}},\pi^j\fc{\eta_i}{\eta_{i+j}}}_p=1
+\]
+by Theorem~\ref{thm:hilbert-bilinear}. Note $(a,-1)=1$ for any $a$ because $-1$ is a $p$th power. Expanding the above bilinearity gives
+\bal
+1&=
+(\eta_j,\pi^j\eta_i)(\eta_{i+j},\pi^j\eta_i)^{-1}\underbrace{(\eta_{i+j},-\eta_{i+j})}_1 \underbrace{(\eta_{i+j},-1)}_1 (\eta_j,\eta_{i+j})^{-1}\\
+&=(\eta_j,\eta_i)\underbrace{(\eta_j,\pi^j)}_{=1,\,\eta_j+\pi^j=1}(\eta_{i+j},\pi)^{-j} (\eta_{i+j},\eta_i)^{-1}(\eta_j,\eta_{i+j})^{-1}\\
+&=(\eta_i,\eta_j)^{-1}(\eta_{i+j},\pi)^{-j} (\eta_{i+j},\eta_i)^{-1}(\eta_{i+j},\eta_{j})\\
+\implies
+(\eta_i,\eta_j)&=(\eta_{i},\eta_{i+j})(\eta_{i+j},\eta_j)(\eta_{i+j},\pi)^{-j}.
+\end{align*}
+This shows item 1.
+For item 2, note for $1\le i\le p-1$ that since $\eta_i+\pi^i=1$,
+\[
+1=(\eta_i,\pi^i)=(\eta_i,\pi)^i\implies 1=(\eta_i,\pi).
+\]
+For $i=p$, we use the lemma to find
+\[
+(\eta_p,\pi)_v=\ze^{-\tr_{k/\F_p}(-1)}=\ze
+\]
+because $k=\F_p$.
+
+Note that if $i+j\ge p+1$, then $\eta_{i+j}\in U^{(p+1)}\subeq (K_v^{\times})^p$ so item 1 gives that $(\eta_i,\eta_j)=1$. Now as a skew-symmetric bilinear pairing $(\eta_i,\eta_j)$ is determined by items 1 and 2, because we can expand $(\eta_i,\eta_j)$ using item 1, then repeatedly expand factors (the indices increase each time) until we only have factors in the form $(\bullet, \pi)$, and use item 2 to get a value out.
+\end{proof}
+We now use this to derive cubic reciprocity.
+\index{cubic reciprocity}
+\begin{thm}[Cubic reciprocity]\llabel{thm:cubic-rec}
+Let $K=\Q(\om)$, where $\om=\ze_3=\fc{-1+\sqrt{-3}}{2}$. For $a\equiv \pm 1\pmod{3\sO_K}$, write
+%, so that $\sO_K=\Z[\om]$
+\[
+a=\pm(1+3(m+n\om)).
+\]
+Then
+\bal
+\pf{b}{a}_3&=\pf{a}{b}_3&\text{if } b\perp a,\,b\equiv \pm 1\pmod{3\sO_K}\\
+\pf{\om}{a}_3&=\om^{-m-n}\\
+\pf{1-\om}{a}_3&=\om^m.
+\end{align*}
+\end{thm}
+Note that if $q\nequiv 1\pmod 3$ is prime, then $3\nmid |\F_q^{\times}|$ so any element of $\F_q^{\times}$ is a cubic residue. %The above gives the complete law for $\pf{*}{\bullet}_3$, because 
+Note any element of $K$ relatively prime to 3 can be written in the from $\om^i(1-\om)^ja$ where $a\equiv \pm1 \pmod{3\sO_K}$.
+\begin{proof}
+First suppose $a,b\equiv 1\pmod 3$. By Strong Reciprocity~\ref{thm:strong-rec},
+\[
+\pf ab_3 \pf ba_3^{-1}=(b,a)_3.
+\]
+Note $a,b\in U^{(2)}$ so by Theorem~\ref{thm:explicit-rec}, $(b,a)_3=1$. This shows the first equation.
+
+For the second, letting $\pi=1-\om$, note that
+\[
+(1-\pi^2)^{\al}(1-\pi^3)^{\be}=(1+3\om)^{\al}(1+3(2\om+1))^{\be}\in [1+3(\be+(2\be+\al)\om)]U^{(4)}
+\]
+Setting $\al=n-2m$ and $\be=m$, we get
+\begin{align*}
+a&\in (1-\pi^2)^{n-2m}(1-\pi^3)^{m}U^{(4)}\\
+(1-\pi^2)^{2m-n}(1-\pi^3)^{-m}&\in aU^{(4)}
+\end{align*}
+Now Theorem~\ref{thm:explicit-rec} tells us
+\bal
+(\om,1-\pi^2)=(\eta_1,\eta_2)&=(\eta_3,\pi)^{-2}=\om\\
+(\om,1-\pi^3)=(\eta_1,\eta_3)&=1\\
+(\pi, 1-\pi^2)=(\eta_2,\pi)^{-1}&=1\\
+(\pi,1-\pi^3)=(\eta_3,\pi)^{-1}&=\om^{-1}.
+\end{align*}
+Thus
+\bal
+\pf{\om}a&=(\om,(1-\pi^2)^{2m-n}(1-\pi^3)^{-m})=\om^{-m-n}\\
+\pf{\pi}a&=(\pi,(1-\pi^2)^{2m-n}(1-\pi^3)^{-m})=\om^m.
+\end{align*}
+\end{proof}
+As an application, we show the following.
+\begin{thm}\llabel{thm:2cubic}
+If $q\equiv 1\pmod 3$ is a prime, then $2$ is a cubic residue modulo $q$ iff $q$ is in the form
+\[
+q=x^2+27y^2,\quad \text{for some }x,y\in \Z.
+\]
+\end{thm}
+\begin{proof}
+Since $q\equiv 1\pmod 3$, $q$ splits in $\sO_K$ as $\al\ol{\al}$. By multiplying by a root of unity, we may assume $\al\equiv 1\pmod{3\sO_K}$, i.e. $\al$ is in the form $\al=3(x+y\om)\pm1$. In order for 2 to be a cubic residue, it must be a cubic residue modulo $\al$. If $a^3\equiv 2\pmod{\al}$, then $\ol{a}^3\equiv 2\pmod{\ol{\al}}$, so it would also be a cubic residue modulo $\ol{\al}$ and hence modulo $q$.
+
+Now $\pf 2{\al}=1$ iff $\pf{\al}2=1$, by Cubic Reciprocity~\ref{thm:cubic-rec}. Since 2 remains inert in $\sO_K$, and the only cube in $\F_4^{\times}$ is $1$, we get that $\al$ must actually be in the form
+\[
+\al=6(x+y\om)\pm1.
+\] 
+Taking the norm gives
+\[
+p=(6x+3y\pm1)^2+27y^2.
+\]
+This is in the form $x'^2+27y'^2$; conversely, any prime in the form $x'^2+27y'^2$ must have $x'\equiv\pm1 \pmod3$, and hence is in the above form.
+\end{proof}
+
+\section{Hasse-Minkowski Theorem}
+The global Artin map can be expressed as the product of local Artin maps. From class field theory, we get various ``local-to-global" results such as the Hasse-Brauer-Noether Theorem~\ref{gcft}.\ref{thm:b-h-n} and the Hasse Norm Theorem~\ref{thm:hasse-norm}. The most famous is the local-to-global principle for quadratic forms, the Hasse-Minkowski Theorem.
+\begin{df}
+A quadratic form is said to \textbf{represent} $a$ if there is a solution to $q(X_1,\ldots, X_n)=a$ with $(x_1,\ldots, x_n)\ne (0,\ldots, 0)$. %First we show that we can reduce item 1 to a statement about quadratic forms representing 0. 
+A quadratic form representing 0 is said to be \textbf{isotropic}.
+\end{df} 
+(For a review of quadratic forms, see Chapter~\ref{quadratic-forms}.) 
+
+Where class field theory comes in is that a quadratic form in 2 variables representing a number $a$ can be interpreted as a norm equation, $a=x^2+by^2$. We can write this as $a=(x+y\sqrt b)(x-y\sqrt b)=\nm_{K(\sqrt b)/K}(x+y\sqrt b)$ when $\sqrt b\nin K$. Class field theory gives us a local-to-global theorem for norms, the Hasse Norm Theorem. This will prove the $n=2$ case of Hasse-Minkowski. Then a series of elaborate reductions will prove the local-to-global principal for any number of variables.
+\subsection{Hasse norm theorem}
+\index{Hasse norm theorem}
+\begin{thm}[Hasse norm theorem]\llabel{thm:hasse-norm}
+Suppose $L/K$ is cyclic. Then $a$ is a global norm iff it is a local norm everywhere: $a\in \nm_{L/K} L^{\times}$ iff $a\in \nm_{L^v/K_v}L^{v\times}$ for all $v\in V_K$.
+\end{thm}
+Compare this to the proof of Theorem~\ref{gcft}.\ref{thm:b-h-n}.
+\begin{proof}
+The forward direction is clear.
+
+Let $G=G(L/K)$. Take the long exact sequence in Tate cohomology of
+\[
+0\to L^{\times}\to \I_L\to \mathbf C_L\to 0
+\]
+to get the top row of the following.
+\begin{equation}\llabel{eq:hasse-norm}
+\xymatrix{
+H^{-1}_T(G,\mathbf C_L)\ar@{=}[d]
+\ar[r] & H_T^0(G,L^{\times}) \ar[r]\ar@{=}[d] & 
+H_T^0(G,\I_L)\ar[r]\ar@{=}[d] & \cdots\\
+0 \ar[r] & K^{\times} /\nm_{L/K}L^{\times} \ar@{^(->}[r]&\bigopl_{v\in V_K} K_v^{\times}/\nm_{K_v}(L^{v\times})&
+}
+\end{equation}
+We explain the bottom row. First note the equalities of $H_T^0$ are by definition of $H_T^0$, plus Proposition~\ref{gcft}.\ref{pr:hi-as-prod}.
+%the fact that
+%\[
+%\I_K/\nm_{L/K}\I_L =\bigopl_{v\in V_K} K_v^{\times}/\nm_{K_v}(L^{v\times}),
+%\]
+%which comes from the fact that the norm map on ideles is defined componentwise. (details?) 
+Next note cohomology is 2-periodic because $G$ is cyclic (Proposition~\ref{group-hom-cohom}.\ref{iso+2}), and $H_T^1(G,\mathbf C_L)=0$ by Theorem~\ref{gcft}.\ref{thm:2ineq} (HT90 for ideles), so
+\[
+H_T^{-1}(G,\mathbf C_L)=H_T^1(G,\mathbf C_L)=0.
+\]
+Then~\eqref{eq:hasse-norm} gives that the map $K^{\times} /\nm_{L/K}L^{\times} \hra \bigopl_{v\in V_K} K_v^{\times}/\nm_{K_v}(L^{v\times})$ is injective. If $a\in K^{\times}$ is a norm in every completion, then it is 0 in $\bigopl_{v\in V_K} K_v^{\times}/\nm_{K_v}(L^{v\times})$, hence 0 in $K^{\times} /\nm_{L/K}L^{\times}$, hence a global norm.
+\end{proof}
+%A related result, which we will not need but whose proof is similar, is the following.
+%\begin{thm}[Brauer-Hasse-Noether Theorem]\llabel{thm:b-h-n}
+%A central simple algebra over a number field $K$ is split over $K$ iff it is split locally everywhere.
+%\end{thm}
+%\begin{proof}
+%This time we work in dimension 2. Taking cohomology of $0\to L^{\times} \to \I_L\to \mathbf C_L\to 0$ gives
+%\begin{equation}\llabel{eq:b-h-n}
+%\xymatrix{
+%H^{1}_T(G,\mathbf C_L)\ar@{=}[d]
+%\ar[r] & H_T^2(G,L^{\times}) \ar[r]\ar@{=}[d] & 
+%H_T^2(G,\I_L)\ar[r]\ar@{=}[d] & \cdots\\
+%0 \ar[r] & \Br_K \ar@{^(->}[r]&\bigopl_{v\in V_K} \Br_{K_v}&
+%}
+%\end{equation}
+%Here $H^{1}_T(G,\mathbf C_L)=0$ directly from HT90 for ideles, so we do not need $L/K$ to be cyclic. Injectivity of the bottom map gives the result.
+%
+%(We do need to check that in the above diagram, the map $\Br_K\to \bigopl_{v\in V_K} \Br_{K_v}$ is exactly the map sending an algebra to its reduction over every local field. This is a matter of tracing the long windy road between $\Br$ and $H^2$ and left to the reader.)
+%\end{proof}
+\subsection{Quadratic forms}
+We prove the following.
+\index{Hasse-Minkowski}
+\begin{thm}[Hasse-Minkowski]\llabel{hasse-minkowski}
+Let $K$ be a number field. The following hold.
+\begin{enumerate}
+\item A quadratic form $f$ defined over $K$ represents $a$ iff $f$ represents $a$ in every completion $K_v$.
+\item Two quadratic forms over $K$ are equivalent iff they are equivalent over every completion $K_v$.
+\end{enumerate}
+\end{thm}
+First we note that item 1 implies item 2.
+\begin{proof}[Proof that 1 implies 2]
+The forward direction is clear. For the reverse direction, induct on the rank $n$, $n=0$ being the base case. Suppose $f,g$ are equivalent over every completion $K_v$. Suppose $f$ represents $a$. Then $f$ represents $a$ over every $K_v$. Since $g\sim f$ over every $K_v$, $g$ represents $a$ over every $K_v$. By item 1, $g$ represents $a$.
+
+Thus we can write $f\sim aX^2+f'$, $g\sim aX^2+g'$. Now $aX^2+f'\sim aX^2+g'$ over every $K_v$ implies (see Serre~\cite[IV.1.7, Prop. 4]{Se73}) $f'\sim g'$ over every $K_v$. By the induction hypothesis, $f'\sim g'$ over $K$. Thus $f\sim g$.
+\end{proof}
+Next we show that we can reduce item 1 to a statement about quadratic forms representing 0. 
+\begin{lem}
+Suppose $\chr(K)\ne 2$. 
+An nondegenerate isotropic quadratic form over $K$ represents all of $K$.
+\end{lem}
+\begin{proof}
+Let $B$ be the bilinear form associated to $q$. 
+Suppose $\mathbf x\ne 0$ is such that $q(\mathbf x)=0$. Since $q$ is nondegenerate, there exists $\mathbf y$ such that $B(\mathbf x,\mathbf y)\ne 0$. Then $q(\mathbf x+a\mathbf y)=a^2 q(\mathbf y)+2aB(\mathbf x,\mathbf y)$ attains every value as $a$ ranges over $K$.
+\end{proof}
+\begin{lem}
+A quadratic form $q(X_1,\ldots, X_{n-1})$ represents $a$ iff $q(X_1,\ldots, X_{n-1})-aX_n^2$ represents 0.
+\end{lem}
+\begin{proof}
+For the forward direction, suppose $q(x_1,\ldots, x_{n-1})=a$. Then $q(x_1,\ldots, x_{n-1})-a\cdot 1^2=0$. 
+
+For the reverse direction, let $(x_1,\ldots, x_n)$ be a solution. If $x_n=0$ then $q(x_1,\ldots, x_n)=0$ so $q$ represents 0. Thus $q$ is isotropic and represents $a$. If $x_{n}\ne 0$ then $q\pa{\fc{x_1}{x_n},\ldots, \fc{x_{n-1}}{x_n}}=a$.
+\end{proof}
+Thus it suffices to prove item 1 of Hasse-Minkowski for $a=0$. Specifically, item 1 for forms with $n$ variables is a consequence of item 1 for $a=0$ for forms with $n+1$ variables.
+We now prove Hasse-Minkowski. Every quadratic form over a field not of characteristic 2 can be put in diagonal form, so it suffices to consider diagonal forms. By scaling, we may assume one of the coefficients is 1.
+\subsubsection{Proof for $n\le 2$}
+For $n=1$ the theorem is trivial. For $n=2$, we need the following.
+\begin{lem}
+An element $a\in K$ is a square iff it is a square in every completion $K_v$.
+\end{lem}
+\begin{proof} (cf. the proof of Proposition~\ref{gcft}.\ref{pr:frob-surj}) 
+The forward direction is clear. 
+
+So suppose $a$ is a square in every completion. 
+%We give two approaches. If $a$ is a square in every completion, 
+Then $K_v(\sqrt{a})=K$ so $\nm_{K_v(\sqrt{a})/K_v}K_v(\sqrt{a})^{\times} =K_v^{\times}$. 
+%First note that $K_v^{\times 2}\subeq \nm_{K_v(\sqrt{a})/K_v}(K_v(\sqrt{a})^{\times})$. 
+This shows $\nm_{K(\sqrt{a})/K}(\I_{K(\sqrt{a})})=\I_K$. By the first inequality~\ref{gcft}.\ref{first-inequality},
+\[
+[K(\sqrt{a}):K]\le [\I_K:\nm_{K(\sqrt{a})/K}(\I_{K(\sqrt{a})})]=1
+\]
+so $K(\sqrt{a})=K$, i.e. $a$ is a square in $K$.
+\end{proof}
+Now a quadratic form
+\[
+q(X,Y)=X^2-aY^2
+\]
+represents 0 iff $a$ is a square (it rearranges to $\pf XY^2=a$), so $q$ represents 0 over $K$ if it represents 0 over every $K_v$.
+\subsubsection{Proof for $n=3$}
+As promised, we re-express the condition for $p(x)$ to represent 0 as a condition on norms.
+\begin{lem}\llabel{lem:3var-norm}
+Let $K$ be any field. A quadratic form 
+\[
+q(X,Y,Z)=X^2-bY^2-cZ^2
+\]
+represents 0 iff $c\in \nm_{K(\sqrt b)/K}(K(\sqrt b)^{\times})$.
+\end{lem}
+\begin{proof}
+Note if $q(x,y,z)=0$ with $z=0$, then $b$ must be a perfect square. If $b$ is a perfect square then $K(\sqrt b)/K$ is trivial and $c$ is trivially a norm.
+
+So it suffices to consider solutions with $z\ne 0$ and $b$ not a perfect square.
+In this case,
+\[
+x^2-by^2-cz^2=0\]
+iff
+\[ c=\pf xz ^2 -b\pf yz^2=\pa{\fc xz-\sqrt b\cdot \fc yz}\pa{\fc xz+\sqrt b\cdot\fc yz}=\nm_{K(\sqrt b)/K}\pa{\fc xz-\sqrt b\fc yz}.
+\]
+\end{proof}
+By the Hasse Norm Theorem~\ref{thm:hasse-norm}, $c\in \nm_{K(\sqrt b)/K}(K(\sqrt b)^{\times})$ if this is true for every completion $K_v$. Combined with the lemma above, this gives Hasse-Minkowski for $n=3$.
+
+We will need the following in the proof for $n\ge 5$.
+\begin{lem}\llabel{3-qf-almost}
+The form $f=X^2-bY^2-cZ^2$ represents 0 in a local field $K_v$ iff $(b,c)_v=1$. Moreover, $f$ represents 0 in $K_v$ for all but a finite number of places $v$.
+\end{lem}
+\begin{proof}
+Note $f$ represents 0 iff $c\in \nm_{\ks b}(\ks b^{\times})$, which is equivalent to $(b,c)_v=1$ by Theorem~\ref{lcft}.\ref{thm:hilbert-bilinear}. Only finitely many of these are not equal to 1 by Corollary~\ref{lcft}.\ref{cor:hilbert-local}.
+\end{proof}
+\subsubsection{Proof for $n=4$}
+We reduce the $n=4$ case to the $n=3$ case (but for a different field extension) by the following string of equivalences. The brilliant idea here is to turn the quadratic form equation into a quotient of norms.
+\begin{thm}\llabel{hm4}
+For any field $K$, the following are equivalent, for $a,b,c\in K^{\times}$.
+\begin{enumerate}
+\item
+The form $f(X,Y,Z,T)=X^2-bY^2-cZ^2+acT^2$ represents 0 in $K$.
+\item
+$c$ is a product of norms from $K(\sqrt a)$ and $K(\sqrt b)$: \[c\in \nksq{a}\nksq{b}.\]
+\item
+$c\in \nm_{K(\sqrt a,\sqrt b)/K(\sqrt{ab})}(K(\sqrt a,\sqrt b)^{\times})$.
+\item
+The form $g(X,Y,Z)=X^2-bY^2-cZ^2$ represents 0 in $K(\sqrt{ab})$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+(1)$\iff$(2): If $(x,y,z,t)$ is a solution with $z^2-at^2=0$, then $x^2-by^2=0$ as well. Then $a,b$ are squares in $K$ and (2) is clear. 
+So it suffices to consider solutions with $z^2-at^2\ne 0$. In that case,
+\[
+x^2-by^2-cz^2+act^2=0
+\iff
+c=\fc{x^2-by^2}{z^2-at^2}=(x-\sqrt b y)(x+\sqrt b y)(z-\sqrt a t)^{-1}(z+\sqrt at)^{-1},
+\]
+and this has a solution iff (2) holds.\\
+
+(4)$\iff$(3): Applying Lemma~\ref{lem:3var-norm}, we see (4) is equivalent to $c$ being a norm from $K(\sqrt{b},\sqrt{ab})/K(\sqrt{ab})$. But $K(\sqrt{b},\sqrt{ab})=K(\sqrt{a},\sqrt{b})$.\\
+
+(2)$\iff$(3): This is the hard part. We consider the field extensions
+\[
+\xymatrix{
+&L:=K(\sqrt a,\sqrt b)\ar@{-}[ld]\ar@{-}[d]\ar@{-}[rd]&\\
+L^{\si}=K(\sqrt a)\ar@{-}[rd] & L^{\si\tau}=K(\sqrt{ab}) \ar@{-}[d] & L^{\tau}=\ks b\ar@{-}[ld]\\
+& K &
+}
+\]
+If any of $a,b,ab$ is in $K^{\times2}$ then the result is clear: If $a\in K^{\times 2}$ then both (2) and (3) are true for any $c$, since $K(\sqrt{a})=K$ and $K(\sqrt{a},\sqrt b)=\ks{ab}$. If $ab\in K^{\times 2}$ then $\ks a=\ks b$ so both (2) and (3) are equivalent to $c\in \nm_{K(\sqrt a)/K}(\ks{a}^{\times})$. 
+
+Now assume $a,b,ab\nin K^{\times2}$. In this case $G(\ks{ab}/K)\cong \Z/2\times \Z/2$ with the 3 subextensions corresponding to 3 subgroups. Let $\si$ be the non-identity element fixing $K(\sqrt a)$, $\tau$ fix $K(\sqrt b)$ and $\rh=\si\tau$ fix $\ks{ab}$. (I.e. $\si$ switches $\pm \sqrt b$ and $\tau$ switches $\pm\sqrt a$.) We convert the statements in (2) and (3) into the language of Galois theory, using the fixed field theorem.
+
+Note (2) is equivalent to the following:
+\[
+(2)':\quad \text{There exist }x,y\in L,\quad \si(x)=x,\tau(y)=y, x\rh(x)y\rh(y)=c.
+\]
+To go between these statements take
+\[
+x'=z-\sqrt a t,\,y=x-\sqrt by
+\]
+and note $\rh$ conjugates both $\sqrt a$ and $\sqrt b$. Similarly, (3) is equivalent to the following.
+\[
+(3)': \quad \text{There exists }z\in L,\quad z\rh(z)=c;
+\]
+just take $z'=(x-\sqrt by)(z-\sqrt az)$. To go from $(2)'$ to $(3)'$ just take $z=xy$. To go back from $(3)'$ to $(2)'$ requires more work. Given $z$, let $u=\fc{z\cdot \si(z)}{c}$. Now $\si(u)=u$ and $u\rh(u)=\fc{z\rh(z)\si(z)\si(\rh(z))}{c^2}=1$. Since $\si(u)=u$. i.e. $u\in K(\sqrt a)$, and $G(\ks a/K)=\{1,\tau|_{\ks a}\}$, by Hilbert's Theorem 90 (\ref{galois-cohomology-ch}.\ref{h90}) there exists $x\in \ks a$ (i.e. $x$ satisfying $\si(x)=x$) such that $\fc{\tau(x)}x=u$. Set $y=\fc{\rh(z)}x$. We've chosen $x$ satisfying the conditions. For $y$, note
+\begin{align*}
+\tau(y)&=\fc{\si(z)}{\tau(x)}&\tau\rh=\si\\
+&=\fc{\si(z)}{xu} &\fc{\tau(x)}{x}=u\\
+&=\fc{c}{xz}&u=\fc{z\si(z)}{c}\\
+&=\fc{\rh(z)}{x}=y&z\rh(z)=c.
+\end{align*}
+Finally, $xy\rh(xy)=\rh(z)\rh(\rh(z))=c$. This shows $(2)'\implies (3)'$ and finishes the proof.
+%\[
+%\tau(y)=\fc{\si(z)}{\tau(x)}=
+%\]
+\end{proof}
+Now we show Hasse-Minkowski holds for $n=4$. By $(1)\iff (4)$ in Theorem~\ref{hm4}, Hasse-Minkowski for $f=X^2-bY^2-cZ^2+acT^2$ over $K$ is equivalent to Hasse-Minkowski for $g=X^2-bY^2-cZ^2$ over $K(\sqrt{ab})$,  and we have already proved Hasse-Minkowski for $n=3$.
+\subsubsection{Proof for $n\ge 5$}
+%When there are $n\ge 5$ variables, most forms will represent 0.
+We now prove Hasse-Minkowski for $n\ge 5$. We proceed by induction. The idea is to ``replace" $aX_1^2+bX_2^2$ by just $cX^2$.
+
+Suppose it proved for $n-1$, and write
+\[
+f(X_1,\ldots, X_n)=aX_1^2+bX_2^2-g(X_3,\ldots, X_n).
+\]
+%By Lemma~\ref{lots-rep-0}, 
+Suppose $f$ represents 0 in each $K_v$. Then there exists $c_v$ such that
+\[
+aX_1^2+bX_2^2=c_v=g(X_3,\ldots, X_n)
+\]
+has a nontrivial solution in $K_v$. By Lemma~\ref{3-qf-almost}, there exists a finite set $S$ such that $g$ represents all elements of $K_v$ when $v\nin S$. We only need to focus on $v\in S$.
+
+Note $K_v^{\times2}$ is open in $K_v^{\times}$ by Theorem~\ref{lg-fields}.\ref{power-open}. %; hence $U=\{ax_1^2+bx_2^2\}$ is open. 
+By the Weak Approximation Theorem~\ref{valuations-and-completions}.\ref{thm:weak-approx}, there exists $c$ such that $c\in c_vK_v^{\times 2}$ for all $v\in S$. Since $c_v$ is in the form $ax_1^2+bx_2^2$, so is $c$. Then $c=g(X_3,\ldots, X_n)$ has a solution for all $v$.
+
+%because $\fc{c}{c_v}\in K^{\times 2}$. 
+%Moreover, $c\in U$ means $c=ax_1^2+bx_2^2$ for some $x_1,x_2$. 
+Thus
+\[
+h(X,X_3,\ldots, X_n):=cX^2-g(X_3,\ldots, X_n)
+\]
+represents 0 in all $K_v$. By the induction hypothesis, it represents 0 in $K$ as well. Then $f$ represents 0: if $c=ax_1^2+bx_2^2$ then replace the solution $(x,x_3,\ldots, x_n)$ with $(xx_1,xx_2,x_3,\ldots, x_n)$. This finishes the proof.
+
+We now use Hasse-Minkowski show that most quadratic forms in $n\ge 5$ variables represent 0.
+\begin{lem}\llabel{lots-rep-0}
+A form $f=X^2-bX^2-cZ^2+acT^2$ represents every nonzero element over a local field $K$ unless $K=\R$ and $f$ is positive definite.
+
+A form $f$ in $n\ge 5$ variables over $K$ represents 0 unless $K$ is real and $f$ is definite.
+\end{lem}
+\begin{proof}
+First we show that if $f$ does not represent 0 in $K$, then $a,b\nin K^{\times 2}$, $ab\in K^{\times 2}$, and $c\nin \nm_{\ks a}\ks a^{\times}=\nm_{\ks b}\ks b^{\times}$.
+If $a$ or $b$ is in $K^{\times2}$ then $f$ clearly represents 0, so  $a,b\nin K^{\times 2}$. By $\sim(1)\implies \sim (2)$ of Theorem~\ref{hm4}, $c\nin \nksq{a}\nksq{b}$. If $K(\sqrt a)\ne K(\sqrt b)$, then the norm groups are distinct groups of index 2 in $K^{\times}$, by the correspondence between norm groups and extensions. Then their product must be all of $K^{\times}$, a contradiction. Hence, $K(\sqrt a)=K(\sqrt b)$ and $ab\in K^{\times 2}$. %(by Kummer theory, for instance). 
+Then $\sim(2)$ becomes simply $c\nin \nksq a$.
+
+Conversely, suppose $a,b\nin K^{\times 2}$, $ab\in K^{\times 2}$, and $c\nin \nm_{\ks a}\ks a^{\times}=\nm_{\ks b}\ks b^{\times}$. Let $N:=\nksq a$; as noted it has index 2 in $K^{\times}$. Then
+\[
+\set{x^2-by^2-cz^2+act^2}{x,y,z,t\in K\text{ not all zero}}
+=
+\{x^2-by^2\}-c\{z^2-at^2\}=N-cN\]
+where $A\pm B$ denotes $\set{a\pm b}{a\in A,b\in B}$. Since $c\nin N$, $0\nin N-cN$. Since $N-cN$ is invariant under multiplication by elements of $N$, it is a union of cosets of $N$. Suppose that $N-cN\ne K^{\times}$. Then $N-cN$ is either $N$ or $cN$, and 
+\[
+\{N-cN,cN-c^2N\}=\{N,cN\}
+\]
+so
+\[
+N-cN+cN-c^2N=N+cN.
+\]
+If $-1\in N$, then $N+cN=N-cN$ is $cN$ or $N$, which is a contradiction because 0 is in the LHS above. Hence $-1\nin N$. Then
+\[
+(N-cN)-(cN-c^2N)\in \{N-cN,cN-N\}=\{N,cN\}
+\]
+%But $N$ is in the LHS so $(N-cN)-(cN-c^2N)=N$. 
+Now $c,-1\nin N$ imply $-c\in N$, so %$-cN-cN=N+N\subeq N$.
+$(N-cN)-(cN-c^2N)=N+N+N+N\in \{N,cN\}$. We have $1^2+1^2+1^2+1^2=2^2\in N$ and $3^2+4^2=5^2$, so $N+N+N+N=N$ and $N+N=N$ (as it is a union of cosets). 
+This implies that there exists a choice of sign in $K$: $K^{\times}$ is the disjoint union of the closed semigroups $N$ of ``positive" elements and $-N$ of ``negative" elements. If $K$ is $p$-adic then this cannot happen as we must have $N\supeq \ol{\Z}=K$ where $\ol{\bullet}$ denotes closure in the $v$-adic topology. The only possibility is $K=\R$. Because $N$ consists just of positive numbers, $f$ is positive definite. This proves the first part.
+
+For the second part, write $f(X_1,\ldots, X_n)=g(X_1,\ldots, X_{n-1})-a_nX_n^2$. By the first part, $g(X_1,\ldots, X_{n-1})$ represents every element of $K^{\times}$ unless $K\cong \R$ and $g$ is positive definite. (Just consider $g(X_1,\ldots, X_4,0,\ldots, 0)$.) In the first case, $g$ represents $a_n$ so $f$ represents 0. In the second case, $g$ represents all positive reals, and $f$ fails to represents all reals iff $a_n$ is negative, i.e. $f$ is positive definite.
+\end{proof}
+\begin{cor}
+A form $f$ in $n\ge 5$ variables represents 0 in $K$ unless there is a real place $v$ with $f$ positive definite in $K_v$.
+\end{cor}
+\begin{proof}
+This follows directly from Lemma~\ref{lots-rep-0} and the Hasse-Minkowski Theorem~\ref{hasse-minkowski}.
+\end{proof}
+\index{Chebotarev density theorem}
+\section{Chebotarev density theorem}
+\index{density}
+\begin{df}
+The \textbf{density} of a set of primes $S$ in $K$ is $d$ if 
+\[
+d=\lim_{N\to \iy} \frac{|\{\mfp \in S\mid \fN\mfp\le N\}|}{\{\mfp\mid \fN\mfp\le N\}}.
+\]
+The \textbf{Dirichlet density} of a set of primes $S$ in $K$ is $\de$ if 
+\[
+\de=\lim_{s\to 1^+}\fc{\sum_{\mfp\in S}\rc{\fN \mfp^s}}{\ln \rc{s-1}}.
+\]
+(Note that $\sum_{\mfp}\rc{\fN\mfp^s}\sim \ln \rc{s-1}$ as $s\to 1^+$ by a weak version of the prime number theorem for number fields.)
+\end{df}
+Note if a set of primes has density $d$, then it has Dirichlet density $d$ (an exercise in partial summation), but a set of primes having a Dirichlet density may not have a well-defined density.
+\index{Chebotarev density theorem}
+\begin{thm}[Chebotarev density theorem]\llabel{cdt}
+Let $L/K$ be a finite Galois extension of number fields, and let $C$ be a conjugacy class $G$. The set of prime ideals $\mfp$ of $K$ such that $(\mfp,L/K)=C$ has density $\frac{|C|}{|G|}$.
+%$\rc{[G:C]}$.
+\end{thm}
+In the special case that $G$ is abelian, the conjugacy classes are just elements and they occur with density $\rc{|G|}$. An especially notable case is the following.
+%\index{Dirichlet's theorem}
+\begin{ex}[Dirichlet]
+Let $n\in \N$ and $k$ be relatively prime to $n$. Then the set
+\[
+\{q \text{ prime }\mid q\equiv k\pmod n\}
+\]
+has density $\rc{\ph(n)}$.
+
+Indeed, Chebotarev gives that the density of $q$ where $(q,L/K)$ is a specific element is $\rc{\ph(n)}$.
+By Example~\ref{intro-cft}.\ref{cyclotomic-frobenius}, this gives that the density of $q$ being a specific (relatively prime) residue modulo $n$ is $\rc{\ph(n)}$.
+\end{ex}
+\begin{ex}
+If $L/K$ is a Galois extension, then the density of primes of $K$ splitting in $L$ is $\rc{[L:K]}$.
+
+Indeed, a prime splits completely iff $(\mfp,L/K)=1$, by Proposition~\ref{intro-cft}.\ref{frob-1-split-completely}.
+\end{ex}
+%\begin{proof}[Proof of Dirichlet given Chebotarev]
+%Let $K=\Q[\zeta_n]$ where $\zeta_n$ is a primitive $n$th root of unity. Then $G(K/\Q)\cong(\Z/n\Z)^{\times}$ by identifying $k\in (\Z/n\Z)^{\times}$ with the automorphism sending $\zeta_n$ to $\zeta_n^k$, i.e. it is the $k$th power map. Then for a prime $q\nmid n$,  
+%\[
+%(q,L/K)=q\bmod n.
+%\]
+%Chebotarev gives that the density of $q$ where $(q,L/K)$ is a specific element is $\rc{\ph(n)}$.
+%By Example~\ref{cyclotomic-frobenius}, this gives that the density of $q$ being a specific (relatively prime) residue modulo $n$ is $\rc{\ph(n)}$.
+%By Chebotarev, each element of $G(K/\Q)\cong(\Z/n\Z)^{\times}$ is the image of the same density of primes; thu
+%(Note from the theory of cyclotomic fields we know $q$ is unramified.)
+%\end{proof}
+%\begin{ex}
+%Let $\ell$ be a given prime, and $K_{\ell}$ be the maximal extension of $\Q$ ramified only at $\ell$. 
+%Given that there is a continuous homomorphism (Galois representation)
+%\[
+%\tilde{\rh}_{\ell}(K_{\ell}/\Q)\to \GL_2(\F_{\ell})
+%\]
+%such that
+%\[
+%\tr(\tilde{\rh}_{\ell}(\text{Frob}(p)))=\tau(p)
+%\]
+%for all $p\neq\ell$, and that there is an element in $\im(\tilde{\rh}_{\ell})$ with trace 0, 
+%prove that a positive proportion of primes $p$ have the property that
+%\[
+%\ell\mid \tau(p).
+%\]
+%\end{ex}
+%\begin{proof}
+%Let $M$ be a trace 0 matrix in the image of $\tilde{\rh}_{\ell}$. Let $\si\in G(K_{\ell}/\Q)$ be such that $\tilde{\rh}_{\ell}(\si)=M$.
+%
+%Suppose $p$ is a prime such that $\text{Frob}(p)$ is in the same conjugacy class as $\si$. Then $\tilde{\rh}_{\ell}(\si)$ is in the same conjugacy class as $M$, and so has trace 0. By the given facts, we have $\tau(p)\equiv 0\pmod{\ell}$.
+%
+%Now the set $\si$ such that %$\text{Frob}(p)\in [\si]$ for {\it some} $\si
+%$\tilde{\rh}_{\ell}(\si)$ has trace 0 has index at least $\rc{|\GL_2(\F_{\ell})|}>0$ in $G(K_{\ell}/\Q)$, so by Chebotarev (a bit of hand-waviness here since the extension is infinite) a positive proportion of primes $p$ have $\text{Frob}(p)=[\si]$ for some such $\si$, and hence have $\tau(p)\equiv 0\pmod{\ell}$.
+%\end{proof}
+
+%\begin{df}
+%Let $\sO$ be an order of conductor $f$ in an imaginary quadratic field $K$. The ideal class group $C(\sO)$ can be written
+%\[
+%C(\sO)\cong I_K
+%\]
+%\end{df}
+\subsection{Proof}
+%We prove the Chebotarev Density Theorem (Theorem~\ref{intro-cft}.\ref{cdt}).
+%\begin{thm}[Chebotarev density theorem]
+%Let $L/K$ be a finite Galois extension of number fields, and let $C$ be a conjugacy class $G$. The set of prime ideals $\mfp$ of $K$ such that $(\mfp,L/K)=C$ has density $\frac{|C|}{|G|}$.
+%%$\rc{[G:C]}$.
+%\end{thm}
+We prove a weaker form of the Chebotarev Density Theorem, with Dirichlet density. %), defined by %say that the \textbf{density} of a set $S$ of primes is $\de$ if
+%\[
+%\de(S)=\lim_{s\to 1^+}\fc{\sum_{\mfp\in S}}{\ln \rc{s-1}}.
+%\]
+We will need the following.
+\index{Dirichlet's theorem for number fields}
+\begin{thm}[Dirichlet's theorem for number fields]\llabel{thm:dirichlet-nf}
+Let $K$ be a number field, let $H$ be a congruence subgroup modulo $\mm$, and let $\mathfrak K$ be a class in $I_K^{\mm}/H$. The set of prime ideals $\mfp$ of $K$ such that $\mfp\in \mathfrak K$ has density $\rc{[I_K^{\mm}:H]}$.
+\end{thm}
+\begin{proof}
+See Lang~\cite[VIII. \S4]{La94} for the proof with Dirichlet density.
+\end{proof}
+In the proof below, we use ``density" to mean ``Dirichlet density."
+\begin{proof}[Proof of Chebotarev Density Theorem~\ref{cdt}]
+We can't deal with nonabelian extensions directly, so the idea is to reduce to the abelian case as follows. Consider $L/L^{\si}$; this is cyclic. A prime $\mP$ in $L$ with $(\mP,L/K)=\si$ descends to a prime $\mP'$ such that $(\mP',L/L^{\si})=\si|_{L^{\si}}$. Since $L/L^{\si}$ is abelian, these primes $\mP'$ are characterzed by a modular condition, and we can find their density using Theorem~\ref{thm:dirichlet-nf}. Then we will relate the density of primes with $(\mfp,L/K)=C$ to the density of primes with $(\mP,L/K)=\si$.
+\[
+\xymatrix{
+& L \ar@{-}[ldd]\ar@{-}[rd] &\\
+& & L^{\si}\\
+K& & 
+}
+\qquad
+\xymatrix{
+& S_{L,\si} \ar@{-}[rd]^{1:1} &\\
+& & S_{L'}\\
+S\ar@{-}[ruu]^{1:\fc{N}{|C|f}}& & 
+}
+\]
+
+Let
+\[
+S=\set{\mfp}{(\mfp,L/K)=C}.
+\]
+Note that fixing $\si\in C$, $\mfp\in S$ iff there exists $\mP\mid \mfp$ in $L$ such that $(\mP,L/K)=\si$. 
+
+Suppose $\si\in C$ has order $f$. Then $L/L^{\si}$ is a cyclic extension of degree $f$. Let $\mc$ be the conductor of this extension. The Artin map gives an isomorphism
+\[
+I_{L^{\si}}^{\mc}/H\xra{\cong} G(L/K^{\si})
+\]
+for some congruence subgroup $H$.
+
+Let $S_{L,\si}$ be those primes in $L$ whose Frobenius element is $\si$:
+\[
+S_{L,\si}=\set{\mP}{(\mP,L/K)=\si}.
+\]
+(Note that $\bigcup_{\si\in C} S_{L,\si}$ gives all primes above those in $S$.) Let $S_{L'}$ be those primes in $L':=L^{\si}$ below a prime in $L'$:
+\[
+S_{L'}=\set{\mP\cap L^{\si}}{\mP\in S_{L,\si}}.
+\]
+We have a bijection $S_{L,\si}\cong S_{L'}$ by $\mP\mapsto \mP\cap L^{\si}$, because $\si$ generates the decomposition group $D_{L/K}(\mP)$, and $L/L^{D_{L/K}(\mP)}$ has no splitting.
+
+Now the density depends only on primes of degree 1 over $\Q$. Since $H$ is a subgroup of index $f$ in $I^{\mc}_{L^{\si}}$, by Theorem~\ref{thm:dirichlet-nf}, $S_{L'}$ has density $\rc{f}$.
+
+Given $\mfp$ such that $(\mfp,L/K)=C$, how many primes $\mP$ above $\mfp$ satisfy $(\mP,L/K)=\si$? Choose $\mP_0$ above $\mfp$. The primes above $\mfp$ are $\tau\mP$ for $\tau\in G(L/K)$. Each prime is hit $|D_{L/K}(\mP)|=f$ times. Now we have $(\tau\mP_0,L/K)=\si$ iff
+\[
+\tau (\mP_0,L/K)\tau^{-1}=\si.
+\]
+The number of such $\tau$ is equal to the order of the stabilizer of the conjugation action (i.e. the number of elements commuting with $\tau$) which is $N$ divided by the number of elements in an orbit, i.e. $\fc N{|C|}$. Hence the number of $\mP$ lying above $\mfp$ with $(\mP,L/K)=\si$ is
+\[
+\fc{N/|C|}{f}=\fc{N}{|C|f}.
+\]
+The density of $S_{L,\si}$ is $\rc f$. Now every $\fc{N}{|C|f}$ good primes in $L$ correspond to $1$ good prime down below, so we get the desired density to be
+\[
+\fc{1/f}{N/(|C|f)}=\fc{|C|}{N}.
+\]
+%to the set of elements commuting with $\tau$, 
+%in $K$ such that 
+\end{proof}
+\subsection{Applications}
+Often, we will need Chebotarev just for the existence of infinitely many primes with $(\mfp,L/K)=C$, or just for the existence of a prime after we exclude a set of zero density. Here is a typical application.
+\begin{cor}~\llabel{cor:chebotarev-resfield1}
+Let $K$ be a number field. 
+There exist infinitely many primes $p$ of $\Q$ such that there is a prime $\mfp\mid p$ of $K$ with $(\mfp,L/K)=C$ and $\fN \mfp=p$.
+\end{cor}
+\begin{proof}
+Chebotarev's Theorem~\ref{cdt} says there is a positive Dirichlet density of primes  $\mfp$ with $(\mfp,L/K)=C$. The Dirichlet density of primes $\mfp$ with residue degree greater than 1 is 0, because a sum of terms of the form $\rc{p^{fs}}$ with $f\ge 2$ converges. Hence infinitely many primes must remain.
+%Indeed, by the proof of Dirichlet's theorem, $\sum_{\mfp\sim\ma} \rc{\fN \mfp}$ diverges, while $\sum_{f(\mfp)>1}\rc{\fN\mfp}$ converges, so there must be infinitely many primes $\mfp\sim \ma$ with $f(\mfp)=1$. 
+\end{proof}
+\begin{df}
+For two sets $S,T$, we write $S\stackrel{\sub}{\sim}T$ to mean $S\subeq T\cup A$ for some finite set $A$, i.e. we have inclusion except for finitely many elements. We write $S\approx T$ if $S\stackrel{\sub}{\sim} T$ and $S\stackrel{\supset}{\sim} T$.
+\end{df}
+\begin{df}
+Define
+\bal
+{\Spl}(M/K)&=\{\mfp \text{ prime of $K$ splitting completely in $M$}\}.\\
+\widetilde{\Spl}(M/K)&=\{\mfp \text{ prime of $K$ unramified in $M$}, f(\mP/\mfp)=1 \text{ for some $\mP$ in $M$}\}.
+\end{align*}
+If $\mfp$ is unramified in $K$ and $f(\mP/\mfp)=1$, we say that $\mP$ is a \textbf{split factor} of $\mfp$.
+\end{df}
+Note $\widetilde{\Spl}(M/K)=\Spl(M/K)$ if $M/K$ is Galois.
+
+The following says that the primes that split in a Galois extension characterize the extension uniquely, as well as giving inclusions between extensions.
+\begin{thm}\llabel{split-chebotarev}
+Let $L/K$ and $M/K$ be finite field extensions. %of number fields.
+\begin{enumerate}
+\item If $L/K$ is Galois, then $L\subeq M$ iff $\widetilde{\Spl}(M/K)\stackrel{\sub}{\sim}\Spl(L/K)$.
+\item If $M/K$ is Galois, then $L\subeq M$ iff $\Spl(M/K)\stackrel{\supset}{\sim}\Spl(L/K)$.
+\item If $L/K$ and $M/K$ are Galois, then $L=M$ if and only if $\Spl(M/K)\approx\Spl(L/K)$. 
+\end{enumerate}
+In (1) and (2), inclusions actually hold.
+\end{thm}
+\begin{proof}$\,$
+\begin{enumerate}
+\item Suppose $L\subeq M$, and $\mfp\in \wt{\Spl}(M/K)$. Say that $\mP\mid \mfp$ and $f(\mP/\mfp)=1$. Let $\mP'=\mP\cap \sO_K$. 
+Then $f(\mP'/\mfp)=1$. Additionally, $e(\mP/\mfp)=1$ implies $e(\mP'/\mfp)=1$. Since $L/K$ is Galois, the ramification indices and residue field degrees are equal for all primes above $\mfp$. Hence $\widetilde{\Spl}(M/K){\subeq} \Spl(L/K)$.
+
+Conversely suppose $\wt{\Spl}(M/K)\stackrel{\sub}{\sim} \Spl(L/K)$. Let $N/K$ be a Galois extension containing $L$ and $M$. It suffices to show $G(N/M)\subeq G(N/L)$; then Galois theory gives $M\supeq L$.
+
+Take any $\si\in G(N/M)$. 
+By Chebotarev Density~\ref{cdt}, there exist infinitely many primes $\mfp$ in $K$ such that $(\mfp, N/K)=[\si]$. For such a prime $\mfp$, let $\mP$ be a prime lying above $\mfp$ in $N$ such that $(\mP,N/K)=\si$ and let $\mP'=\mP\cap \sO_M$. 
+For such a prime we have
+\[
+\al \equiv \si(\al)\equiv \al^{\fN \mfp}\pmod{\mP'}, \quad \al\in \sO_M.
+\]
+The left equality holds because $\si$ fixes $M$ and the right equality holds by definition of $(\mP,N/K)$. Hence $\sO_M/\mP'\subeq \F_{\fN\mfp}=\sO_K/\mfp$, and equality must hold. In other words, $f(\mP'/\mfp)=1$. Hence $\mfp\in \wt{\Spl}(M/K)$. Since $\wt{\Spl}(M/K)\subsim \Spl(L/K)$, we can take $\mfp$ such that $\mfp\in \Spl(L/K)$ as well. Then $\si|_L=1$ hence $G(N/M)\subeq G(N/L)$ and $M\supeq L$.
+\item
+Suppose $L\subeq M$. Then any prime splitting completely in $M$ splits completely in $L$, so $\Spl(M/K)\subeq \Spl(L/K)$.
+
+Conversely suppose $\Spl(M/K)\stackrel{\sub}{\sim} \Spl(L/K)$. Let $L\gal$ be the Galois closure of $L$. Since $M/K$ is Galois, $\wt{\Spl}(M/K)=\Spl(M/K)$; we also have $\Spl(L/K)=\Spl(L\gal/K)$ (Any prime splitting completely in $L$ splits completely in the Galois closure, by exercise 2 in \ref{factorization}.\ref{sec:factorization-problems}).
+Thus
+\[
+\wt{\Spl}(M/K)\subeq \Spl(L\gal/K)
+\]
+and we can apply part 1 to get $L\gal\subeq M$; {\it a fortiori} $L\subeq M$.
+\item Apply part 2 twice.\qedhere
+\end{enumerate}
+\end{proof}
+\section{Splitting of primes}\llabel{sec:splitting}
+\subsection{Splitting of primes}
+\begin{thm}\llabel{thm:splitting-of-primes}
+Let $L/K$ be an extension of number fields.
+\begin{enumerate}
+\item
+If $L^\text{gal}/K$ is abelian, then there is a modulus $\mm$ and a congruence subgroup modulo $\mm$ such that %$P_{K}(1,\mm)\subeq H\subeq  I_{K}^{\mm}$ such that 
+\[\Spl(L/K)= \{\text{prime }\mfp\in H\}.\]
+\item
+If there exists $\mathfrak K\in C_K(\mm)= I_{K}^{\mm}/P_{K}(1,\mm)$ such that
+\[
+\set{\text{prime }\mfp}{\mfp\pmod{P_K(1,\mm)}=\mathfrak K}
+\subsim \Spl(L/K),
+\]
+(i.e. all but finitely many primes satisfying a certain modular condition split) then $L\gal/K$ is abelian.
+\end{enumerate}
+\end{thm}
+In other words the law of decomposition of primes in an extension $L/K$ is determined by modular conditions iff $L/K$ is an abelian extension. 
+\begin{proof}\footnote{This proof is from~\url{http://mathoverflow.net/questions/11688}.}
+As $\Spl(L/K)=\Spl(L\gal/K)$, it suffices to consider $L/K$ Galois.\\
+
+\noindent\underline{Part 1:} By global class field theory, the kernel of the Artin map $I_K^{\mm}\to G(L/K)$ is a congruence subgroup $H$. But we have by Proposition~\ref{intro-cft}.\ref{frob-1-split-completely} that $\mfp$ splits completely iff $\psi_{L/K}(\mfp)=(\mfp,L/K)=1$. Hence
+\[
+H=\ker(\psi_{L/K})=\Spl(L/K).
+\]
+
+\noindent\underline{Part 2:} Let $K_{\mm}$ be the ray class field of $K$ modulo $\mm$ and $M=LK_{\mm}$.
+There is a natural map
+\[
+p=p_1\times p_2:G(M/K)\hra G(K_{\mm}/K)\times G(L/K) \xra{\cong} C_{K}(\mm)\times G(L/K)
+\]
+where the second map is given by $\psi_{L/K}^{-1}$ in the first component. 
+
+For all but finitely many primes, we have the following string of facts. %valid for all but a finite number of primes $\mfp$.
+\begin{enumerate}
+\item
+$\mfp\in \mathfrak K$.
+\item
+$\mfp\in \Spl(L/K)$.
+\item
+$(\mfp,L/K)=1$.
+\item
+For any prime $\mP\mid \mfp$ in $M$, 
+$p((\mP,M/K))=(\mathfrak K,1)$.
+\end{enumerate}
+$(1)\implies(2)$ is by assumption, $(2)\iff (3)$ is Proposition~\ref{intro-cft}.\ref{frob-1-split-completely}, and $(3)\iff (4)$ is by compatibility of the Frobenius elements (the map $G(M/K)\to G(L_{\mm}/K)\times G(L/K)$ is compatible with the map on residue fields $G(m/k)\to G(k_{\mm}/k)\times G(l/k)$).
+
+Suppose $\si\in G(M/K)$ and $p(\si)=(\mathfrak K, g)$. By Chebotarev's Theorem there exist primes $\mP\mid \mfp$ in $M$ and $K$, respectively, such that $(\mP,M/K)=\si$. But $(1)\implies (4)$ shows that $g=1$. Hence
+\[
+p(G(M/K))\cap (\mathfrak K,G(L/K))=\{(\mathfrak K,1)\}.
+\]
+Since $p$ is a group homomorphism that is surjective in the first component, $p(G(M/K))\cap (\mathfrak K',G(L/K))$ must consist of 1 element for every $\mathfrak K'$, in particular for $\mathfrak K'=1$. Thus if $p(\si)=(P_K(1,\mm),g)$, then $g=1$. Given a prime $\mfp$ splitting completely in $K_{\mm}$, i.e. $\mfp$ such that $\mfp \in P_K(1,\mm)$, take any $\mP\mid \mfp$ in $M$. Then $p(\mP,M/K)=(P_K(1,\mm),g)$ for some $g$, so $g=1$ and
+\[
+(\mfp,L/K)=(\mP,M/K)|_L=p_2(\mP,M/K)=g=1,
+\]
+i.e. $\mfp$ splits completely in $L$. Thus $\Spl(L_{\mm}/K)\subsim\Spl(L/K)$, showing by Theorem~\ref{split-chebotarev} that
+$L\subeq L_{\mm}$.
+\end{proof}
+For nonabelian extensions, the set of primes that split has to be specified by more than just a modulo condition.
+\begin{ex}\llabel{ex:prime-split-nonab}
+We show that a prime splits completely in $\Q(\ze_3,\sqrt[3]2)$ iff $p\equiv1 \pmod3$ and $p$ is in the form $x^2+27y^2$.
+
+Note that $\Q(\ze_3,\sqrt[3]2)$ is the splitting field of $x^3-2=0$. 
+For an unramified prime, $p$ splits completely iff the residue field extension has degree 1, i.e. $x^3-2$ splits completely in $\F_p$. This is true iff 2 is a cubic residue modulo $p$. As we saw in Theorem~\ref{thm:2cubic}, this is true iff $p$ is of the form $x^2+27y^2$.
+\end{ex}
+%roots of polys over ff's
+\subsection{Roots of polynomials over finite fields}
+We can recast the problem of splitting behavior in terms of finding roots of univariate polynomials over finite fields. Let $L/K$ be a finite extension, and $f\in \sO_K[X]$ be the minimal polynomial of a primitive element in $L/K$. Then Theorem~\ref{factorization}.\ref{compute-fact-pB} tells us that for a prime $\mfp$ relatively prime to the conductor of $L/K$, the factorization of $f$ in $\sO_K/\mfp$ corresponds to the factorization of $\mfp$. In particular, $\mfp$ splits completely iff $f$ splits completely, and $\mfp$ has a split factor iff $f$ has a root in $\sO_K/\mfp$.
+\begin{df}
+Let $N_{\mfp}(f)$ denote the number of zeros of $f$ in $\sO_K/\mfp$.
+\end{df}
+
+Thus we can rephrase Theorem~\ref{thm:splitting-of-primes} as follows.
+\begin{thm}\llabel{thm:roots-over-ff}
+Let $f$ be an irreducible polynomial over $K$. Let $\al$ be a root of $f$ and $L$ be the Galois closure of $K(\al)$. 
+\begin{enumerate}
+\item
+For all except a finite number of primes, $N_{\mfp}(f)=m$ iff $\psi_{L/K}(\mfp)=[\si]$ for some $\si\in G(L/K)$ fixes $m$ of the roots of $L$.
+\item
+The sets $\set{\mfp}{N_{\mfp}(f)=m}$ are given by modular conditions iff $L/K$ is abelian.
+\item
+The density of primes $\mfp$ such that $N_{\mfp}(f)=m$ is $\fc{\set{\si \in G(L/K)}{\si\text{ fixes $m$ roots}}}{[L:K]}$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+The first item follows from Theorem~\ref{factorization}.\ref{compute-fact-pB}. The second item follows from this and Theorem~\ref{thm:splitting-of-primes}. The third item follows from the Chebotarev Density Theorem~\ref{cdt}.
+\end{proof}
+Even the reciprocity laws (at least, weak reciprocity) can be put in the same framework: in a field $K$ containing $n$th roots of unity, $a$ is a perfect $n$th power modulo $\mfp$ iff $x^n-a$ splits completely modulo $\mfp$ (the polynomial viewpoint), i.e. the prime $\mfp$ splits completely in $K(\sqrt[n]{a})/K$ (the splitting viewpoint).
+%%%%%%%%
+\section{Hilbert class field}
+\index{Hilbert class field}\llabel{sec:hcf}
+\begin{df}
+The \textbf{Hilbert class field} of $K$ is the largest abelian field extension of $K$ unramified over $K$ at all places. (For infinite places this means that no real embedding becomes complex.) It is denoted $H_K$.
+
+The \textbf{large Hilbert class field} of $K$ is the largest abelian field extension of $K$ unramified over $K$ at all finite places, with no restrictions for infinite places (i.e. they are allowed to ramify). It is denoted $H_K^+$.
+\end{df}
+Note if $K$ is already totally complex then $H_K=H_K^+$.
+\begin{pr}\llabel{pr:hcf}
+The Hilbert class field and large Hilbert class field exist, and the global reciprocity map gives isomorphisms
+\begin{align*}
+G(H_K/K)&\cong \Cl_K\\
+G(H_K^+/K)&\cong \Cl_K^+.
+\end{align*}
+\end{pr}
+\begin{proof}
+%The compositum of two unramified field extensions is unramified by Theorem~\ref{class-group}.\ref{unram-in-compositum}, so the compositum of all unramified extensions is the Hilbert class field.
+%
+The Hilbert class field is exactly the ray class field corresponding to the modulus 1, and the narrow Hilbert class field is exactly the ray class field corresponding to the modulus $\mm=\prod_{v\text{ real}}v$. Indeed, by global class field theory the fields corresponding to congruence subgroups of $C_K(1)$ are just the fields unramified over $K$, and the fields corresponding to congruence subgroups of $C_K(\mm)$ are just the fields unramified at every infinite place.
+
+The global reciprocity map gives the desired isomorphisms.
+%Alternatively, using class field theory for ideles, note the following.
+%\begin{enumerate}
+%\item 
+%A place $v$ is unramified in $L$ iff $i_v(U_v)\subeq K^{\times}\nm_{L/K}\I_L$. Indeed, an abelian extension of local fields $L^v/K_v$ is unramified iff $\nm_{L^v/K_v}(L^{v\times})\supeq U_v$ (make this a theorem if it isn't already + ADD REF. basically from looking at valuation map). It suffices to note
+%\[
+%\phi_{L/K}(i_v(U_v))=\phi_v(U_v)=\{1\}\iff \ker(\phi_v)=\nm_{L^v/K_v}(L^{v\times})\supeq U_v.
+%\]
+%\item
+%A place $v$ splits completely in $L$ iff $i_v(K_v^{\times})\subeq K^{\times}\nm_{L/K}\I_L$. 
+%Now $v$ splits completely in $L$ iff $G(L^v/K_v)=D_{L/K}(v)=\{1\}$. 
+%Local class field theory says that 
+%\[\phi(i_v(K_v^{\times}))=\phi_v(K_v^{\times})=D_{L/K}(v)\]
+%so $i_v(K_v^{\times})\in \ker\phi_{L/K}=K^{\times}\nm_{L/K}\I_L$ iff $v$ splits completey in $L$.
+%%it is equal to $\phi_{L/K}(\ldots, 1,\pi_v,1,\ldots)\in G(L^v/K_v)=\{1\}\subeq G(L/K)$, the decomposition group being trivial since $v$ splits completely.
+%%Note that 
+%%\[\phi_{L/K}(\ldots, 1,\pi_v,1,\ldots)=1\in G(L/K).\]
+%%%is sent to $(\mfp,L/K)$ under the Artin map. There 
+%%There are two ways to see this: $(\ldots, 1,\pi_v,1,\ldots)$ corresponds to $\mfp$ in a ray class group by the map $p$ (REF) and the Artin map on ray class groups send $\mfp\mapsto (\mfp,L/K)$. %Alternatively, local class field theory says that it is equal to $\phi_{L/K}(\ldots, 1,\pi_v,1,\ldots)\in G(L^v/K_v)=\{1\}\subeq G(L/K)$, the decomposition group being trivial since $v$ splits completely.
+%\end{enumerate}
+%The smallest closed group of finite index satisfying $i_v(U_v)\subeq K^{\times}\nm_{L/K}\I_L$ is simply $K^{\times}\I_K(1,1)$ (see Example~\ref{intro-cft}.{ex:class-group-idele-quotient}) (this is closed). Since there is an inclusion-reversing bijection between closed subgroups of finite index and abelian 
+%field extensions (REF), it corresponds to the largest unramified abelian field extension, the Hilbert class field.
+%%({intro-cft}.{ex:class-group-idele-quotient}) 
+%
+%Similarly $K^{\times}\I_K\pa{\prod_{v\text{ real}}v,1}$ corresponds to the narrow Hilbert class field.
+%
+%The two latter proofs are related: the subgroups of the the idele class group and ray class group above are related by the map in REF.
+\end{proof}
+%Note that we've shown that if $L$ is the Hilbert class field and $K_1$ the narrow Hilbert class field,
+%Note this exists by Theorem~\ref{ideal-class-group}.\ref{unram-in-compositum}. \fixme{Actually, we want all places, not just all primes, to be unramified...}
+The most interesting property of the Hilbert class field is the following.
+\begin{thm}
+Let $K$ be a global field. Every fractional ideal of $K$ becomes principal in the Hilbert class field $L$ of $K$.
+\end{thm}
+\begin{proof}
+Let $M$ be the Hilbert class field of $L$.
+%By Theorem~\ref{intro-cft}.\ref{global-reciprocity}, we have 
+By Proposition~\ref{pr:hcf}, the global reciprocity map gives $C_K\xra{\cong} G(L/K)$ and $C_L\xra{\cong} G(M/L)$. We will transfer the map $C_K\to C_L$ to the Galois groups. %\footnote{Note this is the {\it opposite} direction from the usual norm map $C_L\to C_K$ and restriction map $G( 
+By definition, $L$ is the maximal unramified {\it abelian} extension of $K$; since $M$ is also unramified over $K$, $L$ is the %abelian extension of $K$ contained in $M$, i.e. %maximal Galois subfield $L'\subeq M$ of $K$ 
+%it is the 
+maximal {\it abelian} subextension of $M/K$. But by Galois theory, % for 
+intermediate Galois extensions %$L'/K$, $G(L'/K)$ 
+correspond to quotient groups of $G(M/K)$. This means that 
+\[G(L/K)=G(M/K)/G(M/L)\]
+is the largest abelian quotient of $G(L/K)$. From group theory this means that $G(M/L)$ is the {\it derived subgroup} $(G(L/K))'$. 
+
+The following diagram commutes by compatibility of the Artin map (the last diagram in Theorem~\ref{lcft}.\ref{thm:reciprocity-natural} together with Theorem~\ref{gcft}.\ref{thm:global-class-form})%note the inclusion map \mathbf C_K\to \mathbf C_L map on the idele class group translates to the natural map C_K\to C_L
+\[
+\xymatrix{
+C_K \ar[r]^-{\phi_{L/K}}_-{\cong}\ar[d]& G(L/K)\abe\ar[d]^{V}\\
+C_L \ar[r]^-{\phi_{M/L}}_-{\cong} & G(M/L)\abe
+}
+\]
+where $V$ is the transfer.
+
+However, the transfer map is 0 by Theorem~\ref{group-hom-cohom}.\ref{transfer0} and the fact that $G(M/L)=G(L/K)'$. Hence the map $C_K\to C_L$ is trivial, i.e. every fractional ideal of $K$ becomes trivial in $L$.
+\end{proof}
+\section{Primes represented by quadratic forms}\llabel{sec:primes-rep-q}
+We now give a complete characterization of which primes can be represented by which binary (positive definite integral) quadratic forms. First consider the form $x^2+ny^2$.
+
+A prime is in the form $p=x^2+ny^2$ iff $p$ splits as $\mfp\ol{\mfp}=(x+y\sqrt n)(x-y\sqrt n)$ in $\Z[\sqrt{-n}]$, with its factors being principal ideals. We can think of this as saying that $\mfp$ goes to 0 in the ideal class group of $\Z[\sqrt{-n}]$. Unfortunately, this is not the same class group as $C_K$. However, this class group is %canonically isomorphic to 
+essentially a quotient of a ray class group (Theorem~\ref{quadratic-forms}.\ref{class-group-O}).
+But by class field theory, we can find a field extension $L$ such that the Artin map to $G(L/K)$ is an isomorphism. The primes in the kernel of the Artin map are exactly those that split completely in $L$, so this relates the equation $x^2+ny^2$ to the splitting of primes in the Hilbert class field.
+\index{ring class field}
+\begin{df}
+Let $\sO$ be an integral quadratic order and $f:=\disc(\sO)$. 
+\begin{enumerate}
+\item Suppose $f<0$. 
+The field $L$ corresponding to the congruence subgroup 
+\[P_K(\Z,f):=\set{(a)\in I_K(f)}{a\pmod f\in \Z\pmod f}\subeq I_K(f)\]
+is called the \textbf{ring class field} of $\sO$.
+\item Suppose $f>0$. 
+The field $L$ corresponding to the congruence subgroup 
+\[P_K(\Z,\iy f):=\set{(a)\in I_K(f)}{a\pmod f\in \Z\pmod f}\subeq I_K(f)\]
+is called the \textbf{ring class field} of $\sO$. 
+\end{enumerate}
+\end{df}
+The reason for this definition is that $I_K(f)/P_K(\Z,\iy f)\cong I(\sO)/P^+(\sO)=C^+(\sO)$ via the map $\ma\mapsto \ma\cap \sO$, by Theorem~\ref{quadratic-forms}.\ref{class-group-O}. 
+(Ignore the $\iy$ when $K$ is imaginary; in this case $C^+(\sO)=C(\sO)$.)
+\begin{ex}
+When $\sO=\sO_K$, with $K/\Q$ a quadratic extension, then the ring class field is just the large Hilbert class field of $K$, because $I(\sO)/P^+(\sO)=C_K^+$.
+\end{ex}
+\begin{thm}\llabel{thm:p=x2+ny2}
+Let $n\ge1$. Let $Q$ be a quadratic form that corresponds to $\ma\subeq R$ under the Gauss correspondence~\ref{quadratic-forms}.\ref{ideal-form-correspondence}, let $K=\Frac(R)$, and let $p$ be an odd prime not dividing $f:=\disc(R)$. 
+Let $\mb$ be the ideal corresponding to $\ma$ under the map $I_K(f)/P_K(\Z,\iy f)\to I(\sO)/P^+(\sO)=C^+(\sO)$. Let $L$ be the ring class field of $R$ and suppose $(L/K,\mb)=\si$. Then
+\[
+f\text{ represents }\mfp\iff %p\sO_K=\mfp\ol{\mfp} \text{ where }
+(L/\Q,p)=[\si]
+\]
+where $[\si]$ denotes the conjugacy class of $\si$ in $G(L/\Q)$.
+\end{thm}
+\begin{proof}
+Let $K=\Q(\sqrt{-n})$. 
+We have the following string of equivalences.
+\begin{enumerate}
+\item
+$Q$ represents $p$.
+\item 
+$pR=\mfp\ol{\mfp}$ in $R$ for some ideal $\mfp$ in the same ideal class as $\ma$.
+\item
+$p\sO_K=\mfp\ol{\mfp}$ for $\mfp\sim \mb$ where the ideals are considered in $I_K(f)/P_K(\Z,\iy f)$.
+\item
+$p\sO_K=\mfp\ol{\mfp}$ for $(L/K,\mfp)=\si$.
+\item
+$(L/\Q,p)=[\si]$.
+%\item 
+%$\mfp$ splits completely in $L$.
+\end{enumerate}
+%
+%Note $(1)\iff (2)$ because we can take $\mfp=(x+\sqrt{n}y)$. 
+The equivalence $(1)\iff (2)$ follows from Proposition~\ref{quadratic-forms}.\ref{pr:rep-iff-ideal}. 
+We have $(2)\iff (3)$ by Theorem~\ref{quadratic-forms}.\ref{class-group-O}, which gives an isomorphism $I_K(f)/P_K(\Z,\iy f)\to I(\sO)/P^+(\sO)=C^+(\sO)$ by sending $\ma$ to $\ma\cap \sO$. 
+By definition of ring class field, the Artin map is an isomorphism $I_K(f)/P_{K}(\Z,\iy f)\to G(L/K)$, so $(3)\iff (4)$.
+
+For $(4)\iff (5)$, note by definition of the Artin symbol that (4) is equivalent to 
+\[
+p\text{ splits in $\sO_K$ and }\si(\al)\equiv \al^{|k|}\pmod{\mP}
+\text{ for all }\al\in L
+\]
+where $\mP$ is any prime dividing $\mfp$ in $L$.
+%\begin{align*}
+%\si_0=(L/K,\mfp)=(L/K,\mb)
+%\end{align*}
+Since $p$ is unramified, $p$ splits in $\sO_K$ iff $[k:\F_p]=1$, iff $|k|=p$. Hence the above is equivalent to
+\[
+\si(\al)\equiv \al^{p}\pmod{\mP}
+\]
+This says exactly that $(L/\Q,p)=[\si]$.
+\end{proof}
+\begin{cor}Suppose $n\ne 0$ is an integer. 
+\begin{enumerate}
+\item
+Let $L$ be the ring class field of $\Z[\sqrt{-n}]$. Then $p$ can be represented as
+\[
+p=x^2+ny^2,\quad x,y\in \Z
+\]
+if and only if $p$ splits completely in $L$.
+\item
+For $-n\equiv 1\pmod 4$, let $L'$ be the ring class field of $\Z\ba{\frac{1+\sqrt{-n}}{2}}$. Then $p$ can be represented as
+\[
+p=x^2+xy+\frac{1-n}{2}y^2
+\]
+iff $p$ splits completely in $L'$.
+\end{enumerate}
+\end{cor}
+\begin{rem}
+%We can in fact
+It is not hard to show that we can replace the conditions by the following uniform statement: $4p$ can be represented as $4p=x^2+dy^2$ iff $p$ splits completely in the order of discriminant $-d$. 
+\end{rem}
+\begin{proof}
+These quadratic forms correspond to the principal ideals in $\Z[\sqrt{-n}]$ and $\Z\ba{\frac{1+\sqrt{-n}}2}$, respectively (Example~\ref{quadratic-forms}.\ref{ex:id-qf}), so the theorem says $p$ can be represented by the quadratic forms iff
+\[
+(L/K,p)=1.
+\]
+This is true iff $\mfp$ splits completely in $L$ (Proposition~\ref{intro-cft}.\ref{frob-1-split-completely}).
+\end{proof}
+How is this useful? Algorithmically, there are fast ways to find solutions to $p=x^2+ny^2$ (Cornacchia's algorithm), so we can obtain primes splitting completely in the Hilbert class field $H_K$. This means that the minimal polynomial of $H_K/K$ factors completely modulo $p$. As we will in Chapter~\ref{ch:CM}, the roots are the $j$-invariants of CM elliptic curves; the fact that they are in $\F_p$ gives us an easy way to calculate the action of the class group on elliptic curves.
+
+Additionally, this description of solutions to $p=x^2+ny^2$ gives a way to find the density of primes represented by a quadratic form.
+\begin{thm}\llabel{thm:density-qform}
+Let $Q$ be a primitive positive definite quadratic form of discriminant $D<0$, and let $S$ be the set of primes represented by $Q$. Then the density of primes $d(S)$ represented by $S$ is
+\[
+d(S)=\begin{cases}
+\rc{2h(D)},& Q\text{ properly equivalent to its opposite,}\\
+\rc{h(D)},&\text{else},
+\end{cases}
+\]
+where $h(D)$ is the class number of the quadratic ring with discriminant $D$. 
+In particular, $Q$ represents infinitely many prime numbers.
+\end{thm}
+Note ``$Q$ properly equivalent to its opposite" is equivalent to saying that the ideal class corresponding to $Q$ has order dividing 2.
+\begin{ex}
+%$h(-56)=4$ so $\rc 8$ of all primes can be represented in the form $x^2+14y^2$.
+%
+%Also put example of ring class field calculation.
+$h(-27)=3$ so $\rc 6$ of all primes can be represented by the form $x^2+27y^2$.
+
+In fact, the ring class field of $\Z[\sqrt{-27}]$ is $\Q(\ze_3,\sqrt[3]2)$, so $p=x^2+27y^2$ iff $p$ splits completely in $\Q(\ze_3,\sqrt[3]2)$. This shows Example~\ref{ex:prime-split-nonab} in a different way.
+\end{ex}
+\begin{proof}[Proof of Theorem~\ref{thm:density-qform}]
+Let $K$ be the quadratic field of discriminant $D$.
+
+By Theorem~\ref{thm:p=x2+ny2}, $p$ is represented by $Q$ iff $(L/\Q,p)=[\si]$ where $L$ is the ring class field of the order corresponding to $Q$ and $Q$ corresponds to $\si$ under the Gauss correspondence. We need to find $[\si]$, so we first need to understand $G(L/\Q)$.
+
+Since $C(\sO)\cong I_K(f)/P_K(\Z,f)\cong G(L/K)$ via the Artin map,
+\[
+[L:K]=|C(\sO)|=h(D)\implies [L:\Q]=2h(D).
+\]
+
+Next we show $G(L/\Q)=G(L/K)\rtimes G(K/\Q)$ where, denoting complex conjugation by $\si\in G(K/\Q)$, we have $\si\tau\si^{-1}=\tau^{-1}$ for all $\tau\in G(L/K)$. Let $\mm$ be the modulus corresponding to $f\sO_K$, where $f$ is the conductor. By construction of $L$, it is the unique field such that $\ker(\psi_{L/K})=P_K(\Z,f)$. However, because the Artin map commutes with Galois action (see the third diagram in Theorem~\ref{thm:reciprocity-natural}),
+\[
+\ker(\psi_{\si(L)/K})=\si\ker(\psi_{L/K})=\si P_K(\Z,f)=P_K(\Z,f).
+\]
+Uniqueness hence gives $\si(L)=L$, i.e. $\si\in L$. Hence $|G(L/\Q)|=2|G(L/K)|=[L:\Q]$, giving that $L/\Q$ is Galois. 
+Given $\tau\in G(L/K)$, by surjectivity of the Frobenius map~\ref{gcft}.\ref{pr:frob-surj}, $\tau=(L/K,\mfp)$ for some $\mfp$. Then by Lemma~\ref{intro-cft}.\ref{lem:frob-lem},
+\[
+\si\tau\si^{-1}=\si(L/K,\mfp)\si^{-1}=(L/K,\si\mfp)=(L/K,\ol{\mfp})=(L/K,\mfp)^{-1}=\tau^{-1},
+\]
+as needed.
+
+From the structure of $G(L/\Q)$, we see that the conjugacy class of any element $\si$ is $\{\si,\si^{-1}\}$. By the Chebotarev density theorem~\ref{intro-cft}.\ref{cdt}, the density of primes such that $(L/\Q,p)=[\si]=\{\si,\si^{-1}\}$ is hence
+\[
+\fc{|[\si]|}{[L:\Q]}=
+\begin{cases}
+\rc{2h(D)},& \si=\si^{-1},\\
+\rc{h(D)},&\text{else},
+\end{cases}
+\]
+as needed.
+\end{proof}
+%\section{Artin $L$-series}
+\section{Introduction to the Langlands program}\llabel{sec:intro-langlands}
+\index{Langlands program}
+In this section, we'll give the big picture, and be content with morally, rather than mathematically correct, statements.
+
+Much of modern number theory is occupied with the relationship between the following three objects.
+\index{automorphic form}
+\begin{enumerate}
+\item
+Algebraic varieties, i.e. polynomial equations.
+\item
+Galois representations, i.e. continuous functions from $G(\ol K/K)$ to algebraic groups such as $GL_n(\C)$.
+\item
+Automorphic forms, i.e. continuous functions defined on an algebraic group on the ideles, such as $\GL_n(\A_K)$, and satisfying certain conditions.
+\end{enumerate}
+The relationship between Galois representations and automorphic forms is known as the Langlands correspondence. More precisely, there is a conjectural correspondence
+\[
+\bc{
+\begin{matrix}
+\text{cuspidal automorphic}\\
+\text{representations of }\GL_n(\A_K)\\
+\text{algebraic at $\iy$}
+\end{matrix}
+}\leftrightarrow
+\bc{
+\begin{matrix}
+\text{irreducible continuous}\\
+G(\ol K/K)\to \GL_n(\C)\\
+\text{algebraic at }\ell
+\end{matrix}.
+}
+\]
+
+We can define $L$-series from both Galois representations and automorphic forms. $L$-series from Galois representations arise more naturally in number theory (because it is relatively easy to go from algebraic varieties to Galois representations), but as automorphic forms are analytic objects, $L$-series of automorphic forms are known to satisfy more properties. The Langlands correspondence allows us to show that $L$-series of Galois representations arise from automorphic forms,  hence have nice analytic properties as well. This allows us to prove various results about algebraic varieties, such as density theorems on the number of solutions over finite fields, for example the Sato-Tate conjecture.
+
+We first give some more precise definitions, then describe this relationship in the 1-dimensional abelian case (which we have in fact proved!), and then give an overview of how it generalizes.
+\subsection{Definitions}
+\index{Galois representation}
+\begin{df}
+Let $k$ be a topological field (for instance, $\C$ or $\Q_{\ell}$), and let $V\cong k^n$ be a $n$-dimensional vector space over $k$. A $n$-dimensional \textbf{Galois representation} of $K$ over $k$ is a continuous homomorphism 
+\[\rho:G(K^s/K)\to \GL(V)=\GL_n(k).\]
+
+Let $\mfp$ be a prime of $K$. We say $\rh$ is \textbf{unramified} at $\mfp$ if $I_{\mfp}(K^s/K)\subeq \ker(\rh)$.
+%Let $K$ be a global field and $\mfp$ be a prime of $K$. We say $\rh$ is \textbf{unramified} at $\mfp$ if $I_{\mfp}(K^s/K)\subeq \ker(\rh)$.
+
+Let $K$ be a number field. Let $\Frob(\mfp)$ be a Frobenius element of $\mfp$ in $K_{\mfp}$ (defined in $G(\ol{K_{\mfp}}/K_{\mfp})$ up to $I(\ol{K_{\mfp}}/K_{\mfp})$). Define the (modified) \textbf{characteristic polynomial} of $\rho$ at $\mfp$ to be
+\[
+P_{\rh}(X):=\det(1-X\cdot \rh(\Frob(\mfp))|V^{I(\ol{K_{\mfp}}/K_{\mfp})}).
+\]
+(Here, $V^{I(\ol{K_{\mfp}}/K_{\mfp})}$ denotes the subspace of $V$ fixed by the inertia group. $P_{\rh}(X)$ is well-defined because $\Frob(\mfp)$ is defined up to $I(\ol{K_{\mfp}}/K_{\mfp})$, and $I(\ol{K_{\mfp}}/K_{\mfp})\subeq \ker(\rh|_{V^{I(\ol{K_{\mfp}}/K_{\mfp})}})$. In particular, if $\rh$ is unramified at $\mfp$, then $V=V^{I(\ol{K_{\mfp}}/K_{\mfp})}$.)
+\end{df}
+We can now define the $L$-function associated to a Galois representation.
+\index{L-function}
+\begin{df}
+In the above, suppose $V$ is a complex vector space and $K$ is a number field. The \textbf{local $L$-factor} at a prime $\mfp$ is
+\[
+L_{\mfp}(\rh,s)=P_{\rh}(\fN\mfp^{-s})^{-1}.
+\]
+The \textbf{Artin $L$-function} of $\rh$ is\footnote{Sometimes infinite places are included. The factors at infinite places take more thought to define so we exclude them here.}
+\[
+L(\rh,s)=\prod_{\mfp} L_{\mfp}(\rh,s).
+\]
+\end{df}
+We have the following conjecture.
+\index{Artin's conjecture}
+\begin{conj}[Artin's conjecture]
+Every Artin $L$-function has analytic continuation to $\C$ and satisfies a functional equation.
+\end{conj}
+\subsection{Class field theory is 1-dimensional Langlands}
+For a different take on some of these ideas, with concrete examples, see Dalawat~\cite{Da11}.
+\subsubsection{Galois representations are automorphic representations}
+We rephrase global class field theory in the form that generalizes under the Langlands program.
+\begin{thm}[Rephrase of GCFT]\llabel{thm:rephrase-gcft}
+There is a bijection between continuous homomorphisms $\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}$ and continuous homomorphisms $\rh:G(\ol K/K)\to \GL_1(\C)$, given by the following.
+\begin{align*}
+\{
+\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}
+\}
+&\leftrightarrow
+\{\rh:G(\ol K/K)\to \GL_1(\C)\} \\
+\chi&\mapsto \chi\circ \phi_K^{-1}
+\end{align*}
+\end{thm}
+\begin{proof}
+From Theorem~\ref{intro-cft}.\ref{thm:gcft-topology}, the Artin map gives a topological isomorphism $ \A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to G(K\abe/K)$. It remains to note that any function $G(\ol K/K)\to \GL_1(\C)$ factors through $G(\ol K/K)\abe=G(K\abe/K)$, since $\GL_1(\C)$ is abelian.
+\end{proof}
+The functions on the left side have a special name.
+\index{Hecke character}
+\begin{df}
+A \textbf{Hecke character} is a continuous homomorphism $\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}$, or equivalently, a homomorphism
+\[\chi:\mathbf C_K\to S^1:=\set{x\in \C}{|x|=1}\]
+with finite image.  
+The \textbf{conductor} of $\chi$ is the smallest modulus $\mm$ such that $\chi$ factors through $\A_K^{\times}/K^{\times}\mathbb U_K(1,\mm)\cong C_K(\mm)$. 
+\end{df}
+
+The homomorphisms $\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C$ are ``automorphic functions" on $\GL_1(\A_K)$, a.k.a. Hecke characters, and the homomorphisms $\rh:G(\ol K/K)\to \GL_1(\C)$ are 1-dimensional ``Galois representations." Our correspondence is unsatisfactory, however, because we would like to get all continuous homomorphisms $\A_K^{\times}/K^{\times}\to \C^{\times}$, not just those factoring through $\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}$. Since $G(K\abe/K)$ has the profinite topology, %and \C has no small subgroups
+any continuous homomorphism $G(\ol K/K)\to \GL_1(\C)$ must have finite image, while functions $\A_K^{\times}/K^{\times}\to \C^{\times}$ can have infinite image. To remedy this, we introduce functions $G(\ol K/K)\to \GL_1(\C)$ with infinite image (no longer continuous under the complex topology).
+
+For simplicity, we just consider the case of $\Q$.
+\index{Gr\"ossencharacter}
+\begin{ex}
+We say a function $\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C$ is \textbf{algebraic at $\iy$} if $\pi(i_{\R}(x))=\sign(x)^m|x|^n$ for some $m\in \{0,1\}$ and $n\in \Z$. We characterize all the continuous homomorphisms $\pi:\A_K^{\times}/K^{\times}\to \C^{\times}$ (``\textbf{Gr\"ossencharacters}") that are algebraic at $\iy$.
+
+It is enough to introduce 1 more character. 
+% We say a function $\rh:G(\ol {\Q}/\Q)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $\ell$ if it is the composition of the projection $G(\ol {\Q}/\Q)\to D_{\ell}(\ol{\Q}/\Q)\cong G(\ol{\Q_{\ell}}/\Q_{\ell})$ and a continuous homomorphism $G(\ol{\Q_{\ell}}/\Q_{\ell})\to \GL_1(\Q_{\ell})$.
+Let $\ell$ be a prime of $\Q$. Let $\ad:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}$ denote the map $\ab{\mathbf x}=\prod_{v\in V_{\Q}} |x_v|_v$, and define $\chi_{\ell}$ by
+\[
+\chi_{\ell}:\xymatrix{
+G(\ol{\Q}/\Q) \ar@{->>}[r] &
+G(\Q\abe/\Q)=G(\Q(\ze_{\iy})/\Q)\ar[r]^-{\cong} &
+\wh{\Z}^{\times}=\prod_p\Z_p^{\times} \ar@{->>}[r] &
+\GL_1(\Z_{\ell}).
+}
+\]
+(We say $\chi_{\ell}$ is ``\textbf{algebraic at $\ell$}." Note there is a noncanonical field isomorphism $\ol{\Q_{\ell}}\cong \C$, so we can think of $\GL_1(\Z_{\ell})$ as being ``inside" $\GL_1(\C)$.)
+
+Every continuous homomorphism $\pi:\A_K^{\times}/K^{\times}\to \C^{\times}$ algebraic at $\iy$ is in the form $\ad^n\cdot \chi$, where $\chi$ is a Hecke character. We can extend the correspondence in Theorem~\ref{thm:rephrase-gcft} by associating $\ad$ with $\chi_{\ell}$:
+%
+% corresponds to the product of a continuous homomorphism $\rh:G(\ol{\Q}/\Q)\to \GL_1({\Q_{\ell}})$ algebraic at $\ell$, and a homomorphism  $\rh:G(\ol{\Q}/\Q)\to \GL_1(\ol{\Q_{\ell}})$ with finite image, via the map
+\begin{align*}
+\pi=\ad^n\cdot \chi&\leftrightarrow \chi_{\ell}^n
+\cdot (\chi\circ \phi_K^{-1})
+\end{align*}
+where the right-hand side is now viewed in $\Q_{\ell}$ instead of $\C$.
+\end{ex}
+%As we saw in Theorem~\ref{gcft}.\ref{thm:rephrase-gcft}, global class field theory gives a bijection between continuous homomorphisms $G(\ol K/K)\to \GL_1(\C)$ (1-dimensional Galois representations), and continuous homomorphisms $\A_K^{\times}/\ol{K^{\times}(K_{\iy}^{\times})^0}\to \C^{\times}$ (1-dimensional automorphic functions). With some more work, we can get a correspondence between 1-dimensional Galois representations and continuous homomorphisms $\A_K^{\times}/K^{\times}\to \C^{\times}$. (We are thinking of the LHS as $\GL_1(\A_K)/\GL_1(K)$, hence the ``1-dimensional.")
+\subsubsection{Artin $L$-functions are Hecke $L$-functions}
+Associated to each Hecke character is a $L$-function.
+\begin{df}
+Let $\chi$ be a Hecke character and $\mm$ be the conductor of $\chi$. The \textbf{$L$-function} associated to $\chi$ is
+\[
+L(\chi,s):%=\sum_{\ma\perp \mm}\fc{\chi(\ma)}{\fN\ma^s}
+=\prod_{\mfp\nmid \mm}\rc{1-\chi(\mfp)\fN\mfp^{-s}}.
+\]
+\end{df}
+Because $\chi$ admits a modulus, Hecke $L$-series have nice analytic properties.
+\begin{thm}[Hecke, Tate]\llabel{thm:l-analytic-cont}
+Every Hecke $L$-series admits an analytic continuation to $\C$ and satisfies a functional equation.
+\end{thm}
+For the details, see Tate's thesis in~\cite{CF69}.
+\begin{thm}
+Any 1-dimensional Artin $L$-function is a Hecke $L$-function. Hence it has analytic continuation and satisfies a functional equation.
+\end{thm}
+\begin{proof}
+Let $\rh:G(\ol K/K)\to \GL_1(\C)$ be a 1-dimensional representation. 
+By Theorem~\ref{thm:rephrase-gcft}, $\rh(\Phi_{\mfp})=\chi(\mfp)$ for some Hecke character $\chi:\A_K^{\times}/K^{\times}\to \C^{\times}$. Let $\mm$ be the modulus of $\rh$; note it is also the conductor for $\chi$. Then
+\[
+L(\rh,s)=\prod_{\mfp\nmid \mm}\rc{1-\rh(\Phi_{\mfp}) \fN\mfp^{-1}}=\prod_{\mfp\nmid \mm}\rc{1-\chi(\mfp)\fN\mfp^{-s}} =L(\chi,s).
+\]
+\end{proof}
+This theorem is another way of saying that the Artin map factors through a modulus, and this is basically what allowed us to get all the density results in this chapter.
+\subsubsection{Algebraic varieties and Galois representations}
+We give examples of how to get Galois representations from algebraic varieties.
+
+First consider the variety $\ol{\Q}^{\times}=\set{x\in \ol{\Q}}{x\ne 0}$. It is a group under multiplication, and the torsion points $\ol{\Q}^{\times}[m]$ are exactly the roots of unity $\mu_m$. We can define a Galois representation by considering the action of $G(\ol{\Q}/\Q)$ on the $l$-power roots of unity. Define the Tate module of $\ol{\Q}^{\times}$ by
+\[
+T_{\ell}(\ol{\Q}^{\times})=\varprojlim_n\ol{\Q}^{\times}[\ell^n]=\varprojlim_n \mu_{\ell^n}\cong \Z_{\ell}.
+\]
+Then $G(\ol{\Q}/\Q)$ acts naturally on $T_{\ell}(\ol{\Q}^{\times})$ so we get a representation
+\[
+\rh:G(\ol{\Q}/\Q)\to \Aut(T_{\ell}(\ol{\Q}^{\times}))\cong \Aut(\Z_{\ell})\hra \GL_1(\Q_{\ell})
+\]
+sending the element $\phi_{\Q}(p)$ to $p$. The corresponding $L$-function is just a translate of the $\zeta$ function, missing the factor $\ell$: $\prod_{p\ne \ell}\rc{1-p^{1-s}}$. 
+This construction is a good analogy for what we will eventually do with elliptic curves, although it is a bit too ``trivial" to capture any significant number theory facts.
+%Hence the local $L$-function of $\rh$ at $p$ is $\rc{1-p\cdot p^{-s}}$
+%Consider the variety defined by $f(X)=0$ where $f\in K[X]$ is a irreducible polynomial. 
+%Letting $\al$ be a root, if the Galois closure of $K(\al)$ is abelian over $K$, 
+
+We give another example, with equations in 1 variable, which is a bit less natural but show more of the number theory. Consider the variety defined by $f(X)=0$ where $f\in K[X]$ is a irreducible polynomial. Let $\al$ be a root, and $L$ be the Galois closure of $K(\al)$ over $K$. Let $\al_1,\ldots, \al_n$ be the roots of $f$ in $L$. $G(\ol K/K)$ acts by permuting the $\al_i$, so we get a representation $G(\ol K/K)\to S_n$. We can embed $S_n$ in some general linear group, to get $\rh:G(\ol K/K)\to \GL_m(k)$ for some $k$. Then to find how many roots $f$ has modulo $\mfp$, we can look at the trace of $\rh(\Frob(\mfp))$.
+
+For example, consider $f(X)=X^3-X-1$ over $\Q$. We get a representation $\rh:G(\ol K/K)\to S_3\to \GL_2(\C)$, where we embed $S_3\hra \GL_2(\C)$ as follows: we have a natural permutation representation $S_3\hra \GL_3(\C)$; now take out the trivial representation to get $S_3\hra \GL_2(\C)$. From this description we have $N_p(f)=\tr(\rh(\Frob(\mfp)))+1$, so we can get the number of solutions of $X^3-X-1\equiv 0\pmod p$ from looking at the trace of Frobenius. Constructing the $L$-function, the trace of Frobenius becomes the coefficient of $\rc{p^{s}}$. Now $\rh$ comes from an automorphic form, so $L$ comes from a 2-dimensional automorphic form, i.e. a modular form. We can write this modular form explicitly using theta functions or as an eta quotient. At the end of the day, we have this striking fact: For $p\ne 23$, the number of solutions of $X^3-X-1\equiv 0\pmod{p}$ is $N_p(f)=a_p+1$, where $a_p$ is the coefficient of the modular form
+\[
+q\prod_{k=1}^{\iy}(1-q^k)(1-q^{23k})=\rc2\sum_{(x,y)\in \Z^2}(q^{x^2+xy+6y^2}-q^{2x^2+xy+3y^2})=\sum_{n=1}^{\iy}a_nq^n.
+\]
+(See Serre's article~\cite{Se03}.) In this example we have traced out a relationship 
+\[\text{(algebraic variety)$\to$(Galois representation)$\to$(automorphic form).}\]
+%the hilbert class field of $\Q(\sqrt{=23})$ is $L$.
+\subsection{Elliptic curves and 2-dimensional Langlands}
+\subsubsection{Galois representations and automorphic representations}
+\index{modular form}\index{cusp form}
+\begin{df}
+A 2-dimensional automorphic form is a continuous function $\GL_2(\Q)\bs \GL_2(\A_{\Q})$ satisfying certain conditions.
+
+A large class of 2-dimensional automorphic forms can be related to modular forms. A holomorphic function $f(z):\cal H\to \C$ is a \textbf{modular function} of weight $k$ for a congruence subgroup $\Ga\subeq \GL_2(\Z)$ if
+\[
+f(\ga z)=(cz+d)^k f(z)\text{ for all }\ga= \matt abcd\in \Ga.
+\]
+If $\Ga=\Ga_0(N):=\set{M\in \SL_2(\Z)}{M\equiv \matt **0* \pmod{N}}$, we say $f$ is of \textbf{level} $N$.
+Here $\cal H$ denotes the upper half-plane $\set{z}{\Im(z)>0}$ and $\ga z=\fc{az+b}{cz+d}$.
+
+A modular function is a \textbf{modular form} if it is holomorphic at cusps of $\cal H^*=\cal H\cup \Pj^1(\Q)$. A \textbf{cusp form} is a modular form that vanishes at the cusps. %Denote the spaces of modular forms and cusp forms of weight $k$ by $M_k(\Ga)$ and $S_k(\Ga)$. A \textbf{newform} of level $N$ is a modular form that is of level $N$ but not of level $M$ for $M<N$.
+%For $\Ga=\Ga_0(1)$, holomorphic at cusps means that $f(z)=\su a_nq^n$ and being a cusp form means $f(z)=\sum_{n=1}^{\iy} a_nq^n$.
+\end{df}
+There is a way to go from modular forms to Galois representations; this is better understood than going in the opposite direction. One of the biggest theorems in the 2-D case is Serre's conjecture, now a theorem, that tells us that we can go from Galois representations to modular forms in certain cases.
+\begin{df}
+We say a Galois representation is \textbf{modular} if there exists a cusp form $f$ of some level $N$ and a finite set $S$ such that
+\[
+f=\sum_{n=1}^{\iy} a_nq^n,\qquad \tr(\rh(\Frob(p)))=a_p\text{ for }p\nin S.
+\]
+\end{df}
+\index{Serre's conjecture}
+\begin{thm}[Serre's conjecture; Khare, Wintenberger]
+%For any irreducible odd Galois representation $\rh:G(\ol{\Q}/\Q)\to \GL_2(\ol{\F_p})$, there exists a modular form $f$ (or certain weight and level depending on $\rh$) such that the mod $p$ Galois representation associated to $f$ is isomorphic to $\rh$.
+Any irreducible odd Galois representation $\rh:G(\ol{\Q}/\Q)\to \GL_2(\ol{\F_p})$ is modular.
+\end{thm}
+\subsubsection{Elliptic curves and Galois representations}
+Given an elliptic curve, we can define a Galois representation by looking at its torsion points.
+\index{Tate module}
+\begin{df}
+Let $E$ be an elliptic curve over a number field $K$. %, and let $\mfp$ be a prime. For $\mfp\ne m$, 
+It is known that the $m$-torsion points $E[m]$ over $\ol{K}$ satisfy
+\[
+E[m]\cong \Z/m\times \Z/m.
+\]
+(See Silverman~\cite[III.6.4]{Si86}.)
+
+Define the $\ell$-adic \textbf{Tate module} of $E$ by
+\[
+T_{\ell}E:=\varprojlim_n E[\ell^n]\cong\Z_{\ell}^2.
+\]
+As $G(\ol K/K)$ acts on $E[\ell^n]$ for each $n$, it acts on $T_{\ell}E$, so we get a map
+\[
+G(\ol K/K)\to \Aut T_{\ell}E=\GL_2(\Z_{\ell})\hra \GL_2(\Q_{\ell}),
+\]
+called the $\ell$-adic \textbf{Galois representation} of $E$.\footnote{Alternatively, let $V_{\ell}E:=T_{\ell}E\ot \Q$ and consider $G(\ol K/K)$ as acting on $V_{\ell}E$.}
+\end{df}
+Thus we can define the $L$-series of an elliptic curve, by defining it as the $L$-series of the corresponding Galois representation. (Roughly speaking, this definition is independent of the choice of $\ell$.) We'll flesh out this definition in Section~\ref{ch:CM}.\ref{sec:l-series-cmec}. Thus we have the (tentative) correspondences
+\begin{gather}\llabel{eq:ec-lang}
+\text{(Elliptic curves)}\dashrightarrow \text{(Galois representations)}
+\dashrightarrow \text{(cusp forms)}\\
+\llabel{eq:ec-lang2}
+(L\text{-series of elliptic curve})\dashrightarrow(L\text{-series of modular form}).
+\end{gather}
+Again, more is known about $L$-series of modular forms since modular forms have nice analytic properties and transformation properties. The theory of Jacquet-Langlands establishes analytic continuation and functional equations for $L$-series coming from modular forms. 
+
+This relationships in~(\ref{eq:ec-lang}) and~(\ref{eq:ec-lang2})  are involved in the proof of two big theorems.
+\begin{enumerate}
+\item We now know the dotted lines in~(\ref{eq:ec-lang}) are true, thanks to the following.
+\index{modularity theorem}
+\begin{thm}[Modularity Theorem; Taniyama-Shimura-Weil]
+All elliptic curves are modular.
+\end{thm}
+The heart of this proof is in showing that the Galois representations associated to the elliptic curves come from modular forms. This theorem (or rather, its earlier version with semistable elliptic curves) is what allowed the proof of Fermat's last theorem: there is no nontrivial solution to $a^n+b^n=c^n$ for $n>2$. A nontrivial solution would give rise to an elliptic curve associated to a modular form that does not exist.
+\item 
+By working with $L$-functions of the elliptic curves, and reinterpreting them as $L$-functions of certain automorphic forms as in~(\ref{eq:ec-lang2}), one can prove the following. 
+\index{Sato-Tate conjecture}
+\begin{thm}[Sato-Tate conjecture; Barnet-Lamb, Geraghty, Harris, Taylor]
+Let $E$ be an elliptic curve without complex multiplication, and let $E(\F_p)$ denote the set of solutions to $E$ over $\F_p$. The density of primes $p$ with $|E(\F_p)|\in [p+1+a\sqrt{p},p+1+b\sqrt{p}]$, for $-1\le a\le b\le 1$ is
+\[
+d(\set{p}{|E(\F_p)|\in [p+1+a\sqrt{p},p+1+b\sqrt{p}]})=\fc{2}{\pi}\int_a^b \sqrt{1-x^2}\,dx.
+\]
+\end{thm}
+By the correspondence between elliptic curves and modular forms, another way to phrase this theorem is that the distribution of coefficients of certain modular forms is the same ``semicircle" distribution. 
+
+This theorem is like the elliptic curve analogue of the Dirichlet's theorem on the distribution of primes in congruence classes.
+\end{enumerate}
+\section{Problems}
+\begin{enumerate}
+\item[3.1] (from Serre,~\cite{Se03}) Using Chebotarev's Density Theorem, prove the following.
+\begin{thm*}
+Let $f\in \Z[X]$ be an irreducible polynomial of degree $n\ge 2$. Let $N_p(f)$ denote the number of zeros of $f$ in $\F_p$. Then the set $P_0(f)$ of primes with $N_p(f)=0$ has a density $c_0(f)$. Moreover, $c_0(f)\ge \rc n$, with strict inequality if $n$ is not a prime power.
+\end{thm*}
+You may use the following theorem from group theory.
+\begin{thm*}[Jordan]
+Let $G$ is a group acting transitively on a finite set $S$ with $n\ge 2$ elements. There exists $g\in G$ having no fixed point in $S$. If $n$ is not a prime power, then there exist at least 2 such $g$.
+\end{thm*}
+\item[3.2] (All primes divide some coefficient of $\De$) Let $\ell$ be a given prime, and $K_{\ell}$ be the maximal extension of $\Q$ ramified only at $\ell$. 
+Given that there is a continuous homomorphism (a.k.a. Galois representation)
+\[
+\tilde{\rh}_{\ell}:G(K_{\ell}/\Q)\to \GL_2(\F_{\ell})
+\]
+such that
+\[
+\tr(\tilde{\rh}_{\ell}(\Frob_{K_{\ell}/\Q}(p)))=\tau(p)
+\]
+for all $p\neq\ell$, and that there is an element in $\im(\tilde{\rh}_{\ell})$ with trace 0, 
+prove that a positive proportion of primes $p$ have the property that
+\[
+\ell\mid \tau(p).
+\]
+{\it Note.} Here $\tau$ is {\it Ramanujan's tau function}, the coefficients of a certain modular form $\De$. For more on the relationship between Galois representations and congruences for coefficients of modular forms, see Birch and Swinnerton-Dyer~\cite{SD72}.
+\item[4.1] In Section~\ref{sec:splitting}, we showed that $L/K$ is abelian iff the primes that split can be characterized by a modular condition. In this problem, we do more: given a Galois extension $L/K$, characterize the maximal abelian subextension by looking at the primes that split.
+\begin{enumerate}
+\item[(a)]
+Let $\mm$ be a modulus for $K$, and suppose $L/K$ is a Galois extension. Let $H_{\mm}$ be the subset of the ray class field $C_K({\mm})$ 
+defined as follows:
+\[
+H_{\mm}=\set{\mathfrak K}{\text{There exists }\mfp\in \mathfrak K\text{ such that }\mfp \text{ splits completely in }L}.
+\]
+%consisting of classes $\mathfrak K$ such that there exists $\m 
+Show that $H_{\mm}$ is a subgroup of $C_K({\mm})$.
+\item[(b)]
+Suppose we are given the groups $H_{\mm}$ for all $\mm$. Characterize the maximal abelian subextension of $L/K$.
+\end{enumerate}
+\item[6.1] Prove an analogue of Theorem~\ref{thm:density-qform} for positive discriminants.
+\item[6.2] Let $n>0$ be an integer such that $K=\Q(\sqrt{-n})$ is an imaginary quadratic field, and let 
+\[
+Q(x,y)=\begin{cases}
+x^2+ny^2,&n\equiv 1\pmod 4\\
+x^2+xy+\fc{1-n}2y^2,&n\equiv 3 \pmod 4. 
+\end{cases}
+\]
+\begin{enumerate}
+\item
+Find a condition on $G(H_K/K)$ so that for all but a finite number of primes, the primes represented by $Q$ are given by a modulo condition. In other words, find all $n$ such that there exists $m$ and a set of residues $S$ modulo $m$ such that if $p\nmid m$, then $p$ is represented by $Q$ iff $p$ is congruent to a residue in $m$. (Hint: combine the results of Section~\ref{sec:splitting} with Section~\ref{sec:primes-rep-q}.)
+\item
+Find some values of $n$ for which $|\Cl(K)|\ne 1$ and such that the primes represented by $Q$ are given by a modulo condition.
+\item
+Suppose $G(H_K/K)$ satisfies the property you found in part 1. Characterize all $n$, not necessarily prime, such that $Q$ represents $n$. (For simplicity, you can just consider $n\perp m$.) Compare to the statement in Example~\ref{quadratic-forms}.\ref{x25y2}.)
+\end{enumerate}
+\item \textbf{(Genus theory)} It is useful to group the equivalence classes of quadratic forms with given discriminant into {\it genera} (plural of genus).
+
+\begin{df}
+Define a similarity relation between primitive quadratic forms of discriminant $d$ as follows. We say $Q_1\sim Q_2$ if $Q_1$ and $Q_2$ represent the same values in $(\Z/d\Z)^{\times}$. The similarity classes are called \textbf{genera}.
+\end{df}
+
+In this problem you will find an easy way to characterize the genera of discriminant $d$.
+\begin{enumerate}
+\item
+Let $H$ be the subgroup of $C(d)$ such that $C(d)/H\cong C(d)[2]$ where $G[n]$ denotes the $n$-torsion subgroup of $G$.
+
+Prove that $Q_1,Q_2\in C(d)$ are in the same genera iff $Q_1,Q_2$ are the same in $C(d)/H$.
+
+In particular, conclude that the number of genera is a power of 2.
+\item
+Let $M$ be the ring class field of $K$ and let $L$ denote the subextension of $M/K$ such that $G(L/K)\cong C(d)[2]$. (That is, under the Galois correspondence, $L\subeq M$ corresponds to $H\subeq C(d)=G(M/K)$.) Prove that $L/\Q$ is the maximal abelian subextension of $M/\Q$.
+\end{enumerate}
+The fact that $L/K$ is abelian, while $M/K$ may not be, makes it much easier to prove results pertaining to a genus of quadratic forms rather than an equivalence class of quadratic forms.
+\item (?) Let $f,g\in \Q[X]$ be two irreducible cubic polynomials. How can you determine algorithmically whether $f,g$ have roots $\al,\be$ such that $\Q(\al)=\Q(\be)$? (from \url{http://math.stackexchange.com/questions/34522/cubic-polynomials-that-generate-the-same-extension?rq=1})
+\end{enumerate}

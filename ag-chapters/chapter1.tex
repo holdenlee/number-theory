@@ -1,0 +1,279 @@
+%%%%%%%%%%%%%%%%%%%
+\chapter{Height functions}\label{height-functions}
+\cite{Ko84}, \cite{Si86}, \cite{HS00}, \cite{Si07}
+\index{height functions}
+\section{Heights on projective space}
+Let $K$ be a number field. We aim to define a function $h$ on $\Pj^n(K)$ with the following properties.
+\begin{enumerate}
+\item There is a bounded number of points with small height. 
+\item The height encases nice arithmetical and geometrical information about the point, and behaves well under rational maps.
+\end{enumerate}
+It is natural to define the height in terms of the absolute values, or places, on $K$. The finite places will capture how divisible the coordinates of a point $P$ are by various primes, while the infinite places captures the more geometrical notion of distance. 
+We will thus define the height as a product over all places on $K$.
+\begin{df}
+Let $K$ be a number field, and $P=(x_0,\ldots, x_n)\in \Pj^n(K)$. Define the \textbf{multiplicative height} and \textbf{logarithmic height} of $P$ to be
+\begin{align*}
+H_K(P)&=\prod_{v\in M_K} \max\{\ve{x_0}_v,\ldots, \ve{x_n}_v\}^{n_v}\\
+h_K(P)&=\log H_K(P)=\sum_{v\in M_K} -n_v\min\{v(x_0),\ldots, v(x_n)\}
+\end{align*}
+where $n_v=[K_v:\Q_v]$. (Recall that the normalized absolute value has $\ve{x}_v=|x|_v^{n_v}$.)
+\end{df}
+Note that the value of $H_K(P)$ is independent of the choice of homogeneous coordinates for $P$, because by the Product Formula~\ref{global-fields}.\ref{product-formula}, for any $c\in K^{\times}$ we have
+\begin{align*}
+\prod_{v\in M_K} \max\{\ve{cx_0}_v,\ldots, \ve{cx_n}_v\}
+&=
+\prod_{v\in M_K} \ve{c}_v\prod_{v\in M_K} \max\{\ve{x_0}_v,\ldots, \ve{x_n}_v\}\\
+&=\prod_{v\in M_K} \max\{\ve{x_0}_v,\ldots, \ve{x_n}_v\}.
+\end{align*}
+
+Note that for the case $n=1$, we will often write $H_K(x)$ to mean $H_K(1:x)$, and likewise for $h_K$ and the other height functions to be defined.
+
+\begin{ex}\label{qheight}
+Suppose that $P\in \Pj^n(\Q)$, and write $P=(x_0:\ldots :x_n)$ where $\gcd(x_0,\ldots, x_n)=1$. Then   
+\[
+H(P)=\max\{|x_0|,\ldots, |x_n|\}.
+\]
+Indeed, for each prime $p$, one of $x_0,\ldots, x_n$ is not divisible by $p$, so $\max\{|x_0|_p,\ldots, |x_n|_p\}=1$. The only factor that contributes is from the real place.
+
+For the special case $n=1$, if $\frac ab$ is such that $\gcd(a,b)=1$, then we simply have 
+\[
+H\pf{a}{b}=H(a:b)=\max\{|a|,|b|\}.
+\]
+\end{ex}
+\begin{pr}[Elementary properties of height]$\,$
+\begin{enumerate}\label{elem-height}
+\item $H_K(P)\ge 1$ for all $P\in \Pj^n(K)$.
+\item If $L/K$ is a finite extension, then
+\[
+H_{L}(P)=H_K(P)^{[L:K]}.
+\]
+\item The action of the Galois group on $\Pj^n(\ol{Q})$ leaves height invariant, i.e. for any $\si\in G(\ol{\Q}/{\Q})$ and $P\in \Pj^n(\ol{\Q})$, 
+\[H(\si(P))=H(P).\]
+\end{enumerate}
+\begin{proof}$\,$
+\begin{enumerate}
+\item
+Scale the coordinates of $P$ so that one of them equals 1. Then by definition, $H_K(P)\ge 1$.
+\item
+Use formula (??) by Lemma~\ref{norm-val-ext}.
+\item
+The Galois group permutes the places.
+\qedhere
+\end{enumerate}
+\end{proof}
+\end{pr}
+In light of item 2, we can define an absolute height on $\Pj^n$.
+\begin{df}
+Let $P\in \Pj(\ol{\Q})$. Let $K$ be any finite extension of $\Q$ containing the coordinates of $P$. Define the \textbf{absolute multiplicative/logarithmic height} of $P$ to be
+\begin{align*}
+H(P)&=H_K(P)^{\rc{[K:\Q]}}\\
+h(P)&=\log H(P)=\rc{[K:\Q]}h_K(P).
+\end{align*}
+\end{df}
+Define the \textbf{field of definition} of $P=(x_0:\cdots:x_n)$ to be the smallest field $K$ such that $P\in \Pj(K)$. We have that
+\[
+\Q(P)=\Q\pa{\frac{x_0}{x_j},\ldots, \frac{x_n}{x_j}}
+\]
+where $j$ is any index such that $x_j\ne 0$.
+%The following theorem says that there are a finite num
+\begin{thm}\label{height-finite}
+For any $B$ and $D$, the set
+\[
+\set{P\in \Pj^n(\ol{\Q})}{H(P)\le B\text{ and }[\Q(P):\Q]\le D}
+\]
+is finite. In particular, the number of points with height bounded by $B$ in any fixed number field $K$ is finite.
+\end{thm}
+\begin{proof}$\,$
+\noindent\underline{Step 1:} First note the theorem holds if we only consider points in $\Q$, i.e. the set
+\[
+\set{P\in \Pj^n(\Q)}{H(P)\le B}
+\]
+is finite. Indeed, this follows from the characterization of the height on $\Q$ in Example~\ref{qheight} and the fact that there are finitely many points in $(\Z\cap [-B,B])^n$.\\
+
+\noindent\underline{Step 2:}  Next, we reduce to the case $n=1$, as follows. Choose coordinates of $P$ so that $x_j=1$ for some $j$. Then for any $i$, we have
+\[
+H(P)=\prod_{v\in M_\Q(P)} \max_{1\le j\le n}\{\ve{x_j}_v\}
+\ge\prod_{v\in M_\Q(P)} \max\{\ve{x_j}_v,1\}\ge H(x_j).
+\]
+Hence it suffices to show that 
+\begin{equation}\label{height-finite-p1}
+\set{x\in \ol{\Q}}{H(x)\le B\text{ and } [\Q[x]:\Q]\le D}
+\end{equation}
+is finite. It will follow from this that there are finitely many choices for each $x_j$, and hence a finite number of possibilities for $P$.\\
+
+\noindent\underline{Step 3:} We would like to work with $\Q$. To do so, we consider the minimal polynomial $f$ of $x$. The lemma below shows that the height of the point formed from the coefficients is bounded in terms of the roots of the polynomial. A finite number of possibilities for $f$ will mean a finite number of possibilities for $x$.
+\begin{lem}
+Let 
+\[f(X)=a_dX^d+a_{d-1}X^{d-1}+\cdots +a_0=(X-r_1)\cdots (X-r_d)\in \Q[X]\]
+be a monic polynomial of degree $d$. Then\footnote{A closely related quantity to the RHS is the {\it Mahler measure} of a polynomial, defined as $M(f)=|a_d|\prod_{i=1}^n \max(1,|x_i|)$.}
+\[
+H(a_0:\cdots :a_d)\le 2^{d-1}\prod_{j=1}^d H(r_j).
+\]
+\end{lem} 
+\begin{proof}
+%Let $s_k$ be the $k$th symmetric polynomial in the $\al_j$.  
+%By Vieta's formula, $a_{d-k}=(-1)^ks_k=\sum_{j_1<\cdots <j_k} \al_{j_1}\cdots \al_{j_k}$. Thus by the triangle inequality,
+%\[
+%|a_{d-k}|_v\le 
+%\binom dk\max_{j_1<\cdots <j_k} |\al_{j_1}\cdots \al_{j_k}|_v
+%\le
+%\binom dk \max_{1\le j\le d} |\al_j|^k_v
+%\le 2^d \prod_{j=1}^d\max\{|\al_j|_v,1\}^k.
+%\]
+%Hence
+%\[
+%\max\{|a_0|_v,\ldots, |a_d|_v\}\le 2^d \prod_{j=1}^d \max_{1\le j\le d}\{|\al_j|_v,1\}^d.
+%\]
+%Multiplying over all $v\in M_K$ and taking the $[K:\Q]$th root gives
+%\[
+%H(a_0:\cdots :a_d)=2^d \prod_{j=1}^{d}H(\al_j)^d.
+%\]
+We prove this by induction on $d$. The base case $d=1$ holds by definition of $H(\al)$. Suppose the lemma proved for polynomials of degree $d-1$. Let 
+\[g(X)=b_{d-1}X^{d-1}+\cdots +b_0=(X-r_1)\cdots (X-r_{d-1}).\]
+Then
+\[
+a_k=r_{d}b_k+b_{k-1},
+\]
+where for convenience $b_{-1}=0$. 
+
+Let $K$ be the field of definition for $(a_0:\ldots:a_n)$ and define
+\begin{equation}\label{epv}
+\ep_v(m):=\begin{cases} 1,&v\in M_K^{0}\text{ (i.e. $v$ nonarchimedean)}\\
+m,&v\in M_K^{\iy}\text{ (i.e. $v$ archimedean)}.\end{cases}
+\end{equation}
+By the triangle inequality,
+\begin{align*}
+|a_k|_v&\le \ep_v(2)\max\{|r_db_k|_v ,|b_{k-1}|_v\}\\
+&\le \ep_v(2)\max\{|r_d|_v,1\}\max\{|b_k|_v,|b_{k-1}|_{v}\}.
+\end{align*}
+Hence
+\[
+\max_{0\le k\le d}(|a_k|_v)\le \ep_v(2)\max\{|r_d|_v,1\}\max_{0\le k\le d-1}|b_k|_v.
+\]
+Take the product over all $v\in M_K$ and noting that there are at most $[K:\Q]$ archimedean places (since each corresponds to a real embedding or a pair of complex conjugate embeddings), we get
+\[
+\prod_{v\in M_K}\max_{0\le k\le d}(|a_k|_v) \le 2^{[K:\Q]} \prod_{v\in M_K} \max_{0\le k\le d-1}\{|b_k|_v,1\}.
+\]
+Raising each side to the power $\rc{[K:\Q]}$ gives
+\[
+H_K(a_0:\ldots:a_n)%\stackrel{\text{def}}{=}\pa{\prod_{i=1}^ \max\{|a_i|_v,1\}}^{\rc{[K:\Q]}}
+\le 2H(r_k)H(b_k)\le 2^{d-1}\prod_{j=1}^d H(\al_j)
+%\end{align*}
+\]
+where the last step follows from the induction hypothesis.
+\end{proof}
+Suppose $x$ is in the set~(\ref{height-finite-p1}). 
+Let $f(X)=a_dX^d+\cdots +a_0$ be the minimal polynomial of $x$, and $x_1,\ldots, x_d$ be the conjugates of $x$. Note $d\le D$. Further noting that all conjugates of $x$ have the same height (Proposition~\ref{elem-height}(3)), we have by the lemma that 
+\[
+H(a_d:\ldots:a_0)\le 2^{d-1}\prod_{j=1}^e H(x_j)=2^{d-1}H(x)^d\le 2^{D-1}B^D.
+\]
+This means all the coefficients $a_k$ have absolute value at most $2^{D-1}B^D$. This shows there are a finite number of possibilities for $f$ and hence a finite number of possibilities for $x$.
+%\end{enumerate}
+\end{proof}
+%Kronecker
+As a first application, we prove the following famous theorem of Kronecker.
+\index{Kronecker's Theorem}
+\begin{thm}[Kronecker]\label{kronecker-conj-unit-circ}
+Suppose $\al\in \ol{\Q}$ has all conjugates lying on the unit circle. Then $\al$ is a root of unity.
+\end{thm}
+\begin{proof}
+First we show that $H(\al)=1$. To this end, let $K=\Q(\al)$. If $v$ is a finite place of $K$, then $|\al|_v=1$ since $\al$ is a unit. If $v$ is an infinite place of $K$, then it is determined by a real or complex embedding, and $|\al|_v=1$ by assumption. This proves our claim.
+
+It is easy to see from the definition of $H$ that $H(\al^n)=1$ for all $n$. Furthermore $\al^n\in \Q(\al)$ for each $\al$. 
+However, by Theorem~(\ref{height-finite-p1}) there are a finite number of $x\in \ol{\Q}$ such that $x\in \Q(\al)$ and $H(x)=1$. Hence $\al^j=\al^k$ for some $j\ne k$, and $\al$ is a $(k-j)$th root of unity.
+\end{proof}
+\begin{rem}
+It is informative to unravel the arguments leading to the theorem above. For each $\al^j$, we have that the minimal polynomial of $f_j$ has bounded degree; moreover it has bounded coefficients, simply because all conjugates of $\al^j$ have absolute value 1. (This is essentially the argument in Theorem~\ref{height-finite}.) Hence there are a finite number of $f_j$, and $\al^j=\al^k$ for some $j\ne k$.
+\end{rem}
+\section{Height functions and rational maps}
+Next we consider how height transforms under rational functions.
+\begin{thm}\label{height-under-rational-maps}
+Let $\phi:\Pj^n\to \Pj^m$ be a rational map over $\ol{\Q}$. Write $\phi=(f_0,\ldots, f_m)$, where the $f_j$ are homogeneous of degree $d$. Let $Z=Z(f_0,\ldots, f_m)$, the subset of common zeros of the $f_j$ and $D=\Pj^n(\ol{\Q})\bs Z$. Then
+\[
+h(\phi(P))\le dh(P)+O(1)\quad \text{for all }P\in \Pj^n(\ol{\Q}).
+\]
+Moreover, if $X$ is a closed variety contained in $D$ (so $\phi$ defines a morphism $X\to \Pj^m$), then 
+\begin{equation}\label{height-degree}
+h(\phi(P))= dh(P)+O(1)\quad \text{for all }P\in X(\ol{\Q}).
+\end{equation}
+\end{thm}
+In particular, if $\ph$ is a morphism then $h(\phi(P))=dh(P)+O(1)$ for all $P\in \Pj(\ol{\Q})$.
+\begin{proof}
+Let $K/\Q$ be a finite extension contain the field of definition for $\phi$ and $P$. To obtain the upper bound on $h(\phi(P))$ we calculate the valuations of the $f_j(P)$ and use the triangle inequality. Each $f_j$ can be written in the form
+\[
+f_j(x)=\sum_{|e|=d}a_ex^e.
+\]
+%where $e=(e_1,\ldots, e_n)$ and $x^e
+Note there are $\binom{n+d}{d}$ terms in the above sum. 
+Defining $\ep_v(t)$ as in~(\ref{epv}), we get that by the triangle inequality that
+\[
+|f_j(x)|_v\le \ep_v\binom{n+d}{d}\max_{e}(|a_e|_v)\max_{1\le j\le n}(|x_j|_v)^d
+\]
+and hence
+\[
+\max_{1\le j\le m}|f_j(x)|_v\le \ep_v\binom{n+d}{d}\max_{e}(|a_e|_v)\max_{1\le j\le n}(|x_j|_v)^d.
+\]
+Multiplying over all $v\in M_K$, taking the $[K:\Q]$th root, and noting that there are at most $[K:\Q]$ archimedean valuations, we get
+\[
+H(\phi(P))=H(f_0(P):\ldots :f_n(P))\le \binom{n+d}{d} H((a_e)) H(P)^d
+\]
+where $(a_e)$ is the point with coordinates equal to the $a_e$; note $H((a_e))$ is a constant depending on $\phi$. Taking the logarithm gives the first part.
+
+For the second part, we will relate the height of $P$ with the height of $\phi(P)$ by writing powers of $x_i$ in terms of the $f_i$ by the Nullstellensatz. Let $X=Z(g_1,\ldots, g_{n'})$. 
+Since $Z(f_1,\ldots, f_m,g_1,\ldots, g_{m'})=X\cap Z=\phi$, by the Nullstellensatz, \[\sqrt{(f_1,\ldots, f_m,g_1,\ldots, g_{m'})}=I(Z(f_1,\ldots, f_m,g_1,\ldots, g_{m'}))=(x_1,\ldots, x_m).\]
+Hence there are polynomials $p_{k,1},\ldots, p_{k,m},q_{k,1},\ldots, q_{k,m'}$ and $e\in \N$ such that such that
+\[
+p_{k,1}f_1+\cdots +p_{k,m}f_m+q_{k,1}g_1+\cdots +q_{k,m}g_m=x_k^e.
+\]
+By taking the terms of highest degree we may assume the $p_j$ and $q_j$ are homogeneous.
+For any point $P\in X$, we have $g_j(P)=0$ so the above becomes
+\[
+p_{k,1}(P)f_1(P)+\cdots +p_{k,m}(P)f_m(P)=x_k^e.
+\]
+Let $G$ be the point with coordinates equal to $b$ where $b$ is the coefficient of some $p_{k,j}$ or $q_{k,j}$. 
+Since the $p_{k,j}$ have degree $d$, we see that $|p_{k,j}(P)|_v\le |G|_v\max_{1\le j\le n}(|x_j|_v)^{e-d}$. 
+Taking the valuation and using the triangle inequality, %(INTRODUCE NOTATION FOR HEIGHT OF POLYNOMIAL)
+\begin{align*}
+|x_k|_v^m&\le \ep_v(m)|G|_v\max_{1\le j\le n}(|x_j|_v)^{m-d}\max_{1\le j\le n}(|f_j(P)|_v).\\
+\implies
+\max_{1\le j\le n}(|x_j|_v)^d&\le \ep_v(n)|G|_v\max_{1\le j\le n}(|f_j(P)|_v).
+\end{align*}
+Taking the product over all $v\in M_K$ and taking the $[K:\Q]$th root gives
+\begin{align*}
+H(P)^d&\le mH(G)H(\phi(P)).
+\end{align*}
+Taking logarithms gives the desired result.
+\end{proof}
+This theorem has an immediate application to the dynamics of rational maps on number fields. Define a \textbf{preperiodic point} of a function $f$ to be a point $P$ such that there exist $m\ne n$ with $f^m(P)=f^n(P)$.
+\begin{thm}[Northcott]
+Let $\phi:\Pj^N(K)\to \Pj^N(K)$ be a morphism of degree $d\ge 2$ over a number field $K$. Then the set $\PrePer(\phi)\sub \Pj^N(\ol{K})$ is of bounded height. 
+
+In particular, the set of preperiodic points of $\phi$ in $K$ is finite.
+\end{thm}
+\begin{cor}
+Let $\phi$ be a rational function on $\Pj^1(K)$. There are a finite number of points $P$ such that $\phi^m(P)=\phi^n(P)$ for some $m\ne n$.
+\end{cor}
+\begin{proof}
+Theorem~\ref{height-under-rational-maps} gives us the lower bound
+\begin{equation}\label{height-low-bd}
+h(\phi(Q))\ge dh(Q)-C\text{ for all }Q\in \Pj^N(K).
+\end{equation}
+Suppose $\phi^m(P)=\phi^{m+k}(P)$. Then repeated application of the above gives
+\[
+h(\phi^m(P))=h(\phi^{m+k}(P))\ge dh(\phi^{m+k-1}(P))-C\ge\cdots \ge d^kh(\phi^m(P))-C(1+d+\cdots +d^{k-1}).
+\]
+Hence we get
+\[
+h(\phi^m(P))\le \frac{C}{d-1}.
+\]
+On the other hand,~(\ref{height-low-bd}) also gives
+\[
+h(\phi^m(P))\ge d^mh(P)-C(1+d+\cdots +d^{m-1}).
+\]
+Putting these two bounds together gives
+\[
+h(P)\le \frac{C}{(d-1)d^m}+\frac{C}{d-1}\le 2C.
+\]
+
+The second part now follows from Theorem~\ref{height-finite}.
+\end{proof}

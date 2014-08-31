@@ -1,0 +1,800 @@
+\chapter{Special values of $L$-functions}
+\setcounter{section}{-1}
+\section{Introduction}
+\subsection{Points of interest}
+
+\whbox{ 
+\begin{align}
+\fc{\pi}4&=1-\rc3+\rc5-\rc7+\rc9+\cdots\llabel{eq:acnf-ex1}\\
+\fc{\ln (\sqrt 2+1)}{\sqrt 2}&=1-\rc3-\rc5-\rc7+\rc9+\cdots\llabel{eq:acnf-ex2}\\
+\fc{2\ln \pf{1+\sqrt 5}2}{\sqrt 5}&=1-\rc2-\rc3+\rc4+\rc6+\cdots \llabel{eq:acnf-ex3}\\
+&=\sum_{n=1}^{\iy}\rc{5n+1}-\rc{5n+2}-\rc{5n+3}+\rc{5n+4}
+\nonumber
+\end{align}
+}
+
+See Mazur's article in PCTM~\cite{PCTM}\footnote{Available online at \url{http://www.math.polytechnique.fr/~chenevier/MAT552/barry_mazur.pdf}} for an introduction to algebraic number theory that highlights these formulas.
+
+In this %chapter 
+article we explore a formula that relates {\it analytic} with {\it algebraic} quantities: values of the zeta function with the class number, regulator, and discriminant of a number field. The main theorem is the following.
+
+\thmbox{[Analytic class number formula]\llabel{thm:acnf}
+Let $K$ be a number field. Then
+\beq{eq:acnf1}
+\Res_{s=1}\ze_K(s)=\fc{\redd{2^{r_1}(2\pi)^{r_2}}\blu{h_K\Reg_K}}{\redd{\sqrt{|\De_K|}}\blu{w_K}}
+\eeq
+where $h_K$ is the class number, $\Reg_K$ is the regulator, $w_K$ is the number of roots of unity in $K$,  $\De_K$ is the discriminant, and $r_1,2r_2$ are the number of real and complex embeddings of $K$.
+}
+
+%For prerequisites on the zeta function, see~\url{http://web.mit.edu/~holden1/www/math/analytic-nt.pdf}. For prerequisites on the class and unit group, see Chapters 3 and 5 of~\url{http://web.mit.edu/~holden1/www/math/ant.pdf}.)\footnote{Right now the section on regulators is missing; see~\url{http://en.wikipedia.org/wiki/Dirichlet's_unit_theorem\#The_regulator}.}
+
+\subsection{Road map}
+
+Our plan is the following. First, we grok what's going on by looking at the class number formula for quadratic fields, which already show all the different types of behavior. To prove the theorem for general $K$ we need to get reacquainted with the embedding $\si:\cO_K\to \R^r\times \C^s$. %, and getting our hands dirty. 
+Second, we'll massage our formula into nicer forms for quadratic fields and for cyclotomic fields, and see what algebraic information we can milk out from the class number formula.
+
+%How does this come about? 
+How does this formula come about?\footnote{We follow the discussion in~\url{http://math.stackexchange.com/questions/292104/how-to-derive-the-class-number-formula
+}.} 
+$\ze_K(s)$ is a sum over ideals of $\cO_K$ where the ideals are weighted depending on their norm; we are ``counting ideals" with appropriate weight. The growth of $\ze_K$ near $s=1$ depends on estimates for the number of ideals with norm $<r$. An expression for the {\it analytic} quantitiy $\Res_{s=1}\ze_K(s)$ then comes from combining the following {\it geometric} and {\it algebraic} information.
+\begin{enumerate}
+\item
+Geometric: We count algebraic integers in $K$. Geometrically (using the embedding $\si$), they form a lattice in $\R^r\times \C^s$. We can estimate the number of points in a given region around the origin. This depends on the embedding, on the volume of a fundamental parallelotope of the lattice. This is how we get the quantity\footnote{The grouping of the $2\pi$ is actually a little misleading: volume calculation gives the $\pi^{r_2}$ (think circles); think of the $2^{r_2}$ as grouped with the $\sqrt{|\De_K|}$.}
+\[
+\redd{\fc{2^{r_1}(2\pi)^{r_2}}{\sqrt{|\De_K|}}}.
+\]
+%
+\item
+Algebraic: 
+Note $\ze_K(s)$ is a sum over {\it ideals}, not over {\it numbers} in $\cO_K$. So we need to multiply by a factor that tells us what we're off by in considering numbers rather than ideals; we can do this because of the multiplicative structure of $\cO_K$. This will depend on the units (the fundamental units and the roots of unity) and the class number. This is how we get the factor
+\[
+\frac{\blu{h_K\Reg_K}}{\blu{w_K}}.
+\]
+\end{enumerate}
+%The lattice has an algebraic structure---namely, we can multiply in $\cO_K$. 
+%Another way to phrase this is that we're counting the algebraic integers in $K$ (weighted appropriately) in two ways: geometrically, we get a quantity like $2^r(2\pi)^s$, and algebraically, we {\it use the structure of $\cO_K$}; to use the structure we have to consider not algebraic integers but rather ideals. So we count the ideals and multiply by a factor 
+
+\subsection{First explorations}
+
+\whbox{
+Make sure you remember the following.
+\begin{enumerate}
+\item
+How to show $\Res_{s=1}\ze(s)=1$. 
+(We used a ``summation by parts" argument; see~
+\eqref{continue-zeta-to-0}. This was the argument that analytically continued $\ze(s)$ from $\Re s>1$ to $\Re s>0$.) 
+\item
+The embeddings used to prove the finiteness of the class group and find the rank of the unit group. The definition of the regulator.
+\end{enumerate}
+}
+
+\prbbox{
+Recall that the zeta function for $\Q$ can be defined as 
+\[
+\ze(s)=\prod_{\text{prime }p} \pa{1-\rc{p^s}}=\sum_{n=1}^{\iy} \rc{n^s}
+\]
+for $s>1$. How do we modify this definition to define the zeta function for an arbitrary finite extension $K/\Q$?
+%If we expand out $\ze_K(s)=\sum_n\fc{a_s}{n^s}$, what 
+}
+
+The identity above relied on unique factorization. In general we only have unique factorization of {\it ideals}, and we measure the size of an ideal with the {\it norm}. So we define
+\[
+\ze_K(s)=\sum_{\ma\in I_K} \rc{\fN \ma^s}
+\]
+and find by unique factorization of ideals that it equals\footnote{We always restrict to nonzero ideals} $\prod_{\mfp\sub \sO_K \text{ prime}} \pa{1-\rc{\fN \mfp^s}}$.
+
+First we explore the class number formula for quadratic number fields.
+
+\prbbox{
+ %We need to use ideals---why?
+\begin{enumerate}
+\item
+Consider the zeta function for $K=\Q(i)$. 
+When we expand out $\ze_K(s)=\sum_n\fc{a_n}{n^s}$, what do the coefficients $a_n$ represent? 
+\item
+Evaluate $\Res_{s=1} \ze_K(s)$ (recall how we evaluated $\Res_{s=1}\ze(s)$), using some area calculations.
+\item 
+Can you write $\ze_K(s)$ in terms of $L$-functions you are familiar with? Derive~\eqref{eq:acnf-ex1}.
+\item Do the same for $\Z[\sqrt{-2}]$, $\Z\ba{\fc{1+\sqrt{-3}}{2}}$ and $\Z[\sqrt{-5}]$. What's different about the last case?
+\item Do the same for $\Z[\sqrt{2}]$ and $\Z\ba{\fc{1+\sqrt 5}{2}}$. (The argument is more complicated, but make a guess.) Derive~\eqref{eq:acnf-ex2} and~\eqref{eq:acnf-ex3}.
+\item Conjecture the general class number formula (we already told you, but don't look back). Try to generalize your arguments for quadratic fields to prove it.
+\item 
+We saw that in~\eqref{eq:acnf-ex1} through~\eqref{eq:acnf-ex3} that we can evaluate in closed form series of the form $\sum \pm \rc n$ (where the $\pm$ are periodic). %What happens when you combine this with part 3?
+Can you do this in general?
+
+Given a character $\chi:\Z/N\to \{-1,1\}$, evaluate in closed form
+\[
+\sum_{n=1}^{\iy} \fc{\chi(n)}{n}
+\]
+in 2 ways: algebraically, as in~\eqref{eq:acnf-ex1} through~\eqref{eq:acnf-ex3}, and analytically (without mentioning algebraic quantities). 
+%Can you write $\Res_{s=1}\ze(s)$ as a {\it finite sum of functions} that your calculator knows how to compute? 
+Try to simplify your formula as much as possible. %What happens when you combine this with part 3?
+What happens when you equate these two? 
+
+Hint for the analytic expression: (a) power series are nice, (b) $\sum \rc{n}$ reminds us of logarithms. However we seem to have nasty sums such as $\sum_{n\equiv m\pmod p}\rc{n^s}$. What's the technique?
+\end{enumerate}
+}
+
+For a leisurely account of the class number formula for quadratic fields (assuming few prerequisites) see the PROMYS notes \cite{PROMYS-ACNF}.\footnote{Available at \url{http://math.uchicago.edu/\~chonoles/expository-notes/promys/promys2012-analyticclassnumberformulanotes.pdf}} We will discuss 1--5 in Section~\ref{sec:acnf}, 6 in Section~\ref{subsec:acnf-qf}, and 7 in Section~\ref{sec:special-l}.
+
+
+\pagebreak
+
+\section{The analytic class number formula}
+\llabel{sec:acnf}
+\subsection{Quadratic fields}
+\llabel{subsec:acnf-qf}
+This section will be mostly to build intution for the general case; we will give a self-contained proof of the general case in the next section.
+
+\begin{enumerate}
+\item
+We have $\ze_K(s)=%\prod_{\mfp \text{ prime}} \pa{1-\rc{\fN \mfp^s}}=
+\sum_{\ma \in I_K} \rc{\fN \ma^s}=\sum_{n=1}^{\iy} \fc{a_n}{n^s}$ where 
+\[a_n=\text{the number of ideals of norm }n.\]
+Now we specialize to the case $K=\Q(i)$. Every ideal is principal, of the form $(a+bi)$, and its norm is $a^2+b^2$. So does $a_n$ count the number of solutions to $a^2+b^2=n$? Almost: multiplying by a root of unity gives the same ideal. $(a+bi)$, $(i(a+bi))$, $(i^2(a+bi))$, $(i^3(a+bi))$ represent the same ideal, so $a_n$ is $\rc4$ the number of solutions. 
+
+We can think of this another way: each ideal is of the form $(a+bi)$ for a unique pair $(a,b)\in \Z^2$ with $a>0$ and $b\ge 0$ (``in the first quadrant"). Hence $a_n$ counts the number of solutions
+\[
+\boxed{a_n=|\set{(a,b)\in \Z^2,a>0,b\ge 0}{a^2+b^2=n}|.}
+\]
+\item 
+We don't have a nice expression for $a_n$ that we can work with analytically, but we can work with $\sum_{k=1}^n a_n$: it counts the number of solutions
+\[
+\sum_{k=1}^n a_k=|\set{(a,b)\in \Z^2,a>0,b\ge 0}{a^2+b^2\le n}|,
+\]
+i.e., the points inside the circle of radius $\sqrt n$ in the first quadrant.
+
+This suggests that we use {\it summation by parts} on $\ze_K$: (this is valid as $(n+1)^{-s}\sum_{k=1}^n a_k$ converges to 0 by the estimate below,~\eqref{eq:acnf-area})
+\bal
+\ze_K(s)&=\sum_n a_nn^{-s}\\
+&=\sum_{n=1}^{\iy}\pa{\sum_{k=1}^n a_k}(n^{-s}-(n+1)^{-s})\\
+&=\sum_{n=1}^{\iy}\pa{\sum_{k=1}^n a_k}s\int_{n}^{n+1} x^{-s-1}\,dx.
+\end{align*}
+Now we need to estimate $\sum_{k=1}^n a_k$. It is approximately the area of the circle of radius $\sqrt n$ in the first quadrant, so 
+\beq{eq:acnf-area}
+\sum_{k=1}^n a_k=\fc{\pi}4n+e_n\text{ where }e_n=O(\sqrt n).
+\eeq
+(The standard argument is to consider a square for each lattice point; these squares exactly cover the sector except possibly for a strip near the boundary of area proportional to the circumference, $\sim \sqrt n$.) Putting this in, we have for $s\ge 1$, 
+\begin{align}\llabel{eq:acnf-qi}
+\ze_K(s)
+&=s\sum_{n=1}^{\iy}\pa{\fc{\pi}4n+e_n}\int_{n}^{n+1} x^{-s-1}\,dx\\
+\nonumber
+&\quad\text{writing $n=(n-x)+x$},\\
+\nonumber
+&=s\sum_{n=1}^{\iy}\fc{\pi}{4}\pa{\int_{n}^{n+1} x^{-s}\,dx+\int_n^{n+1}x^{-s-1}(n-x)\,dx+e_n\int_n^{n+1}x^{-s-1}}\,dx\\
+\nonumber
+&=\fc{\pi}4s\int_1^{\iy} x^{-s}\,dx+\fc{\pi}{4}s\sum_{n=1}^{\iy}\pa{\int_n^{n+1}x^{-s-1}(x-n)\,dx+e_n\int_n^{n+1}x^{-s-1}\,dx}\\
+\nonumber
+&=\fc{\pi}4 \fc s{s-1} +\fc{\pi}{4}s\sum_{n=1}^{\iy}\ub{\pa{\int_n^{n+1}x^{-s-1}(x-n)\,dx+e_n\int_n^{n+1}x^{-s-1}\,dx}}{O(n^{-s-\rc 2})}
+\end{align}
+since $e_n=O(n^{\rc2})$. The last sum converges for $\Re s> \rc2$ to an analytic function, so we obtain an analytic continuation for $\ze_K$ to $\Re s>\rc2$. (We have $\Re s>\rc2$ rather than $\Re s>0$ as for $\ze$ because of the error term.) Breaking up $\fc{s}{s-1}=1+\rc{s-1}$ and reading off the coefficient of $\rc{s-1}$, we see
+\[
+\boxed{\Res_{s=1}\ze_K(s)=\fc{\redd\pi}{\blu4}}.
+\] 
+Summarizing, the $\pi$ comes from an area calculation, and the 4 comes from the fact there are 4 roots of unity in $\Q(i)$.
+\item
+We'd like to write $\ze_K(s)=\prod_{\mfp}\pa{1-\rc{\fN \mfp^s}}$ in terms of primes over $p$. In a quadratic field, a prime $p$ in $\Z$ either
+\begin{enumerate}
+\item
+is inert in $K$, i.e., is a prime of norm $p^2$ in $K$ %($p\equiv 3\pmod 4$ for $K=\Q(i)$),
+\item
+splits into 2 primes of norm $p$, or %($p\equiv 1\pmod 4$ for $K=\Q(i)$), or
+\item 
+ramifies. %($p=2$ for $K=\Q(i)$),
+\end{enumerate}
+For a field of discriminant $D$, these cases happen when $\pf Dp=1$, $\pf Dp=-1$, and $p\mid D$, respectively.
+We get
+\begin{align}\nonumber
+\ze_K(s)
+&=
+\prod_{p\text{ inert}}\rc{1-p^{-2s}}\prod_{p\text{ splits}}\prc{1-p^{-s}}^2
+\prod_{p\text{ ramifies}}\prc{1-p^{-s}}\\
+\nonumber&=
+\prod_p\rc{1-p^{-s}}\prod_{p\text{ inert}}\prc{1+p^{-s}}\prod_{p\text{ splits}}\prc{1-p^{-s}}\\
+\nonumber&=
+\ze(s)\prod_{p\nmid D}\prc{1-\pf{D}{p}p^{-s}}\\
+\ze_K(s)&=
+\ze(s)L\pa{s,\chi},\qquad \chi=\pf{D}{p}.\llabel{eq:acnf-zeta1}
+\end{align}
+(The $L$ function encodes the splitting law for primes in $K$.)\footnote{We note that $\chi$ is a homomorphism modulo $D$. I show this using a case analysis (not sure if there is a cleaner way...). In the following we use the notation $(a \text{ if }P)$ to mean $a$ is $P$ is true and 1 otherwise. 
+First note that $D$ is squarefree except possibly for 4 (and either $2^0,2^2,\text{ or }2^3||D$); by multiplicativity of $\pf{\bullet}p$ and quadratic reciprocity, 
+\bal
+\pf Dp&=\pa{\pf{-1}{p}\text{ if }D<0}\pf{2}{p}^{v_p(D)}
+\pa{\prod_{q\mid D, q\ne 2}\pf pq(-1)^{\fc{p-1}{2}\fc{q-1}2}}\\
+&=
+\pa{(-1)^{\fc{p-1}2}\text{ if }D<0}
+((-1)^{\fc{p^2-1}{8}}\text{ if }8\mid D)\cdot \prod_{q\mid D, q\ne 2}\pf pq\cdot 
+(-1)^{\fc{p-1}{2}|\{p=4k+1\mid D\}|}
+\end{align*}
+so
+%$\chi$ is a homomorphism modulo 
+%\[(4\text{ if }p\equiv 1)
+%\prod_{p\mid D,p\ne 2}p
+%\]
+\begin{enumerate}
+\item
+if $8\mid D$, then $\chi$ is a primitive character modulo $8\prod_{p\mid D,p\ne 2}p=D$,
+\item
+if $4\mid D$, so that $D$ is divisible by an odd number of $4k+3$ primes (so that $(-1)^{\fc{p-1}{2}|\{p=4k+1\mid D\}|}=(-1)^{\fc{p-1}{2}}$) and $D>0$, or $D$ is divisible by an even number of $4k+3$ primes and $D<0$, then $\chi$ is a primitive character modulo $4\prod_{p\mid D,p\ne 2}p=D$,
+\item
+if $4\nmid D$, so that  $D$ is divisible by an even number of $4k+3$ primes and $D>0$, or $D$ is divisible by an odd number of $4k+3$ primes and $D<0$, then $\chi$ is a primitive character modulo $\prod_{p\mid D,p\ne 2}p=D$. To see this in the second case, note we have the factors $(-1)^{\fc{p-1}{2}}(-1)^{\fc{p-1}{2}}=1$.
+\end{enumerate}
+}
+Consider $K=\Q(i)$. Here $\chi(n)=\begin{cases}
+1,&n\equiv 1\pmod 4\\
+-1,&n\equiv 3\pmod 4.
+\end{cases}$
+Now we know $\Res_1(\ze_K)=1$, so we must have
+\[
+\boxed{\fc{\pi}{4}=L\pa{s,\chi}=\sum_{n}\fc{\chi(n)}{n^s}=1-\rc3+\rc5-\rc7+\cdots.}
+\]
+Incidentally, note that the identity~\eqref{eq:acnf-zeta1} gives (via expanding the Dirichlet series) the formula
+\[
+|\set{(a,b)\in \Z^2}{a^2+b^2=n}=4(d_1(n)-d_3(n))
+\]
+where $d_j(n)$ is the number of divisors of $n$ that are $\equiv j\pmod 4$.
+\item
+For $\sqrt{-2}$, what changes in the above calculations? 
+\begin{enumerate}
+\item
+We now count instead the solutions to $x^2+2y^2\le n$. Alternatively, keeping the shape the same, we're counting the lattice points inside the circle where the lattice is generated by $1$ and $\sqrt 2i$ (each rectangle has area $\sqrt 2$; in general it has area $\sqrt{\fc{|\De_K|}{4}}$). The number of points is approximately $\sqrt 2 \pi n$.
+\item
+There are only 2 roots of unity, so we would count points in the whole upper part of the circle/ellipse, and divide by 2 instead of 4. 
+\end{enumerate}
+Similarly for $\sqrt{-3}$ we get $\fc{\sqrt 3}{2}\pi n$ and we divide by 6. We get
+\bal
+\Res\ze_{\Q(\sqrt 2i)}(s)&=\fc{\redd{\pi}}{\redd{\sqrt{2}}\blu 2}\\
+&=1-\rc{3}-\rc5+\rc7 +\rc9-\rc{11}-\rc{13}+\rc{15}+\cdots\\
+\Res\ze_{\Q(\sqrt 3i)}(s)&=\fc{\redd{\pi }}{\redd{\fc{\sqrt3}{2}}\cdot\blu 6}\\
+&=1-\rc5+\rc7-\rc{11}+\rc{13}-\rc{17}+\cdots
+\end{align*}
+For $\sqrt{-5}$, the problem is that the class number is $>1$: a prime can now split into nonprincipal ideals, so we can't simply count the number of solutions to $x^2+5y^2=1$. We'll do this rigorously later, but it makes sense that since there are 2 ideal classes, we'll only capture half the sum in this way, and we'll have to multiply by 2.\\
+
+\whbox{In general, if $K$ is a imaginary quadratic field with discriminant $D_K$, then 
+\beq{eq:acnf2}
+L(1,\chi)=\Res_{s=1}\ze_K(s)=\fc{\redd{2\pi}\blu{h_K}}{\redd{\sqrt{|D_K|}}\blu{w_K}}.
+\eeq
+where $\chi(j)=\pf{D_K}{p}$, for any prime $p\equiv j\pmod{D_K}$. [Here $D_K<0$.]
+}
+\item
+Recall the embedding we use in order to apply geometry to $K=\Q(\sqrt{d})$ with $d$ positive: $x+y\sqrt d\mapsto (x+y\sqrt d,x-y\sqrt d)=:(x',y')$. The area of the fundamental parallelogram of this lattice $L$ is ${\sqrt{{|\De_K|}}}$. 
+
+The norm is different now; it is $x'y'=x^2-d^2y$. Again we have a factor $h_K$. We now count lattice points under the hyperbola $x'y'<n$ in the first and second quadrant. However, now associates can differ not just by a root of unity ($-1$), but also by a unit, which must be some power $\ep^n$ of the fundamental unit $\ep$ (which is sent to the lattice point $(\ep,\rc{\ep})$). Drawing a picture, we see that each $x+y\sqrt d$ with norm at most $n$ has an associate in the region bounded by $x'y'=n$ and the lines joining the origin and $(1,1)$, and the origin and $(\ep,\rc{\ep})$, or the rotation of this region by $90^{\circ}$. The area of these slices can be calculated to be $2\ln \ep$. Thus we expect around $\fc{2\ln \ep}{\sqrt{|\De_K|}}$ lattice points. We obtain the following:
+
+\whbox{
+If $d$ is a real quadratic field and $\ep$ a fundamental unit, then (note $w_K=2$)
+\beq{eq:acnf3}
+L(1,\chi)=\Res_{s=1}\ze_K(s)=\fc{\redd2\blu{h_K\ln \ep}}{\redd{\sqrt{|D_K|}}}
+\eeq
+where $\chi(j)=\pf{D_K}{p}$, for any prime $p\equiv j\pmod{D_K}$. [Here $D_K>0$.]
+}
+
+In the case of $\sqrt5$, the discriminant is 5, the character is $\chi(n)=\pf{n}{5}$, and the fundamental unit is $\fc{1+\sqrt{5}}{2}$, so 
+\[
+1-\rc2-\rc3+\rc4+\rc6-\cdots=\Res_{s=1}\ze_{\Q(\sqrt{5})}(s)=\fc{2\ln \pf{1+\sqrt5}2}{\sqrt 5}.
+\]
+\end{enumerate}
+
+\subsection{Proof in general}
+\llabel{subsec:acnf}
+
+We now prove Theorem~\ref{thm:acnf} in 4 steps. Note that both~\eqref{eq:acnf2} and~\eqref{eq:acnf3} are special cases of~\eqref{eq:acnf1}: in the first case there is 1 pair of complex embeddings, hence the factor of $\pi$; in the second there are 2 real embeddings, hence the factor of 2. The group of units of a real quadratic field is 1-dimensional, so the regulator is simply the logarithm of the fundament unit.%(\fixme{4?}) 
+
+In general the area of a fundamental parallelotope is $\sqrt{|\De_K|}2^{-r_2}$ (Proposition~\ref{ideal-lattice}).
+
+
+\subsubsection{Reduce to sum over principal ideals}
+We reduce $\ze_K(s)$ to a sum over numbers in $\cO_K$, not ideals. We separate the sum by ideal classes:
+\begin{align}
+\nonumber
+\ze_K(s)&=\sum_{\ma} \rc{\fN \ma^s}\\
+\nonumber
+&=\sum_{[I]\in\Cl_K} \sum_{\ma \in [I]}\rc{\fN\ma^s}\\
+\nonumber
+&\quad \text{where the sum $[I]\in \Cl_K$ is over ideal classes.}\\
+\nonumber
+&\quad \text{Now for each $[I]$ choose $\mb_I\in [I]^{-1}$}\\
+\nonumber
+&=\sum_{[I]\in\Cl_K} \sum_{\ma \in [I]}\rc{\fN(\ma\mb_I)^s}\fN(\mb_I)^s\\
+&=\sum_{[I]\in\Cl_K} \sum_{(\al),\al\in \mb_I}\rc{\fN(\al)^s}\fN(\mb_I)^s\llabel{eq:acnf4}
+\end{align}
+since $\ma\mapsto \ma\mb_I$ is a bijection from the ideals in $[I]$ to principal ideals that are divisible by $\mb$, i.e., principal ideals in the form $(\al)$, $\al\in \mb$. If we manage to show each of the inner sums is $\fc{2^{r_1}(2\pi)^{r_2}\Reg_K}{\sqrt{|\De_K}w_K}$, then we'll be done.
+
+\subsubsection{Reduce to sum over numbers}
+The sums are now over principal ideals, but we'd like them to be over elements. The obstruction is that many elements will give the same ideal, so we'd like a canonical way of choosing a generator of $(\al)$. We'd like a region such that every set of associated elements has exactly one element in that region, a kind of {\it fundamental domain.}
+
+Any two generators will differ by a product $\ze\ep_1^{a_1}\cdots \ep_{r+s-1}^{a_{r+s-1}}$ where $\ze$ is a root of unity and $\ep_1,\ldots, \ep_{r+s-1}$ are the fundamental units. 
+
+If we have a vector space, and we say 2 elements are equivalent if they differ by an element of a lattice, we know what a fundamental domain would look like---a parallelotope. We have here a product rather than a $\Z$-linear combination, so we'll have to embed and then take logs. 
+
+Recall the embedding and the log map from Proposition~\ref{luk-in-h}:
+\[
+L:\cO_K^{\times}\xra{\si=(\si_1,\ldots, \si_{r_1+r_2})}\R^r\times \C^s \xra{\ell=(\ln\ad,\ldots, \ln \ad, \ln 2\ad,\ldots \ln 2\ad)} \R^{r_1+r_2}.
+\]
+(The kernel of this map is the roots of unity.) Recall that $L(U_K)$ is the hyperplane $H$ with $x_1+\cdots +x_{r_1+r_2}=0$, i.e. the hyperplane with $\mathbf x\cdot (1,\ldots, 1)=0$.
+Given a principal ideal we choose a generator $\al$ such that the projection of $L(\al)$ onto this subspace is in the fundamental parallelotope made by the $L(\ep_1),\ldots, L(\ep_{r+s-1})$, i.e. we require
+\beq{eq:acnf-lattice}
+L(\al)\in \ub{([0,1]L(\ep_1)+\cdots +[0,1]L(\ep_{r_1+r_2-1}))}{=:P}+\R(1,\ldots, 1)
+\eeq
+(For a set $S$ of scalars and a vector $v$ we let $Sv=\set{sv}{s\in S}$.) 
+Taking the inverse image under $L$ and noting the kernel is the roots of unity (Proposition~\ref{luk-in-h}), we have the following.
+\begin{itemize}
+\item
+For any $\al\in \cO_K$, there are exactly $w_K$ associates $\be$ of $\al$ such that\footnote{I.e., $\al$ is unique up to multiplication by a root of unity. To make $\al$ unique, we can require that $\al$ have argument in $[0,\fc{2\pi}{w_K})$.}
+\[L(\be)\in P+\R(1,\ldots, 1).\]%\R L^{-1}(P).\]
+\end{itemize}
+Combining with~\eqref{eq:acnf4},
+\beq{eq:acnf5}
+\ze_K(s)=\rc{w_K}\sum_{[I]\in\Cl_K}\fN(\mb_I)^s\sum_{\al\in L^{-1}(P+\R(1,\ldots,1))\cap \mb_I}\rc{\fN(\al)^s}.
+\eeq
+
+\subsubsection{Reduce to a volume calculation}
+Now we show how the sums in~\eqref{eq:acnf5} reduce to a volume calculation. We claim the following.
+\begin{lem}\llabel{lem:acnf-vol}
+Let $L$ be a lattice in $\R^n$, and let $\De(L)$ denote the volume of its fundamental parallelotope.\footnote{Distinguish this from $\De_K$; the relationship between $\De_K$ and $\De(L)$ is given by $\De(L)=\sqrt{|\De_K|}2^{-r_2}$; see Proposition~\ref{ideal-lattice}.} Let $V$ be a bounded, measurable set containing the origin that the points $B(\pl V,c)$ at a distance of at most $c$ from the boundary satisfy 
+\[
+\Vol[B(\pl V,c)]\precsim_c t^{n-1}.
+\]
+(There aren't too many points near the surface.)\footnote{See also VI.\S2 in Lang~\cite{La84}. His Theorem 2 is phrased in terms of $(n-1)$-Lipschitz parametrizable boundaries.} 
+Then
+\begin{enumerate}
+\item
+The number of points inside $tV$ satisfies
+\[
+|tV\cap L|= \fc{\Vol(V)}{\De(L)}t^m+O(t^{m-1})
+\]
+\item Suppose $[0,1]V=V$.
+Let $N(x)=(\inf\set{c>0}{x\in cV})^m$ (the norm associated to $V$, made homogeneous of degree $m$).
+The function
+\[
+f(s)=\sum_{x\in L}\rc{N(x)^s}
+\]
+is meromorphic for $\Re s\ge 1-\rc m$ with $\Res_{s=1}f(s)=\fc{\Vol(V)}{\De(L)}$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+%This is standard: 
+Take a fundamental parallelotope and place one at each point in $tV\cap L$; now bound the difference between this area and the area of $tV$, cf.~\eqref{eq:acnf-area}.
+\item
+%We use summation by parts to get
+%\[
+%\sum_{x\in L}\rc{N(x)^s}=
+%\int_t \#\set{x\in L}{|x|<t}\rc{t^{s+1}}\,dt
+%=\int_t [\fc{\Vol(V)}{\De(L)}t^n+O(t^{n-1})]|x|\rc{t^{s+1}}
+%=...
+%\]
+%\fixme{a discrepancy in exponents}
+This is exactly as in~\eqref{eq:acnf-qi}. 
+Noting that the number of $x\in L$ with $N(x)\le n$ is $\fc{\Vol(V)}{\De(L)}n+e_n$ for some $e_n=O(n^{\fc{m-1}m})$,
+\begin{align*}
+f(s)
+&=s\sum_{n=1}^{\iy}\pa{\fc{\Vol(V)}{\De(L)}n+e_n}\int_{n}^{n+1} x^{-s-1}\,dx\\
+\nonumber
+&\quad\text{writing $n=(n-x)+x$},\\
+\nonumber
+&=s\sum_{n=1}^{\iy}\fc{\Vol(V)}{\De(L)} \pa{\int_{n}^{n+1} x^{-s}\,dx+\int_n^{n+1}x^{-s-1}(x-n)\,dx+e_n\int_n^{n+1}x^{-s-1}}\,dx\\
+\nonumber
+&=s\fc{\Vol(V)}{\De(L)}\int_1^{\iy} x^{-s}\,dx+\fc{\Vol(V)}{\De(L)}s\sum_{n=1}^{\iy}\pa{\int_n^{n+1}x^{-s-1}(x-n)\,dx+e_n\int_n^{n+1}x^{-s-1}\,dx}\\
+\nonumber
+&=\fc{\Vol(V)}{\De(L)} \fc s{s-1} +\fc{\Vol(V)}{\De(L)} s\sum_{n=1}^{\iy}\ub{\pa{\int_n^{n+1}x^{-s-1}(x-n)\,dx+e_n\int_n^{n+1}x^{-s-1}\,dx}}{O(n^{-s-\rc m})}
+\end{align*}
+since $e_n=O(n^{\fc{m-1}{m}})$. The last sum converges for $\Re s> 1-\rc m$ to an analytic function, so we obtain an analytic continuation for $\ze_K$ to $\Re s>1-\rc m$. (We have $\Re s>1-\rc m$ rather than $\Re s>0$ for $\ze$ because of the error term.) Reading off the coefficient of $\rc{s-1}$, we see
+\[
+{\Res_{s=1}f(s)=\fc{\Vol(V)}{\De(L)}}.\qedhere
+\] 
+\end{enumerate}
+\end{proof}
+
+\subsubsection{Calculate the volume}
+We will apply Lemma~\ref{lem:acnf-vol} to \[V=
+\ell^{-1}(P-[0,\iy)(1,\ldots, 1))=[0,1]\ell^{-1}(P),\qquad L=\mb_I \] where $P$ is as in~\eqref{eq:acnf-lattice}.
+The norm on $V$ is exactly the norm we want: $N(\mathbf x)=|x_1\cdots x_{r_1+r_2}|$ on $[0,\iy)V\subeq \R^{r_1}\times \C^{r_2}$.
+%$N$ and the lattice $\si(\cO_K)$. Actually, we will let $V$ be 
+
+\begin{figure}[h!]
+\ig{analytic-chapters/acnf1}{1}
+\caption{The light blue and gray regions comprise $[0,1]\ell^{-1}(P)$. The light blue region is $[0,1]e^P$. (In this example, $P$ is 1-dimensional.)}\llabel{fig:acnf-P}
+\end{figure}
+
+We calculate the volume of $V$:
+%need to calculate the volume of $\si(\be)\in[0,1]L^{-1}(P)$.%, which will be the $V$ in (3). %
+We want to evaluate (note $x_i\in \R$ or $\C$)
+\bal
+\Vol(V)&=\idotsint_{[0,1]\ell^{-1}(P)\subeq \R^{r_1}\times \C^{r_2}}
+\,dx_1\,\ldots \ldots\,dx_{r_1+r_2}\\
+&=\idotsint_{[0,1]\cdot (\{-1,1\},\ldots, \{-1,1\},D,\ldots D)\cdot e^{\diag(1,\ldots,1,\rc2,\ldots \rc2)P}\subeq \R^{r_1}\times \C^{r_2}}
+\,dx_1\,\ldots \ldots\,dx_{r_1+r_2}
+\\
+&=\idotsint_{[0,1]e^{\diag(1,\ldots,1,\rc2,\ldots \rc2)P}\subeq \R^{r_1+r_2} } 2^{r_1}(2\pi)^{r_2} x_{r_1+1}\cdots x_{r_1+r_2}\,dx_1\,\ldots\,dx_{r_1+r_2}
+\end{align*}
+where 
+\begin{itemize}
+\item
+$\diag(1,\ldots, 1,2,\ldots, 2)$ is the map sending \[(x_1,\ldots, x_{r_1},x_{r_1+1},\ldots, x_{r_1+r_2})\mapsto
+(x_1,\ldots, x_{r_1},2x_{r_1+1},\ldots, 2x_{r_1+r_2}),\]
+\item $D=\set{z\in \C}{|z|=1}$.
+\item multiplication and exponentiation is coordinatewise.
+\end{itemize}
+When we take the inverse image $\ell^{-1}(P)$, we not only get $[0,1]e^{\diag(1,\ldots,1,\rc2,\ldots \rc2)P}$; the real coordinates also have the freedom of being positive or negative and the complex coordinates also have the freedom of varying by $|z|=1$. 
+%To see where the factors come from, we note that the integral only depends on $|x_i|$, so 
+%\begin{enumerate}
+%\item
+%for the integrals over $\R$ we can take the integral over $x_i>0$ and double them (recall $-1$ is in the kernel of $L$)---this gives the $2^{r_1}$ factor,
+%\item
+%for the ones over $\C$ we can switch to polar coordinates $(\te,r)\in \R/2\pi\times \R_{\ge0}$, and integrate over $\te$ to get $2\pi$. 
+%\end{enumerate}
+%(We did a lot in one step here.)
+We know the area of $P$, so we change coordinates to make the integral over $P$.
+Change coordinates via the map $\ell$ (so $x_i=\begin{cases}e^{x_i'},&1\le i\le r_1\\
+e^{x_i'/2},&r_1<i\le r_1+r_2
+\end{cases}$) which has determinant of Jacobian $2^{-r_2}e^{x_1'}\cdots e^{x_r'}e^{x_{r+1}'/2}\cdots 
+e^{x_{r_1+r_2}'/2}$ to get 
+\bal
+&\quad \idotsint_{P-[0,\iy)(1,\ldots,1)} 2^{r_1}(2\pi)^{r_2} e^{x_{r+1}'/2}\cdots e^{x_s'/2}(2^{-r_2}e^{x_1'}\cdots e^{x_{r_1+r_2}'/2}\,dx_1'\,\ldots\,dx_{r_1+r_2}')\\
+&=
+2^{r_1}\pi^{r_2}\idotsint_{P-[0,\iy)(1,\ldots,1)} e^{x_1'}\cdots e^{x_{r_1+r_2}'}\,dx_1'\,\ldots\,dx_s')\\
+&\quad\text{setting $y=\rc{\sqrt{r_1+r_2}}(x_1'+\cdots +x_{r_1+r_2}')$; the integral $\int_P$ in the hyperplane of $P$}\\
+&=  2^{r_1}\pi^{r_2}\int_P\int_{-\iy}^0  e^{y\sqrt{r_1+r_2}}\,dy\,d\mathbf x\\
+&= 2^{r_1}\pi^{r_2}\int_P\rc{\sqrt{r_1+r_2}}\,d\mathbf x\\
+&=  2^{r_1}\pi^{r_2}\Vol(P)\rc{\sqrt{r_1+r_2}}\\
+&=  2^{r_1}\pi^{r_2}\Reg_K
+\end{align*}
+where the last line follows from Proposition~\ref{pr:reg=vol}.
+Now each sum in~\eqref{eq:acnf5} has, by Lemma~\ref{lem:acnf-vol}, residue equal to 
+\bal
+\Res_{s=1}\sum_{\al\in \R\ell^{-1}(P)\cap \mb_I} 
+\rc{\fN(\ma)^s}
+&=\fc{\Vol(V)}{\De(\si(\mb_I))}\\
+&=\fc{2^{r_1}\pi^{r_2}\Reg_K}{\sqrt{|\De_K|}2^{-r_2}\fN(\mb_I)}
+\text{ by Prop.~\ref{ideal-lattice}}\\
+\implies 
+\Res_{s=1}\ze_K(s)&=\rc{w_K}\sum_{[I]\in \Cl_K}{\fN\mb_I}
+\pa{\Res_{s=1}\sum_{\al\in \R \ell^{-1}(P)\cap \mb_I} 
+\rc{\fN(\al)^s}}\\
+&=
+\rc{w_K}\sum_{[I]\in \Cl_K}{\fN\mb_I}
+\fc{2^{r_1}\pi^{r_2}\Reg_K}{\sqrt{|\De_K|}2^{-r_2}\fN(\mb_I)}\\
+&=\fc{2^{r_1}(2\pi)^{r_2}\Reg_K}{w_K\sqrt{|\De_K|}}.
+\end{align*}
+%Now combine everything: Each sum in (1) is $w_K$ times the volume, so $\fc{w_K2^r(2\pi)^s\Reg_K}{\sqrt{|\De_K|}}$. qed. \fixme{get the $\sqrt{}$ clear.}
+This finishes the proof of Theorem~\ref{thm:acnf}.
+
+\section{Special values of $L$-functions}
+\llabel{sec:special-l}
+
+\subsection{Evaluating $L(1,\chi)$ for quadratic characters}
+
+{We were able to find closed forms for the sums~\eqref{eq:acnf-ex1}--\eqref{eq:acnf-ex3}. The same method works in general.}
+%\fixme{2 ways?}
+
+We now evaluate $L(1,\chi)$ for quadratic characters in 2 ways.
+\begin{enumerate}
+\item
+First, we found that we have an algebraic expression for it. If $\chi(p)=\pf{D}{p}$, then letting $K$ be the field with discriminant $D$, we can use the formula for $\Res_{s=1}\ze_K(s)$, either~\eqref{eq:acnf2} or~\eqref{eq:acnf3}.
+\footnote{Every quadratic character is in this form. To use a sledgehammer, this follows by class field theory since quadratic characters are in bijection with the nontrivial elements of Galois groups of quadratic extensions. From first principles, note that $\chi$ is a continuous homomorphism on $\wh{\Z}=\prod_{p}\Z_p$, and for $p\ne 2$, $1+p\Z_p\subeq \Z_p^2$; for $p=2$, $1+8\Z_2\subeq \Z_2^2$, so $\chi$ must be 1 on these subgroups. Thus $\chi$ is a primitive character modulo $D$ for some $D\mid 8\prod_{p\ne 2}p$, and corresponds to the field with discriminant $D$ or $-D$.}
+%do a case analysis to see that if $\chi$ is primitive modulo $D$, then $D$ must be a discriminant, and there is just 1 possibility for $\chi$.}
+%\[
+%L(1,\chi)=\Res_{s=1}\ze_K(s)=...
+%\]
+\item Second, we find an closed form for it analytically (Theorem~\ref{thm:l1-formula}).
+\end{enumerate} 
+Equating these two will give us a way to calculate the class number analytically. There are 4 cases, depending on whether $D$ is positive or negative, and whether $\chi$ is odd or even. We won't write these all out, but note when $D=\pm p$, in 2 of the cases, the identity will give us information on quadratic residues and nonresidues.
+
+\begin{thm}[Formulas for $L$-functions]\llabel{thm:l1-formula}
+Let $\chi$ be a character modulo $m$. 
+Let $\tau(\chi)$ denote the Gauss sum $\sum_{j\in (\Z/m)}\chi(j)\chi^+(j)$ where $\chi^+(j)=\ze^j$ is the additive character. 
+We have
+\begin{align}
+L(1,\chi)&=%\begin{cases}
+-\fc{\tau(\chi)}{m}\sum_{k\in (\Z/m)^{\times}} \ol{\chi(k)}\ln \sin \fc{\pi k}{m}%|1-\ze^k|
+,&\chi\text{ even}\llabel{eq:l1-formula-1}\\
+L(1,\chi)&=
+\fc{\pi i \tau(\chi)}{m^2}\sum_{k\in (\Z/m)^{\times}} \ol{\chi(k)} k,&\chi\text{ odd}\llabel{eq:l1-formula-2}.
+%\end{cases}
+\end{align}
+%In particular, if $K$ is a real quadratic field with discriminant $D$, then 
+%\[
+%h_K=-\rc{\ln \ep} \sum_{0<k<\fc D2,x\perp D} \chi(x)
+%\ln \sin \fc{\pi k}{m}.
+%\]
+\end{thm}\llabel{thm:l1-formula}
+(In~\cite{BS66}, this is Theorem 3, p. 336 and Theorem 1, p. 344.)
+\begin{proof}
+%Suppose $\chi$ is a character modulo $D$. 
+We write $L(1,\chi)$ as a sum over residues modulo $n$, and then write the nasty sum $\sum_{n\equiv m}\rc{n^s}$ (a partial zeta function) in terms of nice sums using characters. We have
+\bal
+L(1,\chi)=\sum_{n=1}^{\iy}\chi(n)\rc{n}
+&=\sum_{k\in \Z/m}\chi(k)\sum_{n\equiv k\pmod D}\rc{n}\\
+&=\sum_{k\in \Z/m}\chi(k)\sum_{j\in \Z/m}\rc m\sum_n \ze^{(n-k)j}\rc{n}&\text{orthogonality of characters}\\
+&=\rc m\sum_{k\in \Z/m}\sum_{j\in \Z/m}\chi(k)\ze^{-jk}\sum_{n=1}^{\iy}\fc{\ze^{nj}}{n}.
+\end{align*}
+The inner sum is just the Taylor series of a logarithm. We have\footnote{We use the fact that if $\sum_{n=1}^{\iy} e^{i\te n}a_n$ converges, then $\lim_{r\to 1^-} r^ne^{i\te n}a_n$ equals that sum.}
+\[
+\sum_{n=1}^{\iy}\fc{\ze^{nj}}{n}=-\ln (1-\ze^j).
+\]
+Letting $\chi^+_j(n)=\ze^{nj}$, we find the sum equals (using Proposition~\ref{gaussprop})
+\bal
+L(1,\chi)&=
+-\rc m\sum_{j\in \Z/m}
+\sum_{k\in \Z/m}\chi(k)\ze^{-jk}\ln (1-\ze^j)\\
+&=-\rc m\sum_{j\in \Z/m}G(\chi,\chi^+_{-j})\ln(1-\ze^j)\\
+&=-\fc{\tau(\chi)}m\sum_{j\in (\Z/m)^{\times}}\ol{\chi(-j)}\ln(1-\ze^j)
+\end{align*}
+where the Gauss sum is 0 for $j\not\perp m$. (Proof: let $j'$ be smallest nonzero so that $jj'\equiv 0\pmod m$. We can group the terms in the sum as $\sum_{k=0}^{j'-1} (\chi(k)+\chi(k+j')+\cdots +\chi(k+p-j'))\zeta^{-jk}$. Now note $\chi(k)+\chi(k+j')+\cdots +\chi(k+p-j')=\chi(k)(\chi(1)+\chi(1+j')+\cdots +\chi(1+p-j'))$, and because $\chi$ is primitive, it is nontrivial on the subgroup $(1+j'\Z)/m\Z$, so  $\chi(1)+\chi(1+j')+\cdots +\chi(1+p-j')=0$.)
+We want to express this sum in terms of $\ln$ of real values. We use a standard trick: match up $j$ and $-j$ in the sum. We consider two cases.
+\begin{enumerate}
+\item
+$\chi$ is even, i.e., $\chi(j)=\chi(-j)$. Then the sum equals
+\bal
+-\fc{\tau(\chi)}m\rc 2\sum_{j\in (\Z/m)^{\times}}\ol{\chi(-j)}(\ln(1-\ze^j)+\ln(1-\ze^{-j}))
+%&=
+%-\fc{\tau(\chi)}m\rc 2\sum_{j\in (\Z/m)^{\times}}\ol{\chi(-j)}(\ln(1-\ze^j)^2\ze^{-j})\\
+&=
+-\fc{\tau(\chi)}m\rc 2\sum_{j\in (\Z/m)^{\times}}\ol{\chi(j)}\ln((\ze^{\fc j2}-\ze^{-\fc j2})^2)\\
+&=-\fc{\tau(\chi)}m\sum_{j\in (\Z/m)^{\times}}\ol{\chi(j)}\ln\pa{2\sin \fc{\pi j}{m}}\\
+&=-\fc{\tau(\chi)}m\sum_{j\in (\Z/m)^{\times}}\ol{\chi(j)}\ln\pa{\sin \fc{\pi j}{m}}
+\end{align*} 
+where the 2 came out as a $\ln2$ and we use $\sum_{j\in (\Z/m)^{\times}}\ol{\chi(j)}=0$.
+%\fixme{explain log. $\rc m$?}
+\item
+$\chi$ is odd, i.e., $\chi(-j)=-\chi(j)$. Then the sum equals
+\bal
+-\tau(\chi)\rc 2\sum_{j\in (\Z/m)^{\times}}\ol{\chi(-j)}(\ln(1-\ze^j)-\ln(1-\ze^{-j}))
+&=
+-\fc{\tau(\chi)}m\rc 2\sum_{j\in (\Z/m)^{\times}}\ol{-\chi(j)}(\ln(\ze^j))\\
+&=\fc{\tau(\chi)}m\rc 2\sum_{j\in (\Z/m)^{\times}}\ol{\chi(j)}\pf{2\pi ij}{m}\\
+&=\fc{\pi i\tau(\chi)}{m^2}\sum_{j\in (\Z/m)^{\times}}\ol{\chi(j)}j.\qedhere
+\end{align*}
+\end{enumerate}
+\end{proof}
+
+%\fixme{
+%Now we equate the formula we just found for the value of the $L$-function (Theorem~\ref{thm:l1-formula}) with the formulas given by the class number formula,~\eqref{eq:acnf2} and~\eqref{eq:acnf3}.
+%\bal
+%%
+%-\fc{\tau(\chi)}{m}\sum_{k\in (\Z/m)^{\times}} \ol{\chi(k)}\ln \sin \fc{\pi k}{m}&=L(1,\chi)=
+%,&\chi\text{ even}\\
+%\fc{\pi i \tau(\chi)}{m^2}\sum_{k\in (\Z/m)^{\times}} \ol{\chi(k)} k,&\chi\text{ odd}.
+%\end{align*}
+%}
+%In particular, if $K$ is a real quadratic field with discriminant $D$, then 
+%\[
+%h_K=-\rc{\ln \ep} \sum_{0<k<\fc D2,x\perp D} \chi(x)
+%\ln \sin \fc{\pi k}{m}.
+%\]
+%%
+%\end{align*}
+
+\subsection{The class number counts quadratic residues/nonresidues}
+
+Note that Theorem~\ref{thm:l1-formula} can give information on quadratic residues modulo $p$ when $\chi(k)=\pf{k}{p}$. When does this happen? We note
+\begin{align}
+\llabel{eq:cn-counts-p=1}
+\chi_{\Q(\sqrt{p})}(q)=\pf{p}{q}&=\pf{q}{p}(-1)^{\fc{p-1}{2}
+\fc{q-1}{2}}=\pf{q}{p}\text{ when }p\equiv 1\pmod 4.\\
+\chi_{\Q(\sqrt{-p})}(q)=\pf{-p}{q}&=(-1)^{\fc{q-1}{2}}\pf{p}{q}=(-1)^{\fc{q-1}{2}}\pf{q}{p}(-1)^{\fc{p-1}{2}
+\fc{q-1}{2}}\\
+&=\pf{q}{p}\cancel{(-1)^{\fc{p+1}{2}\fc{q-1}{2}}}\text{ when }p\equiv 3\pmod 4.
+\llabel{eq:cn-count-p=3}
+\end{align}
+
+Hence when $p\equiv 1\pmod 4$ we consider $\Q(\sqrt p)$, and when $p\equiv 3\pmod 4$ we consider $\Q(\sqrt{-p})$.
+
+
+\subsubsection{$p\equiv 1\pmod 4$}
+%Where else does the class number appear? 
+In the case $p\equiv 1\pmod 4$, we find an identity involving the fundamental unit, the class number, and quadratic residues/nonresidues. 
+There is no explicit formula for the fundamental unit, but we can find an explicit formula that %works for all real quadratic fields and 
+gives a {\it power} of the fundamental unit. The class number appears as the exponent.
+\begin{thm}
+Let $K$ be a real quadratic field with discriminant $D$ and character $\chi$. Then 
+\[
+\eta:=\prod_{a\perp D,0<a<\fc D2} \pa{\sin \fc{\pi a}{D}}^{-\chi(a)}
+\]
+is a unit and if $\ep>1$ is the fundamental unit, 
+\[
+\ep^h=\eta.
+\]
+In particular, if $p\equiv 1\pmod 4$, then
+$\prod_{\pf bp=-1} \sin \fc{\pi b}{p}>\prod_{\pf ap=1}\sin \fc{\pi a}{p}$.
+\end{thm}
+For $p\equiv 1\pmod 4$, think of the last statement as saying that quadratic residues mod $p$ cluster at the beginning of $(0,p/2)$ (where $\sin \fc{\pi x}{p}$ is small) and the quadratic residues mod $p$ cluster at the end. %\fixme{What about $p\equiv 3\pmod 4$?}
+\begin{proof}
+Note $\chi$ is even. Let $h=h_K$. 
+We equate~\eqref{eq:acnf3} with~\eqref{eq:l1-formula-1} to get
+\bal
+\fc{2h\ln \ep}{\sqrt{D}}=
+L(1,\chi)&=%\begin{cases}
+-\fc{\tau(\chi)}{D}\sum_{k\in (\Z/D)^{\times}} \ol{\chi(k)}\ln \sin \fc{\pi k}{D}.%|1-\ze^k|
+\\
+&=
+-\fc{1}{\sqrt D}\sum_{k\in (\Z/D)^{\times}} \ol{\chi(k)}\ln \sin \fc{\pi k}{D}.
+\end{align*}
+%\fixme{$\chi$ even?}
+where, because $\chi$ is even, by Theorem~\ref{thm:eval-gauss}, $\tau(\chi)=\sqrt{D}$. 
+We get (matching up $\chi(x)=\chi(-x)$)
+\bal
+%h_K&=-\rc{\ln \ep}\sum_{x\perp D, 0<x<\fc D2} \chi(x)\ln \sin\fc{\pi x}{D}\\
+(\ln \ep)h &=\sum_{x\perp D, 0<x<\fc D2} \ln \sin\fc{\pi x}{D}(-\chi(x))\\
+\ep^h&=\prod_{a\perp D,0<a<\fc D2} \pa{\sin \fc{\pi a}{D}}^{-\chi(a)}.\qedhere
+\end{align*}
+\end{proof}
+
+\subsubsection{$p\equiv 3\pmod 4$}
+In the imaginary quadratic case, we have an explicit formula for the class number that depends just on calculating quadratic residues, and not on any anything analytic ($\ln$, $\sin$,...).
+
+\begin{thm}
+Let $p\equiv 3\pmod 4$, $p\ne 3$ and let $R,N$ be the number of quadratic residues and nonresidues in $(0,\fc p2)$. Then the class number of $\Q(\sqrt{-p})$ is 
+\[
+h=\begin{cases}
+\rc3 (R-N),&p\equiv 3\pmod 8\\
+R-N,&p\equiv 7\pmod 8.
+\end{cases}
+\]
+In particular, $R>N$.
+\end{thm}
+%(p. 346 in BS)
+\begin{proof}
+Let $K=\Q(\sqrt{-p})$. Note $\chi$ is odd, because it equals $\pf{\bullet}{p}$ by~\eqref{eq:cn-count-p=3}, and $p\equiv 3\pmod 4$. Let $h=h_K$.
+We equate~\eqref{eq:acnf2} with~\eqref{eq:l1-formula-2} to get
+\bal
+\fc{2\pi h}{\sqrt{p}w_K}=
+L(1,\chi)&=%\begin{cases}
+\fc{\pi i \tau(\chi)}{p^2}\sum_{k\in (\Z/p)^{\times}} \ol{\chi(k)} k\\
+&=%\begin{cases}
+\fc{-\pi }{p\sqrt{p}}\sum_{k\in (\Z/p)^{\times}} {\chi(k)} k,\\
+\implies h&=-\rc{p}\sum_{k\in (\Z/p)^{\times}} {\chi(k)} k,
+\end{align*}
+where, because $\chi$ is odd, $\tau(\chi)=i\sqrt p$ by Theorem~\ref{thm:eval-gauss}, and we note $w_K=2$ for $p\ne 3$.
+
+Now we proceed in two steps.
+\begin{enumerate}
+\item
+Because $\chi$ is odd, we can pair up $\chi(k) $ and $\chi(p-k)=-\chi(k)$ to get 
+\begin{align}
+\nonumber
+h&=-\rc{p}\sum_{0<k<\fc p2}\chi(k)k+(-\chi(k))(p-k)\\
+\llabel{eq:r/nr-p=3-1}
+&=-\fc{2}{p}\sum_{0<k<\fc p2} \chi(k)k+\sum_{0<k<\fc m2}\chi(k).
+\end{align}
+\item 
+We use a trick to get rid of the sum of $\chi(k)k$. We get another expression for $h$ by first flipping some of the $k$ into $m-k$, so that we hit exactly the multiples of 2, and then take out a $\chi(2)$: %We get\fixme{!check!}
+\begin{align}
+\nonumber
+h&=-\rc{D}\sum_{k\in (\Z/p)^{\times}} \chi(k)k\\
+\nonumber&=-\rc{D}\Big(\sumr{k\in (\Z/p)^{\times}}{k\text{ even}}\chi(k)k
++\sumr{k\in (\Z/p)^{\times}}{k\text{ odd}}\chi(k)k
+\Big)\\
+\nonumber&=-\rc{D}\Big(\sumr{k\in (\Z/p)^{\times}}{k\text{ even}}\chi(k)k
++\sumr{k\in (\Z/p)^{\times}}{k\text{ odd}}-\chi(m-k)k\Big)\\
+\nonumber&=-\rc{D}\Big(\sumr{k\in (\Z/p)^{\times}}{k\text{ even}}\chi(k)k
++\sumr{k\in (\Z/p)^{\times}}{k\text{ even}}-\chi(k)(m-k)\Big)\\
+\nonumber&=\sum_{0<k<\fc p2}\chi(2k)((2k)+(2k-m))\\
+\implies
+\nonumber h\chi(2)&=-\rc{p}\sum_{0<k<\fc p2}\chi(k)(4k-m)\\
+&=-\fc{4}{p} \sum_{0<k<\fc p2}\chi(k)k+\sum_{0<k<\fc p2}\chi(k).\llabel{eq:r/nr-p=3-2}
+\end{align}
+Now multiply~\eqref{eq:r/nr-p=3-1} by 2 and subtract~\eqref{eq:r/nr-p=3-2} to get
+\bal
+h(2-\chi(2))&=\sum_{0<k<\fc p2} \chi(k).
+\end{align*}
+Noting $\chi(k)=\pf{k}{p}, \pf{2}{p}=(-1)^{\fc{p^2-1}{8}}$ gives the result.\qedhere
+%\[
+%h\chi(2)=-\fc{4}{|D|} \sum_{0<x<\fc m2} \chi(x)x+\sum_{0<x<\fc m2}\chi(x).
+%\]
+%Subtracting we get 
+%\[
+%h=\rc{2-\chi(2)}\sum_{0<x<\fc m2,x\perp D}\chi(x).
+%\]
+%%\end{enumerate}
+%Now apply to $p\equiv 3\pmod 4$, $\Z\ba{\fc{-1+\sqrt{-p}}{2}}$.
+\end{enumerate}
+%We use an averaging argument: to simplify a sum we pair up elements like $\chi(x),\chi(p-x)$.% or $\chi(x),\chi(\fc D2+x)$ for cancellation.
+%Consider 2 cases.
+%\begin{enumerate}
+%\item
+%If $|D|$ is even, it is a multiple of 4. Note $2^{r-1}+1$ is not a quadratic residue modulo $2^r$ for $r\ge 2$ (why), so $\fc m2+1$ is not a quadratic residue modulo $m$, and $\chi(m)=-1$. We pair up $\chi(x),\chi(x+\fc m2)$ to get
+%Note
+%\[
+%h=\rc{2}\sum_{0<x<\fc m2}\chi(x).
+%\]
+%If $|D|$ is odd, noting the character of an imaginary quadratic field is odd, $\chi(-1)=-1$, again 
+\end{proof}
+
+Note that there does not seem to be an ``elementary" proof of $R>N$ for $p\equiv 3\pmod 8$. See~\url{http://mathoverflow.net/questions/25707/intuition-for-a-formula-that-expresses-the-class-number-of-an-imaginary-quadrati} for a discussion.
+%\input{chapters/1.tex}
+
+%TO BE ADDED: Cyclotomic fields.
+\section{For further study}
+\begin{itemize}
+\item
+See~\cite[\S5.5]{BS66} or~\cite[Chapter 4]{Wa82} for the application of $L$-series to class numbers of cyclotomic fields.
+\item 
+The conjectural analogue of the analytic class number formula for elliptic curves is the Birch-and-Swinnerton Dyer conjecture.
+\begin{conj}[Strong Birch and Swinnerton-Dyer conjecture]
+We have
+\[
+\lim_{s \to 1}(s-1)^{\rank E}L(E,s)=\fc{\Om_E\text{Reg} E(\Q)|\Sh(E/\Q)|\prod_p c_p}{|E(\Q)\tors|^2}.
+\]
+where $c_p=[E(\Q_p):E_0(\Q_p)]$ is the Tamagawa number of $E/\Q_p$. Here
+\begin{itemize}
+\item
+$E(\Q)/E(\Q)\tors=\an{P_1,\ldots, P_r}$ comes with a quadratic form (canonical height)
+\item
+$\text{Reg}E(\Q)=\det ([P_i,P_j])_{i,j=1,\ldots, r}$ where $[P,Q]=\hat h(P+Q)-\hat P-\hat Q$. The regulator measures the volume of a fundamental domain of the associated lattice.
+\item $\Om_E=\int_{E(\R)}\fc{dx}{|2y+a_1+a_3|}$ where $a_1$ are the coefficients of a globally minimal Weierstrass equation.
+\end{itemize}•
+\end{conj}
+\end{itemize}•
+%
+%We can calculate for cyclotomic 
+%\[
+%h=\fc{p^{p/2}}{2^{m-1}\pi^m R}\prod_{\chi \ne \chi_0} L(1,\chi)
+%\]
+%for even and odd characters
+%\bal
+%|L(1,\chi^{2k})&=\fc{2}{\sqrt p}|\sum_{r=0}^{m-1}\te^{2kr}\ln|1-\ze^{g^r}|\\
+%|L(1,\chi^{2k-1})&=\fc{\pi}{p^{3/2}}|F(\te^{2k-1})|
+%\end{align*}
+%and 
+%\[
+%h=\ub{\fc{2^{m-1}}{R}\prod_{k=1}^{m-1}\ab{\sum_{r=0}^{m-1}\te^{2kr}\ln |1-\ze^{g^r}|}}{=h^+}\ub{\rc{(2p)^{m-1}}|F(\te)\cdots F(\te)^{p-2}|}{h^*}.
+%\]
+%\fixme{Show directly $h^+$ is class number of totally real subfield.}
+%
+%problem for CFT: Show that if $L/K$ is an extension with no proper unramified extension, then $h_K\mid h_L$.
+
+
+\section{Appendix}
+\begin{pr}\llabel{pr:reg=vol}
+Let $P$ be the  fundamental parallelogram of $L(U_K)$, and let $\Vol$ be the $(r_1+r_2-1)$-dimensional area. Then
+\[
+\Reg_K=\fc{\Vol(P)}{\sqrt{r_1+r_2}}.
+\]
+\end{pr}
+\begin{proof}
+The regulator is defined by deleting any column of the matrix with rows $L(\ep_i)$, i.e., it calculated by taking a fundamental parallelotope, projecting it to any hyperplane $x_i=0$, and then taking the area. (The proof will show these projections have the same area.)
+
+Let $t=r_1+r_2$. Let $L(\ep_i)=(a_{i,1},\ldots, a_{i,t-1},-a_{i,1}-\cdots -a_{i,t-1})$. (Recall that the coordinates sum to 0.) To find the volume within the hyperplane, we note that $(\rc{\sqrt t},\ldots, \rc{\sqrt t})$ is a unit vector perpendicular to the hyperplane, and 
+evaluate
+\[\begin{vmatrix}a_{1,1} & a_{1,2} & \cdots & a_{1,t-1} & -a_{1,1}-a_{1,2}-\cdots-a_{1,t-1}\\
+a_{2,1} & a_{2,2} & \cdots & a_{2,t-1} & -a_{2,1}-a_{2,2}-\cdots-a_{2,t-1}\\
+\vdots & \vdots & \ddots & \vdots & \vdots\\
+a_{t-1,1} & a_{t-1,2} & \cdots & a_{t-1,t-1} & -a_{t-1,1}-a_{t-1,2}-\cdots-a_{t-1,t-1}\\
+\frac{1}{\sqrt{t}} & \frac{1}{\sqrt{t}} & \cdots & \frac{1}{\sqrt{t}} & \frac{1}{\sqrt{t}}
+\end{vmatrix}.\]
+Take the cofactor expansion along the bottom row. The $i$th term, for $i<t$, is 
+\[
+(-1)^{i-1}\rc{\sqrt t}\begin{vmatrix}a_{1,1} & a_{1,2} & \cdots & a_{1,t-1} \\
+a_{2,1} & a_{2,2} & \cdots & a_{2,t-1} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{t-1,1} & a_{t-1,2} & \cdots & a_{t-1,t-1} 
+\end{vmatrix}
+\]
+but with the $i$th column deleted and the column $(-a_{i,1}-\cdots -a_{i,t-1})_{1\le i\le t-1}$ added as the last column. Add the first $t-2$ columns to this column (which doesn't change the determinant); permute the columns with the permutation $t-1\to i\to i+1\to \cdots$, which has sign $(-1)^{t-i-1}$; and take out a $-1$ to get $(-1)^{t+1}\rc{\sqrt t}\begin{vmatrix}a_{1,1} & a_{1,2} & \cdots & a_{1,t-1} \\
+a_{2,1} & a_{2,2} & \cdots & a_{2,t-1} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{t-1,1} & a_{t-1,2} & \cdots & a_{t-1,t-1} \end{vmatrix}$. (Incidentally this shows that deleting any column gives the same absolute value of determinant, so that the regulator is well-defined.) Adding these all up gives
+\[
+\Vol(P)=t\rc{\sqrt t}\begin{Vmatrix}a_{1,1} & a_{1,2} & \cdots & a_{1,t-1} \\
+a_{2,1} & a_{2,2} & \cdots & a_{2,t-1} \\
+\vdots & \vdots & \ddots & \vdots \\
+a_{t-1,1} & a_{t-1,2} & \cdots & a_{t-1,t-1} \end{Vmatrix}=\sqrt{t}\Reg_K.
+\]
+\end{proof} 
+
+A character (of the multiplicative group) is \textbf{quadratic} if $\chi^2=\chi_0$ and \textbf{primitive} modulo $m$ if $\chi$ is not a character modulo $m'$ for any $1\ne m'\mid m$. 
+\begin{thm}\llabel{thm:eval-gauss}
+Let $\chi$ be a primitive quadratic character modulo $m$. Then the Gauss sum $\tau(\chi)$ satisfies 
+\[
+\tau(\chi)=\begin{cases}
+\sqrt m &\text{if }\chi\text{ is even }(\chi(-1)=1),\\
+i\sqrt m&\text{if }\chi\text{ is odd }(\chi(-1)=-1).
+\end{cases}
+\]
+\end{thm}
+\begin{proof}
+This is somewhat involved. See~\cite[\S5.5, Theorem 7]{BS66}. (See Theorem~\ref{})
+\end{proof}

@@ -1,0 +1,945 @@
+\chapter{Lubin-Tate Theory}\llabel{lubin-tate}
+\index{Lubin-Tate theory}
+We prove local class field theory using Lubin-Tate Theory, following Yoshida.
+
+\fixme{NEED TO ORGANIZE AND INSERT NOTES FROM 18.786.}
+\section{Lecture 11/29}
+\subsection{Infinite Galois theory}
+See Neukirch IV.1.
+\begin{df}
+Algebraic $L/K$ is Galois iff $\Aut_K(L)$ acts simply transitively on $\Hom(L,\ol{K})$, iff it is the composite of finite Galois extensions.
+\end{df}
+We have
+\[
+G(L/K)=\varprojlim_{K\subeq K'\subeq L} G(K'/K).
+\]
+Since $G(K'/K)$ are finite groups, the LHS is a profinite group. It is compact totally disconnected topological group.
+\begin{ex}
+\[
+G(\ol{\F}_q/\F_q)=\varprojlim_n G(\F_{q^n}/\F_q) \cong \varprojlim_n(\Z/n\Z)=\hat{Z}.
+\]
+Define $\ph_q(x)=x^q$ (arithmetic Frobenius) and (geometric Frobenius)
+\[
+\Frob_q=\ph_q^{-1}\in G(\F_{q^n}/\F_q).
+\]
+\end{ex}
+\subsection{$K^{\text{un}}$, $K^t$, and $K^{\text{ab}}$}
+\begin{df}
+An algebraic extension $L/K$ is unramified, tame ($\chr(k)\nmid e_{L/K}$), or totally ramified if all finite subextensions have the property.
+
+$L/K$ is abelian if it is Galois and its Galois group is abelian.
+\end{df}
+\begin{lem}
+If $L_1,L_2$ are algebraic over $K$ and unramified, tame, or abelian, then $L_1L_2/K$ satisfies the same property.
+\end{lem}
+\begin{cor}
+There exist maximal unramified, tame, and abelian extensions of $K$ in $\ol{K}$, denoted $K^{\text{un}}$, $K^t$, and $K^{\text{ab}}$.
+\end{cor}
+It is clear that $K^{\text{un}}\sub K^{t}$. (Note that in the local case $K^{\text{un}}\sub K^{\text{ab}}$.)
+
+Taking the Galois-theoretic view,
+\begin{align*}
+K^{\text{un}}&=\ol{K}^{G_0}\\
+K^{t}&=\ol{K}^{G_1}.
+\end{align*}
+Note $G/G_0$ corresponds to the unramified part, $G_0/G_1$ is prime to $p$, and $G_1$ is pro-$p$. $\ol{K}/K^t$ is pro-$p$ part, $K^t/K^{\text{un}}$ is prime-to-$p$.
+\subsection{Unramified extensions}
+From now on, $K/\Q_p$ is finite. All this carries over to all local fields (finite extensions of $\F_q((t))$, with some care about separability).
+
+The setup is $\ol K/L/K/\Q_p$, with $v_K:K^{\times}\tra \Z$ sending a uniformizer $\pi_K$ to 1. We have $\sO_K/(\pi_K)=k=\F_q$ where $q$ is some power of $p$.
+\begin{lem}
+$K_n:=K(\mu_{q^n-1})$ is a splitting field of $X^{q^n-1}-1$ is the unique unramified Galois extension of degree $n$.
+\end{lem}
+\begin{proof}
+Since $K_n$ is a splitting field it is Galois. It is unramified by computing the discriminant. We have a map $G(K_n/K)\hra (\Z/(q^n-1)\Z)^{\times}$ sending $\ph_K\mapsto q$. ($\ph_K$ is a generator of the Galois group.) Hence
+\[
+[K_n:K]=\ord_{q^n-1}(q)=n.
+\]
+
+Let $K_n'/K$ be an unramified extension of degree $n$. Then the extension of residue fields has degree $[l:k]=n$ so $l=\F_{q^n}$. By Hensel's lemma, $\mu_{q^n-1}\subeq K_n'$, so $K_n\subeq K_n'$. Since both are degree $n$ over $K$, they are equal.
+\end{proof}
+\begin{cor}
+\[K^{\text{un}}=\bigcup_{n\ge 1}K(\mu_{q^n-1})=\bigcup_{p\nmid n} K(\mu_n).\]
+Moreover,
+\[
+G(K^{\text{un}}/K)
+=\varprojlim_n G(K_n/K)
+=\varprojlim_n G(\F_{q^n}/\F_{q^n})
+=\hat{\Z}.
+\]
+giving $\Frob_K\in G(K^{\text{un}}/K)$.
+\end{cor}
+\subsection{Tame extensions}
+From the homework, there is a map
+\[
+f:G(K^t/K^{\text{un}}) \to \varprojlim_{p\nmid n} \mu_n
+\cong \prod_{l\ne p} \underbrace{\mu_{l^{\iy}}}_{\Z_l}%can,noncan
+\]
+A uniformizer $\pi_K$ remains a uniformizer in $K^{\text{un}}$. The above sends $\si\mapsto \fc{\si(\pi_K^{\rc n})}{\pi_K^{\rc n}}\in \mu_n$. Also from the homework,
+\[
+1\to G(K^t/K^{\text{un}}) \to G(K^t/K) \to G(K^{\text{un}}/K)\to 1.
+\]
+%\mu_n\sub K^{\text{un}}
+Take $\tau\in G(K^t/K^{\text{un}})$, $\wt{\Frob}_K$ any lift of $\Frob_K$. We have
+\[
+f(\wt{\Frob}_K \tau \wt{\Frob}_K^{-1})=\Frob_K(f(\tau)).
+\]
+In particular, $K^t$ is not abelian over $K$, but it is abelian over $K^{\text{un}}$. 
+
+Lots of nice diagrams, see notebook.
+\subsection{Completed extensions and Weil groups}
+Let $K/\Q_p$ be finite and $\hat{K}^{\text{un}}$, $\hat{\ol{K}}=:\C_p$ be completions of $K^{\text{un}}$ and $\ol{K}$ with respect to the unique extension of $\ad_K$. 
+%Note $\hat{\ol K}$ is algebraically closed.
+\begin{df}
+$K\subeq L\subeq \hat{\ol{K}}$ is \textbf{finitely ramified} (\textbf{algebraically ramified}) if $[L:L\cap \hat{K}^{\text{un}}]<\iy$ (respectively, $L/L\cap \hat{K}^{\text{un}}$ is algebraic).
+\end{df}
+\begin{ex}
+A finite extension of $K^{\text{un}}, \hat{K}^{\text{un}}$ is finitely ramified. $\hat K$ is algebraically ramified but $\hat{\ol{K}}$ is not algebraically ramifed.
+\end{ex}
+%C_p similar role as C in p-adic analysis
+\begin{pr}
+Let
+\begin{align*}
+\mathscr C^{\text{fin}}_K &=\{\text{finitely ramified extension of $K$ in $\ol K$}\}\\
+\hat{\mathscr C}^{\text{fin}}_K &=\{\text{finitely ramified extension of $K$ in $\hat{\ol K}$}\}.
+\end{align*}
+Similarly define $\mathscr C^{\text{alg}}_K$ and $\hat{\mathscr C}^{\text{alg}}_K$. The map
+\[
+L\mapsto \hat{L}
+\]
+is a fully faithful functor. This is true for alg too.
+\end{pr}
+Fully faithful means that $\Hom_K(L,L')\cong \Hom_K^{\text{cont}}(L,L')$. 
+\begin{proof}
+Any homomorphism is automatically continuous because valuation extends uniquely from $K$ to $L$ or $L'$, so the LHS equals $\Hom_K^{\text{cont}}(L,L')$. Continuously extend on RHS.
+\end{proof}
+\begin{cor}
+\begin{enumerate}
+\item
+For all $L\in \mathscr C_K^{\text{alg}}$, $Aut_K(L)=\Aut_K^{\text{cont}}(\hat L)$.
+\item
+For all $L\in \mathscr C_K^{\text{alg}}$, $\hat{L}\cap \ol K=L$.
+\item
+For all $L\in \mathscr C_K^{\text{fin}}$ or $\hat{\mathscr{C}}_K^{\text{fin}}$, 
+\[\sO_L=\set{x\in L}{|x|\le 1}\]
+is a DVR.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}
+\item
+Take $L'=L$.
+\item
+$K\sub L\subeq \hat L\cap \ol K\sub \hat L$, the first two are algebraic; $L$ is dense in $\hat L$, so $L=\hat L\cap \ol K$.
+\item
+The valuation on $L\cap \hat{K}^{\text{un}}$ is discrete: 
+we have $v_{K^{\text{un}}}:K^{\text{un}}\tra \Z$. 
+When we take completions the image of the valuation doesn't change: $L\cap \hat{K}^{\text{un}}\hra \hat{K}^{\text{un}} \tra \Z$. Taking a finite extension, we see the valuation on $L$ (on $\sO_L$ is discrete).
+%ring of integers still dvr. int'l closure still dvr.
+\end{enumerate}
+\end{proof}
+Let $L\in \mathscr C_K^{\text{alg}}$ or $\hat{\mathscr C_K}^{\text{alg}}$. 
+\begin{df}
+$L$ is Galois over $K$ iff $\Aut_K^{\text{cont}}(L)$ acts simply transitively $\Hom_K^{\text{cont}}(L,\hat{\ol K})$. (For $L\in \mathscr C_K^{\text{alg}}$, we can drop the continuity condition.)
+\end{df}
+If $L/K$ is Galois, then 
+\[r:G(L/K):=\Aut_K^{\text{cont}}(L)\tra \Aut_k(l)\ni \Frob_q.\]
+\begin{df}
+Define the \textbf{Weil group}
+\[
+W(L/K)=r^{-1}(\Frob_q^{\Z}).
+\]
+%collection of elements in Galois group, image is integral power of Frob pwoer.
+\end{df}
+For example, if $L/K$ is finite, then $W(L/K)=G(L/K)$, therefore
+\[
+W(K^{\text{un}}/K) \sub G(K^{\text{un}}/K)\cong \hat{\Z}
+\]
+%middle strict
+Things don't change when we replace $K^{\text{un}}$ by completion; this is since $\Aut_K(L)=\Aut_K^{\text{cont}}(\hat L)$.
+
+If $L=\hat K$ or ${K}^{\text{ab}}$, then
+\[
+\xymatrix{
+1\ar[r]& G(L/K)_0\ar[r]\ar@{=}[d]& G(L/K)\ar[r]& G(\ol{\F_q}/\F_q)\ar[r] &1\\
+1\ar[r]& G(L/K)_0\ar[r]&W(L/K) \ar[r]\ar@{^(->}[u]& \Frob_q^{\Z} \ar[r]\ar@{^(->}[u]& 1.
+}
+\]
+\section{Lecture 12/1}
+Keep the setup $K\subeq L\subeq \hat{\ol{K}}$, $K/\Q_p$ finite. We had a fully faithful functor
+\[
+\xymatrix{
+\mathscr C_K^{\text{fin}}\ar[r]^{\wh{}} \ar@{^(->}[d] & \hat{\mathscr C}_K^{\text{fin}}\ar@{^(->}[d]\\
+ \mathscr C_K^{\text{alg}}\ar[r]^{\wh{}} &\hat{ \mathscr C}_K^{\text{alg}}.
+}
+\]
+In Lubin-Tate theory, we to construct extensions between $K^{\text{un}}$ and $K^{\text{ab}}$; taking the compositum gives $K^{\text{LT}}=\bigcup_{m\ge 1}K^m$; this is $K^{\text{ab}}$ by local Kronecker-Weber.
+
+However we need to work with complete fields so we take completion, and work with continuous Galois theory.
+\begin{thm}[Local Artin reciprocity]\llabel{local-reciprocity}
+There exists a group homomorphism
+\[
+\Art_K:K^{\times}\to W(K^{\text{ab}}/K)
+\]
+such that
+\begin{enumerate}
+\item
+(Compatible if we restrict) $\Art_K(\pi_K)|_{K^{\text{un}}}=\Frob_K$ for any uniformizer $\pi_K$.
+\item
+For all $L/K$ finite abelian, $\Art_K(\nm(L^{\times}))=1$.
+\end{enumerate}
+Moreover $\Art_K$ is a topological isomorphism. 
+\end{thm}
+Note $K^{\times}=\sO_K\times \pi_K^{\Z}$.
+We had
+\[
+1\to G(K^{\text{ab}}/K)_0\to W(K^{\text{ab}}/K)\to \Z\to 1.
+\]
+(Inertial group maps trivially.)
+Neukirch 4.1.
+%open subgroup - finite subextension
+%closed subgroup - intermediate (1-1)
+%\Z\in \hat{\Z}$ neither open nor closed.
+We use the Weil group to get a topological isomorphism.
+%Try to generalize LCFT, Weil group still natural notion.
+We give a map for each finite $K/\Q_p$, but want to know what happens when we pass to extension field of $K$.
+\begin{thm}[Local basechange]\llabel{local-basechange}
+Suppose $L/K$ is finite. The following commutes.
+\[
+\xymatrix{
+L^{\times}\ar[d]^{\nm_{L/K}}\ar[r]^{\cong}_{\Art_L} & W(L^{\text{ab}}/L)\ar[d]^{\bullet|_{K^{\text{ab}}}}\\
+K^{\times}\ar[r]^{\cong}_{\Art_K} & W(K^{\text{ab}}/K).
+}
+\]
+\end{thm}
+In the cohomological approach you can go backwards.
+\begin{thm}[Filtration]\llabel{local-filtration}
+Under $\Art_K:K^{\times}\xra{\cong} W(K^{\text{ab}}/K)$, we have
+\[
+U_K^i\cong G(K^{\text{ab}}/K)^i
+\]
+\end{thm}
+(Herbrand's theorem says that numbering behaves well with respect to quotients.) We'll use Lubin-Tate theory to prove this.
+\begin{enumerate}
+\item Prove Theorem~\ref{local-artin} and~\ref{local-basechange} for $K^{\text{LT}}$ instead of $K^{\text{ab}}$.
+\item Using Hasse-Arf (ramification theory) Theorem~\ref{local-filtration} and Local Kronecker-Weber show $K^{\text{LT}}=K^{\text{ab}}$.
+\end{enumerate}
+Lubin-Tate formal groups
+look like hard algebra but geometric motivation.
+The Kronecker-Weber Theorem says
+\[
+\Q^{\text{cyc}}=\bigcup_{n\ge 1} \Q(\mu_n)=\Q^{\text{ab}}.
+\]
+We have $\Q(\ze_n)=\Q(\mu_n)/\Q$, take roots of $x^n-1=0$. Can we produce abelian extensions over finite extensions of $\Q$ or $\Q_p$?  Over $\Q$ the general case is still open, but elliptic curves gives answer for imaginary quadratic extensions. Lubin-Tate gives answer over $\Q_p$ by attaching the roots of some ``explicit" polynomial.
+
+\section{Formal groups}
+A formal group is basically a group law defined on power series. It can be thought of as a ``group law without a group"; for applications we will this group law operate on a maximal ideal in a complete ring. (This way, the power series for the group law will converge.)
+\begin{df}
+A (1-dimensional commutative) \textbf{formal group} $\mathscr F$ over the ring $R$ is a power series $F(X,Y)\in R[[X,Y]]$ satisfying the following three conditions.
+\begin{enumerate}
+\item
+$F(X,Y)=X+Y\pmod{(X,Y)^2}$. %+G(X,Y)$ where all terms of $G$ have degree at least 2.
+\item (Associativity)
+$F(F(X,Y),Z)=F(X,F(Y,Z))$.
+\item (Commutativity)
+$F(X,Y)=F(Y,X)$.
+\end{enumerate}
+We also write $X+_F Y$ for $F(X,Y)$.
+\end{df}
+\begin{lem} Keep the above notation.
+A formal group has the following additional properties:
+\begin{enumerate}
+\item[4.] (Inverse) There is a unique power series $i(T)\in R[[T]]$ such that $F(T,i(T))=0$.
+\item[5.] (Identity) $F(X,0)=F(0,X)=X$.
+\end{enumerate}
+\end{lem}
+Formal groups originally appeared geometrically: Suppose we are interested in an infinitesimal neighborhood of a point on a variety. Consider the ring of rational functions defined in this infinitesimal neighborhood. Taking the completion of this ring, we get a ring of power series; the variable is an uniformizer.
+
+Imagine a group law on $\A^1_{\Spec A}=\Spec A[T]$; we have to give a multiplication map
+\begin{align*}
+\A^1_{\Spec A}&\to \A^1_{\Spec A} \\
+\Spec A[X]\ot_A A[Y] & \to \Spec A[T]\\
+A[X,Y] & \mapsfrom A[T].
+\end{align*}
+This is equivalent to giving the image of $T$ in $A[X,Y]$. Looking at it locally (say at 0) means localizing at $(x)$, giving power series. 
+%affine formal group scheme, degree 1 approximation
+
+\begin{ex}
+The formal additive $\hat{\mathbb G}_a$ and multiplicative groups $\hat{\mathbb G}_m$ are given by
+%XY, bring identity element to 0.
+%completion of G_a,G_m.
+\begin{align*}
+F(X,Y)&=X+Y\\
+F(X,Y)&=X+Y+XY=(1+X)(1+Y)-1.
+\end{align*}
+\end{ex}
+
+\begin{df}
+A homomorphism from $(\mathscr F,F)$ to $(\mathscr G,G)$ is a power series $f(T)\in R[[T]]$ with
+\[
+f(F(X,Y))=G(f(X),f(Y)).
+\]
+$\mathscr F$ and $\mathscr G$ are isomorphic over $R$ if there are homomorphisms $f:\mathscr F\to \mathscr G$ and $g:\mathscr G\to \mathscr F$ such that $f(g(T))=g(f(T))=T$.
+\end{df}
+Note $f(X)\in (X)$ (?).
+%A[[T]]->A[[X]]
+%maximal ideal: in schemes (T)->(X).
+For short we write $f\circ F=G\circ f$ or $f(X+_F Y)=f(x)+_G f(Y)$.
+\begin{df}[Base change]
+Let $B$ be an $A$-algebra, via $\ph:A\to B$. Let $(\mathscr F,F)$ be a formal group over $A$. Define
+\[
+F\ot_A B:=\ph(F)\in B[[X,Y]].
+\]
+\end{df}
+We care about Lubin-Tate formal groups for local class field theory. Suppose $K/\Q_p$ is finite; write $k=\F_q$; let $L/K$ be a complete unramified extension (for example, finite unramified extension $K_n=K(\mu_{q^n-1})$ of $\hat K^{\text{un}}$). Let $\sO_L$ be the base ring. Consider $(\pi, f)$ where $\pi$ is a uniformizer of $L$ and $f(X)\in \sO_L[[X]]$ such that 
+\begin{enumerate}
+\item
+$f(X)\equiv \pi X \pmod{(X^2)}$.
+\item
+$f(X)\equiv X^q\pmod{\pi\sO_L[[X]]}$.
+\end{enumerate}
+The fundamental example is the following.
+\begin{ex}
+%get cyclotomic extensions out of $\Q_p$
+$K=\Q_p$, $\pi=p=q$. Take
+\[
+f(X)=(X+1)^p-1=p(\cdots )+X^p.
+\]
+\end{ex}
+\begin{df}
+A Lubin-Tate group is a formal group over $\sO_L$ of height 1 with $\sO_K$-action.
+(We say $f$ has height $h$ if $f(X)\equiv X^{q^h}\pmod{\pi}$.)
+%general case - nonabelian local class field theory.
+
+Let $\pi,\pi'$ be uniformizers of $L$. Define
+\[
+\Theta_{\pi,\pi'} :=\set{\te\in \sO_L}{\te\pi = \te^{\ph} \pi'}
+\]
+where $\ph:L\to L$ is the arithmetic Frobenius ($x\mapsto x^q$ on residue field).
+%\ph(\te)(\pi')
+%f is like a group homomorphism
+%gadget relate one choice of uniformizer to another.
+\end{df}
+Note $\sO_K\subeq \Theta_{\pi,\pi}$, and $\Theta_{\pi,\pi'}$ is an additive group.
+\begin{lem}
+Take $(\pi,f)$ and $(\pi',f')$ as above. Let $\te_1,\ldots,\te_t\in \Theta_{\pi,\pi'}$. Then there exists a unique power series $F\in \sO_L[[X_1,\ldots, X_t]]$ such that
+%for use $t\le 3$:)
+\begin{enumerate}
+\item
+$F\equiv \te_1X_1+\cdots +\te_tX_t\pmod{(X_1,\ldots,X_t)^2}$.
+\item 
+$F^{\ph} \circ f=f'\circ F$. (Here $F^{\ph}:=\ph(F)\in \sO_L[[x_1,\ldots, X_t]]$.)
+\end{enumerate}
+\end{lem}
+\begin{proof}
+Yoshida, lemma 3.4. Similar to proof of Hensel's lemma. Successive approximation. We have deg 0 and 1 part. Degree 2, 3, and so on. Solve condition 2 modulo degree $i$ terms for $i=3,4,\ldots$ to get degree $i-1$ terms of $F$.
+\end{proof}
+\begin{pr}
+Take $(\pi,f)$ and $(\pi',f')$ as before.
+\begin{enumerate}
+\item
+There exists a unique formal group $F_f=F_{(\pi,f)}$ over $\sO_L$ such that $f\in \Hom_{\sO_L}(F,F^{\ph})$. (\textbf{Lubin-tate group}).
+\item
+There is a unique map $[\cdot]_{f,f'}:\Theta_{\pi,\pi'}\to (X)\subeq \sO_L[[X]]$ such that
+\begin{enumerate}
+\item
+$[\te]_{f,f'}\equiv \te X\pmod{X^2}$.
+\item
+$f'\circ [\te] =[\te]^{\ph} \circ f$.
+\[
+\xymatrix{
+F_f\ar[r]^{[\te]} \ar[d]^f & F_{f'} \ar[d]^{f'}\\
+F_f^{\ph} \ar[r]^{[\te]^{\ph}} & F_{f'}^{\ph}.
+}
+\]
+\end{enumerate}
+It further satisfies
+\begin{enumerate}
+\item[(c)]
+$[\te]+[\te']=[\te+\te']_{f,f'}$ (i.e. $[\te]\in \Hom(F_f,F_f')$).
+\item[(d)]
+$[\te']_{f',f''}\circ[\te]_{f,f'}=[\te\te']_{f,f''}$.
+\end{enumerate}
+\item $[\te]_{f,f'}\in \Hom(F_f,F_{f'})$ on formal groups $\sO_L$.
+\end{enumerate}
+\end{pr}
+We can check that the uniqueness assertion implies $[\te]^{\ph}=[\te^{\ph}]$ and $(F_f)^{\ph} = F_{f^{\ph}}$.
+
+$f\in \Hom_{\sO_L}(F,F^{\ph})$, $f\bmod{\pi}\in \Hom_l(F\bmod{\pi},F^{\ph}\bmod{\pi})$. $f\bmod{\pi}=X^q$ represents $\ph:X\mapsto X^q$.
+%unique formal group so that lift of frobenius is special type
+%special fiber char p
+%if assume L=K everywhere then $\ph$ goes away, endomorphism of F
+\begin{proof}
+Take $f=f'$ and $\pi=\pi'$ in the lemma. We want $F_f^{\ph}\circ f=f\circ F_f$. Take $f=f'$, $\pi=\pi'$ in lemma. $F_f\equiv X+Y\pmod{(X,Y)^2}$ by 1, so by the lemma there exists a unique $F_f$. This gives the $t=2$ case.
+
+(2) Take $t=1$, $\te_1=\te$. The lemma gives that $[\te]_{f,f'}$ is determined by (i) and (ii). Omit rest of (2).
+
+(3) We want $[\te]\circ F_f=F_{f'}\circ [\te]$. 
+\end{proof}
+Taking $\pi=\pi'$, we get a ring homomorphism.
+\begin{cor}
+$[\cdot]_{f,f}:\Theta_{\pi,\pi}\to \End_{\sO_L}(F_f)$ is a ring homomorphism by Proposition. It equips $F_f$ with a $\sO_K$-action. We say that $F_f$ is a ``formal $\sO_K$"-module. We check that $[\te]\circ F_f=F_{f'}\circ [\te]=\te X\pmod{(X,Y)^2}$. Also by (1) %$F_f^{\ph}\circ f = f\circ F_f$
+and (2)(ii)
+%first swich te, f' using part 2, then switch
+\[
+f'([\te]\circ F_f)=([\te]\circ F_f)^{\ph}\circ f.
+\]
+Get what we want by lemma (uniqueness).
+%theta x, x+y
+\end{cor}
+\section{Lecture 12/6}
+\subsection{Lubin-Tate groups}
+Let $L/K$ be a complete unramified extension, with $\ph$ arithmetic Frobenius. ($L=K_n$, $\hat{K}^{\text{un}}$) 
+
+Given the data $(\pi, f)$, with $f\in \sO_L[[X]]$ such that
+\[
+f(X)\equiv \begin{cases}
+\pi X \pmod{X^2}&\text{on ``tangent spaces"}\\
+X^q \pmod{\pi}&\text{``special fiber".} 
+\end{cases}
+\]
+define
+\[
+\Theta_{\pi,\pi'}:=\set{\te\in \sO_L}{\te \pi'=\te^{\ph} \pi}.
+\]
+(Note $\Theta_{\pi,\pi}=\sO_K$.) %\supeq clear
+The major construction is that there exists a unique formal group $F_{f}\in \sO_L[[X,Y]]$ such that $f\in \Hom(F_f,F_f^{\ph})$, and a map $[\cdot]_{f,f'}$ with certain properties (see last lecture).
+\subsection{Lubin-Tate extensions (totally ramified over $L$)}
+\begin{df}
+Given $(\pi, f)$ as above, and let $(\cdot)^{(i)}=(\cdot)^{\ph^i}$ denote the $i$th twist. 
+%define some funny elements!
+Let
+\begin{align*}
+\pi_m&:=\pi^{(m-1)}\cdots \pi^{(1)}\pi\\
+f_m&:=f^{(m-1)}\circ \cdots \circ f^{(1)}f.
+\end{align*}
+We assume $f$ is a monic polynomial (so it has degree $q$), for example $f(X)=X^q+\pi X$. Note $\deg(f_m)=q^m$. Let
+\begin{align*}
+L_f^m&:=\text{splitting field of $f_m$ over $L$.}\\
+\mu_{f,m}&:=\{\text{roots of $f_m$}\}.
+\end{align*}
+Note $\mu_{f,m-1}\sub \mu_{f,m}$ (since $f_{m-1}(\al)=0$ implies $f_m(\al)=0$). Define
+\[
+\mu_{f,m}^{\times}:=\mu_{f,m}\bs \mu_{f,m-1}.
+\]
+We think of these as ``primitive roots of $f_m$."
+\end{df}
+The example to keep in mind is $K(\ze_{p^n})$.
+
+Note the easy observation that $\pi^{(i)}\in \Theta_{\pi^{(i)},\pi^{(i+1)}}$. Then $[\pi^{(i)}]_{f^{(i)}, f^{(i+1)}}=f^{(i)}$. in $\sO_L[[X]]$. We have
+\[
+\xymatrix{
+F_f\ar[r]^f_{[\pi]}
+\ar@/_2pc/[rrr]^{f_m}_{[\pi_m]}
+&
+F_{f^{(1)}}\ar[r]^{f^{(1)}}_{[\pi^{(1)}]} \ar[r]
+&
+\cdots\ar[r]^{f^{(m-1)}}_{[\pi^{(m-1)}]}&
+F_{f^{(m)}}
+}
+\]
+\begin{ex}
+Let $L=K=\Q_p$. Then $\pi=p$. We have
+\begin{align*}
+\pi_m&=p^m\\
+f_m&=(1+X)^{p^m}-1\\
+\mu_{f,m}&= \set{\ze_{p^m}^j-1}{j\in \Z/p^n\Z}\\
+\mu_{f,m}^{\times}&= \set{\ze_{p^m}^j-1}{j\in (\Z/p^n\Z)^{\times}}.
+\end{align*}
+Note on group structure.
+\end{ex}
+We wish to construct the Artin map
+\[
+K^{\times} \xra{\cong} W(K^{\text{ab}}/K).
+\]
+For now, we construct
+\[
+(\sO_K/\pi_K^m)^{\times} \xra{\cong} G(L_f^m/L).
+\]
+The strategy is to consider a group $G$ acting on $X$ and an abelian group $H$. Assume $G,H$ act simply transitively, and the actions of $G, H$ commute. Then there exists a unique map $i:G\xra{\cong} H$ such that for all $x\in X$, $g(x)=i(g)X$. (Proof is routine.)
+
+For example, $(\Z/N\Z)^{\times}\cong G(\Q(\ze_N)/\Q)$ acts on $\mu_N^{\times}=\set{\ze_N^j}{j\in (\Z/N\Z)^{\times}}$. This is the familiar isomorphism in cyclotomic theory.
+\begin{ex}
+$(\Z/p^m\Z)^{\times}$ and $G(\Q_p(\ze)/\Q_p)=G(L_f^m/L)$ act on $\mu_{f,m}=\set{\ze_{p^m}^j}{j\in (\Z/p^m\Z)^{\times}}$.
+\end{ex}
+Let's construct group actions $(\sO_K/\pi_K^m)^{\times}$ and $G(L_f^m/L)$ on $\mu_{f,m}^{\times}$.
+\begin{lem}
+\begin{enumerate}
+\item
+$\mu_{f,m}\subeq P_{L_f^m}$, the maximal ideal of $L_f^m$, and $\mu_{f,m}$ consists of the $m$-torsion points on $F_f$.
+\[
+\mu_{f,m}=\set{\al\in P_{f^m}}{[a](\al)=0\text{ for all }a\in (\pi_K)^m}.
+\]
+\item
+$\mu_{f,m}$ is a free $(\sO_K/\pi_K^m)$-module of rank 1. (It is an additive group under $+_{F_f}$ and $[\cdot]_{f,f}$ gives the $\sO_K$-action.)
+\item
+$f_m^{\times}:=\frac{f_m}{f_{m-1}}\in \sO_L[X]$ and is irreducible over $L$; $\mu_{f,m}^{\times}$ are the roots of $f_m^{\times}$.
+\end{enumerate}
+$L_f^m=L(\al)$ for any $\al\in \mu_{f,m}^{\times}$ and is totally ramified over $L$. The degree is $\ph(q^m)$.
+\end{lem}
+These are familiar facts in cyclotomic theory!
+\begin{proof}
+\begin{enumerate}
+\item
+Given $\al\in \mu_{f,m}$, by definition $f_m(\al)=0$. $f(X)\equiv X^q\pmod{\pi}$ gives that $f_m=f^{(m-1)}\circ \cdots \circ f\equiv X^{q^m}\pmod{\pi}$. Hence $\al^{q^m}\equiv 0\pmod{\pi}$, and $v(\al)>0$, i.e. it's in the maximal ideal.
+
+For all $a\in (\pi_K^m)$, let $u=\fc{a}{\pi_m}\in \sO_L$. Note $v_L(\pi_m)=m$. %each twist of $\pi_m$ is still uniformizer.
+Note $v_L(a)=v_K(a)\ge m$ so $u\in \sO_L^{\times}$.
+
+Now $\al\in \mu_{f,m}$ iff $f_m(\al)=[\pi_m](\al)$. This is equivalent to $[u][\pi_m](\al)=0$. (The forward direction is clear; for the reverse, if $v_K(a)=m$ then we can apply $[u^{-1}]$.) This is true iff $[a](\al)=0$. This gives 1.
+\item ``$\mu_{f,m}$ is an $\sO_K$-module." This is a routine check. It is a $\sO_K/\pi_K^m$-module because $[a](\al)=0$ for all $a\in (\pi_K^m)=0$ for all $a\in (\pi_K^m)$ by $(*)$ $[a](\al)=0$.
+
+To see it is free of rank 1, pick $\al \in \mu_{f,m}^{\times}$. Consider $\sO_K/\pi_K^m\to \mu_{f,m}$ taking $a$ to $[a](\al)$. Since $|\sO_K/\pi_K^m|=|\mu_{f,m}|=q^m$, it suffices to prove this is an injective $\sO_K/\pi_K^m$-module homomorphism. It is injective because otherwise there exists $a\in \sO_K$, $a\nequiv 0\pmod{\pi_K^m}$ with $[a](\al)=0$. But then  $(*)$ with $m=j$ gives $[a](\al)=0$, $a\in \mu_{f,j}\subeq \mu_{f,m-1}$, so $a\nin \mu_{f,m}^{\times}$, contradiction. 
+\item
+Observe $\mu_{f,m-1}\subeq \mu_{f,m}$. %the roots of f_{m-1} in f_m.
+%These are separable polynomials. %in char 0 field.
+Hence $f_{m-1}\mid f_m$. Then $\mu_{f,m}^{\times}$ are the roots of $\fc{f_m}{f_{m-1}}=f_m^{\times}$.
+
+Note 
+\begin{align*}
+f_{m-1}(X)&=\pi^{(m-2)}\cdots \pi X\pmod{X^2}\\
+f_m(X)&=\pi^{(m-1)}\cdots \pi X\pmod{X^2}.
+\end{align*}
+so $\fc{f_m}{f_{m-1}}\equiv \pi^{(m-1)}\pmod{X}$. This shows
+\begin{equation}\llabel{lte-norm-calc}
+\pi^{(m-1)}=\prod_{\al\in \mu_{f,m}^{\times}}(-\al).
+\end{equation}
+For any $\al\in \mu_{f,m}^{\times}$, $L(\al)=L_{f,m}$. ``$\subeq$" is clear since $L_{f,m}=L(\mu_{f,m})$.
+However, $\mu_{f,m}$ is free of rank 1. Note $\mu_{f,m}=\set{[a]\al}{a\in \sO_K/\pi_K^m}\subeq L(\al)$ by completeness, so ``$\supeq$" holds.
+
+Take $v_{L(\al)}:L(\al)^{\times}\tra \Z$ of~(\ref{lte-norm-calc}). Then
+\[
+v_{L(\al)}(\pi^{(m-1)})=\sum_{\be\subeq \mu_{f,m}^{\times}}v_{L(\al)}(\be).
+\]
+The LHS is $e_{L(\al)/L}v_L(\pi^{(m-1)})=e_{L(\al)/L}$. The RHS is at least $|\mu_{f,m}^{\times}|=\ph(q^m)\ge [L(\al):L]\ge e_{L(\al)/L}$. Thus we get equality everywhere.
+
+This gives that $L(\al)=L_f^m$ is totally ramified over $L$ of degree $\ph(q^m)$, and $f_m^{\times}$ is irreducible over $L$.
+\end{enumerate}
+\end{proof}
+\begin{cor}
+$\sO_K/\pi_K^m$ and $G(L_f^m/L)$ are commutative, simply transitive group actions on $\mu^{\times}_{f,m}$.
+\end{cor}
+\begin{proof}
+$(\sO_K/\pi_K^m)$ acts freely on $\mu_{f,m}$, so $(\sO_K/\pi_K^m)^{\times}$ acts freely on $\mu_{f,m}^{\times}$. We have
+\[
+|(\sO_K/\pi_K^m)^{\times}|=|G(L_f^m/L)|=|\mu_{f,m}^{\times}|.
+\]
+Hence we get transitive group action.
+
+The Galois group acts transitively on the set of roots of an irreducible polynomial. %G on $\mu_{f,m}^{\times} roots of f_m^{\times} irred.
+By cardinality count above, it is simple.
+
+Commute: omitted.
+\end{proof}
+The upshot of this is that there is an isomorphism
+\[
+\Art_f^m:(\sO_K/\pi_K^m)^{\times} \xra{\cong} G(L_f^m/L) \subeq \{\text{permutation group on }\mu_{f,m}^{\times}\}.
+\]
+Concretely, it sends $a$ to $[a]$. 
+We want to include unramified extensions into the picture.
+We need to see how this depends on $(\pi,f)$. 
+%independent of choice as much as possible.
+\section{Lecture 12/8}
+Recall that given a formal group $F_f\in \sO_L[[X]]$ over $\sO_L$, we have 
+\[[\cdot]_{f,f'}:\Theta_{\pi,\pi'}\to \Hom(F_f,F_f').\]
+$L_f^{\times}:=L(\mu_{f,m})=L(\al)$ totally ramified over $L$ of degree $\ph(q^m)$. We had $(\sO_K/\pi_K^m)^{\times}\cong G(L_f^m/L)$ acting on $\mu_{f,m}^{\times}$.
+
+What is the dependence of $\Art_f^m$ on $(\pi,f)$?
+\begin{pr}
+Let $(\pi,f)$ and $(\pi',f')$ be as above. Suppose $\te\in \Theta_{\pi,\pi'}$. Suppose $\te\in \Theta_{\pi,\pi'}\cap \sO_L^{\times}$; then $[\te]:F_f\to F_{f'}$ is isomorphism and induces $\sO_K$-isomorphism $\mu_{f,m}\xra{\cong}\mu_{f',m}$. Moreover $L_f^m=L_{f'}^m$.
+\end{pr}
+\begin{proof}
+We gave $\te^{-1}\in \Theta_{\pi',\pi}\cap \sO_L^{\times}$. Then $[\te]$ and $[\te^{-1}]$ are inverses of each other, hence isomorphisms.
+
+To see roots map to one another, note
+\[
+f_m'\circ [\te]=f'^{(m-1)}\circ \cdots \circ f'^{(1)} \circ f'\circ [\te]=[\te]^{(m)}\circ f_m.
+\]
+($f'\circ [\te]=[\te]^{\ph}\circ f$, $f'^{(1)}\circ [\te]^{\ph}\circ f=[\te]^{\ph^2}\circ f^{(1)}\circ f$, and so forth.)
+%forward, one more phi twist
+So $[\te]$ maps $\mu_{f,m}$ into $\mu_{f',m}$, because $f_m(\al)=0$ imples $f_m'([\te](\al))=0$ by the above. It is an $\sO_K$-homomorphism since $[a]\circ [\te]=[a\te]=[\te a]=[\te]\circ[a]$; thus it is an $\sO_K$-isomorphism.
+%[\te], [\te^{-1}]
+%\al\in \mu_{f,m}\subeq P_{L_f^m}
+Now $\mu_{f,m}\sub L_f^m$ and $[\te]\in \sO_L[[X]]$ give $\mu_{f',m}=[\te](\mu_{f,m})\sub L_f^m$. Likewise $L_{f'}^m\sub L_f^m$.
+\end{proof}
+\begin{cor}
+In the setting of the proposition,
+\[
+\xymatrix{
+(\sO_K/\pi_K^m)^{\times} \ar[r]^{\Art^m_f}_{\cong}
+\ar[rd]_{\Art^m_{f'}}^{\cong} & G(L_f^m/L)\ar@{=}[d]\\
+& G(L^m_{f'}/L).
+}
+\]
+\end{cor}
+\begin{proof}
+$[a]$ on $\mu_{f,m}^{\times}$ maps via $\sO_K$-isomorphism $\mu_{f,m}\cong \mu_{f',m}$ to $[a]$ on $\mu_{f',m}^{\times}$.
+\end{proof}
+\subsection{Lubin-Tate Extensions}
+%totally ramified and unramified.
+Let $U_K^m=\set{a\in \sO_L^{\times}}{a\equiv 1\pmod{\pi_K^m}}$. 
+
+We want to upgrade the above to $K^{\times}/U_K^m\times \cdots$ and $W(L_f^m/K)$ acting (simply transitively and commuting) on 
+\[
+\coprod_{i\in W(L/K)}\mu^{\times}_{f^{(i)},m}.
+\]
+Our plan is the following.
+\begin{enumerate}
+\item
+Show that $L_f^m/K$ is Galois.
+\item
+Define actions of $K^{\times}$ and the Weil group.
+\item
+Show simply transitivity and commutativity to get the Artin isomorphism.
+\item
+Show how this depends on $(\pi, f)$.
+\item
+Put things together as $m\to \iy$.
+\end{enumerate}
+%some notation
+\begin{df}
+For $j\ge 0$ and $\pi$ a uniformizer of $L$, define
+\[
+\pi_{-j}=(\pi_j^{-1})^{(-j)}=\ph^{-j}(\pi_j^{-1}),\quad j\ge 0.
+\]
+Note that $v_L(\pi_j)=j$.
+\end{df}
+\begin{lem}
+Let $a\in K^{\times}$ and $j=-v_K(a)$. Then
+\begin{enumerate}
+\item
+$a\pi_j\in \Theta_{\pi,\pi^{(j)}}\cap \sO_L^{\times}$.
+\item
+$[a\pi_j]: F_f\xra{\cong} F_{f^{(j)}}$ induces $\mu_{f,m}\xra{\cong}\mu_{f^{(j)},m}$ and $L_f^m=L_{f^{(j)}}^m$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+$v_L(a\pi_j)=0$. Check $a\pi_j\in \Theta_{\pi,\pi^{(j)}}$.
+\item
+From previous proposition.
+\end{enumerate}
+\end{proof}
+\begin{pr}
+$L_f^m/K$ is Galois.
+\end{pr}
+\begin{proof}
+Note $L/K$ is Galois, since $L=K_n$ or $L=\hat{K}^{\text{un}}$.
+It suffices to prove that $\Aut(L_f^m/K)\to \Aut(L/K)$. Given $\ph^i\in \Aut(L/K)$, $i\in\Z$ we show it extends to $[L_f^m:L]$ automorphisms.
+
+Idea: %The idea is that we have 
+\[
+\xymatrix{
+L_f^m\ar@{-}[d]\ar@{.>}[r] & L_f^m \ar@{-}[d]^{\ph(q^m)}\\
+L\ar[r]^{\ph_i}_{\cong} & L.
+}
+\]
+$f_m\xra{\ph^i}f_m^{(i)}$ in $\sO[X]$. $\al\in \mu_{f,m}^{\times} \xra{\cong} \mu^{\times}_{f^{(i)},m}$.
+
+We have $L_f^m=L_{f^{(i)}}^m$; pick any $\al'\in L(\mu_{f^{(i)},m}^{\times})$. Then $L(\al)\xra{\cong} L(\al')$ by $\al\mapsto \al'$ is an automorphism fixing $\ph^i$.
+Thus we get $|\mu_{f^{(i)}_m}^{\times}|=\ph(q^m)$ isomorphisms, and it is Galois.
+
+$L[X]\to L[\al']$ sending $g(X)$ to $g^{(i)}(\al')$, factors through $L[X]/(f_m(X))=L_f^m$.
+\end{proof}
+\begin{pr}
+$W(L_f^m/K)$ induces an action on
+\[
+M_{f,m}:=\coprod_{\ph^i\in W(L/K)} \mu^{\times}_{f^{(i)},m}\sub L_f^m
+\]
+We have $i\in \Z/n\Z$ for $L=K_n$ and $i\in \Z$ for $L=\hat{K}^{\text{un}}$.
+\end{pr}
+\begin{proof}
+Define $v$ by 
+\begin{align*}
+W(L_f^m/K)&\tra W(L/K)\\
+\tau&\mapsto \ol{\ph}^{v(\tau)}=\Frob_K^{v(\tau)}.
+\end{align*}
+%ignore nonalg powers
+%when include k moving around components
+%shifting set of roots
+\begin{lem}
+$\tau$ induces, for each $i$ ($j=-v(\tau)$), $\mu^{\times}_{f^{(i)},m}\xra{\cong} \mu_{f^{(i+j)},m}^{\times}$.
+\end{lem}
+\begin{proof}
+$\mu_{f^{(i)},m}^{\times}$ are the roots of $f_m^{(i)}/f_{m-1}^{(i)}$ to roots of $\tau(f_m^{(i)}/f_{m-1}^{(i)})$
+%note j = -
+which are the roots of $f_m^{(i+j)}/f_{m-1}^{(i+j)}$, 
+%twist j more times
+%\tau=\ph^j act on L.
+$\mu^{\times}_{f^{(i+j)},m}$. It is an isomorphism because its inverse is $\tau^{-1}$.
+\end{proof}
+\begin{lem}
+The group action is simply transitive. 
+\end{lem}
+\begin{proof}
+For any $\al\in \mu_{f^{(i)},m}$, $\tau*\al=\tau'*\al$. This implies $v(\tau)=v(\tau')$ and $\tau^{-1}\tau'\in W(L_f^m/L)$. Simply transitive. $\tau^{-1}\tau'*\al=\al$, so $\tau'=\tau$. So simple.
+
+Start from $\al\in \mu_{f,m}^{\times}$. For $\ph^i\in W(L/K)$ lift to $\tau_i\in W(L_f^m/K)$. Get $\tau_i*\al\in \mu_{f^{(-i)},m}^{\times}$. We get using $W(L_f^m/L)$, get everything in $\mu^{\times}_{f^{(i)},m}$.
+\end{proof}
+\end{proof}
+Step 2': $K^{\times}$-action. The story is subtler; we have to define this action more carefully.
+
+Action of $a\in K^{\times}$: Let $j=-v_K(a)$; for each $i$, 
+%canel out val j part by mult by st of j here but need play around get correct indices
+$a$-action is defined to be 
+\[
+[a\pi_j^{(i)}]:\mu_{f^{(i)},m}^{\times} \xra{\cong} \mu_{f^{(i+j)},m}^{\times}.
+\]
+$a\pi_j^{(i)}\in \sO_L^{\times}\cap \Theta_{f^{(i)},f^{(i+j)}}$. %prev prop
+\begin{lem}
+This is a group action. For $L=K_n$ it factors through $K^{\times}/U_K^m\times \pi_n^{\Z}$ and for $L=\hat{K}^{\text{un}}$ it factors through $K^{\times}/U_K^{m}$. They are simply transitive.
+\end{lem}
+\begin{proof}
+We need $a'a*\al=a'*(a*\al)$ where $j:=-v_K(a)$ and $j':=-v_K(a')$. We want that the following commutes
+\[
+\xymatrix{
+\mu_{f^{(i)},m}^{\times} \ar[r]^{[a\pi_j^{(i)}]}
+\ar@/_2pc/[rr]_{[aa'\pi_{j+j'}^{(i)}]} &
+\mu_{f^{(i+j)},m}^{\times} \ar[r]^{[a'\pi_{j'}^{(i+j)}]} &
+\mu_{f^{(i+j+j')},m}^{\times}
+}
+\]
+i.e. $[a\pi_j^{(i)}][a'\pi_{j'}^{(i+j)}]=[aa'\pi_{j+j'}^{(i)}]$ %merge brackets on left
+since $\pi_j^{(i)}\pi_{j'}^{(i+j)}=\pi_{j+j'}^{(i)}$. %write out.
+
+For 2, $a=\pi_n=\pi^{(n-1)}\cdots \pi^{(1)}\pi=\nm_{L/K}(\pi)$. $j=-n$. $a\pi_{-n}^{(i)}=a\pi_{-n}=1$. So $\pi_n$ acts trivially on $\mu_{f,m}$. We've seen that $U_K^m$ acts trivially. % applied pi i , f i
+Hence the action factors.
+
+Transitive: similar to Weil group case.
+
+Simple: $a*\al=a'*\al$. Show $v(a)=v(a')\in \Z/n\Z$. Then $a^{-1}a'\in \sO_K$ fixes $\al$ so $a^{-1}a'\in U_K^m$. This says $a=a'$ in the quotient group.
+
+$L=\hat{K}^{\text{un}}$ similar.
+\end{proof}
+Now 
+\[
+x=\begin{cases}
+\nm_{L/K}(\pi),& L=K_n\\
+1,&L=\hat{K}^{\text{un}}.
+\end{cases}
+\]
+%We GET THE ACTIONS!
+\begin{lem}
+Two actions commute. Exercise!
+\end{lem}
+The upshot is that we get
+\[
+\xymatrix{
+K^{\times}/U_K^m\times x^{\Z} \ar[r]^{\cong}_{\Art_f^m} & W(L_f^m/K)\\
+\sO_K^{\times}\ar@{^(->}[u]\ar[r] \ar[r]^{\cong}_{\Art_f^m} 
+& W(L_f^m/L)\ar@{^(->}[u].
+}
+\]
+\begin{lem}
+If $\te\in \Theta_{\pi,\pi'}\cap \sO_L^{\times}$, then $[\te]:F_{f^{(i)}}\xra{\cong} F_{f'^{(i)}}$, for all $i$. Induces $[\te]:\mu_{f,m}\xra{\cong}\mu_{f',m}$.
+\end{lem}
+Proof as before.
+\section{Tuesday 12/13}
+\subsection{Proof of main theorems}
+Let $L/K$ be an unramified complete extension equipped with $\ph:x\mapsto x^q$. ($L=\hat{K}^{\text{un}}$ or $K_n$). Given $(\pi, f)$, $\pi$ uniformizer of $L$, $f\in \sO_L[X]$, monic degree $q$, get $F_f$ formal group with $\sO_K$-action, $L=K(\mu_{f,m})$ of degree $\ph(q^m)$.
+
+We constructed $M_{f,m}=\coprod_{\ph^i\in W(L/K)} \mu_{f^{(i)},m}^{\times}$ with $K^{\times}/U_K^{\times}\times x^{\Z}\cong W(L_f^m/K)$ acting on it. 
+As we vary $m$, this diagram is compatible:
+\[
+\xymatrix{
+K^{\times}/U_k^{m+1}\times x^{\Z}
+\ar@{->>}[d]&
+M_{f,m+1}\ar@{->>}[d]&
+W(L_f^{m+1}/K)\ar@{->>}[d]\\
+K^{\times}/U_k^{m}\times x^{\Z}
+&
+M_{f,m}&
+W(L_f^{m}/K)
+}
+\]
+Thus taking the inverse limit, we get
+\[
+\Art_f: K^{\times}/x^{\Z}\xra{\cong}W(L/K), \quad L:=\bigcup_{m\ge 1} L_f^m.
+\]
+We have seen $(*)$ $\Theta_{\pi,\pi'}\cap \sO_L^{\times}\ne \phi$ implies $L_f^m=L_{f'}^m$ and $\Art_f^m=\Art_{f'}^m$ so $L_f=L_{f'}$ and $\Art_f=\Art_{f'}$. %note \pi'/\pi\in \sO_L^{\times}
+\begin{lem}
+\begin{enumerate}
+\item
+$L=\hat{K}^{\text{un}}$. For all $\pi,\pi'$, $(*)$ holds.
+\item
+$L=K_n$. Then $\nm_{K_n/K}(\pi)=\nm_{K_n/K}(\pi')$.
+\end{enumerate}
+\end{lem}
+\begin{proof}
+\begin{enumerate}
+\item
+For a point, for ever $\al\in \sO_{\hat{K}^{\text{un}}}^{\times}$, there exists $\fc{\te^{\ph}}{\te}=\al$. Successive approximation to $\te$, modulo $\pi, \pi^2$...
+\item
+By item 1, $\te\in \Theta_{\pi,\pi'}\cap \sO_{\hat{K}^{\text{un}}}^{\times}$.
+\begin{align*}
+\fc{\te^{\ph^n}}{\te}&= \fc{\te^{\ph^n}}{\te^{\ph^{n-1}}}\cdots \fc{\te^{\ph}}{\te}\\
+&=\pf{\pi'}{\pi}^{\ph^{n-1}}\cdots \fc{\pi'}{\pi}\\
+&=\nm_{K_n/K}\pf{\pi'}{\pi}=1.
+%coeff in fpbar, in fixed field so in fqn
+\end{align*}
+There exists $\te\in \sO^{\times}_{\hat K_{\text{un}}}\cap $fixed field of $\ph^n=\sO_{K^n}^{\times}$.
+\end{enumerate}
+\end{proof}
+The upshot/motivation is that for $L=\hat K^{\text{un}}$, $\Art_f$, $L_f$, $L_f^m$ are independent of $(\pi, f)$. Rename them $\Art_K$, $\hat K^{\text{LT}}$, $\hat K^m$. Thus we get
+\[
+\Art_K:K^{\times} \xra{\cong} W(\hat K^{\text{LT}}/K)\cong W(K^{\text{LT}}/K).
+\]
+For $L=K_n$ we get uniformizers $\pi$ of $K_n$ mapping to $x\in K^{\times}$ such that $v_K(x)=n$, sending $\pi\mapsto \nm_{K^n/K}(\pi)$. This is onto (Yoshida, 5.2).
+
+Thus $\Art_f,L_f,L_f^m$ depend only on $x=\nm_{K^n/K}(\pi)$, not $\pi$. We write $\Art_{x}$, $K_{x},K_{x}^m$. Thus we get
+\begin{equation}\llabel{kx-cd}
+\xymatrix{
+K^{\times}/x^{\Z}\ar[r]^{\cong}_{\Art_x} & W(K_x/K)\\
+K^{\times}\ar[r]^{\cong}_{\Art_K} \ar@{->>}[u] & W(K^{\text{LT}}/K)\ar@{->>}[u].
+}
+\end{equation}
+%Z/n top, Z below.
+On the RHS, $\mu_{f,m}\in \Z$ for $\hat{K^{\text{un}}}$ maps to $\mu_{f,m}$ for $K_n$ by quotienting by the $x^{\Z}$-action. We can check these are dense:
+\begin{align*}
+K^m&=K^{\text{un}}\cdot K^m_x\subeq \hat{K}^m\\
+K^{\text{LT}}&=K^{\text{un}}\cdot K_x \subeq \hat K^{\text{LT}}.
+\end{align*} 
+Can check $\widehat{K^m}=\hat{K}^m$ and $\wh{K^{\text{LT}}}=\hat K^{\text{LT}}$. We have $K^m=\hat{K}^m\cap \ol K$ and $K^{\text{LT}}=\hat K^{\text{LT}}\cap \hat K$, independent of $x$. We get
+\[
+\Art_K:K^{\times}\xra{\cong} W(K^{\text{LT}}/K).
+\]
+
+We had the following theorems.
+\begin{enumerate}
+\item
+Artin reciprocity isomorphism
+\item
+local basechange
+\item matching filtration
+\item
+local Kronecker-Weber ($K^{\text{LT}}=K^{\text{ab}}$)
+\end{enumerate}
+We'll assume 2 (see Yoshida 5.1-2). 
+\begin{thm}
+There exists a group homomorphism $\Art_K:K^{\times}\to W(K^{\text{LT}}/K)$ such that
+\begin{enumerate}
+\item
+$\Art_K(\pi_K)|_{K^{\text{un}}}=\Frob_K$ for all uniformizers $\pi_K$.
+\item
+For all $K'/K$ finite, $K\subeq K'\subeq K^{\text{LT}}$, $\Art_K(\nm_{K'/K}(K'^{\times}))=1$.
+\end{enumerate}
+%LT - indep of choice of x - one gadget to get indep. over any complete unram. didnt have to restrict to finite ab ext. great way prove indep of all data
+\item $\Art_K$ is a topological isomorphism.
+%4 req extra argument
+\end{thm}
+\begin{proof}
+We show that $\Art_K$ satisfies (a) and (b). If $a\in K^{\times}$ corresponds to $\tau\in W$ then $a$-action equals $\tau$-action on $M_{f,m}=\coprod_{i\in \Z} \mu_{f^{(i)}}$. Then $v_K(a)=v(\tau)\in \Z\cong W(K^{\text{un}}/K)$ (mapped to surjectively from $W(K^{\text{LT}}/K)$); $v(\cdot)$ is shift of $i$.
+
+For $a=\pi_K$, $v(\Art_K(\pi_K))=1$, i.e. $\Art_K(\pi_K)|_{K^{\text{un}}}=\Frob_K$.
+%lh part. rh totally ram
+
+B is implied by local basechange.
+\end{proof}
+\begin{proof}
+$\Art_K$ is isomorphism by construction. Look at open subgroups. Lower part is profinite.
+\[
+\xymatrix{
+K^{\times}\ar[r]^{\cong}& W(K^{\text{LT}}/K)\\
+\sO_K^{\times}\ar@{^(->}[u] \ar[r]^{\cong} &
+W(K^{\text{LT}}/K^{\text{un}})\ar@{^(->}[u].
+}
+\]
+Projective limit of isomorphisms between finite quotients gives a topological isomorphism.
+
+For uniqueness, suppose $\Art'_K$ satisfies $(a)$ and $(b)$. We claim $\Art_K|_{K_xK^{\text{un}}}=\Art_K'|_{K_xK^{\text{un}}}$ for any $x\in K^{\times}$ and $v(x)=1$. We had the diagram (SEE COMPOSITION BOOK).
+
+If the claim is true, by (a) $\Art_K|_{K_xK^{\text{un}}}=\Art_K'|_{K_xK^{\text{un}}}$. Done!
+\end{proof} 
+\begin{proof} of claim.
+It suffices to prove $\Art_K(x)|_{K_x}=\Art'_K(x)|_{K_x}$ for all $x\in K^{\times}$ with $v(x)=1$ because it generates $K^{\times}$ as a group. %with uniformizer
+
+%We have~(\ref{kx-cd}): $x$ in 
+Use (b) to see that
+\[
+\Art_K(\nm_{K_x^m/K}(K_x^{m\times}))|_{K_x^m}=1.
+\]
+and
+$x\in \nm_{K_x^m/K}(K_x^{m\times})$. ($K_x^m=K$ adjoin roots of $f_m^{\times}$. Recall the constant term is $x$. For any root $\al$, $\nm_{K_x^m/K}(-\al)=x$. We had $f_m^{\times}=\prod_{\si\in G} (X-\si(\al))$, compare constant terms.)
+
+Then $\Art_K(x)|_{K_x^m}=1$ for all $m\ge 1$. Then $\Art_K(x)|_{K_x}=1$.
+%same Art_K' for... 
+\end{proof}
+Some preparation for Theorems 3 and 4.
+\begin{pr}
+(Yoshida, 6.14). For all $x\in K^{\times}$, $v(x)=n$, $G(K_x^m/K)^m=\{1\}$.
+\end{pr}
+\begin{ex}
+$K=L=\Q_p$. $f_m=(1+X)^{p^m}-1$. $G(\Q_p(\mu_{p^m})/\Q_p)^m=\{1\}$. $1-\ze_{p^m}$ is a uniformizer; compute $i(\si)=v(\si(1-\ze_{p^m})-(1-\ze_{p^m}))$. 
+\end{ex}
+\begin{proof}
+(Idea) %\sO_K on mu_f,m
+$K_x^{m}=K_n(\mu_{f,m}^{\times})=K_n(\al)$. $\al$ unifomizer of $K_n(\al)$, totally ramified over $K_n$. For any $\si\in G(K_x^m/K_n)$, %size $\ph(q^m)$
+can compute $i(\si)=v_{K_n(\al)}(\si\al-\al)=v_{K_n(\al)}([a]\al-\al)=v_{K_n(\al)}([a-1](\al))$. The point is that $v_K(\al-1)=j$ gives $i(\si)=q^j$. 
+
+Accepting this, draw graph of $\ph$. (See NOTEBOOK.)
+\end{proof}
+\begin{pr}
+Corollary of Hasse-Arf. For any $L/K$ finite abelian totally ramified, $K/\Q_p$, if $G(L/K)^m=\{1\}$ then $[L:K]\mid \ph(q^m)$.
+\end{pr} 
+\begin{proof}
+$G^0\supeq G^1\supeq\cdots \supeq G^m=\{1\}$. Since jumps only occur at integer indices, at most $m$ jumps are possible. The first quotient embeds into $l^{\times}$, the others into $l=k=\F_q$. Size $q-1$, $q$. Thus
+\[
+|G/G^m|\mid (q-1)q^{m-1}.
+\] 
+%m positive
+\end{proof}
+Corollary of proposition and above. 
+\begin{cor}
+For all $x\in K^{\times}$, $n=v(x)>0$
+\begin{enumerate}
+\item
+$G(K_{x}/K_n)^m=G(K_x^m)$
+%gives intermediate field cut out
+\item
+$G(K^{\text{LT}}/K)^m=G(K^{\text{LT}}/K^m)$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+For $m'>m$, $K_x^{m'}/K_x^m/K_n$. The lower is $\ph(q^m)$ by construction. Proposition says $G(K_x^{m'}/K_n)^m$ is contained above.
+
+Now $|G/G^m|\ge \ph(q^m)$. Trivial upper $m$th numbering filtration. LHS at most $\ph(q^m)$ by corollary of Hasse-Arf. Thus we get equality. In particular, $G(K_x^{m'}/K_x^m)=G^m$. Taking the limit over $m'$,
+\[
+G(K_x/K_n)^m=G(K_x/K_x^m).
+\]
+2 is similar.
+\end{proof}
+\begin{thm}
+\[
+\xymatrix{
+K^{\times} \ar[r]^{\cong} &W(K^{\text{LT}}/K)\\
+U_K^m\ar[r]^{\cong}\ar@{^(->}[u] & G(K^{\text{LT}}/K)^m \ar@{^(->}[u].
+}
+\]
+\end{thm}
+\begin{proof}[Proof of Theorem 3]
+Look at kernel.
+We have
+\[
+\xymatrix{
+K^{\times} \ar[r]^{\cong}\ar@{->>}[d] &W(K^{\text{LT}}/K) \ar@{->>}[d]\\
+K^{\times}/U_K^m\ar[r]^{\cong}& W(K^{m}/K).
+}
+\]
+By corollary the lower RHS is $W/G(K^{\text{LT}}/K)^m$. 
+\end{proof}
+\begin{thm}[Local Kronecker-Weber]
+Choose $m$ sufficiently large so that $G(K'/K)^m=\{1\}$. Break into totally ramified $K'/K_u$ and unramified $K_u/K$.
+\begin{enumerate}
+\item
+There exists $x\in K^{\times}$ such that $v(x)=n$, $K_x^mK'$ totally ramified Galois over $K_n$.
+\item
+$G(K_x^m/K_n)^m=\{1\}$.
+\item
+$K'\subeq K_x^m$. We are done because $K_x^m\subeq K^{\text{LT}}$. 
+\end{enumerate}
+Step 1 is omitted. For 1 to 2, $G(K_x^m/K_n)^m=\{1\}$ was shown; $G(K'/K_n)^m=\{1\}$ by choice of $m$.
+For 3, $\ph(q^m)=[K_x^m:K_n]\le [K_x^mK':K_n]\le \ph(q^m)$ by corollary of Hasse-Arf and step 2.
+
+So we must have equality, $K_x^m=K_x^mK'$, and $K'\subeq K_x^m$. %section 6 of Yoshida.
+%\end{thm}

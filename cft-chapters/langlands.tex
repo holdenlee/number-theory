@@ -1,0 +1,85 @@
+\textbf{Warning:} This section is written to be ``roughly" true; I'm not sure of the precise correct statements.
+
+We rephrase global class field theory in the form that generalizes under the Langlands program (for an introduction to the Langlands program, see Section~\ref{ch:cft-app}.\ref{sec:intro-langlands}).
+\begin{thm}[Rephrase of GCFT]\llabel{thm:rephrase-gcft}
+There is a bijection between continuous homomorphisms $\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}$ and continuous homomorphisms $f:G(\ol K/K)\to \GL_1(\C)$, given by the following.
+\begin{align*}
+\{
+\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}
+\}
+&\leftrightarrow
+\{f:G(\ol K/K)\to \GL_1(\C)\} \\
+\chi&\mapsto \chi\circ \phi_K^{-1}
+\end{align*}
+\end{thm}
+\begin{proof}
+From Theorem~\ref{intro-cft}.\ref{thm:gcft-topology}, the Artin map gives a topological isomorphism $ \A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to G(K\abe/K)$. It remains to note that any function $G(\ol K/K)\to \GL_1(\C)$ factors through $G(\ol K/K)\abe=G(K\abe/K)$, since $\GL_1(\C)$ is abelian.
+\end{proof}
+The homomorphisms $\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C$ are ``automorphic functions" on $\GL_1(\A_K)$, also known as Hecke characters, and the homomorphisms $f:G(\ol K/K)\to \GL_1(\C)$ are 1-dimensional ``Galois representations." Our correspondence is unsatisfactory, however, because we would like to get all continuous homomorphisms $\A_K^{\times}/K^{\times}\to \C^{\times}$, not just those factoring through $\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}$. Since $G(K\abe/K)$ has the profinite topology, %and \C has no small subgroups
+any continuous homomorphism $G(\ol K/K)\to \GL_1(\C)$ must have finite image, while functions $\A_K^{\times}/K^{\times}\to \C^{\times}$ can have infinite image. To remedy this, we introduce functions $G(\ol K/K)\to \GL_1(\C)$ with infinite image (no longer continuous under the complex topology). 
+%For example, in the case $K=\Q$, we can consider the following map.
+%\begin{ex}\llabel{ex:chi-l}
+%Let $\ell$ be a prime of $\Q$. Define the map $\chi_{\ell}$ by
+%\[
+%\chi_{\ell}:\xymatrix{
+%G(\ol{\Q}/\Q) \ar@{->>}[r] &
+%G(\Q\abe/\Q)=G(\Q(\ze_{\iy})/\Q)\ar[r]^-{\cong} &
+%\wh{\Z}^{\times}=\prod_p\Z_p^{\times} \ar@{->>}[r] &
+%\GL_1(\Z_{\ell}).
+%}
+%\]
+%\end{ex}
+%Note there is a noncanonical field isomorphism $\ol{\Q_{\ell}}\cong \C$, so we can think of $\GL_1(\Z_{\ell})$ as being ``inside" $\GL_1(\C)$. %Fixing an isomorphism
+%\begin{df}
+%\begin{enumerate}
+%\item
+%%Let $v$ be an archimedean place.
+%We say a function $\pi:\A_K^{\times}/K^{\times}\to \C$ is \textbf{algebraic} at $\iy$ if for all complex places $v$, $\pi(i_v(x))=x^m\ol x^n$ for some $m,n\in \Z$, for all real places $v$, $\pi(i_v(x))=\sign(x)^{m}x^n$ for some $m\in \{0,1\}$ and $n\in \Z$, and for all nonarchimedean places $\pi(i_v(x))=1$.
+%\item
+%We say a function $f:G(\ol K/K)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $\ell$ if it is in the form $\prod_{v\mid \ell} f_v$ where $f_v$ is the composition of the projection $G(\ol K/K)\to D_v(\ol K/K)\cong G(\ol{K_v}/K_v)$ and a continuous homomorphism $G(\ol{K_v}/K_v)\to \GL_1(\Q_{\ell})$.
+%%Let $\ell$ be a prime of $\Q$, and let $v\mid \ell$ be a place of $K$. We say a function $G(\ol K/K)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $v$ if 
+%\end{enumerate}
+%\end{df}
+%We have the following ``addendum" to Theorem~\ref{thm:rephrase-gcft}.
+%\begin{thm}\llabel{thm:gcft-char2}
+%Fixing a field homomorphism $\ol{\Q_{\ell}}\cong \C$, 
+%there is an bijection between continuous homomorphisms $\pi:\A_K^{\times}/K^{\times}\to \C$ algebraic at $\iy$ and continuous homomorphisms $f:G(\ol K/K)\to \GL_1(\Q_{\ell})$ algebraic at $\ell$.
+%\end{thm}
+%%I don't think this is straightforward to prove... need to show that a place v|l with ramification degree e corresponds to e characters, i.e. we need the Z_p-rank of G(K_v^ab/K_v) to be e. (there are no nontrivial hom's from pro-l group to pro-p group)
+%\begin{ex}
+%In the case $K=\Q$, it's enough to introduce one new character. Let $\ad:\A_K^{\times}\to \C^{\times}$ denote the map $\ab{\mathbf x}=\prod_{v\in V_K} |x_v|_v$, and define $\chi_{\ell}$ as in Example~\ref{ex:chi-l}.
+%
+%Putting Theorem~\ref{thm:rephrase-gcft} and~\ref{thm:gcft-char2} together, a continuous homomorphism $\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}$ algebraic at $\iy$ corresponds to the product of a continuous homomorphism $f:G(\ol{\Q}/\Q)\to \GL_1(\ol{\Q_{\ell}})$ algebraic at $\ell$, and a homomorphism  $f:G(\ol{\Q}/\Q)\to \GL_1(\Q_{\ell})$ with finite image, via the map
+%%
+%%and continuous homomorphisms $G(\ol{\Q}/\Q)\to \GL_1(\Q_{\ell})$. All continuous functions $\pi:\A_K^{\times}/K^{\times}\to \C^{\times}$ are in the form $\ad^n\cdot \chi$ where $\chi$ is a finite character (i.e. a continuous homomorphism $\A_{\Q}/\ol{\Q^{\times}\R_0^{\times}\to \C^{\times}}$), and $n\in \Z$. The isomorphism is given by
+%\begin{align*}
+%%\{
+%%\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}
+%%\}
+%%&\leftrightarrow
+%%\{f:G(\ol{\Q}/\Q)\to \GL_1(\Q_{\ell})\} \\
+%\pi=\ad^n\cdot \chi&\leftrightarrow \chi_{\ell}^n
+%\cdot (\chi\circ \phi_K^{-1}).
+%\end{align*}
+%\end{ex}
+For simplicity, we just consider the case of $\Q$.
+\begin{ex}
+We say a function $\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C$ is \textbf{algebraic} at $\iy$ if $\pi(i_{\R}(x))=\sign(x)^m|x|^n$ for some $m\in \{0,1\}$ and $n\in \Z$. We say a function $f:G(\ol {\Q}/\Q)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $\ell$ if it is the composition of the projection $G(\ol {\Q}/\Q)\to D_{\ell}(\ol{\Q}/\Q)\cong G(\ol{\Q_{\ell}}/\Q_{\ell})$ and a continuous homomorphism $G(\ol{\Q_{\ell}}/\Q_{\ell})\to \GL_1(\Q_{\ell})$.
+
+Let $\ell$ be a prime of $\Q$. Let $\ad:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}$ denote the map $\ab{\mathbf x}=\prod_{v\in V_{\Q}} |x_v|_v$, and define $\chi_{\ell}$ by
+\[
+\chi_{\ell}:\xymatrix{
+G(\ol{\Q}/\Q) \ar@{->>}[r] &
+G(\Q\abe/\Q)=G(\Q(\ze_{\iy})/\Q)\ar[r]^-{\cong} &
+\wh{\Z}^{\times}=\prod_p\Z_p^{\times} \ar@{->>}[r] &
+\GL_1(\Z_{\ell}).
+}
+\]
+(Note there is a noncanonical field isomorphism $\ol{\Q_{\ell}}\cong \C$, so we can think of $\GL_1(\Z_{\ell})$ as being ``inside" $\GL_1(\C)$.)
+
+A continuous homomorphism $\pi:\A_K^{\times}/K^{\times}\to \C^{\times}$ algebraic at $\iy$ corresponds to the product of a continuous homomorphism $f:G(\ol{\Q}/\Q)\to \GL_1({\Q_{\ell}})$ algebraic at $\ell$, and a homomorphism  $f:G(\ol{\Q}/\Q)\to \GL_1(\ol{\Q_{\ell}})$ with finite image, via the map
+\begin{align*}
+\pi=\ad^n\cdot \chi&\leftrightarrow \chi_{\ell}^n
+\cdot (\chi\circ \phi_K^{-1}).
+\end{align*}
+\end{ex}

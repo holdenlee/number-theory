@@ -1,0 +1,180 @@
+\chapter{Arithmetical Functions}
+\llabel{arith-f}
+\section{Arithmetical functions}
+\begin{df}
+An \textbf{arithmetical function} is a function $f$ defined on $\N$. \begin{enumerate}
+\item
+If
+\begin{equation}\llabel{arith-f-mult}
+f(mn)=f(m)f(n)
+\end{equation}
+for every $m$ and $n$ relatively prime, then $f$ is \textbf{multiplicative}.
+\item 
+If~(\ref{arith-f-mult}) holds for every $m,n\in \N$, then $f$ is \textbf{completely multiplicative}.
+\end{enumerate}
+\end{df}
+Note that if $n=p_1^{a_1}\cdots p_m^{a_m}$ is the prime factorization of $n$, then
+\[
+f(n)=\begin{cases}
+f(p_1^{a_1})\cdots f(p_m^{a_m})&\text{if }f \text{ is multiplicative,}\\
+f(p_1)^a_1\cdots f(p_m)^{a_m}&\text{if }f\text{ is  completely multiplicative}.
+\end{cases}
+\]
+\section{Number of divisors}
+\section{Totient}
+\section{Sum of divisors}
+\section{M\"obius function}
+\section{Sums of digits}
+%For a positive integer $N = \overline{a_na_{n-1}\cdots a_0}$ write $s(N) = a_n+a_{n-1}+\cdots+a_0$ - the sum of the digits of $N$.  Then we claim that $s(N)$ obeys the following properties of no small interest:
+%\begin{pr}
+%\begin{enumerate}
+%\item $9 \mid n-s(n)$;
+%\item $s(n+m) \le s(n)+s(m)$;
+%\item $s(nm)\le \min{\{n\cdot s(m),m\cdot s(n)\}}$;
+%\item $s(nm)\le s(n)s(m)$.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item We have $$n-s(n) = a_n(10^n-1)+a_{n-1}(10^{n-1}-1)+\cdots+a_1(10^1-1).$$  Since $9\mid10^n-1$, we must have $9\mid n-s(n)$.
+%\item Write $N = \overline{a_ma_{m-1}\cdots a_0}$.  Then we may write
+%\begin{align*}
+%9\sum_{k \ge 1}\left\lfloor\frac{N}{10^k}\right\rfloor&= 9\left(\left\lfloor\frac{N}{10^m}\right\rfloor+\left\lfloor\frac{N}{10^{m-1}}\right\rfloor+\cdots+\left\lfloor\frac{N}{10}\right\rfloor\right)\\
+%&=9\left(a_m+(10a_m+a_{m-1})+\cdots+(10^{m-1}a_m+\cdots+10a_2+a_1)\right)\\
+%&=9\left(a_m(1+10+\cdots+10^{m-1})+a_{m-1}(1+\cdots+10^{m-2})+\cdots+a_1\right)\\
+%&=a_m(10^m-1)+a_{m-1}(10^{m-1}-1)+\cdots+a_1(10-1)\\
+%&=N-s(N)
+%\end{align*}
+%Now we recall the inequality $\lfloor x\rfloor+\lfloor y\rfloor \le \lfloor x+y\rfloor$ and write
+%\begin{align*}
+%S(n+m)&=n+m-9\sum_{k \ge 1}\left\lfloor\frac{n+m}{10^k}\right\rfloor\\
+%&\le n+m-9\sum_{k \ge 1}\left(\left\lfloor\frac{n}{10^k}\right\rfloor+\left\lfloor\frac{m}{10^k}\right\rfloor\right)\\
+%&=s(n)+s(m)
+%\end{align*}
+%exactly as desired.
+%\item We need only verify that $s(nm) \le n\cdot s(m)$, as then our result will follow by symmetry.  But this is in turn easily proved using induction on $n$ and our previous result.
+%\item Write $m = \overline{b_lb_{l-1}\cdots b_0}$.  Then $$s(nm)=s(n\sum_{i=0}^l b_i10^i)\le\sum_{i=0}^l s(nb_i10^i)=\sum_{i=0}^l s(nb_i)\le \sum_{i=0}^l s(n)b_i=s(n)s(m)$$ exactly as desired.
+%\end{enumerate}
+%\end{proof}
+%\end{pr}
+%\begin{prb}
+%In the decimal expansion of $N$, the digits occur in strictly increasing order from right to left.  Find $s(9N)$.
+%\begin{proof}
+%Write $N = \overline{a_ka_{k-1}\cdots a_1a_0}$.  Then
+%\begin{align*}
+%9N = 10N-N&=\overline{a_ka_{k-1}\cdots a_1a_00}\\
+%&\quad-\overline{a_ka_{k-1}\cdots a_1a_0}
+%&=\overline{a_k(a_{k-1}-a_k)\cdots(a_0-a_1-1)(10-a_0)}
+%\end{align*}
+%Hence $s(9n) = a_k+(a_{k-1}-a_k)+\cdots+(a_0-a_1-1)+(10-a_0) = 9$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Determine all possible values of the sum of the digits of a perfect square.
+%\begin{proof}
+%We may check that a perfect square modulo 9 is congruent to one of 0, 1, 4, and 7; hence the sum of the digits of a perfect square is congruent to 0, 1, 4, or 7 modulo 9.  We shall show that if $n \ge 1$ with $n \equiv 0, 1, 4, 7\mod{9}$, then there exists $N$ with $s(N^2) = n$.
+%
+%If $n = 1,4$ we take $N = 1, 2$.  We proceed to the cases $n > 4$.
+%If $n = 9m$ then we may take $N = 10^m - 1$.  Then $$N^2 =
+%10^m(10^m-2)+1=\underbrace{99\cdots9}_{m-1}8\underbrace{00\cdots0}_{m-1}1,$$
+%so $s(N^2) = 9m$ as desired.  If $n = 9m+1$ then we take $N =
+%10^m-2$.  Then $$N^2 = 10^m(10^m-2)+2 =
+%\underbrace{99\cdots9}_{m-1}6\underbrace{00\cdots0}_{m-1}4,$$ so
+%$s(N^2) = 9m+1$ as desired.  If $n = 9m+4$ then we take $N =
+%10^m-3$.  Then $$N^2 = 10^m(10^m-6)+9 =
+%\underbrace{99\cdots9}_{m-1}4\underbrace{00\cdots0}_{m-1}9,$$ so
+%$s(N^2) = 9m+4$ as desired.  If $n = 9m-2$ then we take $N =
+%10^m-5$.  Then $$N^2 = 10^m(10^m-10)+25 =
+%\underbrace{99\cdots9}_{m-1}\underbrace{00\cdots0}_{m-1}25,$$ so
+%$s(N^2) = 9m-2$ as desired.  This completes our proof.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Find all positive integers $n$ with $n = s(n)+p(n)$, where $p(n)$ is the product of the digits of $n$.
+%\begin{proof}
+%Write $$n = \overline{a_1a_2\cdots a_k} = a_1+a_2+\cdots+a_k+a_1a_2\cdots a_k.$$  We may rewrite this as $$a_1(10^{k-1}-1)+a_2(10^{k-2}+1)+\cdots+a_k(10-1) = a_1a_2\cdots a_k,$$ which in turn we rewrite as $$a_2(10^{k-2}+1)+\cdots+a_k(10-1) = a_1(a_2\cdots a_k-10^{k-1}+1).$$  Suppose $k \ge 3$; then we have $a_2\cdots a_k-10^{k-1}+1 \le 9\cdot9\cdots9-10^{k-1}+1 = 9^{k-1}-10^{k-1}+1 < 0$.  This means that $$a_1(10^{k-1}-1)+a_2(10^{k-2}+1)+\cdots+a_k(10-1) < 0,$$ a contradiction.  We have obviously $k \neq 1$; hence $k = 2$ and we have $0 = a_1(a_2-9)$.  Hence $a_2 = 9$, so the only such numbers are $19, 29, \cdots, 99$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Determine all positive integers $n$ such that there exist positive integers $a$ and $b$ with $s(a) = s(b) = s(a+b) = n$.
+%\begin{proof}
+%We must have $9 \mid a-s(a), b-s(b), a+b-s(a+b)$.  Hence $9 \mid s(a)+s(b)-s(a+b) = n$.  Now suppose that $n = 9k$.  We claim that there do exist such $a$ and $b$.  Indeed, set $$a = \underbrace{531531\cdots531}_{3k\text{ digits}}, \qquad\qquad b = \underbrace{171171\cdots 171}_{3k\text{ digits}}.$$  Then it is easily seen that $s(a) = s(b) = 9k = n$.  But we have $$a+b = \underbrace{702702\cdots702}_{3k\text{ digits}},$$ so that $s(a+b) = n$ as well.  This completes our proof.
+%\end{proof}
+%\end{prb}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%
+%\begin{enumerate}
+%%\item Find the last five digits of $5^{1981}$.
+%%\item Find the last three digits of $2003^{2002^{2001}}$.
+%\item Find a positive integer $n$ such that $s(n) = 1996s(3n)$.
+%\item Is there a perfect square that ends in 10 distinct digits?
+%%\item Prove that for every positive integer $n$ there exists an $n$-digit number divisible by $5^n$ all of whose digits are odd.
+%\item Let $A = s(4444^{4444})$, and set $B = s(A)$.  Find $s(B)$.
+%\item Prove that there are infinitely many numbers not containing the digit 0 that are divisible by the sum of their digits.
+%\item Prove that any number consisting of $2^n$ identical digits has at least $n$ distinct prime factors.
+%\end{enumerate}
+\section{Finite calculus}
+\begin{thm}[Summation by parts, Abel summation]\llabel{sum-parts}
+Suppose that $u$ is an arithmetic function, and let
+\[
+U(x)=\sum_{n\le x} u(x).
+\]
+Then for $m,n\in \N$ %(or $\Z$, if $u$ is defined over $\Z$),
+\[
+\sum_{x=m}^n u(x)v(x)=U(n)v(n)-U(m-1)v(m-1) -\sum_{x=m}^n
+U(x-1)(v(x)-v(x-1)).
+\]
+%\end{thm}
+%\begin{thm}[Abel summation]\llabel{abel-sum}
+%Keep the above notation and suppose 
+If $0\le a<b$ and $v$ has continuous derivative on $a<x<b$, then
+\[
+\sum_{a\le x\le b} u(x)v(x)=U(b)v(b)-U(a)v(a) -\int_{a}^b U(x)v'(x).
+\]
+\end{thm}
+\begin{proof}
+We imitate the proof of integration by parts. For a function $f$ define the function
+\[
+\De_-(f)=f(x)-f(x-1).
+\]
+This is the discrete analogue of differentiation. It is the inverse of summation in the sense that by telescoping,
+\begin{equation}\label{telescope}
+\sum_{x=m}^n\De_-(f)=f(n)-f(m-1).
+\end{equation}
+Note that $\De_-(U)=u$. 
+We have the ``product rule"
+\begin{align*}
+\De_-(uv)&=u(x)v(x)-u(x-1)v(x-1)\\
+&=(u(x)-u(x-1))v(x)+u(x-1)(v(x)-v(x-1))\\
+&=\De_-(u)v+E_-u\De_-(v)
+\end{align*}
+where $E_-$ is the left shift operator $(E_-f)(x)=f(x-1)$. 
+Replacing $u$ by $U$ and rearranging gives
+\[
+uv=\De_-(Uv)-E_-U\De_-(v).
+\]
+Summing over $m\le x\le n$ and telescoping using~(\ref{telescope}) gives
+\[
+\sum_{x=m}^n u(x)v(x)=U(n)v(n)-U(m-1)v(m-1) -\sum_{x=m}^n
+U(x-1)(v(x)-v(x-1)).
+\]
+When $v$ has continuous derivative, noting $U(t)=U(\fl{t})$, we have
+\begin{align*}
+\sum_{x=m}^n
+U(x-1)(v(x)-v(x-1))
+&=\sum_{x=m}^n \int_{x-1}^{x}U(t)v'(t)\,dt\\
+&=\int_{m-1}^n U(t)v'(t)\,dt.
+\end{align*}
+For general $a,b$, since $U$ is constant on $(\fl{b},b)$ and $(a,\fl{a}+1)$,
+\begin{align*}
+\sum_{a<x\le b} u(x)v(x)
+&=\sum_{x=\fl{a}+1}^{\fl{b}} u(x)v(x)\\
+&=U(\fl{b})v(\fl{b}) - U(\fl{a}) v(\fl a) +\int_{\fl{a}}^{\fl{b}} U(t)v'(t)\,dt\\
+&=U(b)v(b) - U(a) v(a) +\int_{a}^{b} U(t)v'(t)\,dt\qedhere
+\end{align*}
+\end{proof}
+
+Interesting: (Putnam ??) Suppose that $a$ is a real number such that all numbers $1^a,2^a,3^a,\ldots$ are integers. Prove that $a$ is also an integer.

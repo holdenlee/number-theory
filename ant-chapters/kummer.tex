@@ -1,0 +1,370 @@
+%%%This is a science homework template. Modify the preamble to suit your needs. 
+
+\documentclass[12pt]{article}
+
+\makeatother
+%AMS-TeX packages
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{amsfonts}
+\usepackage{cancel}
+\usepackage[all,cmtip]{xy}%Commutative Diagrams
+\usepackage[pdftex]{graphicx}
+\usepackage{float}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{sidecap}
+\usepackage{wrapfig}
+\usepackage{verbatim}
+\usepackage{mathrsfs}
+\usepackage{marvosym}
+\usepackage{hyperref}
+\usepackage{graphicx,ctable,booktabs}
+\usepackage{stmaryrd}
+
+\newtheoremstyle{norm}
+{6pt}
+{6pt}
+{}
+{}
+{\bf}
+{:}
+{.5em}
+{}
+
+\theoremstyle{norm}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{df}{Definition}
+\newtheorem{rem}{Remark}
+\newtheorem{st}{Step}
+\newtheorem{pr}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{clm}[thm]{Claim}
+
+%Math blackboard, fraktur, and script commonly used letters
+\newcommand{\A}[0]{\mathbb{A}}
+\newcommand{\C}[0]{\mathbb{C}}
+\newcommand{\sC}[0]{\mathcal{C}}
+\newcommand{\cE}[0]{\mathscr{E}}
+\newcommand{\F}[0]{\mathbb{F}}
+\newcommand{\cF}[0]{\mathscr{F}}
+\newcommand{\cG}[0]{\mathscr{G}}
+\newcommand{\sH}[0]{\mathscr H}
+\newcommand{\Hq}[0]{\mathbb{H}}
+\newcommand{\cI}[0]{\mathscr{I}}%ideal sheaf
+\newcommand{\N}[0]{\mathbb{N}}
+\newcommand{\Pj}[0]{\mathbb{P}}
+\newcommand{\sO}[0]{\mathcal{O}}
+\newcommand{\cO}[0]{\mathscr{O}}
+\newcommand{\Q}[0]{\mathbb{Q}}
+\newcommand{\R}[0]{\mathbb{R}}
+\newcommand{\Z}[0]{\mathbb{Z}}
+%Lowercase
+\newcommand{\ma}[0]{\mathfrak{a}}
+\newcommand{\mb}[0]{\mathfrak{b}}
+\newcommand{\fg}[0]{\mathfrak{g}}
+\newcommand{\vi}[0]{\mathbf{i}}
+\newcommand{\vj}[0]{\mathbf{j}}
+\newcommand{\vk}[0]{\mathbf{k}}
+\newcommand{\mm}[0]{\mathfrak{m}}
+\newcommand{\mfp}[0]{\mathfrak{p}}
+\newcommand{\mq}[0]{\mathfrak{q}}
+\newcommand{\mr}[0]{\mathfrak{r}}
+%Letter-related
+\newcommand{\bb}[1]{\mathbb{#1}}
+\providecommand{\cal}[1]{\mathcal{#1}}
+\renewcommand{\cal}[1]{\mathcal{#1}}
+%More sequences of letters
+\newcommand{\chom}[0]{\mathscr{H}om}
+\newcommand{\fq}[0]{\mathbb{F}_q}
+\newcommand{\fqt}[0]{\mathbb{F}_q^{\times}}
+\newcommand{\sll}[0]{\mathfrak{sl}}
+%Shortcuts for symbols
+\newcommand{\nin}[0]{\not\in}
+\newcommand{\opl}[0]{\oplus}
+\newcommand{\ot}[0]{\otimes}
+\newcommand{\rc}[1]{\frac{1}{#1}}
+\newcommand{\rra}[0]{\rightrightarrows}
+\newcommand{\send}[0]{\mapsto}
+\newcommand{\sub}[0]{\subset}
+\newcommand{\subeq}[0]{\subseteq}
+\newcommand{\supeq}[0]{\supseteq}
+\newcommand{\nsubeq}[0]{\not\subseteq}
+\newcommand{\nsupeq}[0]{\not\supseteq}
+%Shortcuts for greek letters
+\newcommand{\al}[0]{\alpha}
+\newcommand{\be}[0]{\beta}
+\newcommand{\ga}[0]{\gamma}
+\newcommand{\Ga}[0]{\Gamma}
+\newcommand{\de}[0]{\delta}
+\newcommand{\De}[0]{\Delta}
+\newcommand{\ep}[0]{\varepsilon}
+\newcommand{\eph}[0]{\frac{\varepsilon}{2}}
+\newcommand{\ept}[0]{\frac{\varepsilon}{3}}
+\newcommand{\la}[0]{\lambda}
+\newcommand{\La}[0]{\Lambda}
+\newcommand{\ph}[0]{\varphi}
+\newcommand{\rh}[0]{\rho}
+\newcommand{\te}[0]{\theta}
+\newcommand{\om}[0]{\omega}
+\newcommand{\Om}[0]{\Omega}
+\newcommand{\si}[0]{\sigma}
+%Brackets
+\newcommand{\ab}[1]{\left| {#1} \right|}
+\newcommand{\ba}[1]{\left[ {#1} \right]}
+\newcommand{\bc}[1]{\left\{ {#1} \right\}}
+\newcommand{\pa}[1]{\left( {#1} \right)}
+\newcommand{\an}[1]{\langle {#1}\rangle}
+\newcommand{\fl}[1]{\left\lfloor {#1}\right\rfloor}
+\newcommand{\ce}[1]{\left\lceil {#1}\right\rceil}
+%Text
+\newcommand{\btih}[1]{\text{ by the induction hypothesis{#1}}}
+\newcommand{\bwoc}[0]{by way of contradiction}
+\newcommand{\by}[1]{\text{by~(\ref{#1})}}
+\newcommand{\ore}[0]{\text{ or }}
+%Arrows
+\newcommand{\hr}[0]{\hookrightarrow}
+\newcommand{\xr}[1]{\xrightarrow{#1}}
+%Formatting
+\newcommand{\subprob}[1]{\noindent\textbf{#1}\\}
+%Functions, etc.
+\newcommand{\Ann}{\operatorname{Ann}}
+\newcommand{\AP}{\operatorname{AP}}
+\newcommand{\Ass}{\operatorname{Ass}}
+\newcommand{\Aut}{\operatorname{Aut}}
+\newcommand{\chr}{\operatorname{char}}
+\newcommand{\cis}{\operatorname{cis}}
+\newcommand{\Cl}{\operatorname{Cl}}
+\newcommand{\Der}{\operatorname{Der}}
+\newcommand{\End}{\operatorname{End}}
+\newcommand{\Ext}{\operatorname{Ext}}
+\newcommand{\Frac}{\operatorname{Frac}}
+\newcommand{\FS}{\operatorname{FS}}
+\newcommand{\GL}{\operatorname{GL}}
+\newcommand{\Hom}{\operatorname{Hom}}
+\newcommand{\Ind}[0]{\text{Ind}}
+\newcommand{\im}[0]{\text{im}}
+\newcommand{\nil}[0]{\operatorname{nil}}
+\newcommand{\ord}[0]{\operatorname{ord}}
+\newcommand{\Proj}{\operatorname{Proj}}
+\newcommand{\PSL}{\operatorname{PSL}}
+\newcommand{\Rad}{\operatorname{Rad}}
+\newcommand{\rank}{\operatorname{rank}}
+\newcommand{\Res}[0]{\text{Res}}
+\newcommand{\sign}{\operatorname{sign}}
+\newcommand{\SL}{\operatorname{SL}}
+\newcommand{\Spec}{\operatorname{Spec}}
+\newcommand{\Specf}[2]{\Spec\pa{\frac{k[{#1}]}{#2}}}
+\newcommand{\spp}{\operatorname{sp}}
+\newcommand{\spn}{\operatorname{span}}
+\newcommand{\Supp}{\operatorname{Supp}}
+\newcommand{\Tor}{\operatorname{Tor}}
+\newcommand{\tr}[0]{\text{trace}}
+%Commutative diagram shortcuts
+\newcommand{\fiber}[3]{\xymatrix{#1\times_{#3} #2}\ar[r]\ar[d] #1\ar[d] \\ #2 \ar[r] & #3}
+\newcommand{\commsq}[8]{\xymatrix{#1\ar[r]^{#6}\ar[d]^{#5} &#2\ar[d]^{#7} \\ #3 \ar[r]^{#8} & #4}}
+%Makes a diagram like this
+%1->2
+%|    |
+%3->4
+%Arguments 5, 6, 7, 8 on arrows
+%  6
+%5  7
+%  8
+\newcommand{\pull}[9]{
+#1\ar@/_/[ddr]_{#2} \ar@{.>}[rd]^{#3} \ar@/^/[rrd]^{#4} & &\\
+& #5\ar[r]^{#6}\ar[d]^{#8} &#7\ar[d]^{#9} \\}
+\newcommand{\back}[3]{& #1 \ar[r]^{#2} & #3}
+%Syntax:\pull 123456789 \back ABC
+%1=upper left-hand corner
+%2,3,4=arrows from upper LH corner, going down, diagonal, right
+%5,6,7=top row (6 on arrow)
+%8,9=middle rows (on arrows)
+%A,B,C=bottom row
+%Other
+%Other
+\newcommand{\op}{^{\text{op}}}
+\newcommand{\fp}[1]{^{\underline{#1}}}
+\newcommand{\rp}[1]{^{\overline{#1}}}
+\newcommand{\rd}[0]{_{\text{red}}}
+\newcommand{\pre}[0]{^{\text{pre}}}
+\newcommand{\pf}[2]{\pa{\frac{#1}{#2}}}
+\newcommand{\pd}[2]{\frac{\partial #1}{\partial #2}}
+\newcommand{\bs}[0]{\backslash}
+\newcommand{\ol}[1]{\overline{#1}}
+\newcommand{\mmod}[1]{\,(\text{mod}^{\times} #1)}
+\newcommand{\nmod}[1]{\,(\text{mod}\, #1)}
+%Matrices
+\newcommand{\coltwo}[2]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2} 
+\end{matrix}
+\right]}
+\newcommand{\matt}[4]{
+\left[
+\begin{matrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{matrix}
+\right]}
+\newcommand{\smatt}[4]{
+\left[
+\begin{smallmatrix}
+{#1}&{#2}\\
+{#3}&{#4}
+\end{smallmatrix}
+\right]}
+\newcommand{\colthree}[3]{
+\left[
+\begin{matrix}
+{#1}\\
+{#2}\\
+{#3}
+\end{matrix}
+\right]}
+\newcommand{\iy}[0]{\infty}
+%
+%Redefining sections as problems
+%
+
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{section}%Problem \thesection}
+\chead{} 
+\rhead{\thepage} 
+\lfoot{\small\scshape subject} 
+\cfoot{} 
+\rfoot{\footnotesize topic} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+\allowdisplaybreaks[1]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%    
+\begin{document}
+\title{Kummer Theory}% !! Remember to change the problem set number
+\author{Holden Lee}
+\date{5/21/11}% !! Remember to change the date
+\maketitle
+\thispagestyle{empty}
+
+In this post we will give another proof of the fact that $n$th roots of rationals not differing by perfect $n$th powers are linearly independent, that is, if we have positive rationals $p_0=1,p_2,\ldots, p_k$ such that $\frac{p_i}{p_j}$ is not a perfect $n$th power for any $i,j$, then there do not exist rationals $a_0,a_1,\ldots, a_k$ such that
+\[
+a_0+a_1\sqrt[n]{p_1}+\cdots +a_k\sqrt[n]{p_k}=0.
+\]
+We (sort-of) proved this using (semi-)elementary methods back in this post (PUT URL HERE). 
+(There I only did it for $n$ prime, but I believe the argument extends with some more work...) 
+Today we give a proof using algebraic number theory.
+
+%
+%First we explain how the result follows from Kummer Theory. 
+%Given the theorem, and numbers $q_i, 1\le i\le k$ such that $\al_i$ is the least 
+%$q_i^{\al_i}=1$
+%$q_i\neq q_j^ra^n$ for any $
+
+We will prove this as follows.
+\begin{enumerate}
+\item
+Normal basis theorem: Every finite Galois extension $L/K$ has a normal basis, i.e. there exists $\alpha\in L$ such that $\sigma \alpha$ for $\sigma\in G(L/K)$ form a basis for $L$ over $K$.
+\item
+Use Galois cohomololgy to get an exact sequence
+\[
+\{1\}\to K^{\times}\cap L^{\times n}\to K^{\times}\xrightarrow{x\mapsto x^n} K^{\times n} \to \text{Hom}(G, \mu_n)\to \{1\}
+\]
+and thus get an isomorphism
+\[
+L\cap K^{\times}/K^{\times n}\cong \text{Hom}(G,\mu_n).
+\]
+\item Using the above isomorphism, establish the following theorem:
+
+Kummer Theory: Suppose $K$ is a field containing a primitive $n$th root of 1. Then there is a bijection between
+
+1. Finite abelian extensions of $K$ of exponent $n$ (i.e. for any $\si$ in the Galois group $G(L/K)$, $\si^n=1$).
+
+2. Finite subgroups of $K^{\times}/K^{\times n}$.
+
+This correspondence is given by
+
+$
+\displaystyle
+L\mapsto K^{\times }\cap L^{\times n}/K^{\times}
+$
+
+$
+\displaystyle
+K[B^{\frac{1}{n}}]\mapsfrom B.
+$
+\item From this conclude that the degree of the extension $\mathbb Q[p_1,\ldots, p_k]$ is what we would ``expect", and conclude linear independence. We need the fact that $x^n-a$ is irreducible iff $a$ is not a perfect $p$th power for any $p\mid n$, in this step.
+\end{enumerate}
+
+\section{Step 1: Normal basis theorem}
+\begin{thm}[Normal basis theorem] Every finite Galois extension $L/K$ has a normal basis.
+\end{thm}
+
+
+\section{Step 2: Galois cohomology}
+First we introduce group cohomology. Given a group $G$ there exists a presentation by free groups
+\[
+\cdots \xrightarrow{d^1}G_1\xrightarrow{d^0} G_0\to G\to 0.
+\]
+Now apply the functor $\text{Hom}(\bullet, H)$ to get 
+\[
+1\to \text{Hom}(G,H)\to \text{Hom}(G_0,H)\xrightarrow{d_0}\text{Hom}(G_1,H)\xrightarrow{d_1}\cdots.
+\]
+Define the $n$th cohomology group of $H$ with respect to $G$ to be
+\[
+H^n(G,H)=\text{ker}(d^n)/\text{im}(d^{n-1}),
+\]
+that is, it measures the failure of the sequence to be exact.
+
+Now given a short exact sequence of groups
+\[
+1\to N\to H\to Q\to 1
+\]
+by lots of diagram chasing arguments we get a long exact sequence
+\[
+1\to H^0(G,N)\to H^0(G,H)\to H^0(G,Q)\xrightarrow{\delta} H^1(G,N) \to H^1(G,H)\to \cdots 
+\]
+where $\delta$ is the connecting homomorphism given by the following diagram
+[ADD]
+Note in proving this it was essential that $\text{Hom}$ is a (left/right?) exact functor, so that the $1\to H^0(N)\to H^0(G)\to H^0(Q)$ part is exact.
+
+Apply this to the exact sequence
+\[
+1\to \mu_n \to L^{\times}\xrightarrow{x\mapsto x^n} L^{\times n}\to 1 
+\]
+with $G=G(L/K)$ to get
+\[
+1\to H^0(G,\mu_n) \to H^0(G,L^{\times})\to H^0(G,L^{\times n})\to H^1(G, \mu_n)\to H^1(G,L^{\times})\to \cdots.
+\]
+We need not go further because Hilbert's Theorem 90 tells us
+\[
+H^1(G(K/L), L^{\times})=1.
+\]
+Next noting that $H^0(G, H)$ is simply the subgroup of $H$ fixed by $G$, and that the subfield of $L$ fixed by $G$ is $K$ (fixed field theorem), the sequence becomes
+\[
+1\to \mu_n\to K^{\times}\to K^{\times n}\cap L^{\times} \to \Hom(G, \mu_n)\to 1,
+\]
+giving an isomorphism
+\[
+K^{\times n}\cap L^{\times}/K^{\times}\cong \Hom(G, \mu_n).
+\]
+\section{Step 3: Kummer Theory}
+
+\section{Step 4: Finish}
+\end{document}

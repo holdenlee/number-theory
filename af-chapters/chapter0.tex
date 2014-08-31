@@ -1,0 +1,583 @@
+\noindent{\Large \textbf{Theta and Elliptic Functions}}
+\vskip0.15in
+
+The study of theta and elliptic functions starts as a story in complex analysis---engineering functions that satisfy a certain relation---and connects to complex manifolds, elliptic curves, integration, and quadratic forms.
+
+We'll start out with the question: what is the complex analog of a periodic function? First, we'll have to review a bit of complex analysis (Section~\ref{sec:complex-analysis}). First, as practice for what we will do with theta and elliptic functions, we will ``derive" expressions for the sine and cosine, using our complex analytic machinery (Section~\ref{sec:sine}).
+
+Unfortunately, we find that the only entire functions that are {\it doubly} periodic are constant, so we have to relax one of these conditions.
+\begin{itemize}
+\item
+Relaxing periodicity gives the theory of \textbf{theta functions} (Section~\ref{sec:theta}). We use complex analysis to construct a ``basic" theta function $\te$ in 3 different ways, and show that they are all equal up to a constant. Then we characterize all theta functions, by showing that {\it every} theta function can be written using a product of translates of $\te$, in the spirit of the Fundamental Theorem of Algebra.
+\item
+Relaxing entirety gives the theory of \textbf{elliptic functions} (Section~\ref{sec:ef}). We construct a ``basic" elliptic function, the Weierstrass $\wp$-function, in 2 ways and show all elliptic functions can be built out of $\wp$ (and $\wp'$). We then give a list of basic properties of elliptic functions.
+
+Knowing the theory of theta functions makes our job easier, as elliptic functions can be written in terms of theta functions.
+\end{itemize}
+
+Now comes the applications. In much the same way that $(\sin x,\ddd x\sin x=\cos x)$ parameterize the circle, we find that $(\wp,\wp')$ also parameterize an algebraic variety---an {\it elliptic curve} (Section~\ref{sec:ef-ec}). This is the key application of elliptic functions to number theory. 
+Following history, we'll use elliptic functions to calculate the arc length of an ellipse in Section~\ref{sec:arc-length-ellipse} (this is where the name came from).
+
+(See Ahlfors pg. 238 for this?)
+
+(I might put in the application to the 4-square problem... but this is more easily done with modular forms.)
+
+It is important to keep in mind that the functions here depend on {\it two} parameters. For instance, $\te$ is a function in $z$ and $\tau$:
+\[
+\te({\color{red}z},{\color{blue}\tau})
+\]
+As we will see, $\tau$ specifies a lattice $\La$.
+\begin{itemize}
+\item
+In this article, %chapter
+we are mostly concerned with $\te$ as a function of $\color{red}z$. (But it will be helpful to change our view sometimes!) $\te$ is a {\color{red}theta function} in the parameter $z$ (with certain transformation properties).
+\item
+However, we can also think of $\te$ as a function in $\color{blue}\tau$. Then $\te$ is (sort-of) a {\color{blue}modular function} in the parameter $\tau$ (with certain transformation properties, coming from the fact that $\te$ is really a function of the lattice $\an{1,\tau}$). 
+\end{itemize}
+Thus, theta functions and modular functions are intricately related! But the story of modular functions is a story for another day and article.
+
+%there are a lot of identities: like trig.
+
+\section{Some complex analysis}
+\llabel{sec:complex-analysis}
+In this section we review some facts from complex analysis. (For a longer ``crash course," see \S30 in the number theory text.) 
+
+A complex analytic function is a function that is complex differentiable. This is a much stronger condition than real differentiability, and gives complex analytic functions very nice properties---for instance, they are equal to their power series expansions (barring any poles). An entire function is a complex analytic function defined on all of $\C$. A meromorphic function is allowed to have poles.
+
+\begin{thm}[Liouville]\llabel{thm:liouville}
+A bounded entire function is constant.
+\end{thm}
+
+\subsection{Series and product developments}
+We know that locally, we can write a meromorphic function $f$ as a Laurent series $\sum_{n=-\iy}^{\iy} a_nx^n$. There are two other representations that are useful, depending on what information we have about the function $f$.
+\begin{enumerate}
+\item If we know the {\it poles} of $f$, we can write $f$ as a sum of rational functions
+\[
+f(z)=\sum_{n=1}^{\iy}\ba{ P_n\prc{z-z_n} - Q_n(z)}+g(z).
+\]
+\item If $f$ is entire and we know the {\it zeros} of $f$, we can write $f$ as an infinite product
+\[
+f(z)=z^me^{g(z)}\prod_{n=1}^{\iy}\pa{1-\frac{z}{z_n}}e^{P_n\pf{z}{z_n}}.
+\]
+(Think of this as ``factoring" $f$, much like a polynomial can be factored as in the fundamental theorem of algebra.)
+These representations come about from convergence properties of holomorphic functions (which tell us that infinite sums and products converge to holomorphic functions) and by Liouville's theorem---if we engineer a function that is close enough to $f$ then it must be equal to $f$.
+\end{enumerate}
+\index{Mittag-Leffler}
+\begin{thm}[Mittag-Leffler]
+Let $z_n$ be a sequence with $\lim_{n\to \iy} |z_n|=\iy$ (or a finite sequence), and $P_n$ polynomials without constant term.
+\begin{enumerate}
+\item (Existence)
+There is a meromorphic function $f$ with poles exactly at $z_n$, with Laurent expansion $P_n\prc{z-z_n}+\cdots $ at $z_n$.
+\item (Uniqueness)
+All such functions $f$ are in the form
+\[
+\sum_{n=1}^{\iy} \pa{P_n\prc{z-z_n}-Q_n(z)}+g(z)
+\]
+where $Q_n$ is a polynomial and $g(z)$ is analytic.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+See Ahlfors~\cite[p. 187]{Ah79}.
+\end{proof}
+Warning: this does not converge for all $P_n$. Typically we take $Q_n$ to the the first terms of the Laurent expansion of $P_n\prc{z-z_n}$, to ensure cancellation of high-order terms.
+\begin{df}
+The \textbf{order} of an entire function $f$ is the smallest $\al\in [0,\iy]$ such that
+\[
+|f(z)|\precsim_{\ep} e^{|z|^{\al+\ep}}
+\]
+for all $\ep>0$. 
+\end{df}
+\begin{thm}[Hadamard]\llabel{product-development}
+Let $z_n$ be a sequence with $\lim_{n\to \iy} |z_n|=\iy$.
+%\item
+%(Existence) There is an entire function with zeros exactly the $z_n$.
+%\item
+%(Uniqueness) All such $f$ are in the form
+%\[
+%f(z)=z^me^{g(z)} \prod_{n=1}^{\iy} \pa{1-\frac{z}{a_n}}e^{
+%\frac{z}{a_n}+\rc2 \pf{z}{a_n}^2+\cdots +\rc{m_n}\pf{z}{a_m}^{m_n}
+%}.
+%\]
+%\end{enumerate}
+If $f$ is entire with order $\al<\iy$ with zeros $z_1,z_2,\ldots$ (with multiplicity, not including 0), then it has a product formula
+\begin{equation}\llabel{product-formula}
+f(z)=z^re^{g(z)} \prod_{n=1}^{\iy} \pa{1-\frac{z}{z_n}}e^{
+\frac{z}{z_n}+\rc2 \pf{z}{z_n}^2+\cdots +\rc{m}\pf{z}{z_m}^{m}
+},
+\end{equation}
+where
+\begin{itemize}
+\item $m=\fl{\al}$,
+\item $r$ is the order of vanishing of $f$ at 0, and
+\item $g$ is a polynomial of degree at most $a$.
+\end{itemize}
+The product converges uniformly locally. Moreover, 
+\begin{equation}\llabel{num-zeros}
+|\set{k}{z_k<R}|\precsim_{\ep} R^{\al+\ep}.
+\end{equation}
+Conversely, if $a=\fl{\al}$ and $z_k$ is a sequence satisfying~(\ref{num-zeros}), then the RHS of~(\ref{product-formula}) defines an entire function of order at most $\al$.
+\end{thm}
+\begin{proof}
+See Ahlfors~\cite[p. 195]{Ah79}.
+\end{proof}
+Hence the order of a entire function gives an asymptotic bound for the number of zeros.\footnote{A function which grows faster is allowed to have more zeros---much like a polynomial with lots of zeros grows fast simply because it has higher degree.}
+
+\fixme{Note that the two theorems are basically related by taking a logarithmic derivative.}
+
+\section{Periodic functions}
+
+We now use the product expansion to come up with expressions for $\sin$ and $\cos$.
+
+\begin{thm}
+We have that
+\[
+\sin \pi z=ze^{g(z)} \prod_{n\ne 0}\pa{1-\fc zn}e^{z/n}.
+\]
+\end{thm}
+\begin{proof}
+We know that $\sin \pi z$ has zeros at the integers $\Z$. The number of integers with absolute value at most $R$ is $O(R)$, so by the product development~\ref{product-development}, we know that
+\[
+f(z)=z \prod_{n\ne 0} \pa{1-\fc zn}e^{\fc za}
+\]
+is an entire function with zeros at exactly the integers.
+
+Now we just need to show $\sin \pi z=\pi f(z)$.
+
+First note that $\Z$ are the {\it only} zeros for $\sin$: We have $\sin \pi z=\fc{e^{i\pi z}-e^{-i\pi z}}{2}$, and this is 0 iff $e^{i\pi z}=e^{-i\pi z}$, iff $i\pi z=2\pi in -i\pi z$ for some $n$, iff $z\in \Z$. The zeros of $\sin$ and $f(z)$ are both simple, so $\fc{\sin \pi z}{f(z)}$ is an entire function. 
+
+Second, note that $\fc{\sin \pi z}{f(z)}$ is {\it bounded}. \fixme{take log derivative, see Ahlfors p. 197. Blah blah.}
+\end{proof}
+Now let's take a step back. Suppose we didn't know the existence of the function $\sin$, and someone told us to construct a nontrivial complex analytic function with period 1. What would we do? We might look for a function which has zeros at exactly the integers, and hope that it is periodic. In this way we could have ``come up with" $\sin$ using the product expansion.
+
+Now let's take an algebraic viewpoint. Note that $(\sin z,\cos z),\,z\in \R$ parameterizes the circle $x^2+y^2=1$. If we were studying the curve $x^2+y^2=1$; we might think: how could we parameterize it using nice analytic functions? The answer is quite obvious, but if we didn't know, we might think: the circle is homeomorphic to $\R/\Z$ so we would try to pick functions that are periodic with period 1... Again, we're led back to $\sin$.
+
+Another question we could ask is, what about other functions that are periodic with period 1? Can we always write them in terms of $\sin$ and $\cos$? Unfortunately, no. \fixme{Counterexample?} However, for many functions we can: for instance, $\sin(n\pi z)$ can be expanded in terms of $\sin(\pi z)$ and $\cos(\pi z)$. We have a lot of trig identities.
+
+In a way, although having a single period was easy to analyze, we are somewhat out of things to do at this point. If we have a random function with period 1, to characterize it we just need to know how it behaves along a strip $a+bi$, $a\in [k,k+1)$. This strip is infinite, however---$\Z$ is a 1-D lattice in a 2-D space, $\C$.
+
+Things are much nicer if we have a function that is periodic in {\it two} directions, i.e., is periodic with respect to a 2-D lattice in $\C$. Then this function is determined by its values on a parallelogram, which is bounded. Here we have a hope of a simple (non-infinite) representation for such a function---if we can get two periodic functions like this, $f$ and $g$, and know either $\fc fg$ or $f-g$ is bounded, then the values it attains are just those on a parallelogram, and by Liouville's constant we know $f$ and $g$ just differ by a constant (multiplied or added, respectively).
+
+$x^2+y^2=1$ is a simple curve, though it's not very interesting. When we're working over $\C$ we want to consider the surface over $\C$ and our parametrization doesn't really make $x^2+y^2=1$ into anything compact (over $\C$). {\it Elliptic curves} are where the idea of using analytic functions to parameterize algebraic varieties really shines. Elliptic curves are the simplest kind of {\it abelian variety} (1-dimensional), and abelian varieties allow nice analytic parameterizations. ($x^2+y^2=1$ is not an abelian variety.)
+
+\section{Theta functions}
+
+We ask: what is the complex analytic analogue of a periodic function? Since $\C$ is 2-dimensional, a natural analogue would be a function that is
+\begin{enumerate}
+\item
+entire, and
+\item has 2 $\R$-independent periods, i.e., there are $\om_1$ and $\om_2$ with $\fc{\om_1}{\om_2}\nin \R$, such that 
+\[
+f(z+\om_1)=f(z+\om_2)=f(z).
+\]
+\end{enumerate}
+For $f$ satisfying the second condition, we say that $f$ is doubly-periodic, or $f$ is periodic with lattice $\an{\om_1,\om_2}$. We call $\Pi=\set{a\om_1+b\om_2}{a,b\in [0,1)}$ the fundamental parallelogram.
+
+The bad news is that any such function must be a constant.
+
+\begin{pr}
+An entire doubly-periodic function is constant.
+\end{pr}
+\begin{proof}
+If $f$ is periodic with lattice $\an{\om_1,\om_2}$, it is determined by its values in the fundamental parallelogram $\Pi$. Now $\ol{\Pi}$ is closed and bounded, hence compact, so $f$ is bounded on $\ol{\Pi}$. But this means $f$ is bounded, and by Liouville's Theorem~\ref{thm:liouville}, $f$ is constant.
+\end{proof}
+
+Hence to develop an interesting theory of complex periodic functions, we have to relax one of our conditions:
+\begin{enumerate}
+\item
+double periodicity,
+\item
+entirety.
+\end{enumerate}
+In this section we relax double periodicity.
+\begin{df}
+A \textbf{theta function} of degree $n$ with parameter $b\ne 0$ with respect to $(\om_1,\om_2)$ is an entire function $f(z)$ such that
+\[
+f(z+\om_1)=f(z),\qquad f(z+\om_2)=be^{-\fc{2\pi i nz}{\om_1}} f(z).
+\]
+\end{df}
+The reason for the multiplier $be^{-\fc{2\pi i nz}{\om_1}} f(z)$ will be apparent during our attempt to construct a theta function.
+
+\subsection{Take 1: The Weierstrass $\si$-function}
+For simplicity, let's take $\om_1=1$ and $\om_2=\tau$, $\Im \tau>0$. This can always be achieved by rescaling $z$ and permuting $\om_1,\om_2$. 
+
+In trying to make a doubly periodic function, our first try will be to emulate what we did for $\sin$: let's try to make a function with zeros at exactly the points of $\La=\an{1,\tau}$. We use the product development~\ref{product-development}. This time, the number of points of $\La$ inside a ball of radius $R$ is $O(R^2)$, so we construct the following function.
+\begin{df}
+Define the \textbf{Weierstrass $\si$-function} with respect to the lattice $\La=\an{1,\tau}$ by
+\[
+\si(z):=z\prod_{\la\in \La^*}\pa{1-\fc{z}{\la}}e^{\fc z{\la} +\rc 2\pf{z}{\la}^2}
+\]
+where $\La^*=\La\bs \{0\}$.
+\end{df}
+By the product development, $\si$ has zeros exactly at the points of $\La$. Note that $\si$ implicitly depends on $\tau$ as well, but we are thinking of $\tau$ as being fixed. If we want to think of it as a function of 2 variables we will write $\si(z,\tau)$.
+
+In this form, it is not clear that $\si$ satisfies any periodicity condition. In fact, it will not be doubly periodic. To see how it behaves with respect to $z\mapsfrom z+\om_1,z+\om_2$, we take a page from our development with $\sin$ and take the derivative.
+\begin{pr}
+$\si$ is a theta function.
+\end{pr}
+\begin{proof}
+To deal with this product we take the {\it logarithmic derivative}:
+\begin{align*}
+\ze(z):=\fc{\si'(z)}{\si(z)}&=\rc z+\sum_{\la\in \La^*}\pa{\fc{-\rc{\la}}{1-\fc{z}{\la}}+\rc{\la}+\fc{z}{\la^2}}\\
+&=\fc{1}{z}+\sum_{\la\in \La^*}\pa{\fc{1}{z-\la}+\rc{\la}+\fc{z}{\la^2}}.
+\end{align*}
+We'd like to know how this transforms with respect to $z\mapsfrom z+\la$, but the fact that the sum is over $\La^*$ instead of $\La$ causes problems. We take another derivative:
+\[
+\wp(z):=-\ze'(z)=\rc{z^2}+\sum_{\la\in \La^*} \pa{\rc{(z-\la)^2}-\rc{\la^2}}.
+\]
+Taking yet another derivative kills the constant and gives us a sum over $\La$.
+\[
+\wp'(z)=-\ze''(z)=-\fc{2}{z^3}-\sum_{\la\in \La^*}\fc{2}{(z-\la)^3}=\sum_{\la\in \La}\fc{2}{(z-\la)^3}.
+\]
+Because $\wp'(z)$ is a sum over $\La$, it is periodic with respect to $\La$:
+\[
+\wp'(z+\la)=\wp'(z)\implies (\wp(z+\la)-\wp(z))'=0
+\]
+Now we start integrating. This gives
+\[
+\wp(z+\la)=\wp(z)+\eta(\la)
+\]
+for some constant $\eta(\la)$ depending only on $\la$. ...
+
+\end{proof}
+
+\subsection{Take 2: A $q$-product expansion}
+\llabel{sec:theta-q-prod}
+To write down a theta function using the product development, we took a product over {\it all} nonzero points in the lattice $\La$. However, there's something different and clever we can do: we can use the fact that $\La$ is a lattice to write down a theta function using an infinite product over integers insted.
+
+We want our function to have zeros exactly when
+\[
+z=m+n\tau
+\]
+for some $m,n\in \Z$, i.e., exactly when
+\[
+2\pi iz =2\pi i m+2\pi i n\tau\text{ for some }m,n\in \Z\qquad \iff \qquad e^{2\pi i z}=e^{2\pi i n\tau}
+\]
+for some $n$. For ease of notation, we'll write from now on
+\beq{eq:q}
+q=e^{2\pi i \tau},
+\eeq
+so our condition is $q^n=e^{2\pi i z}$ for some $n\in \Z$. 
+We now write down the following function:
+\[
+\phi(z):=\prod_{n=0}^{\iy}(1-q^n e^{2\pi i z})(1-q^{n+1}e^{-2\pi i z}).
+\]
+By our above considerations, $\phi$ has zeros at exactly the points of $\La$. \fixme{(We do have to check convergence.)} (Note our notation $\phi$ is not standard; this is actually ad-hoc because we will want to multiply $\phi(z)$ by a constant depending on $q$ later on.)
+
+Let's verify that $\phi$ is elliptic. We have
+\begin{align*}
+\phi(z+\tau)&=\prod_{n=0}^{\iy} (1-q^ne^{2\pi i(z+\tau)})(1-q^{n+1}e^{-2\pi i (z+\tau)})\\
+&=\prod_{n=0}^{\iy} (1-q^{n+1}e^{2\pi i})(1-q^n e^{2\pi iz})\\
+&=\fc{1-e^{-2\pi i z}}{1-e^{2\pi i z}}\prod_{n\in \Z}(1-q^n e^{2\pi i z})(1-q^{n+1}e^{-2\pi i z})\\
+&=-e^{-2\pi iz}\phi(z).
+\end{align*}
+Thus $\phi$ is elliptic with parameter $b=-1$.
+
+The kinds of products in the definition of $\phi$ will come up so often that we will establish some shorthand notation.
+\begin{df}
+Define the \textbf{$q$-Pochhammer symbol} by
+\[
+(a;q)_n=\prod_{k=0}^{n-1} (1-aq^k)
+\]
+and let
+\[
+(q)_n=(q;q)_n=\prod_{k=1}^{n}(1-q^k).
+\]
+(We allow $n=\iy$.)
+\end{df}
+Thus $\phi$ can be written
+\[
+\phi(z)=(e^{2\pi i z};q)_{\iy}(e^{-2\pi i z};-q)_{\iy}.
+\]
+\subsection{Take 3: Fourier expansion}
+\llabel{sec:theta-fourier-exp}
+This time we forgo products entirely, and work with the Fourier expansion. A theta function is periodic with period 1, so it has a Fourier expansion by the following theorem.
+\begin{pr}
+Let $f$ be a complex analytic function defined on $\Im z\ge k$, and suppose $f$ is holomorphic at infinity, that is, $\ln f$ has a removable discontinuity at $0$. Then $f$ has a Fourier expansion
+\[
+f(z)=\sum_{k=0}^{\iy} a_k e^{2\pi i z}.
+\]
+\end{pr}
+\fixme{picture here!}
+
+We now characterize all theta functions by their power series expansions.
+\begin{pr}
+The theta functions with degree...
+\begin{itemize}
+\item
+$n<0$ is 0.
+\item
+$n=0$ are the functions $Ce^{2\pi i kz}$. They form a 1-dimensional space.
+\item
+$n>0$ are the functions $\sum_{k=0}^{\iy} a_k e^{2\pi i z}$, where $a_0,\ldots, a_{n-1}$ can be freely chosen and the $a_k$ satisfy %and with coefficients satisfying
+%the recurrence relation 
+%\[
+%a_{k+n}=a_k q^kb^{-1}.
+%\]
+
+%\section{Theta functions}
+%\begin{df}
+%A \textbf{theta function} of degree $n$ on $[\om_1,\om_2]$ 
+%with parameter $b\ne0$ is an entire function $f(z)$ such that
+%\[
+%f(z+\om_1)=f(z),\quad f(z+\om_2)=be^{-\frac{2\pi inz}{\om_1}}f(z).
+%\]
+%\end{df}
+%We aim to classify all such functions. For simplicity assume $\om_1=1$ and $\om_2=\tau$, with $\Im \tau>0$. (Rescale.)
+%\begin{pr}
+%The space of theta functions of degree $n$ and parameter $b$ forms a $n$-dimensional space. They are in the form
+%\[
+%\sum_{k=0}^{\iy} a_k q^k
+%\]
+%where $q=e^{2\pi iz}$, $a_0,\ldots, a_{n-1}$ can be freely chosen, and the coefficients satisfy 
+the recursive relation
+\[
+a_{m+pn}=b^{-p}q_0^{mp+\frac{np(p-1)}2}a_m,\quad q_0=e^{-2\pi i \tau}.
+\]
+They form a $n$-dimensional space.
+\end{itemize}
+%\fixme{DARN there are so many different definitions of the theta function.} 
+In particular, the following is a theta function of degree $1$ and parameter $b$:
+\[
+\theta(z)=\sum_{k\in \Z} (-1)^k q^{\frac{k(k-1)}2}e^{2\pi i kz}%=C(q_0)\prod_{n=0}^{\iy} (1-q_0^n q)(1-q_0^{n+1}q^{-1}). 
+\]
+\end{pr}
+\begin{proof}
+We consider the 3 cases separately.
+\end{proof}
+\subsection{Factoring theta functions}
+We have the following analogue of the fundamental theorem of algebra.
+\begin{thm}
+Any theta function of degree $n$ is in the form
+\[
+f(z)=K\theta(z-z_1)\cdots \theta(z-z_n)q^r
+\]
+for some $z_1,\ldots, z_n\in \C$ and $r\in \Z$.
+\end{thm}
+
+\subsection{(2)$=$(3): Jacobi Triple Product Identity}
+
+We now relate the formulas we derived in Sections~\ref{sec:theta-q-prod} and~\ref{sec:theta-fourier-exp}. Since the space of theta functions of degree 1 is 1-dimensional, and the functions $\phi$ from Section~\ref{sec:theta-q-prod} and $\te$ from Section~\ref{sec:theta-fourier-exp} are both theta functions of degree 1, they must be related by a constant independent of $z$.
+
+The following tells us exactly what this constant is.
+\begin{pr}
+We have
+\[
+\te(z)=BLAH \phi(z)=BLAH (e^{2\pi iz}; q)_{\iy}(e^{-2\pi i z};q)_{\iy}.
+\]
+\end{pr}
+This statement is equivalent to the Jacobi triple product identity, which appears in many other contexts because it relates $q$-products and Fourier series.
+\begin{thm}[Jacobi triple product identity]
+We have
+\[
+\sum_{n\in \Z}(-1)^nq^{n^2}\om^n=\prod_{n=1}^{\iy} (1-q^{2n})(1-q^{2n-1}\om)(1-q^{2n-1}\om^{-1})=(q^2;q^2)(q\om;q^2)(q\om^{-1};q^2).
+\]
+as an identity of formal power series, and as complex analytic functions, for $|q|<1$.
+\end{thm}
+\begin{rem}
+There are several different forms of the triple product identity. Another common formulation replaces $\om$ by $\om^{\rc 2}$, and we get
+\[
+\sum_{n\in \Z}(-1)^nq^{n^2}\om^n=\prod_{n=1}^{\iy} (1-q^{2n})(1-q^{2n-1}\om)(1-q^{2n-1}\om^{-1})=(q^2;q^2)(q\om;q^2)(q\om^{-1};q^2).
+\]
+\end{rem}
+
+%\subsection{Transformation law}
+%
+%
+%\section{Elliptic functions}
+%\begin{df}
+%An \textbf{elliptic function} on the lattice $\La$ is a meromorphic function $f(z)$ on $\C$ such that
+%\[
+%f(z+\om)=f(z)\quad \text{for all }\om \in \La, z\in \C.
+%\]
+%%We call $\La$ the period.
+%Denote the space of all such functions by $\C(\La)$.
+%\end{df}
+%
+%There are nice relationships involving the zeroes and poles of elliptic functions.
+%\begin{thm}Let $f$ be an elliptic function on $\La$.
+%\begin{enumerate}
+%\item $\sum_{w\in \C/\La} \Res_w(f)=0$.
+%\item $\sum_{w\in \C/\La} \ord_w(f)=0$, i.e. in a fundamental parallelogram there are as many zeros as poles, counting multiplicities.
+%\item $\sum_{w\in \C/\La} \ord_w(f)w\in \La$.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item
+%\item 
+%\item Label the edges of the fundamental parallelogram as follows.
+%\[
+%\xymatrix{
+%& \al+\omega_2 \ar[rr]^{C_2} & & \al+\omega_1+\omega_2\ar[ld]^{C_3} \\
+%\al\ar[ur]^{C_1} & &\al+\omega_1 \ar[ll]^{C_4}&
+%}
+%\]
+%We calculate $\int_{\partial P} \frac{zf'(z)}{f(z)}\,dz$ in two ways.
+%
+%\textbf{Way 1:} 
+%\[
+%\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=\ba{
+%\int_{C_1} \frac{zf'(z)}{f(z)}\,dz
+%+\int_{C_3} \frac{zf'(z)}{f(z)}\,dz
+%}
+%+\ba{
+%\int_{C_2} \frac{zf'(z)}{f(z)}\,dz
+%+\int_{C_4} \frac{zf'(z)}{f(z)}\,dz
+%}.
+%\]
+%Noting that $C_3$ is just $C_1$ shifted by $\omega_1$ and reversed, and that $C_2$ is just $C_4$ shifted by $\omega_2$ and reversed, this equals
+%\[
+%\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+%\int_{C_1} \ba{\frac{zf'(z)}{f(z)}
+%-\frac{(z+\omega_1)f'(z+\omega_1)}{f(z+\omega_1 )}
+%}\,dz
+%+
+%\int_{C_4} \ba{\frac{zf'(z)}{f(z)}- \frac{(z+\omega_2)f'(z+\omega_2)}{f(z+\omega_2)}
+%}\,dz.
+%\]
+%Since $f$ is elliptic, $f(z)=f(z+\omega_1)=f(z+\omega_2)$, giving
+%\[
+%\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+%-\omega_1\int_{C_1} \frac{f'(z)}{f(z)} \,dz-\omega_2\int_{C_4} \frac{f'(z)}{f(z)}\,dz.
+%\]
+%Now $\ln(f(z))$ can be defined in a neighborhood around $C_1$ and $C_4$, since $f$ has no poles or zeros on $\partial P$. Since $f(\al)=f(\al+\omega_1)=f(\al+\omega_2)$, we have $\ln(f(\al+\omega_1))-\ln(f(\al))=2\pi i c_1$ and $\ln(f(\al))-\ln(f(\al+\omega_2))=2\pi i c_2$ for some integers $c_1$ and $c_2$. But these equal the above integrals by definition of $\ln f(z)$, so
+%\begin{equation}\label{p1-1-1}
+%\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+%-2\pi i(\omega_1 c_1+\omega_2 c_2).
+%\end{equation}
+%
+%\textbf{Way 2:}
+%Note $\Res_a \frac{f'(z)}{f(z)}=\ord_a f$ so $\Res_a \frac{zf'(z)}{f(z)}=a \ord_a f$. Letting $a_k$ be the poles and zeros of $f$ in $P$, we get by Cauchy's Theorem that
+%\begin{equation}\label{p1-1-2}
+%\int_{\partial P} \frac{zf'(z)}{f(z)}=2\pi i\sum_{k} \Res_{a_k} \frac{f'(z)}{f(z)}=2\pi i \sum_{k}m_k a_k.
+%\end{equation}
+%Equating~(\ref{p1-1-1}) and~(\ref{p1-1-2}) give
+%\[
+%\sum_{k}m_ka_k=-\omega_1c_1-\omega_2c_2\equiv 0\pmod{\La}.
+%\]
+%\end{enumerate}
+%\end{proof}
+%\end{thm}
+%%\begin
+%\begin{df}
+%The \textbf{order} of an elliptic function is the number of poles in a fundamental parallelogram.
+%\end{df}
+%It turns out that elliptic functions can be expressed as quotients of theta functions.
+%\begin{thm}
+%\[
+%f(z)=K\frac{\theta(z-a_1)\cdots \theta(z-a_k)}{\theta(z-b_1)\cdots \theta(z-b_k)}, \quad \sum_{i=1}^k a_i=\sum_{i=1}^k b_i.
+%\]
+%\end{thm}
+%\section{Weierstrass $\wp$-function}
+%Our basic example of an elliptic function is the following.
+%\begin{df}
+%Define the Weierstrass $\wp$-function for the lattice $\La$ by
+%\[
+%\wp(z)=\rc{z^2}+\sum_{\la\in \La\bs\{0\}}\ba{
+%\rc{(z-\la)^2}-\rc{\la^2}
+%}.
+%\]
+%\end{df}
+%\begin{pr}
+%The series defining $\wp$ converges absolutely and locally uniformly on $\C-\{\La\}$. 
+%$\wp$ is an even elliptic function with period $\La$, analytic except for a double pole at each point of $\La$, 
+%\end{pr}
+%In fact, we will see that it is the building block for all elliptic functions.
+%\begin{proof}
+%
+%\end{proof}
+%\begin{thm}
+%Every even elliptic function can be written as a polynomial in $\wp$. 
+%Every elliptic function can be written as a polynomial in $\wp$ and $\wp'$. 
+%\end{thm}
+%\begin{thm}
+%\[
+%\wp(z)-\wp(a)=\frac{\theta(z+a)\theta(z-a)}{\theta(z)^2} \cdot \frac{\theta'(0)^2}{\theta(a)\theta(-a)}.
+%\]
+%\end{thm}
+%\begin{thm}[Weierstrass differential equation]
+%\[
+%\wp'(z)^2=4(\wp(z)-e_1)(\wp(z)-e_2)(\wp(z)-e_3)
+%=4\wp(z)^3-\underbrace{60G_4}_{g_2}\wp(z)- \underbrace{140G_6}_{g_3}(z)
+%\]
+%\end{thm}
+%This says that for every $z$, the point $(\wp(z),\wp'(z))$ lies on the elliptic curve $y^2=4x^3-60G_4-140G_6$. Together with surjectivity and the Uniformization Theorem~\ref{uniformization} this implies that all elliptic curves can be parameterized in this way. (NONZERO DISC.)
+%\begin{thm}[Unifomization theorem]\llabel{uniformization}
+%Let $A,B\in \C$ satisfy $A^3-27B^2\ne 0$. Then there exists a unique lattice $\La\sub \C$ such that $g_2(\La)=A$ and $g_3(\La)=B$.
+%\end{thm}
+%%%%%%%%%%
+%\subsection{$\wp$ and lattices}
+%\begin{thm}
+%%cox, 10.14
+%Let $L$ be the lattice corresponding to $\wp(z)$. For $\al\in \C\bs \Z$, the following are equivalent.
+%\begin{enumerate}
+%\item $\wp(\al z)$ is  rational function in $\wp(z)$.
+%\item $\al L\subeq L$.
+%\item There is an order $\sO$ in an imaginary quadratic field $K$ such that $\al\in \sO$ and $L$ is homothetic to a proper $\sO$-ideal.
+%\end{enumerate}
+%Then 
+%\[
+%\wp(\al z)=\frac{A(\wp(z))}{B(\wp(z))}
+%\]
+%for relatively prime polynomials $A$ and $B$ such that 
+%\[
+%\deg(A)=\deg(B+1)=[L:\al L]=\N\al.
+%\]
+%\end{thm}
+%\begin{proof}
+%$(1)\implies (2)$: 
+%Suppose that $\wp(\al z)=\frac{A(\wp(z))}{B(\wp(z))}$ with $A$ and $B$ relatively prime. Then
+%\begin{equation}
+%B(\wp(z))\wp(\al z)=A(\wp(z)).
+%\end{equation}
+%%Note that each linear factor $\wp(z)+r$ of $A(\wp(z))$ and $B(\wp(z))$ has the same poles with the same orders as $\wp(z)$. 
+%For any $\om\in L$, %both 
+%$\wp(\om)$ %and $\wp(\al z)$ 
+%has a pole of order 2, and each linear factor $\wp(z)+r$ of $A(\wp(z))$ and $B(\wp(z))$ has a pole of order 2. 
+%In particular, for $\om=0$, we get that the order is
+%\[
+%2\deg(B)+2=2\deg(A)
+%\]
+%showing that $\deg(A)=\deg(B)+1$. Now take any $\om\in L$. Counting the order of $\om$ on both sides, we find that $\wp(\al z)$ has a pole of order 2 at $\om$. Thus $\al \om\in L$. This shows $\al L\subeq L$.
+%
+%$(2)\implies (1)$:
+%For any $w\in L$, since $\al L\subeq L$we have
+%\[
+%\wp(\al (z+w))=\wp(\al z+\underbrace{\al w}_{\in L})=\wp(\al z).
+%\] 
+%Hence $\wp(z)$ is elliptic with $L$ as a lattice of periods. Since it is even, by (?) it is a rational function in $\wp$.
+%
+%$(2)\implies (3)$: %Assume $\al$ acts on $L=\an{1,\tau}$ by $\smatt abcd$. Then
+%By a homothety we may suppose $L=\an{1,\tau}$. Since $L$ has rank 2 as a $\Z$-module, $\tau$ must be of degree 2 over $\Q$. Now take
+%\[
+%\sO=\set{\be \in \Q(\tau)}{\be L\subeq L},
+%\]  
+%i.e. the ``codifferent."
+%
+%$(3)\implies (2)$: Easy.
+%
+%Now, supposing (1) is true, rearrange $\wp(\al z)=\frac{A(\wp(z))}{B(\wp(z))}$ to get
+%\begin{equation}\label{awpb}
+%A(x)=\wp(\al z) B(x)=0.
+%\end{equation}
+%Fix $z$ so that $2z\nin \rc{\al}L$ and such that $A(x)-\wp(\al z)B(x)$ has distinct zeros. (Claim: Given polynomials $A$, $B$, there are only a finite nmber of values of $c$ so that $A-cB$ has multiple roots.) 
+%Let $\{w_i\}$ be a set of coset representatives for $L$ in $\rc{\al}L$. We claim that the roots of~(\ref{awpb}) are exactly $z+w_i$.
+%
+%We have
+%\[
+%A(\wp(z+w_i))-\wp(\al z)B(\wp(z+w_i))=A(\wp(z+w_i))-\wp(\al (z+w_i))B(\wp(z+w_i))=0
+%\]
+%by blah, so $\wp(z+w_i)$ are roots of~(\ref{awpb}).
+%
+%Now if $\wp(z+w_i)=\wp(z+w_j)$ then by BLAH, $(z+w_i)=\pm(z+w_j)\pmod{L}$, giving either $2z\equiv w_i-w_j\in \rc{\al}L$ and $2z\in \rc{\al}$, or $w_i\equiv w_j\pmod L$. The first is impossible by assumption on $z$, so $i=j$. This shows the roots are distinct. 
+%
+%Finally, given any root of~(\ref{awpb}), by surjectivity of $\wp$ we can write it in the form $\wp(y)$. We have
+%\[
+%\wp(\al y)=\frac{A(\wp(y))}{B(\wp(y))}=\wp(\al z),
+%\]
+%where the first equality is by definition of $A$ and $B$ and the second is because $\wp(y)$ is a root of~(\ref{awpb}). Then by BLAH, $\al y\pm \al z\equiv 0\pmod{L}$. Since $\wp$ is even, we may replace $y$ by $-y$ as necessary, to get $\al(y-z)\equiv 0\pmod{\rc{\al} L}$. Thus  $y\in z+\rc{\al}L$ and $\wp(y)=\wp(z+w_i)$ for some $i$, as needed.
+%
+%Since~(\ref{awpb}) has $[L:\rc{\al}L]=[\al L:L]$ roots,~(\ref{awpb}) and hence $A$ has degree $[\al L:L]$.
+%\end{proof}
+%
+%Note the equivalence $(2)\iff (3)$ (which incidentally has nothing to do with elliptic functions) gives that a lattice is a proper fractional ideal of $\sO$ iff it has $\sO$ as its ring of complex multiplication. Nonzero fractional ideals are homothetic iff they determine the same element in the ideal class group. Hence there is a correspondence between IDEAL CLASS GRP and homothety classes of lattices with $\sO$ as full ring of complex multiplication.
+%%%%%%%%%%%%%%%%%%%%%%

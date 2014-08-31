@@ -1,0 +1,317 @@
+\chapter{Formal groups}
+
+Why are we interested in elliptic curves over different fields? We are interested in elliptic curves over $\Q$ because much of number theory is concerned with solving equations over $\Q$; we are interested in elliptic curves over finite fields $k$ because of its applications to cryptography, factoring, and primality proving.
+
+On the other hand, even if we just wanted information about an elliptic curve $E$ over $\Q$, it helps to investigate it over other fields. $\Q$ is a difficult field to work with because it is a {\it global} field. So we make two reductions.
+\begin{enumerate}
+\item Consider $E$ over the local fields $\Q_p$ (and $\C$!). Then combine this information to get information on $E(\Q)$.
+\item Consider $E$ over finite fields $\F_p=\Q_p/p\Q_p$. Use this to get information about $E$ over local fields $\Q_p$.
+\end{enumerate}
+We look at item 2 more closely. Suppose $K$ is a local field; let $k$ be its residue field. 
+Note that when we reduce an elliptic curve modulo $p$, some points will get sent to 0; this is the kernel of reduction $E_1(K)$. Thus we get a exact sequence
+\[
+\xymatrix{
+0\ar[r]& E_1(K)\ar[r]&  E_0(K)\ar[r]&  \wt{E}_{\text{ns}}(k)\ar[r]&  0\\%criteria and consequences for good/bad reduction.
+%nonsingular points form a group.
+& \wh{E}(\mm)\ar@{=}[u] &  & &}
+\]
+(Here we have the technicality that when we reduce to $k$, some points may be singular, so $E_0(K)$ is the set of nonsingular points.)
+How can we study $E_1(K)$? We know these are points whose coordinates are in the maximal ideal $\mm$ associated to $K$ (so get sent to 0 upon reduction). 
+%To go from elliptic curves over finite fields to elliptic curves over local fields, we use the following exact sequences.
+To get these points we take a uniformizer $z\in \mm$, and write the coordinates of a point in $E_0(K)$ as power series in $z$. Thus we investigate the elliptic curve over a {\it ring of formal power series}, and the group law becomes a group law for power series, called a {\it formal group law} (see Section BLAH). We then get to $E(K)$ from the exact sequence $0\to E_0(K)\to E(K)\to E(K)/E_0(K)\to 0$; fortunately, $E(K)/E_0(K)$ is finite.
+
+To get from $E$ over local fields to $E$ over global fields, we would like to use the Hasse principle as in quadratic forms. However, this fails. There is, however, a way of measuring the failure of the Hasse principle using the Selmer and Shafarevich-Tate groups (see Silverman, X).
+
+\wrbox{
+$E_1(K)$ is the set of points which ``in the maximal ideal," i.e.,  are 0 modulo $k$. But this is with respect to the equation where the point at infinity has been transformed to the origin, so in the original coordinates, they are points with powers of $\pi$ in the {\it denominator}, not the numerator. 
+}
+
+\section{Formal groups}
+%\section{Formal groups}
+A formal group is basically a group law defined on power series. It can be thought of as a ``group law without a group"; for applications we will this group law operate on a maximal ideal in a complete ring. (This way, the power series for the group law will converge.)
+\begin{df}
+A (1-dimensional commutative) \textbf{formal group} $\mathscr F$ over the ring $R$ is a power series $F(X,Y)\in R[[X,Y]]$ satisfying the following three conditions.
+\begin{enumerate}
+\item
+$F(X,Y)=X+Y\pmod{(X,Y)^2}$. %+G(X,Y)$ where all terms of $G$ have degree at least 2.
+\item (Associativity)
+$F(F(X,Y),Z)=F(X,F(Y,Z))$.
+\item (Commutativity)
+$F(X,Y)=F(Y,X)$.
+\end{enumerate}
+We also write $X+_F Y$ for $F(X,Y)$.
+\end{df}
+\begin{pr} Keep the above notation.
+A formal group has the following additional properties:
+\begin{enumerate}
+\item[4.] (Inverse) There is a unique power series $i(T)\in R[[T]]$ such that $F(T,i(T))=0$.
+\item[5.] (Identity) $F(X,0)=F(0,X)=X$.
+\end{enumerate}
+\end{pr}
+Formal groups originally appeared geometrically: Suppose we are interested in an infinitesimal neighborhood of a point on a variety. Consider the ring of rational functions defined in this infinitesimal neighborhood. Taking the completion of this ring, we get a ring of power series; the variable is an uniformizer.\footnote{For the scheme-theoretically inclined, imagine a group law on $\A^1_{\Spec A}=\Spec A[T]$; we have to give a multiplication map
+\begin{align*}
+\A^1_{\Spec A}&\to \A^1_{\Spec A} \\
+\Spec A[X]\ot_A A[Y] & \to \Spec A[T]\\
+A[X,Y] & \mapsfrom A[T].
+\end{align*}
+This is equivalent to giving the image of $T$ in $A[X,Y]$. Looking at it locally (say at 0) means localizing at $(x)$, giving a power series. 
+%affine formal group scheme, degree 1 approximation
+}
+
+\subsection{Formal groups and Lie algebras}
+
+\fixme{(I don't understand this really well)} One can say that formal groups are like an intermediate between {\it Lie algebras }and {\it Lie groups}\footnote{A Lie group is basically a manifold with a continuous group structure. A Lie algebra is an algebra with a {\it bracket} operation that ``measures" noncommutativity.} (in a way we won't make precise), going from 
+\begin{enumerate}
+\item
+the complete local ring (power series ring) $R$ at a point, to
+\item
+a subset of points on the curve.
+\end{enumerate}
+An elliptic curve is a Lie group, and the tangent space at 0 forms a 1-dimensional (trivial) Lie algebra.
+\begin{gather*}
+\text{Usual paradigm: }\pat{Lie algebra} \dashrightarrow \pat{Lie group}\\
+\xymatrix{
+\fixme{\text{unsatisfactory}}\ar[d] &&\\
+\pat{Lie algebra of $E$}
+\ar@{<->}[rr] \ar@{<->}[rd]&&E\\
+\text{so consider...}& {\color{blue}\pat{formal group of $E$}} \ar@{<->}[ru]^{\color{blue}\text{exp}}&
+}
+\end{gather*}
+
+The analogy is the following.
+\begin{enumerate}
+\item
+The Lie algebra is the tangent space at a point {\it with a Lie bracket $[,]$}, and that under the {\it exponential map}, a vector in the tangent space gets sent to a point on the Lie group (manifold) in the the direction and magnitude of that vector. The Lie bracket tells us about how the group law on the Lie group works (and in particular measures the failure of commutativity).
+\item
+Here, the formal group law will take the place of the Lie bracket, ``transfering" the group law from the curve to the power series ring. We will see there similarly exists an exponential map that identifies $R$ with the formal group operation, to $R$ with normal addition of power series. (Since the group law is commutative, we don't really want to consider a Lie algebra, which would be trivial; we say that the formal group is an intermediary, in that it gives more information.) There is a caveat that since we plan to work over local rings (rather than over $\C$ as with classical Lie groups), we can map to points on the curve in the maximal ideal, as mentioned in the introduction.
+\end{enumerate}
+\fixme{Can we make this functorial?}
+\subsection{Basic examples}
+
+The formal group law will be easier to study than addition on the curve, because we are just working in a power series ring, and we understand the algebra of a power series ring very well (it's almost like just working with polynomials!). Thus formal groups are useful in simplifying problems in algebraic number theory and geometry.
+\begin{ex}
+The formal additive $\hat{\mathbb G}_a$ and multiplicative groups $\hat{\mathbb G}_m$ are given by
+%XY, bring identity element to 0.
+%completion of G_a,G_m.
+\begin{align*}
+F(X,Y)&=X+Y\\
+F(X,Y)&=X+Y+XY=(1+X)(1+Y)-1.
+\end{align*}
+To motivate this, consider the group varieties $\G_a(K)=K^+$ and $\G_m(K)=K^{\times}$. For $\hat{\mathbb G}_a$, we consider the local ring at 0, and for $\hat{\mathbb G}_m$ we consider the local ring at 1; the law is just ``multiplication around 1." Let $s=x-1$ be a uniformizer. Thinking of the expression $x-1$ as something where we substitute an actual number for $x$, if $s=x-1$ and $t=y-1$, then the product is $xy$, and $xy-1=(s+1)(t+1)-1$, hence the formula.
+\end{ex}
+
+\begin{df}
+A homomorphism from $(\mathscr F,F)$ to $(\mathscr G,G)$ is a power series $f(T)\in R[[T]]$ with
+\[
+f(F(X,Y))=G(f(X),f(Y)).
+\]
+$\mathscr F$ and $\mathscr G$ are isomorphic over $R$ if there are homomorphisms $f:\mathscr F\to \mathscr G$ and $g:\mathscr G\to \mathscr F$ such that $f(g(T))=g(f(T))=T$.
+\end{df}
+Note we must have $f(X)\in \an{X}$.
+%%A[[T]]->A[[X]]
+%%maximal ideal: in schemes (T)->(X).
+%For short we write $f\circ F=G\circ f$ or $f(X+_F Y)=f(x)+_G f(Y)$.
+%\begin{df}[Base change]
+%Let $B$ be an $A$-algebra, via $\ph:A\to B$. Let $(\mathscr F,F)$ be a formal group over $A$. Define
+%\[
+%F\ot_A B:=\ph(F)\in B[[X,Y]].
+%\]
+%\end{df}
+%We care about Lubin-Tate formal groups for local class field theory. Suppose $K/\Q_p$ is finite; write $k=\F_q$; let $L/K$ be a complete unramified extension (for example, finite unramified extension $K_n=K(\mu_{q^n-1})$ of $\hat K^{\text{un}}$). Let $\sO_L$ be the base ring. Consider $(\pi, f)$ where $\pi$ is a uniformizer of $L$ and $f(X)\in \sO_L[[X]]$ such that 
+%\begin{enumerate}
+%\item
+%$f(X)\equiv \pi X \pmod{(X^2)}$.
+%\item
+%$f(X)\equiv X^q\pmod{\pi\sO_L[[X]]}$.
+%\end{enumerate}
+%The fundamental example is the following.
+%\begin{ex}
+%%get cyclotomic extensions out of $\Q_p$
+%$K=\Q_p$, $\pi=p=q$. Take
+%\[
+%f(X)=(X+1)^p-1=p(\cdots )+X^p.
+%\]
+%\end{ex}
+%\begin{df}
+%A Lubin-Tate group is a formal group over $\sO_L$ of height 1 with $\sO_K$-action.
+%(We say $f$ has height $h$ if $f(X)\equiv X^{q^h}\pmod{\pi}$.)
+%%general case - nonabelian local class field theory.
+%
+%Let $\pi,\pi'$ be uniformizers of $L$. Define
+%\[
+%\Theta_{\pi,\pi'} :=\set{\te\in \sO_L}{\te\pi = \te^{\ph} \pi'}
+%\]
+%where $\ph:L\to L$ is the arithmetic Frobenius ($x\mapsto x^q$ on residue field).
+%%\ph(\te)(\pi')
+%%f is like a group homomorphism
+%%gadget relate one choice of uniformizer to another.
+%\end{df}
+%
+%
+\section{Formal groups over DVR's}
+We use the formal group to study $p$-torsion. 
+\begin{pr}[Silverman IV.4.3]
+Let $\mathscr F,\mathscr G$ be formal groups with normalized invariant differentials $\om_{\mathscr F},\om_{\mathscr G}$. Then
+\[
+\om_{\mathscr G}(f)=f'(0) \om_{\mathscr F}
+\]
+\end{pr}
+
+The key proposition we will repeatedly use is the following, which tells us what the formal series for multiplication by $p$ looks like.
+\begin{pr}\llabel{pr:formal-group-p}
+Let $\mathscr F/R$ be a formal group and $p$ a prime. Then there exist power series $f,g\in tR[[t]]$ such that
+\[
+[p]T=pf(T)+g(T^p).
+\]
+\end{pr}
+\begin{proof}
+
+\end{proof}
+
+The ``$T^p$" term above suggests some kind of ``ramification" happening when we work over local fields of characteristic $p$. (Example: $\Q_p(\ze_p)/\Q_p$ is ramified, and $\ze_p$ satisfies $X^p-1=0$.) 
+We now use formal groups to investigate $p$-torsion points. 
+\begin{pr}
+Let $R$ be complete with maximal ideal $\mm$, and let
+$\mathscr F/R$ be a formal group. Suppose $x\in \mathscr F(\mm)$ is a $p^n$-torsion point: $[p^n]x=0$. Then
+\[
+v(x)\le \fc{v(p)}{p^n-p^{n-1}}.
+\]
+\end{pr}
+\begin{ex}
+This already gives us something nonobvious when applied to $\G_m(\Q_p)$. Namely, let $x=\ze_{p^n}-1$ (recall that $s\in \Q_p^{\times}$ will be represented by $s-1$ in the formal group). The above says
+\[
+v(\ze_{p^n}-1)\le \rc{p^n-p^{n-1}}
+\]
+and therefore equality must occur (\fixme{why can't it be 0?}). Since $\ze_{p^n}$ satisfies $X^{p^n-p^{n-1}}+\cdots +X^{p^{n-1}}+1=0$, we get that $\Q_p[\ze_{p^n}-1]/\Q_p$ is totally ramified of degree $p^n-p^{n-1}$, and that $\ze_{p^n}-1$ is a uniformizer in the extension.
+\end{ex}
+\begin{proof}
+
+\end{proof}
+
+Now we consider formal groups in characteristic $p$.
+
+\prbbox{
+We showed that $\exp_{\cF}:\hat{\G}^a\to \mathscr F$ over $R$ when $R$ has characteristic 0. What goes wrong if the residue field of $R$  has positive characteristic? Can you salvage it with a weaker result?
+}
+\vskip0.15in
+The problem is that the power series for $\exp_{\cF}$ may not converge! 
+But when a power series doesn't converge, {\it look at a smaller neighborhood.}
+When do they converge? We find a criterion on the coefficients using some basic calcuations with valuations. 
+\footnote{(Note to self: look at subgroup-trivial-cohom in CFT, same stategy of looking at subset?)}
+\begin{pr}
+\begin{enumerate}
+\item
+The power series
+\[
+f(T)=\suo \fc{a_n}{n}T^n
+\]
+converges for $v_p(T)>0$.
+\item
+The power series 
+\[g(T)=\suo \fc{b_n}{n!}T^n.\]
+converges for $v_p(T)\ge \color{blue}\fc{v(p)}{p-1}$ with $v(g(x))=v(x)$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+The valuation of a factorial satisfies $v_p(n!)<(n-1){\color{blue}\fc{v(p)}{p-1}}$.
+
+Just do it!
+\end{proof}
+Thus we get a isomorphism on an open subset of $R$.
+\begin{thm}[Silverman 6.4]
+The formal logarithm induces an isomorphism
+\[\log_{\mathscr F} \mathscr F(\mm^r)\to \hat{\G}^a(\mm^r)
+\]
+{\it when $r>\fc{v(p)}{p-1}$}.
+\end{thm}
+Note that we only have trouble defining the reverse map (exp) in the backwards direction, so we can define $\log_{\mathscr F}:\mathscr F(\mm)\to K^+$, but this will not be a homomorphism of formal groups, and only be a homomorphism of groups.
+
+This theorem will tell us that when $K$ is a local field, there is a subgroup of $E(K)$ isomorphic to $K^+$.
+\section{Formal groups in characteristic $p$}
+
+In characteristic $p$, the first term in~\ref{pr:formal-group-p} disappears. Then we get $f(T)=g(T^p)$. This reminds us of separability, and we know separability is an issue for isogenies between elliptic curves in characteristic $p$. (Moreover, this separability can be measured by looking at the powers in the polynomials defining the isogenies.) 
+Is there a way we can naturally connect 
+\begin{enumerate}
+\item
+separability degree of isogenies between elliptic curves with
+\item
+ homomorphisms of formal groups?
+\end{enumerate}
+Yes.
+\begin{df}
+Let $f:\mathscr F\to \mathscr G$ be a homomorphism of formal groups over $R$ of characteristic $p$. Define the \textbf{height} $\text{ht}(f)$ to be the largest $h$ such that there exists a power series $g$ with
+\[
+f(T)=g(T^{p^h}).
+\]
+\end{df}
+
+\begin{thm}\llabel{thm:height-degree}
+Let $K$ be a field of characteristic $p>0$, $E_1,E_2/K$ be elliptic curves, and $\phi:E_1\to E_2$ be an isogeny. Let $\mathscr F:\hat{E_1}\to \hat{E_2}$ be the associated homomorphism of formal groups\fixme{ (say how this comes about)}. Then
+\[
+p^{\text{ht}(f)}=\deg_i(\phi).
+\]
+
+For any elliptic curve,
+\[
+\text{ht}(\hat E)=1 \text{ or }2.
+\]
+\end{thm}
+We first prove some basic facts about heights using the invariant differential. 
+\begin{pr}\llabel{pr:fg-height}
+Let $f:\cF\to \cG$ be a homomorphism of formal groups over $R$.
+\begin{enumerate}
+\item
+If $h=\text{ht}(f)$ and $f(T)=g(T^{p^h})$, then $g'(0)\ne0$. In particular, if $f'(0)=0$, then $\text{ht}(f)\ge 1$, i.e., $f(T)=g(T^p)$ for some $g\in R[[T]]$.
+\item
+(Height is additive) Given $g:\cG\to \mathscr H$, we have
+\[
+\text{ht}(g\circ f)=\text{ht}(f)+\text{ht}(g).
+\]
+\end{enumerate}
+\end{pr}
+Compare the additivity of height with the multiplicativity of degree.
+\begin{proof}
+\begin{enumerate}
+\item
+We first show the ``in particular" part. Let $\om_{\mathscr G}=P(T)\,dT.$
+We write $\om_{\mathscr G}(f(T))$ in two ways: 
+\begin{align*}
+\om_{\mathscr G}(f(T))&=f'(0)\om_{\mathscr F}(T)=0\\
+\om_{\mathscr G}(f(T))&=P(f(T))f'(T)\,dT.
+\end{align*}
+Since $P(f(T))\in R[[T]]$, we get $f'(T)=0$ in $R$. Since we are in characteristic $p$, this implies $f(T)=g(T^p)$ for some $g\in R[[T]]$.
+
+We already have the result for the case $h=0$. How do we reduce the general case to this? By using the $p^h$th power Frobenius. Let $\mathscr F^{(q)}$ denote the formal group with law $\sum a_{ij}^pX^iY^j$. 
+Since taking the $q$th power is a homomorphism in characteristic $p$, the homomorphism $f$ transfers to a formal group law $g:\cF^{(q)}\to \cG^{(q)}$.
+\[
+\xymatrix{
+(\cF,F)\ar[r]^f\ar@{.>}[d]_{\hat{\,}q}&(\cG,G)\ar@{.>}[d]^{\hat{\,}q}\\
+(\cF,F^{(q)})\ar[r]^g & (\cG^{(q)},G).
+}
+\]
+\begin{align*}
+g(F^{(q)}(X^q,Y^q))&= f(F(X,Y))\\
+&=G(f(X),f(Y))\\
+%&=G(f(X^q),f(Y^q))\\
+& = G(g(X^q),g(Y^q)),
+\end{align*}
+i.e., $g$ is a homomorphism of formal groups $\cF\to \cG$.
+
+Now, the fact that $\cF$ has height $h$ means that $g$ has height 0. We've shown this means $g=0$.
+\item
+This follows immediately from the characterization in part 1, after writing $f=f_1(T^{p^{\text{ht}(f)}})$ and $g=g_1(T^{p^{\text{ht}(g)}})$.
+\end{enumerate}
+\end{proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:height-degree}]
+Every isogeny can be written as a composition of a separable and purely inseparable (namely, the Frobenius) isogeny. Since degree is multiplicative and height is additive (Proposition~\ref{pr:fg-height}), it suffices to show the theorem for separable and purely inseparable isogenies.
+\begin{enumerate}
+\item For the Frobenius isogeny, $\deg_i(\phi_q)=q$, and the associated homomorphism of formal groups is $T^q$, so the theorem checks.
+\item For a separable isogeny, $\deg_i(\phi)=1$. We will use the differential as a way to go between the degree of the isogeny and the height of the associated homomorphism of formal groups. Separability implies $\phi^*\om\ne 0$. In the realm of formal groups this says $\om_{\cG}\circ f\ne0$, or $f'(0)\om_{\cF}\ne 0$. (Check that $\om_{\cG}$ corresponds to $\om$.) Thus $f'(0)\ne 0$, and Proposition~\ref{pr:fg-height} tells us the height is 0.
+% and the associated homomorphism of formal groups satisfies $
+\end{enumerate}
+For the second part, note that $\deg_i([p])=p$ or $p^2$, so $\text{ht}([p])=1$ or 2.
+\end{proof}
+%Compare this with the baby example of field extensions of a finite field $\F_p$. We have the map $
+
+cf. ANT inseparability?

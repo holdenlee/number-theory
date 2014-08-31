@@ -1,0 +1,185 @@
+\chapter{Computing the Mordell-Weil group}
+
+
+\section*{Introduction}
+
+Let $K$ be a global field. Our end goal is to understand the group $E(K)$, specifically what its rank is. 
+\begin{enumerate}
+\item
+Computation of the rank:
+\begin{enumerate}
+\item
+We can reduce the computation of the rank to the computation of $\af{E'(K)}{\phi E(K)}$. 
+\item
+To compute this, we map $\al_{E'}:\af{E'(K)}{\phi E(K)}\hra K^{\times}/K^{\times m}$ (for a 2-isogeny $\phi$ this turns out to just be taking the $x$-coordinate); we will find a point $b_1$ will be in the image (i.e., the $x$-coordinate of a solution) precisely when a certain curve $C_{b_1}$, called a homogeneous space, has a rational point.
+\end{enumerate}
+We can get a lower bound for the rank this way. In order to get a precise value, in each case where the curve does not have a rational point, we have to prove this. This might be hard; the one major tool at our disposal is showing the nonexistence of solutions modulo $K_v$ (or by Hensel's lemma, equivalently the nonexistence of solutions modulo a sufficiently high power of $p=n_v$).
+
+Thus we would like a local-global principle---that a point in $K_v$ for all $v$ gives a point in $K$. More precisely, we'd like to see whether the fact that $b_1\in \im\al_{E'}$ in all $K_v$ ($C_{b_1}$ has a rational point for all $K_v$) implies $b_1\in \im\al_{E'}$ ($C_{b_1}$ has a rational point for $K$). In the 2-isogeny case, this means if $b_1$ is a valid $x$-coordinate for all $K_v$, then it is a valid $x$-coordinate for $K$.
+
+However the local-global principle fails. Hence there could be a gap between the $b_1$ we show are in the image---where we could find rational points on $C_{b_1}$---and the $b_1$ that are in the image for each $K_v$; this forms the Selmer group. The quotient between them measures the failure of the local-global principle and is measured in the Tate-Shafarevich group.
+\end{enumerate}
+%
+
+\section{Selmer and Shafarevich-Tate groups}
+Recall the Kummer sequence
+\[
+0\to \fc{E'(K)}{\phi E(K)}\xra{\de}H^1(K,E[\phi])\to H^1(K,E)[\phi_*]\to 0.
+\]
+Take $K$ to be a number field. 
+%Write $M_K=\{\text{places of }K\}$. This consists of the 
+%\begin{enumerate}
+%\item
+%finite places (prime ideals in $\sO_K$), and
+%\item
+%infinite places (real and complex conjugate pairs of embeddings of $K\hra \C$). 
+%stick K inside, abs on C, on K. Reals of complexes. Finite extension of $\Q_p$.
+%\end{enumerate}
+We fix an embedding $\ol K\subeq \ol K_v$. Then by restriction $\Gal(\ol K_v/K_v)\subeq \Gal(\ol K/K)$. 
+For $v\in M_K$, $K\subeq K_v$, take the completion with respect to the $v$-adic topology. We now get maps
+\[
+\xymatrix{
+0\ar[r] &\fc{E'(K)}{\phi E(K)}\ar[r]\ar[d]&
+H^1(K,E[\phi])\ar[r]\ar[d]_{\text{res}_v}\ar@{.>}[rd]& H^1(K,E)[\phi_*]\ar[r]\ar[d]_{\text{res}_v}& 0\\
+0\ar[r] &\fc{E'(K_v)}{\phi E(K_v)}
+\ar[r]^{\de_v} & H^1(K_v,E[\phi]) \ar[r] & H^1(K_v,E)[\phi_*]\ar[r] &0
+}
+\]
+We want to bound the rank on $\fc{E'(K)}{\phi E(K)}$. It is isomorphic to its image under $\de$. When you restrict it it must be in the image of $\de_v$. Thus we can bound the rank by bounding the rank of the image under $\de_v$.
+%bound on rank
+\begin{df}
+The \textbf{$\phi$-Selmer group} is 
+\bal
+S^{(\phi)}(E/K)&=\ker\pa{H^1(K),E[\phi]\to \prod_{v\in M_K}H^1(K_v,E)}\\
+&=\set{\al\in H^1(K,E[\phi])}{\text{res}_v(\al)\in \im(\de_v)\text{ for all }v\in M_K}
+\end{align*}
+\end{df}
+They are points which ``on the basis of local information look like it might be in the image of $\de$."
+%Which on the basis of local information looks like it might be in the image of $\de$.
+\begin{df}
+The \textbf{Tate-Shafarevich group} is
+\[
+\Sh(E/K)=\ker(H^1(K,E)\to \prod_{v\in M_K} H^1(K_v,E)).
+\]
+%by night prove better and better upper bounds. becomes sharp %day search for bounds of curve. eventually terminate.
+\end{df}
+The role of the Tate-Shafarevich group is to capture the failure to compute ranks of elliptic curves following the proof of Weak Mordell-Weil. Compare to how we capture the failure of unique factorization in number fields by defining the class group. We've ``named our problem."
+%not sharp. TS get in problem.  name for group. Role of TS failure to compute ranks of elliptic curves following the proof of WMW.
+%failure of UF, class group
+%We get 
+%\[
+%0\to \fc{E'(K)}{\phi E(K)} \to S^{(\phi)}(E/K) \to \Sh(E/K)[\phi_*]\to 0
+%\]
+%where $S^{(\phi)}$ is finite and effectively computable.
+%%%%%
+\begin{thm}[Selmer and Tate-Shafarevich exact sequence]
+If $\phi=[n]:E\to E$, then the following is exact:
+\[
+0\to \fc{E(K)}{nE(K)}\to S^{(n)}(E/K) \to \Sh (E/K)[n]\to 0.
+\]
+\end{thm}
+\begin{proof}
+%They fit in this picture. The Selmer group fits in the dotted exact sequence.
+%\[
+%\xymatrix{
+%&&0\ard{d} & 0\ar[d] &\\
+%0\ar[r]& \fc{E'(K)}{\phi E(K)} \ar[r] & S^{(\phi)}(E/K) \ard{d}\ar[r] & \Sh(E/K)\ar[d]&\\
+%0\ar[r] & \fc{E'(K)}{\phi E(K)} \ar[r]^{\de} \ar[d]& H^1(K,E[\phi]) \ar[r]\ar[d]\ard{rd} & H^1(K,E)[\phi_*]\ar[r]\ar[d] & 0\\
+%0\ar[r] & \prod_v \fc{E'(K_v)}{\phi E(K_v)}\ar[r] & \prod_v H^1(K_v, E[\phi]) \ar[r] & \prod_v H^1(K_v,E)[\phi_*]\ar[r] & 0.
+%}
+%\]
+The horizontal and vertical sequences in the following are exact. The top row is exact by the Nine Lemma (or it can be shown more easily, in a direct fashion).
+\[
+\xymatrix{
+&0\ar[d]&0\ar[d] & 0\ar[d] &\\
+0\ar[r]& \fc{E'(K)}{\phi E(K)} \ar[r]\ar[d] & S^{(\phi)}(E/K) \ar[d]\ar[r] & \Sh(E/K)\ar[d]\ar[r]&0\\
+0\ar[r] & \fc{E'(K)}{\phi E(K)} \ar[r]^{\de} \ar[d]& H^1(K,E[\phi]) \ar[r]\ar[d] & H^1(K,E)[\phi_*]\ar[r]\ar[d] & 0\\
+0\ar[r] & 0\ar[r] & \prod_v H^1(K_v,E)[\phi_*] \ar[r]^{\id} & \prod_v H^1(K_v,E)[\phi_*]\ar[r] & 0.
+}
+\]
+\end{proof}
+Q: How do we come up with the map? We somehow reduce the calculation of $E(K)/mE(K)$ to the existence of a rational point, reduce a rank calculation question to a point-finding question. 
+A: We have three pairings, let's see how to combine them. (The ``pp" is to remind us the pairing is perfect.)
+
+\begin{center}
+\begin{tabular}{cccccc}
+(1) $\kappa:$ & $E'(K)/\phi E(K)$ & $\stackrel{pp}{\times}$ & $G(L_1/K)$ & $\to$ & $E[\phi]$\tabularnewline
+(2) $e_{\phi}:$ & $E[\phi]$ & $\times$ & $E'[\wh{\phi}]$ & $\to$ & $\mu_{m}$\tabularnewline
+(0) Kummer: & $K^{\times}/K^{\times m}$ & $\stackrel{pp}{\times}$ & $G(L_2/K)$ & $\to$ & $\mu_{m}$\tabularnewline
+\end{tabular}
+\end{center}
+where 
+\[
+L_1=K(\phi^{-1}(E(K)))\qquad L_2=K(\sqrt[m]{K});
+\]
+$L_2$ is the maximal abelian extension of exponent $m$. 
+Alternatively, we can restrict (0) to $L\subeq L_2$ to get $K^{\times}\cal L^{\times m}/K^{\times m}\stackrel{pp}{\times} G(L/K)\to \mu_m$. 
+Thinking in a ``computer science" way, how can we combine pairings to get what we want? We can ``compose" pairings to get ``triplings."
+
+\begin{tabular}{ccccc}
+$A$ & $\times$ & $B$ & $\to$ & $C$\tabularnewline
+$C$ & $\times$ & $D$ & $\to$ & $E$\tabularnewline
+\hline
+\multicolumn{3}{c}{$A\times B\times D$} & $\to$ & $E$\tabularnewline
+\end{tabular}
+
+We can switch between pairings and maps:
+\[
+A\times B\to C\quad \iff \quad A\to (B\to C).
+\]
+where we write $B\to C$ for $\Hom(B,C)$ (in this context, as groups) for visual effect. If the pairing is perfect, then the map $A\xrc (B\to C)$ map is a bijection.
+
+We construct the map.
+\begin{enumerate}
+\item
+
+\end{enumerate}•
+
+(1)+(2) gives by rule $A$
+\[
+\fixme{E'(K)/\phi E(K)}\times G(L/K)\times \blu{E'[\wh{\phi}]}\to \blu{\mu_m}.
+\]
+which gives by rule $B$
+\[
+\fixme{E'(K)/\phi E(K)}\times \blu{E'[\wh{\phi}]}\to (G\to \blu{\mu_m})
+\]
+which gives by rule $B$ again
+\[
+\fixme{E(K)/\phi E(K)}\times \blu{E'[\wh{\phi}]}\to \blu{K^{\times}/K^{\times m}}.
+\]
+Careful: the $L$'s are not the same. Was it justified?
+
+To motivate this more, look at what was tractable:
+\begin{center}
+\begin{tabular}{cccccc}
+(1) $\kappa:$ & \fixme{$E(K)/\phi E(K)$} & $\stackrel{pp}{\times}$ & {$G(L_1/K)$} & $\to$ & $E[\phi]$\tabularnewline
+(2) $e_{\phi}:$ & \blu{$E[\phi]$} & $\times$ & \blu{$E'[\wh{\phi}]$} & $\to$ & $\mu_{m}$\tabularnewline
+(0) Kummer: & \blu{$K^{\times}/K^{\times m}$} & $\stackrel{pp}{\times}$ & $G(L_2/K)$ & $\to$ & $\mu_{m}$\tabularnewline
+\end{tabular}
+\end{center}
+And note how we moved from what we wanted information about to what we had information about.
+
+ADD: why the different $L$'s wasn't a problem.
+
+%Now trace through to find what the map is. 
+For $\phi$ a 2-isogeny, there's only one nonzero element of $E'[\wh{\phi}]$, and it corresponds to an element in
+\[
+\fixme{E(K)/\phi E(K)}\to \blu{K^{\times}/K^{\times m}}.
+\]
+So if we can find the preimage, we're done! Let's trace through to find what the map is: \fixme{Add}
+
+Q: (lemma 15.3) How can we calculate $\rank E(K)$ from our info? We want to calculate $E(K)/2E(K)$. However, it's more convenient to deal with $\phi$ than $[2]$ (the reason being we just get 1 map we have to worry about above). We know this is going to be an exact sequence of some sort; first we want to change the $[2]$ into $\phi$, so we start
+\[
+\fc{E'(K)}{\phi E(K)}\xra{\wh{\phi}} \fc{E(K)}{2E(K)}\to \fc{E(K)}{\wh{\phi}E'(K)}\to 0.
+\]
+Find the kernel of the first map:
+\[
+0\to \fc{E'[\wh{\phi}]}{\phi E(K)} \to \fc{E'(K)}{\phi E(K)}\xra{\wh{\phi}} \fc{E(K)}{2E(K)}\to \fc{E(K)}{\wh{\phi}E'(K)}\to 0.
+\]
+Expand the first:
+\[
+0\to E[\phi]\to E[2]\xra{\phi} {E'[\wh{\phi}]} \to \fc{E'(K)}{\phi E(K)}\xra{\wh{\phi}} \fc{E(K)}{2E(K)}\to \fc{E(K)}{\wh{\phi}E'(K)}\to 0.
+\]
+Idea: it ``tells us what residue classes of $E(K)$ to look for independent generators."
+
+\fixme{TODO: add Silverman's stuff. Algorithm for computing.}

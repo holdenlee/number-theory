@@ -1,0 +1,766 @@
+\chapter{Conics}
+
+Before we study elliptic curves, we gain some geometric experience by studying some more basic curves: conics, which are defined by quadratic equations. We'll see that we can understand all conics, and that they are basically the same geometrically.
+
+First, we'll consider a common equation: the Pythagorean equations.
+
+%\section{Conics}
+%We give 3 levels of discussion on Pythagorean triples. Level 1 is just finding some of them and looking for patterns. Level 2 is parameterizing them using number theory. Level 3 is algebraic geometry-based.
+\section{Pythagorean triples}
+
+\dfbox{
+A \textbf{Pythagorean triple} is a triple of integers $(a,b,c)$ that are the side lengths of a right triangle. Here $a$ and $b$ are lengths of the two legs and $c$ is the length of the hypotenuse.\\
+
+A \textbf{primitive Pythagorean triple} is a Pythagorean triple $(a,b,c)$ where the greatest common divisor of $a$, $b$, and $c$ is 1.
+}
+
+%It is nice when Pythagorean triples pop up in geometry problems, because this means we don't have to worry about getting square roots from the Pythagorean formula.
+
+%\subsection{Level 1}
+%You may already be familiar with some small Pythagorean triples.
+%\[
+%(3,\,4,\,5)\quad (5,\,12,\,13).
+%\]
+%\prbbox{
+%Can you produce an infinite number of Pythagorean triples, just from knowing one of these triples?
+%}
+%
+%Yes, if we multiply one of the triples by any integer, we still get a Pythagorean triple.
+%\begin{gather*}
+%(6,\,8,\,10)\\
+%(9,\,12,\,15)\\
+%(12,\,16,\,20)\\
+%\vdots
+%\end{gather*}
+%
+%
+%\prbbox{
+%Note how in these two triples, $b$ is 1 less than $c$. Can you find another Pythagorean triple where this is case? Try to find triples in this form where the smallest length is 7 and 9.
+%\begin{align*}
+%(7,\,?,\,?)\\
+%(9,\,?,\,?).
+%\end{align*}
+%
+%Can you give a method to find all Pythagorean triples $(a,b,c)$ with $c=b+1$?
+%}
+%\vskip0.15in
+%We look for triples such that $c=b+1$. We have
+%\[
+%a^2=c^2-b^2=(b+1)^2-b^2=2b+1
+%\]
+%so we set
+%\[
+%b=\frac{a^2-1}{2}.
+%\]
+%In order for $b$ to be an integer, $a$ must be odd. Then we get the triple 
+%\[
+%(a,\,b,\,c)=\pa{a,\frac{a^2-1}{2},\frac{a^2+1}{2}}.
+%\]
+%For example, with $a=7$ and $a=9$ we get
+%\[
+%(7,\,\frac{7^2-1}{2},\,\frac{7^2+1}{2})=(7,\,24,\,25)\quad (9,\,\frac{9^2-1}{2},\,\frac{9^2+1}{2})=(9,\,40,\,41).
+%\]
+%
+%\prbbox{Are all primitive Pythagorean triples of this form? If not, can you find one that isn't?}
+%
+%Not all primitive Pythagorean.
+
+\subsection{Number theoretic solution}
+
+%(Taken from AwesomeMath notes. Need to rewrite.)
+%
+%A triple $(x,y,z)$ of integers is called Pythagorean if
+%\begin{equation}
+%x^2+y^2=z^2. \label{eq2}
+%\end{equation}
+
+\begin{thm}\llabel{thm:pythag}
+Any Pythagorean has the form
+$$a=(m^2-n^2)k , \ b=2mnk, \ c=(m^2+n^2)k$$
+$$a=2mnk, \ b=(m^2-n^2)k,\ c=(m^2+n^2)k, $$
+where
+\begin{enumerate}
+\item $\gcd(m,n)=1, \ \gcd(x,y)=k.$
+\item $m,n$ are of different parity.
+\item $m>n>0$, $k>0$.
+\end{enumerate}
+\end{thm}
+
+\begin{proof}
+Idea: Rewrite as $a^2=c^2-b^2=(c-b)(c+b)$. Assume $a,b,c$ have no common factor, so $c-b,c+b$ have no common factor except possibly 2; they must each be a square or 2 times a square.
+\end{proof}
+
+%\begin{proof}
+%Let $\gcd(x,y)=k$. Then $x=ka$, $y=kb$, $\gcd(a,b)=1$. Then
+%$k^2(a^2+b^2)=z^2$. We get $k\mid z$ and set $z=kc$. We obtain
+%$$a^2+b^2=c^2.$$
+%
+%Suppose that $a$ is an odd number. Then $b$ is even since otherwise
+%$c^2=a^2+b^2 \equiv 2 \pmod{4}$, a contradiction.
+%
+%Thus $c$ is odd. We have
+%$$b^2=(c-a)(c+a), $$
+%which is equivalent to
+%$$\left( \frac{b}{2}\right)^2=\frac{c-a}{2} \frac{c+a}{2} .$$
+%Note that $\gcd\left( \cfrac{c-a}{2},\cfrac{c+a}{2}\right) =1$.
+%Otherwise there exists prime $p$ such that $p\mid \cfrac{c-a}{2}$,
+%$p\mid \cfrac{c+a}{2}$. We get $p\mid \cfrac{c-a}{2}\pm
+%\cfrac{c+a}{2}=c,a$ which implies $p\mid b$, a contradiction. Hence
+%$$\frac{c-a}{2}=n^2, \ \frac{c+a}{2}=m^2,\ \frac{b}{2}=mn $$
+%and we obtain
+%$$c=m^2+n^2, \ a=m^2-n^2, \ b=2mn. $$
+%\end{proof}
+
+\subsection{Geometric solution}
+We now explore a more geometric way of finding all Pythagorean triples.
+
+\prbbox{
+\begin{enumerate}
+\item
+We can reduce the problem of finding all primitive Pythagorean triples to finding all right triangles whose hypotenuse is 1 and whose legs are rational numbers. Why?
+%rational points on the circle $x^2+y^2=1$. Why?
+
+%Place a vertex of the right triangle at the origin. What can you say about the other vertex? Can you restate the problem?
+\item
+We want to find all rational points on the circle $x^2+y^2=1$. Let's consider a vertical line $\ell$ going through the origin. Let $A$ be the point $(-1,0)$, and $B$ be any other rational point on $x^2+y^2=1$. What can you say about the intersection of $\ol{AB}$ with $\ell$?
+\item 
+Now suppose we have a rational point on $\ell$, $(0,z)$. Let $B$ be the second intersection of the line going through $A$ and $(0,z)$ with the circle. Find the coordinates of $B$. What can you say about $B$?
+\item
+You have now found all rational points on the circle $x^2+y^2=1$. Why? Now use this to find all Pythagorean triples.
+\end{enumerate}
+}
+
+\begin{enumerate}
+\item
+Given a Pythagorean triple, we can find a right triangle with rational legs and hypotenuse 1 by dividing all lengths by the hypotenuse:
+\[
+(a,\,b,\,c)\mapsto \pa{\frac ac,\,\frac bc,\,1}
+\]
+
+If we're given a right triangle with rational legs and hypotenuse 1, we can get a primitive Pythagorean triple by multiplying through by the least common denominator. This is the unique primitive triple that's a multiple of the original lengths.
+
+These two operations are inverse to each other.
+
+If we place the right triangle with hypotenuse 1 at the origin, its other vertex is on the circle $x^2+y^2=1$. Indeed, this is just the Pythagorean formula.
+
+So we've reduced the problem of finding all Pythagorean triples to \textbf{finding all rational points on $x^2+y^2=1$}. (We just need the points in the first quadrant.)
+\item
+The line going through 2 points with rational coordinates will be of the form $y=mx+b$, with $m$ and $b$ both rational. Indeed, the line going through $(-1,0)$ and $(r,s)$ is 
+\[
+y=\frac{s}{r+1}(x+1)=\frac{s}{r+1}x+\frac{s}{r+1}.
+\]
+This means its intersection with $\ell$ is also rational: $(0,b)=\pa{0,\frac{s}{r+1}}$.
+\item
+Now we're going the other way, drawing the line through a point on $\ell$ and looking at its intersection with the circle. The line going through $(-1,0)$ and $(1,z)$ has equation
+\[
+y=z(x+1).
+\]
+We substitute this into the equation for the circle $x^2+y^2=1$ and get
+\begin{align*}
+x^2+[z(x+1)]^2&=1\\
+x^2+z^2(x+1)^2-1&=0\\
+(1+z^2)x^2+2z^2x+(z^2-1)&=0.
+\end{align*}
+This looks like a rather nasty quadratic. But before we pull out the quadratic formula to solve for $x$, note that this equation represents the intersection points of the line with the circle, and we already know one intersection point -- it is $(-1,0)$, when $x=-1$. The sum of the roots is $-\frac{2z^1}{1+z^2}$ so the other solution is
+\[
+-\frac{2z^1}{1+z^2}-(-1)=\frac{1-z^2}{1+z^2}.
+\]
+Then
+\[
+y=z(x+1)=z\pa{\frac{1-z^2}{1+z^2}+1}=\frac{2z}{1+z^2}.
+\]
+The second intersection is
+\[
+\pa{\frac{1-z^2}{1+z^2},\frac{2z}{1+z^2}}.
+\]
+In particular, since $z$ is rational, it is rational!
+\item
+We've established a 1-to-1 correspondence between rational points on $\ell$ and rational points on the circle (excluding the point $(-1,0)$). 
+
+Now we simply have to go from rational points on the circle back to Pythagorean triples, as we said in step 1. Write $z=\frac mn$ is lowest terms. We have a right triangle with legs
+\[
+\pa{\frac{1-\pf mn^2}{1+z\pf mn^2},\frac{\fc mn}{1+\pf mn^2},1}=\pa{\fc{n^2-m^2}{n^2+m^2},\fc{2mn}{m^2+n^2},1}.
+\]
+Multiplying through by the denominator $m^2+n^2$, we get 
+\[
+\pa{\frac{1-\pf mn^2}{1+z\pf mn^2},\frac{\fc mn}{1+\pf mn^2},1}=\pa{n^2-m^2,2mn,n^2+m^2}.
+\]
+Note this is a primitive Pythagorean triple because the greatest common divisor divides $(n^2+m^2)-(n^2-m^2)=2m^2$ and $2mn$. \fixme{Deal with parity.}
+\end{enumerate}
+
+%%%%%%%%%%%
+
+\section{General conics}
+
+For general conics, we can do something similar.
+
+\section{Group law}
+\fixme{Introduce a group law for conics. For example, this shows how we can take solutions to Pell equations and produce more solutions. This is good for motivating the group law on elliptic curves later.}
+
+See \url{http://www.quora.com/Elliptic-Curves/Why-is-there-a-group-law-on-an-elliptic-curve}.
+
+\prbbox{
+Suppose you are given two Pythagorean triples $(a_1,b_1,c_1)$ and $(a_2,b_2,c_2)$. Produce (in a nontrivial way) a Pythagorean triple $(a,b,c)$ with $c=c_1c_2$?}
+
+\section{Hasse-Minkowski}
+
+(It's good to know about how the local-to-global principle works before seeing how it fails in the case of elliptic curves!)
+
+\section{Summary}
+
+You should now be able to find all solutions to any conic over $\Q$ (or prove that it has no solutions).
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\chapter{Introduction to algebraic geometry}
+We introduce some algebraic geometry that we'll need.
+
+We'll cover the following.
+\begin{enumerate}
+\item
+Varieties (affine and projective), morphisms, and rational maps: Define the basic objects we study in algebraic geometry and maps between them.
+\item
+Curves: Understand the equivalence of categories between curves and certain field extensions. Talk about degree and ramification of maps between curves.
+\item
+Divisors
+\item Differentials
+\item Genus, and the Riemann-Roch Theorem
+\end{enumerate}
+
+We assume the reader can do the following. See Silverman~\cite{Si86}[Chapter I-II].
+\begin{itemize}
+\item
+Define affine variety; understand the relationship between ideals of a polynomial ring and varieties.
+\item Define projective variety, and how the above relationship is modified in this case. Why do we study projective rather than affine varieties?
+\item Understand the local ring at a point.
+\item Define dimension and smoothness. (What are the two definitions of smoothness, and when are they equivalent?)
+\item Understand ``field of definition" and Galois action.
+\item Define morphism and rational map.
+\item Optional: understand all the above in terms of schemes.
+\end{itemize}
+
+\section{Varieties}
+\subsection{Affine varieties}
+\subsection{Projective varieties}
+\subsection{Morphisms and rational maps}
+%\begin{df}\llabel{rem:cam2-9}
+%A rational map $C\dra \Pj^n$ is given by
+%\[
+%P\mapsto (f_0(P):f_1(P):\cdots :f_n(P))
+%\]
+%where $f_0,f_1,\ldots, f_n\in K(C)$ are not all zero.
+%\end{df}
+\section{Curves}
+\begin{df}
+A \textbf{curve} is a projective variety of dimension 1.
+\end{df}
+
+\subsection{Curves correspond to field extensions}
+Our main result is the following.
+
+\thmbox{\llabel{thm:curves-fields}
+%\begin{thm}
+There is an contravariant equivalence of categories between the following.
+\begin{enumerate}
+\item
+Objects: Smooth curves defined over $K$
+
+Maps: Non-constant rational maps defined over $K$
+\item
+Extensions $L/K$ of transendence degree 1 and $L\cal \ol K=K$.
+
+Maps: field injections fixing $K$.
+\end{enumerate}
+%The equivalence is given by the following.
+%\bal
+%\pat{Smooth curves}&\to \pat{Field extensions with $\tr\deg_K L=1$}\\
+%C/K&\mapsto K(C)\\
+%\pat{Non-constant rational maps}&\to \pat{Field injections}\\
+%(\phi:C_1\to C_2)&\mapsto (\phi^*:K(C_2)\to K(C_1)).
+%\end{align*}
+The equivalence is given by sending $C/K$ to $K(C)$ and $\phi:C_1\to C_2$ to $\phi^*:K(C_2)\hra K(C_1)$ with $\phi^*f=f\circ \phi$.
+\[
+\xymatrix{
+C_1/K\ar[r]^{\phi}\ard{d} & C_2/K \ard{d}\\
+K(C_1)& \ar[l]^{\phi^*} K(C_2)\\
+f\circ \phi&\mt{l} f.
+}
+\]
+}
+%\end{thm}
+
+Why do we consider functions and divisors on curves? There are two good motivations, depending on your background:
+\begin{enumerate}
+\item
+Algebraic number theory: Let $K$ be a number field. We know the following.
+\begin{enumerate}
+\item 
+Primes: $K$ has a set of primes. Call it $\Spec \sO_K=\{\mfp\text{ prime in }K\}$.
+\item 
+Unique factorization: Each fractional ideal $\ma$ in $K$ has a unique factorization. In other words, we can think of the elements of $K$ as functions from $\Spec \sO_K$ to $\Z$ that are zero almost everywhere; the function gives the orders with respect to various primes.
+\begin{enumerate}
+\item
+Discrete valuation: When we localize at $\mfp$, we get a local field $K_{\mfp}$, which has a \textbf{discrete valuation} $\ord_{\mfp}$.
+\end{enumerate}
+\item
+Class group: $K$ has finite \textbf{class group} $\Cl_K$. In other words, the factorizations of elements of $K^{\times}$ is cofinite in the group of all possible factorizations (of ideals),
+\beq{eq:Cl-K}
+1\to\sO_K^{\times}\to  K^{\times}\to \Id_K\to \Cl_K\to 0.
+\eeq
+\item 
+Field extensions: Three kinds of behavior can result. Namely, a prime can split, remain inert, and ramify. We can define \textbf{ramification} indices, and find they multiply when we have field extensions $K/L$ and $M/K$.
+\end{enumerate}
+\item
+Riemann manifolds: \fixme{Add motivations in}
+\end{enumerate}
+(We often say algebraic number theory is ``algebraic geometry in dimension 0." For more information, look up Arakelov geometry.) 
+Because each curve has an associated field extension, it makes sense to consider analogues of the above concepts. A curve in %$\A^2$ (abusing our definition of ``curve" just for intuition's sake) is associated to some field $\fc{K(x,y)}{\an{f(x,y)}}$, and the elements of this ring are {\it actually} functions.
+has some associated function field $\ol K(C)$, and the elements here are {\it actually} functions; we can define discrete valuations when we localize at a point. (Note we have to be careful with the analogy because we're dealing with {\it projective} curves; geometry is really necessary here.)
+
+(Todo: make more precise. See chapter 3 of Ravi Vakil's Algebraic geometry~\cite{Vakil}.)
+
+Here's a partial dictionary.
+\bal
+\{\text{prime ideals of }K\}&\lra\{\text{points of }C\}\\
+\Id_K&\lra \Div(C)\\
+\Cl_K&\lra \Pic(C)\\
+e_{L/K}&\lra e_{\phi}(C)
+\end{align*}
+
+\begin{pr}\llabel{pr:dvp}
+Let $C$ be a curve and $P\in C$ a smooth point. Then $\ol K[C]_P$ is a discrete valuation ring.
+
+Thus for each $P$, we have a discrete valuation $\ord_P:K(C)^*\rra \Z$:
+\begin{enumerate}
+\item
+$\ord_P(f_1f_2)=\ord_P(f_1)\ord_P(f_2)$.
+\item
+$\ord_P(f_1+f_2)\ge \min (\ord_P(f_1),\ord_P(f_2))$.
+\end{enumerate}
+\end{pr}
+
+\begin{df}
+$t\in K(C)$ is a \textbf{uniformizer} at $P$ if $\ord_P(t)=1$.
+\end{df}
+Because $\ol K[C]_P$ is a DVR, once we've found a uniformizer at $P$, we can then write functions as power series in the uniformizer.
+
+\subsection{Divisors and the Picard group}
+\begin{df}
+A \textbf{divisor} is a formal sum of points on $C$, \[D=\sum_{P\in C}n_PP\] with $n_P\in \Z$ and $n_P=0$ for all but finitely many $P$. 
+\begin{enumerate}
+\item
+Define the \textbf{degree}
+\[
+\deg D=\sum_{P\in C} n_P.
+\]
+\item
+$D$ is \textbf{effective} (written $D\ge 0$) if $n_P\ge 0$ for all $P$. 
+\item If $f\in K(C)^{\times}$ then define
+\[
+\div(f):=\sum_{P\in C} \ord_P(f)P.
+\]
+\end{enumerate}
+\end{df}
+You can think of divisors as functions from the points of $C$ to $\Z$, just like fractional ideals in $K$ were functions from the primes of $K$ to $\Z$. With this analogy, effective divisors correspond to proper ideals (as opposed to fractional ideals), and the map $\div$ corresponds to the map $K^{\times}\to \Id_K$.
+
+One important fact is that $\div(f)$ always has degree 0. (We don't have this behavior for $K$; this nice fact comes from the fact that we're working with projective varieties. Rational functions have the same number of zeros as poles, so have degree 0; this count only works if we think about the point at infinity.)
+
+We will define $\Div(C)$ similar to $\Cl_K$.
+\begin{df}\llabel{df:picard}
+Divisors $D_1,D_2\in \Div(C)$ are \textbf{linearly equivalent} (written $D_1\sim D_2$) if there exists $f\in \ol K(C)^{\times}$ with $\div(f)=D_1-D_2$. Write
+\[
+[D]=\set{D'\in \Div(C)}{D'\sim D}.
+\]
+Define the \textbf{Picard group}
+\begin{align*}
+\Pic(C)&=\fc{\Div(C)}{\sim}\\
+\Pic^0(C)&=\fc{\Div^0(C)}{\sim}.
+\end{align*}
+where $\Div^0(C)$ is the group of divisors on $E$ of degree 0. %The size of each fiber is the same. 0 and \iy
+\end{df}
+
+We summarize the main result similar to~\eqref{eq:Cl-K}.
+
+\thbox{
+\begin{pr}\llabel{pr:div-es}
+There is an exact sequence 
+\[
+1\to \ol K^{\times} \to \ol K(C)^{\times} \xra{\div} \Div^0(C)\to \Pic^0(C)\to 1.
+\]
+\end{pr}}
+
+\begin{proof}
+We need to check that
+\begin{enumerate}
+\item
+$\deg(\div(f))=0$. See the proof after Proposition~\ref{pr:deg-basics}.
+\item
+If $\div(f)=0$, then $f\in \ol K^{\times}$. 
+\fixme{Add.}
+%Suppose $f=\fc{g}{h}$. $g$ and $h$ have the same zeros, i.e., $Z(g)=Z(h)$, iff $\sqrt{\an{g}}=\sqrt{\an{h}}$, i.e, $\fc{g^m}{h^n}$ is in $\sO_{\ol K(C)}^{\times}=\ol K^{\times}$, i.e, $\fc{g^m}{h^n}\in K^{\times}$. A zero of $g$ has the same multiplicity as a zero of $h$, 
+%But the multiplicities of the zeros in $f$ are not 0 unless $g,h$.
+\end{enumerate}
+\end{proof}
+Projectivity is essential for both these statements.
+
+\subsection{Maps are like field extensions}
+Using the fact that a morphism of curves corresponds to a field extension (see Theorem~\ref{thm:curves-fields}), we can take notions that apply to field extensinos (degree, separability, ramification) and apply them to morphisms.
+\begin{df}\llabel{df:degree-morphism}
+Let $\phi:C_1\to C_2$ be a morphism of smooth projective curves. Recall that we defined (Theorem~\ref{thm:curves-fields})
+\begin{align*}
+\phi^*: K(C_2)&\to K(C_1)\\
+f&\mapsto f\circ \phi
+\end{align*}
+(This is a ring homomorphism and hence an embedding of fields.)
+\begin{enumerate}
+\item
+Define the \textbf{degree} to be 
+\[\deg \phi:=[K(C_1):\phi^*K(C_2)].\]
+\item
+Define the \textbf{separable/inseparable degree} to be the separable/inseparable degree of $K(C_1)/\phi^*K(C_2)$.
+$\phi$ is \textbf{separable} if $K(C_1)/\phi^*K(C_2)$ is separable.
+\end{enumerate}
+\end{df}
+Note that separability is automatic if $\chr(K)=0$.
+
+Note that $\phi$ is an isomorphism iff $\deg\phi=1$ (Proposition~\ref{pr:deg1-iso}). 
+
+\subsubsection{Degree and ramification}
+There is another way of thinking of degree (cf. the Riemann manifold viewpoint): Fix a point on $C_2$; the number of points on $C_1$ mapping to it, counted with appropriate multiplicity (see below), is always constant and equal to the degree.
+\begin{df}
+Supoose $P\in C_1,Q\in C_2,\phi(P)=Q$. Let $t\in K(C_2)$ be a uniformizer at $Q$. Define
+\[
+e_{\phi}(P)=\ord_P(\phi^* t).
+\]
+\end{df}
+This is always at least 1, and independent of the choice of $t$. \fixme{why?}
+
+\thbox{
+\begin{thm}\llabel{thm:cam2-8}
+Let 
+$\phi:C_1\to C_2$ be a nonconstant morphism of smooth projective curves (over algebraically closed $K$). Then 
+\beq{eq:sum-ram}
+\sum_{P\in \phi^{-1}(Q)} e_{\phi}(P)=\deg(\phi)
+\eeq
+for all $Q\in C_2$. Moreover if $\phi$ is separable then $e_{\phi}(P)=1$ for all but finitely many $P$.
+In particular,
+\begin{enumerate}
+\item
+$\phi$ is surjective %(we require $K=\ol K$)
+\item
+$|\phi^{-1}(Q)|\le \deg \phi$, and if $\phi$ is separable, then we have equality \fabfm $Q\in C_2$.
+\end{enumerate}
+\end{thm}}
+
+Compare this to the following theorem from algebraic number theory: Given an extension of number fields $L/K$ and a prime $\mfp$ in $K$, we have 
+\[
+\sum_{\mP\mid \mfp}e_{L/K}(\mP)f_{L/K}(\mP)=[L:K].
+\]
+The absence of $f$ is because we are working with smooth curves. \fixme{Comment on why.} Furthermore, only finitely many primes ramify in $L$, and if $L/K$ is Galois, we have the nice fact that $e_{L/K}(\mP)$ are equal for all $\mP\mid \mfp$, and this reduces to 
+\[
+e_{L/K}f_{L/K}g_{L/K}=[L:K].
+\]
+Later we will see that this formula~\eqref{eq:sum-ram} becomes similarly nice for elliptic curves.
+\subsubsection{Basic facts on degree}
+
+\fixme{Define lower-star}
+\begin{pr}\llabel{pr:deg-basics}
+Let $\phi:C_1\to C_2$ be a non-constant map of smooth curves. Then for all $D_i\in \Div(C_i)$, $f_i\in \ol K(C_i)^{\times}$
+\begin{enumerate}
+\item $\deg(\phi^* D_2)=\deg(\phi)\deg(D_2)$.
+\item $\phi^*(\div f_2)=\div(\phi^* f_2)$.
+\item $\deg(\phi_* D)=\deg D$.
+\item $\phi_*(\div f_1)=\div(\phi_* f_1)$.
+\item $\phi_*\circ \phi^*$ is multiplication by $\deg \phi$ on $\Div(C_2)$.
+\item For $\psi:C_2\to C_3$,
+$(\psi\circ \phi)^*=\phi^*\circ \psi^*$ and $(\psi\circ \phi)_*=\psi_*\circ \phi_*$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+\cite{Si86}[II.3.6]
+\end{proof}
+
+A very useful relation is
+\[
+\div(f)=f^*((0)-(\iy)).
+\]
+This holds because noting $t\mapsto t$ is a uniformizer at 0 on $\Pj^1$ and $t\mapsto \rc t$ is a uniformizer at $\iy$ for $\Pj^1$,
+\begin{align}
+f^*((0))&=\sum_{Q\in f^{-1}(0)}\ord_Q(f^*t)=\sum_{Q\in f^{-1}(0)}\ord_Q(f)=\sum_{P,\ord_P(f)>0} \ord_P(f)P\\
+f^*((\iy))&=\sum_{Q\in f^{-1}(\iy)}\ord_Q\pa{f^*\rc t}=\sum_{Q\in f^{-1}(\iy)}\ord_Q\prc{f}=-\sum_{P,\ord_P(f)<0} \ord_P(f)P\\
+\div(f)%&=\sum_P \ord_P(f)P\\
+%&=\sum_{Q\in f^{-1}(0)}\ord_Q(f) - \sum{Q\in f^{-1}(\iy)} \ord_Q\prc{f}\\
+%&=\sum_{Q\in f^{-1}(0)}\ord_Q(f^*t) - \sum{Q\in f^{-1}(\iy)} \ord_Q(f^*\prc t)\\
+&=f^*((0)-(\iy)).\llabel{eq:f*0-iy}.
+%e_f(0)&=\ord_P(f^*t)
+\end{align}
+\begin{proof}[Proof of Proposition~\ref{pr:div-es}]
+We have 
+\[
+\deg(\div(f))=\deg(f^*((0)-(\iy)))=\deg(f)\ub{\deg((0)-(\iy))}0=0.
+\]
+\end{proof}
+We summarize:
+
+\begin{center}
+\begin{tabular}{c|c}
+Number fields & Elliptic curves\tabularnewline
+\hline
+$\sum_{\mP\mid\mfp}e_{L/K}(\mP)f_{L/K}(\mP)=[L:K].$ & $\sum_{P\in\phi^{-1}(Q)}e_{\phi}(P)=\deg(\phi)$\tabularnewline
+FABFM $Q$, $|\phi^{-1}(Q)|=\deg_{s}\phi$ & Finitely many primes ramify.\tabularnewline
+$e_{\psi\circ\phi}(P)=e_{\phi}(P)e_{\psi}(\phi P)$ & $e_{M/L}(\mQ/\mP)e_{L/K}(\mP/\mfp)=e_{M/K}(\mQ/\mfp)$\tabularnewline
+\end{tabular}
+\end{center}
+
+\subsubsection{Separability}
+
+Just like we can break up a field extension into a purely inseparable and a separable part, we can do the same for maps between smooth curves.
+\begin{pr}
+Let $\psi:C_1\to C_2$ be a rational map of smooth curves. Then we can factor $\psi=\la\circ \phi_q$, where 
+\begin{enumerate}
+\item
+$\phi_q$ is the Frobenius map, which is purely inseparable, with $q=\deg_i(\psi)$.
+\item
+$\la$ is purely separable.
+\end{enumerate}
+\[
+\xymatrix{
+C_2&\\
+& C_1^{(q)}\ar[lu]_{\la\text{ separable}}\\
+C_1\ar[ru]^{\phi_q\text{ inseparable}}&
+}
+\]
+\end{pr}
+\begin{proof}
+
+\end{proof}
+
+\subsection{Rational maps are morphisms}
+In algebraic geometry there are two kinds of maps: morphisms and rational maps. For curves these are actually the same. (Again, projectivity is essential. If a rational map tries to blow up, that's fine, because a point at infinity exists!)
+
+\thmbox{\llabel{thm:rat-morphism}
+Let $C_1$ be a smooth curve and $V\subeq \Pj^N$ be a projective variety, and
+\[\phi:C_1\dra V\subeq \Pj^N\] 
+be a rational map. Then $\phi$ is a morphism.
+}
+
+\begin{proof}
+Write the map as $f=[f_0:\cdots :f_n]$. Given a point $P$, we may have trouble with $f(P)$ if $f_0(P)=\cdots =f_n(P)=0$. 
+{\it Because $C$ is smooth at $P$}, we have a discrete valuation at $P$ (Proposition~\ref{pr:dvp}).
+Let $v=\min_i\ord_P(f_i)$, let $t$ be a uniformizer for $P$. Then we can define
+\[
+f(P)=\ba{
+\fc{f_0}{t^v}(P):\cdots :\fc{f_n}{t^v}(P)
+}
+\]
+because all of the $\fc{f_i}{t^v}$ have positive valuation at $P$, and at least one of them have valuation 0 so is nonzero.
+{\it Because $V$ is projective}, this point is in $V$.
+\end{proof}
+\begin{pr}\llabel{pr:deg1-iso}
+A rational map of degree 1 between smooth curves $C_1,C_2$ is an isomorphism.
+\end{pr}
+\begin{proof}
+\fixme{proof}
+\end{proof}
+
+\section{Differentials}
+
+\fixme{Add motivations.} 
+Why would we consider differentials in algebra? See \url{http://math.stackexchange.com/questions/307439/appearance-of-formal-derivative-in-algebra}.
+From Silverman~\cite{Si86}[II.4], differentials...
+\begin{enumerate}
+\item
+perform the traditional calculus role of linearization.
+\item
+give a useful criterion for determining when an algebraic map is separable (cf. a field extension is separable iff the minimal polynomial of each element has nonzero derivative).
+\end{enumerate}
+
+
+Let $C$ be a smooth projective curve over $K=\ol K$. The space of differentials $\Om_C$ is the $K(C)$-vector space generated by $df$ for $f\in K(C)$ subject to relations
+\begin{enumerate}
+\item
+$d(f+g)=df+dg$ for all $f,g\in K(C)$.
+\item
+$d(fg)=fdg+gdf$  for all $f,g\in K(C)$.
+\item
+$da=0$ for all $a\in K$.
+\end{enumerate} 
+\begin{pr}
+If $C$ be a curve,
+$\Om_C$ is a 1-dimensional $K(C)$-vector space. 
+
+Hence, if $\om\in \Om_C\bs\{0\}$, $P\in C$, and $t\in K(C)$ is a uniformizer at $P$, then $\om =fdt$ for some $f\in K(C)$.
+\end{pr}
+\begin{df}
+Keep the notation above. 
+Define \[\ord_P(\om):=\ord_P(f).\] 
+Note this is independent of the choice of $t$.
+%doens't depend on which pick, doesn't change order of vanishing.
+
+Moreover $\ord_P(\om)=0$ for all but finitely many $P\in C$. We define $\div(\om)=\sum_{P\in C}\ord_P(\om)P$. 
+\end{df}
+
+\section{Riemann-Roch Theorem}
+See Silverman~\cite{Si86}[II.5].
+\begin{df}
+The \textbf{Riemann-Roch space} of $D\in \div(C)$ is
+\[
+\cL(D)=\set{f\in K(C)^*}{\div(f)+D\ge 0}\cup \{0\}\]
+i.e., the $K$-vector space of rational functions on $C$ with poles no worse than specified by $D$. Denote its dimension by
+\[
+\ell(D)=\dim_{\ol K} \cL(D).
+\]
+\end{df}
+We have the following basic facts.
+\begin{pr}[Silverman~\cite{Si86}[II.5.2]
+\llabel{pr:L(D)-basic}
+Let $D\in \Div(C)$.
+\begin{enumerate}
+\item (We don't need to worry about negative divisors) If $\deg D<0$, then 
+\[
+\cL(D)=\{0\}\text{ and }\ell(D)=0.
+\]
+\item (Finite-dimensionality) $\cL(D)$ is a finite-dimensional $\ol{K}$ vector space.
+\item If $D'\sim D$, then 
+\[
+\cL(D)\cong \cL(D') \text{ and }\ell(D)=\ell(D').
+\]
+
+\end{enumerate}
+\end{pr}
+
+%\fixme{Define genus. The below is for genus 1 only.}
+
+The Riemann-Roch theorem tells us the dimension of these spaces based on an invariant called the genus.
+
+\begin{thm}[Riemann-Roch]\llabel{thm:rr}
+Let $C$ be a smooth curve and $K_C=\div(\om)$ a canonical divisor on $C$. Then there is an integer $g\ge 0$, called the \textbf{genus} of $C$, such that for every divisor $D\in \Div(C)$,
+\[
+\ell(D)-\ell(K_C-D)=\deg D-g+1.
+\]
+\end{thm}
+The genus is the same as the topological genus if the curve is considered over $\C$. \fixme{Find a precise statement of this.}
+
+The left hand side is a difference of $\ell$'s. To get $\ell(D')$ for some $D'$, we have to make the other term 0. We can do this by noting that $\ell(D)=0$ for $D<0$ and $D=0$.
+\begin{cor}[Computation of $\ell(D)$]
+As above, let $C$ be a smooth curve and $K_C=\div(\om)$ a canonical divisor on $C$.
+We have the following.
+\begin{enumerate}
+\item
+$\ell(K_C)=g$.
+\item
+$\deg K_C=2g-2$.
+\item
+If $\deg D>2g-2$, then 
+\[
+\ell(D)=\deg D-g+1.
+\]
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}
+\item
+Use the Riemann-Roch Theorem~\ref{thm:rr} with $D=0$ and note $\cL(0)=\ol K$.
+\item
+Use (1) and Riemann-Roch with $D=K_C$. 
+\item
+From (2) we get $\deg(K_C-D)<0$, so by Proposition~\ref{pr:L(D)-basic}, $\ell(D)-0=\deg D-g+1$. 
+\end{enumerate}
+\end{proof}
+
+\begin{cor}[Riemann-Roch for elliptic curves]\llabel{thm:rr-ec}
+If the genus is 1 (i.e. $C$ is an elliptic curve), then
+\[
+\dim \cL(D)=\begin{cases}
+\deg(D),&\text{if }\deg D>0\\
+0\text{ or }1,&\text{ if }\deg D=0\\
+0,&\text{ if }\deg D<0.
+\end{cases}
+\]
+\end{cor}
+\begin{proof}
+Put in $g=1$.
+\end{proof}
+
+%\fixme{Motivate this with st}
+
+%\subsection{Rationality}
+%Assume $K=\ol K$ and $\chr(K)\ne 2$. 
+%\begin{df}\llabel{df:rat}
+%A (irreducible) plane affine algebraic curve $C=\{f(x,y)=0\}\sub \A^2$ is \textbf{rational} if it has a rational parametrization, i.e. there exist $\phi(t)$ and $\psi(t)\in K(t)$ such that 
+%\begin{enumerate}
+%\item
+%The rational map
+%\begin{align*}
+%\A^1&\dra\A^2\\
+%t&\mapsto (\phi(t),\psi(t))
+%\end{align*}
+%is injective on $\A^1\bs S$ where $S$ is a finite set.
+%\item
+%$f(\phi(t),\psi(t))=0$. (The image lies on the curve.)
+%\end{enumerate}
+%\end{df}
+%\begin{ex}
+%%\begin{enumerate}
+%%\item
+%Any non-singular plane conic is rational. To see this, pick a point on the curve.
+%
+%For example, for $x^2+y^2=1$, pick the point $(-1,0)$. Consider the line with slope $t$, $y=t(x+1)$. 
+%We use the difference of two squares to bring out the $x-1$:
+%\begin{align*}
+%y&=t(x+1)\\
+%\implies x^2+t^2(x+1)^2&=1\\
+%\implies (x+1)(x-1+t^2(x+1))&=0\\
+%\implies x&=-1 \text{ or } x=\fc{1-t^2}{1+t^2}.
+%\end{align*}
+%The rational parametrization is
+%\[
+%(x,y)=\pa{\fc{1-t^2}{1+t^2},\fc{2t}{1+t^2}}.
+%\]
+%(Note this may be familiar from doing integrals; it helps to rationally parametrize a circle. This is exactly what we did in Section () when we found all Pythagorean triples.)
+%%\item
+%%Any singular plane cubic is rational. We'll show an example, but the method works more generally.
+%%
+%%Consider $y^2=x^3$. Take the singular point and a line $y=tx$ through the singular point. We expect the line to meet the curve in 3 points, but the singular point counts double, so it only meets the curve in one other point. The point of intersection is $(x,y)=(t^2,t^3)$; this is the rational parametrization.
+%%
+%%For $y^2=x^2(x+1)$, setting $y=tx$ similarly gives a rational parametrization.
+%%\item
+%%Corollary~\ref{cor:ec-no-pts-func-field} shows elliptic curves are not rational.
+%%\end{enumerate}
+%\end{ex}
+%\subsection{Algebraic geometry of curves}
+%
+%
+%Let $C$ be a smooth projective curve.
+%\begin{df}
+%A \textbf{divisor} is a formal sum of points on $C$, say $D=\sum_{P\in C}n_PP$ with $n_P\in \Z$ and $n_P=0$ for all but finitely many $P$. Define
+%\[
+%\deg D=\sum_{P\in C} n_P.
+%\]
+%$D$ is \textbf{effective} (written $D\ge 0$) if $n_P\ge 0$ for all $P$. If $f\in K(C)^*$ then 
+%\[
+%\div(f)=\sum_{P\in C} \ord_P(f)P.
+%\]
+%The \textbf{Riemann-Roch space} of $D\in \div(C)$ is
+%\[
+%\cL(D)=\set{f\in K(C)^*}{\div(f)=D\ge 0}\cup \{0\}\]
+%i.e., the $K$-vector space of rational functions on $C$ with poles no worse than specified by $D$.
+%\end{df}
+%
+%The Riemann-Roch theorem tells us the dimension of these spaces based on the genus (in this case, 1).
+%\begin{thm}[Riemann-Roch]\llabel{thm:rr-ec}
+%We have
+%\[
+%\dim \cL(D)=\begin{cases}
+%\deg(D),&\text{if }\deg D>0\\
+%0\text{ or }1,&\text{ if }\deg D=0\\
+%0,&\text{ if }\deg D<0.
+%\end{cases}
+%\]
+%\end{thm}
+%\begin{ex}
+%$C$ is an elliptic curve with Weierstrass equation $y^2=f(x)$, with point at $\iy$, $P$. Then example~\ref{ex:order-xy-ec} gives
+%\[\cL(3P)=\an{1,x,y}\]
+%since $1,x,y$ are linearly independent elements of $\cL(3P)$ and Riemann-Roch says $\dim \cL(3P)=3$.
+%\end{ex}
+

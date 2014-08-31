@@ -1,0 +1,776 @@
+\chapter{Factorization and Divisibility}\label{factor-divisibility}
+%\section{Factorization}
+%%%
+%\section{Primes and the fundamental theorem of arithmetic}
+%A positive integer $p$ is called {\em prime} if the only divisors of $p$ are $\pm 1$ and $\pm p$.  A positive integer $n > 1$ is called {\em composite} if it is not a prime.
+%\begin{prb}
+%Any positive integer $a > 1$ has at least one prime divisor.
+%\begin{proof}
+%Let $p$ be the smallest positive divisor of $a$ with $p > 1$.  Then $p$ is a prime.  Indeed, if $p$ has a positive divisor $q$ with $1 < q < p$, then $q\mid p$ and $p \mid a$, so $q \mid a$ and $p$ is not the smallest positive divisor of $a$ greater than 1.  Contradiction; hence $p$ is a prime.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%There are infinitely many primes.
+%\begin{proof}
+%This proof is originally due to Euclid.  Suppose for contradiction that there are only finitely many primes $p_1 <  p_2 < \cdots < p_n$.  Then set $N = p_1p_2\cdots p_n + 1$.  Then $N > p_n$, so $N$ cannot be prime.  Let $p$ be the smallest divisor of $N$ with $p > 1$; then we must have $p = p_i$ for some $1 \le i \le n$.  Then we have $p_i \mid N-1 = p_1p_2\cdots p_i\cdots p_n$ and $p_i \mid N+1$.  Hence $p \mid (N+1)-N = 1$.  But $p > 1$.  Contradiction; hence there are infinitely many primes.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that for any integer $n$ there are $n$ consecutive composite numbers.
+%\begin{proof}
+%Consider the numbers $$(n+1)!+2, (n+1)!+3, \cdots, (n+1)!+(n+1).$$  All of these numbers are greater than $n+1$, but we have for $2 \le a \le n+1$ that $a \mid (n+1)!+a$.  Hence none of these numbers can be prime.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Find all primes $p$ such that $p+10$ and $p+20$ are primes.
+%\begin{proof}
+%Obviously $p$ must be odd, and we may verify that $p = 3$ works.  If there is another such $p$, then we must have $p > 3$.  In this case we may write $p = 3k\pm 1$ for some positive integer $k$.  If $p = 3k+1$, then we may verify that $p+20 = 3k+21 = 3(k+7)$ and hence cannot be prime.  If $p = 3k-1$ then $p + 10 = 3k + 9 = 3(k+3)$ and hence cannot be prime.  Hence $p = 3$ is the only solution.
+%\end{proof}
+%\end{prb}
+%\begin{rem}The general question of whether, given $S$ a finite set of nonnegative integers containing zero and such that $S$ does not contain a complete set of residue classes modulo any prime $p$, there are infinitely many primes $q$ such that all elements of $q + S = \{q+s|s\in S\}$ are prime, was only resolved in 2004 with the Green-Tao Theorem, which showed that there are in fact infinitely many such $q$.
+%\end{rem}
+%\begin{prb}
+%Let $p$ be a prime.  Find all positive integers $x$ and $y$ such that $\frac{1}{x}-\frac{1}{y} = \frac{1}{p}$.
+%\begin{proof}
+%We rewrite the given equation as $p(y-x) = xy$.  Then $p \mid x$ or $p \mid y$.  If $p \mid x$, then let $x = px_1$.  Then $y - px_1 = x_1y$, which becomes $y = px_1+x_1y > y$.  Contradiction, hence $p \nmid x$.  Thus $p \mid y$.  Write $y = py_1$, so we have $py_1 = x(1+y_1)$.  Thus $p \mid x(1+y_1)$.  As $p \nmid x$, we must have $p \mid 1+y_1$.  Set $1+y_1 = kp$.  Then $py_1 = x(1+y_1) = xkp$, so $py_1 = xkp$ and thus $y_1 = kx$.  Hence $kxp = x(1+kx)$, so $kp = 1+kx$.  Hence $k \mid 1$, so $k = 1$.  Thus $1+y_1 = p$, so $y_1 = p-1$.  In addition, $p-1 = y_1 = kx = x$.  We have finally $y = py_1$, so $y = p(p-1)$.  Hence we have the unique solution $(x,y) = (p-1,p(p-1))$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that for any prime $p$ and any $k$ with $1 \le k \le p-1$ we have $p \mid {p\choose k}$.
+%\begin{proof}
+%Since $1 \le k \le p-1$ we have $\gcd{(p,k!)} = 1$.  Hence no integer in the set $\{2,3,\cdots,k\}$ divides $p$.  We have $${p\choose k} = p\frac{(p-1)(p-2)\cdots(p-k+1)}{k!}$$ is a positive integer.  Hence $k! \mid p(p-1)(p-2)\cdots(p-k+1)$.  But since $\gcd{(p,k!)} = 1$, we must have $k! \mid (p-1)(p-2)\cdots(p-k+1)$.  Hence $\frac{1}{p}{p\choose k}$ is an integer, and hence ${p\choose k}$ is divisible by $p$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%For any $k \ge 0$ denote by $P(k)$ the number of primes among $k+1,k+2,\cdots,k+10$.  Find all $k$ for which $P(k)$ assumes its maximum value.
+%\begin{proof}
+%We have $P(0) = 4$, $P(1) = 5$, $P(2) = 4$.  For $k \ge 2$, we must have $P(k) \le 5$ as the set $\{k+1,k+2,\cdots,k+10\}$ must contain five even integers greater than 2, and hence all non-prime.  Furthermore, for $k \ge 3$, since $10 > 3\cdot 3$ the set $\{k+1,k+2,\cdots,k+10\}$ must contain three multiples of 3, at most two of which may be even and all three of which are greater than 3 and hence nonprime.  Hence there may only be 4 primes in the given set for $k \ge 3$.
+%\end{proof}
+%\end{prb}
+%\begin{rem}
+%The Green-Tao Theorem mentioned above may be used to show that there exist infinitely many $k$ such that $P(k) = 4$.
+%\end{rem}
+%\begin{prb}
+%Let $f(x)$ be a polynomial with integer coefficients such that for any positive integer $n$, $f(n)$ is prime.  Show that $f(x)$ is constant.
+%\begin{proof}
+%Suppose that $f$ is of degree $n \ge 1$ and write $$f(x) = a_nx^n+a_{n-1}x^{n-1}+\cdots+a_1x+a_0.$$  Set $p = f(1)$.  Then consider $g(y) = f(1+yp)$.  We may write
+%\begin{align*}
+%g(y)&=\sum_{i=0}^n a_i(1+yp)^i\\
+%&=\sum_{i=0}^na_i\sum_{j=0}^i{i\choose j}(yp)^j\\
+%&=\left(\sum_{i=0}^n a_i\right) + \sum_{i=1}^na_i\sum_{j=1}^n{i\choose j}(yp)^j\\
+%&=f(1)+p\left(\sum_{i=1}^n y^ip^{i-1}\sum_{j=i}^n a_j{j\choose i}\right)\\
+%&=p\left(1+\sum_{i=1}^n y^ip^{i-1}\sum_{j=i}^na_j{j\choose i}\right)
+%\end{align*}
+%If we set $$A_i = p^{i-1}\sum_{j=i}^na_j{j\choose i}$$ for $1 \le i \le n$ and $A_0 = 1$, then we may set $$h(y) = \sum_{i=0}^n A_iy^i$$ and write $g(y) = ph(y)$.  By our hypothesis, $g(y)$ must be prime for all $y$.  Hence we must have $h(y) = \pm 1$ for all $y$.  Note that $h(y)$ is of degree $n$.  Choose $y_1, y_2, \cdots, y_{2n+1}$ distinct integers.  Then by the Pigeonhole Principle, there must be some $n+1$ of them for which either $h(y_i) = 1$ or $h(y_i) = -1$.  Without loss of generality, suppose that $h(y_i) = 1$ for $i = 1, 2, \cdots, n+1$.  Then considering the polynomial $h'(y) = h(y) - 1$, we find that $h(y)$ is of degree $n$ but has $n+1$ distinct zeros.  Contradiction; hence $f(x)$ must be constant.
+%\end{proof}
+%\end{prb}
+%
+%{\large \bfseries The Fundamental Theorem of Arithmetic}
+%\begin{thm}
+%Any integer $n > 1$ can be written as a product of finitely many primes $n = p_1p_2\cdots p_k$ with the $p_i$ unique up to their order.
+%\begin{proof}We use strong induction to prove that all $n$ can be written as a product of primes.  If $n$ is prime, then we are done.  Otherwise suppose that for all $1 < m < n$, $m$ can be written as a product of primes.  Write $n = n_1n_2$ with $1 < n_1,n_2 < n$ integers.  Then by hypothesis both $n_1$ and $n_2$ may be written as products of primes; hence we may combine their representations to obtain a representation for $n$ as a product of primes.
+%
+%We now show uniqueness.  Suppose that there are primes $p_1, p_2, \cdots, p_k, q_1, q_2, \cdots, q_l$ such that $n = p_1p_2\cdots p_k = q_1q_2\cdots q_l$ with the $p_i$ and $q_i$ not the same up to ordering.  Choose some $p_i$.  Then we must have $p_i \mid q_1q_2\cdots q_l$, hence there is some $j$ with $p_i = q_j$.  We remove both of these primes from the representations of $n$ and continue.  If $k \neq l$ then we will end with either $p_{i_1}p_{i_2}\cdots p_{i_r} = 1$ or $1 = q_{i_1}q_{i_2}\cdots q_{i_r}$ for some $r < k$ (or $r < l$ in the second case) and indices $1 \le i_1 < i_2 < \cdots < i_r \le k$ (or $i_r \le l$ in the second case).  In either case, we know that for any prime $p$, we have $p > 2$.  Thus both of these situations are impossible.  Hence $k = l$.  In this case we terminate with $p_{i_1}p_{i_2}\cdots p_{i_r} = q_{j_1}q_{j_2}\cdots q_{j_r}$, with none of the $p_i$ and $q_i$ disjoint sets of primes.  But as $p_{i_1}$ is prime, we must have $p_{i_1} \mid q_{j_s}$ for some $s$.  As $q_{j_s}$ is prime, we must thus have $p_{i_1} = q_{j_s}$.  Contradiction; hence no such integer $n$ has two prime factorizations differing by more than the order of the products.
+%\end{proof}
+%\end{thm}
+%This theorem immediately gives the result that for any $n > 1$, there exist unique positive integers $k, \alpha_1, \alpha_2, \cdots, \alpha_k$ and unique primes $p_1 < p_2 < \cdots < p_k$ such that $n = p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_k^{\alpha_k}$.  Such a factorization of $n$ is called the {\em canonical representation} of $n$.
+%\begin{prb}
+%Given positive integers $a, b > 1$, let $p_1 < p_2 < \cdots < p_k$ be all the primes dividing at least one of $a$ and $b$.  Let $\alpha_i, \beta_i \ge 0$ be integers such that $a = p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_k^{\alpha_k}$ and $b = p_1^{\beta_1}p_2^{\beta_2}\cdots p_k^{\beta_k}$.  Find expressions for $\gcd{(a,b)}$ and $\text{lcm}\:(a,b)$ in terms of $p_i, \alpha_i, \beta_i$.
+%\begin{proof}
+%It is not hard to see that $$\gcd{(a,b)} = p_1^{\min{\alpha_1,\beta_1}}p_2^{\min{\alpha_2,\beta_2}}\cdots p_k^{\min{\alpha_k,\beta_k}}$$ and $$\text{lcm}\:(a,b) = p_1^{\max{\alpha_1,\beta_1}}p_2^{\max{\alpha_2,\beta_2}}\cdots p_k^{\max{\alpha_k,\beta_k}}.$$
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $a,b,c$ be positive integers.  Show that $$\frac{\textup{lcm}\:(a,b)\textup{lcm}\:(b,c)\textup{lcm}\:(c,a)}{\textup{lcm}\:(a,b,c)^2} = \frac{\gcd{(a,b)}\gcd{(b,c)}\gcd{(c,a)}}{\gcd{(a,b,c)}^2}.$$
+%\begin{proof}
+%Let $p_1 < p_2 < \cdots < p_k$ be all the primes dividing at least one of $a, b, c$.  Let $\alpha_i, \beta_i, \gamma_i$ be nonnegative integers such that $a = p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_k^{\alpha_k}, b = p_1^{\beta_1}p_2^{\beta_2}\cdots p_k^{\beta_k}, c = p_1^{\gamma_1}p_2^{\gamma_2}\cdots p_k^{\gamma_k}$.  We will show that the exponents of $p_1$ in the canonical representations of both quantities are equal; this proof will naturally extend to all $p_i$ and prove our desired result.
+%
+%Without loss of generality let $\alpha_1\le\beta_1\le\gamma_1$.  Then the exponents of $p_1$ in the factorizations of $\text{lcm}\:(a,b), \text{lcm}\:(b,c), \text{lcm}\:(c,a)$, and $\text{lcm}\:(a,b,c)^2$ are $\beta_1, \gamma_1, \gamma_1$, and $2\gamma_1$, respectively.  Hence the exponent of $p_1$ in the factorization of the left-hand side is $\beta_1$.
+%
+%Proceeding in an analogous manner, the exponents of $p_1$ in the factorizations of $\gcd{(a,b)}$, $\gcd{(b,c)}, \gcd{(c,a)}$, and $\gcd{(a,b,c)}^2$ are $\alpha_1, \beta_1, \alpha_1$, and $2\alpha_1$, respectively.  Hence the exponent of $p_1$ in the factorization of the left-hand side is $\beta_1$.  This proves our desired result.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Suppose that $a,b,c$ are positive integers with $ab = c^2$ and $\gcd{(a,b)} = 1$.  Show that there exist $a_1, b_1$ positive integers such that $a = a_1^2$ and $b = b_1^2$.
+%\begin{proof}
+%Write $c = p_1^{\alpha_1}p_2^{\alpha_2}\cdots p_k^{\alpha_k}$.  Then $ab = p_1^{2\alpha_1}p_2^{2\alpha_2}\cdots p_k^{2\alpha_k}$.  If $p_i \mid a$, then $p_i \nmid b$, and hence $p^{2\alpha_i} \mid a$.  Proceeding over all indices $i$ gives that all exponents in the canonical representations of $a$ and $b$ are even, achieving the desired result.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Solve in positive integers the equation $\sqrt{x}+\sqrt{y} =
+%\sqrt{2009}$.
+%\begin{proof}
+%Squaring gives $2\sqrt{xy} = 2009-x-y$.  Hence $4xy = (2009-x-y)^2$.
+%Write $x = d_1x_1^2$, $y = d_2y_1^2$, where $d_1$ and $d_2$ are not
+%divisible by the square of any prime.  Then we have
+%$d_1d_2x_1^2y_1^2 = xy$, which must be a perfect square.  Hence
+%$d_1d_2$ must be a perfect square.  If $d_1 \neq d_2$, then there
+%must be some prime dividing their product.  Suppose that $p_i \mid
+%d_1$ and $p_i \nmid d_2$.  We know that $p_i^2 \mid d_1d_2$, hence
+%$p_i^2 \mid d_1$.  But $d_1$ is squarefree; hence we have a
+%contradiction and $d_1 = d_2$.  Write $d = d_1 = d_2$, then we have
+%$(x_1+y_1)\sqrt{d} = \sqrt{2009} = 7\sqrt{41}$.  As $x_1, y_1$ are
+%positive integers, we have $x_1+y_1 > 1$.  Hence $x_1+y_1 = 7$ and
+%$d = 41$.  Thus our solutions are given by $x = 41n^2, y =
+%41(7-n)^2$ for $1 \le n \le 6$ a positive integer.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Show that if $n > 1$ then $s = 1+\frac{1}{2}+\frac{1}{3}+\cdots+\frac{1}{n}$ is not an integer.
+%\begin{proof}
+%Let $a$ be the product of all odd integers less than or equal to $n$, and let $k$ be the largest integer such that $2^k \le n$.  We claim that $2^{k-1}as$ is not an integer.  If $1 \le m \le n$ with $m \neq 2^k$, then $m$ can be written in the form $2^st$ where $0 \le s \le k-1$ and $1 \le t \le n$ is an odd integer.  Hence $m \mid 2^{k-1}a$, so $2^{k-1}a\cdot\frac{1}{m}$ is an integer.  Hence $2^{k-1}as = N + \frac{a}{2}$ for some integer $N$.  But $a$ is odd, hence $\frac{a}{2}$ is not an integer.  It follows that $s$ is not an integer.
+%\end{proof}
+%\end{prb}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%\begin{enumerate}
+%
+%\item Find all primes $p$ such that $4p^2+1$ and $6p^2+1$ are also primes.
+%
+%\item Find all integers $a$ and $b$ such that $a^4+4b^4$ is a prime.
+%
+%\item Prove that if $n > 2$ then there is a prime between $n$ and $n!$.
+%
+%\item Is there a polynomial $f(x)$ with integer coefficients such that $f(1) = 2$ and $f(3) = 5$?
+%
+%\item Find all positive integers $n$ such that $2^4+2^7+2^n$ is a perfect square.
+%
+%\item Find all primes $p$ such that $p^2+11$ has exactly six different divisors including $1$ and the number itself.
+%
+%\item Let $a, b, c$ be nonzero integers with $a \neq c$ such that $$\frac{a}{c} = \frac{a^2+b^2}{c^2+b^2}.$$ Prove that $a^2+b^2+c^2$ cannot be a prime.
+%
+%\item Let $p$ be a prime.  Find all nonzero integers $k$ such that $\sqrt{k^2-pk}$ is a positive integer.
+%
+%\end{enumerate}
+%
+%\newpage
+%\begin{center}
+%\textbf{Solutions}
+%\end{center}
+%
+%\begin{enumerate}
+%\item {\it Find all primes $p$ such that $4p^2+1$ and $6p^2+1$ are also
+%primes.}
+%
+%{\it Solution.} If $p=5$, then $4p^2+1=101$ and $6p^2+1=151$ are
+%primes. If $p=5k\pm 1$, then $p^2=5K+1$, so $4p^2+1=20K+5=5(4K+1)$
+%is not a prime.
+%
+%If $p=5k\pm 2$, then $p^2=5K+4$, so $6p^2+1=30K+25=5(6K+5)$ is not a
+%prime.
+%
+%
+%\item {\it Find all integers $a$ and $b$ such that $a^4+4b^4$ is a
+%prime.}
+%
+%Assume that $a$ and $b$ are positive.
+%
+%$a^4+4b^4=a^4+4a^2b^2+4b^4-4a^2b^2=(a^2+2b^2)^2-(2ab)^2=(a^2+2b^2-2ab)(a^2+2b^2+2ab)$.
+%Hence $a^2+2b^2-2ab=1 $, which implies $(a-b)^2+b^2=1$, so $a=b=1.$
+%
+%All the solutions are $(a,b)=(1,1), \ (1,-1), \ (-1,1), \ (-1,-1)$.
+%
+%\item {\it Prove that if $n > 2$ then there is a prime between $n$ and
+%$n!$.}
+%
+%{\it Solution.} Let $p$ be a prime divisor of $n!-1$. Then $p>n$
+%since $\gcd{(p,n!)}=1$ and $p<n!$.
+%
+%\item {\it Is there a polynomial $f(x)$ with integer coefficients such that $f(1) = 2$ and $f(3) =
+%5$?}
+%
+%{\it Solution.} We use the fact that $a-b\mid f(a)-f(b)$.
+%
+%Answer: No!
+%
+%\item {\it Find all positive integers $n$ such that $2^4+2^7+2^n$ is a perfect
+%square.}
+%
+%{\it Solution.} A direct check shows that $n>4$. Then
+%$2^4+2^7+2^n=2^4(9+2^{n-4})$. Hence $9+2^{n-4}$ is a perfect square.
+%Let $9+2^{n-4}=t^2$. Then $(t-3)(t+3)=2^{n-4}$, which implies that
+%$t-3=2^m$, $t+3=2^l$, where $l$ and $m$ are positive integers ($m=0$
+%gives $t=4$, which implies $2^{n-4}=7$, a contraction). Then
+%$2^l-2^m=6$, so $2^m(2^{l-m}-1)=2\cdot 3.$ We obtain $m=1$, $l-m=2$,
+%which implies $m=1, \ l=3$ and $n-4=l+m=4$, so $n=8$.
+%
+%\item {\it Find all primes $p$ such that $p^2+11$ has exactly six different divisors including $1$ and the number
+%itself.}
+%
+%{\it Solution.} If $p=6k\pm 1$, then $p^2+11=(6k\pm 1)^2+11=12t$,
+%where $t\geq 3$. In this case $p^2+11$ has more than 6 different
+%divisors. Hence $p=6k\pm 2$ or $p=6k\pm 3$. In the first case $p=2$
+%and we obtain that $p^2+11=15=3\cdot 5$ has 4 divisors. In the
+%second case $p=3$ and we obtain that $p^2+11=20=2^2\cdot 5$ has 6
+%divisors.
+%
+%\item {\it Let $a, b, c$ be nonzero integers with $a \neq c$ such that $$\frac{a}{c} = \frac{a^2+b^2}{c^2+b^2}.$$ Prove that $a^2+b^2+c^2$ cannot be a
+%prime.}
+%
+%{\it Solution.} Note first that the given identity is equivalent to
+%$(a-c)(b^2-ac)=0$. Since $a\neq c$, we obtain $b^2=ac$. Hence
+%$a^2+b^2+c^2=a^2+ac+c^2=a^2+2ac+c^2-b^2=(a+c)^2-b^2=(a+c-b)(a+c+b)$.
+%
+%We may suppose that $a,b,c>0$. Then $a+c-b=1$. But
+%$a+c>2\sqrt{ac}=2b$. Hence $1=a+c-b>2b-b$ and we obtain $b<1$, a
+%contradiction.
+%
+%\item {\it Let $p$ be a prime.  Find all nonzero integers $k$ such that $\sqrt{k^2-pk}$ is a positive
+%integer.}
+%
+%{\it Solution.} If $k=np$, we obtain that $k^2-pk=p^2n(n-1)$ is a
+%perfect square. Hence $n(n-1)$ is a perfect square and since
+%$\gcd{(n,n-1)}=1$ we conclude that $n$ and $n-1$ are perfect
+%squares. Set $n=t^2$, $n-1=m^2$. We have $t^2-m^2=1$, which implies
+%$(t-m)(t+m)=1$ and we obtain $t-m=t+m=1$, so $t=1, \ m=0, \ n=1$ and
+%$k=p$. We get $\sqrt{k^2-pk}=0$, a contradiction.
+%
+%Let now $p\nmid k$. Then $\gcd{(k,k-p)}=1$ and we see that $k$ and
+%$k-p$ are perfect squares. Set $k=m^2$, $k-p=n^2$. Then
+%$p=m^2-n^2=(m-n)(m+n)$. We obtain $m-n=1$, $m+n=p$, so $p$ is odd
+%and $m=\cfrac{p+1}{2}$, $n=\cfrac{p-1}{2}$. Thus
+%$k=\left(\cfrac{p+1}{2}\right)^2$.
+%\end{enumerate}
+%%%
+%\section{LCM and GCD}
+%Let $a$ and $b$ be nonzero integers.  The greatest common divisor of $a$ and $b$ is denoted by $\gcd{(a,b)}$.  More generally, $\gcd{(a_1, a_2, \cdots, a_n)}$ is the greatest common divisor of the nonzero integers $a_1, a_2, \cdots, a_n$.  If $\gcd{(a_1,a_2,\cdots,a_n)} = 1$, then we say that $a_1, a_2, \cdots, a_n$ are {\em relatively prime} or {\em coprime}.  If we have $a_1, a_2, \cdots, a_n$ such that for $1 \le i \neq j \le n$, we have $\gcd{(a_i,a_j)} = 1$, then we say that the $a_i$ are {\em pairwise relatively prime} or {\em pairwise coprime}.
+%\begin{pr}
+%\begin{enumerate}
+%\item If $d = \gcd{(a,b)}$, then there exist integers $a_1, b_1$ such that $a = da_1$ and $b = db_1$ with $\gcd{(a_1,b_1)} = 1$.
+%\item If $a = qb + r$, then $\gcd{(a,b)} = \gcd{(b,r)}$.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item Since $d\mid a$ and $d \mid b$, we have $a = da_1$ and $b = db_1$.  If $\gcd{(a_1,b_1)} > 1$ then $d\gcd{(a_1,b_1)} \mid a, b$ and $d\gcd{(a_1,b_1)} > d$, a contradiction.
+%\item Set $d = \gcd{(a,b)}, d_1 = \gcd{(b,r)}$.  Since $d\mid a$ and $d \mid b$, we must have $d \mid a-qb = r$.  Hence $d \le \gcd{(b,r)} = d_1$.  Contrariwise, $d_1 \mid b$ and $d_1 \mid r$, hence $d_1 \mid qb+r = a$.  Hence $d_1 \le \gcd{(a,b)} = d$.  It follows that $d = d_1$.
+%\end{enumerate}
+%\end{proof}
+%\end{pr}
+%\begin{ex}
+%Determine $\gcd{(987654321,123456789)}$.
+%\begin{proof}
+%Set $a = 987654321, b = 123456789$.  Then we may check that $a = 8b+9$.  Hence $\gcd{(a,b)} = \gcd{(b,9)}$.  But we may check that the sum of the digits of $b$ is divisible by 9, hence $9 \mid b$.  Thus $\gcd{(b,9)} = 9$, so $\gcd{(a,b)} = 9$.
+%\end{proof}
+%\end{ex}
+%{\large \bfseries The Euclidean Algorithm}
+%
+%Let $a > b$ be positive integers.  Then we apply the division algorithm to get
+%\begin{align*}
+%a&=bq_1+r_1,&0\le r_1<b\\
+%b&=r_1q_2+r_2,&0\le r_2<r_1\\
+%r_1&=r_2q_2+r_3,&0\le r_3 < r_2\\
+%&\quad\cdots&\cdots\qquad\\
+%r_{k-2}&=r_{k-1}q_k+r_k,&0\le r_k < r_{k-1}\\
+%r_{k-1}&=r_{k}q_{k+1}+r_{k+1},&r_{k+1}=0
+%\end{align*}
+%Since $b > r_1 > r_2 > \cdots$ are nonnegative integers, there must be some $k$ for which $r_{k+1} = 0$.  Hence our process must terminate.  We now show that $\gcd{(a,b)} = r_k$.  We have $d = \gcd{(a,b)} = \gcd{(b,r_1)} = \gcd{(r_1,r_2)} = \cdots = \gcd{(r_k,r_{k+1})} = \gcd{(r_k,0)} = r_k$.
+%\begin{ex}
+%Determine $\gcd{(2050,123)}$.
+%\begin{proof}
+%We apply the Euclidean algorithm:
+%\begin{align*}
+%2050&=123\cdot16+82\\
+%123&=82\cdot1+41\\
+%82&=2\cdot41+0\\
+%\end{align*}
+%Hence $\gcd{(2050,123)} = 41$.
+%\end{proof}
+%\end{ex}
+%
+%\begin{cor}
+%If $c \mid a$ and $c \mid b$, then $c \mid \gcd{(a,b)}$.
+%\begin{proof}
+%The proof is a straightforward application of the Euclidean algorithm.
+%\end{proof}
+%\end{cor}
+%
+%{\large \bfseries Bezout's Identity}
+%
+%\begin{thm}
+%For any positive integers $a,b$, there are integers $x,y$ such that $ax+by = \gcd{(a,b)}$.
+%\begin{proof}
+%From the Euclidean algorithm we have $r_1 = a-bq_1, r_2 = b-r_1q_2, \cdots, r_k = r_{k-2}-r_{k-1}q_k$.  Hence
+%\begin{align*}
+%r_2 = b-(a-bq_1)q_2 = -aq_2+b(1+q_1q_2)&=x_2a+y_2b\\
+%r_3 = r_1-r_2q_3 = (a-bq_1)-(x_2a+y_2b)q_3&=x_3a+y_3b\\
+%\cdots\qquad\qquad\qquad\qquad&=\quad\ \cdots
+%\end{align*}
+%Proceeding in the same way, we find integers $x_k, y_k$ such that $\gcd{(a,b)} = r_k = x_ka+y_kb$ as desired.
+%\end{proof}
+%\end{thm}
+%\begin{cor}
+%If $a \mid bc$ and $\gcd{(a,b)} = 1$, then $a \mid c$.
+%\begin{proof}
+%If $c = 0$ then we are done.  If $c \neq 0$ then by Bezout's identity $ax+by = 1$ for some $x,y$ and $acx + bcy = c$.  Since $a \mid ac$ and $a \mid bc$ we must have $a \mid c$.
+%\end{proof}
+%\end{cor}
+%\begin{cor}
+%Let $\gcd{(a,b)} = 1$.  If $a \mid c$ and $b \mid c$, then $ab \mid c$.
+%\begin{proof}
+%We have $c = ax$.  Since $b \mid ax$ and $\gcd{(a,b)} = 1$, we must
+%have $b \mid x$.  Hence $x = bx_1$.  Then $c = abx_1$, so $ab \mid
+%c$.
+%\end{proof}
+%\end{cor}
+%\begin{cor}
+%For all $c$, $\gcd{(ac,bc)} = c\cdot\gcd{(a,b)}$.
+%\begin{proof}
+%Multiply all steps in the Euclidean algorithm by $c$.
+%\end{proof}
+%\end{cor}
+%\begin{cor}
+%If $\gcd{(a,b)} = 1$, then $\gcd{(ac,b)} = \gcd{(c,b)}$.
+%\begin{proof}
+%Since $\gcd{(ac,b)} \mid b$, we have $\gcd{(ac,b)} \mid bc$.  Also $\gcd{(ac,b)} \mid ac$.  Hence $\gcd{(ac,b)} \mid \gcd{(ac,bc)}= c$.  As $\gcd{(ac,b)} \mid b$ as well, it follows that $\gcd{(ac,b)} \mid \gcd{(c,b)}$.  Similarly, $\gcd{(c,b)} \mid ac$ and $\gcd{(c,b)} \mid b$, hence $\gcd{(c,b)} \mid \gcd{(ac,b)}$.  It follows that $\gcd{(ac,b)} = \gcd{(c,b)}$.
+%\end{proof}
+%\end{cor}
+%{\large \bfseries Greatest common divisors of more than two numbers}
+%
+%For integers $a_1, a_2, \cdots, a_n$, we may define integers $d_1, d_2, \cdots, d_n$ by $d_1 = a_1$ and $d_k = \gcd{(d_{k-1},a_k)}$ for $2 \le k \le n$.  Then we claim that $d_k = \gcd{(a_1, a_2, \cdots, a_k)}$.
+%
+%This is obviously true for $k = 1, 2$.  We induct on $k$.  Assume that $d_k = \gcd{(a_1, a_2, \cdots, a_k)}$.  We show that $d_{k+1} = \gcd{(a_1, a_2, \cdots, a_{k+1})}$.  As $d_{k+1} \mid d_k$, we must have $d_{k+1} \mid a_1, a_2, \cdots, a_k$.  By definition, $d_{k+1} \mid a_{k+1}$.  Hence $d_{k+1} \mid \gcd{(a_1, a_2, \cdots, a_{k+1})}$.  However, we may clearly write $\gcd{(a_1, a_2, \cdots, a_{k+1})} \mid a_1, a_2, \cdots, a_k$, so $\gcd{(a_1, a_2, \cdots, a_{k+1})} \mid d_k$.  In addition, we have $\gcd{(a_1, a_2, \cdots, a_{k+1})} \mid a_{k+1}$.  Hence $\gcd{(a_1, a_2, \cdots, a_{k+1})} \mid \gcd{(d_k, a_{k+1})} = d_{k+1}$.  It follows that $d_{k+1} = \gcd{(a_1, a_2, \cdots, a_{k+1})}$.  This completes our induction and achieves our desired result.
+%\begin{ex}
+%Determine $\gcd{(38,42,46)}$.
+%\begin{proof}
+%We first find $\gcd{(38,42)} = \gcd{(38,4)} = \gcd{(2,4)} = \gcd{(2,0)} = 2$.  We next find $\gcd{(2,64)} = \gcd{(2,0)} = 2$.  Hence $\gcd{(38,42,64)} = 2$.
+%\end{proof}
+%\end{ex}
+%\begin{thm}
+%For any integers $a_1, a_2, \cdots, a_n$, there exist integers $x_1, x_2, \cdots, x_n$ with $$\gcd{(a_1,a_2,\cdots,a_n)} = x_1a_1+x_2a_2+\cdots+x_na_n.$$
+%\begin{proof}
+%We will use induction on $n$.  The base case $n = 2$ is just Bezout's identity.  By our hypothesis we have $\gcd{(a_1,a_2,\cdots,a_n)} = x_1a_1+x_2a_2+\cdots+x_na_n$, then we have $$\gcd{(a_1, a_2, \cdots, a_{n+1})} = \gcd{(\gcd{(a_1, a_2, \cdots, a_n)},a_{n+1})} = x\gcd{(a_1, a_2, \cdots, a_n)}+ya_{n+1}.$$  But then we may simply write $$\gcd{(a_1, a_2, \cdots, a_{n+1})} = xx_1a_1+xx_2a_2+\cdots+xx_na_n+ya_{n+1},$$ achieving our desired result.
+%\end{proof}
+%\end{thm}
+%
+%{\large \bfseries Basic properties of the least common multiple}
+%
+%The least common multiple of two integers $a,b$ is the smallest
+%positive integer divisible by both $a$ and $b$, and is denoted
+%$\text{lcm}\:(a,b)$.
+%
+%\begin{prb}
+%Prove that $\textup{lcm}\:(a,b) = \frac{ab}{\gcd{(a,b)}}$.
+%\begin{proof}
+%We shall prove that any common multiple of $a$ and $b$ must have the form $\frac{tab}{\gcd{(a,b)}}$ for some integer $t$.
+%
+%Set $d = \gcd{(a,b)}$, and write $a = da_1, b = db_1$.  We have $\gcd{(a_1,b_1)} = 1$.  Let $c$ be a multiple of $a$ and $b$.  Then $c = ac_1 = da_1c_1$.  But $\frac{c}{b} = \frac{da_1c_1}{b} = \frac{a_1c_1}{b_1}$ is an integer; as $\gcd{(a_1,b_1)} = 1$, we have $b_1\mid c_1$.  Write $c_1 = b_1t$.  Then we have $c = da_1b_1t = a_1bt = \frac{tab}{d}$ as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that
+%\begin{enumerate}
+%\item $\textup{lcm}\:(a_1,a_2,\cdots,a_{n+1}) = \textup{lcm}\:(\textup{lcm}\:(a_1,a_2,\cdots,a_n),a_{n+1})$;
+%\item $\textup{lcm}\:(a_1,a_2,\cdots,a_n) = a_1a_2\cdots a_n$ if the $a_i$ are pairwise relatively prime.
+%\end{enumerate}
+%\begin{proof}
+%\begin{enumerate}
+%\item We may induct on $n$ as in our analogous result for $\gcd{(a_1,a_2,\cdots,a_{n+1})}$.
+%\item We induct on $n$; the base case $n = 2$ is clear.  Then we have
+%\begin{align*}
+%\text{lcm}\:(a_1,a_2,\cdots,a_{n+1})&= \text{lcm}\:(\text{lcm}\:(a_1,a_2,\cdots,a_n),a_{n+1})\\
+%&= \text{lcm}\:(a_1a_2\cdots a_n,a_{n+1})\\
+%&=\frac{a_1a_2\cdots a_{n+1}}{\gcd{(a_1a_2\cdots a_n,a_{n+1})}}.
+%\end{align*}
+%But if $\gcd{(a_1a_2\cdots a_n, a_{n+1})} \neq 1$, then we must have $\gcd{(a_i,a_{n+1})} \neq 1$ for some $1 \le i \le n$.  This contradicts our assumption that the $a_i$ are pairwise relatively prime; hence our desired result is achieved.
+%\end{enumerate}
+%\end{proof}
+%\end{prb}
+%{\large \bfseries Applications}
+%\begin{prb}
+%Let $\gcd{(a,b)} = 1$.  Prove that the sum of the quotients of $a, 2a, \cdots, (b-1)a$ upon division by $b$ is equal to $(a-1)(b-1)/2$.
+%\begin{proof}
+%It follows by the division algorithm that $ka = bq_k+r_k$ for $1 \le k \le b-1$ and $0 \le r_k \le b-1$.  If ever $r_k = 0$, then we have $bq_k = ka$.  Hence $b \mid ka$.  As $\gcd{(a,b)} = 1$, we have $b \mid k$.  But $1 \le k \le b-1$.  Contradiction, hence $r_k \neq 0$ for all $k$.  We now claim that all the $r_i$ are distinct.  If we have $r_i = r_j$ with $i \neq j$, then we may write $(i-j)a = b(q_i-q_j)$.  Hence $b \mid (i-j)a$.  As $\gcd{(a,b)} = 1$, we have $b \mid i-j$.  But $-(b-1) \le i-j \le (b-1)$ and $i - j \neq 0$.  Contradiction; hence $r_i \neq r_j$ for $i \neq j$.  In particular, this means that $(r_1,r_2,\cdots,r_{b-1})$ is some permutation of $(1,2,\cdots,n)$.  We sum over all indices $k$ to get
+%\begin{align*}
+%a+2a+\cdots+(b-1)a&=(bq_1+r_1)+(bq_2+r_2)+\cdots+bq_{b-1}+r_{b-1}\\
+%ab(b-1)/2&=b(q_1+q_2+\cdots+q_{b-1})+(r_1+r_2+\cdots+r_{b-1})\\
+%ab(b-1)/2&=b(q_1+q_2+\cdots+q_{b-1})+b(b-1)/2\\
+%(a-1)(b)(b-1)/2&=b(q_1+q_2+\cdots+q_{b-1})\\
+%(a-1)(b-1)/2&=q_1+q_2+\cdots+q_{b-1}
+%\end{align*}
+%as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Set $F_n = 2^{2^n}+1$ to be the $n^{\text{th}}$ Fermat number.  Show that $\gcd{F_m,F_n} = 1$ for $m \neq n$.
+%\begin{proof}
+%Without loss of generality, suppose that $m > n$ and set $d = \gcd{(F_m,F_n)}$.  Then $d$ must be odd.  We have $$2^{2^{n+1}}-1 = \left(2^{2^n}+1\right)\left(2^{2^n}-1\right).$$  As $d \mid 2^{2^n}+1$, it follows that $d \mid 2^{2^{n+1}-1}$.  But then we may apply the same identity repeatedly to conclude that $d \mid 2^{2^{n+(m-n)}}-1 = 2^{2^m}-1$.  As $d \mid 2^{2^m}+1$, it follows that $d \mid 2$.  As $d$ is odd, this means that $d = 1$ as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Prove that any even positive integer $n > 8$ is the sum of three pairwise relatively prime numbers greater than 1.
+%\begin{proof}
+%As $n$ is even, we have either $n = 6k$, $n = 6k+2$, $n = 6k+4$ for some positive integer $k$.  If $n = 6k$, we write $n = 2 + 3 + (6k-5)$.  If $n = 6k+2$, we write $n = 3 + 4 + (6k-5)$.  If $n = 6k+4$, we write $n = 2 + 3 + (6k-1)$.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Show that if $a>1$ and $m > 0$ are integers, $\gcd{(\frac{a^m-1}{a-1},a-1)} = \gcd{(a-1,m)}.$
+%\begin{proof}
+%We have $$\frac{a^m-1}{a-1} = a^{m-1}+a^{m-2}+\cdots+a+1 = (a^{m-1}-1)+(a^{m-2}-1)+\cdots+(a-1)+m.$$  As $a-1 \mid a^k-1$ for $k \ge 1$, there is some $q$ with $q(a-1)+m = (a^{m-1}-1)+(a^{m-2}-1)+\cdots+(a-1)+m$.  Hence $\gcd{(\frac{a^m-1}{a-1},a-1)} = \gcd{(a-1,m)}$ as desired.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $m,n \ge 1$ and $a > 1$ be positive integers, and set $d = \gcd{(m,n)}$.  Further set $D = \gcd{(a^m-1,a^n-1)}$.  Show that $D = a^d-1$.
+%\begin{proof}
+%Without loss of generality suppose that $n > m$.  Fix $n$ and set $n = mq + r$, with $0 \le r < m$.  Then $$a^n-1 = a^r(a^{mq}-1) + a^r-1 = a^r\left(a^{m(q-1)}+a^{m(q-2)}+\cdots+a^m+1\right)(a^m-1)+a^r-1.$$  Setting $Q = a^r\left(a^{m(q-1)}+a^{m(q-2)}+\cdots+a^m+1\right)$, we have $a^n-1 = Q(a^m-1)+(a^r-1)$.  Hence $D = \gcd{(a^m-1, a^r-1)}$.
+%
+%We now use strong induction on $m$.  The statement obviously holds for $m = 1$.  Suppose that $\gcd{(a^n-1,a^k-1)} = a^{\gcd{(n,k)}}-1$ for $1 \le k \le m-1$.  As $r < m$ by the division algorithm, we have $\gcd{(a^n-1, a^r-1)} = a^{\gcd{(n,r)}}-1$.  But $\gcd{(n,r)} = \gcd{(m,r)}$, and $\gcd{(a^n-1,a^r-1 )} = \gcd{(a^n-1, a^m-1)}$.  Hence our hypothesis holds true for $k = m$, completing our induction.
+%\end{proof}
+%\end{prb}
+%\begin{prb}
+%Let $f(x)$ be a polynomial with integer coefficients such that $f(0) = f(1) = 1$.  For any integer $a_0$ define the sequence $a_0, a_1, a_2, \cdots$ by $a_{n+1} = f(a_n)$ for $n = 0, 1, 2, \cdots$.  Show that $\gcd{(a_m, a_n)} = 1$ for $m \neq n$.
+%\begin{proof}
+%Write $$f(x) = x(x-1)g(x)+ax+b$$ for integers $a,b$ and $g(x)$ a
+%polynomial with integer coefficients.  Then $f(0) = b$, so $b = 1$.
+%Also $f(1) = a+b$, hence $a = 0$.  Hence $f(x) = x(x-1)g(x)+1$.
+%
+%We claim that there exist integers $k_n$ for $n = 1, 2, \cdots$ with
+%$a_n = k_na_0a_1\cdots a_{n-1}+1$.  The proof is not hard; for $n =
+%1$ we have $a_1 = f(a_0) = a_0(a_0-1)g(a_0)+1$.  Setting $k_1 =
+%(a_0-1)g(a_0)$, which must be an integer, we have $a_1 = k_1a_0+1$.
+%
+%Now suppose that $a_n = k_na_0a_1\cdots a_{n-1}+1$.  Then $$a_{n+1} = f(a_n) = a_n(a_n-1)g(a_n)+1 = a_n(k_na_0a_1\cdots a_{n-1})g(a_n)+1.$$  Set $k_{n+1} = k_ng(a_n)$, which is an integer; we thus have $a_{n+1} = k_{n+1}a_0a_1\cdots a_n + 1$ as desired.
+%
+%Now we may easily show that $\gcd{(a_m, a_n)} = 1$ for $m \neq n$.  Without loss of generality, suppose that $m < n$.  Then we have $\gcd{(a_m, a_n)} = \gcd{(a_m, k_na_0a_1\cdots a_m \cdots a_{n-1}+1)} = \gcd{(a_m,ka_m+1)} = 1$, proving the desired result.
+%\end{proof}
+%\end{prb}
+%
+%\newpage
+%\begin{center}
+%\textbf{Problems}
+%\end{center}
+%
+%\begin{enumerate}
+%\item Show that every odd positive integer $n > 17$ is a sum of three pairwise relatively prime integers, each of which is strictly greater than 1.
+%
+%\item Prove that if $a_1, a_2, \cdots, a_n$ divide $b$, then $\text{lcm}\:\{a_1,a_2,\cdots,a_n\}$ divides $b$.
+%
+%\item Show that for any integer $n$, the fractions $\frac{21n+4}{14n+3}$ and $\frac{12n+1}{30n+2}$ are irreducible.
+%
+%\item Show that $$\text{lcm}\:\{1,2,\cdots,2n\} = \text{lcm}\:\{n+1,n+2,\cdots,2n\}.$$
+%
+%\item Determine the last digit of $\text{lcm}\:\{F_2,F_3,\cdots,F_{1985}\}$.
+%
+%\item Let $n$ be an odd positive integer, and let $a_1, a_2, \cdots, a_n$ be odd integers.  Prove that $$\gcd{\{a_1,a_2,\cdots,a_n\}} = \gcd{\left\{\frac{a_1+a_2}{2},\frac{a_2+a_3}{2},\cdots,\frac{a_n+a_1}{2}\right\}}.$$
+%
+%\item Let $n$ be an even positive integer, and let $a$ and $b$ be positive coprime integers.  Find $a$ and $b$ if $a+b$ divides $a^n+b^n$.
+%
+%\item Let $d_{n,m}$ be the greatest common divisor of the numbers $A = 2n+3m+13$, $B = 3n+5m+1$, $C = 6n + 8m - 1$, where $n, m$ are positive integers.  Find all possible values of $d_{n,m}$ as $n$ and $m$ range over the natural numbers.
+%
+%\item An infinite sequence $a_1, a_2, \cdots$ of positive integers has the property that $\gcd{\{a_i,a_j\}} = \gcd{\{i,j\}}$ for all $i \neq j$.  Prove that $a_i = i$.
+%
+%\item Find all triples $(x,y,n)$ of positive integers with $\gcd{\{x,n+1\}} = 1$ and $x^n+1 = y^{n+1}$.
+%
+%\item Let $a,b$ be positive integers such that $\gcd{\{a,b\}} = 1$.  Find all pairs $(m,n)$ such that $a^m+b^m$ divides $a^n+b^n$.
+%\end{enumerate}
+%(USAMO 1972) Prove that
+%\[
+%\frac{\lcm(a,b,c)^2}{\lcm(a,b)\lcm(a,c)\lcm(b,c)}=
+%\frac{\gcd(a,b,c)^2}{\gcd(a,b)\gcd(a,c)\gcd(b,c)}.
+%\]
+%%PIE thing?
+%(Russia 1951) The positive integer $a_1,\ldots, a_n$ are such that each is less than $N$, and $\lcm(a_i,a_j)>N$ for all $i\ne j$. Show that
+%\[
+%\sum_{i=1}^n\rc{a_i}<2.
+%\]
+%Can you show that $\sum_{i=1}^n \rc{a_i}<\frac 32$?
+%\newpage
+%\textbf{Solutions}
+%\begin{enumerate}
+%\item {\it Show that every odd positive integer $n > 17$ is a sum of three pairwise relatively prime integers, each of which is strictly greater than
+%1.}
+%
+%{\it Solution.} We have $n=12k+r$, $r=1,3,5,7,9,11$ and
+%$$12k+1=9+[6(k-1)-1]+[6(k-1)+5] $$
+%$$12k+3=(6k-1)+(6k+1)+3 $$
+%$$12k+5=(6k-5)+(6k+1)+9 $$
+%$$12k+7=(6k+5)+(6k-1)+3 $$
+%$$12k+9 = (6k-1)+(6k+1)+9$$
+%$$12k+11=[6(k+1)-5]+[6(k+1)+1]+3. $$
+%
+%\item {\it Prove that if $a_1, a_2, \cdots, a_n$ divide $b$, then $\text{lcm}\:\{a_1,a_2,\cdots,a_n\}$ divides
+%$b$.}
+%
+%{\it Solution.} Let $n=2$, $d=\gcd{(a_1,a_2)}$, $a_1=da_1', \ a_2=d
+%a_2'$, where $\gcd{(a_1',a_2')}=1.$  Then
+%$$\text{lcm}(a_1,a_2)=\frac{a_1a_2}{\gcd{(a_1,a_2)}}=da_1'a_2'. $$
+%Since $da_1'\mid b$, we obtain $a_1'\mid \cfrac{b}{d}$ and $a_2'
+%\mid \cfrac{b}{d}$, which implies that $a_1'a_2'\mid \cfrac{b}{d}$,
+%so $da_1'a_2' \mid b.$
+%
+%Then use induction on $n$.
+%
+%\item {\it Show that for any integer $n$, the fractions $\frac{21n+4}{14n+3}$ and $\frac{12n+1}{30n+2}$ are
+%irreducible.}
+%
+%{\it Solution.} Set $d=\gcd{(21n+4,14n+3)}$. Then $d\mid
+%2(21n+4)-3(14n+3)$, which implies $d\mid -1$, so $d=1.$
+%
+%If $d=\gcd{(12n+1,30n+2)}$, then $d\mid 5(12n+1)-2(30n+2)=1$, so
+%$d=1$.
+%
+%\item {\it Show that $$\text{lcm}\:\{1,2,\cdots,2n\} =
+%\text{lcm}\:\{n+1,n+2,\cdots,2n\}.$$}
+%
+%{\it Solution.} Use induction on $n$.
+%
+%\item {\it Determine the last digit of
+%$\text{lcm}\:\{F_2,F_3,\cdots,F_{1985}\}$.}
+%
+%{\it Solution.} Since $\gcd{(F_n,F_m)}=1$ (Problem 2), we get
+%$$\text{lcm}(F_2,F_3,\dots,F_{1985})=F_2F_3\dots F_{1985}.$$
+%Note that for any $k\geq 2$ we have that $2^{2^k}-1 = 4^{2^{k-1}}-1
+%$ is divisible by $4^2-1=15$, which implies that $2^{2^k}-1=5q_k$.
+%Hence $F_k=5q_k+2$ and $$N=F_2F_3\dots F_{1985}=(5q_2+2)\dots
+%(5q_{1985}+2)=5l+2^{1984}=5l+4^{992}=5l+(5-1)^{992}=5m+1.$$
+%
+%Since $N$ is odd, we see that $m$ is even and $N=10t+1$. Thus the
+%last digit of $N$ is 1.
+%
+%\item {\it Let $n$ be an odd positive integer, and let $a_1, a_2, \cdots, a_n$ be odd integers.  Prove that $$\gcd{\{a_1,a_2,\cdots,a_n\}} =
+% \gcd{\left\{\frac{a_1+a_2}{2},\frac{a_2+a_3}{2},\cdots,\frac{a_n+a_1}{2}\right\}}.$$}
+%
+%{\it Solution.}
+%
+%Set $a=\gcd{(a_1,\dots,a_n)}$,
+%$b=\gcd{\left(\cfrac{a_1+a_2}{2},\dots, \cfrac{a_n+a_1}{2}\right)}$
+%and $a_k=b_ka$, $1\leq k\leq n$. Then
+%$$\frac{a_k+a_{k+1}}{2}=\frac{b_k+b_{k+1}}{2}a. $$
+%Since $b_k$ are odd it follows that $a\mid b$.
+%
+%On the other hand we have
+%$$\frac{a_k+a_{k+1}}{2}=\beta_k b, \ 1\leq k \leq n. $$
+%Then $2b\mid a_k+a_{k+1}$, $1\leq k\leq n$. Summing up from $k=1$ to
+%$k=n$ we get $2b\mid 2(a_1+\dots +a_n)$, which implies $b\mid
+%a_1+\dots +a_n.$
+%
+%Summing up for $k=1,3,\dots n-2$ gives $2b\mid a_1+\dots+a_{n-1}$,
+%which implies $b\mid a_1+\dots +a_{n-1}$. Hence $b\mid a_n$. Since
+%$b\mid a_{n-1}+a_n$, we obtain $b\mid a_{n-1}$ and so on.
+%
+%Thus $b\mid a$ and we conclude that $a=b$.
+%
+%\item {\it Let $n$ be an even positive integer, and let $a$ and $b$ be positive coprime integers.  Find $a$ and $b$ if $a+b$ divides
+%$a^n+b^n$.}
+%
+%{\it Solution.} Since $n$ is even, we obtain that $a+b\mid a^n-b^n$.
+%We have that $a+b\mid (a^n-b^n)+(a^n+b^n)$, which implies that
+%$a+b\mid 2a^n.$ Then $a+b\mid 2b^n$ and since $\gcd{(a+b,a^n)}=1$ we
+%get $a+b\mid 2$, i.e. $a=b=1$.
+%
+%\item {\it Let $d_{n,m}$ be the greatest common divisor of the numbers $A = 2n+3m+13$, $B = 3n+5m+1$, $C = 6n + 8m - 1$, where $n, m$ are positive integers.
+%Find all possible values of $d_{n,m}$ as $n$ and $m$ range over the
+%natural numbers.}
+%
+%{\it Solution.} We have that $d_{n,m} \mid E=3A-C=m+40$,
+%$F=2B-C=2m+3$ and $G=2E-F=77.$
+%
+%Hence $d_{n,m}$ is a divisor of 77. We shall show that any divisor
+%of 77 is $d_{n,m}$ for some $n, \ m$.
+%
+%Taking $m=n=1$ gives $d_{1,1}=1$. Taking $m=2, \ n=1$ we get
+%$d_{2,1}=7$. Taking $m=n=4$ gives $d_{4,4}=11$. Taking $m=37$,
+%$n=15$ gives $d_{37,15}=77.$
+%
+%\item {\it An infinite sequence $a_1, a_2, \cdots$ of positive integers has the property that $\gcd{\{a_i,a_j\}} = \gcd{\{i,j\}}$ for all $i \neq j$.  Prove that $a_i =
+%i$.}
+%
+%{\it Solution.} We have $\gcd{(a_m,a_{2m})}=\gcd{(2m,m)}=m.$ Hence
+%$m\mid a_m$. Let $n\neq m$. Then $m\mid a_n$ if and only if $m$
+%divides $\gcd{(a_m,a_n)}=\gcd{(m,n)}$, if and only if $m\mid n$.
+%Thus $a_n$ has the same divisors as $n$ and $a_n=n$.
+%
+%\item {\it Find all triples $(x,y,n)$ of positive integers with $\gcd{\{x,n+1\}} = 1$ and $x^n+1 =
+%y^{n+1}$.}
+%
+%{\it Solution.} All solutions are $(x,y,n)=(a^2-1,a,1)$ with $a$
+%even. Indeed, we have
+%$$x^n=y^{n+1}-1=(y-1)(y^n+y^{n-1}+\dots+y+1)=(y-1)m. $$
+%Thus $m\mid x^n$ and therefore $\gcd{(m,n+1)}=1$. Rewrite $m$ as
+%$$m=(y-1)(y^{n-1}+2y^{n-2}+3y^{n-3}+\dots +(n-1)y+n)+n+1. $$
+%
+%Thus $\gcd{(m,y-1)}\mid n+1$, so $\gcd{(m,y-1)}=1$ (because
+%$\gcd{(m,n+1)}=1$). Now $(y-1)m=x^n$ shows that $m$ is perfect
+%$n^{th}$ power. But
+%$$(y+1)^n=y^n+ {n \choose 1} y^{n-1}+\dots + {n\choose n-1} y+1>m>y^n, $$
+%a contradiction for $n>1$. Hence $n=1$, $x=y^2-1$. Since $x$ and
+%$n+1=2$ are relatively prime, $y$ must be even.
+%
+%
+%\item { \it Let $a,b$ be positive integers such that $\gcd{\{a,b\}} = 1$.  Find all pairs $(m,n)$ such that $a^m+b^m$ divides
+%$a^n+b^n$.}
+%
+%{\it Solution.} It is clear that $n>m$. Set
+%$$n=qm+r, \ 0\leq r<m \ \text{and}$$
+%$$d_k=a^{n-km}+(-1)^k b^{n-km},\ 0\leq k\leq q. $$
+%Then
+%$$a^m d_{k+1}=d_k +(-1)^{k+1}b^{n-(k+1)m}(b^m+a^m). $$
+%Hence $a^m+b^m\mid d_k$ implies $a^m+b^m\mid d_{k+1}$.
+%
+%Since $a^m+b^m\mid d_0$, we obtain that $a^m+b^m\mid
+%d_q=a^r+(-1)^qb^r$. But
+%$$|a^r+(-1)^q b^r|\leq a^r+b^r<a^m+b^m $$
+%and we conclude that
+%$$a^r+(-1)^qb^r=0$$
+%and we obtain that $q$ is odd and $r=0$.
+%
+%Thus $n=qm$, where $q$ is odd.
+%
+%Conversely, if $n=qm$ for $q$ odd, we see that $a^n+b^n$ is
+%divisible by $a^m+b^m$. So $(m,n)=(a,(2k+1)a), \ a\in \mathbb{N}, \
+%k\geq 0$.
+%\end{enumerate}
+%END COMMENTED OUT: Organize this material!
+
+%\begin{df}
+%The \textbf{greatest common divisor} $\gcd(a,b)$ is the largest integer $g$ that divides both $a$ and $b$. We say that $a$ and $b$ are \textbf{relatively prime} if $\gcd(a,b)=1$, i.e. $a$ and $b$ have no common factor other than $\pm1$.
+%\end{df}
+%\begin{pr}\label{gcd-basic}$\,$
+%\begin{enumerate}
+%\item
+%If $g=\gcd(a,b)$, then
+%\[a=ga_1,\quad b=gb_1\]
+%for some integers $a,b$ with $\gcd(a,b)=1$.
+%\item 
+%If $a=qb+c$, then $\gcd(a,b)=\gcd(b,c)$. 
+%\end{enumerate}
+%\end{pr}
+%\begin{proof}
+%\item Since $g\mid a,b$ by definition, we can write $a=ga_1$ and $b=gb_1$ for integers $a_1,b_1$. Let $g_1=\gcd(a_1,b_1)$. Then $g_1\mid a_1,b_1$, so $gg_1\mid a,b$. Since $g$ is the greatest common divisor, we must have $g_1=1$.
+%\item Let $g=\gcd(a,b)$, and let $g_1=\gcd(b,c)$. Since $g\mid a,b$, we have $g\mid a-qb=c$, so $g\le g_1$. On the other hand, $d_1\mid b,c$ implies $d_1\mid qb+c=a$. Hence $g_1\le g$. We conclude $g=g_1$.
+%\end{proof}
+%\begin{ex}
+%Find the greatest common divisor of 987654321 and 123456789. 
+%\end{ex}
+%\noindent {\it Solution.} Division with remainder gives
+%\[
+%98754321=8\cdot 123456789+9.
+%\]
+%Hence by part 2 above, $\gcd(987654321,123456789)=\gcd(123456789,9)=9$, the latter because 123456789 is divisible by 9 (the sum of its digits is 9).
+%\begin{alg}[Euclidean algorithm]
+%Suppose $a>b>0$. Write
+%\begin{align*}
+%a&=b\cdot q_1+c_1,\quad 0\le c_1<b\\
+%b&=c_1\cdot q_2+c_2\quad 0\le c_2<c_1
+%\end{align*}
+%and so on, choosing $c_{n+1}$ so that $c_{n-1}=c_nq_n+c_{n+1}$. Stop when $c_{k+1}=0$. Then
+%\[
+%c_k=\gcd(a,b).
+%\]
+%\end{alg}
+%\begin{proof}
+%Using Proposition~\ref{gcd-basic}(2),
+%\[
+%\gcd(a,b)=\gcd(b,c_1)=\gcd(c_1,c_2)=\cdots =\gcd(c_k,\cancelto0{c_{k+1}})=c_k.
+%\]
+%\end{proof}
+%%Counting to 1 billion, 1 number/second. Takes ~32 years.
+%\begin{thm}[B\'ezout's Identity]
+%There exist $x,y\in \Z$ such that 
+%\[
+%ax+by=\gcd(a,b), \quad x,y\in \Z.
+%\]
+%In particular, if $\gcd(a,b)=1$, then there exist $x,y\in \Z$ such that 
+%\[
+%ax+by=1.
+%\]
+%\end{thm}
+%\begin{proof}
+%We give a constructive proof, that allows us to find $x,y$. (For a more abstract proof, see ().) 
+%Following the Euclidean algorithm,
+%\begin{align*}
+%c_1&=a-bq_1=a\cdot 1+(-q_1)b\\
+%c_2&=b-c_1q_2=b-q_2(a-bq_1)=(-q_2)a+(1+q_1q_2)b\\
+%c_3&=\cdots
+%\end{align*}
+%\end{proof}
+%\begin{cor}
+%If $c\mid a$ and $c\mid b$ then $c\mid \gcd(a,b)$.
+%\end{cor}
+%\begin{proof}
+%By B\'ezout's Identity, we can find $x,y$ so that 
+%\[
+%g=ax+by
+%\]
+%Since $c\mid a,b$, we see $c\mid ax+by=g$.
+%\end{proof}
+%\begin{cor}
+%If $a\mid b,c$ and $\gcd(a,b)=1$, then $a\mid c$.
+%
+%If $\gcd(a,b)=1$ and $a\mid c$, $\mid c$, then $ab\mid c$.
+%
+%$\gcd(ac,bc)=\gcd(a,b)\cdot c$. 
+%
+%If $\gcd(a,b)=1$ then $\gcd(ac,b)=\gcd(c,b)$.
+%\end{cor}
+%
+%The gcd of a set of numbers is defined the same way. We have
+%\[
+%\gcd(a_1,\ldots, a_n)=\gcd(\gcd(a_1,\ldots, a_{n-1}),a_n).
+%\]
+%Indeed, letting $g_k=\gcd(a_1,\ldots,a_k)$, we have $g_k\mid a_1,\ldots, a_{n-1}$ so $g_{n}=\gcd(g_k,a_n)$ divides $a_1,\ldots, a_n$.
+%
+%On the other hand, $\gcd(a_1,\ldots, a_{n-1})=g_{n-1}\mid g_n$. Bleh
+%%Hence $\gcd(a_1,\ldots, a_n)$
+%
+%Exercise: Prove by induction there exist $x_1,\ldots, x_n\in \Z$ such that $\gcd(a_1,\dots, a_n)=x_1a_1+\cdots +x_na_n$.
+%
+%\begin{df}
+%LCM.
+%\end{df}
+%\begin{thm}
+%\[
+%\lcm(a,b)=\frac{ab}{\gcd(a,b)}.
+%\]
+%\end{thm}
+%\fixme{Probably better to introduce fundamental theorem of arithmetic first so we can just ``look at the exponents."}
+%\begin{proof}
+%We prove that any common multiple of $a$ and $b$ has the form $t=\frac{ab}{\gcd(a,b)}$. 
+%
+%Write $\gcd(a,b)=g$, $a=da_1$, $b=db_1$, $\gcd(a_1,b_1)=1$.
+%Write $c=ac_1$. Then
+%\[
+%c=atb_1=tab/d?
+%\]
+%%Write $c=a_1c_1$, $\gcd(a,b)=d$. 
+%\end{proof}
+%\begin{ex}
+%Show that if $F_n=2^{2^n}+1$, then $d=\gcd(F_n,F_m)=1$ for $m\ne n$.
+%
+%Note
+%\[
+%F_{n+1}-2=2^{2^{n+1}}-1=(2^{2^n}-1) \underbrace{(2^{2^n}+1)}_{F_n}
+%\]
+%By induction $F_n\mid F_{n+k}-2$. For any $d\mid F_n$, $d\mid F_m-2$, $m>n$. If $d\mid F_m$ then $d\mid 2$. But $d$ is odd so $d=1$.
+%\end{ex}
+\section{Divisibility}
+
+\subsection{The division algorithm}
+
+\section{Primes}
+
+\section{LCM and GCD}
+
+\subsection{The Euclidean algorithm}
+
+\section{Look at the exponent}
+\begin{thm}\label{factorial-order}
+We have that 
+\[
+\ord_p(n!)=\sum_{k=1}^{\iy}\ff{n}{p^k}=\ff{n}{p}+\ff{n}{p^2}+\cdots 
+\]
+
+Given that $n=\sum_{k=0}^r a_kp^k$, find 
+\[
+\ord_p(n!)=\frac{n-\sum_{i=0}^r a_i}{p-1}.
+\]
+\end{thm}
+\begin{proof}
+
+
+\end{proof}
+\begin{ex}[AMC ??]
+Let $x$ and $y$ be positive integers such that $7x^5=11y^{13}$. The minimum possible value of $x$ can be written in the form $a^cb^d$ where $a,b,c,d$ are positive integers. Compute $a+b+c+d$.
+\end{ex}

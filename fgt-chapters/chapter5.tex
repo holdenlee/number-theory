@@ -1,0 +1,433 @@
+\chapter{Arithmetic over Finite Fields}\llabel{arith-over-ff}
+\fixme{This section is from my final paper in 18.784... need to integrate}
+%\section{Introduction}
+%In 1770, Waring asked the following question: given $d\in \N$, can every positive integer can be written as a sum of a bounded number of $d$th powers of positive integers?
+%We call a set $A$ in $\N_0$ a basis of order $n$ if every element of $\N_0$ can be written as a sum of $n$ elements of $A$, so the question can be rephrased as, is the set of $d$th powers of positive integers a basis of finite order? 
+%This was proved to be true. Rather than trying to prove existence directly, it is helpful to be ``greedier" and instead try to estimate the number of solutions $r_{d,n}(b)$ to
+%\begin{equation}\llabel{sumofpow}
+%y_1^d+\cdots +y_n^d=b,\quad y_i\in \N_0
+%\end{equation}
+%for given $b,n,d$. If %~(\ref{sumofpow}) has a solution for every sufficiently large $n$ and every $b\in \N_0$
+%$r_{d,n}(b)>0$ for all sufficiently large $b$ for some $n$, then Waring's problem for $d$th powers is true. (It is sufficient for $r_{d,n}(b)>0$ for sufficiently large $b$ because then we could always increase $n$ to take care of small numbers.)
+%
+%As described in~\cite[Chapter 5]{nath}, the Hardy-Littlewood Circle Method can be used to estimate $r_{k,n}(b)$. Note that $r_{k,n}(b)$ is the coefficient of $e^{2\pi ibx}$ in
+%\begin{equation}\llabel{sum}
+%\pa{\sum_{k\geq 0,k^d\leq b} e^{2\pi i xk^d}}^n=\sum_{0\leq k_1,\ldots, k_n\leq b^{\rc d}}e^{2\pi i x(k_1^d+\cdots +k_n^d)}.
+%\end{equation}
+%This product expands into a sum of functions of the form $e^{2\pi imx}$. Note that the functions $e^{2\pi imx}$ are orthonormal over $[0,1]$, that is, for $p,q\in \Z$,
+%\[\int_0^1 e^{2\pi ipx}\overline{e^{2\pi iqx}}\,dx=\begin{cases}
+%1,&p=q\\
+%0,&p\neq q.
+%\end{cases}
+%\]
+%Then to pick out the coefficient of $e^{2\pi ibx}$, we multiply~(\ref{sum}) by $e^{-2\pi ibx}$ and integrate from 0 to 1:
+%\begin{equation}\llabel{intl}
+%r_{d,n}(b)=\int_0^1 \pa{\sum_{k\geq 0,k^n\leq b} e^{2\pi i xk^d}}^n e^{-2\pi ib x}\,dx.
+%\end{equation}
+%For $s\geq 2^k+1$, this gives (after a lot of work)
+%\begin{equation}\llabel{hl}
+%r_{d,n}(N)=\mathfrak S(N)\Gamma\pa{1+\rc{d}}^n\Ga\pa{\frac nd}^{-1} N^{\frac nd-1}+o(N^{\frac nd-1})
+%\end{equation}
+%where $\mathfrak S(N)$ is the singular series for Waring's Problem; it is defined as an exponential sum and satisfies 
+%$c_1<\mathfrak S(N)<c_2$ for some positive constants $c_1,c_2$. The basic method is to divide the integral~(\ref{intl}) into two parts, into an integral over the major arcs and over the minor arcs, which give the main contribution and the error term, respectively. Note that~(\ref{hl}) makes sense intuitively: Given~(\ref{sumofpow}), if we choose $y_i$ to be any numbers in $[0,N^{\frac 1d}]$, then we get all possible ways of expressing the numbers between 0 and $N$ as a sum of $d$th powers (as well as some ways to express greater numbers). There are approximately $N^{\frac nd}$ choices for the $n$ numbers; we can expect on the order of $\frac{1}{N}$ of these to sum to $N$, giving the estimate up to a constant factor.
+%
+%We could also ask an analogue of Waring's Problem for finite fields instead of $\Z$; that is, can every number in $\F_q$ can be written as a sum of a bounded number of $d$th powers of positive integers, and if so, what is the minimum number needed? Note that the first question is less interesting in this case: either the $d$th powers form a proper subfield of $\F_q$, in which case the answer is no, or the $d$th powers do not form a proper subfield, and the answer is yes because $\F_q$ is finite. To answer the second question, we use a similar idea to Waring's Problem for $\Z$, 
+%
+Our main goal in this chapter is to find a way to find the number of solutions for equations over finite fields. One problem we will look at in detail is, for a fixed $b$, how many solutions are there to
+\[
+b=y_1^d+\cdots +y_n^d
+\]
+over a finite field? 
+%
+%namely 
+We encapsulate the number of representations as a sum of $n$ $d$th powers in  a sum of orthonormal functions on $\F_q$ %. Instead of $e^{2\pi im}$, we consider a system of orthonormal functions on $\F_q$ 
+called the additive characters $\chi$. %Hence instead of~(\ref{sum}), 
+We consider the product
+\begin{equation}\llabel{sum2}
+\pa{\sum_{y\in \F_q} \chi(y^d)}^n=\sum_{y_1,\ldots, y_n\in \F_q} \chi(y_1^d+\cdots + y_n^d).\end{equation}
+%%In order to recover the value of 
+(The additive characters have the nice property that $\chi(a+b)=\chi(a)\chi(b)$.) %, like the property of the exponential function $e^{2\pi imx}$. In fact, as we will see, the characters are given by exponential functions.)
+Note~(\ref{sum2}) is true for all characters. To extract out the coefficient of $\chi(b)$, we multiply by $\overline{\chi(b)}$, average over all distinct characters $\chi$, and take advantage of orthonormality to get
+\begin{equation}\llabel{thesum}
+r_{d,n}(b)=\rc q \sum_{\chi}\bc{\pa{\sum_{y\in \F_q} \chi(y^d)}^n\overline{\chi(b)}}.
+\end{equation}
+%Compare this to~(\ref{intl}), where we multiplied by $e^{-2\pi i bx}$ and integrated over $0\leq x\leq 1$.
+In the next section we will give define and give properties of characters that help us estimate~(\ref{thesum}). 
+
+\section{Characters}
+To evaluate~(\ref{thesum}) it would be helpful if $\chi(y^d)=\chi(y)^d$. However, this cannot hold as we defined $\chi$ so that it would preserve additive structure, not multiplicative structure. Thus to evaluate~(\ref{thesum}) we would like to rewrite it as a sum of functions $\psi$ such that $\psi(ab)=\psi(a)\psi(b)$, and such that the set of $\psi$ are orthonormal. Thus we will need both the concepts of additive and multiplicative characters. We make this precise below.
+
+\begin{df}\llabel{chardef}
+%An $n$-dimensional \textbf{representation} of a group $G$ is a homomorphism $\rho$ from $G$ into $GL_n(\C)$. The \text{character} $\chi$ of a representation is defined by $\chi(g)=\tr(\rho(g))$.
+Let $G$ be an abelian group. A \textbf{character} of $G$ is a homomorphism from $G$ to $\C^{\times}$. A character is trivial if it is identically 1. We denote the trivial character by $\chi_0$ or $\psi_0$.
+\end{df}
+\begin{df}
+Let $R$ be a given finite ring. 
+An additive character $\chi:R^+\to \C$ is a  character $\chi$ with $R$ considered as an additive group. A multiplicative character $\psi:R^{\times}\to \C$ is a character with $R^{\times}$, the units of $R$, considered as a multiplicative group. 
+\end{df}
+The two cases we will be working with are $R=\Z/N\Z$ (Section~\ref{dir-char-ss}), and $R=\F_q$ (Section~\ref{field-char}). We extend multiplicative characters $\psi$ to $R$ by defining $\psi(x)= 0$ for $x\in R\bs R^{\times}$, except we follow the convention of setting $\psi_0(0)=1$ when $R=\F_q$. Note that in any case the extended $\psi$ still preserves multiplication.
+
+We proceed to give an explicit description of characters for abelian groups. First, recall the following theorem.
+%Note that since $(\zmod{p})^{\times}$ is abelian, its representations are all one-dimensional; there are $p-1$ of them. 
+\begin{thm}[Structure Theorem for Abelian Groups]
+Let $G$ be a finite abelian group. Then there exist positive integers $m_1,\ldots, m_k$ so that
+\[G\cong \zmod{m_1}\times \cdots \times \zmod{m_k}.\]
+\end{thm}
+\begin{thm}\llabel{char}
+The group $G=\zmod{m_1}\times \cdots \times \zmod{m_k}$ has $|G|$ characters and each is given by an element $(r_1,\ldots, r_k)\in \zmod{m_1}\times \cdots \times \zmod{m_k}$:
+\[\chi_{r_1,\ldots, r_k}(n_1,\ldots, n_k)=\prod_{j=1}^k e^{\frac{2\pi ir_jn_j}{m_j}}.\]
+Moreover the set of characters $\widehat{G}$ form a multiplicative group isomorphic to $G$.\footnote{This is a noncanonical isomorphism.}
+\end{thm}
+\begin{proof}
+It is easy to check that $\chi=\chi_{r_1,\ldots, r_k}$ is a homomorphism. Let $e_j$ be the element in $G$ with 1 in the $j$th coordinate and 0's elsewhere. Since $\chi(e_j)^{m_j}=1$, we must have $\chi(e_j)=e^{\frac{2\pi ir_j}{m_j}}$ for some $r_j$. Each element of $G$ can be expressed as a combination of the $e_j$, so this shows all characters are in the above form.
+
+This shows that $(r_1,\ldots, r_k)\send \chi_{r_1,\ldots, r_k}$ is surjective and hence an isomorphism.
+\end{proof}
+\begin{cor}\llabel{numchar}
+Every finite abelian group $G$ has $|G|$ characters.
+\end{cor}
+%Let $\hat{G}$ denote the set of irreducible characters of
+\begin{thm}[Orthogonality relations]\llabel{orth}
+Let $G$ be a finite abelian group and $\chi_j$, $1\leq j \leq n$ be all characters of $G$. Then
+\begin{enumerate}
+\item (Row orthogonality) $\an{\chi_j,\chi_k}:=\displaystyle\rc{|G|}\sum_{g\in G} \chi_j(g)\overline{\chi_k(g)}=\begin{cases} 0,&j\neq k\\ 1,&j=k\end{cases}$.
+\item (Column orthogonality) $\displaystyle\sum_{j=1}^{n} \chi_j(g)\overline{\chi_j(h)}=\begin{cases} 0,&g\neq h\\ |G| ,&g=h\end{cases}$.
+\end{enumerate}
+\begin{proof}
+Write $G$ as $\zmod{m_1}\times \cdots \times \zmod{m_k}$. Let $(r_1,\ldots, r_k)$ and $(s_1,\ldots,s_k)$ be in $G$. Then
+\begin{align}
+\an{\chi_{r_1,\ldots, r_k},\chi_{s_1,\ldots, s_k}}
+&=\sum_{(p_1,\ldots, p_k)\in G}\prod_{j=1}^k e^{\frac{2\pi i(r_j-s_j)p_j} {m_j}}
+\llabel{yayy}
+\\
+&=\sum_{(p_1,\ldots, p_{k-1})\in G}\ba{\pa{\prod_{j=1}^{k-1} e^{\frac{2\pi i(r_j-s_j)p_j} {m_j}}}\sum_{p_k=0}^{m_k-1} e^{2\pi i(r_k-s_k)p_k}}.
+\llabel{insum}
+\end{align}
+If $(r_1,\ldots, r_k)=(s_1,\ldots, s_k)$ then~(\ref{yayy}) evaluates to $|G|$. Otherwise, we may assume without loss of generality that $r_k\neq s_k$; then the inner sum in~(\ref{insum}) evaluates to 0 by writing it as a geometric series.
+
+The proof for column orthogonality is similar.
+\end{proof}
+\end{thm}
+The most useful case of row orthogonality is when we set $\chi_k=\chi_0$:
+\begin{cor}\llabel{sum0}
+If $\chi$ is a character of $G$ and $\chi\neq \chi_0$ then
+\[\sum_{g\in G} \chi(g)=0.\]
+\end{cor}
+Having established the basic properties of characters of abelian groups, we now turn to the specific cases $\Z/N\Z$ and $\F_q$.
+\subsection{Dirichlet characters}\label{dir-char-ss}
+For our applications, it is helpful to think of consider characters on $\Z/N\Z$ as functions on $\Z$. From Theorem~\ref{char}, the additive characters are simply given by 
+\[
+\chi_a(g)=e^{\frac{2\pi i ag}{N}}.
+\]
+Next we consider multiplicative characters.
+\begin{df}\label{dir-char}
+A \textbf{Dirichlet character} of level $N$ is a function $\chi:\Z\to \C$ that induces a group homomorphism
+\[
+\chi:(\Z/N\Z)^{\times}\to \C,
+\]
+and such that $\chi(n)=0$ for any $n$ sharing a common factor with $N$. In other words, it induces a multiplicative character $\Z/N\Z\to \C$.
+
+We say $\chi$ is \textbf{principal} if $\chi(n)=1$ for all $(\Z/N\Z)^{\times}$, and \textbf{primitive} if $\chi$ does not induce a group homomorphism $(\Z/M\Z)^{\times}\to \C$ for any $M<N$.
+
+We say $\chi$ is \textbf{even} or \textbf{odd} if $\chi(-1)=1$ or $\chi(-1)=-1$, respectively; we say $\chi$ is \textbf{real} when $\im(\chi)\sub\R$ and say it is \textbf{nonreal} otherwise.
+\end{df}
+Any character can be written uniquely as a product of a primitive character $\chi_1$ of level $M\mid N$ and the principal character of level $N$:
+\[
+\chi=\chi_1\chi_0.
+\]
+\subsection{Characters on finite fields}\llabel{field-char}
+We give the additive and multiplicative characters on $\F_q$ explicitly. We know that $\F_q^{\times}$ is cyclic; let $\xi$ be a generator. 
+\begin{thm}[Multiplicative characters of $\F_q$]\llabel{multc}
+The multiplicative characters of $\F_q$ are given by
+\[
+\psi_j(\xi^n)=e^{\frac{2\pi ijn}{q-1}}
+\]
+for $0\leq j<q-1$.
+\end{thm}
+\begin{proof}
+By identifying $\xi\in \F_q^{\times}$ with $1\in \zmod{(q-1)}$, this follows directly from Theorem~\ref{char}.
+\end{proof}
+Describing the additive characters takes slightly more creativity, since it is inconvenient to decompose $\F_q^+$ into cyclic groups.
+\begin{thm}[Additive characters of $\F_q$]
+Suppose $q=p^r$ with $p$ prime. The additive characters of $\F_q$ are given by
+\begin{equation}\llabel{add}
+\chi_a(g)=e^{\frac{2\pi i }{p}\tr(ag)}
+\end{equation}
+for $a\in \F_q$ where\footnote{For the general definition of trace see Definition~\ref{ring-of-integers}.\ref{trace-det-char}.}
+\[\tr(g)=g+g^p+\cdots +g^{p^{r-1}}.\]
+\end{thm}
+\begin{proof}
+%Note that $\tr(g)$ 
+%The automorphisms of $\F_q$ fixing $\F_p$ are generated by the Frobenius automorphism $g\send g^p$. Since $\Tr(g)$ is fixed under this operation
+%First we show $\tr(g)\in \F_p$. (This makes~(\ref{add}) well-defined since only the value of the $g$ modulo $p$ matters in~(\ref{add}).) %Take a basis for $\F_q$ over $\F_p$, and consider the matrix of the linear transformation of multiplication by $g$ with respect to this basis. Its
+%I don't know how to make that work.
+The automorphisms of $\F_q$ fixing $\F_p$ are generated by the Frobenius automorphism $\sigma$ sending $g$ to $g^p$. Since $\tr(g)$ is fixed under this operation, it must be in the ground field $\F_p$. This makes~(\ref{add}) well-defined since only the value of $\tr(ag)$ modulo $p$ matters in~(\ref{add}). 
+The fact that $\chi_a$ is a homomorphism comes directly from the fact that $\sigma$ is a homomorphism.
+
+Since $\chi_1(ag)=\chi_a(g)$, %Note that the characters are distinct because 
+if $\chi_a=\chi_b$ then $\chi_1(ag)=\chi_1(bg)$ and $\chi_1((a-b)g)=0$. However, $\chi_1$ is not trivial (identically equal to 1) since there are at most $p^{r-1}$ values of $g$ such that $g+\cdots +g^{p^{r-1}}=0$. Thus $a=b$. This shows all characters in our list are distinct. Since we have found $|G|$ characters we have found all of them.
+\end{proof}
+%Remark: Representations
+\begin{rem}
+In general, a $n$-dimensional complex {representation} of a group $G$ is a homomorphism $\rho$ from $G$ into $GL_n(\C)$, and the character $\chi$ of a representation is defined by $\chi(g)=\tr(\rho(g))$.  %Theorem~(??) is a well-known theorem from representation theory that holds for any 
+%A 1-dimensional representation is simply a homomorphism from $G$ to $\C^{\times}$, and the representation $\rho$ is the same as $\chi$. Here we will only be concerned with 1-dimensional representations:
+This coincides with Definition~\ref{chardef} for abelian $G$, if we just consider 1-dimensional representations, since $\rho$ is multiplication by a constant and $\chi$ is just that constant.
+
+The general case of Corollary~\ref{numchar} is replaced by the following:  every finite group has a number of irreducible characters equal to the number of conjugacy classes. The orthogonality relations hold when we consider just irreducible characters, and with $|G|$ replaced by the size of the centralizer of $g$ in the equation for column orthogonality.
+\end{rem}
+%GAUSS SUMS
+\section{Gauss Sums}\llabel{gauss-sums}
+To relate additive characters to multiplicative characters, we need to evaluate sums in the form
+\begin{equation}\llabel{gauss}
+G(\psi,\chi)=\sum_{y\in R^{\times}}\psi(y)\chi(y).
+\end{equation}
+where $\psi$ is a multiplicative character and $\chi$ is an additive character.
+
+Suppose we wanted to write an additive character on $\F_q$ in terms of multiplicative characters. %By Row Orthogonality, $\rc{q}\sum_{b\in \F_q}\chi_b(y)\overline{\chi_b(g)}$ equals 1 if $y=g$ and is 0 otherwise. Thus we could artificially introduce additive characters as follows:
+%\begin{align*}
+%\psi(y)&=\rc{q}\sum_{g\in \F_q^{\times}}\psi(g)\sum_{\chi\in \widehat{\F_q^+}} \chi(y)\overline{\chi(g)}\\
+%&=\rc{q}\sum_{\chi\in \widehat{\F_q^+}}\chi(y)\sum_{g\in \F^{\times}_q} \psi(g),\overline{\chi}(g)\\
+%&=\rc{q}\sum_{\chi\in \widehat{\F_q^+}}G(\psi,\overline{\chi})\chi(y).
+%\end{align*}
+%for $c\in \F_q^{\times}$. 
+By row orthogonality, $\rc{q-1}\sum_{\psi \in \widehat{\F_q^{\times}}} \psi(y) \overline{\psi(g)}$ equals 1 if $y=g$ and is 0 otherwise. This allows us to  introduce multiplicative characters as follows: for $y\in \F_q^{\times}$,
+\begin{align}
+\nonumber\chi(y)
+&=\rc{q-1}\sum_{g\in \F_q^{\times}}\chi(g)\sum_{\psi\in \widehat{\F_q^{\times}}} \psi(y)\overline{\psi(g)}\\
+\nonumber
+&=\rc{q-1}\sum_{\psi\in \widehat{\F_q^{\times}}}\psi(y)\sum_{g\in \F^{\times}_q} \overline{\psi}(g)\chi(g)\\
+\llabel{am}
+&=\rc{q-1}\sum_{\psi\in \widehat{\F_q^{\times}}}G(\overline{\psi},\chi)\psi(y).
+\end{align}
+The Gauss sums are the coefficients of the expansion of $\chi$ in terms of multiplicative characters. %Similarly,
+The next theorem tells us how to calculate Gauss sums.
+\begin{thm}\llabel{egau}
+Let $\psi_0$ and $\chi_0$ denote the trivial multiplicative and additive characters on $\F_q$, respectively. Then for multiplicative and additive characters $\psi$ and $\chi$ on $\F_q$, we have 
+\[
+G(\psi,\chi)
+=
+\begin{cases}
+q-1,&\psi=\psi_0,\chi=\chi_0\\
+-1,&\psi=\psi_0,\chi\neq \chi_0\\
+0,&\psi\neq \psi_0,\chi= \chi_0
+\end{cases}
+\]
+and
+\[
+|G(\psi,\chi)|=\sqrt q,\;\psi\neq \psi_0,\chi\neq \chi_0.
+\]
+
+If $\psi$ is a nontrivial multiplicative character and $\chi$ is a primitive additive character on $\Z/N\Z$, then 
+\[
+|G(\psi,\chi)|=\sqrt N.
+\]
+\end{thm}
+\begin{proof}
+The first case is trivial. For the second case,
+\[
+G(\psi_0,\chi)=\sum_{y\in \F_q^{\times}}\chi(y)=\pa{ \sum_{y\in \F_q} \chi(y)}-1=-1
+\]
+by Corollary~\ref{sum0}. The third case directly from Corollary~\ref{sum0} with $\psi$. 
+
+Now we consider the case case when $\psi$ is nontrivial, and either $\chi\ne \chi_0$ (in the case $R=\F_q$) or $\chi$ is primitive (in the case $R=\Z/N\Z$), respectively. We have
+\begin{align*}
+|G(\psi,\chi)|^2&=\sum_{g_1,g_2\in R^{\times}}
+\overline{\psi(g_1)}\psi(g_2)\overline{\chi(g_1)}\chi(g_2)\\
+&=\sum_{g_1,g_2\in R^{\times}}\psi(g_1^{-1}g_2)\chi(g_2-g_1)\\
+&=\sum_{h\in R^{\times}} \sum_{g_1\in R^{\times}}\psi(h)\chi(g_1(h-1))&\text{setting }h=g_1^{-1}g_2\\
+&=\sum_{h\in R^{\times}} \psi(h)\ba{\pa{\sum_{g_1\in R}\chi(g_1(h-1))}-\sum_{y\in R\bs R^{\times}} \chi(y)}\\
+&=\sum_{h\in R^{\times}} \psi(h)\pa{\sum_{g_1\in R}\chi(g_1(h-1))}&\text{by Corollary \ref{sum0} with }\psi%\\
+%&=\psi(1)q=q
+\end{align*}
+Now we note the following: when $h=1$ all terms in the inner sum are 1, so it equals $q$ or $N$, respectively. When $h\ne 1$, consider two cases.
+\begin{enumerate}
+\item
+$R=\F_q$: As $g_1$ ranges over $\F_q$, $g_1(h-1)$ ranges over $\F_q$.
+\item
+$R=\Z/N\Z$: As $g_1$ ranges over $\Z/N\Z$, $g_1(h-1)$ ranges over a subgroup $H\subeq \Z/N\Z$, hitting each element $\frac{N}{|H|}$ times. Since $\chi$ is primitive, $\chi|_H$ is nontrivial.
+\end{enumerate}
+In either case, Corollary~\ref{sum0} gives the inner sum to be 0. Hence $|G(\psi,\chi)|^2$ evaluates to $\psi(1)q=q$ or $\psi(1)N=N$, respectively.
+%In the last step, we used Corollary~\ref{sum0}, noting that as $g_1$ ranges over $\F_q$, $g_1(h-1)$ ranges over $\F_q$ for $h\neq 1$, and is constantly 0 for $h=1$.
+\end{proof}
+We will need the following fact later on.
+\begin{pr}\llabel{gaussprop}
+Let $R=\F_q$ or $\Z/N\Z$. 
+For $a\in R^{\times}$ and $b\in R$,
+\[G(\psi,\chi_{ab})=\overline{\psi(a)}G(\psi,\chi_b).\]
+\end{pr}
+\begin{proof}
+Using the fact that $\chi_c(g)=\chi_1(cg)$,
+\begin{align*}
+G(\psi,\chi_{ab})&=\sum_{y\in R^{\times}}\psi(y)\chi_{ab}(y)\\
+%&=\sum_{y\in \F_q^{\times}}\psi(y)\chi_{ab}(y)\\
+&=\sum_{y\in R^{\times}}\psi(y)\chi_{b}(ay)\\
+&=\sum_{y\in R^{\times}}\psi(a^{-1}y)\chi_{b}(y)&\text{replacing } y\to a^{-1}y \\
+&=\psi(a)^{-1}\sum_{y\in R^{\times}}\psi(y)\chi_{b}(y)\\
+&=\overline{\psi(a)}G(\psi,\chi_b)\qedhere
+\end{align*}
+\end{proof}
+%THE MAIN SUM
+\section{Enumerating Solutions}
+We return to our original problem. 
+Rather than just work with sums of $d$th powers, we work with diagonal equations
+\begin{equation}\llabel{diag}
+a_1y_1^{d_1}+\cdots +a_ny_n^{d_n}=b
+\end{equation}
+where $a_i\in \F_q^{\times}$ and $d_i\in \N$. First, note that because of the following lemma, we can restrict to case where $d_i|q-1$.
+\begin{lem}\llabel{gcd}
+The multisets $\{y^d|y\in \F_q\}$ and $\{y^{\gcd(d,q-1)}|y\in \F_q\}$ are equal.
+\end{lem}
+\begin{proof}
+Let $\xi$ be a generator for $\F_q^{\times}$, and write $d=k\gcd(d,q-1)$ where $\gcd(k,q-1)=1$. 
+Then removing the one occurrence of 0 in the two sets, we get $\{\xi^{jd}|0\leq j<q-1\}$ and $\{\xi^{j\gcd(d,q-1)}|0\leq j<q-1\}$. 
+The lemma follows from the fact that as multisets, \[\{jd\pmod{q-1}|0\leq j<q-1\}=\{j\gcd(d,q-1)\pmod{q-1}|0\leq j<q-1\}.\]
+Indeed, each multiple of $\gcd(d,q-1)$ appears $\frac{q-1}{\gcd(d,q-1)}$ times on both sides.
+\end{proof}
+
+As~(\ref{diag}) always has the trivial solution when $b=0$, we just need to estimate the number of solutions to~(\ref{diag}) when $b\neq 0$.
+\begin{thm}\cite[6.37]{LN}\llabel{mainthm}
+Fix $b\neq 0, d_i|q-1$ and let $N$ be the number of solutions to~(\ref{diag}) when $b\neq 0$ is fixed. Then
+\[
+%|N-q^{n-1}|\leq M(d_1,\ldots, d_n)(q-1)q^{\frac{n-2}{2}}
+|N-q^{n-1}|\leq [(d_1-1)\cdots (d_n-1)-(1-q^{-\rc{2}})M(d_1,\ldots, d_n)
+] q^{\frac{n-1}{2}}\]
+where $M(d_1,\ldots, d_n)$ is the number of $n$-tuples in the set
+\[S:=\bc{(j_1,\ldots, j_n)\in \Z^n|1\leq j_i\leq d_i-1\text{ and }\sum_{i=1}^n \frac{j_i}{d_i}\in \Z}.\]
+\end{thm}
+Note that we would expect $N$ to be close to $q^{n-1}$, because there are $q^n$ possible choices for $(y_1,\ldots, y_n)$ and $q$ possible values for their sum.
+\begin{proof}
+We use the idea mentioned in the introduction. We have %same idea as in~(\ref{thesum}), we get
+\[
+N=\frac{1}{q}\sum_{y_1,\ldots, y_n\in \F_q,\,\chi\in \widehat{\F_q^+}} \chi(a_1y_1^{d_1}+\cdots +a_ny_n^{d_n})\overline{\chi}(b)=\frac{1}{q}\sum_{y_1,\ldots, y_n\in \F_q,\,\chi\in \widehat{\F_q^+}} \chi(a_1y_1^{d_1})\cdots \chi(a_ny_n^{d_n})\overline{\chi}(b)
+\]
+since by row orthogonality the inner sum is 1 if $a_1y_1^{d_1}+\cdots +a_ny_n^{d_n}=b$ and 0 otherwise. Note that $\chi_0$ contributes $q^n$ to the sum. Taking it out and factoring the remaining terms gives
+\begin{equation}\llabel{N1}
+N=q^{n-1}+\rc{q}\sum_{\chi\in \widehat{\F_q^+}, \chi\neq \chi_0}\pa{\overline{\chi}(b)\prod_{j=1}^n\sum_{y_j\in \F_q}\chi(a_jy_j^{d_j})}
+\end{equation}
+We write the sums of additive characters as sums of multiplicative characters using the following lemma.
+\begin{lem}\llabel{ayn}
+Let $\chi$ be a nontrivial additive character and $\la$ a multiplicative character of order $d$ dividing $q-1$. Then
+\[\sum_{y\in \F_q}\chi(ay^d)=\sum_{j=1}^{d-1}\overline{\la}(a)^jG(\la^j,\chi).\]
+\end{lem}
+\begin{proof}
+Note that $\la$ exists since the group of multiplicative characters is isomorphic to $\Z/(q-1)\Z$ by Theorem~\ref{char}. Suppose $\chi=\chi_c$. We write $\chi$ as a sum of multiplicative characters using~(\ref{am}), get the Gauss sum to be independent of $a$ by using Proposition~\ref{gaussprop}, and take out the exponent as we were hoping to do:
+\begin{align}
+\nonumber
+\sum_{y\in \F_q}\chi(ay^d)&=\sum_{y\in \F_q}\chi_{ac}(y^d)\\
+\nonumber
+&=1+\sum_{y\in \F_q^{\times}}\chi_{ac}(y^d)\\
+\nonumber
+&=1+
+\rc{q-1}\sum_{\psi\in \widehat{\F_q^{\times}}} \sum_{y\in \F_q^{\times}}G(\overline{\psi},\chi_{ac})\psi(y^d)\\
+%%&=1+\rc{q-1}\sum_{\psi\in \widehat{\F_q^{\times}}} \sum_{y\in \F_q^{\times}}G(\overline{\psi},\chi_{ac})\psi(y^d)\\
+\llabel{insummy}&=1+\rc{q-1}\sum_{\psi\in \widehat{\F_q^{\times}}} \overline{\psi}(a)G(\overline{\psi},\chi_c)\sum_{y\in \F_q}\psi(y)^d\\
+\llabel{eq1}
+&=1+\sum_{j=0}^{d-1}\overline{\la}(a)^jG(\la^j,\chi)\\
+\llabel{eq2}
+&=\sum_{j=1}^{d-1}\overline{\la}(a)^jG(\la^j,\chi)
+\end{align}
+Note~(\ref{eq1}) follows since by Corollary~\ref{sum0}, $\sum_{y\in \F_q^{\times}}\psi(y)^d=0$ unless $\psi^d$ is the trivial character, which is true iff $\psi$ is a power of $\la$. In that case, the inner sum in~(\ref{insummy}) is $q-1$. In~(\ref{eq2}) we used $G(\psi_0,\chi)=-1$ (Theorem~\ref{egau}).
+\end{proof}
+Using Lemma~\ref{ayn} and letting $\la_j$ be the multiplicative character with $\la_j(\xi^t)=e^{\frac{2\pi it}{d_j}}$ we rewrite~(\ref{N1}) as
+\begin{align}
+\nonumber
+N-q^{n-1}&=\rc{q}\sum_{\chi\in \widehat{\F_q^+}, \chi\neq \chi_0}\pa{\overline{\chi}(b)\prod_{j=1}^n\sum_{k=1}^{d-1}\overline{\la_j}(a_j)^kG(\la_j^k,\chi)}
+\\
+\nonumber
+&=\rc{q}\sum_{\chi\in \widehat{\F_q^+},\chi\neq \chi_0}\sum_{(k_1,\ldots, k_n),1\leq k_i\leq d_i-1}\overline{\chi}(b)
+\overline{\la_1}^{k_1}(a_1)\cdots \overline{\la_n}^{k_n}(a_n)
+G({\la_1}^{k_1},\chi)\cdots G({\la_n}^{k_n},\chi)
+\\
+\nonumber
+&=\rc{q}\sum_{c\in \F_q^{\times}}\sum_{(k_1,\ldots, k_n),1\leq k_i\leq d_i-1}\overline{\chi_c}(b)
+\overline{\la_1}^{k_1}(a_1)\cdots \overline{\la_n}^{k_n}(a_n)
+G({\la_1}^{k_1},\chi_c)\cdots G({\la_n}^{k_n},\chi_c)
+\\
+\llabel{lotsofgauss}
+&=
+\rc{q}
+\sum_{(k_1,\ldots, k_n),1\leq k_i\leq d_i-1}
+G({\la_1}^{k_1},\chi_{a_1})\cdots G({\la_n}^{k_n},\chi_{a_n})
+\sum_{c\in \F_q^{\times}}
+\overline{\chi_b}(c)
+\overline{\la_1}^{k_1}(c)\cdots \overline{\la_n}^{k_n}(c)
+\\
+\llabel{log2}
+&=
+\rc{q}
+\sum_{(k_1,\ldots, k_n),1\leq k_i\leq d_i-1}
+G({\la_1}^{k_1},\chi_{a_1})\cdots G({\la_n}^{k_n},\chi_{a_n})
+G(\overline{\la_1}^{k_1}\cdots \overline{\la_n}^{k_n},\overline{\chi_b})
+\end{align}
+where in~(\ref{lotsofgauss}) we used Proposition~\ref{gaussprop} twice, to get \[\overline{\la_j}^{k_j}(a_j)G({\la_j}^{k_j},\chi_c)=\overline{\la_j}^{k_j}(c)\overline{\la_j}^{k_j}(a_j)G({\la_j}^{k_j},\chi_1)=\overline{\la_j}^{k_j}(c)G({\la_j}^{k_j},\chi_{a_j}).\]
+Now we apply Theorem~\ref{egau} to get that 
+$|G(\la_i^{k_i},\chi_{a_i})|=\sqrt q$. Note
+\[(\overline{\la_1}^{k_1}\cdots \overline{\la_n}^{k_n})(\xi^t)=e^{(2\pi i)\pa{\frac{k_1}{d_1}+\cdots +\frac{k_n}{d_n}}t}\]
+is the trivial character iff $(k_1,\ldots, k_n)\in S$. Hence $|G(\overline{\la_1}^{k_1}\cdots \overline{\la_n}^{k_n},\overline{\chi_b})|=1$ if $(k_1,\ldots, k_n)\in S$ and $\sqrt{q}$ otherwise.  Using this and the triangle inequality,~(\ref{log2}) becomes
+\[
+|N-q^{n-1}|\leq\rc{q}[q^{\frac n2}|S|+q^{\frac {n+1}2}((d_1-1)\cdots (d_n-1)-|S|)],
+\]
+proving the theorem.
+\end{proof}
+%Waring's problem
+\section{Applications to Waring's Problem}
+Now we derive Small's bound %\cite{Sma} 
+for Waring's constant $g(d,q)$, the minimum $n$ such that~(\ref{diag}) has a solution with $d_1=\cdots =d_n=d$ for all $b$. By Lemma~\ref{gcd}, $g(d,q)=g(\gcd(d,q-1),q)$, so it suffices to consider the case $d|q-1$.
+
+First, note that sufficient condition for Waring's constant to exist is that the set $\{y^d|y\in \F_q\}$ is not contained in a proper subfield of $\F_q$. Since this set is generated multiplicatively by $\xi^{d}$, and any subfield is multiplicatively generated by $\xi^{\frac{p^r-1}{p^k-1}}$ for some $k|d$, 
+writing $q=p^r$ with $p$ prime we need
+\begin{equation}\llabel{badcond}
+\frac{p^r-1}{p^k-1}\nmid d
+\quad
+\text{
+ for every proper divisor $k$ of $r$.}
+\end{equation}
+%Note that $M(\underbrace{d,\ldots, d}_n)\leq (d-1)^n$ since given $k_1,\ldots, k_{n-1}$, there is at most one value of $k_n\in [1,d-1]$ such that $\frac{k_1}{d}+\cdots \frac{k_n}{d}\in \Z$. 
+Apply Theorem~\ref{mainthm} (dropping the term with $M(d_1,\ldots, d_n)$) to get
+\begin{equation}\llabel{aboutsame}
+N\geq q^{n-1}-(d-1)^nq^{\frac{n-1}{2}}
+\end{equation}
+This is positive when
+\begin{equation}\llabel{yayit}
+q^{\frac{n-1}{2}}> (d-1)^n \iff \frac{n}{2}(\ln q-2\ln(d-1))> \frac{\ln q}2
+\end{equation}
+Thus we obtain the following bound for $g(d,q)$:
+\begin{thm}\llabel{thm51}
+Suppose $d|q-1$ and $q>(d-1)^2$. Then
+\[
+g(d,q)\leq \fl{\frac{\ln q}{\ln q-2\ln(d-1)}+1}.
+\]
+\end{thm}
+Note that in particular,~(\ref{yayit}) for $n=2$ allows us to make the ``inverse" statement that if $q>(d-1)^4$, then the equation $y_1^d+y_2^d=b$ has a solution for any $b\in \F_q$. That is, for any $d$, in any sufficiently large finite field every element can be written as a sum of 2 $d$th powers.
+
+%Begin  part: put this as exercise in group part.
+%When~(\ref{badcond}) holds but $q\leq (d-1)^2$, we can still get a less exciting estimate for $g(d,q)$ using elementary methods. %\cite{Win}. 
+%Suppose $q=p^r$, where $p$ is prime. The $d$th powers span $\F_q$ over $\F_p$, so a subset, say $a_1,\ldots, a_r$, forms a basis. Every element can be written as
+%\begin{equation}\llabel{basispowers}
+%b=c_1a_1+\cdots +c_ra_r,\quad c_i\in \F_p.
+%\end{equation}
+%We claim that each $c_i$ can be written as a sum of at most $g(d',p)$ $d$th powers, where $d'=\frac{p-1}{\gcd\pa{\frac{q-1}{d},p-1}}$. Indeed, the $d$th powers in $\F_q^{\times}$ are the $\pf{q-1}{d}$th roots of unity, so the $d$th powers of $\F_q^{\times}$ contained in $\F_p^{\times}$ are the $\gcd\pa{\frac{q-1}{d},p-1}$th roots of unity, which are the $d'$th powers of elements in $\F_q^{\times}$. 
+%%and each $c_i$ can be written as a sum of at most $g(k,p)$ $d$th powers. 
+%Since the product of two $d$th powers is also a $d$th power,~(\ref{basispowers}) gives a representation of $b$ as a sum of $rg(d',p)$ $k$th powers.
+%\begin{equation}\llabel{reducetop}
+%g(d,q)\leq rg(d',p),\quad d'=\frac{p-1}{\gcd\pa{\frac{q-1}{d},p-1}}.
+%\end{equation}
+%Now we bound $g(d',p)$. Let $A$ be the set of $d'$th powers of elements of $\F_p$. Let $nA=\{a_1+\cdots +a_n,a_i\in A\}$. Note that $A\backslash\{0\}$ is a subgroup of order $\frac{p-1}{d'}$ in $\F_p^{\times}$. Note that $(mA)\backslash \{0\}$ is a union of cosets of $A\backslash\{0\}$ of the multiplicative group $\F_p^{\times}$ since if $a=y_1^{d'}+\cdots +y_n^{d'}\in mA$ then for any $c^{d'}\in A$, $c^{d'}a=(cy_1)^{d'}+\cdots +(cy_n)^{d'}\in mA$. For any $m$, $mA+\{0,1\}\subeq (m+1)A$, implying that either $mA=\F_p$ or $mA\sub (m+1)A$. Since $(mA)\backslash\{0\}$ is a union of cosets, by induction it must have at least $\min\pa{p-1,m\frac{p-1}{d'}}$ elements. Hence $d'A=\F_p$. This shows
+%\begin{equation}\llabel{p}
+%g(d',p)\leq d'.
+%\end{equation}
+%Putting~(\ref{reducetop}) and~(\ref{p}) together gives the following:
+%\begin{thm}\llabel{thm52}
+%Suppose $q=p^r$ satisfies~(\ref{badcond}). Then
+%\[
+%g(d,q)\leq r\cdot \frac{p-1}{\gcd\pa{\frac{q-1}{d},p-1}}.
+%\]
+%\end{thm}
+%End part
+
+%Note that we could have used the Cauchy-Davenport Theorem to conclude~(\ref{p}) immediately. This theorem says that given subsets $A_1,\ldots, A_n$ of $\F_p$, the sumset $A_1+\cdots +A_n$ contains at least $\min(p,|A_1|+\cdots +|A_n|-n+1)$ elements. However, the above reasoning with cosets is more powerful because it uses the structure of the set $A$. The argument can be strengthened using Vosper's Theorem, an ``inverse" theorem to Cauchy-Davenport which says that if $|A_1|+|A_2|\leq p-2$, then $|A_1+A_2|=|A_1|+|A_2|-1$, i.e. equality holds in Cauchy-Davenport, only when $A_1,A_2$ are arithmetic progressions with the same difference. Using this result, we can show that when $p>2d'+1$, in the proof above, $(m+1)A$ contains at least two more cosets then $mA$ (if it is not already equal to $\F_p$), and that $g(d',q)\leq \fl{\frac {d'}2}+1$. 
+%%\cite[Theorem 5.9]
+%This approach is more combinatorial, while the proof of Theorem 5.1 is more algebraic. Both approaches can be quite fruitful; for example combintorial arguments have given exact values of Waring's constant for certain values of $d$ and $q$~\cite{WW08}, where $d|q-1$ is large relative to $q$.
+%
+%The bound in Theorem~\ref{thm51} is strong for $q$ large relatively to $d$, but weak for $q$ close to $(d-1)^2$. The bound in Theorem~\ref{thm52} works for all $d,q$ satisfying~(\ref{badcond}), but is weak for large $q$. 
+%There are various other bounds for $g(d,q)$ that are effective different ranges of $d,q$; for example, if $q>d^2$, then $g(d,q)<\fl{8\ln q} + 1$, which is stronger than the bound in Theorem~\ref{thm51} for $q$ close to $d^2$, and depends only on $q$. A list of known bounds can be found in~\cite{Win}.

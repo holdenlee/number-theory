@@ -1,0 +1,160 @@
+\chapter{Unique factorization}\label{uf}
+\section{Unique factorization domains}
+%We prove that when $K$ be a field, unique factorization holds in $K[x]$. It is the same strategy used to prove that integers can be factored uniquely. (For definitions of ring, field, and integral domain, see Lecture 8.)
+MOTIVATION
+
+First, we define what exactly unique factorization means. Let $R$ be an integral domain.
+\begin{df}
+An element $a\in R$ is \textbf{irreducible} if it is not a unit, and its only factors are units and associates. A unit is an invertible element in $R$, while an associate of $a$ is a unit times $a$.
+\end{df}
+For the positive integers we often just say $a$ is irreducible if $a\neq 1$, and its only factors are 1 and itself. However, if we work with the integers, then there will also be the factors $-1$ and $-a$, and we don't want to view these as different. For example, 5 is irreducible over the integers because its only factors are units, $\pm1$, and associates, $\pm 5$.
+
+\begin{df}
+A \textbf{unique factorization domain (UFD)} is a integral domain where factoring terminates and every nonzero, nonunit element factors uniquely into irreducible elements. That is, if 
+\[
+a=p_1\ldots p_m=q_1\ldots q_n,
+\]
+%where $u$ and $v$ are units, 
+and $p_1,\ldots, p_m,q_1,\ldots, q_n$ are irreducible elements, then $m=n$ and we can reorder the $q_i$'s so that $p_i$ is an associate of $q_i$, for each $i$.
+\end{df}
+For example, we regard $6=2\cdot 3=-2\cdot -3$ as the same factorization.
+
+%Now what could hamper unique factorization? If we can't factor a number completely, it will fail, but in all the rings we'll be working with, it is clear that we will factor into irreducible elements in a finite number of steps. 
+Unique factorization doesn't hold for all domains---for example, consider $\Z[\sqrt{-5}]$, that is, numbers of the form $a+b\sqrt{-5}$. Then
+\[
+(1+\sqrt{-5})(1-\sqrt{-5})=6=2\cdot 3
+\]
+are two factorizations of 6 into irreducible elements. 
+
+The notion of a prime is related to that of an irreducible element. People use them as synonyms in elementary math---because they coincide for the integers---but the distinction between them will be quite important for us.
+\begin{df}
+A \text{prime} in $R$ is an element $p$, not a unit, such that if $p|ab$ then $p|a$ or $p|b$.
+\end{df}
+This tells us that if a prime $p$ divides $a$, then {\it no matter how we factor }$a$, we can't avoid $p$ dividing one element of $a$. The connection between primes, irreducibles, and unique factorization is given by the following.
+\begin{lem}
+If $R$ is a ring where factoring terminates, and every irreducible element is prime, then $R$ is a UFD. Conversely, in a UFD, every irreducible element is prime.
+\end{lem}
+\begin{proof}
+Suppose $a=p_1\ldots p_m=q_1\ldots q_n$ are two factorizations into irreducible elements. Since $p_1$ is irreducible, it is prime, and hence must divide one of the $q_i$. Since $q_i$ is irreducible, its only factors are units and associates, so $p_1$ must be associated with $q_i$. Then we can cancel them, leaving a unit. Repeating this process, every factor in the left factorization is paired with one in the right factorization.
+
+For the converse, suppose $p$ is irreducible and $p|ab$. Then $pd=ab$ for some $d$. Factoring $a$, $b$, and $d$ shows that $p$ must divide one of the factors of $a$ or $b$ by unique factorizaton.
+\end{proof}
+(Note that primes are always irreducible, because if $p=ab$ were a proper factorization, then $p\nmid a$ and $p\nmid b$.)
+
+The main strategy for proving unique factorization is the following.
+\begin{enumerate}
+\item Show that the ring $R$ in question (here, $K[x]$) admits \textbf{division with remainder}, with some measure of size so that the remainder is smaller than the quotient.
+\item Show that if we have division of remainder, then \textbf{greatest common divisors} exist, and moreover that they have the nice property given by B\'ezout's Theorem.
+\item Show that this implies that all irreducible elements are prime, and hence $R$ is a UFD.
+\end{enumerate}
+The advantage of such an abstract approach lies in the fact that it works for a variety of different number systems. In particular, once we've shown items 2 and 3, then given any ring, we only have to show that we can have division with remainder, and it will follow that it is a UFD. This simultaneously shows unique factorization for $\Z$, $K[x]$, and even $\Z[i]=\{a+bi|a,b\in \Z\}$.\footnote{The converse is not true; a UFD is not necessarily a PID or Euclidean domain. For example $\Z[\frac{1+\sqrt{-163}}{2}]$ is a UFD but not an Euclidean domain.}
+
+In the language of abstract algebra, the above steps are phrased as follows:
+\begin{enumerate}
+\item $R$ is an Euclidean domain.
+\item An Euclidean domain is a principal ideal domain.
+\item A principal ideal domain is a unique factorization domain.
+\end{enumerate}
+We now carry out this program.
+
+\subsection{Step 1: Euclidean domains}
+%First we formalize several concepts from Josh's lecture (Introduction to Number Theory).
+\begin{df}
+An integral domain $R$ is an \textbf{Euclidean domain} if there is a function $|\cdot |:R\to \mathbb N_0$ (called the norm) such that the following hold.
+\begin{enumerate}
+\item $|a|=0$ iff $a=0$.
+\item For any nonzero $a,b\in R$ there exist $q,r\in R$ such that $b=aq+r$ and $|r|<|a|$.
+\end{enumerate}
+\end{df}
+Note that both the integers $\Z$ and $K[x]$ are Euclidean domains. The norm on $\Z$ is simply the absolute value, while the norm on $K[x]$ is the degree of the polynomial. Theorem~\ref{dwr} shows that $K[x]$ is an Euclidean domain.
+
+\subsection{Step 2: Euclidean domain$\implies$PID}
+We'd like to prove B\'ezout's Theorem for an Euclidean domain, that given $a,b$ in $R$ there exists a greatest common divisor $g$ and $s,t$ so that $as+bt=g$. Rather than thinking of this as an equation in variables $s,t$, we can think of it as an equation in sets $(a)$ and $(b)$, where $(x)$ denotes the set of multiples of $x$. For two sets $S,T$ we define $S+T=\{s+t|s\in S,t\in T\}$; then it turns out what we want is
+\[
+(a)+(b)=(g).
+\]
+(See Lemma~\ref{pidbez} below.)
+
+\begin{df}
+An \textbf{ideal} in a ring $R$ is a subset $I$ such that if $a,b\in I$ then $ra,a+b\in I$ for any $r\in R$. A principal ideal is an ideal generated by one element, that is, there is a $a$ such that $I=\{ra|r\in R\}$. We write $I=(a)$.
+
+A \textbf{principal ideal domain} (PID) is a integral domain where every ideal is principal.
+\end{df}
+
+\begin{thm}
+An Euclidean domain is a PID.
+\end{thm}
+\begin{proof}
+Let $R$ be an Euclidean domain, $I\subseteq R$ and ideal, and $b$ be the nonzero element of smallest norm in $I$.
+Suppose $ a\in I$. Then we can write $ a = qb + r$ with $ 0\leq r < |b|$, but since $ b$ has minimal nonzero norm, $ r = 0$ and $ b|a$. Thus $ I=(b)$ is principal.
+\end{proof}
+
+\begin{lem}\label{pidbez}
+A PID satisfies B\'ezout's Theorem.
+\end{lem}
+\begin{proof}
+Let $R$ be a PID. Since every ideal in $R$ is principal, for every $a,b$ (not both 0) we have $(a)+(b)=(d)$
+for some $d\in R$. (Note the sum of two ideals is an ideal---check this for yourself.) This says there exist $ s,t\in R$ such that
+\[as + bt = d.\]
+From this, any divisor of $a,b$ must divide $ d$. Furthermore, $d$ must divide both $a$ and $b$ since $a=a+0$ and $b=0+b$ are both in $(a)+(b)= (d)$. In other words, $d$ is the greatest common divisor of $ a,b$.
+\end{proof}
+\subsection{Step 3: PID$\implies$ UFD}
+\begin{thm}
+A PID is a UFD.
+\end{thm}
+\begin{proof}
+Suppose $ p$ is irreducible; we show $ p$ is prime. Suppose $ p|ab$ but $ p$ does not divide $ a$. Then using Bezout's Theorem and the fact that $ a$ and $p$ are relatively prime, we get $ as + pt =1$ for some $ s,t$. Multiply by $ b$ to get
+\[ abs + ptb = b.\]
+Since $ p|ab|abs, p|ptb$, we have $ p|b$. This shows that irreducible elements are prime in $ \mathbb{Z}$.
+
+It remains to show factoring terminates.\footnote{
+This argument is not needed for our purposes: Both $\Z$ and $K[x]$ are Euclidean domains, and factoring must terminate for them because factors always have smaller norm (absolute value and degree, respectively).
+}
+Otherwise, there would be an infinite sequence of nonassociated elements $a_1,a_2,\ldots \in R$ such that $a_{i+1}|a_i$. Then $(a_1)\subset (a_2)\subset\cdots$. However, $\bigcup_{i\geq 1} (a_i)$ is an ideal, so it is principal, say generated by $b$. Then $b\in (a_i)$ for some $i$; this implies that $(b)=(a_i)$. Hence $(a_i)=(a_{i+1})=\cdots$, a contradiction.
+
+Since irreducible elements are prime and every nonzero element of $R$ factors into irreducibles, $R$ is a UFD.
+\end{proof}
+
+\begin{cor}
+$\mathbb Z$ and $K[x]$ are UFDs.
+\end{cor}
+\section{Example: $x^2+y^2=n$}
+\begin{thm}\label{number-sum-of-squares}
+Let $n$ be a positive integer. Then the equation 
+\[x^2+y^2=n\]
+has a solution in integers iff every prime $p\equiv 3\pmod 4$ appears in $n$ with even exponent.
+
+If $ n=2^ap_1^{b_1}\cdots p_k^{b_k}q_1^{c_1}\cdots q_m^{c_m}$ where $ p_j$ and $ q_j$ are primes congruent to 1, 3 modulo 4, then the equation $x^2+y^2=n$ has
+\[4(b_1+1)\cdots (b_k+1)\]
+solutions in integers.
+\end{thm}
+\begin{proof}
+Each solution to $ x^2+y^2=n$ corresponds to a factoring $ (x+yi)(x-yi)=n$ over the Gaussian integers $ \mathbb Z[i]$. Thus the number of solutions is the number of $ z$ such that $ z\bar{z}=n$, or 4 times the number of nonassociated $ z\in \mathbb Z[i]$ such that $ z\bar{z}=n$. (Two Gaussian numbers are associated if they differ by a unit $ \pm 1, \pm i$, so $ x+yi, -y+xi, -x-yi, y-xi$ are considered the same.)
+
+Now factor $ n=2^ap_1^{b_1}\cdots p_k^{b_k}q_1^{c_1}\cdots q_m^{c_m}$ where $ p_j$ and $ q_j$ are primes congruent to 1, 3 modulo 4, respectively. From knowledge of factoring in $ \mathbb{Z}[i]$ we know that
+\begin{enumerate}
+\item 2 ramifies in $ \mathbb Z[i]$, that is, it is the product of two associated primes $ 1+i,1-i$.
+\item The $ p_j\equiv 1\pmod 4$ split, that is, $ p_j=z_j\bar{z_j}$ where $ z$ is prime in $ \mathbb{Z}[i]$ and not associated to $ \bar z$.
+\item The $ q_j\equiv 3\pmod 4$ remain prime.
+\end{enumerate}
+Now if $ z\bar z=n$ and a Gaussian prime divides $ z$, then its conjugate must divide $ \bar z$. Thus, since we have unique factorization in $ \mathbb{Z}[i]$, each such $ z$, up to multiplication by associates, corresponds to a way of splitting the prime factors of $ n$ into complex conjugate pairs. We note the following:
+\begin{enumerate}
+\item The factors $ q_j$ are their own conjugates, so $ z$ and $ \bar z$ must each get $ q_j^{c_j/2}$. If one of the $ c_j$ is odd there is no solution. So we suppose they are all even.
+\item It doesn't matter how the prime factors of $ 2^a$ are split since they are all associates.
+\item There are $ b_j+1$ ways to split the factors of $ q_j^{b_j}$, since we can have either $ z_j^{b_j}$, or $ z_j^{b_j-1}\bar{z_j}$,... or $ \bar z_j^{b_j}$ divide $ z$. Thus there are $ (b_1+1)\cdots (b_k+1)$ solutions to $ z\bar z=n$ up to associates.
+\end{enumerate}
+\end{proof}
+A similar argument works for the equations $x^2+2y^2=n$ and $x^2+xy+y^2=n$.
+\section{Problems}
+\begin{enumerate}
+\item \label{ideal-problems}(The power of ideals) We rephrase some earlier results that used the ``division with remainder arguement" in terms of ideals.
+\begin{enumerate}
+\item Let $n>1$ and $a$ be relatively prime to $n$. Show that
+\[
+\set{m}{a^m\equiv 1\pmod n}
+\]
+is an ideal.
+\item Conclude Proposition~\ref{multiplicative}.\ref{order-pid}.
+\end{enumerate}
+\item For which $n$ does $x^2+2y^2=n$ have a solution? How many solutions are there? How about $x^2+xy+y^2=n$?
+\end{enumerate}

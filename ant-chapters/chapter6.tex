@@ -1,0 +1,1692 @@
+\chapter{Valuations and completions}\llabel{valuations-and-completions}
+%Local and global fields chapter is in the same document.
+%Take $\si\in G(K^{\text{gal}}/\Q)$. Note composition by $\si$ permutes the $\si_i$, say by $\nu$. Then 
+%\begin{align*}
+%P&=\sum_{\text{even }\pi\in S_m}\prod_{i=1}^m\si_i\al_{\nu^{-1}\pi(i)}\\
+%N&=\sum_{\text{odd }\pi\in S_m}\prod_{i=1}^m\si_i\al_{\nu^{-1}\pi(i)}\\
+%\end{align*}
+%and hence $\si$ permutes $\{P,N\}$.
+Here is some motivation for considering $\mfp$-adic fields.
+\begin{enumerate}
+\item One useful tool in arithmetic geometry is the {\it local to global} principle, which says that the existence of solutions modulo all primes tells us something about the existence of solutions in the original field or ring, such as $\Q$ or $\Z$. For example, the Hasse-Minkowski Theorem. However, it is not enough to check for solutions modulo all powers of $p$ --- because a solution modulo $p$ does not necessarily give a solution modulo powers of $p$. The solution is to look for solutions in a field which contains information {\it modulo all powers of $p$}, a $p$-adic field.
+\item When we take a $\mfp$-adic fields, the only prime ideal remaining is $\mfp$; all others primes become units. This vastly simplifies algebraic number theory; we don't have to worry about primes that split. Then we can recover facts about the global field.
+\end{enumerate}
+\section{Case study: $p$-adic integers}\llabel{padic-exs}
+We first examine how $p$-adic rationals are defined, before generalizing to other number fields.
+
+Often we look at the integers modulo higher and higher powers of a prime $p$; for example,  when we were looking at the existence of primitive roots (Theorem~\ref{multiplicative}.\ref{primitive-roots-exist}) or the structure of $\Z/p^n\Z$ (Theorem~\ref{multiplicative}.\ref{mult-structure}). Hensel's lemma told us that under certain conditions we can lift solutions modulo higher and higher powers of $p$.
+
+Rather than work with powers of $p$ piecemeal, we can devise a structure that holds information modulo all powers of $p$ at once. To do this, we define the ring $p$-adic integers $\Z_p$ and $p$-adic rationals $\Q_p$, which contain $\Z$ and $\Q$, respectively. We will do this in two ways:
+\begin{enumerate}
+\item Define $\Z_p$ as an {\it inverse limit} of the rings $\Z/p^n\Z$ and $\Q_p$ as the fraction field.
+\item Give $\Q$ a topology (or even better, a metric) related to divisibility by $p$, and complete $\Q$ with respect to this topology.
+\end{enumerate}
+\subsection{$p$-adics as an inverse limit}
+\begin{df}\llabel{p-adic-comp-seq}
+A $p$-adic integer is a compatible sequence
+\[
+(x_n)_{n\ge 1}
+\]
+where $x_n\in \Z/p^n\Z$ and such that $x_{n+1}\equiv x_n\pmod{p^n}$ for all $n$, i.e. $x_{n+1}$ maps to $x_n$ under the projection map $\Z/p^{n+1}\Z\to \Z/p^n\Z$.
+
+The ring structure is defined by componentwise addition and multiplication. The ring of $p$-adic integers is denoted by $\Z_p$ and its fraction field is denoted by
+\[
+\Q_p=\Frac(\Z_p).
+\]
+\end{df}
+%We can phrase this in the following more abstract way.
+%\begin{df}
+%Let $\{A_i\}$ and $\{\ph_k\}$ be a set of rings and homomorphisms between them\footnote{or objects and morphisms in any other abelian category}.
+%We say a sequence of maps $\al_i:A\to A_i$ is compatible if for every map $\ph^i_j:A_i\to A_j$ in our set of maps,
+%\[
+%\al_j=\ph^i_j\circ \al_i.
+%\]
+%%directed set = set + preorder + upper bound
+%
+%The inverse limit
+%\[
+%A=\varprojlim A_i
+%\]
+%is the unique ring with compatible maps $\al_i$, satisfying the following universal mapping property:
+%For every ring $B$ with compatible maps $\be_i$, there is a map $\ph:A\to B$ such that $\al_i=\be_i\circ\ph$ for every $i$.
+%\end{df}
+%%ex. \Z,m\le n if m|n
+%We say the $A_i$ form a {\it filtered} system if 
+%\begin{enumerate}
+%\item for every $\ph^j_l:A_j\to A_l$ and $\ph^k_l:A_k\to A_l$ there exist $\ph^i_j:A_i\to A_j$ and $\ph^i_k:A_i\to A_k$, and
+%\item for every $\ph^j_k,{\ph^j_k}':A_j\to A_k$ there exists $\ph^i_j$ such that $\ph^j_k\circ \ph^i_j = {\ph^j_k}'\circ \ph^i_j$.
+%\end{enumerate}
+%\begin{thm}\llabel{inv-limit-comp-seq}
+%If the $A_i$ are filtered, then $\varprojlim A_i$ can be realized as the set of all sequences
+%\[\set{
+%(a_i)}{ a_i\in A_i,\,\ph^i_j(a_i)=a_j \text{ for all $\ph^i_j$}
+%},\]
+%and ring structure defined by componentwise addition and multiplication.
+%\end{thm}
+%\begin{proof}
+%See 18.705 notes.
+%\end{proof}
+In light of Theorem~\ref{galois}.\ref{inv-limit-comp-seq}, we can phrase this definition in a more abstract way:
+\[
+\Z_p=\varprojlim \Z/p^n\Z
+\]
+where there are maps $\ph^m_n: \Z/p^{m}\Z\to \Z/p^n\Z$ given by projection whenever $m\ge n$. %For all practical purposes, the definition in Definition~\ref{p-adic-comp-seq} suffices, and we can take the conclusion of Theorem~\ref{inv-limit-comp-seq} as the definition of inverse limit. The UMP of inverse limit is useful, though.
+\subsection{$p$-adics as completions}
+We can give define a topology on $\Z$ by decreeing that it be invariant under translation and that a neighborhood base of $0$ be $\{p^n\Z,n\ge 0\}$. This is the same as the topology induced by the norm
+\[
+|a|_p=p^{-v}\text{ when }a=\frac{p^vb}{c},\,p\nmid b,c.
+\]
+\begin{df}[Alternate definition of $p$-adics]
+$\Q_p$ is the completion of $\Q$ with respect to the $p$-adic norm.
+\end{df}
+We show the equivalence more generally in ().
+\subsection{Units in $\Z_p$}
+\begin{pr}
+The group of units in $\Z_p$ is
+\[
+\Z_p^{\times}\cong
+\begin{cases}
+\Z_p\times \Z/(p-1)\Z,&p\ne 2\\
+\Z_2\times \Z/2\Z\times \Z/2\Z,&p=2.\end{cases}
+\]
+\end{pr}
+\begin{proof}
+Note that
+\[
+\Z_p^{\times}=\varprojlim_{n\ge 1} (\Z/p^n\Z)^{\times}
+\]
+because any inverse modulo $p^n$ can be lifted to an inverse modulo $p^{n+1}$.
+
+The proposition follows from taking inverse limits in Theorem~\ref{multiplicative}.\ref{mult-structure}.
+\end{proof}
+\subsection{Monsky's Theorem*}
+We use the $2$-adic valuation to prove the following theorem from combinatorial geometry. Surprisingly, no proof is known that does not use $p$-adics.
+\begin{thm}
+A unit square cannot be cut into an odd number of triangles of equal area.
+\end{thm}
+The idea of the proof is as follows.
+\begin{enumerate}
+\item Extend the 2-adic valuation to a nonarchimedean valuation on the real numbers.
+\item Color each point in the plane one of three colors, based on the 2-adic valuation of the coordinates. We show that the sides of the square only have two colors, with the vertices alternating colors, and that a triangle of area $\rc m$ where $m$ is odd, cannot contain vertices of al three colors. The last facts depends crucially on the fact that the area formula for a triangle has a factor of $\rc 2$ in it.
+\item By Sperner's Lemma (from graph theory), the coloring in such a subdivision is inconsistent. %if there were such a subdivision, one ``rainbow" triangle would have to exist, a contradiction.
+\end{enumerate}
+\begin{proof}
+We postpone the proof of the first item.\footnote{There is a way around it; see Proofs from the Book.} Assuming it, 
+color the points of the plane in three colors depending on which of the following conditions is satisfied.
+\begin{enumerate}
+\item[(A)] $|x|_2<1,|y|_2<1$
+\item[(B)] $|x|_2\ge 1,|x|_2\ge |y|_2$
+\item[(C)] $|y|_2\ge 1,|y|_2> |x|_2$
+\end{enumerate}
+First, we show that if $(\De x,\De y)$ has color A, then translating by $(\De x,\De y)$ does not change the color of $A$. Indeed, consider 3 cases.
+\begin{enumerate}
+\item
+$(x,y)$ is of color A. By the nonarchimedean property, we have
+\[
+|x+\De x|_2\le \max(|x|_2,|\De x|_2)\le 1, \,
+|y+\De y|_2\le \max(|y|_2,|\De y|_2)\le 1,
+\]
+so $(x+\De x,y+\De y)$ is again of color A.
+\item
+$(x,y)$ is of color $B$. Since $|x|_2\ge 1>|\De x|_2$, we gave
+ %and $|x|_2\ge |y|_2$ we have
+\[
+|x+\De x|_2=|x|_2\ge 1.
+\]
+Since $|x|_2\stackrel{.}{\ge} |y|_2$ and $1>|\De_y|_2$ we have
+\[
+|y+\De y|_2\le \max(|y|_2,|\De_y|_2)\stackrel{.}{\le} |x|_2=|x+\De x|_2.
+\]
+Hence $(x+\De x,y+\De y)$ is again of color B.
+\item
+$(x,y)$ is of color $C$. The proof is the same as above except $x,y$ are interchanged and there is strict inequality in the dotted inequalities above.
+\end{enumerate}
+Now suppose that $A,B,C$ are three points of those respective colors. By translation we may assume that $A=O$. Let $B=(x,y)$ and $C=(x',y')$. We have
+\begin{align*}
+|x|_2&\ge |y|_2\\
+|y'|_2&> |x|_2\\
+\implies |xy'|_2&>|x'y|_2.
+\end{align*}
+\begin{enumerate}
+\item
+$A,B,C$ cannot be collinear, as that would imply $xy'=x'y$.
+\item
+We show $A,B,C$ cannot form a triangle of area $\rc m$ for $m$ odd. The area is $\pm \rc 2(xy'-x'y)$, and we have
+\[
+|\rc 2 (xy'-x'y)|=\ab{\rc 2}_2|x|_2|y'|_2>1,
+\]
+while $\ab{\rc m}=1$.
+\end{enumerate}
+Next we establish the following combinatorial lemma.
+\begin{lem}[Sperner's lemma]
+Suppose $\cal P$ is a polygon that has been subdivided into triangles.
+Define a {\it vertex} or {\it segment} to be a vertex or edge of one of these triangles, and say a segment is of type $\cal C_1\cal C_2$ if the endpoints are colored $\cal C_1$ and $\cal C_2$. We say a triangle is {\it rainbow} if it has vertices of all 3 colors.
+
+Suppose every vertex of the subdivision is colored with either $\cal A$, $\cal B$, or $\cal C$, such that the following hold.
+\begin{enumerate}
+\item No outer edge of $\cal P$ contains vertices of all three colors.
+\item There are are an odd number of segments of type $\cal A\cal B$ on the outer edges.
+\end{enumerate}
+Then $\cal P$ contains a triangle whose vertices are all different colors.
+\end{lem}
+\begin{proof}
+We count the number of segments of type $\cal A\cal B$. In a monochromatic triangle the count is 0, in a two-colored triangle the count is 0 or 2, and in a three-colored triangle the count is 1. Let $n$ be the sum of the counts over all triangle. Every interior segment of type $\cal A\cal B$ is counted twice, as it is part of two triangles, so
+\[
+n=2i+e,
+\]
+where $i$ and $e$ denote the number of interior and exterior segments of type $\cal A\cal B$. Since $e$ is odd by assumption, $n$ is also odd. But this can only happen if there is a three-colored triangle.
+\end{proof}
+Now the points $O=(0,0)$, $X=(1,0)$, $Y=(1,1)$, and $Z=(0,1)$ are colored with $\cal A$, $\cal B$, $\cal B$, $\cal C$, respectively. We've shown that each side contains segments of at most 2 colors; segments of type $\cal A\cal B$ can only appear on side $OX$ and $XY$; in the former there must be an odd number (since $O,X$ are different colors) and in the latter there must be an even number. Thus the conditions of Sperner's Lemma are satisfied, and any subdivision must contain a rainbow triangle, which cannot have area $\rc m$ for $m$ odd.
+\end{proof}
+\section{Valuations}
+\begin{df}
+A \textbf{valuation} on a field $K$ is a function $|\cdot |:K\to \R$ such that
+\begin{enumerate}
+\item
+$|x|\ge 0$ with equality only when $x=0$.
+\item
+$|xy|=|x||y|$.
+\item
+$|x+y|\le |x|+|y|$.
+\end{enumerate}
+If the stronger condition $|x+y|\le \max(|x|,|y|)$ holds, then $|\cdot|$ is \textbf{nonarchimedean}.
+\end{df}
+\begin{ex}
+For a number field $K$, any embedding $\si:K\hra \C$ gives a valuation on $K$:
+\[|a|:=|\si a|.\]
+\end{ex}
+\begin{ex}\llabel{p-adic-val}
+The \textbf{$\mfp$-adic valuation} is
+\[
+|a|_{\mfp}=\prc{\mathfrak N \mfp}^{v_{\mfp}(a)}.
+\]
+In the special case $K=\Q$, $\mfp=(p)$, we have
+\[
+|a|_p=\prc{p}^{v_{\mfp}(a)}.
+\]
+\end{ex}
+\begin{pr}\llabel{nonarch-crit}
+A valuation is nonarchimedean if and only if it is bounded on $\Z$. Hence if $\chr(K)\ne 0$, then $K$ only has nonarchimedean valuations.
+\end{pr}
+\begin{proof}
+If $|\cdot|$ is archimedean, then $|1+\cdots +1|\le |1|=1$, so $|n|\le 1$ for any $n\in \Z$.
+
+Conversely, suppose that $|\cdot |$ is bounded on $\Z$, say by $C$. We have
+\begin{align*}
+|(a+b)^n|&=\ab{\sum_{k=0}^n \binom nk a^kb^{n-k}}\\
+&\le \sum_{k=0}^n C |a|^k|b|^{n-k}\\
+&\le C(n+1)\max(|a|,|b|)^n.
+\end{align*}
+Hence for all $n\ge 1$, $|a+b|\le (C(n+1))^{\rc n}\max(|a|,|b|)$. Taking $n\to \iy$ gives the result.
+\end{proof}
+\begin{pr}[Relationship between additive and multiplicative valuations]
+Fix a base $b$. There is a correspondence between additive and multiplicative valuations, given by
+\begin{align*}
+|x|&=b^{-v(x)}\\
+v(x)&=-\log_b(x).
+\end{align*}
+Different values of $b$ give equivalent valuations. If $v(K^{\times})$ is discrete in $\R$, then it is a multiple of a discrete valuation.
+\end{pr}
+We say $|\cdot|$ is discrete when $|K^{\times}|$ is a discrete subgroup of $\R_{>0}$.
+
+Using the above correspondence, we find
+\begin{enumerate}
+\item
+$A:=\set{a\in K}{|a|\le1}$ is a subring of $K$, with 
+\item
+$U:=\set{a\in K}{|a|=1}$ as its group of units, and
+\item
+$\mm:=\set{a\in K}{|a|<1}$ as its unique maximal ideal.
+\end{enumerate}
+The valuation is discrete if and only if $\mm$ is principal; then $A$ is a DVR.
+
+\begin{pr}[Elementary properties of discrete valuations]\llabel{elem-prop-dv}
+$\,$
+\begin{enumerate}
+\item
+$|a+b|\le \max(|a|,|b|)$ with equality if $|a|\ne |b|$.
+\item (``All triangles are isosceles.") If $d(c,b)<d(c,a)$ then $d(a,c)=d(a,b)$. (The longer side is the repeated one.)
+\item If $a_1+\cdots +a_n=0$, then the maximum valuation of the summands must be attained for at least two of them.
+\end{enumerate}
+\end{pr}
+\subsection{Equivalent valuations}
+A valuation on $K$ defines a metric (and hence a topology) on $K$ by
+\[
+d(a,b)=|a-b|.
+\]
+For example, high powers of $p$ have small $p$-adic valuation, so numbers differing by high powers of $p$ are close together in the $p$-adic valuation.
+
+\begin{pr}\llabel{val-equiv-crit}
+Let $|\cdot|_1,|\cdot|_2$ be valuations on $K$, with the first being nontrivial. Then the following are equivalent.
+\begin{enumerate}
+\item
+$|\cdot|_1,|\cdot|_2$ determine the same topology on $K$.
+\item
+If $|\al|_1<1$, then $|\al|_2<1$.
+\item $|\cdot|_1=|\cdot |_2^a$ for some $a>0$.
+\end{enumerate}
+We say that $|\cdot|_1$ and $|\cdot|_2$ are \textbf{equivalent} if the above conditions hold.
+\end{pr}
+\begin{proof}$\,$
+
+\noindent \underline{$(1)\implies (2)$}: 
+Note $|\al|_j<1$ if and only if $|\al^n|_j=|\al|_j^n\to 0$, i.e. $\al^n$ converges to 0 in the topology of $\ad_j$. Since the topologies are the same,
+\[
+|\al|_1<1\iff \al^n\text{ converges to }0\iff |\al|_2<1.
+\]
+%Suppose $|\al|_1<1$. Then the sequence $\al^n$ converges to 0, since $|\al^n|_1=|\al|_1^n\to 0$. Since the topologies are the same, $|\al^n|_2=|\al|_2^n\to 0$, Hence $|\al|_2<1$.
+
+\noindent \underline{$(2)\implies (3)$}:
+Take $y$ so that $|y|_1>1$, and let $a=\frac{|y|_2}{|y|_1}$, so that $|y|_2=|y|_1^a$. We show that $|x|_2=|x|_1^a$ for all $x\in K$.
+%Suppose that $|x|_2=|x|_1^b$. We need to show $a=b$. 
+
+Suppose $|x|_1=|y|_1^{b_1}$ and $|x|_2=|y|_2^{b_2}$. We need to show $b_1=b_2$, i.e. so the following commutes.
+\[
+\xymatrix{
+|x|_1\ar@{.>}[r]^{{}^{\wedge} a} & |x|_2\\
+|y|_1\ar[u]^{{}^{\wedge}b_1} \ar[r]^{{}^{\wedge}a} & |y|_2\ar[u]^{{}^{\wedge}b_2}
+}
+\]
+We approximate $b_1$ with rational numbers $\frac mn$. First suppose $b_1>\frac mn$. Then
+\[
+\ab{\frac{y^m}{x^{n}}}_1=|y|^{m-b_1n}<1
+\]
+so by hypothesis 
+\[
+|y|_2^{m-b_2n}=\ab{\frac{y^m}{x^{n}}}_2<1
+\]
+giving $b_2>\frac mn$. Similarly, if $b_1<\frac mn$, then the above argument with $\frac{x^n}{y^m}$ shows $b_2<\frac mn$. Since $\Q$ is dense in $\R$, we have $b_1=b_2$.\\
+
+\noindent\underline{$(3)\implies (1)$}: The open ball of radius $r$ with respect to $\ad_1$ is the same as the open ball of radius $r^a$ with respect to $\ad_2$.
+\end{proof}
+
+\section{Places}
+\begin{df}
+A \textbf{place} is an equivalence class of nontrivial valuations on $K$.\footnote{Some books use ``prime" instead of ``place." We use the latter term to avoid confusion.} We denote by $V_K$ the set of places of $K$, by $V_K^0$ the set of nonarchimedean places and $V_K^{\iy}$ the set of archimedean places.
+\end{df}
+
+We aim to classify all places in a number field $K$. %To do this, we first classify all places of $\Q$, and then consider how places in a field extension correspond to places in the base field.
+\begin{pr}\llabel{nonarch-vals}
+Let $K/\Q$ be an algebraic extension. Then the places on $K$ are exactly the $\mfp$-adic valuations $|\cdot|_{\mfp}$ for $\mfp$ a prime ideal of $\sO_K$. %for some prime ideal $\mfp$ of $A:=\sO_K$. 
+\end{pr}
+\begin{proof}
+Since $K$ is algebraic over $\Q$, an element $\al\in \sO_K$ satisfies a monic polynomial equation with coefficients in $\Z$:
+\[
+x^n+a_{n-1}x^{n-1}+\cdots +a_0=0.
+\]
+By Proposition~\ref{nonarch-crit}, $a_j\in \Z$ gives $|a_j|\le 1$.
+By the nonarchimedean property,
+\[|\al|^n=|a_{n-1}\al^{n-1}+\cdots +a_0|\le \max_{0\le m\le n-1}|a_{m}||\al^{m}|\le \max_{0\le m\le n-1}|\al|^m.\]
+Hence $|\al|<1$.
+
+Let $B$ be the ring of integers of $|\cdot|$ and $\mm$ its maximal ideal. Since $\mm$ is prime in $B$, $\mfp:=\mm\cap A$ is prime in $A$. Note $\mfp\ne (0)$ because if so $|\cdot|$ is trivial.
+
+Now suppose $v_{\mfp}(y)=n$. Let $\pi\in \mfp\bs \mfp^2$ be a uniformizer. Then $(y\pi^{-n})$ is a fractional ideal; suppose ideals $\mfp_1,\ldots, \mfp_m$ appear in its factorization with exponents at least $-k$. Take $b\in \bigcap_{j=1}^n \mfp_j^k$. Then $(y\pi^{-n}b)$ is an integral ideal $(c)$ not divisible by $\mfp$. We have $c\in A\bs \mfp$. Writing $|\pi|=\prc{\mathfrak N\mfp}^a$, we have
+\[
+|y|=\ab{\fc cb}\ab{\pi^n}=\ab{\rc{\mathfrak N \mfp}}^n=|y|_{\mfp}^a.
+\]
+Moreover, two equivalent nonarchimedean valuations would have the same maximal ideals and hence correspond to the same prime $\mfp$.
+\end{proof}
+\begin{thm}[Ostrowski]\llabel{ostrowski}
+The following is a list of all places on $\Q$.
+\begin{enumerate}
+\item
+Archimedean: $|\cdot |_{\iy}$.\footnote{A stronger version of part 1 is as follows. Let $K$ be complete with respect to an archmimedean norm. Then $K=\R$ or $\C$, and the norm is the normal absolute value raised to a power in $(0,1]$.}
+\item
+Nonarchimedean: $|\cdot|_p$, where $p$ ranges over all primes.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Let $\ad$ be a valuation on $\Q$ and $m,n$ be integers greater than 1. To compare $|m|$ and $|n|$, we write $m$ in base $n$:
+\[
+m=a_rn^r+\cdots +a_0, \quad 0\le a_k\le n-1, \,a_r>0.
+\]
+Let $N=\max\{1,|n|\}$. Then by the triangle inequality,
+\[
+|m|\le \sum_{k=0}^r a_kN^k.
+\]
+Since $r\le \frac{\ln m}{\ln n}$, we get
+\[
+%|m|\le \pa{1+\frac{\ln m}{\ln n}}nN^{\frac{\ln m}{\ln n}}.
+|m|\le \pa{1+\rc{N}+\rc{N^2}+\cdots }nN^{\frac{\ln m}{\ln n}}
+\le 2nN^{\frac{\ln m}{\ln n}}
+\]
+Replacing $m$ by $m^t$ and taking the $t$th root gives
+\[
+|m|\le %\pa{1+\frac{t\ln m}{\ln n}}
+(2n)^{\rc t}N^{\frac{\ln m}{\ln n}}.
+\]
+Taking $t\to \iy$ %and noting the first two factors approach 1, we get
+gives
+\begin{equation}\llabel{ostrowski1}
+|m|\le N^{\frac{\ln m}{\ln n}}.
+\end{equation}
+Consider two cases.
+\begin{enumerate}
+\item For all integers $n>1$, $|n|>1$. Then~(\ref{ostrowski1}) gives $|m|^{\rc{\ln m}}\le |n|^{\rc{\ln n}}$. By symmetry, we get $|m|^{\rc{\ln m}}= |n|^{\rc{\ln n}}$. Since this is true for all $m$ and $n$, $|n|^{\rc{\ln n}}=c$ is constant, i.e.
+\[
+|n|=c^{\ln n}=n^{\frac{\ln n}{\ln c}}
+\]
+for all $n\in \Z$. Since $\Z$ generates $\Q$ as a group, we get that $\ad$ is equivalent to the standard archimedean valuation.
+\item For some $n>1$, $|n|\le 1$. Then~(\ref{ostrowski1}) shows that $|m|\le 1$ for all $m>1$. Thus by Proposition~\ref{nonarch-crit}, $\ad$ is nonarchimedean.
+The nonarchimedean valuations are given by Proposition~\ref{nonarch-vals}.\qedhere
+%Let $A$ be the ring of integers of $\ad$ and $\mm$ its maximal ideal. Since $\mm$ is prime in $A$, $\mm\cap \Z$ is prime in $\Z$. Suppose it equals $(p)$. Write $|p|=\prc{p}^a$. 
+%Any $y\in \Q$ can be written as $np^e$ where $n$ has neither $p$ in the numerator or denominator. Note $n$ is a fraction of elements in $A\bs \mm=\set{x}{|x|=1}$ so has absolute value 1. Then
+%\[
+%|y|=|n||p^e|=\prc{p}^{ae}=|y|_p^a.
+%\]
+%Moreover, two equivalent valuations would have the same $A$ and hence correspond to the same prime $p$.\qedhere
+\end{enumerate}
+\end{proof}
+Later on we will return to the question of finding all valuations on an extension of $\Q$ (Theorem~\ref{vals-on-num-fields}).
+%Let $K$ be a number field. 
+%We know that for each prime ideal $\mfp$ there corresponds a $\mfp$-adic valuation, and that these valuations are inequivalent by Proposition~\ref{val-equiv-crit}. However, there are more valuations given by real and complex embeddings. (WHY DO WE CARE?)
+%We now classify the places of $K$.
+
+%That silly thing with the normalized valuations for $\C$...
+
+%Stuff got moved to next chapter b/c it requires completions.
+
+%Lying over.
+%Normalized valuation.
+%Lemma on extension.
+\fixme{Generalize the nonarchimedean stuff to number fields.}
+%\begin{thm}[Ostrowski]
+%The only fields (up to isomorphism) that are complete with respect to a nonarchimedean valuation are $\R$ and $\C$.
+%\end{thm}
+\subsection{Approximation}
+\begin{thm}[Weak approximation theorem]%, Artin and Whaples]
+\llabel{thm:weak-approx}
+Let $v_1,\ldots,v_n$ be all the places of $K$, with valuations $\ad_1,\ldots, \ad_n$.  
+The map
+\[
+\phi:K\to \prod_{j=1}^N K_{v_j}
+\]
+induced by the inclusions $K\hra K_{v_j}$ 
+has dense image.
+
+In other words, given $a_1,\ldots, a_n\in K$, for any $\ep>0$, there exists $a\in K$ such that 
+\[
+|a-a_j|_j<\ep\text{ for all $j$}.
+\]
+\end{thm}
+\begin{proof}
+\noindent{\underline{Step 1:}} We show that there exists $a$ such that 
+\begin{align}\llabel{weak-approx-1}
+\ab{a}_{1}&>1.\\
+\nonumber\ab{a}_{j}&<1,\quad i=2,\ldots, n.
+\end{align}
+
+We induct on $n$. For $n=2$, note that by 
+Proposition~\ref{val-equiv-crit}(2), we can find $b,c$ so that
+\begin{align*}
+|b|_{1}&< 1,&|b|_{2}&\ge1\\
+|c|_{1}&\ge1,&|c|_{2}&<1.
+\end{align*}
+Now take $a=\fc cb$.
+
+For the induction step, suppose we've found $b$ so that~(\ref{weak-approx-1}) holds for $n-1$. Choose $c$ so that 
+\[
+|c|_1>1,\quad |c|_n<1;
+\]
+we will use it to ``correct" $|b|_n$ as necessary. Consider three cases.
+\begin{enumerate}
+\item $|b|_n<1$: We can let $a=b$.
+\item $|b|_n=1$: Let $a=b^r c$, for large enough $r$.
+This works because
+\[
+\lim_{r\to \iy}\ab{b^rc}_j=\begin{cases}
+\iy, &j=1\\
+0, &2\le j\le n-1\\
+|c|_n<1, &j=n.
+\end{cases}
+\]
+%is large enough so that $|b^r|_1<\ab{\rc c}_1$ and $|b^r|_j>\ab{\rc c}_j$ for $2\le j\le n-1$. Note $|b^r c|_n=|c|_n<1$, as needed.
+\item $|b|_n>1$: First note that from $1-|a^r|\le|1+a^r|\le1+|a^r|$ we get
+\begin{equation}\llabel{weak-approx-expr}
+\lim_{r\to \iy}\ab{\fc{x^r}{1+x^r}}=\begin{cases}
+0, &|x|<1\\
+1,&|x|>1.
+\end{cases}
+\end{equation}
+Let $a=\fc{cb^r}{1+b^r}$, for large enough $r$. This works because the above gives
+\[
+\lim_{r\to \iy}\ab{\fc{cb^r}{1+b^r}}_j=\begin{cases}
+|c|_1>1, &j=1\\
+0, &2\le j\le n-1\\
+|c|_n<1, &j=n.
+\end{cases}
+\]
+\end{enumerate}
+%$|\cdot|_{v_1}\sim|\cdot|_{v_2}$ iff for every $\be\in K$, $\ab{\be}_{v_1}<1$ implies $\ab{\be}_{v_2}<1$
+\noindent\underline{Step 2:} Now we show that there are points in the image of $\phi$ arbitrarily close to $(1,0,\ldots,0)$. Indeed, choosing $a$ as in step 1, we have by~(\ref{weak-approx-expr}) that
+\[
+\lim_{r\to \iy}\ph\pf{a^r}{1+a^r}=(1,0,\ldots, 0).
+\]
+\noindent\underline{Step 3:} From step 2, choose $b_j$ sufficiently close to $(0,\ldots, 0, \underbrace{1}_j,0,\ldots, 0)$. Let
+\[
+a=\sum_{j=1}^n a_nb_n
+\]
+to find $\ph(a)$ can be arbitrarily close to $(a_1,\ldots, a_n)$.
+\end{proof}
+Note that if we include only the finite places, then this follows from the %CITE 
+Chinese remainder theorem.
+\section{Completion}
+\begin{df}
+Let $K$ be a field with valuation $|\cdot|$. The \textbf{completion} of $K$, denoted $\hat{K}$ is the field containing $K$ (i.e. there is a injection $K\hra \hat{K}$ preserving valuation) satisfying the following properties.
+\begin{enumerate}
+\item $\hat{K}$ is complete in its topology.
+\item (UMP) For any homomorphism $\ph$ from $K$ to a complete field $L$, there exists a unique homomorphism $\hat{K}\to L$ making the following commute.
+\[
+\xymatrix{
+\hat K\ar@{.>}[r] & L\\
+ K\ar@{^(->}[u]\ar@{^(->}[ur]&.
+}
+\]
+I.e., {\it $\hat{K}$ is the smallest complete field containing $K$.}
+\end{enumerate}
+\end{df}
+\begin{proof}[Proof of existence]
+For existence, let $\hat{K}$ be the set of equivalence classes of Cauchy sequences in $K$, and deem two sequences $\{a_n\}$ and $\{b_n\}$ equivalent if $\lim_{n\to \iy}|a_n-b_n|=0$. Define $K\hra \hat K$ by sending $a$ to $(a,a,\ldots)$. Extend the valuation by letting defining the norm of a $\{a_n\}$ to be $\lim_{n\to \iy} |a_n|$. 
+See any book on real analysis for the details. 
+
+For the second part, given a sequence $\{a_n\}\in \hat K$, map it to $\lim_{n\to \iy}\ph(a_n)\in L$. 
+Uniqueness follows from the universal property.
+\end{proof}
+\subsection{Completions of archimedean fields}
+\begin{thm}[Ostrowski]\llabel{ostrowski2}\llabel{vals-on-number-fields}
+The only complete archimedean fields, up to isomorphism of valued fields and equivalence of valuation, are $\R$ and $\C$.
+\end{thm}
+\begin{proof}
+See Neukirch, p. 124.
+\end{proof}
+We can now finish our classification of places on $K/\Q$.
+\begin{thm}[Classification of places of $K$]
+Let $K$ be a number field. There is exactly one place of $K$ for each
+\begin{enumerate}
+\item
+prime ideal $\mfp$,
+\item 
+real imbedding, and
+\item conjugate pair of complex embeddings.
+\end{enumerate}
+%We will often denote the places corresponding to primes with the primes themselves.
+\end{thm}
+The valuations corresponding to prime ideals, i.e. $\mfp$-adic valuations, are called \textbf{finite places}, while the those corresponding to real and complex embeddings are called \textbf{infinite (real or complex) places}.
+\begin{proof}
+The nonarchimedean valuations of $K$ are given by Proposition~\ref{nonarch-val}, while each archimedean valuation $v$ corresponds to an embedding (respecting valuations)
+\[
+K\hra K_v\cong \R\text{ or }\C,
+\]
+the isomorphism coming from Theorem~\ref{ostrowski2}. Note that complex conjugate embeddings give the same valuation.
+\end{proof}
+\begin{cor}
+Let $L/K$ be extensions of number fields. If $v$ is a place corresponding to a prime $\mfp$ of $K$, then the places $w\mid v$ in $L$ correspond to primes $\mP\mid \mfp$. If $v$ is a place of $K$ corresponding to an embedding $\si:K\to \R\text{ or }\C$, then the places $w\mid v$ correspond to of $\si$ to $L$.
+\end{cor}
+\subsection{Completions of nonarchimedean fields}
+Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. Let $\pi$ be a local uniformizing parameter, i.e. the largest element of $K$ with $|\pi|<1$. Equivalently, $\pi$ generates the maximal ideal $\mm$ in the subring of $\pi$-integers.
+
+Since $K$ is dense in $\hat K$ and 
+\[|K\bs\{0\}|=\set{|\pi|^m}{m\in \Z}\]
+is discrete in $\hat K$, we get $|K|=|\hat K|$.
+
+\begin{pr}\llabel{pi-adic-expansion}
+Let $S$ be a set of representatives for $A/\mm$. Then every element of $\hat K$ has a unique expression in the form
+\[
+\sum_{n\ge N} a_n \pi^n.
+\]
+(More precisely, the sum represents $\lim_{m\to \iy}\sum_{n=N}^{m}a_n\pi^n$.) 
+The norm is given by
+\[
+\ab{\sum_{n\ge N} a_n \pi^n}=|\pi|^{-n_0},\quad a_{N}\ne0.
+\]
+\end{pr}
+In other words, we can write elements of $\hat{K}$ as ``numbers with infinite $\pi$-expansions going off to the left," as we saw in section~\ref{padic-exs}.
+\begin{proof}
+Let $\{s_n\}_{n\ge 1}$ be a Cauchy sequence in $K$. Let
+\[
+s_n=\sum_{m\gg -\iy} a_n(m)\pi^j;
+\]
+where $a_n(m)\in S$; this sum is finite. We have
+\[
+|s_{n_1}-s_{n_2}|=p^{-\min\set{m}{a_{n_1}(m)\ne a_{n_2}(m)}}.
+\]
+Hence for each $m$, $a_n(m)$ eventually stabilizes, say at $a_n$. Then
+\[
+\lim_{n\to \iy} s_n=\sum_{n\gg -\iy} a_n\pi^n.
+\]
+\end{proof}
+Thus we have two ways to think of a $\mfp$-adic valuation.
+\begin{pr}
+%The following are equivalent characterizations of $\hat{K}$.
+%\begin{enumerate}
+%\item The completion of $K$ under $|\cdot|$, i.e. under the $\pi$-adic topology.
+%\item The set of sums
+%\[
+%\sum_{n\ge N} a_n \pi^n
+%\]
+%where the $a_n$ are chosen from a set $S$ of representatives for $A/\mm$, and
+%\[
+%\ab{\sum_{n\ge N} a_n \pi^n}=|\pi|^{-n_0},\quad a_{N}\ne0.
+%\]
+%\item (*) The inverse limit $\varinjlim R/\mm^n$.
+%\end{enumerate}
+\[
+\hat{K}=\Frac(\varprojlim A/\mm^n).
+\]
+\end{pr}
+%\begin{proof}
+%Indeed, elements of $\sO_{\hat{K}}$ are given by $\sum_{n\ge 0}a_n\pi^n$; we can think of this as an element in $A/
+%\end{proof}
+To connect up the analytic and algebraic definitions of the completion, note that the completion of a ring $A$ with respect to an ideal $\mm$ is defined as $\hat{A}=\varprojlim_{n\ge 0} A/\mm^n$, with the topology given by a neighborhood base at 0 being $\{\mm^n\}_{n\ge 0}$.
+\begin{df}
+Define the exponential function as a power series
+\[
+e^x=\sum_{n=1}^{\iy} \frac{x^n}{n!}=1+x+\frac{x^2}{2!}+\cdots.
+\]
+\end{df}
+We investigate the convergence of $e^x$. Writing $a=a_rp^r+\cdots +a_0$ in base $p$, we find by Example~\ref{factor-divisibility}.\ref{factorial-order} that
+\[
+\ord_p(n!)=\frac{n-\sum_{i=0}^r a_i}{p-1}.
+\]
+Hence 
+\[\ord_p\pf{x^n}{n!}=n\ord_p(x)-\frac{n-\sum_{i=0}^r a_i}{p-1}=n\pa{\ord_p(x)-\rc{p-1}}+o(n).\]
+Since $e^x$ converges if and only if $\ord_p\pf{x^n}{n!}\to -\iy$, we get the following.
+\begin{pr}
+$e^x$ converges for $\ord_p(x)>\rc{p-1}$.
+\end{pr}
+
+\section{Hensel's lemma}
+The following is the first version of Hensel's lemma for $\pi$-adics. \fixme{COMPARE TO ELEMENTARY STATEMENT IN TERMS OF MODS.}
+\index{Hensel's lemma}
+\begin{lem}[Hensel's lemma, I]\llabel{hensel1}
+Let $f(X)\in A[X]$, and $a_0$ be a simple root of $f(X)$ modulo $\pi$, i.e. $f(a_0)\equiv 0\pmod{\pi}$ and $f'(a_0)\nequiv 0\pmod{\pi}$. Then there exists a unique root $a$ of $f(X)$ with $a\equiv a_0\pmod{\pi}$.
+\end{lem}
+Note this can be generalized as follows: Suppose $f(a_0)\equiv 0\pmod{\pi^n}$ and $v_{\pi}(f'(a_0))=k<n$. Then there is a unique root $a$ of $f(X)$ with $a\equiv a_0\pmod{\pi^{n-k}}$. The proof is the same, and is left to the reader!
+\begin{proof}
+%The proof is by induction.
+We find zeros of $f(X)$ modulo higher and higher powers of $\pi$.
+
+Using induction, we find %$b_0,\ldots, b_n$ such that $a_n=b_n\pi^n+\cdots +b_0$ and
+$a_n$ satisfying 
+\[
+f(a_n)\equiv 0\pmod{\pi^{n+1}}.
+\]
+%For the base case, let $a_0=b_0$. 
+The base case holds by hypothesis. For the induction step, note that by Taylor expansion of polynomials,
+\begin{align*}
+f(a_n+h\pi^{n+1})&=f(a_n)+h\pi^{n+1}f'(a_n)+\cdots\\
+&\equiv f(a_n)+h\pi^{n+1}f'(a_n)\pmod{\pi^{n+2}}.
+\end{align*}
+Since $f'(a_n)\nequiv 0\pmod{\pi}$ and $f(a_n)\equiv 0\pmod{\pi^{n+1}}$, we can choose $h$ so that this is 0 modulo $\pi^{n+1}$. (Explicitly, $h=-\frac{f(a_n)}{\pi^{n+1}}\cdot \rc{f'(a_n)}$.) We let $a_{n+1}=a_n+h\pi^{n+1}$. By construction, the sequence $a_n$ converges; let $a$ be its limit. Since $a\equiv a_n\pmod{\pi^n}$, we get $f(a)\equiv f(a_n)\equiv 0\pmod{\pi^{n+1}}$ for all $n$, and therefore $f(a)=0$.
+\end{proof}
+The first form of Hensel's lemma tells us about lifting a root $a_0$ of $\ol f$ ($f$ modulo $\pi$) to a root $a$ of $f$ in $K$. We can think of this as lifting a linear factor $x-a_0$ of $\ol f$ to a linear factor $x-a$ of $f$. A stronger form of Hensel's lemma says that we can in fact lift any factor of $f$ to one of $\ol{f}$.
+\begin{thm}[Hensel's lemma, II]\llabel{hensel2}
+Let $k$ be the residue field of $A$ and $f$ be a monic polynomial. If $\ol f=g_0h_0$ where $g_0$ and $h_0$ are monic and relatively prime, then $f=gh$ for some $g$ and $h$ such that $\ol{g}=g_0$ and $\ol{h}=h_0$. (uniqueness)
+
+If $\ol f=g_1\cdots g_n$ is the complete factorization of $\ol f$ in $k[X]$, then the complete factorization of $f$ in $K[X]$ is $f=f_1\cdots f_n$ where $\ol{f_j}=g_j$.
+\end{thm}
+\begin{proof}
+First we need the following lemma, which tells us that if the reductions of polynomials are relatively prime, then so are the original polynomials.
+\begin{lem}
+Let $A$ be a local ring with residue field $k$. If $g,h\in A[X]$ are such that $\ol{g}$ and $\ol{h}$ are relatively prime, then $g$ and $h$ are relatively prime in $A[X]$ and there exist polynomials $u, v$ with $\deg u<\deg h$ and $\deg v<\deg g$ such that 
+\[
+ug+vh=1.
+\]
+\end{lem}
+\begin{proof}
+Since $\ol g$ and $\ol h$ are relatively prime in $k[X]=(A/\mm)[X]$, $(\ol g, \ol h)=A[X]/\mm A[X]$ and $(g,h)+\mm A[X]=A[X]$. Since $A[X]/\mm A[X]$ is finitely generated (on account of $g,h$ being monic), %see ``$\implies$" in Lemma~\ref{criterion-for-integrality}
+by Nakayama's Lemma $(g,h)=A[X]$. We can choose $u,v$ such that $ug+vh=1$; drop all terms with higher degree.
+\end{proof}
+We proceed as in the proof of Theorem~\ref{hensel1}. Suppose we have found $g_n$ and $h_n$ such that
+\[
+f\equiv g_nh_n\pmod{\pi^{n+1}}.
+\]
+We have
+\[
+(g_n+v\pi^{n+1})(h_n+u\pi^{n+1})\equiv g_nh_n+(ug_n+vh_n)\pi^{n+1}\pmod{\pi^{n+2}}.
+\]
+By the lemma we can choose $u$ and $v$ such that the above is congruent to $f$ modulo $\pi^{n+2}$. Again let $g_{n+1}=g_n+v\pi^{n+1}$, $h_{n+1}=h_n+u\pi^{n+1}$, and take the limit as $n\to \iy$.
+
+The second part follows from induction. Note $f=f_1\cdots f_n$ is the complete factorization because any factorization of $f$ gives a factorization for $\ol f$.
+\end{proof}
+\begin{df}
+A \textbf{henselian field} is a field with nonarchimedian valuation $v$ which satisfies Hensel's Lemma (with $\mfp$ the maximal ideal corresponding to $v$).
+\end{df}
+Hensel's lemma says that a field that is complete with respect to a discrete valuation is henselian.
+\section{Extending valuations}
+\begin{thm}[Extending discrete valuations]\llabel{extend-discrete-valuations}
+Let $K$ be henselian %{\it complete} with respect to a discrete valuation $|\cdot |_K$ 
+and let $L/K$ be finite separable of degree $n$. Then $|\cdot|_K$ extends uniquely to a discrete valuation $|\cdot|_L$ on $L$, given by
+\[
+|\be|_L=|\nm_{L/K}\be|_K^{\rc  n}.
+\]
+\end{thm}
+\begin{proof}
+Neukirch, pg. 131-132.
+\end{proof}
+\begin{df}
+Let $K$ be henselian. Let $\ord:K^{\times}\to \Z$ be the corresponding additive valuation, extended to $K^{\text{al}\times}\to \Q$. Given a polynomial
+\[
+f(X)=X^n+a_{n-1}X^{n-1}+\cdots +a_0\in K[X]
+\]
+define the \textbf{Newton polygon} of $f(X)$ to be the lower convex hull\footnote{draw the convex hull, and remove the segments joining $(0,\ord a_0)$ and $(n,0)$ from the top}
+ of
+\[
+P_i:=(i,\ord(a_{i})).
+\]
+\end{df}
+%[EXAMPLE HERE.]
+\begin{pr}
+Suppose the bottom of the Newton polygon has segments of $x$-length $n_i$ and slope $-s_i$. Then 
+\begin{enumerate}
+\item $f(X)$ has exactly $n_i$ roots $\al\in K^{\text{al}}$ with $\ord(\al)=s_i$, and
+\item $f_i(X)=\prod_{\ord(\al_i)=s_i} (X-\al_i)$ has coefficients in $K$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+We prove the following statement by induction: if $f(X)=\prod (X-\al_j)\in \ol{K}[X]$ and exactly $n_i$ of the roots $\al_j$ have order equal to $s_i$, then the Newton's polygon of $f(X)$ has a segment of slope $-s_i$ and $x$-length $n_i$.
+
+The case $n=1$ follows since the only line segment on the bottom joins $(0, \ord(\al_i))$ and $(1,0)$. Now suppose the claim proved for $n$. Consider
+\[
+g(X)=(X-\al)f(X)=\sum_{k=0}^{n+1} (a_{k-1}-\al a_{k})X^k
+\]
+(where nonexistent coefficients are set to 0). 
+Let $t=\ord(\al)$. 
+Let $k_0$ be the point such that the slopes of the line segments of Newton's polygon $N$ for $k<k_0$ are $s\le -t$, and such that the slopes of the line segments of $N$ for $k>k_0$ are greater than $s>-t$. Let
+\begin{align*}
+d_k&=\ord(a_k)\\
+\ell_k&=\text{$y$-value of intersection of $N$ with $x=k$}\\
+d_k'&=\ord(a_{k-1}-\al a_{k})\\
+\ell_k'&=\begin{cases}
+\ell_k+t,&0\le k\le k_0\\
+\ell_{k-1}&k_0<k\le n.
+\end{cases}
+\end{align*}
+Let $N'$ be the broken line formed by joining $(k,\ell_k')$. $N'$ consists of segments of the same slopes as $N$, plus one more segment of slope $-t$ and $x$-length 1, in increasing order. It suffices to show that $N'$ is the lower convex hull of the points $(k,d_k')$.
+
+Here is an example with $p=5$, $f(X)=(X-5)(X-10)(X-15)(X-125)$ and $\al=25$.\footnote{Of course, $f$ does not have to split over $\Q[X]$ and the valuations don't have to be integers.}
+\[
+\setlength{\unitlength}{.5cm}
+\begin{picture}(5,8)
+\linethickness{0.5mm}
+{\color{Gray}
+\put(0,0){\line(1,0){5}}
+\put(0,0){\line(0,1){8}}
+\linethickness{0.15mm}
+\multiput(1,0)(1,0){5}{\line(0,1){8}}
+\multiput(0,1)(0,1){8}{\line(1,0){5}}}
+\put(0,6){\line(1,-3){1}}
+\put(1,3){\line(1,-1){3}}
+\put(0,8){\line(1,-3){1}}
+\put(1,5){\line(1,-2){1}}
+\put(2,3){\line(1,-1){3}}
+%\multiput(5,0)(-.5,.5){6}{\line(-1,1){.4}}
+%This segment isn't showing up for some reason, I don't know why.
+%\multiput(0,8)(.5,-1.5){2}{\line(1,-3){.4}}
+%\multiput(1,5)(.5,-1){2}{\line(1,-2){.4}}
+\end{picture}
+%\setlength{\unitlength}{.25cm}
+%\begin{picture}(10,16)
+%\linethickness{0.5mm}
+%{\color{Gray}
+%\put(0,0){\line(1,0){10}}
+%\put(0,0){\line(0,1){16}}
+%\linethickness{0.15mm}
+%\multiput(2,0)(2,0){5}{\line(0,1){16}}
+%\multiput(0,2)(0,2){8}{\line(1,0){10}}}
+%\multiput(4,6)(1,-1){6}{\line(1,-1){.8}}
+%\put(0,12){\line(1,-3){2}}
+%\put(2,6){\line(1,-1){6}}
+%\multiput(0,16)(1,-3){2}{\line(1,-3){.8}}
+%\multiput(2,10)(1,-2){2}{\line(1,-2){.8}}
+%%\multiput(2,4)(.5,-.5){2}{\line(1,-1){.4}}
+%\end{picture}
+\]
+
+Consider 2 cases. We will use 
+\[
+d_k'=\ord(a_{k-1}-\al a_{k})\ge 
+\min(\ord(a_{k-1}),\ord(\al a_{k}))=\min(d_{k-1},d_k+t),
+\]
+with equality holding if $d_{k-1}\ne d_k+t$.
+\begin{enumerate}
+\item $k\le k_0$: We have
+\begin{align*}
+d_{k-1}& \ge \ell_{k-1}\stackrel{(*)}{\ge} \ell_k+t=\ell'_k,\\
+d_k+t& \ge \ell_k+t= \ell'_k
+\end{align*}
+where in (*) we use the fact that the slope of the segment $(k-1,\ell_{k-1})(k,\ell_k)$ is at most $-t$. 
+Hence $(k,d_k')$ lies above $N'$. Now suppose $(k,d_k)$ lies on a corner of $L$ (excluding $k=k_0$). Then $d_k=\ell_k$ and inequality holds in (*):
+\[
+d_{k-1}>\ell_k+t=\ell'_k=d_k+t
+\]
+so $d_k'=\ell'_k$ and $(k,d_k')$ lies on $N'$.
+\item $k>k_0$: We have
+\begin{align*}
+d_{k-1}&\ge\ell_{k-1}=\ell_k'\\
+d_{k}+t&\ge \ell_k+t\stackrel{(*)}{>} \ell_{k-1}=\ell_k'.
+\end{align*}
+where in (*) we use the fact that the slope of the segment $(k-1,\ell_{k-1})(k,\ell_k)$ is greater than $-t$. Hence $(k,d_k')$ lies above $(k,\ell_k')$. Now suppose $(k-1,d_{k-1})$ lies on a corner of $L$. Then $d_{k-1}=\ell_{k-1}$ so
+\[
+d_{k}+t\ge\ell_k+t>d_{k-1}=\ell_{k-1}=\ell_k',
+\]
+showing $d_k'=\ell_k'$ and $(k,d_k')$ lies on $N'$.\qedhere
+\end{enumerate}
+\end{proof}
+%
+\section{Places as Galois orbits}
+Here is an alternate definition of a place.
+\begin{df}
+Let $(K,v)$ be a field with valuation and $L/K$ be an extension. A \textbf{place} on $L$ over $v$ is a $G(\ol K_v/K_v)$-orbit on $\Hom_K(L,\ol K_v)$.
+\end{df}
+\begin{ex}
+Let $K=\R$, and $L$ a fiinite extension of $K$. Then the places of $L$ over $\R$ are just $\Hom_K(L,\R)$, the real embeddings of $L$, and the complex places are just $G(\C/\R)\bs\Hom_K(L,\C)$, i.e. pairs of complex conjugate embeddings.
+\end{ex}
+We show this is equivalent to our previous definition.
+\begin{thm}
+Assume...
+There is a bijective correspondence between equivalence classes of valuations $w\mid v$, $v$ on $K$, and $G(\ol K_v/K_v)$-orbits on $\Hom_K(L,\ol K_v)$:
+\[
+\set{w\mid v}{w\in M_L}\xrightarrow{\cong} G(\ol K_v/K_v)\bs\Hom_K(L,\ol K_v).
+\]
+
+Letting $\ol v$ be the unique extension of $v$ to $\ol K_v$, 
+the embedding $\tau:L\hra \ol K_v$ is associated to the valuation $\ad_{\ol{v}}$ restricted to $L$.
+\end{thm}
+%
+\section{Krasner's lemma and consequences}
+The following is a surprising result... 
+\index{Krasner's lemma}
+\llabel{Krasner's lemma}
+\begin{lem}[Krasner's lemma]\llabel{krasner}
+Let $K$ be complete with respect to a nonarchimedean valuation $|\cdot|$, and extend $|\cdot|$ to an algebraic closure $K^{\text{al}}$. Let $\al,\be\in K^{\text{al}}$. If $\be$ is separable over $K[\al]$, and
+\begin{equation}\llabel{belong-ineq}
+|\be-\al|<|\be'-\be|
+\end{equation}
+for any conjugate $\be'\ne \be$ of $\be$ over $K$, then $\be\in K[\al]$.
+\end{lem}
+We say that $\al$ {\it belongs} to $\be$ if inequality~(\ref{belong-ineq}) holds.
+\begin{proof}
+By the fixed field theorem, it suffices to show that for all embeddings $\si:K(\al,\be)\hra K^{\text{al}}$ fixing $K(\al)$, that $\si(\be)=\be$. We have
+\[
+|\si(\be)-\al|=|\si(\be)-\si(\al)|=|\be-\al|
+\]
+since $|\bullet|=|\sigma \bullet|$ and $\si(\al)=\al$. Hence
+\[
+|\si(\be)-\be|=|(\si(\be)-\al)+(\al-\be)|\le |\be-\al|,
+\]
+the last following since $|\cdot|$ is nonarchimedean. By the minimality assumption we must have $\si(\be)=\be$.
+\end{proof}
+We define a norm on polynomials by setting
+\[
+\ve{\sum_{k=0}^n c_kX^k}=\max_{0\le k\le n} |c_k|.
+\]
+Using Krasner's Lemma, we show that polynomials that are close together have roots that are closely related.
+%\begin{thm}\llabel{krasner-poly}
+%%If $\al_1,\ldots, \al_n$ are the roots of $f$. If 
+%%\[
+%%\ve{f-g}< \frac{\min_{i\ne j}|\al_i-\al_j|^n}
+%%{\max\{|\be_k|,1\}^n},
+%%\]
+%Given $f$, there exists $\ep>0$ such that if $\ve{f-g}<\ep$ and $\be$ is a root of $g$, then $K[\al]=K[\be]$ for some root $\al$ of $f$.
+%%Letting $\al_1,\ldots, \al_n$ be the roots of $f$, we can take
+%%\[
+%%\ep=\frac{\min_{i\ne j}|\al_i-\al_j|^n}{\max()}
+%%\]
+%\end{thm}
+\begin{proof}
+ Choose $\de$ so this last quantity is at most $\min_{i\ne j} |\al_i-\al_j|$. Then by Krasner's Lemma~\ref{krasner}, $\al\in K[\be]$. Since $\be$ and $\al$ both have degree $n$ over $K$, $K(\al)=K(\be)$.
+\end{proof}
+In fact, we have the following stronger result.
+Using Krasner's Lemma, we show that polynomials that are close together have roots generating the same extensions.
+\begin{thm}\llabel{krasner-poly}
+Given $f$, there exists $\ep>0$ such that if $\ve{f-g}<\ep$, then there is an ordering of roots $\al_1,\ldots, \al_n$ and $\be_1,\ldots, \be_n$ of $f$ and $g$, respectively, counting multiplicities, such that $K(\al_j)=K(\be_j)$.
+\end{thm}
+\begin{proof}
+\noindent\underline{Step 1:} First we show that the roots of $g$ approach the roots of $f$, as $\ve{f-g}\to 0$.
+\begin{lem}\llabel{root-continuity1}
+Keep the hypothesis of the theorem. Suppose $\ep>0$. Then there exists $\de>0$ such that if $\ve{f-g}<\de$, then for every root $\be$ of $g$, there exists a root $\al$ of $f$ such that $|\be-\al|<\ep$.
+\end{lem}
+\begin{proof}
+First note that the roots of a monic polynomial $h$ are bounded in terms of $\ve{h}$. Indeed, letting $h(X)=\sum_{k=0}^n c_kX^k$, if $\ga$ is a root of $h$, then by Proposition~\ref{elem-prop-dv}(3), we must have $c_k\ga^k \ge \ga^n$ for some $0\le k<n$, and hence
+\[
+\ga\le c_k^{\rc{n-k}}\le \max(1,\ve{h}).
+\]
+
+Suppose $\ve{f-g}\le\de$ is small (say, less than 1). Then $\ve{g}\le \ve{f}+\de$, which is bounded. Hence the roots of $\ve{g}$ are bounded, say by $C$. Let $\be$ be a root of $g$. On the one hand, we have
+\begin{equation}\llabel{function-continuity}
+(f-g)(\be)\le \ve{f-g}\max\{|\be|^n,1\}\le\de \max\{C^n,1\}
+\end{equation}
+and on the other,
+\[
+(f-g)(\be)=f(\be)=\prod_{k=1}^n (\be-\al_k).
+\]
+Hence $|\be-\al_k|\le (\de \max\{C^n,1\})^{\rc n}$ for some $n$. We can choose $\de$ so this is less than $\ep$.
+\end{proof}
+\noindent{\underline{Step 2:}} We strengthen the lemma to account for multiplicities. 
+\begin{lem}\llabel{root-continuity2}
+Keep the hypotheses of the theorem. For every $\ep>0$ there exists $\de>0$ such that whenever $\ve{f-g}<\de$, there exist orderings $\al_1,\ldots, \al_n$ and $\be_1,\ldots, \be_n$ such that $|\be_k-\al_k|<\ep$ for all $k$.
+\end{lem}
+\begin{proof}
+%Choose $\ep<\rc{2}\min_{\al_i\ne \al_j} |\al_i-\al_j|$ in Lemma~\ref{root-continuity1}. Then for $\ve{f-g}<\de$, each root of $g$ is closest 
+By Lemma~\ref{root-continuity1}, as $\ve{f-g}\to 0$, the  distance from the roots of $g$ to the closest roots of $f$ approaches 0. %Let $\al_1',\ldots, \al_m'$ be the distinct roots of $f$, and suppose they have multiplicities $r_1,\ldots, r_m$. 
+%For each root $\be_k$ of $g$ let $\al_k$ be the closest root of $f$. Suppose by way of contradiction that 
+%multiplicities $\al_1$ 
+%%of elements $\al_k$ do not match $s_1,\ldots, s when we take $\ep$ small enough. Let $r_1,\ldots, r_m$ be the multiplicities of roots of $f$. Then we can find $(s_1,\ldots, s_m)$ and a sequence of polynomials $g_k$ such that the multiplicities of roots of 
+%Suppose the distinct roots $\al_1',\ldots, \al_m'$ of $f$ have multiplicities $r_1,\ldots, r_m$. For $\be$ a root of $g$ (counting multiplicities), let $\al(\be)$ be the root of $f$ closest to $f$, and let $s_1(g),\ldots, s_m(g)$ be the multiplicites of roots of $f$ in the $\al(\be)$. Suppose by way of contradiction that $(s_1(g),\ldots, s_m(g))$ is not constantly $(r_1,\ldots, r_m)$ for $g$ close enough to $f$. Then we can find a sequence $g_j\to f$ such that $(s_1(g_j),\ldots, s_m(g_j))$ is constant and not equal to $(r_1,\ldots, r_m)$. We have
+%\[
+%
+%\]
+Let $\be_1(g),\ldots, \be_n(g)$ be the roots of $g$. For each $k$ let $\al_k(g)$ be the root of $f$ closest to $\be_k(g)$. We have $\max_k|\be_k(g)-\al_k(g)|\to 0$ as $g\to f$. Suppose the distinct roots $\al_1',\ldots, \al_m'$ of $f$ have multiplicities $r_1,\ldots, r_m$, and suppose that they occur with multiplicities $s_1,\ldots, s_m$ in the $\al_k(g)$. Suppose by way of contradiction that $(s_1(g),\ldots, s_m(g))$ is not constantly $(r_1,\ldots, r_m)$ for $g$ close enough to $f$. Then we can find a sequence $g_j\to f$ such that $(s_1(g_j),\ldots, s_m(g_j))$ is constant and not equal to $(r_1,\ldots, r_m)$. Then
+\[
+g_j(X)=\prod_{k=1}^n (X-\be_k(g_j))\to \prod_{k=1}^m(X-\al_k'(g_j))^{s_k}\ne \prod_{k=1}^m(X-\al_k')^{r_k}=f(X),
+\]
+contradiction.
+\end{proof}
+\noindent\underline{Step 3:} Take $\ep=\min_{i\ne j} |\al_i' - \al_j'|$ in Lemma~\ref{root-continuity2}. Then Krasner's Lemma~\ref{krasner} gives the conclusion.
+\end{proof}
+From this we get that every field extension of $\Q_p$ can be described by a field extension of $\Q$, by choosing a close enough approximation to a minimal polynomial.
+
+
+\begin{cor}
+Let $L/\Q_p$ be a finite extension. Then there is a finite extension $K/\Q$ such that $[K:\Q]=[L:\Q_p]=n$ and $K\cdot \Q_p=L$.
+\end{cor}
+\begin{proof}
+Using the primitive element theorem, choose $\al$ so that $\Q_p(\al)=L$. Let $g\in \Q_p[X]$ be the minimal polynomial of $\al$. By Theorem~\ref{krasner-poly}, for $g$ close enough to $f$, there is a root $\be$ of $g$ such that $\Q_p(\al)=\Q_p(\be)$. Take $g\in \Q[X]$ sufficiently close, and $L=K(\be)$. Then 
+\[K\cdot \Q_p=K(\al)=K(\be)=L.\qedhere \]
+\end{proof}
+%%%%%%%%%%%%%%%%%%%%5
+\chapter{Local and global fields}
+\llabel{lg-fields}
+\section{Topology of local fields}
+\begin{df}
+A \textbf{local field} is a field $K$ with a nontrivial valuation $\ad$ such that $K$ is locally compact.
+\end{df}
+Note this requires that $K$ is complete.
+\begin{pr}\llabel{ring-of-integers-compact}
+Let $K$ be complete with respect to a discrete nonarchimedean valuation. Then $A$ is compact if and only if $k:=A/\mm$ is finite.
+\end{pr}
+\begin{proof}
+Suppose $A$ is compact.
+Note $\mm=\set{x}{|x|<1}$ is open, and any translate of it is open. Note $A=\bigsqcup_{a\in A/\mm} a+\mm$ where the union is over representatives in $A/\mm$. A finite number of these cover $A$, so $k$ is finite.
+
+Conversely, suppose $k:=A/\mm$ is bounded. It suffices to show that $A$ is closed and totally bounded\footnote{A set is {\it totally bounded} if for every $r$, $A$ can be covered by a finite number of sets with diameter at most $r$.}.
+\begin{enumerate}
+\item $A$ is closed since $A=\set{x}{|x|\le |\pi|}$.
+\item $A$ is totally bounded: Given $\ep>0$, choose $r$ so that $|\pi|^{r+1}<\ep$. Now every element is in a ball of radius 1 centered at one of the finite number of points in the form $a_0+a_1\pi+\cdots+a_r\pi^r$. \qedhere
+\end{enumerate}
+\end{proof}
+\begin{pr}\llabel{compact-sets-in-lf}
+If $K$ has finite residue field then $\sO_K^{\times}$, $\mfp^n$, and $1+\mfp^n$ are all compact.
+\end{pr}
+\begin{proof}
+From Proposition~\ref{ring-of-integers-compact}, $A$ is compact. The above are all closed subsets of $A$ so compact.
+\end{proof}
+
+\begin{thm}
+The following is a complete classification of local fields, up to isomorphism.
+\begin{enumerate}
+\item $\R$ and $\C$ with the usual metric.
+\item Finite extensions of $\Q_p$.
+\item Field of formal Laurent series $k((T))$ over finite field.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Neukirch, p. 135.
+\end{proof}
+\fixme{Fill in: local fields vastly simplify things because...}
+%
+\subsection{Open sets and continuity}
+\begin{pr}\llabel{power-open}
+For any local field $K$ and any $n$, the $n$th power map is open on $K^{\times}$, i.e. it takes open subsets of $K^{\times}$ to open sets.
+\end{pr}
+\begin{proof}
+For $K=\R$ or $\C$, this is clear.
+
+For $K$ $\pi$-adic, this is an easy consequence of Hensel's Lemma. Let $y\in K^{\times n}$. We may suppose $v(y)=0$. Suppose $x_0^p-y=0$. Let $k=v(p)$ and
+let $\ep$ be such that $v(\ep-y)\ge 2k+1$. Consider the polynomial $f(x)=x^n-y$. Now $f(x_0)\equiv 0\pmod{\pi^{2k+1}}$ so by Hensel's Lemma $x_0$ lifts to a solution of $f$ in $K$. (The version of Hensel in ACIM, p. 14. Add this in.)
+\end{proof}
+\begin{pr}\llabel{pr:nm-cont}
+For any extension of local fields $L/K$, any $\si\in G(L/K)$ acts as a homeomorphism, and the norm map $\nm_{L/K}$ is continuous and open on $K^{\times}$.
+\end{pr}
+\section{Unramified extensions}
+\begin{df}
+Let $K$ be a complete field with residue field $k$; let $L$ be a finite extension of $K$ with residue field $l$. We say $L/K$ is \textbf{unramified} if $l/k$ is separable and the prime ideal $\mfp$ in $\sO_K$ does not ramify in $L$.
+
+$L/K$ is \textbf{totally ramified} if $\mfp$ ramifies completely; by the degree equation this is equivalent to $l=k$.
+\end{df}
+Note from the residue equation that 
+\begin{equation}\llabel{doesnt-ramify}
+\mfp\text{ does not ramify} \iff [L:K]=[l:k].
+\end{equation}
+
+Our main theorem of this section is Theorem~\ref{unramified-is-separable}. We will show that if $L/K$ is unramified, then $l/k$ is separable. If $l/k$ is separable, though, we need an extra condition to make sure $L/K$ is unramified; namely that a minimal polynomial for $L/K$ stays a minimal polynomial for $l/k$, so that~(\ref{doesnt-ramify}) holds.
+%To prove this we first need a preliminary proposition. One might wish that unramified extensions of complete fields correspond exactly to those with separable extensions of residue fields. However, we also need that 
+%this is not exactly true, unless we strengthen the separability condition slightly.
+\begin{pr}\llabel{complete-unramified-criteria}
+Let $K$ be a complete field with residue field $k$; let $L$ be a finite extension of $K$ with residue field $l$. Suppose $L=K(\al)$, and let $g(x)\in K[x]$.
+The following are equivalent.
+%This argument is from Lang.
+\begin{enumerate}
+\item $L/K$ is unramified, and $g$ is the minimal polynomial of $\al$.
+\item $l/k$ is separable, with $l=k(\ol{\al})$, $g$ has $\al$ as a root, $\ol{g}$ is the minimal polynomial of $\ol{\al}$, and $\ol{g}$ has no repeated roots.
+\end{enumerate}
+\end{pr}
+%(Note the last condition is stronger than saying $l/k$ is separable.)
+\begin{proof}
+Suppose (1) holds. Then $\ol{g}$ has $\ol{\al}$ as a root. Note $L=K(\al)$ gives $l=k(\ol{\al})$. By~(\ref{doesnt-ramify}), $\ol{\al}$ has degree $[l:k]=[L:K]$ over $k$. Since $\ol{g}$ has degree $[L:K]$, it must be the minimal polynomial of $\ol{\al}$, and have no repeated roots. This shows $l/k$ is separable.
+
+Suppose (2) holds. We have
+\[
+[L:K]\le \deg g=\deg \ol{g}= [l:k],
+\]
+the last equality following since $\ol{g}$ is the minimal polynomial of $\ol{\al}$. % and has no repeated roots.
+But $[L:K]\ge[l:k]$, so equality holds and $\mfp$ (the prime ideal of $\sO_K$) is unramified by~(\ref{doesnt-ramify}). %Note $L/K$ is separable because $g$ has no repeated roots.
+Thus $L/K$ is unramified.
+\end{proof}
+For local fields, the property of being unramified behaves well under extensions and products.
+\begin{pr}\llabel{unramified-props}$\,$
+\begin{enumerate}
+\item
+Suppose that $K\subeq L\subeq M$ are finite extensions. If $M/L$ and $L/K$ are unramified, then $M/K$ is unramified.
+\item
+Suppose that $K\subeq L,M$ are finite extensions. If $L/K$ is unramified, then $LM/M$ is unramified.
+\item
+Suppose that $K\subeq L,M$ are finite extensions. If $L/K$ and $M/K$ are unramified, then $LM/K$ is unramified.
+\end{enumerate}
+\[
+\xymatrix{
+M\ar@{-}[d]^{\text{unram}}\ar@/_1pc/@{.}[dd]_<<<<<<<{\text{unram}}&&&LM\ar@{-}[ld]\ar@{.}[rd]^{\text{unram}}&&&LM\ar@{.}[dd]^{\text{unram}}\ar@{-}[rd]\ar@{-}[ld]&\\
+L\ar@{-}[d]^{\text{unram}}&&L\ar@{-}[rd]^{\text{unram}}&& M\ar@{-}[ld]&L\ar@{-}[rd]^{\text{unram}}&&M\ar@{-}[ld]^{\text{unram}}\\
+K&&&K&&&K&
+}
+\]
+\end{pr}
+\begin{proof}
+Let $k,l,m,n$ be the residue fields of $K,L,M,LM$, and $\mfp$, $\mP$, and $\mP'$ be the prime ideals of $\sO_K$, $\sO_L$, $\sO_M$, respectively.
+\begin{enumerate}
+\item We have $\mfp\sO_M=\mP\sO_L=\mP'$. Separability is transitive, so $M/K$ is unramified.
+\item Write $L=K(\al)$. By Proposition~\ref{complete-unramified-criteria}, we can find $g$ with $\al$ as root such that $\ol{g}$ is the minimal polynomial of $l=k(\al)$ over $k$, and is separable. Then the minimal polynomial for $n=m(\al)$ over $m$ divides $\ol{g}$, hence is separable. By Proposition~\ref{complete-unramified-criteria} again, $LM/M$ is unramified.
+\item By part 2, $LM/M$ is unramified. Since $M/K$ is unramified, by part 1 $LM/K$ is unramified.\qedhere
+\end{enumerate}
+\end{proof}
+\begin{thm}\llabel{unramified-is-separable}
+Let $K$ be a field; fix an algebraic closure.
+There is an equivalence of categories between
+\begin{itemize}
+\item finite unramified extensions $L/K$, and  
+\item finite separable extensions $l/k$.
+\end{itemize}
+\[
+\xymatrix{
+L_1\ar[r]\ar[d] &L_2\ar[d]\\
+l_1=L_1/\mfp_1\ar[r]&l_2=L_2/\mfp_2.
+}
+\]
+
+Moreover,
+\begin{enumerate}
+\item $L\subeq M$ if and only if $l\subeq m$.
+\item The residue field of $LM$ is $lm$.
+\item $L/K$ is Galois if and only if $l/k$ is Galois, and
+\[
+G(L/K)\xra{\cong} G(l/k)
+\]
+by restricting $\si\in G(L/K)$ to $B=\sO_L$ and modding out by $\mP B$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+By Proposition~\ref{complete-unramified-criteria}, $L$ does get sent to a separable extension.
+
+First we show the map is surjective. Given $l/k$ separable, choose $\be$ so that $l=k(\be)$ and choose $f$ so that $\ol{f}$ be the minimal polynomial of $\be$. Since $\be$ is a simple root of $\ol{f}$, by Hensel's Lemma~\ref{hensel1} we can lift it to a root $\al$ of $f$. Then $K(\al)$ is mapped to $k(\be)$.
+
+Part (2) is clear. For (1), if $L\subeq M$ then clearly $l\subeq m$. Conversely, suppose $l\subeq m$. 
+%Next we show it is injective. Suppose $L_1,L_2$ are unramified with residue field $l$.
+Now $LM$ is also unramified (Proposition~\ref{unramified-props}) and has residue field $l\cdot m=m$. Hence,
+\[
+[M:K]=[m:k]=[lm:k]=[LM:K],
+\] 
+showing $L\subeq M$.
+
+If $l=m$, then the above shows that $L=M$. Hence the map is injective. The action on maps $L_1\to L_2$ is self-explanatory.
+
+For (3), note an extension is Galois iff it is the (minimal) splitting field of a separable polynomial $f$. Take $g$ to be the minimal polynomial of a primitive element $\al$; note $\ol{\al}$ generates $l/k$. 
+Note by Proposition~\ref{complete-unramified-criteria}, $\ol{g}$ is separable. 
+%by Proposition~\ref{complete-unramified-criteria}, 
+If $L/K$ is Galois, then $g$ splits over $L$ so %and that its roots generate $L/K$. Thus 
+$\ol{g}$ splits over $l$. Combining the previous two statements, $l/k$ is Galois.
+Conversely, suppose $l/k$ is Galois. Since $\ol{g}$ splits into nonrepeated linear factors, Hensel's Lemma~\ref{hensel2} lifts it to a factorization of $g$. Hence $g$ splits over $K$ into distinct linear factors, showing $L/K$ is Galois.
+\end{proof}
+Suppose $k$ is a finite field. In this case, the separable extensions $l/k$ are exactly the finite extensions. Moreover, we understand what these extensions are; there is one of each degree, and we can find the corresponding $L/K$ explicitly. Furthermore, by surjectivity in (3), $G(L/K)$ contains a unique element mapping to the Frobenius element in $G(l/k)$; see Definition~\ref{intro-cft}.\ref{frobenius-element}.
+%\begin{rem}\llabel{unram-finite-field}$\,$
+%Suppose $k$ is a finite field (in particular, this is true if $K$ is the completion of a number field).
+%\begin{enumerate}
+%\item
+%$k$ is perfect, so every finite extension $l/k$ is separable.
+%\item
+%There is exactly one unramified extension of $L/K$ of a given degree. \fixme{Comment: Lots of polynomials have roots generating the same extension!} 
+%\item 
+%By surjectivity in (3), $G(L/K)$ contains a unique element mapping to the Frobenius element. See Definition~\ref{intro-cft}.\ref{frobenius-element}.
+%\end{enumerate}
+%\end{rem}
+\begin{lem}\llabel{nroot-unram}
+Let $\al$ be a root of
+\[
+f(X):=X^n-a=0
+\]
+where $a$ is a unit and $p\nmid n$. Then $K(\al)/K$ is unramified.
+\end{lem}
+\begin{proof}
+Let $g(X)\mid f(X)$ be the minimal polynomial of $\al$. Let $L=K(\al)$ and $l$ be its residue field.
+
+Note that $f'(X)=nX^{n-1}\ne 0$ has no common factor with $f(X)=X^n-a$, even when reduced modulo $\mfp$, as $p\nmid n$ and $a\nin \mfp$. Hence $f(X)$, and {\it a fortiori} $g(X)$, has no repeated root in $k$. Any factorization of $g(X)$ in $k$ gives a factorization of $g(X)$ in $K$ by Hensel's Lemma. Hence $g$ remains irreducible in $k[X]$. This shows $[l:k]=[L:K]$. By the degree equation, $L/K$ must be unramified.
+\end{proof}
+\begin{thm}\llabel{unram-ram}
+Let $L/K$ be an extension of complete fields with finite residue fields. Then %the compositum of all unramified extension of $K$ contained in $L$ is unramified over
+there exists a field $K\subeq L_u\subeq L$ such that $L_u/K$ is unramified and every unramified extension of $K$ contained in $L$ is contained in $L_u$. Moreover,
+\begin{enumerate}
+\item
+$L_u$ is obtained by adjoining to $K$ all roots of unity in $L$ whose order is relatively prime to $q:=\chr(K)$.
+\item $L/L_u$ is totally ramified.
+\end{enumerate}
+\[
+\xymatrix{
+L\ar@{-}[d]^{\text{totally ramified}}\\
+L_u\ar@{-}[d]^{\text{unramified}}\\
+K
+}
+\]
+\end{thm}
+We call $L_u$ the \textbf{maximal unramified extension} of $K$ contained in $L$. \fixme{This is useful...} \fixme{Defining this when $L/K$ is infinite}
+\begin{proof}
+Let $L_u$ be the compositum of all unramified extensions of $K$ contained in $L$. Then $L_u$ is unramified by Proposition~\ref{unramified-props}, and it contains all unramified extensions of $K$ contained in $L$.
+
+For each $n$ not a multiple of $p$, $K(\ze_n)/K$ is unramified by Lemma~\ref{nroot-unram}. Letting $q=|k|$, the corresponding extension of residue fields is $k(\ze_n)/k=\F_{q^{\ord_q(n)}}/\F_q$. We get all finite extensions $l/k$ in this way, thus all unramified extensions $L'/K$ in this way. Taking the roots of unity inside $L$ gives the result.
+%Now the finite separable extensions are exactly the finite extensions of $l/k$, which are the splitting fields of the polynomials $X^{q^n-1}-1$. \fixme{reference} 
+%a%Together, these fields contains all roots of unity of order relatively prime to $q$ (since if $m\perp q$ then $q$ would have finite order with respect to $m$).
+%As $n$ ranges over $\N$, $q^n-1$ contain all factors relatively prime to $n$ (since if $m\perp q$ then $q$ would have finite order with respect to $m$). %By the construction in Theorem~(\ref{unramified-is-separable}), $X^{q^n-1}-1$
+%By Lemma~\ref{nroot-unramified}, 
+%then the corresponding fields $L/K$ are generated by roots of unity of order relatively prime to $L$. Taking the compositum gives the result.
+\end{proof}
+\section{Ramified extensions}
+\begin{df}
+Let $L/K$ be a ramified extension of local fields, with $q:=\chr(k)=p^n$. We say
+\begin{enumerate}
+\item
+$L/K$ is \textbf{tamely ramified} if $p\nmid [l:k]$.
+\item
+$L/K$ is \textbf{wildly ramified} if $p\mid[l:k]$.
+\end{enumerate}
+\end{df}
+We seek analogues of Lemma~\ref{nroot-unram} in for ramified extensions.
+
+For a prime $\mfp$ of a Dedekind domain $A$ (not necessarily corresponding to a local field) let $v_{\mfp}$ denote the corresponding valuation. (That is, if $v_{\mfp}(a)$ is defined such that $\mfp^{v_{\mfp}(a)}$ is the highest power of $\mfp$ dividing $(a)$.) 
+Note the following two facts.
+\begin{enumerate}
+\item If $\mfp B=\mP^e$, then
+\[
+v_{\mfp}(a)=v_{\mP}(a)^e.
+\]
+\item If $a_1+\cdots +a_n=0$, then the minimum value of $v_{\mfp}(a_i)$ is attained for two indices.
+\end{enumerate}
+\begin{df}\llabel{eisenstein-df}
+An \textbf{Eisenstein extension} relative to $\mfp$ is an extension $K(\al)/K$ where the minimal polynomial of $\al$ is of the form
+\[
+f(x)=x^n+a_{n-1}x^{n-1}+\cdots +a_0
+\]
+where $v_{\mfp} a_i>0$ and $v_{\mfp} a_0=1$.
+\end{df}
+\begin{thm}\llabel{eisenstein-ramification}
+The prime ideal $\mfp$ totally ramifies in any Eisenstein extension relative to $\mfp$:
+\[
+\mfp B=\mP^e, \quad \mP=(f(\al), \mP)^e.
+\]
+\end{thm}
+\begin{proof}
+Let $\mP^e|| \mfp$. Note $e\le n=[L:K]$.
+We calculate the valuation of $f(\al)$ with respect to $\mP$.
+\begin{align*}
+v_{\mP}(\al^n)&= nv_{\mP}(\al)\\
+v_{\mP}(a_k\al^k)&= e+k\ord>e,&1\le k\le n-1\\
+v_{\mP}(a_0)&=e.
+\end{align*}
+Since $f(\al)=\al^n+\cdots +a_0=0$, the minimum valuation must be attained for two terms. The only way this is possible is if $n\ord_{\mP}(\al)=e$. Then  $\ord_{\mP}(\al)=1$ and $n=e$, as needed.
+\end{proof}
+
+\begin{thm}
+Let $K$ be complete with respect to a nonarchimedean valuation. 
+The totally ramified extensions of $K$ are exactly those of the form $K(\al)$ where $\al$ is the root of an Eisenstein polynomial.
+\end{thm}
+%Recall that an Eisenstein polynomial is in the form $f(X)=a_nX^n+\cdots +a_0$ where $\ord a_n=0$, $\ord a_k>0$ for $1\le k<n$, and $\ord a_0=1$ (Definition~\ref{factorization}.\ref{eisenstein-df}). \fixme{Should I define Eisenstein polynomial or Eisenstein extension?}
+\begin{proof}
+%Suppose $\al$ is the root of an Eisenstein polynomial:
+%\[
+%a_n\al^n+\cdots +a_1\al+a_0=0.
+%\]
+%Extend the valuation $\ad$ to $L$. We have by~\ref{elem-prop-dv} that the maximum valuation is attained by two terms in the above sum. The 
+%Suppose $\al$ is the root of an Eisenstein polynomial $f$. By Lemma~\ref{newton-lemma}, since the \fixme{lower?} Newton polygon consists of just the segment joining $(0,1)$ and $(n,0)$, we have that $\ord(\al)=\rc n$, i.e. the prime ideal $\mfp$ of $K$ equals $(\al)^n$, i.e. the extension is totally ramified of degree $n$.
+The forward direction follows directly from Theorem~\ref{eisenstein-ramification}.
+
+Conversely, let $L/K$ be a totally ramified extension. Take $\al$ to be a generator of the maximal ideal $\mP$ of $\sO_L$. Note $\ord(\al)=\rc n$ since $(\al)^n=\mfp$. Note that for any $a_{n-1},\ldots, a_0$, we have
+\[
+\ord(a_k\al^k)=\ord(a_k)+\frac{k}{n}\equiv \frac{k}{n}\pmod 1,
+\]
+since $\ord(a_k)$ is an integer. Thus, the nonzero terms $a_k\al^k$, $0\le k<n$, have different orders. Thus by Proposition~\ref{elem-prop-dv}, $a_{n-1}\al^{n-1}+\cdots +a_0\ne 0$ unless all coefficients are 0. This shows that $\al$ must have degree $n$; suppose $\al^n+a_{n-1}\al^{n-1}+\cdots +a_0=0$. Again by Proposition~\ref{elem-prop-dv}, the minimum order is attained for two terms. We have
+\begin{align*}
+\ord_{\mfp}(\al^n)&=n\ord_{\mfp}(\al)=1\\
+\ord_{\mfp}(a_k\al^k)&=k\ord(a_k)+\frac{k}{n},&0\le k\le n-1.
+\end{align*}
+The only way this can happen 
+% as observed above...
+is if $\al^n$ and $\ord(a_0)$ are the nonzero terms with least order. This gives $\ord(a_0)=1$, and $\ord(a_k)>0$ for $1\le k\le n$, i.e. the polynomial is Eisenstein.
+\end{proof}
+\begin{thm}
+Suppose $L/K$ is a totally and tamely ramified extension of degree $n$.
+Then $L=K(\al)$ for some $\al$ a root of
+\[
+X^n-\pi=0
+\]
+for $\pi \in \mfp$.
+%This doesn't make sense...
+%
+%Conversely, if $L=K(\al)$ where $\al$ is a root of
+%\[
+%X^n-a=0,\quad p\nmid n,
+%\]
+%then $L/K$ is tamely ramified. If $p\nmid \ord_{\mfp}(a)$, then $L/K$ is totally ramified.
+\end{thm}
+\begin{proof}
+%Take $(\al)=\mP$. Since $L/K$ is totally ramified, $(\al)^n=\mfp$, so $\al^n=\pi\in \mfp$.
+%
+%\begin{enumerate}
+%\item $L/K$ is tamely ramified: Write $a=\pi^ru$, where $\ord_{\mfp}(\pi)=1$ and $u$ is a unit. We exhibit a field containing $K(\al)$ that is tamely ramified over $K$. Consider 
+%\[
+%\xymatrix{
+%K(\ze_n,\pi^{\rc n},u^{\rc n})\ar@{-}[d]\\
+%K(\ze_n,u^{\rc n})\ar@{-}[d]\\
+%K
+%}
+%\]
+%By Theorem~\ref{unram-ram}, $K(\ze_n,u^{\rc n})$ is unramified over $K$. But $K($
+%\end{enumerate}
+Take $\be\in \mP$. Since $L/K$ is totally ramified, $\ord_{\mfp}(\be^n)=1$. Hence $\be^n=u\pi$ for some $u\in B^{\times}$, and $\be$ is a zero of
+\[
+g(X):=X^n-u\pi.
+\]
+Unfortunately, $u$ may not be in $A$. However, we show that this polynomial is close enough to 
+\[
+f(X):=X^n-u'\pi
+\]
+for some $u'\in A$ and proceed as in Theorem~\ref{krasner-poly} to show that the roots of these two polynomials generate the same extension.
+
+Since $L/K$ is totally ramified, $l=k$, i.e. $A/\mfp A\xra{\cong} B/\mP B$. Thus there exists $u'\equiv u\pmod{\mP}$ with $u'\in A$. This means $|u'-u|<1$. Letting $\al_1,\ldots, \al_n$ be the roots of $f(X)=0$,
+\[
+|\be-\al_1|\cdots |\be-\al_n|=|f(\be)|=|u\pi-u'\pi|<|\pi|=|\al_1|\cdots |\al_n|
+\]
+so $|\be-\al_j|<|\al_j|$ for some $j$; \wog{} $j=1$.
+
+Since $L/K$ is tamely ramified, $p\nmid n$ and  $f'(\al_1)=n\al_1^{n-1}$ has valuation $|\al_1|^{n-1}$. Hence
+\begin{equation}\llabel{derivative-valuation}
+|\al_1|^{n-1}=|f'(\al_1)|=|(\al_1-\al_2)\cdots (\al_1-\al_n)|.
+\end{equation}
+Note $|\al_j|=|u'\pi|^{\rc n}=|\al_1|$; hence $|\al_1-\al_j|\le |\al_1|$. By~(\ref{derivative-valuation}), equality must hold. Hence $|\be-\al_1|<|\al_1-\al_j|$ for all $j\ne 1$, and by Krasner's Lemma~\ref{krasner}, $K(\al_1)\subeq K(\be)$. Since both extensions are totally ramified of degree $n$, $L=K(\be)=K(\al_1)$.
+%As in Theorem~\ref{krasner-poly}, we compute $
+%Then
+%\[
+%\ve{(X^n-u\pi)-(X^n-u'\pi)}=|(u-u')\pi|<|\pi|.
+%\]
+%Now note 
+%For the converse, 
+\end{proof}
+The analogues of Proposition~\ref{unramified-props} carry over exactly.
+\begin{pr}\llabel{ramified-props}$\,$
+\begin{enumerate}
+\item
+Suppose that $K\subeq L\subeq M$ are finite extensions. If $M/L$ and $L/K$ are tamely ramified, then $M/K$ is tamely ramified.
+\item
+Suppose that $K\subeq L,M$ are finite extensions. If $L/K$ is tamely ramified, then $LM/M$ is tamely ramified.
+\item
+Suppose that $K\subeq L,M$ are finite extensions. If $L/K$ and $M/K$ are tamely ramified, then $LM/K$ is tamely ramified.
+\end{enumerate}
+\end{pr}
+\begin{thm}
+Let $K$ be a field with characteristic 0 and finite residue field, and let $\mfp$ be a prime in $\sO_K$. 
+Given $n$, there are only finitely many %totally ramified 
+extensions of $K_{\mfp}$ with degree at most $n$.
+\end{thm}
+\begin{proof}
+First we show that there are finitely many totally ramified extensions of degree $n$. Every such extension is realized by adjoining a root of an Eisenstein polynomial of degree $n$. By taking the coefficients, an Eisenstein polynomial can be identified with a point of 
+\begin{equation}\llabel{poly-compact}
+\underbrace{\mfp\times \cdots \times \mfp}_{n-1}\times A^{\times}\pi.
+\end{equation}
+The topology given by $\ve{\cdot}$ is exactly the product topology here; this is compact by Proposition~\ref{compact-sets-in-lf}. Now for each polynomial $f$, by Theorem~\ref{krasner-poly} there exists an open set $U_f$ such that any $g\in U_f$ has roots generating the same extensions as those of $f$. Since~(\ref{poly-compact}) is compact, a finite number of $U_f$ cover $f$. The roots corresponding to those $f$ generate all the totally ramified extensions of degree $n$.
+
+By Theorem~\ref{unram-ram}. Any finite extension $L$ of degree $n$ is an totally ramified extension of degree $\frac{n}{m}$ of an unramified extension $L_u$ of degree $m$ for some $m$. By the remark after Theorem~\ref{unramified-is-separable}, %~\ref{unram-finite-field} \fixme{(Promote this to a corollary of something)}, 
+there is exactly one unramified extension of degree $m$; for each $L_u$ by the above there are a finite number of possibilities for $L$.
+\end{proof}
+\section{Witt vectors*}
+We know from Proposition~\ref{pi-adic-expansion} that every element of $\hat{K}$ can be written as $\sum_{n\ge N} a_n\pi^n$ where the $a_n$ come from a fixed set of representatives for $A/\mm$. Although this allows us to write down any element, unless the set of representatives is closed under addition and multiplication (i.e. form a copy of $k$ in $A$), we cannot simply add and multiply the coefficients. Instead, we find that addition and multiplication are governed by {\it Witt vectors}. We will actually develop this theory in a more general context.
+\begin{df}
+Let $p$ be a prime number. A ring $R$ is a \textbf{strict $p$-ring} if $R$ is complete and Hausdorff with respect to the $p$-adic topology, $p$ is not a zero-divisor in $R$, and the residue ring $R/(p)$ is perfect. (A ring of characteristic $p$ is \textbf{perfect} if the map $x\mapsto x^p$ is bijective.)
+\end{df}
+We will primarily be interested in the case where $R$ is an unramified extension of $\Z_p$. %There is a unique unramified extension of $\Z_p$ with residue degree $f$, namely $\Z_p[\ze_{p^f-1}]$.
+\begin{thm}
+Let $K$ be a perfect ring of characteristic $p$.
+\begin{enumerate}
+\item
+There is a strict $p$-ring $R$ with residue ring $K$, unique up to canonical isomorphism.
+\item
+There is a unique system of representatives $\tau:K\to R$, called the \textbf{Teichm\"uller representatives}, such that 
+\[
+\tau(xy)=\tau(x)\tau(y)
+\]
+for all $x,y\in K$.
+\end{enumerate}
+\end{thm}
+The main example of interest to us is the following.
+\begin{ex}
+Fix $f$; then there is a unique unramified extension of $\Z_p$ with residue field $\F_q$, $q=p^f$, namely $\Z_p[\ze_{p^f-1}]$. The Teichmuller representatives are the $(q-1)$th roots of unity $\mu_{q-1}$. They are multiplicative, but not additive. The following construction will tell us how to add them.
+\end{ex}
+
+\begin{lem}\llabel{witt-operations}
+Given $X=(X_0,X_1,\ldots)$, define
+\[
+W_n(X)=X_0^{p^n} +pX_1^{p^{n-1}} +\cdots +p^nX_n,\quad n\ge 0.
+\]
+Then there exist polynomials
+\[
+S_0,S_1,\ldots;P_0,P_1,\ldots\in \Z[X_0,X_1,\ldots,Y_0,Y_1,\ldots]
+\]
+such that
+\begin{align*}
+W_n(S)&=W_n(X)+W_n(Y)\\
+W_n(P)&=W_n(X)\cdot W_n(Y).
+\end{align*}
+where $X=(X_0,X_1,\ldots)$, $Y=(Y_0,Y_1,\ldots)$, $S=(S_0,S_1,\ldots)$, and $P=(P_0,P_1,\ldots)$.
+\end{lem}
+The motivation for defining these polynomials is that %Lemma~\ref{witt-operations} 
+they tell us how to add in strict $p$-rings using the base-$p$ represenation with Teichm\"uller representatives as coefficients.
+\begin{thm}
+Let $R$ be a strict $p$-ring, $k$ its residue ring, and 
+$\tau:k\to R$ be the system of Teichm\"uller representatives. Then
+\[
+\su\tau(x_n) p^n+\su \tau(y_n)p^n = \su \tau(S_n(x_0^{p^{-n}},x_1^{p^{-(n-1)}},\ldots, x_n; y_0^{p^{-n}},y_1^{p^{-(n-1)}},\ldots, y_n)p^n.
+\]
+\end{thm}
+
+\begin{proof}[Proof of Lemma~\ref{witt-operations}]
+We will abbreviate
+\begin{align*}
+%X&=(X_0,X_1,\ldots)\\
+W(X)&=(W_0(X),W_1(X),\ldots)\\
+%S(X,Y)&=(S_0(X,Y),S_1(X,Y),\ldots)\\
+%P(X,Y)&=(P_0(X,Y),P_1(X,Y),\ldots)\\
+R&=\Z[X_0,X_1,\ldots;Y_0,Y_1,\ldots].
+\end{align*}
+All comparisons between $X,Y$ will be done componentwise, and we define $X^n=(X_0^n,X_1^n,\ldots)$.
+
+We find the $S_m,P_m$ inductively, with the additional condition that $S_m,P_m$ are polynomials in $X_0,\ldots, X_m,Y_0,\ldots, Y_m$. To begin, note $W_0(X)=X_0$ so we set
+\begin{align*}
+S_0(X,Y)&=X_0+Y_0\\
+P_0(X,Y)&=X_0Y_0.
+\end{align*}
+\begin{lem}
+If $F_m,G_m\in R$ and $F_m\equiv G_m\pmod{p}$ for every $m$, then
+\[
+W_n(F)\equiv W_n(G)\pmod{p^{n+1}}.
+\]
+\end{lem}
+\begin{proof}
+First note that for any $f,g\in R$ such that $f\equiv g\pmod{p}$,
+\[
+f^{p^j}\equiv g^{p^j}\pmod{p^{j+1}}.
+\]
+The proof is by induction, with the induction step following by the binomial theorem: if $f^{p^{j-1}}=g^{p^{j-1}}+p^{j}h$ then
+\[
+f^{p^j}=(g^{p^{j-1}}+p^jh)^p=g^{p^j}+\underbrace{\binom p1p^{j-1}}_{p^j}hg^{p^{j-1}(p-1)}+p^{j+1}k
+\]
+for some $k\in R$.
+
+This claim gives $f_j^{p^{n-j}}\equiv g_j^{p^{n-j}}\pmod{p^{n-j+1}}$ and hence
+\[
+p^jf_j^{p^{n-j}}\equiv p^jg_j^{p^{n-j}}\pmod{p^{n+1}}.
+\]
+Summing these up give the result.
+\end{proof}
+Directly from the definitions, we have
+\begin{align*}
+W_n(X)&=W_{n-1}(X^p)+p^nX_n.
+\end{align*}
+Hence the equations
+\begin{align*}
+W_n(S)&=W_n(X)+W_n(Y)\\
+W_n(P)&=W_n(X)W_n(Y)
+\end{align*}
+are equivalent to
+\begin{align}
+\nonumber
+W_{n-1}(S^p)+p^nS_n&=W_{n-1}(X^p) +p^nX_n +W_{n-1}(Y^p)+p^nY_n\\
+\llabel{witt-add}
+&=W_{n-1}(S(X^p,Y^p))+p^n(X_n+Y_n)\\
+\nonumber
+W_{n-1}(P^p)+p^nP_n&=(W_{n-1}(X^p) +p^nX_n)(W_{n-1}(Y^p)+p^nY_n)\\
+\llabel{witt-mult}
+&=W_{n-1}(P(X^p,Y^p))+p^n(X_nW_{n-1}(Y^p)+Y_nW_{n-1}(X^p)+p^nX_nY_n)
+\end{align}
+where~(\ref{witt-add}) and~(\ref{witt-mult}) follow from the hypothesis for $n-1$. 
+Solving for $S_n$ and $P_n$, these are equivalent to
+\begin{align*}
+S_n&=X_n+Y_n+\frac{W_{n-1}(S(X^p,Y^p))-W_{n-1}(S^p)}{p^n}\\
+P_n&=X_nW_{n-1}(Y^p)+Y_nW_{n-1}(X^p)+p^nX_nY_n+\frac{W_{n-1}(P(X^p,Y^p))-W_{n-1}(P^p)}{p^n}.
+\end{align*}
+However, since taking $p$th powers is a homomorphism modulo $p$, for any $f\in R$ we have $f(X,Y)^p\equiv f(X^p,Y^p)\pmod p$.
+Applying this to $f=S_j,P_j$, we see the conditions of the lemma are satisfied, so the numerators are divisible by $p^n$, and we can successfully define $S_n$ and $P_n$.
+\end{proof}
+\begin{thm}
+Let $A$ be a commutative ring. For 
+\[
+a=(a_0,a_1,\ldots),\quad b=(b_0,b_1,\ldots),\quad a_i,b_i\in A_i,
+\]
+the operations
+\[
+a\stackrel{W}{+} b=S(a,b),\quad a\stackrel{W}{\cdot} b=P(a,b).
+\]
+turn the set $A^{\N_0}$ into a commutative ring $W(A)$.
+\end{thm}
+This is called the \textbf{ring of Witt vectors} over $A$.
+\begin{proof}
+We first prove that associativity, commutativity, and distributivity hold as polynomial identities in the $a_j,b_j$. 
+The result then follows by considering the substitution homomorphism $\Z[a_0,\ldots;b_0,\ldots]\to A$.
+
+\begin{lem}
+The function $W:R^{\N}\to R^{\N}$, where $R:= \Z[a_0,\ldots;b_0,\ldots]$, is injective.
+\end{lem}
+\begin{proof}
+Suppose $X=(X_0,X_1,\ldots)$ and $W(X)=(Y_0,Y_1,\ldots)$. We show the $X_j$ are determined by induction. We have $X_0=W_0(X)=Y_0$. For the induction step, note
+\[
+Y_n=W_{n}(X)=X_0^{p^n}+pX_1^{p^{n-1}}+\cdots +p^nX_n;
+\]
+since $X_0,\ldots, X_{n-1},Y_n$ are determined and multiplication by $p^n$ is injective in $R$, $X_n$ is determined.
+\end{proof}
+Lemma~\ref{witt-operations} gives
+\begin{align*}
+W(X\stackrel W+Y)&=W(S(X,Y))=W(X)+W(Y)\\
+W(X\stackrel W{\cdot} Y)&=W(P(X,Y))=W(X)\cdot W(Y).
+\end{align*}
+Hence $W:W(A)\to R^{\N}$ is a map that preserves addition and multiplication; moreover, it is injective. Its image is a subalgebra of $R$, since it contains 0 and 1:
+\begin{align*}
+W(0,0,\ldots)&=(0,0,\ldots)\\
+W(1,0,\ldots)&=(1,1,\ldots).
+\end{align*}
+Hence $\stackrel{W}{+}$ and $\stackrel{W}{\cdot}$ turn $W(A)$ into a commutative algebra with unit (we are basically ``pulling back" the algebra structure from $R^{\N}$ to $W(A)$ using $W$).
+\end{proof}
+\subsection{Frobenius and Transfer maps} %Verschiebung maps}
+
+%\chapter{Global fields}\llabel{global-fields}
+\section{Extending valuations on global fields}
+\begin{thm}\llabel{ext-val-irr}
+Let $|\cdot|$ be a valuation on $K$ and let $\hat{K}$ be the completion of $K$ with respect to $|\cdot|$. Let $L=K(\al)$ be a finite separable extension of $K$, and let $f$ be the minimal polynomial of $\al$.
+
+The completions of $L$ with respect to the extensions $|\cdot|'$ of $|\cdot|$ are exactly $\hat{K}[X]/(h)$ as $h$ ranges over irreducible factors of $f$ in $\hat{K}$.
+%There is a bijective correspondence between extensions $|\cdot |'$ of $|\cdot|$ to $L$ and irreducible factors of $f$ in $\hat{K}$.
+\end{thm}
+\begin{proof}
+Suppose we are given an extension $|\cdot|'$. Let $\hat{L}$ be the completion of $L$ with respect to $|\cdot|'$.
+\[
+\xymatrix{
+L=K[\al]\ar@{^(->}[r]\ar@{-}[d] & \hat L=\hat K[\al]\ar@{-}[d]\\
+K\ar[r] & \hat{K}
+}
+\]
+Note $\hat K[\al]$ contains $\al$ and is complete (as it is a finite-dimensional vector space over a complete field), so $\hat L=\hat K[\al]$. Then considering the extension $\hat L/\hat K$, $\al$ is the root of one of the irreducible factors of $f$ in $\hat K[X]$.
+
+Conversely, given an irreducible factor $g$ of $h$ in $\hat K[X]$, consider $\hat K[\al']=\hat K[X]/(g)$. 
+\[
+\xymatrix{
+L=K(\al)\ar@{^(->}[r]\ar@{-}[d] & \hat L=\hat K(\al')\ar@{-}[d]\\
+K\ar[r] & \hat{K}
+}
+\]
+The valuation on $\hat K$ extends uniquely to $\hat K(\al')$ by Theorem~\ref{extend-discrete-valuations}. Then let $K(\al)\hra \hat K(\al')$ be the map sending $\al$ to $\al'$. (This makes sense as the minimal polynomials of $\al,\al'$ over $K$ are both $f$.) By the same reason as before, $\hat L=\hat K(\al)$, as desired.
+\end{proof}
+%%segway here
+\begin{thm}\llabel{completion-tensor}
+Let $\hat K$ be the completion of $K$ with respect to
+a archimedean or discrete nonarchimedean valuation $|\cdot|$.
+Let $L/K$ be a finite separable extension. There are finitely many extensions of $|\cdot|$ to $L$; denoting them by $|\cdot|_i$ and the respective completions of $L$ be $L_i$, we have the natural isomorphism
+\[
+\hat K\otimes_K L\cong\prod_{i} L_i.
+\]
+\end{thm}
+\begin{proof}
+By the primitive element theorem, %~\ref{pet}, 
+we can write $L=K(\al)$. Let $f$ be the minimal polynomial of $\al$. Let $f$ factor into irreducibles in $\hat K[X]$ as
+\[
+f=f_1\cdots f_n.
+\]
+Then
+\[
+\hat K\otimes_K L\cong \hat K\otimes_K K[x]/(f)\cong \hat K[x]/(f)\stackrel{\text{CRT}}{\cong} \prod_{i=1}^n \hat K[x]/(f_i)
+\stackrel{\text{Thm~\ref{ext-val-irr}}}{\cong} \prod_{i=1}^n L_i.\qedhere
+\]
+\end{proof}
+%we can think of the $L_i$ are all possible fields making the diagram commute
+Note the map in the theorem sends 
+\[
+a\ot b\mapsto (a_1b,\ldots, a_nb),
+\]
+where $a_i$ is the embedding of $a$ into $L_i$.
+We now have a way to calculate norms and traces in terms of completed fields.
+%\begin{cor}\llabel{local-global-degree}
+%Keep the same notation as above. Then
+%\[
+%[L:K]=\sum_{i} [L_i:K].
+%\]
+%\end{cor}
+%\begin{proof}
+%These are the dimensions of $\hat{K}\ot_K L$ and $\prod_i L_i$ as $\hat{K}$-vector spaces.
+%\end{proof}
+\begin{cor}\llabel{complete-ntr}
+Keep the same notation as above. Then
+\begin{enumerate}
+\item $\nm_{L/K}(\al)=\prod_{i=1}^n \nm_{L_i/\hat K}(\al)$.
+\item $\tr_{L/K}(\al)=\prod_{i=1}^n \tr_{L_i/\hat K}(\al)$.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+Using Proposition~\ref{ring-of-integers}.\ref{ntr-fext}(1) and Theorem~\ref{ext-val-irr}, we see
+\begin{align*}
+\nm_{L/K}(\al)&=\prod_{\al'\text{ root of }f}\al'=\pa{\prod_{\al'\text{ root of }f_1}\al'}\cdots \pa{\prod_{\al'\text{ root of }f_n}\al'}
+=\prod_{i=1}^n \nm_{L_i/\hat K}(\al)\\
+\tr_{L/K}(\al)&=\sum_{\al'\text{ root of }f}\al'=\pa{\sum_{\al'\text{ root of }f_1}\al'}+\cdots+ \pa{\sum_{\al'\text{ root of }f_n}\al'}
+=\sum_{i=1}^n \tr_{L_i/\hat K}(\al).
+\end{align*}
+\end{proof}
+
+\section{Product formula}
+\index{product formula}
+\begin{lem}\llabel{compare-normed-val}
+Let $L/K$ be a finite extension of number fields, with normalized nonarchimedean valuations $w\mid v$, as in Example~\ref{p-adic-val}. Let $\ad_w'$ be $w$ normalized so it extends $v$. Then
+\[
+\ad_w = \ad_w'^{[L_w:K_v]}.
+\]
+\end{lem}
+\begin{proof}
+Easy, see Milne pg. 132.
+\end{proof}
+
+\begin{thm}[Product formula]\llabel{product-formula}
+For any nonzero $\al\in K$,
+\[
+\prod_{v\in V_K} |\al|_v=1.
+\]
+\end{thm}
+\begin{proof}$\,$\\
+%\underline{Step 1:} We first show this for $K=\Q$. Given $n\in \Q$, factor it as $n=\pm \prod_{i=1}^{\iy}p_i^{a_i}$ where $p_i$ are all the prime numbers; note only a finite number of the $a_i$ are nonzero. Then 
+%\[
+%|\al|=\pa{\prod_i |a|_{p_i}}|a|_{\iy}=\pa{\prod_{i=1}^{\iy} p_i^{-a_i}}|a|=1.
+%\]
+%
+%\noindent\underline{Step 2:} We will pass to field extensions of $\Q$ using the following lemma.
+%\begin{lem}[Extension formula]\llabel{extension-formula}
+%Let $K\subeq L$ be number fields and let $v$ be a place of $K$. Then
+%\[
+%\prod_{w\mid v} \ve{\al}_w =\ve{\nm_{L/K}\al}_v.
+%\]
+%\end{lem}
+%\begin{proof}
+%Let $L_w$ be the completion of $L$ with respect to $w$. 
+%We pass to complete fields using Corollary~\ref{complete-ntr} and then use BLAH.
+%\[
+%\ve{\nm_{L/K}\al}\stackrel{\ref{complete-ntr}}{=} \prod_{w\mid v} \ve{\nm_{L_w/\hat K}(\al)}
+%\stackrel{!}= \prod_{w\mid v}\ve{\al}^{[L_w:\hat K]}
+%\stackrel{\ref{complete-ntr}}=\prod_{w\mid v} \ve{\al}_w.
+%\]
+%\end{proof}
+%
+%\noindent\underline{Step 3:} Compute using steps 1 and 2.
+%\[
+%\prod_{w\text{ place of }L} |\al|_w=\prod_{v\text{ place of }\Q} \prod_{w\mid v}|\al|_w=\prod_v|\al|_v=1.
+%\]
+%\end{proof}
+\noindent\underline{Step 1:} We first show the result for $K=\Q$. Given $n\in \Q$, factor it as $n=\pm \prod_{i=1}^{\iy}p_i^{a_i}$ where $p_i$ are all the prime numbers; note only a finite number of the $a_i$ are nonzero. Then 
+\[
+|\al|=\pa{\prod_{i=1}^{\iy} |\al|_{p_i}}|a|_{\iy}=\pa{\prod_{i=1}^{\iy} p_i^{-a_i}}\pa{\prod_{i=1}^{\iy} p_i^{a_i}}=1.
+\]
+
+\noindent\underline{Step 2:} We pass to field extensions of $\Q$ using the following lemma.
+\begin{lem}[Extension formula]\llabel{extension-formula}
+Let $K\subeq L$ be number fields and let $v$ be a place of $K$.  Then
+\[
+\prod_{w\mid v} \ab{\al}_w
+%\prod_{w\mid v}\ve{\al}_w
+=\ab{\nm_{L/K}\al}_v.
+\]
+\end{lem}
+\begin{proof}
+For a place on $L$ let $|\cdot|_w'$ be the valuation normalized so that it extends $v$. 
+We have
+\begin{align*}
+\ab{\nm_{L/K}\al}_v&= \prod_{w\mid v} \ab{\nm_{L_w/ K_v}(\al)}_v\\
+&= \prod_{w\mid v} \ab{\nm_{L_w/ K_v}(\al)}_{w}'\\
+&= 
+\prod_{w\mid v} \ab{\nm_{L_w/ K_v}(\al)}_{w}^{\rc{[L:K]}}
+&\text{by Lemma~\ref{compare-normed-val}}\\
+&=\prod_{w\mid v}\ab{\al}_w
+&\text{by Theorem~\ref{valuations-and-completions}.\ref{extend-discrete-valuations}}
+%&\text{by Lemma~\ref{local-global-degree}}\\
+%=\prod_{w\mid v}\ve{\al}_w.
+%\stackrel{\ref{complete-ntr}}
+%=\ab{\al}_v^{[L:K]}.
+\qedhere
+\end{align*}
+\end{proof}
+
+\noindent\underline{Step 3:} Since every place on $K$ restricts to a unique place on $\Q$,
+\[
+\prod_{w\in V_K} \ab{\al}_w
+=\prod_{v\in V} \prod_{w\mid v}\ab{\al}_w
+%=\prod_{v\in V} \prod_{w\mid v}|\al|_w^{[K_w:\Q_v]}
+%\stackrel{~\ref{extension-formula}}\
+=\prod_{v\in V}|\nm_{L/K}(\al)|_v\stackrel{\text{Step }1}=1,
+\]
+where we apply step 1 to $\nm_{L/K}(\al)$.
+\end{proof}
+The product formula will be useful when defining a measure of size independent of scaling (see Chapter~\ref{height-functions}).
+%%%
+%\section{?}
+%\begin{lem}\llabel{norm-val-ext}
+%Let $K$ be a complete field with normalized valuation $|\cdot|$, let $L/K$ be a finite separable extension, and extend $|\cdot|$ to $L$.
+%
+%If $\ve{\cdot}$ is the normalized valuation of $|\cdot|$, then $\ve{\cdot}=|\cdot|^{n}$, where $n=[L:K]$.
+%\end{lem}
+%\begin{proof}
+%Let $\mfp=(\pi)$ and $\mP=(\Pi)$ be the prime ideals of $\sO_K$ and $\sO_L$, respectively. Then $\pi=c\Pi^e$ for some $c\in \sO_L^{\times}$. Letting $f$ be the residue degree,
+%\[
+%\ve{\pi}=\ve{\Pi}^e?=?\prc{\N\mP}^e=\prc{\N\mfp}^{ef}=\ab{\pi}^{n}.
+%\]
+%\end{proof}
+\section{Problems}
+\begin{enumerate}
+\item
+Let $K$ be a complete nonarchimedean field whose residue field has characteristic $p$. Prove that the maximal tamely ramified (separable) extension of $K$ is
+\[
+K_{\text{tr}}=K_u\pa{\set{\pi^{\rc m}}{p\nmid m}}.
+\]
+\end{enumerate}
+%\index{ramification groups}
+%\index{decomposition group}
+%\index{inertia group}
+%\section{Ramification groups}
+%Let $L/K$ be finite Galois, and suppose $K$ has perfect residue field. Let $B$ be the ring of integers in $L$, $\mP=(\Pi)$ be the maximal ideal of $B$, and $c=|\Pi|$.
+%\begin{df}
+%The \textbf{decomposition group} of the extension $L/K$ is
+%\[
+%D(L/K)=\set{\si\in G{L/K}}{\si(\mP)=\mP}.
+%\]
+%The $n$th \textbf{ramification group} is
+%\begin{align*}
+%G_i &=\set{\si\in G}{|\si(\al)-\al|<c^i\text{ for all }\al\in B}\\
+%&=\set{\si\in G}{\ord_{\Pi}(\si(\al)-\al)>i\text{ for all}\al\in B}.
+%\end{align*}
+%In particular, the \textbf{inertia group} is
+%\begin{align*}
+%%D_{\mP}(L/K)=decomp grp
+%G_0&=\set{\si\in G(L/K)}{\si(\al)-\al\in \mP}\\
+%&=\ker (\ep: D\to G(l/k))
+%\end{align*}
+%and the ramification group is
+%\[
+%G_1=\set{\si\in G}{\ord_{\Pi}(\si(\al)-\al)>1}.
+%\]
+%\end{df}
+%\begin{pr}[Properties of ramification groups]$\,$
+%We have the filtration
+%\[G\supeq D\supeq G_0\supeq G_1\supeq \cdots.\]
+%\begin{enumerate}
+%\item $G_0/G_1\hra l^{\times}$ and $G_i/G_{i+1}\hra l$.
+%\item The $G_i$ are normal subgroups of $G$.
+%\item For sufficiently large $i$, $G_i=\{1\}$.
+%\item For $i\ge 1$, to check an element is in $G_i$ it suffices to check that $|\si\Pi-\Pi|<|\Pi|^i$:
+%\end{enumerate}
+%\end{pr}
+%The fixed field of $G_0$ is the largest unramified extension $K_0$ of $K$ in $L$, and 
+%\[
+%G/G_0=G(K_0/K)=G(l/k).
+%\]
+%BLAH
+%\begin{pr}
+%If $l/k$ is normal, then $\ep:D/T\xra{\cong} G(l/k)$.
+%\end{pr}
+%%%%%%%%%%
+%%%%%%%%%%
+%\begin{thm}
+%Suppose $L/K$ is a Galois extension; suppose $\mfp$ in $K$ factorizes as
+%\[
+%\mfp=\prod_{j=1}^g \mP_j^e.
+%\]
+%Take any $\mP\mid \mfp$ and let $\mP_D=L^{D(\mP)}$. Then
+%\begin{enumerate}
+%\item
+%$[L^{\mP}:K]=g$ and $\mP_{D}$ is non-split in $L$.
+%\item
+%$\mfp$ is totally split in $L^{D(\mP)}$ iff $L^{D(\mP)}/K$ is Galois.
+%\end{enumerate}
+%\end{thm}
+%\begin{proof}
+%\begin{enumerate}
+%\item
+%By the Fixed Field Theorem, $D(\mP)=G(L/L^{D(\mP)})$. 
+%Since $L/L^{D(\mP)}$ is Galois, $D(\mP)$ acts transitively on the primes of $L$ above $\mP_D$. However, $D(\mP)$ stabilizes $\mP$; thus $\mP$ is the only prime above $\mP$.
+%\item
+%\end{enumerate}
+%\end{proof}
+%\begin{df}
+%Define the inertia group to be
+%\[
+%I(\mP):=\ker(\phi:D(\mP)\to G(l/k)).
+%\]
+%\end{df}
+
+

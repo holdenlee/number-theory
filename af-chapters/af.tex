@@ -1,0 +1,30 @@
+\documentclass[12pt]{article}
+
+\input{../beginning/packages2.tex}
+\input{../beginning/theoremdef.tex}
+\input{../beginning/macros.tex}
+\input{../beginning/formatting.tex}
+\input{../beginning/other.tex}
+
+\def\name{Theta and Elliptic Functions}
+%\input{../beginning/titlepage.tex}
+
+\fancyhead{}
+\fancyhead[CO,CE]{\itshape \name, \S\arabic{section}}
+\fancyfoot{}
+\fancyfoot[CE,CO]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}
+\headheight = 12pt
+\begin{document}
+%\input{../beginning/ant-intro.tex}
+%\input{beginning/intro.tex}
+%\tableofcontents
+\pagestyle{fancy}
+
+\input{chapter0.tex}
+
+\bibliographystyle{plain}
+\bibliography{../refs}
+\printindex
+\end{document}

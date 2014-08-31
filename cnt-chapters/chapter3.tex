@@ -1,0 +1,269 @@
+\chapter{Roth's Theorem by Fourier analysis}
+
+In this chapter we prove Roth's Theorem using Fourier analysis. (In the preliminary version of this chapter, the reader will be referred to Ben Green's notes for specific parts.)
+
+The main ideas are the following. 
+\begin{enumerate}
+\item
+Instead of studying subsets of $[N]$, we study functions on $[N]$ because the space of functions forms a vector space. We associate with each $A\subeq [N]$,
+\[
+1_A\in [N]^*.
+\]
+The advantage of writing as functions is that we can break them up into a ``pseudorandom" part and an ``orderly" part more easily: write a function $f\in [N]^*$ as $f=f_1+f_2$ and deal with the two parts separately. The size of a subset corresponds very well to the $L^2$ norm of a function.
+\item
+Develop Fourier analysis on finite abelian groups. Why is Fourier analysis useful? It detects linear structure and the condition for three numbers to be in arithmetic progression is given by a single linear equation. The number of 3 term AP's will be given by a trilinear form evaluated at $1_A$,
+\[
+T(1_A,1_A,1_A).
+\]
+\item (Small Fourier coefficient means function looks random)
+We can decompose $1_A$ as a constant function $\al 1_[N]$, and a noisy part, $f_A=1_A-\al 1_[N]$. (We take out the ``orderliness" that we know is guaranteed to be there.) 
+The trilinear form above then decomposes as $\al^3$ plus 7 terms each of which has $f_A$ in it. 
+We consider this dichotomy between order and randomness.
+\begin{enumerate}
+\item
+Orderly: $f_A$ has a large Fourier coefficient (We've already removed the obvious large Fourier coefficient).
+\item
+Random: $f_A$ has no large Fourier coefficient.
+\end{enumerate}
+We show that ``one random function makes $T_A$ small," so ``in the second part, the absence of a large Fourier coefficient makes all 7 terms small, and we have the density is approximately what we want it to be.
+\item A large Fourier coefficient means the function concentrated on subprogression. (We'll give more intuition in the relevant section.)
+\item Use the ``density increment argument": We can iterate the last step, but note that the density can never be greater than 1, so we must stop after a calculable number of steps. If there is no 3-AP, then we must have ended in an impasse, and $N$ cannot be too large. (Be more precise here.)
+\end{enumerate}
+\section{Intuition}
+
+\prbox{
+Let $A$ be a subset of $[N]$. (In the below, an approximate answer is good enough.)
+\begin{enumerate}
+\item
+What is the total number of 3-AP's in $[N]$?
+\item
+Suppose $A$ were randomly chosen: each element has probability $\al$ of being in $A$, independently. What is the expected number of 3-term AP's in $A$ (including the trivial ones, and accounting for increasing/decreasing order)? What is the ratio between this and the answer to (1)?
+\item 
+Suppose $A$ were arbitrary. Does $A$ have ``close" to the number of AP's you found in item 1?
+\end{enumerate}
+}
+\vskip0.15in
+{\it Solution.}
+\begin{enumerate}
+\item
+%{\it How many 3-AP's are there in $[N]$?} 
+Given the first term $i$, there are approximately $\fc{N}2$ possible common differences (including negative ones), so there are $\fc{N^2}{2}$ 3-AP's.
+\item Except for the constant 3-AP's, each 3-AP has probability $\al^3$ of being contained in $[N]$. By linearity of expectation, the expected number of 3-AP's is
+$
+\al^3\fc{N^2}{2}.
+$
+\item No. Take $A=[\al N]$. Then the number of AP's is, by (1), approximately $\al^2\fc{N^2}{2}$.
+\end{enumerate}
+We see that if the set $A$ is very ordered as in (3), then it can contain significantly more 3-AP's. We expect that an arbitrary subset $A\subeq [N]$ of size $\al N$ 
+satisfies one of the following.
+\begin{enumerate}
+\item
+$A$ has close to the expected number of 3-AP's, $\al^3\fc {N^2}{2}$, or
+\item
+$A$ has {\it structure}.
+\end{enumerate}
+We'll have to quantify what we mean by ``structure" (large Fourier coefficient).
+
+\section{Fourier analysis on finite abelian groups}
+%
+%Note that ``Fourier analysis" and ``representation theory" on finite abelian groups are basically the same thing, although they suggest different kinds of generalizations.\footnote{Being more specific? Is there ever a time when we care about representations in combinatorial number theory?}
+%
+%\subsection{Representation theory}
+%[Inserted from my notes on representation theory of abelian groups]
+%
+%\begin{thm}[Structure Theorem for Abelian Groups]
+%Let $G$ be a finite abelian group. Then there exist positive integers $m_1,\ldots, m_k$ so that
+%\[G\cong \zmod{m_1}\times \cdots \times \zmod{m_k}.\]
+%\end{thm}
+%\begin{thm}\llabel{char}
+%The group $G=\zmod{m_1}\times \cdots \times \zmod{m_k}$ has $|G|$ characters and each is given by an element $(r_1,\ldots, r_k)\in \zmod{m_1}\times \cdots \times \zmod{m_k}$:
+%\[\chi_{r_1,\ldots, r_k}(n_1,\ldots, n_k)=\prod_{j=1}^k e^{\frac{2\pi ir_jn_j}{m_j}}.\]
+%Moreover the set of characters $\widehat{G}$ form a multiplicative group isomorphic to $G$.\footnote{This is a noncanonical isomorphism.}
+%\end{thm}
+%\begin{proof}
+%It is easy to check that $\chi=\chi_{r_1,\ldots, r_k}$ is a homomorphism. Let $e_j$ be the element in $G$ with 1 in the $j$th coordinate and 0's elsewhere. Since $\chi(e_j)^{m_j}=1$, we must have $\chi(e_j)=e^{\frac{2\pi ir_j}{m_j}}$ for some $r_j$. Each element of $G$ can be expressed as a combination of the $e_j$, so this shows all characters are in the above form.
+%
+%This shows that $(r_1,\ldots, r_k)\send \chi_{r_1,\ldots, r_k}$ is surjective and hence an isomorphism.
+%\end{proof}
+%\begin{cor}\llabel{numchar}
+%Every finite abelian group $G$ has $|G|$ characters.
+%\end{cor}
+%%Let $\hat{G}$ denote the set of irreducible characters of
+%\begin{thm}[Orthogonality relations]\llabel{orth}
+%Let $G$ be a finite abelian group and $\chi_j$, $1\leq j \leq n$ be all characters of $G$. Then
+%\begin{enumerate}
+%\item (Row orthogonality) $\an{\chi_j,\chi_k}:=\displaystyle\rc{|G|}\sum_{g\in G} \chi_j(g)\overline{\chi_k(g)}=\begin{cases} 0,&j\neq k\\ 1,&j=k\end{cases}$.
+%\item (Column orthogonality) $\displaystyle\sum_{j=1}^{n} \chi_j(g)\overline{\chi_j(h)}=\begin{cases} 0,&g\neq h\\ |G| ,&g=h\end{cases}$.
+%\end{enumerate}
+%\begin{proof}
+%Write $G$ as $\zmod{m_1}\times \cdots \times \zmod{m_k}$. Let $(r_1,\ldots, r_k)$ and $(s_1,\ldots,s_k)$ be in $G$. Then
+%\begin{align}
+%\an{\chi_{r_1,\ldots, r_k},\chi_{s_1,\ldots, s_k}}
+%&=\sum_{(p_1,\ldots, p_k)\in G}\prod_{j=1}^k e^{\frac{2\pi i(r_j-s_j)p_j} {m_j}}
+%\llabel{yayy}
+%\\
+%&=\sum_{(p_1,\ldots, p_{k-1})\in G}\ba{\pa{\prod_{j=1}^{k-1} e^{\frac{2\pi i(r_j-s_j)p_j} {m_j}}}\sum_{p_k=0}^{m_k-1} e^{2\pi i(r_k-s_k)p_k}}.
+%\llabel{insum}
+%\end{align}
+%If $(r_1,\ldots, r_k)=(s_1,\ldots, s_k)$ then~(\ref{yayy}) evaluates to $|G|$. Otherwise, we may assume without loss of generality that $r_k\neq s_k$; then the inner sum in~(\ref{insum}) evaluates to 0 by writing it as a geometric series.
+%
+%The proof for column orthogonality is similar.
+%\end{proof}
+%\end{thm}
+%The most useful case of row orthogonality is when we set $\chi_k=\chi_0$:
+%\begin{cor}\llabel{sum0}
+%If $\chi$ is a character of $G$ and $\chi\neq \chi_0$ then
+%\[\sum_{g\in G} \chi(g)=0.\]
+%\end{cor}
+
+%\subsection{Fourier analysis}
+\begin{df}
+Let $G=\Z/N\Z$ or $G=\Z$ and let $H=\rc N\Z/\Z$ or $H=\R/\Z$, respectively.
+
+Define the \textbf{Fourier transform} on a function $G\to \C$ where $G=\Z/N\Z$ or $G=\Z$ by
+\[
+\hat{f}(\te)=\sum_{x\in G}f(x)e(-\te x), \qquad \te\in H
+\]
+where $e(t):=e^{2\pi i t}$.
+\end{df}
+%In the case $\Z/N\Z$, we think of $\te\in \rc N\Z/\Z$, and in the case $\Z$, we think of $\te\in \R/\Z$.
+Note $\te$ is really parametrizing the dual space to $G$, the set of all homomorphism $G\to \C$.\footnote{More abstractly, the Fourier transform is defined on $G^*$, setting $\hat{f}(\chi)=\sum_{x\in G} f(x)\ol{\chi}(x)$. Here we've made the identifications $G^*\cong \rc{N}\Z/\Z$, $\R/\Z$, respectively.}
+ 
+We have two options:
+\begin{enumerate}
+\item
+Use Fourier analysis on $\Z/N\Z$: prove Roth's Theorem for $\Z/N\Z$ and use the fact this implies it for $\Z$.
+\item
+Use Fourier analysis on $\Z$ and prove Roth's Theorem directly.
+\end{enumerate}
+%(Several normalizations are sometimes used: for example, 
+
+Here we will take the second approach. The first approach works with little change, other than the fact that the Fourier inversion formula is a sum instead of an integral.
+
+Define 
+\begin{align*}
+\ve{f}=\ve{f}_{2}&=\sum_{n\in [N]}|f(n)|^2\\
+%\ve{f}_{\iy}&=\sup_{n\in [N]}|f(n)|^2\\
+\ve{\hat f}=\ve{\hat f}_2&=\int_0^1|\hat f(\te)|^2\,d\te\\
+\ve{\hat f}_1&=\sup_{\te\in [0,1]}|\hat f(\te)|
+\end{align*}
+The $\ved{}_2$ norm controls the density, and the $\ved{}_{\iy}$ norm controls the largest coefficient.
+\begin{pr}
+\begin{enumerate}
+\item
+(Parseval's formula) We have $\ve{f}_{L^2(\Z)}=\ve{f}_{L^2(\R/\Z)}$, i.e., 
+\[
+\sum_{n\in [N]} |f(n)|^2=\int_{0}^1 |\hat f(\te)|^2\,d\te
+\]
+\item (Convolutions become addition under the Fourier transform)
+For $f,g\in [N]^*$,
+\[
+\wh{f*g}=\hat{f}\ol{\hat{g}}.
+\]
+\end{enumerate}
+\end{pr}
+A note about the convolution: this is similar to convolutions of generating functions. Given a subset $A$, we could loading the characteristic function $1_A$ into the coefficients of a generating function, where instead of the familiar $x^n$, we have $\chi(n)=e(-n\te)$: the analogy is that $x^ax^b=x^{a+b}$ and $\chi(a)\chi(b)=\chi(a+b)$.
+
+Thinking of the generating function analogy and property of the convolution, we come up with the following properties.
+\begin{pr}[Additive quantities expressed in terms of Fourier coefficients]
+\begin{enumerate}
+\item 
+We have
+\[
+\sum_{n\in \Z}
+|\set{(a,b)\in A\times B}{a+b=n}|e(-\te n)|
+=
+(1_{A}*1_B)(n)
+\]
+\item 
+We have
+\[
+\sum_{x,d}f(x)g(x+d)h(x+2d)
+=
+[f(x)*g(-2x)*h(x)](0)=\int_0^1 \hat f(\te)\hat g(-2\te)\hat h(\te)\,d\te
+\]
+so in particular
+\[
+|\set{(a,b,c)\in A\times B\times C}{a,b,c\text{ 3-AP}}|
+=
+1_A*1_{-B/2}*1_C(0)=\int_0^1 \hat1_A(\te)\hat 1_{B}(-2\te)\hat 1_C(\te)\,d\te.
+\]
+\end{enumerate}
+\end{pr}
+\begin{df}
+Define the trilinear form
+\[
+T(f,g,h):=\int_0^1 \hat f(\te)\hat g(-2\te)\hat h(\te)\,d\te.
+\]
+\end{df}
+
+
+\section{Dichotomy between order and randomness}
+
+\begin{pr}[One pseudorandom function makes $T$ small]
+Suppose that 
+\begin{enumerate}
+\item
+for $i=1,2,3$, $\ve{f_i}^2_2\le \al N$ (the density of the $f_i$ are bounded)
+\item
+for {\it one }of $i=1,2,3$, $\ve{f_i}_{\iy}\le \eta N$ (the largest coefficient of $f_i$ is small).
+\end{enumerate}
+Then 
+\[
+T(f_1,f_2,f_3)\le \eta\al N^2,
+\]
+``$(f_1,f_2,f_3)$ does not concentrate on 3-AP's."
+\end{pr}
+\begin{proof}
+We'll assume $\ve{f_3}_{1}\le \eta N$; the other cases are analogous. 
+Using H\"older's inequality with $(2,2,\iy)$\footnote{This is just bounding $f_3$ by its $L^1$ norm and using Cauchy-Schwarz on the other terms},
+\bal
+T(f_1,f_2,f_3)&\stackrel{\text{Pr.}}{=}\int_0^1 \hat f_0(\te)\hat f_1(-2\te)\hat f_2(\te)\,d\te\\
+&\le \ve{\hat f_1}_2 \ve{\hat f_2}_2\ve{\hat f_3}_{\iy}\\
+&\le (\al N)^{\rc 2}(\al N)^{\rc 2} \eta N=\eta\al N^2.
+\end{align*}
+\end{proof}
+How do we use this fact? We don't use it on $1_A$, which we {\it know} has a large Fourier coefficient, namely, the zeroth Fourier coefficient. Instead, we really take advantage of the fact we're dealing with functions, not just sets.
+
+Note that dichotomies are by nature somewhat arbitrary: what matters is not the constant we use to divide them, but rather the criteria by which we are making the distinction: here, the criteria is {\it size of the largest Fourier coefficient }$\eta$.
+\begin{thm}
+Let $A\subeq [N]$ of density $\al$. Then either
+\begin{enumerate}
+\item
+($A$ looks random) $A$ has at least $\al^3\fc{N^2}{2}-7\eta \al N^2-2\al N$ 3-AP's.
+\item
+($A$ has structure) $1_A$ has a Fourier coefficient $\ge \eta N$ (excluding the zeroth coefficient).
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Suppose $1_A$ does not have a large Fourier coefficient.
+
+Expand the trilinear form
+\[
+T(1_A,1_A,1_A)=T(\al 1_{[N]},\al 1_{[N]}, \al 1_{[N]})+\ub{T(\ldots f_A \ldots)}{\text{7 terms}}.
+\]
+The first is approximately $\al^3\fc{N^2}{2}$. The last 7 terms are at most $7\eta \al N$ by Lemma. Now subtract the constant AP's.
+\end{proof}
+
+\section{Large Fourier coefficient implies concentration}
+We would like a large Fourier coefficient for $f_A$ to imply that the subset is structured in some sense and hence has 3-term AP's. (Blah blah), it's more natural to look for a subset on which $f_A$ is {\it denser}.
+
+\begin{ex}
+\begin{enumerate}
+\item (A function that has only one Fourier mode) Let $N=3k+1$.  Consider the function
+\[
+f(n)=e\pa{\fc{N-1}{3}n}\in [N]^*.
+\]
+($N=3k$ would be more boring to analyze.)
+It has only one Fourier coefficient, namely,
+\[
+\hat f\pf{p-1}{3}=1,\qquad \hat f(n)=0\text{ else}.
+\]
+In what sense if $f$ very orderly? Note that we can divide $[N]$ progressions on which $f$ is approximately the same, i.e., $e\pa{\fc{N-1}{3}n}$ points in approximately the same direction. For example, $\{3,6,9,\cdots\}$, as $f(3)=e\pf{p-1}{p}\approx 1$. We don't want to continue this too long though---the length should be $o(N)$, for instance $\sqrt N$. 
+
+In general, for any function with large Fourier coefficient, we can use Dirichlet's Theorem to find $e(N\te)$ close to 1. We then split into AP's where $e(N\te)$ is approximately the same within each AP. Some inequalities will allow us to conclude that $f$ is large on one AP.
+\item (An almost AP) Consider the set $\set{3j}{j\in [k]}\in [N]$. Then $\hat f(\xi)=\sum_{n=1}^{\fc{p-1}{3}} e^{-\fc{2\pi i}{p}3n\xi}$ is small when $\xi=\fc{j(p-1)}{3}$, $j=0,1,2$. So in this example, a set with many AP's gives a function with large Fourier coefficients.
+\end{enumerate}
+\end{ex}
+
+

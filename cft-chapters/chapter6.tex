@@ -1,0 +1,1290 @@
+\chapter{Global class field theory}\llabel{gcft}
+%\section{Outline}
+To prove the global reciprocity law we need to do two things, namely construct a map
+\[
+\phi_K:\I_K/K^{\times}\nm_{L/K}\I_L\xra{\cong} G(L/K),
+\]
+and show that it is an isomorphism. To show it is an isomorphism, we need to show that the two sides have the same cardinality:\footnote{More precisely, we use this to show the invariant map is an isomorphism, then get the Artin map from the machinery of class formations.}
+\[
+|\I_K/K^{\times}\nm_{L/K}\I_L|= [L:K].
+\]
+The first inequality ``$\ge$" will be shown using cohomology, with lots of Herbrand quotient calculations. The second inequality ``$\le$" is most easily shown with $L$-functions, but can also be shown with a more complicated cohomological argument.
+
+To construct a map, there are two approaches. We can define $\phi_K$ to be the map whose components are the local Artin map, and use the properties of the local Artin map given by local class field theory. Alternatively, we can construct it directly in the global case, without using local theory, and get local class field theory as a corollary. We will take the first approach. For an account of the second, see Lang~\cite{La94}.
+\section{Basic definitions}
+%We first make some computations on the cohomology of the ideles that we will need throughout this chapter. 
+First, some basic definitions.
+\begin{df}
+Define the action of $G(L/K)$ on $\I_L$ by permuting the places: For an idele $\mathbf a=(a_v)_{v\in V_L}$, define $\si \mathbf a$ by 
+\[(\si \mathbf a)_{\si(v)}=\si(a_v).\]
+\end{df}
+\begin{df}
+Define the inclusion map $\I_K\hra \I_L$ by
+\[
+(a_v)_{v\in V_K}\mapsto \pa{(a_v)_{w\mid v}}_{v\in V_K},
+\]
+i.e. it is induced by componentwise inclusions $K_v\hra L^w$. 
+Let the inclusion map $\mathbf C_K\hra \mathbf C_L$ be induced by the above inclusion.
+
+For an infinite extension $M/K$, define 
+\[
+\I_{M}=\varinjlim_{K\subeq L\subeq M} \I_L,\qquad \mathbf C_{M}=\varinjlim_{K\subeq L\subeq M} \mathbf C_L
+\]
+where the limit is taken over finite Galois extensions $L/K$.
+\end{df}
+For short, let $H^n(L/K,A)$ denote $H^n(G(L/K),A)$ and $H^2(K,A):=H^n(\ol K/K,A)$. As in the local case, $H^n(L/K)$ denotes $H^n(G(L/K),K^{\times})$.
+\begin{pr}\llabel{pr:ilg-is-ik}
+Let $L/K$ be a Galois extension and $G=G(L/K)$. 
+The inclusion map $\I_K\hra \I_L$ sends $\I_K\xra{\cong}\I_L^G$ and the inclusion map $\mathbf C_K\hra \mathbf C_L$ sends $\mathbf C_K\xra{\cong} \mathbf C_L^G$.
+\end{pr}
+\begin{proof}
+The first part holds because $G$ acts transitively on all the places in $L$ dividing a single $v\in V_K$, so any element of $\I_L^G$ has to be constant on all $w\mid v$, i.e. in the image of $\I_K$.
+
+For the second part\footnote{which isn't obvious, because we're taking quotients here}, take the long exact sequence in cohomology associated to
+\[
+1\to L^{\times}\to \I_L\to \mathbf C_L\to 1
+\]
+to get
+\[
+\xymatrix{
+1\ar[r] & H^0(G,L^{\times})\ar@{=}[d] \ar[r] & H^0(G,\I_L)\ar[r]\ar@{=}[d] & H^0(G,\mathbf C_L) \ar[r] \ar@{=}[d] & H^1(G,L^{\times})\ar@{=}[d]\\
+& K^{\times} & \I_L^G=\I_K & \mathbf C_L^G & 1
+}
+\]
+where the equality on the right is Hilbert's Theorem 90 (Theorem~\ref{galois-cohomology-ch}.\ref{h90}) and the map $\I_K\to \mathbf C_L^G$ is induced by inclusion. Thus $\mathbf C_L^G=\I_K/K^{\times}=\mathbf C_K$.
+\end{proof}
+%The idele group is a restricted direct product of local fields $K_v^{\times}$, so we can compute the cohomology of $\I_K$ in terms of cohomology of the local fields, as Proposition~\ref{pr:hi-as-prod} below shows. First, we need the following.
+\section{The first inequality}
+\index{first inequality}
+In this section we will prove the following.
+\begin{thm}[First inequality of global class field theory] \llabel{first-inequality}
+If $L/K$ is cyclic, then
+\[
+|\I_K/K^{\times}\nm_{L/K}\I_L|\ge [L:K].
+\]
+\end{thm}
+
+To prove the inequality, we first express the left-hand side in terms of cohomology. Letting $G=G(L/K)$, we know that
+\[
+H_T^0(G,\mathbf C_L)=\mathbf C_K/\nm_{L/K}\mathbf C_L = \I_K/K^{\times}\nm_{L/K}\I_L.
+\]
+Then noting that the Herbrand quotient (with respect to $G$) of $\mathbf C_L$ is $h(\mathbf C_L)=\fc{|H_T^0(G,\mathbf C_L)|}{|H_T^{-1}(G,\mathbf C_L)|}$, we have that 
+\begin{equation}\llabel{eq:1st-ineq-herbrand}
+|\I_K/K^{\times}\nm_{L/K}\I_L|=|H_T^0(G,\mathbf C_L)|\ge
+h(\mathbf C_L).
+\end{equation}
+To calculate $h(\mathbf C_L)$ our plan is as follows.
+\begin{enumerate}
+\item
+First express $\mathbf C_L$ in terms of something involving a finite set of places; we find $T$ so that
+\[
+\I_L=L^{\times}\I_L^T.
+\]
+(Proposition~\ref{illis}). Then calculation shows that $h(\mathbf C_L)=\fc{h(\I_L^T)}{h(U_L^T)}$, where $U_L^T$ denotes the $T$-units in $L$.
+\item Compute $h(\I_L^S)=\prod_{v\in S}n_v$. Note $\I_L^S$ is a direct product, not a restricted direct product, so we can just take the product of the Herbrand quotient of the factors. Breaking up the places into $G(L/K)$-orbits, we can calculate $h(\I_L^S)$ using the corollary to Shapiro's Lemma~\ref{group-hom-cohom}.\ref{shapiro-lemma}.
+\item Compute $h(U_L^S)=\rc n\prod_{v\in S}n_v$ by relating it to a lattice of codimension 1 in $\R^s$ by the log map, where $s=|S|$. (See ANT, Chapter~\ref{units-in-nf}.)
+%[Actually, it is a lattice in a hyperplane in $\R^s$, but we take care of this in ().]
+We use the fact that the Herbrand quotient of a full lattice depends only on the vector space it resides in (Theorem~\ref{cohom-lattice}) to change to a more convenient lattice whose basis consists of vectors representing the $s$ places in $U_L^S$, i.e. the lattice $\La=\prod_{w\in S} \Z e_w$. 
+
+The set $S$ breaks up into $G(L/K)$-orbits, so the lattice breaks up into induced $S$-modules, and we can calculate $h(U_L^S)$ using again using Shapiro's Lemma~\ref{group-hom-cohom}.\ref{shapiro-lemma}.
+%First note that $|K^{\times}/\nm_{L/K}(L^{\times})|$ can be interpreted as a Herbrand quotient. This is more transparent by rewriting $K^{\times}=(L^{\times})^{G(L/K)}$. Then
+%\[
+%h(L^{\times})=\fc{|H_T^0(G,L^{\times})|}{|H_T^1(G,L^{\times})|}=\fc{|(L^{\times})^G/\nm_{L/K}(L^{\times})|}{1}=|K^{\times}/\nm_{L/K}(L^{\times})|,
+%\]
+%where we used Hilbert's Theorem 90 (\ref{galois-hom-cohom}.\ref{h90}) for the denominator.
+%put somewhere?%Calculate $h(L^{\times})$ when $L/K$ is a cyclic extension of {\it local} fields. This was done in local class field theory, Theorem~\ref{lcft}.\ref{herbrand-units-l}.
+%\item
+%We compute $h(L_S)$ To do this, we relate it to a lattice in $\R^s$ by the log map, where $s$ is the number of places in $L_S$. (See ANT, chapter on units.)
+%%[Actually, it is a lattice in a hyperplane in $\R^s$, but we take care of this in ().]
+%Then we change to a more convenient lattice, whose basis consists of vectors representing the $s$ places in $L_S$, i.e. the lattice $\La=\prod_{w\in M_L} \Z e_w$. The set $M_L$ breaks up into $G(L/K)$-orbits, so the lattice breaks up into induced $S$-modules, and we can calculate $h(\Ga)$ using the corollary to Shapiro's Lemma~\ref{group-hom-cohom}.\ref{shapiro-lemma}.
+\item
+Putting all the steps together gives
+\[
+h(\mathbf C_L)=n,
+\]
+as needed.
+%\item
+%We show that $h(\mathbf C_L)=n$. (Recall $\mathbf C_L=\I_L/L^{\times}$.) 
+%
+%The bottom has been calculated in step 2. We calculate $h(\I_S)$ again by writing it as a product of submodules and using Shapiro's lemma.
+%\item From the definition of this Herbrand quotient, we then get $|\I_K/K^{\times}\nm_{L/K}\I_L|\ge n$, as needed.
+\end{enumerate}
+\subsection{Reduce to finite number of places}
+\begin{pr}\llabel{illis}
+Let $L$ be a number field. 
+%\begin{enumerate}
+%\item
+There exists a finite set of places $T$ of $L$ such that
+\[
+\I_L=L^{\times} \I_L^T.
+\]
+%\item Let $H$ be a subgroup of $\I_L$ containing $L^{\times}$.  %and $\mathbb U_L(1,\prod_{v\text{ real}}v)=\prod_{v\text{ real}}\R_{>0}\times \prod_{v\text{ complex}} \C\times \prod_{v\text{ finite}}U_v$. 
+%There exists a finite set of places $T$ of $L$ with
+%\[
+%H=L^{\times}(H\cap \I_L^T).
+%\]
+%\end{enumerate}•
+\end{pr}
+\begin{proof}
+This basically follows from the finiteness of the class group.
+
+For the first part, consider the map $p:\I_L\to \Cl_L$, defined by sending
+\[
+(a_v)_{v\in V_L}\mapsto \prod_{v=v_{\mfp}\in V_L^0}\mfp^{v(a_{\mfp})}.
+\]
+(Map $a$ to the prime ideal whose valuation at each prime equals the valuations of the corresponding coordinates of $a$.)
+The kernel---the set sent to the principal ideals---is $L^{\times}\I_L^{V^{\iy}}$, where $V^{\iy}$ is the set of infinite places. 
+Thus we have an isomorphism $\I_L/L^{\times}\I_L^{V^{\iy}}\to \Cl_L$\footnote{cf. Example~\ref{ex:class-group-idele-quotient}; there $\I_L^{V^{\iy}}$ is written as $\mathbb U_L$.}. The latter is finite; take the inverse image of a set of generators $A$. We can choose finite $T$ containing $V^{\iy}$ so that the coordinates of elements of $A$ are units outside of $T$. Then $\I_L^T$ generates $\I_L/L^{\times}$, as needed.
+%Since $L^{\times}$ gets sent to principal ideals, it factors through $\I_L/L^{\times} \to \Cl_L$. As this map is surjective, we can find a finite number 
+%
+%The proof of the second part (the generalization) is similar. Just replace $\I_L$ with $H$ and $\I_L^{V^{\iy}}$ with $H\cap \I_L^{V^{\iy}}$.
+%, replace $\I_L^T$ with $\mathbb U_L(1,\prod_{v\text{ real}}v)$, and replace $\Cl_L$ with $\Cl_L^+$.
+\end{proof}
+\subsection{Cohomology of $\I_L^S$ and $\I_L$}
+%We will be using Shapiro's lemma throughout in the following form.
+%\begin{pr}\llabel{pr:shapiro-ideles}
+%Let $L/K$ be a finite Galois extension and $v$ a place of $K$. Let $G^v$ denote the decomposition group $G_w$ for any $w\mid v$. Then
+%\begin{align*}
+%H^n\pa{G,\prod_{w\mid v}L_w^{\times}}&\cong H^n(G^v,L^v)\\
+%H^n\pa{G,\prod_{w\mid v}U_w}&\cong H^n(G^v,U^v).
+%\end{align*}
+%\end{pr}
+%\begin{proof}
+%Since $G$ permutes the $L_w^{\times}$ transitively and $G_w$ stabilizes $w$, the corollary to Shapiro's Lemma~\ref{group-hom-cohom}.\ref{shapiro-cor} gives the result.
+%\end{proof}
+%not worth writing this up separately.
+\begin{pr}\llabel{hilt}
+Let $L/K$ be a Galois extension of number fields.
+Let $S$ be a set of places in $K$ 
+%containing the infinite places 
+and let $\I_L^S:=\I_L^T$ where 
+$T=\set{w\in V_L}{w\mid v\text{ for some }v\in S}$.
+%$T$ be a set of places in $L$ containing the infinite places. 
+Then for any $i>0$ we have
+\[
+H^i(G, \I_L^S)=\prod_{v\in S} H^i(G(L^v/K_v),L^{v\times})\times \prod_{v\nin S} H^i(G(L^v/K_v),U^v).
+\]
+This is also true for Tate groups if $G$ is finite.
+
+In particular, if $L/K$ is cyclic, and $S$ contains all ramified places, then
+\begin{align*}
+H^1(G, \I_L^S)&=1\\
+H^2(G, \I_L^S)&=\prod_{v\in S}\rc{n_v} \Z/\Z\\
+h(\I_L^S)&=\prod_{v\in S} n_v
+\end{align*}
+where %$U_L^T$ denotes the $T$-units in $L$ and 
+$n_v$ is the local degree $[L_w:K_v]$, for any $w\mid v$.
+\end{pr}
+%Treat the first equation as the global analogue of Hilbert's Theorem 90. Also class field axiom for lcft.
+\begin{proof}
+We have
+\begin{align*}
+\I_L^S=\prod_{w\in T}L_w^{\times}\times  \prod_{w\nin T} U_w
+\end{align*}
+where $U_w:=U_{K_w}$. %Let $G^v$ denote the decomposition group of $w$, for any $w\mid v$ (they are all isomorphic). 
+We calculate the cohomology groups of each factor.
+%Herbrand quotient of each factor.
+\begin{align}
+\nonumber
+H^i\pa{G,\prod_{w\in T}  L_w^{\times} }
+&=H^i\pa{G,\prod_{v\in S}\prod_{w\mid v} L_w^{\times}}\\
+\nonumber
+&=\prod_{v\in S}H^i\pa{G,\prod_{w\mid v} L_w^{\times}}&\text{cohomology respects products, Proposition~\ref{group-hom-cohom}.\ref{cohom-preserve-prod}}\\
+\nonumber
+&=\prod_{v\in S}H^i(G^v,L^{v\times})&\text{by Corollary~\ref{group-hom-cohom}.\ref{shapiro-cor} to Shapiro's Lemma}\\
+\llabel{eq:hilt1}
+&=\prod_{v\in S}H^i(G(L^v/K_v),L^{v \times})\\
+\llabel{eq:hilt2}
+&=
+\begin{cases}
+1,&i=1,\\
+\prod_{v\in S}\rc{n_v}\Z/\Z,&i=2.
+\end{cases}
+\end{align}
+For $i=1$, the last result follows from Hilbert's Theorem 90, and for $i=2$, it follows from the fact that $\inv_{K_v}:H^2(G(L^v/K_v),L^{v\times})\xra{\cong} \rc{n_v}\Z/\Z$ is an isomorphism (a consequence of the class formation for LCFT, Theorem~\ref{lcft}.\ref{thm:lcft-class-form}, or actually just Theorem~\ref{lcft}.\ref{hkur} and Proposition~\ref{lcft}.\ref{invariant-map}).
+
+For the units, we have, %since every $w\nin T$ is unramified,
+\begin{align}
+\llabel{eq:hilt3}
+H^i\pa{G,\prod_{w\nin T}  U_w }
+%&=h\pa{\prod_{v\nin S}\prod_{w\mid v} U_w}\\
+%&=\prod_{v\nin S}h\pa{\prod_{w\mid v} U_w}&\text{cohomology respects products}\\
+%&=\prod_{v\in S}h(G_w,U_w)&\text{by Corollary~\ref{group-hom-cohom}.\ref{shapiro-cor} to Shapiro's Lemma}\\
+&=\prod_{v\nin S}H^i(G(L^v/K_v),U_w)&\text{Proposition~\ref{group-hom-cohom}.\ref{cohom-preserve-prod}}\\
+\llabel{eq:hilt4}
+&=1&\text{if $T$ unramified, by Theorem~\ref{lcft}.\ref{cohomology-units-trivial}.}
+\end{align}
+%\fixme{Actually need something stronger?} 
+For the general case, take the product of~(\ref{eq:hilt1}) and~(\ref{eq:hilt3}). For the special case, take the product of~(\ref{eq:hilt2}) and~(\ref{eq:hilt4}). The Herbrand quotient calculation follows directly.
+\end{proof}
+If we consider the full group $\I_L$, we get the following result. (We won't need this until Section~\ref{sec:ideles-cf}.)
+\begin{pr}\llabel{pr:hi-as-prod}
+For any Galois extension $L/K$ with Galois group $G$ and any $n\ge 0$, we have
+\[
+H^n(G,\I_L)\cong \bigoplus_{v\in V_K} H^n(L^v/K_v).
+\]
+This is also true for Tate groups when $G$ is finite.
+
+In particular, we have
+\begin{enumerate}
+\item
+$H^1(G,\I_L)=0$.
+\item
+$H^2(G,\I_L)=\bigoplus_{v\in V_K} \rc{n_v}\Z/\Z$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+%Recall that $\I_L^S$ denotes the subgroup of ideles such that $w\nmid v$ for $v\in S$. 
+We have
+\[
+\I_L=\varinjlim_{S\text{ finite}} \I_L^S.
+\]
+Hence using Proposition~\ref{group-hom-cohom}.\ref{pr:H-commutes-lim},
+\begin{align*}
+H^n(G,\I_L)&=H^n(G,\varinjlim_S \I_L^S)\\
+&=\varinjlim H^n(G,\I_L^S)\\
+&=
+\begin{cases}
+\varinjlim_S \prod_{v\in S}H^n(G^v,L^{v\times})\times \prod_{v\nin S} H^n(G^v,U^v)=\bigoplus_{v\in V_K}H^n(G^v,L^{v\times}),&\text{general case}\\
+1,&n=1\\
+\bigoplus_{v\in V_K} \rc{n_v}\Z/\Z,&n=2
+\end{cases}
+\end{align*}
+where the last statement follows from Proposition~\ref{hilt}.\\
+\end{proof}
+\subsection{Cohomology of lattices and $U_L^T$}
+\index{cohomology of lattices}
+\begin{pr}\llabel{cohom-lattice}
+Suppose $G$ is finite cyclic, $V$ is a finite real vector space and $\R[G]$-module, and $M,N$ are two lattices in $V$, stable under the action of $G$. Then
+\[
+h(M)=h(N).
+\]
+(If one is defined, so is the other.)
+\end{pr}
+\begin{proof}
+We proceed in 2 steps.\\
+
+\noindent{\underline{Step 1:}} We show that $M\ot_{\Z}\Q\cong N\ot_{\Z} \Q$ as $G$-modules. We know $M\ot_{\Z}\R=V=N\ot_{\Z} \R$. Suppose $V=\R^n$. Choose bases $\{\be_i\}$ for $M$ and $\{\ga_i\}$ for $N$. Let $B(\si)$ and $C(\si)$ be matrices representing the action of a generator $\si\in G$ on these bases.\footnote{$G$ cyclic is not important here; we could work with all elements of $G$.} A linear map $M\ot_{\Z}\R\to N\ot_{\Z} \R$ represented by a matrix $A$ with respect to $\{\be_i\}$ and $\{\ga_i\}$ is a isomorphism of $G$-modules if
+\[
+A\cdot B(\si)=C(\si)\cdot A.
+\]
+These determine a system of homogeneous linear equations in the entries of $A$, with coefficients in $\Z$, since $B(\si)$ and $C(\si)$ have entries in $\Z$. 
+
+Letting the solution space be $W\subeq \cal M_{n\times n}(\R)$, we have 
+\[
+\dim_{\R} W=\dim_{\Q}(W\cap \cal M_{n\times n}(\Q)),
+\]
+because Gaussian elimination never needs to leave the world of $\Q$. Hence we can find a basis for $W$ contained in $\cal M_{n\times n}(\Z)$, say $\{A_1,\ldots, A_k\}$. By the existence of an isomorphism between $M\ot_{\Z}\R$ and $N\ot_{\Z} \R$, there exist $a_1,\ldots, a_k\in \R$ such that $a_1A_1+\cdots +a_kA_k$ is nonsingular, i.e.
+\[
+\det(a_1A_1+\cdots +a_kA_k)\ne 0.
+\]
+The left hand side is hence a nonzero polynomial in the $a_k$; since it has coefficients in the infinite field $\Q$ it has a solution over $\Q$. 
+%See the problem in Chapter~\ref{field}
+Taking $A$ to be the corresponding linear combination, we get the desired $G$-isomorphism $M\ot_{\Z}\Q\to N\ot_{\Z} \Q$.\\
+
+\noindent\underline{Step 2:} We have an isomorphism $f:M\ot_{\Z}\Q\to N\ot_{\Z} \Q$; by scaling $f$ (since $M,N$ are finite-dimensional lattices) we may assume $f$ restricts to $f:M\to N$. Now $N/f(M)$ is finite; hence by Proposition~\ref{group-hom-cohom}.\ref{herbrand-1}(1) and (2),
+\[
+h(N)=h(M)h(N/f(M))=h(M).
+\]
+\end{proof}
+\begin{pr}\llabel{hult}
+Let $L/K$ be a finite cyclic extension of number fields of degree $n$.
+Let $S$ be a set of places in $K$ containing the infinite places and $T=\set{w\in V_L}{w\mid v\text{ for some }v\in S}$.
+%Let $T$ be a set of places in $L$ containing the infinite places. 
+We have
+\[
+h(U_L^T)=\rc{n}\prod_{w\in T} n_w
+\]
+where $U_L^T$ denotes the $T$-units in $L$ and $n_w$ is the local degree $[L_w:K_v]$, where $w\mid v$. %$ is any place in $L$ dividing $v$.
+\end{pr}
+\begin{proof}
+Consider the map $L:U_L^T\to \R^{T}$ defined by letting
+\[
+L(a)=(\ln|a|_w)_{w\in T}%,\quad v\mid \iy
+%a_v&=-v(a),\quad v\text{ finite}.
+\]
+where $\ad_w$ is the normalized valuation. %(See...) 
+Then $L(a)$ is a lattice of dimension $|T|-1$ by Dirichlet's $S$-unit theorem~\ref{units-in-nf}.\ref{dsut}; it is in the hyperplane where the sum of coordinates is 0 (take the log of the product formula~\ref{valuations-and-completions}.\ref{product-formula}). 
+%how to do this in function field case?
+The kernel of $L$ consists the roots of unity in $L$, $\mu\cap L$, which is a finite group. By Proposition~\ref{group-hom-cohom}.\ref{herbrand-1}(1)--(2) applied to $1\to \mu\cap L\to U_L^T\to L(U_L^T)\to 0$,  
+\begin{equation}\llabel{1-ineq-1}
+h(U_L^T)=h(\mu\cap L)h(L(U_L^T))=h(L(U_L^T))
+\end{equation}
+
+Let $G(L/K)$ act on $\R^T$ by permuting the coordinates corresponding to the places. Note that $L$ is a $G$-module homomorphism with respect to this action. 
+Let $\mathbf x$ be the vector $(1,1,\ldots, 1)$; note it is fixed by $G(L/K)$. Note that 
+\[
+\La:=
+L(U_L^T)\opl (1,1,\ldots,1)\Z
+\]
+is a full lattice in $\R^T$. By Proposition~\ref{group-hom-cohom}.\ref{herbrand-1}(2)--(3), we have
+\begin{equation}\llabel{1-ineq-2}
+h(\La)=h(L(U_L^T))h(\Z)=n\cdot h(L(U_L^T)).
+\end{equation}
+Consider the lattice $\La'=%\an{e_v\mid v\in S}
+\Z^T$ in $\R^T$, where $e_v$ is the vector with 1 in the $v$ position and 0's elsewhere. 
+By Proposition~\ref{cohom-lattice}, $h(\La)=h(\La')$. Since $G$ permutes the places above $v\in S$ transitively, 
+we have
+\begin{align*}
+h(\La)=h(\La')&=h\pa{\bigoplus_{w\in T} e_w\Z}\\
+&=h\pa{\bigoplus_{v\in S}\bigoplus_{w\mid v} e_w \Z}\\
+&=\prod_{v\in S} h\pa{\bigoplus_{w\mid v} e_w\Z}&\text{cohomology respects products, Proposition~\ref{group-hom-cohom}.\ref{cohom-preserve-prod}}\\
+&=\prod_{v\in S} h(G^v,\Z)&
+\text{by Corollary~\ref{group-hom-cohom}.\ref{shapiro-cor} to Shapiro's Lemma}\\
+&=\prod_{v\in S} |G^v|&\text{Proposition~\ref{group-hom-cohom}.\ref{herbrand-1}(3)}\\
+&=\prod_{v\in S} n_v.
+\end{align*}
+Together with~(\ref{1-ineq-1}) and~(\ref{1-ineq-2}), we get
+\[
+h(U_L^T)=\rc{n}h(\La')=\rc{n}\prod_{v\in S} n_v.
+\qedhere
+\]
+\end{proof}
+\subsection{Herbrand quotient of $\mathbf C_L$}
+
+\begin{lem}\llabel{hcl}
+If $L/K$ is a cyclic extension of number fields of degree $n$,
+\[h(\mathbf C_L)=n.\]
+\end{lem}
+\begin{proof}
+Choose a set of places $T$ for $L$ containing the ramified %(and infinite?) 
+places and satisfying the conditions of Proposition~\ref{illis}. Enlarge $T$ so it is stable under $G(L/K)$. %(Do we need it to contain ramified primes?) 
+%Let $S$ be the set of places in $K$ under $T$. 
+%We have that %by Proposition~\ref{group-hom-cohom}.\ref{herbrand-1} that
+Using Propositions~\ref{hilt} and~\ref{hult}, we have that
+\[
+h(\mathbf C_L)=h(L^{\times}\I_L^T/L^{\times})
+=h(\I_L^T/\I_L^T\cap L^{\times})=\fc{h(\I_L^T)}{h(U_L^T)}=\fc{\prod_{v\in S} n_v}{\rc n\prod_{v\in S} n_v}=n
+\]
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{first-inequality}]
+We have
+\[
+|\I_K/K^{\times} \nm_{L/K}(\I_L)|=|H_T^0(G,\mathbf C_L)|
+=h(\mathbf C_L)|H_T^{-1}(G,\mathbf C_L)|\ge n
+\]
+by Lemma~\ref{hcl}.
+\end{proof}
+\subsection{The Frobenius map is surjective}\llabel{sec:frob-surj}
+Using the first inequality, we can already prove surjectivity of the Artin map, defined on ideals.
+\begin{pr}\llabel{pr:frob-surj}
+Let $L/K$ be a finite abelian extension, and $S$ be a finite set of primes. Define the map
+\[
+\psi_{L/K}:I^S\to G(L/K)
+\]
+by setting $\psi_{L/K}(\mfp)=\Frob_{L/K}(\mfp)$ for primes $\mfp\nin S$ and extending to a group homomorphism. Then $\psi_{L/K}$ is surjective.
+\end{pr}
+\begin{proof}
+Let $H=\im(\psi_{L/K})$. By compatibility of the Frobenisus map, $\Frob_{K^H/K}(\mfp)$ is the image of $\Frob_{L/K}(\mfp)$ under the projection $G(L/K)\to G(K^H/K)$. Hence the map $\psi_{K^H/K}:I^S\to G(K^H/K)$ is trivial, giving $(K^H)^v=K_v$ for every $v\nin S$, and
+\[
+\I_K^S\subeq \nm_{K^H/K}\I_{K^H}.
+\]
+
+However, $K^{\times}\I_K^S$ is dense in $\I_K$ by the weak approximation theorem~\ref{valuations-and-completions}.\ref{thm:weak-approx}, so $K^{\times}\I_K^S= K^{\times}\nm_{K^H/K}\I_{K^H}=\I_K$. But by the First Inequality~\ref{first-inequality}, 
+\[[K^H:K]\le [\I_K:K^{\times}\nm_{K^H/K}\I_{K^H}]=1.\]
+Hence $K^H=K$, i.e. $H=G$. 
+\end{proof}
+\section{The second inequality}%(Analytic approach)}\
+\index{second inequality}
+We give two proofs of the second inequality, an analytic proof and an algebraic proof. The first has the advantage of being short and sweet, while the second has the advantage of staying completely within the algebraic realm, i.e. not requiring knowledge of $L$-functions.
+\begin{thm}[Second inequality for global class field theory]\llabel{thm:2ineq}
+For any extension $L/K$ of degree $n$, and $G=G(L/K)$, we have
+\begin{enumerate}
+\item
+$|H_T^0(G,\mathbf C_L)|$ and $|H^2(G,\mathbf C_L)|$ divide $n$.
+\item (HT90 for ideles)
+$|H^1(G,\mathbf C_L)|=1$.
+\end{enumerate}
+In particular,
+\[
+|\I_K/K^{\times}\nm_{L/K}\I_L|\le [L:K].
+\]
+\end{thm}
+\subsection{Analytic approach}
+We first show the inequality $|\I_K/K^{\times}\nm_{L/K}\I_L|\le [L:K]$.
+\begin{proof}[Proof of inequality]
+Let $\mc$ be admissible for $L/K$, i.e. such that $\mathbf U_K(1,\mc)\subeq \nm_{L/K}(\I_L)$.
+By Proposition~\ref{intro-cft}.\ref{pr:idele-ray-class} we know that $\I_K/K^{\times}\nm_{L/K}\I_L\cong I_L^{\mc}/P_{K}(1,{\mc})\nm_{L/K}(I_L^{\mc})$. We show that
+\[
+[I_K^{\mc}:P_K(1,{\mc})\nm_{L/K}(I_L^{\mc})]\le [L:K].
+\]
+Let $H=P_K(1,{\mc})\nm_{L/K}I_L^{\mc}$ and let $\chi$ be a nontrivial character of $I_K^{\mc}/H$, viewed as a character of $I_K^{\mc}/P_K(1,{\mc})$. 
+
+Define the Hecke $L$-series $L_{\mc}(s,\chi)$ by
+\[
+L_{\mc}(s,\chi):=\prod_{\mfp\nmid \mc} \rc{1-\fc{\chi(\mfp)}{\fN \mfp^s}}=\sum_{\ma\perp\mc}\fc{\chi(\ma)}{\fN\ma^s},
+\]
+where equality follows from expanding the product.
+Define
+\[
+m(\chi):=\ord_{s=1} L_{\mc}(s,\chi).
+\]
+Since $L_{\mc}(s,\chi)=(s-1)^{m(\chi)}g(s,\chi)$ for some $g(s,\chi)$ nonzero at $s=1$, taking logs gives
+\[
+\ln L_{\mc}(s,\chi)\sim m(\chi)\ln(s-1)=-m(\chi)\ln \rc{s-1}.
+\]
+Taking the sum over all characters of $I_K^{S(\mm)}$ gives
+\begin{equation}\llabel{eq:2-ineq-anal}
+\ln \ze_K(s)+\sum_{\chi\ne 1}\ln L_{\mm}(s,\chi)
+\sim
+\ba{1-\sum_{\chi\ne 1}m(\chi)}\ln\rc{s-1}
+\end{equation}
+where we use the fact that $\ze_K(s):=L(s,1)$ has a pole at $s=1$.
+
+On the other hand, by the Taylor series expansion for $\ln$,
+\[
+\ln L_{\mc}(s,\chi)=-\sum_{\mfp\nmid \mc}^{}\ln \pa{1-\fc{\chi(\mfp)}{\fN \mfp^s}}=
+\sum_{n=1}^{\iy}\sum_{\mfp\nmid \mc} \fc{\chi(\mfp)^n}{n\fN \mfp^{ns}}\sim\sum_{\mfp}\fc{\chi(\mfp)}{\fN \mfp^s}
+=
+\sum_{\mathfrak K\in I^{\mc}/H} \chi(\mathfrak K)\sum_{\mfp\in \mathfrak K,\,\mfp\nmid \mc}\rc{\fN\mfp^s}
+\]
+where in the last step we grouped together the primes based on what they are modulo $H$. This is greater than the sum if we only include primes with $f(\mP/\mfp)=1$ ($\mP$ in $L$). %, because the other terms are in the form $\rc{p^{fs}}$ for $f>1$. %[details...]. 
+Again we are off by at most a constant if we only include primes splitting completely in $L$, because the ramified primes are at most a finite subset. 
+%Thus, we can restrict to the primes that split completely in $L$, and be off by at most a constant in a neighborhood of 1. 
+We can then ``unrestrict" to all the primes of $L$, and be off by at most a constant in a neighborhood of 1, because the other terms are in the form $\rc{p^{fs}}$ for $f>1$.
+
+Let $h=[I^{S(\mm)}:H]$. We get, for $s\to 1^+$,
+\begin{align*}
+\ln \ze_K(s)+\sum_{\chi\ne 1}\ln L_{\mm}(s,\chi) &\sim\sum_{\chi}\sum_{\mathfrak K\in I^{\mc}/H}\chi(\mathfrak K)\sum_{\mfp\in \mathfrak K,\,\mfp\nmid \mm}\rc{\fN\mfp^s}\\
+&\succsim O(1)+h\sum_{\mfp\in \Spl(L/K)}\rc{\fN\mfp^s}
+&\sum_{\chi}\chi(\mathfrak K)=\begin{cases}
+0,&\mathfrak K\neq H\\
+h,&\mathfrak K= H.
+\end{cases}\\
+&\sim O(1)+\fc hN\sum_{f(\mP)=1}\rc{\fN\mP^s}&\text{$N$ primes above each $\mfp$}\\
+&\sim O(1)+\fc hN\ln \ze_L(s)\\
+&\sim O(1)+\fc hN \ln \rc{s-1}.
+\end{align*}
+Combining this with~(\ref{eq:2-ineq-anal}) gives $m(\chi)=0$ (since $\fc hN>0$) for all $\chi\ne 1$, and $h\le N$, as needed.
+\end{proof}
+
+\subsection{Algebraic approach}\llabel{sec:2ineq-alg-proof}
+The steps are as follows.
+\begin{enumerate}
+\item
+Carry out some preliminary local computations.
+\item
+Consider the case where $L/K$ is an extension such that $G(L/K)\cong (\Z/n\Z)^r$, and $K$ contains the $n$th roots of unity. %(In particular this includes the prime cyclic case.) 
+Note this is a Kummer extension, so we can characterize it in terms of $L^{\times n}\cap K$. This will make computations easy for us. % (how?).
+
+We construct an explicit set $E$ with
+\[
+E\subeq \nm_{L/K}\I_L\subeq \I_K.
+\]
+We have $[\I_K:K^{\times}\nm_{L/K}\I_L]\mid [I_K:K^{\times}E]$, so it suffices to show the latter equals $n^r$.
+\item Show this.
+\item This implies the cyclic prime case, and that the cyclic prime case implies the general case.
+\end{enumerate}
+This section is incomplete; see Cassels-Frohlich~\cite{CF69}, pg. 180-185.
+\subsubsection{Local computations}
+\begin{pr}\llabel{pr:local-power-index}
+Let $K$ be a local field with $|\mu_{n}\cap K|=m$, i.e. $K$ contains $m$ $n$th roots of unity.
+%containing the $n$th roots of unity, with norm $\abd_v$. 
+Then
+\[
+[K^{\times}:K^{\times n}]=\fc{nm}{|n|_v}
+\]
+and
+\[
+[U_K:U_K^{n}]=\fc{m}{|n|_v}.
+\]
+\end{pr}
+\begin{proof}
+There are two methods: appeal to the structure of $K^{\times}$ or calculate a Herbrand quotient.
+%
+%Suppose the residue field is $\F_q$. Then
+%The structure of $K^{\times}$ is 
+%\[
+%\pi^{\Z}\times \F_q^{\times}\times \mu_{m}\times \F_q^{+}=
+%\Z\times \Z/(q-1)\Z\times \Z/|n|_v\Z\times \Z_p^d.\]
+%%\times (\sO_K/\pi\sO_K)^{+}\times (\sO_K/\pi\sO_K)^{\times}$. %(Not really... what is it?)
+\end{proof}
+\subsubsection{Constructing $E$}
+Since $L$ is a Kummer extension we can write it in the form $K(\sqrt[n]{a_1},\ldots, \sqrt[n]{a_r})$. 
+Let $S$ be a set of primes satisfying the following conditions.
+\begin{enumerate}
+\item
+$S$ contains all infinite places.
+\item
+$S$ contains all divisors of $n$.
+\item
+$\I_K=K^{\times}\I_K^S$. (This is possible by Proposition~\ref{illis}.)
+\item
+$S$ contains all prime factors in the numerator and denominator of all $a_i$, i.e. the $a_i$ are all $S$-units.
+\end{enumerate}
+
+Define 
+\[
+E=\prod_{v\in S}K_V^{\times n}\times \prod_{v\in T} K_v^{\times}\times \prod_{v\nin S\cup T} U_v.
+\]
+\begin{lem}
+$E\subeq \nm_{L/K}\I_L$.
+\end{lem}
+We want to calculate $[\I_K:K^{\times}E]$ but $K^{\times } E$ is hard to deal with. $E$ however, is not, because to calculate the index of $E$ we can appeal to Proposition~\ref{pr:local-power-index}. Thus we use the following group theoretic fact.
+\begin{pr}
+Let $B\subeq A$ and $C$ be subgroups of a group $G$. Then
+\[
+[CA:CB][C\cap A:C\cap B]=[A:B].
+\]
+\end{pr}
+Then
+\[
+[\I_K:K^{\times}E]=
+[K^{\times}\I_{K}^{S\cup T}:K^{\times}E]=
+\fc{[\I_{K}^{S\cup T}:E]}{[K^{\times}\cap \I_K^{S\cup T}:K^{\times}\cap E]}.
+\]
+See Cassels-Frohlich.
+%Uncomment out and finish sometime!
+%Let $K^A=K^{\times}\cap \I_K^A$ for short. 
+%We now show the following.
+%\subsubsection{$[\I_K^{S\cup T}:E]=n^{2s}$}
+%\subsubsection{$[K^A:(K^A)^n]=n^{s+t}$}
+%\subsubsection{$(K^A)^n=K^{\times}\cap E$}
+%
+%\begin{lem}
+%Suppose $K$ contains the $n$th roots of unity and $S\sub V_K$ satisfies conditions 1 to 3, $T\cap S=\phi$, and we have a surjection
+%\[
+%K_S\tra \prod_{v\in T}U_v/U_v^n.
+%\]
+%
+%If $b\in K^{\times}$ is a $n$th power of $S$, and a unit outside $S\cup T$ (i.e. $i(b)\in \prod_{v\in S}K_v^{\times n}\times \prod_{v\in T} K_v^{\times}\times \prod_{v\nin S\cup T} U_v$), then $b\in K^{\times n}$.
+%\end{lem}
+%\begin{proof}
+%
+%\end{proof}
+\subsection{Finishing the proof}
+Now we prove Theorem~\ref{thm:2ineq}.
+\begin{proof}[Proof of Theorem~\ref{thm:2ineq}]
+\step{1} We show the theorem when $[L:K]$ is prime. In this case, both the first and second inequality hold, so 
+\[
+|H_T^2(G,\mathbf C_L)|=[\I_K:K^{\times}\nm_{L/K}(\I_L)]=[L:K].
+\]
+Since $h(\mathbf C_L)=n$ by Lemma~\ref{hcl}, we get $|H_T^1(G,\mathbf C_L)|=1$. Finally, note $H_T^2(G,\mathbf C_L)=H_T^0(G,\mathbf C_L)$ because $G(L/K)$ is cyclic.\\
+
+\step{2} We show the theorem when $[L:K]$ is a prime power, by induction on the exponent. Suppose $|G|=p^n$. Every $p$-group has a normal subgroup of index $p$. Let $H\triangleleft G$ be such a group; it corresponds to $H=G(L/K')$ for some extension $K'/K$ of degree $p$. The inflation-restriction exact sequence~\ref{group-hom-cohom}.\ref{inflate-restrict} gives
+\[
+0\to \underbrace{H^1(G/H,\mathbf C_{K'})}_{=0\text{ by prime case}} \xra{\Inf} H^1(G,\mathbf C_L) \xra{\Res} \underbrace{H^1(H,\mathbf C_L)}_{=0\text{ by induction hypothesis}}.
+\]
+Thus $H^1(G,\mathbf C_L)=0$. This shows part 2. Using $H^1(G,\mathbf C_L)=0$, the inflation-restriction exact sequence gives
+\[
+0\to \underbrace{H^2(G/H,\mathbf C_{K'})}_{\text{order }p} \xra{\Inf} H^2(G,\mathbf C_L) \xra{\Res} \underbrace{H^2(H,\mathbf C_L)}_{\text{order }\mid p^{n-1}}
+\]
+by the case for cyclic extensions and the induction hypothesis. This shows $|H^2(G,\mathbf C_L)|\mid  p^n$. Finally,
+\[
+|H_T^0(G,\mathbf C_L)|=[\mathbf C_K:\nm_{L/K}\mathbf C_L]
+=[\mathbf C_K:\nm_{K'/K}(\mathbf C_{K'})][\nm_{K'/K}(\mathbf C_{K'}):\nm_{L/K}(\mathbf C_L)].
+\]
+Now $[\mathbf C_K:\nm_{K'/K}(\mathbf C_{K'})]=p$ by the cyclic case, and the surjection $\nm_{K'/K}:\mathbf C_{K'}/\nm_{L/K'}(\mathbf C_L)\tra \nm_{K'/K}(\mathbf C_{K'})/\nm_{L/K}(\mathbf C_L)$ and the induction hypothesis gives that the second factor divides $p^{n-1}$. This finishes the induction step.\\
+
+\step{3} We show the theorem holds in general, using Corollary~\ref{group-hom-cohom}.\ref{res-inj-p-prim}: the map
+\[
+\Res^n:H^n(G,M)\to H^n(G_p,M)
+\]
+is injective on the $p$-primary component. Using step 2, for $n=1$, this gives us that $p\nmid H_T^1(G,\mathbf C_L)$ for any $p$, i.e. $H_T^1(G,\mathbf C_L)=0$. For $n=0,2$, this gives that $v_p(|H^n(G,M)|)\le v_p(|H^n(G_p,M)|)\le v_p(G)$, giving part 1.
+\end{proof}
+\subsection{Local-to-global principle for algebras}
+The fact that $H^1(G, \mathbf C_L)=0$ also gives the following corollary.
+%imported from last chapter
+\index{Brauer-Hasse-Noether theorem}
+\begin{thm}[Brauer-Hasse-Noether Theorem]\llabel{thm:b-h-n}
+Let $L/K$ be any Galois extension with Galois group $G$. Then the map
+\[
+H^2(G,L^{\times})\to \bigoplus_{v\in V_K} H^2(G^v,L^{v\times})
+\]
+is injective. 
+A central simple algebra over a number field $K$ is split over $K$ iff it is split locally everywhere.
+\end{thm}
+\begin{proof}
+%This time we work in dimension 2. 
+Taking cohomology of $0\to L^{\times} \to \I_L\to \mathbf C_L\to 0$ gives
+\begin{equation}\llabel{eq:b-h-n}
+\xymatrix{
+H^{1}(G,\mathbf C_L)\ar@{=}[d]
+\ar[r] & H^2(G,L^{\times}) \ar[r]\ar@{=}[d] & 
+H^2(G,\I_L)\ar[r]\ar@{=}[d] & \cdots\\
+0 \ar[r] & \Br_K \ar@{^(->}[r]&\bigopl_{v\in V_K} \Br_{K_v}&
+}
+\end{equation}
+Here $H^{1}(G,\mathbf C_L)=0$ directly from HT90 for ideles (Theorem~\ref{thm:2ineq}), and equality on the right comes from
+\[
+H^2(G,\I_L)=\bigoplus_{v\in V_K} H^2(L^v/K_v)
+\]
+(Proposition~\ref{pr:hi-as-prod}).
+Brauer group is $H^2$ by Theorem~\ref{thm:brauer-cohom}. 
+Injectivity of the bottom map gives the result.
+
+(We do need to check that in the above diagram, the map $\Br_K\to \bigopl_{v\in V_K} \Br_{K_v}$ is exactly the map sending an algebra to its reduction over every local field. This is a matter of tracing the long windy road between $\Br$ and $H^2$ and left to the reader.)
+\end{proof}
+%
+\section{Proof of the reciprocity law}
+To construct the Artin map in the local case, we constructed the invariant map $\inv_K:H^2(K\ur/K)\to \Q/\Z$. Then we
+used the fact that $H^2(K\ur)=0$, i.e. every $a\in H^2(K)$ splits in an unramified extension, to conclude that $H^2(K)\cong H^2(K\ur/K)$.
+
+%In the global case, we let
+%\[
+%H^2(L/K):=H^2(G(L/K),\mathbf C_L)
+%\]
+%instead of $H^2(G(L/K),L^{\times})$, because we will create the class formation from $\mathbf C_{\ol K}$ instead of $\ol K^{\times}$. 
+In the global case we will construct the invariant map $\inv_K:H^2(K_c/K,\I_{K_c})\to \Q/\Z$, for a certain infinite cyclotomic extension $K_c$. Then we show
+ %every $a\in H^2(K)$ splits in 
+$H^2(K_c,\I_{\ol K})=0$, i.e. every $a\in H^2(K,\I_{\ol K})$ splits in this cyclotomic extension, to conclude $H^2(K,\I_{\ol K})\cong H^2(K_c/K,\I_{\ol K_c})$. 
+%\fixme{Note: Here $H^2(L/K):=H^2(G(L/K),\mathbf C_L)$, not $H^2(L/K,L^{\times})$. Make sure notation is consistent.}
+%Done.
+
+We construct the global Artin map by taking the product of the local Artin maps:
+\begin{gather}
+\nonumber\phi_{L/K}:\I_K\to G(L/K)\\
+\phi_{L/K}(\mathbf a)=\prod_{v\in V_K}\phi_v(a_v).\llabel{eq:artin-as-product}
+\end{gather}
+(Only a finite number of the factors---those where $L^v/K_v$ is ramified or $a_v\nin U_v$---are not equal to the identity.)
+
+We need to show that $K^{\times}\subeq \ker \phi_{L/K}$, so that it factors through $\I_K/K^{\times} \cdot \nm_{L/K}\I_L$.
+Consider the following two properties.
+\begin{enumerate}
+\item[(A)]
+Define the map $\phi_{L/K}$ as in~(\ref{eq:artin-as-product}). 
+The map $\phi_{L/K}$ takes the value 1 on the principal ideles $K^{\times}\subeq \I_K$.
+\item[(B)]
+For all $\al\in H^2(G(L/K),L^{\times})=\Br_{L/K}$,
+\[
+\inv(\al):=\sum_{v\in V_K} \inv_v(i(\al))=0.
+\]
+\end{enumerate}
+Note in (B), $\inv_v$ is defined as follows.
+\begin{df}\llabel{df:global-inv}
+Define $\inv_v$ as the following composition: % the projection map $p_v:\I_K\to K_v^{\times}$ induces a map $H^2(G_v,\I_L)\to H^2(G_v,(L^v)^{\times})$, and the 
+\[
+\inv_v:H^2(G,\I_L)\xra{\Res_{G/{G_v}}} H^2(G_v,\I_L) \xra{H^2(G_v,p_v)} H^2(G_v,(L^v)^{\times})\xra{\inv}\Q/\Z
+\]
+where $p_v:\I_L\to (L^v)^{\times}$ is the projection map. (This looks complicated, but it is just what you think it is.)
+\end{df}
+
+We prove (A) for all finite abelian extensions of number fields and (B) for all finite Galois extensions of number fields.
+
+We first show that (A) holds for a special class of extensions, and then use an ``unscrewing" argument to show (A) and (B) hold for more general extensions. The plan of attack is as follows.
+\begin{enumerate}
+\item
+Show (A) holds for $\Q(\ze_m)/\Q$.
+\item 
+Show (A) holds for all cyclotomic extensions.
+\item
+Show that (B) holds for $\al$ split by a cyclotomic extension.
+\item
+Every $\al$ is split by a cyclic cyclotomic extension, so (B) holds for all $\al\in H^2(K,\ol K^{\times})$.\fixme{ ?}
+%Show that (B) holds for all $\al\in H^2(K)$.
+\item
+Show that (A) holds for all abelian extensions.
+\end{enumerate}
+Note that (A) is a statement about $H_T^{-2}\to H_T^0$ while (B) is a statement about $H^2$. We ``transfer" the problem from (A) to (B) so that we can apply our characterization of $\phi_v$ in terms of the local invariant map (Theorem~\ref{lcft}.\ref{thm:calculate-local-artin}). First, we need an analogue of Theorem~\ref{lcft}.\ref{thm:calculate-local-artin} in the global case.
+\begin{lem}\llabel{lem:sum-inv}
+Let $G=G(L/K)$. 
+For all $v\in V_K$ and all $\chi\in H^1(G,\Q/\Z)=\Hom(G,\Q/\Z)$, we have $\inv_v(\ol{\mathbf a}\cup \de \chi)=\chi_v(\phi_v(a_v))$. ($\chi_v$ is the restriction of $\chi$ to $G_v$ and $\ol{\mathbf a}$ is the image of $\mathbf a$ in $H_T^0(G(L/K),\I_L)$. Hence
+\[
+\inv(\ol{\mathbf a}\cup \de \chi)=\sum_v \inv_v(\ol{\mathbf a}\cup \de \chi)=\chi(\phi(a)).
+\]
+\end{lem}
+\begin{proof}
+Since restriction commutes with cup products (Proposition~\ref{group-hom-cohom}.\ref{res-cup}) and with $\de$, we have
+\begin{align*}
+\inv_v(\ol{\mathbf a}\cup \de \chi)&=\inv(p_v\Res_{G/G_v} (\ol{\mathbf a}\cup \de \chi))\\
+&=\inv(p_v(\ol{\mathbf a})\cup \de\chi_v)&\Res_{G/G_v}(\chi)=\chi_v\\
+%Restriction on H^1=Hom just acts as restriction of the homomorphism
+&=\inv(\ol {a_v}\cup \de \chi_v)=\chi_v(\phi_v(a_v)).
+\end{align*}
+We invoked Theorem~\ref{lcft}.\ref{thm:calculate-local-artin}  in the last step.
+
+Taking the product gives the second statement:
+\[
+\chi(\phi(\mathbf a))=\chi\pa{\prod_v \phi_v(a_v)}=\sum_v\chi_v(\phi_v(\mathbf a))=\sum_v \inv_v(\ol {\mathbf a}\cup \de\chi).
+\]
+\end{proof}
+\subsection{(A) holds for $\Q(\ze_n)/\Q$}
+\begin{pr}
+For any $m\in \N$, 
+\[
+\phi_{\Q(\ze_m)/\Q}(\Q^{\times})=1.
+\]
+\end{pr}
+First reduce to the case where $m=p$ is prime.
+We give two approaches.\\
+
+\begin{proof}[Proof 1]
+By Example~\ref{intro-cft}.\ref{ex:cyclotomic-gcft}, we know the ideal version of  global class field theory holds for all cyclotomic extensions of $\Q$. Note the maximal unramified extension of $\Q_p$ is included in $\Q_p(\ze_{\iy})$ for all $p$ (Theorem~\ref{lg-fields}.\ref{unram-ram}). Hence by Theorem~\ref{intro-cft}.\ref{thm:gcft-equivalent}(2), there is a map $\phi'$ satisfying the conditions of the idele version of GCFT, except that $\phi'_{\R}$ may not equal $\phi_{\R}$. Letting $\phi'_v$ be the restriction of $\phi'$ to $K_v$, we have (on $G(\Q(\ze_{\iy})/\Q)$)
+\beq{eq:idele-cft-cyclotomic}
+\phi'(\mathbf a)=\phi'_{\R}(a_{\R})\prod_{v\in V_{\Q}^0} \phi'_v(a_v)\stackrel{?}=\prod_{v\in V_{\Q}} \phi_v(a_v)=\phi'(\mathbf a)
+\eeq
+where the middle inequality is pending a proof that $\phi'_{\R}=\phi_{\R}$. We check this is true.
+
+Since $\phi'_{\R}$ is a map $\R/\R_{>0}\to G(\C/\R)$, it suffices to show complex conjugation is in the image of $\phi'$. We have $G(\C/\R)\cong G(\R(i)/\R)$, so consider $\phi'$ on $G(\Q(i)/\Q)$. As $\phi'(\Q^{\times})=1$, we have by~\eqref{eq:idele-cft-cyclotomic} and the fact that $\Q(i)/\Q$ is only ramified at $2$ that on $G(\Q(i)/\Q)$,
+\[
+1=\phi'(-7)=\phi'_2(-7)\phi'_7(-7)\phi'_{\R}(-7)
+\]
+Now $-7\equiv 1\pmod 8$ so $-7\in \nm_{\Q_2(i)/\Q_2}(\Q_2(i)^{\times})$, and $\phi'_2(-7)=1$. We have $v_7(-7)=1$, so $\phi'(-7)$ equals the Frobenius element, complex conjugation. Hence $\phi'_{\R}(-7)$ is also complex conjugation.
+
+Thus~(\ref{eq:idele-cft-cyclotomic}) holds, and we have $\phi_{\Q(\ze_{\iy})/\Q}(\Q^{\times})=\phi'_{\Q(\ze_{\iy})/\Q}(\Q^{\times})=1$, as needed.
+%We know exactly how the Frobenius map acts on cyclotomic extensions (Example BLAH), so all we have to do is check that, if we consider it as a map on ideles instead of ideals, it satisfies the conditions of the Artin map. We need to check that extracting the factors of the Artin map gives exactly the local Artin maps.
+%\fixme{Finish. See Cassels-Frohlich p. 190.}
+\end{proof}
+\begin{proof}[Proof 2]
+%We 
+Use explicit computations of local symbols, obtained from Lubin-Tate theory. See Cassels-Frohlich~\cite{CF69}, p. 191.
+%(It is difficult to perform these calculations from the cohomological approach to local class field theory.)
+%\noindent
+%\begin{tabular}{|c|c|c|c|c|}
+%\hline 
+% & $p=\iy$ & $p=l$ & $p=q$ & else\tabularnewline
+%\hline 
+%$\phi_{p}(-1)$ & $[-1]$ & $[-1]$ &  & $[1]$\tabularnewline
+%\hline 
+%$\phi_{p}(l)$ & $[1]$ & $[1]$ &  & $[1]$\tabularnewline
+%\hline 
+%$\phi_{p}(q)$ & $[1]$ & $[q^{-1}]$ & $[q]$ & $[1]$\tabularnewline
+%\hline 
+%\end{tabular}
+\end{proof}
+\subsection{(B) holds for all cyclomic extensions}
+We prove the following more general proposition.
+\begin{pr}[Devissage]\footnote{Devissage means ``unscrewing" in French.}\llabel{pr:gl-rec-devissage}
+If (A) is true for $L/K$, then (A) holds for
+\begin{enumerate}
+\item
+any subextension $M/K$ and
+\item 
+any extension $LK'/K'$.
+\end{enumerate}
+\end{pr}
+For an extension $K'(\ze_n)/K'$, apply the proposition with $L=\Q(\ze_n)$ and $K=\Q$ to obtain the following.
+\begin{cor}
+(A) holds for all cyclotomic extensions.
+\end{cor}
+\begin{proof}[Proof of Proposition~\ref{pr:gl-rec-devissage}]$\,$
+\begin{enumerate}
+\item
+For any place $v$, $\phi_{M^v/K_v}$ is the composition of $\phi_{L^v/K_v}$ and the projection $G(L^v/K_v)\to G(M^v/K_v)$. Since the global map is the product of the local maps, $\phi_{M/K}$ is the composition of $\phi_{L/K}$ and $G(L/K)\to G(M/K)$. Hence $\phi_{M/K}(K^{\times})=1$.
+\item Let $L'=L\cdot K'$. 
+We have a natural inclusion $G(L'/K')\hra G(L/K)$. 
+The local Artin map is compatible with basefield extension with respect to the norm map. Since the norm on ideles is computed componentwise, it follows the map $\phi=\prod_{v\in V_K}\phi_v$ is also compatible with field extensions.
+%
+%Let $L'=LK'$. We have a 
+\[
+\xymatrix{
+\I_{K'}\ar[r]^-{\phi_{L'/K'}}\ar[d]^{\nm_{K'/K}} & G(L'/K')\ar[d]^i\\
+\I_K\ar[r]^-{\phi_{L/K}}& G(L/K).
+}
+\]
+Suppose $a\in {K'}^{\times}$. By commutativity and (A) for the extension $L/K$, we have
+\[
+i\circ \phi_{L'/K'}(a)=\phi_{L/K}[\underbrace{\nm_{K'/K}(a)}_{\in K^{\times}}]=1.
+\]
+Since $i$ is injective, this implies $\phi_{K'/K'}(a)=1$.
+\qedhere
+\end{enumerate}
+\end{proof}
+\subsection{(A) for cyclotomic implies (B) for $\al$ split by cyclic cyclotomic}
+This follows from the more general proposition:
+\begin{pr}
+If $L/K$ is cyclic, then (A) implies (B).
+\end{pr}
+%Suppose $\al\in H^2(L/K)$. 
+\begin{proof}
+Since $L/K$ is cyclic, we can take $\chi\in H^1(G,\Q/\Z)$ to be a generating character. 
+We have the following commutative diagram.
+\[
+\xymatrix{
+K^{\times} \ar@{^(->}[r] \ar[d]^{\bullet\cup \de \chi} & \I_K \ar[r]^{\phi_{L/K}}\ar[d]^{\bullet\cup \de\chi} & G(L/K)\ar[d]^{\chi}\\
+H^2(G,L^{\times}) \ar[r] & H^2(G,\I_L)\ar[r]^{\inv} & \Q/\Z.
+}
+\]
+The left-hand square commutes by functoriality of cup products; the right-hand square commutes by Lemma~\ref{lem:sum-inv}. 
+Recall $\bullet\cup \delta \chi$ is an isomorphism for $G$ cyclic, by Proposition~\ref{group-hom-cohom}.\ref{iso+2}. 
+Hence if $a\in H^2(G,L^{\times})$, then it is equal to $b\cup \de\chi$ for some $b\in K^{\times}$, and
+\[
+\inv(a)=\inv(b\cup \de \chi)=\chi(\phi_{L/K}(b))=0.
+\]
+In the last step we use (A) to give $\phi_{L/K}(b)=0$.
+\end{proof}
+%Now $\de:H^1(G,\Q/\Z)\to H^2(G,\Z)$ is injective (is it? why?) and $\de\chi$ is a generator for $
+\subsection{(B) for cyclic cyclotomic implies (B) in general}
+It suffices to prove the following.
+\begin{thm}\llabel{thm:split-in-cyc-cyc}
+For any $\be\in H^2(K)$ there exists a cyclic cyclotomic extension $L/K$ such that $\be$ maps to 0 in $H^2(L)$.
+
+There exists a cyclotomic extension $K_c\subeq K(\ze_{\iy})$ with $G(K_c/K)\cong \wh{\Z}$ such that the inclusion map
+\[
+H^2(K_c/K)\to H^2(K)
+\]
+is an isomorphism.
+\end{thm}
+We first give a criterion for $\be$ to map to 0 in $H^2(L)$, then find a cyclotomic $L/K$ where this criterion holds.
+\begin{lem}\llabel{lem:criterion-split}
+Let $\al \in H^2(K)$. Then $\Res_{K/L}(\al)=0$ in $H^2(L)$ if and only if $[L^v:K_v]\inv_v(\al)=0$ for every $v\in V_K$. 
+\end{lem}
+\begin{proof}
+By the Brauer-Hasse-Noether Theorem~\ref{thm:b-h-n}, $\Res_{K/L}(\al)=0$ in $H^2(L/K, L^{\times})$ iff $\Res_{K/L}(\al)=0$ in $H^2(L^v/K_v,L^{v\times})=0$ for all $v$. Since $\inv_{K_v}$ is an isomorphism, this is true iff $\inv_{K_v}\Res_{K_v/L^v}(\al)=0$ for all $v$. But we know 
+\[\inv_{K_v}\Res_{K_v/L^v}(\al)=[L^v:K_v]\inv_v(\al),\]
+from the class formation for LCFT (Theorem~\ref{lcft}.\ref{thm:lcft-class-form}).
+\end{proof}
+\begin{lem}\llabel{lem:cyc-cyc-ext}
+Suppose $K/\Q$ is a finite extension and $S$ be a finite set of places of $K$. 
+There exists a cyclic cyclotomic extension $L/K$ such that
+\begin{align*}
+m&\mid [L^v:K_v]\text{ for every finite }v\in S\\
+2&\mid [L^v:K_v]\text{ for every real }v\in S.
+\end{align*}
+%where $f(v)$ denotes the residue field degree of $v$ in $L/K$.
+\end{lem}
+(The second condition is just equivalent to $L$ being complex.)
+\begin{proof}
+First consider the case $K=\Q$. Note that for an odd prime $q$,
+\[
+G(\Q(\ze_{q^r})/\Q)\cong (\Z/q^r)^{\times}\cong \Z/(q-1)q^{r-1}\cong \Z/(q-1)\times \Z/q^{r-1}.
+\]
+Let $L(q^r)$ be the subextension of $\Q(\ze_{q^r})$ with Galois group $\Z/q^{r-1}$. Becuase $\Q_p$ only has a finite number of roots of unity, $v_q([L(q^r):\Q_p])\to \iy$ as $r\to \iy$.
+
+Similarly for $q=2$,
+\[
+G(\Q(\ze_{2^r})/\Q)\cong (\Z/2^r)^{\times}\cong \Z/2\times \Z/2^{r-2}.
+\]
+The subextension $\Q(\ze_{2^r}-\ze_{2^r}^{-1})$ corresponds to the automorphisms $\ze\mapsto \ze^s$ with $s\equiv 1\pmod 4$, which form a group isomorphic to $\Z/2^{r-2}$. Let $L(2^r)=\Q(\ze_{2^r}-\ze_{2^r}^{-1})$ (note this is complex), then similarly $\lim_{r\to \iy}v_2([L(2^r):\Q])=\iy$. Now take
+\[
+L:=\prod_{q_i\mid 2m} L(q_i^{r_i})
+\]
+for $r_i$ large enough. 
+As it is a compositum of cyclic cyclotomic extensions of relatively prime degrees, $L$ is cyclic cyclotomic.
+
+Now suppose we are given general $K$. First construct $\Q(\ze_n)/\Q$ satisfying the conditions for $\Q$ with $m[K:\Q]$. Then take $L=K(\ze_n)$. We have $[K^v(\ze_n):K^v]\mid m$ for finite primes $v$ of $\Q$ since $[K^v:\Q_v]\mid [K:\Q]$.
+
+We can take $K_c=\bigcup_{S,r_i} K\cdot \prod_{q_i\in S} L(q_i^{r_i})$.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{thm:split-in-cyc-cyc}]
+We know $\inv_v(\al)=0$ except for a finite number of primes, say primes in $S$. \fixme{Why?}
+Suppose $m\inv_v(\al)=0$. Use Lemma~\ref{lem:cyc-cyc-ext} to get $L=K(\ze_N)$ such that works for $m$ and $S$. Then by Lemma~\ref{lem:criterion-split}, $\Res_{K/L}(\al)=0$ in $H^2(K(\ze_N))$.
+\end{proof}
+
+\subsection{(B) implies (A) for all abelian extensions}
+This will follow from the following proposition.
+\begin{pr}
+If $L/K$ is abelian, then (B) for $L/K$ implies (A) for $L/K$.
+\end{pr}
+\begin{proof}
+Let $a\in K^{\times}$. By Lemma~\ref{lem:sum-inv}, for any character $\chi$,
+\[
+\chi(\phi_{L/K}(a))=\inv(\underbrace{\ol a\cup \delta \chi}_{\in H^2(L/K,L^{\times})})=0.
+\]
+Hence $\phi_{L/K}(a)=0$.
+\end{proof}
+%\section{$H^2(K)\cong H^2(K(\ze_{\iy}))$}
+
+%To prove this we will first show this for $\Q$
+We have now proved the following.
+\begin{thm}\llabel{thm:AB}
+%For any abelian extension $L/K$, the following hold:
+The following hold.
+\begin{enumerate}
+\item[(A)]
+For an abelian extension $L/K$, define the map $\phi_{L/K}$ as in~(\ref{eq:artin-as-product}). 
+The map $\phi_{L/K}$ takes the value 1 on the principal ideles $K^{\times}\subeq \I_K$.
+\item[(B)]
+For any $\al\in H^2(\ol K/K)$,
+\[
+\inv(\al):=\sum_{v\in V_K} \inv_v(\al)=0.
+\]
+\end{enumerate}
+\end{thm}
+\section{The ideles are a class formation}\llabel{sec:ideles-cf}
+We now complete the proof of global class field theory by showing that the ideles are a {\it class formation} and invoking the theorems in Section~\ref{lcft}.\ref{sec:class-formations}. In the local case, the $G$-modules in the class formations are the fields themselves, but in the global case, the $G$-modules are the ideles.
+\begin{thm}\llabel{thm:global-class-form}
+Let $K$ be a global field. Then 
+\[(G(\ol K/K),\set{G(L/K)}{L/K\text{ finite Galois}},\mathbf C_{\ol K})\]
+is a class formation.
+%(Actually does $\I_{\ol K}$ make sense?)
+\end{thm}
+Note that $\mathbf C_{\ol K}^{G(\ol K/L)}=\mathbf C_L$ for each $L$ by Proposition~\ref{pr:ilg-is-ik}.
+%Here, 
+%\[\mathbf C_{\ol K} :=\varprojlim_{L/K}\mathbf C_L,\]
+%which can be thought of as the union of the $\mathbf C_L$. (Recall we had $\mathbf C_K\cong \mathbf C_L^{G(L/K)}\hra \mathbf C_L$ by Proposition~\ref{pr:ilg-is-ik}.)
+\begin{proof}
+We check the axioms in Definition~\ref{def:class-formation}.\\
+
+\step{1}
+First, $H^1(G(L/K),\mathbf C_L)=0$ for every cyclic extension of prime degree (in fact every finite extension), by Theorem~\ref{thm:2ineq}.\\
+
+Second, we need maps $\inv_{L/K}:H^2(L/K,\mathbf C_K)\xra{\cong} \Q/\Z$. 
+Right now we just have a map
+\[
+\inv_{L/K}:H^2(G(L/K),\I_L)\to \Q/\Z.
+\]
+%as the sum of local invariant maps
+%\begin{equation}\llabel{inv-is-sum}
+%\inv_{L/K}(\mathbf x)=\sum_{v\in V_K} \inv_{L^v/K_v}(x_v).
+%\end{equation}
+We need to show $\inv_{L/K}$ ``factors through" $H^2(G(L/K),\mathbf C_L)$. We also need to show compatibility with inflation and restriction, and that 
+\[
+\inv_{L/K}:H^2(G(L/K),\mathbf C_L)\xra{\cong} \rc{[L:K]}\Z/\Z
+\]
+for all $L/K$. It is hard to show this directly, except in the cyclic case, when we know the first inequality holds. As we will see, though, showing the cyclic case is enough, because by Theorem	~\ref{thm:split-in-cyc-cyc}, every element of $H^2(G(\ol K/K),\mathbf C_{\ol K})$ is contained in  $H^2(G(L/K),\mathbf C_L)$ for some cyclic (in fact, also cyclotomic) $L/K$.\\
+
+%\begin{enumerate}
+%\item 
+%\item $\inv_K$ is an isomorphism $H^2(G(L/K), \mathbf C_L)\xra{\cong} \rc{[L:K]}\Z/\Z$ compatible with restriction, i.e.
+%\[
+%\inv_L\circ \Res_{K/L} = [L:K]\inv_K.
+%\]
+%We will spend the rest of the section showing this statement.
+%\end{enumerate}
+\step{2}
+Consider the following commutative diagram, whose columns are inflation-restriction sequences.
+\[
+\xymatrix{
+& 0\ar[d] & 0\ar[d] & 0\ar[d]&\\
+0\ar[r] & H^2(L/K,L^{\times}) \ar[r]^{i_1} \ar[d]^{\Inf} & H^2(L/K, \I_L) \ar[r]^{p_1} \ar[d]^{\Inf}\ar[rrd]_{\inv} & H^2(L/K,\mathbf C_L) \ar[d]^{\Inf}&\\
+0\ar[r] & H^2(M/K,M^{\times}) \ar[r]^{i_2}\ar[d]^{\Res} & H^2(M/K,\I_M)\ar[r]^{p_2}\ar[d]^{\Res}\ar[rrd]_{\inv} & H^2(M/K,\mathbf C_M)\ar[d]^{\Res} & \rc n\Z/\Z\\
+0\ar[r] & H^2(M/L,M^{\times}) \ar[r]^{i_3} & H^2(M/K,\I_M)\ar[rrd]_{\inv}\ar[r]^{p_3} & H^2(M/L,\mathbf C_M) & \Q/\Z\\
+&&&&\Q/\Z.
+}
+\]
+The columns are exact by the inflation-restriction exact sequence (Proposition~\ref{group-hom-cohom}.\ref{inflate-restrict}) and the following:
+\begin{enumerate}
+\item
+$H^1(M/L,M^{\times})=0$ by Hilbert's Theorem 90 (Theorem~\ref{galois-cohomology-ch}.\ref{h90}).
+\item
+$H^1(M/L, \I_M)=0$ by Proposition~\ref{pr:hi-as-prod}.
+\item
+$H^1(M/L,\mathbf C_M)=0$ by Theorem~\ref{thm:2ineq}.
+%combining the first and second inequalities.
+\end{enumerate}
+The rows are exact because they come from the long exact sequences of $0\to L^{\times}\to \I_L\to \mathbf C_L\to 0$ and $0\to M^{\times}\to \I_M\to\mathbf C_M\to 0$, and the fact that $H^1$ of $\mathbf C_L,\mathbf C_M$ is trivial (again by Theorem~\ref{thm:2ineq}).\\
+
+\step{3} Next we show the maps $\inv$ are compatible with inflation. Indeed, since we have a class formation for local class field theory (Theorem~\ref{lcft}.\ref{thm:lcft-class-form}), for every $w\mid v$ we have the diagram %(See Proposition~\ref{lcft}.\ref{pr:class-form-diagram})
+\[
+\xymatrix{
+H^2(L_w/K_v)\ar[r]^{\inv_{K_v}}\ar[d]^{\Inf_{\ol {L_w}/L_w}} & \rc{[L_w:K_v]}\Z/\Z\ar[d]^{i} \\
+H^2(K_v)\ar[r]^{\inv_{K_v}} & \Q/\Z.
+}
+\]
+Now $H^2(G(L/K),\I_K)\cong \bigoplus_{v\in V_{K}} H^2(G^v,(L^v)^{\times})$ by Proposition~\ref{pr:hi-as-prod} and $\inv=\sum_{v\in V_K}\inv_v$, so $\inv$ is compatible with inflation.\\
+
+\step{4} 
+Thus, we can take the direct limit over $M$, noting direct limits preserve exactness, to get (we will explain the dashed and dotted lines)
+\beq{eq:3x3-icf}
+\xymatrix{
+%row 1
+& 0\ar[d] & 0\ar[d] & 0\ar[d]&\\
+%row 2
+0\ar[r] & H^2(L/K,L^{\times}) \ar[r]^{i_1} \ar[d]^{\Inf} & H^2(L/K, \I_L) \ar[r]^{p_1} \ar[d]^{\Inf}\ar[rrd]_{\inv_1} & H^2(L/K,\mathbf C_L) \ar[d]^{\Inf}\ar@{-->}[rd]^{\inv_1'}&\\
+%row 3
+0\ar[r] & H^2(K,\ol K^{\times}) \ar[r]^{i_2}\ar[d]^{\Res} & H^2(K,\I_{\ol K})\ar[r]^{p_2}\ar[d]^{\Res}\ar[rrd]_{\inv_2} & H^2(K,\mathbf C_{\ol K})\ar[d]^{\Res}\ar@{-->}[rd]^{\inv_2'} & \rc n\Z/\Z\ar@{.>}[d]\\
+%row 4
+0\ar[r] & H^2(L,\ol L^{\times}) \ar[r]^{i_3} & H^2(L,\I_{\ol K})\ar[rrd]_{\inv_3}\ar[r]^{p_3} & H^2(L,\mathbf C_{\ol K}) \ar@{-->}[rd]^{\inv_3'}& \Q/\Z\ar@{.>}[d]^n\\
+%row 5
+&&&&\Q/\Z.
+}
+\eeq
+
+\step{5}
+Now we show the maps $\inv_j$ are compatible under restriction. Again, since we have a class formation for local class field theory (Theorem~\ref{lcft}.\ref{thm:lcft-class-form}), we have the diagram
+\[
+\xymatrix{
+H^2(K_v)\ar[r]^-{\inv_{K_v}}\ar[d]^{\Res_{K_v/L_w}} & \Q/\Z\ar[d]^{[L_w:K_v]} \\
+H^2(L_w)\ar[r]^-{\inv_{L_w}} & \Q/\Z
+}
+\]
+Using $H^2(G(L/K),\I_K)\cong \bigoplus_{v\in V_K} H^2(G^v,(L^v)^{\times})$, we can write an element of $H^2(K,\I_K)$ as $\mathbf x=(x_v)_{v\in V_K}$, where $x_v\in H^2(G_v,(K_v)^{\times})$. On degree 0, $\Res_{K/L}$ is the diagonal imbedding $\I_K\xra{\cong} \I_L^G\hra \I_L$ of Proposition~\ref{pr:ilg-is-ik}, so on degree 2,
+\[
+\Res_{K/L}\mathbf x=\pa{\pa{\Res_{K_v/L_w}x_v}_{w\mid v}}_{v\in V_K}\in \bigoplus_{v\in V_K}
+\bigoplus_{w\mid v} H^2(G_w,\ol{K_v}^{\times}).
+\]
+The invariant map then sends this to
+\[
+\sum_{v\in V_K} \sum_{w\mid v} \inv_{L_w}(\Res_{K_v/L_w}x_v) = 
+\sum_{v\in V_K}\sum_{w\mid v} n_{w/v} \inv_{K_v} x_v
+=n\sum_{v\in V_K} \inv_{K_v}x_v=n\inv_K\mathbf x,
+\]
+using the fact that $[L:K]=\sum_{w\mid v}n_{w/v}$, where $n_{w/v}$ is the local degree.\\
+%Now $H^2(G(L/K),\I_K)\cong \bigoplus_{v\in M_{K}} H^2(G_v,(L^v)^{\times})$ and $\inv=\sum_{v\in V_K}\inv_v$ and $\sum_{w\mid v}n_{w/v}=[L:K]$, so this gives commutativity of the two parallelograms above, involving the dashed lines. (Make this precise.)
+
+\step{6}
+By Theorem~\ref{thm:AB}, the bent maps are complexes, i.e. $\im(i_j)\subeq \ker(\inv_j)$ for all three rows. %Thus $\inv$ factors through the dashed lines above.
+%The upper parallelogram (with sides $\inv_1,\inv_2$) commutes from the commutativity of 
+%(Follow from local case...) 
+
+Thus the maps $\inv_j$ factor through the images $\im(p_j)$, for $j=1,2,3$ to give the maps $\inv_j'$. Be careful: we have only so far defined $\inv_1':\im(p_1)\to \rc n\Z/\Z$, and not $\inv_1':H^2(L/K,\mathbf C_L)\to \rc n\Z/\Z$. %We will show that if $L$ is cyclic, we can define these maps.
+%This gives the dotted lines above.
+%Next we have find the images of the maps $\inv_j'$ and show they are isomorphisms onto their image, $\im(p_1)\to \rc n\Z/\Z$. We will use the calculation
+%\[
+%|H_T^0(G(L/K),\mathbf C_K)|\le [L:K]
+%\]
+%from the second inequality (Theorem~\ref{thm:second-inequality}). 
+We want to show that for certain extensions $L/K$, the $p_j$ are in fact surjective, so the map $\inv_j'$ is an isomorphism $H^2(L/K,\mathbf C_L)\to \rc n\Z/\Z$. %We prove this for cyclic extensions, which we do now.
+
+To do this we orders of $\im(\inv_1)$ and $|H^2(L/K,\mathbf C_L)|$. Again, we use $H^2(L/K,\I_L)\cong \bigoplus_{v\in V_K}\rc{n_v}\Z/\Z$ (Proposition~\ref{pr:hi-as-prod}). Making this identification using the invariant maps $\inv_v$, the invariant map takes $(a_v)_v\in \bigoplus_{v\in V_K}\rc{n_v}\Z/\Z$ to $\sum_{v\in V_K} a_v$. Thus
+$\im(\inv_1)=\rc{\lcm_v(n_v)}\Z/\Z$ and 
+\[
+|\im(\inv_1)|=\lcm_v(n_v).
+\]
+%\bigoplus_{v\in V_K} H^2(G_v,(L^v)^{\times})$
+We have that 
+\begin{equation}\llabel{eq:lcmnv}
+\lcm_v(n_v)=|\im(\inv_1)|=|\im(\inv_1')|\le |\im(p_1)|\le |H^2(L/K,\mathbf C_L)|\le n,
+\end{equation}
+where the last step is the second inequality. 
+We don't get any information out of this unless $\lcm_v(n_v)=n$. For certain extensions $L/K$, we do know it is true, though.\\ %This is true of cyclotomic extensions... which is why (B) was important!
+
+\step{7} We show that if $L/K$ is cyclic, then $\lcm_v(n_v)=n$. Let $S$ be the set of ramified primes and infinite places of $K$. By Proposition~\ref{pr:frob-surj}, $G(L/K)$ is generated by the elements $\Frob_{L/K}(\mfp)$ for $\mfp\nin S$. Now $\an{\Frob_{L/K}(\mfp)}$ is sent to a subgroup of index $n_v$ in $G(L/K)$. Since $G(L/K)$ to be generated by these elements, we must have $\lcm_v(n_v)=n$.
+
+Then equality holds everywhere in~(\ref{eq:lcmnv}), we have the exact sequence
+\[
+0\to H^2(L/K,L^{\times})\to H^2(L/K,\I_L)\to H^2(L/K,\mathbf C_L)\cong \rc n\Z/\Z \to 0,
+\]
+where the map $H^2(L/K,\I_L)\to \rc n\Z/\Z$ is the invariant map.\\
+
+\step{8} 
+Taking the direct limit over all $L\subeq K_c$ (as defined in Theorem~\ref{thm:split-in-cyc-cyc}) we get 
+\[
+\xymatrix{
+0\ar[r] &H^2(K,K_c^{\times}) \ar[r] \ar[d]^{\Inf} & H^2(K_c/K, \I_{K_c}) \ar[r] \ar[d]^{\Inf}\ar[r] &  H^2(K_c/K,\mathbf C_{K_c})\cong \Q/\Z \ar[d]^{\Inf}\ar[r]&0\\
+0\ar[r] & H^2(K) \ar[r] & H^2(K,\I_{\ol K})\ar[r]^{\inv}& \Q/\Z& 
+}
+\]
+where the top row is exact. By Theorem~\ref{thm:split-in-cyc-cyc}, the left vertical map is an isomorphism. The middle map is also an isomorphism because Theorem~\ref{pr:hi-as-prod} gives that it is the map
+\[
+\bigoplus_{v\in V_K}H^2(K_c^v/K_v)\to \bigoplus_{v\in V_K} H^2(K_v).
+\]
+This is surjective because $H^2(K_c^v/K_v)\cong \Q/\Z$ via the invariant map, $K_c^v$ being the directed union of $L_w$ with $[L_w:K_v]$ arbitrarily divisible. Hence it is an isomorphism. Finally, the right vertical map is clearly an isomorphism. Thus the bottom row is short exact and $\inv_K$ gives an isomorphism $H^2(K,\mathbf C_{\ol K})\to \Q/\Z$, i.e. the map $\inv_2'$ in (\ref{eq:3x3-icf}). Restricting to $H^2(L'/K,\mathbf C_{L'})$, it is an isomorphism to $\rc{[L':K]}\Z/\Z$ for any $L'$, as needed.
+\end{proof}
+We are now ready to reap the rewards of our hard work.
+\begin{thm*}[Global reciprocity, Theorem~\ref{intro-cft}.\ref{thm:global-reciprocity-ideles}]
+Given a finite abelian extension $L/K$, there is a unique continuous %continuous homomorphism $\phi_K:\mathbb{I}_K\to G(K^{\text{ab}}/L)$ 
+homomorphism $\phi_{L/K}$ that is compatible with the local Artin maps, i.e. the following diagram commutes: %For any finite extension $L/K$ contained in $K^{\text{ab}}$ and any 
+%for any $w\mid v$ in $L$, the diagram
+\[
+\xymatrix{
+\mathbb I_K\ar[r]^{\phi_{L/K}}&G(L/K)\\
+K_v^{\times}\ar@{->>}[r]^{\phi_v}\ar@{^(->}[u]^{i_v}&
+G(L^v/K_v).\ar@{^(->}[u]
+}
+\]
+%if $L/K$ is a finite abelian extension and $(s)$ is an idele not divisible by any prime ramifying in $L$,
+%\[
+%\phi_K(s)|_L=((s),L/K).
+%\]
+Moreover, $\phi_{L/K}$ satisfies the following properties.
+\begin{enumerate}
+%\item It is surjective.
+%\item %$\phi_K(K^{\times})=1$.
+\item (Isomorphism) For every finite abelian extension $L/K$, $\phi_K$ defines an isomorphism
+\[
+\phi_{L/K}:
+\mathbf C_K/\nm_{L/K}(\mathbf C_L)=
+\mathbb I_K/(K^{\times}\cdot \nm_{L/K}(\mathbb I_L))\xra{\cong} G(L/K).
+\]
+\item (Compatibility over all extensions) For $L\subeq M$, $L,M$ both finite abelian extensions of $K$, the following commutes:
+\[
+\xymatrix{
+& G(M/K)\ar[d]^{p_L}\\
+\I_K\ar[ru]^{\phi_{M/K}}\ar[r]^{\phi_{L/K}}& G(L/K)
+}
+\]
+Thus we can define $\phi_K:=\varprojlim_{L/K\text{ abelian}} \phi_{L/K}$ as a map $\I_K\to G(K\abe/K)$.
+\item (Compatibility with norm map) $\phi_K$ is a continuous homomorphism $\mathbb{I}_K\to G(K^{\text{ab}}/K)$, and the following commutes.
+\[
+\xymatrix{
+\I_L\ar[r]^-{\phi_L} \ar[d]^{\nm_{L/K}}& G(L^{\text{ab}}/L)\ar[d]^{\bullet|_{K^{\text{ab}}}}\\
+\I_K\ar[r]^-{\phi_K}&  G(K^{\text{ab}}/K)
+}
+\]
+%In particular, $K^{\times}\subeq \ker(\phi_K)$. 
+\end{enumerate}
+\end{thm*}
+\begin{proof}
+By Theorem~\ref{thm:global-class-form} and the abstract reciprocity law (Theorem~\ref{lcft}.\ref{thm:abstract-reciprocity}) we get isomorphisms $\phi_{L/K}':\mathbf C_K/\nm_{L/K}\mathbf C_L\to G(L/K)$ satisfying the required compatibility properties. We only have to check that $\phi_{L/K}'=\phi_{L/K}$ (recall we defined $\phi_{L/K}$ as the product of local maps).
+%Compatibility follows from Theorem~\ref{lcft}.\ref{thm:reciprocity-natural}.
+From Theorem~\ref{lcft}.\ref{thm:calculate-local-artin}, for every character $\chi$, $\chi(\phi'_{L/K}(\mathbf a))=\inv_K(\ol{\mathbf a}\cup \de\chi)$. But this is also true for $\phi_{L/K}$ by Proposition~\ref{lem:sum-inv}. Hence $\phi_{L/K}=\phi'_{L/K}$, as needed.
+
+Uniqueness is clear from the condition that $\phi$ restricts to the local Artin maps.
+\end{proof}
+\section{Existence theorem}
+We now prove the existence theorem for global class field theory.
+%\begin{thm}[Existence theorem]\llabel{thm:global-existence-ideles2}
+%For every subgroup $N\subeq \mathbf C_K$ of finite index, there exists a unique abelian extension $L/K$ in $\ol K$ such that $\nm_{L/K} \mathbf C_L=N$.
+%\end{thm}
+\begin{proof}[Proof of Theorem~\ref{intro-cft}.\ref{thm:global-et-ideles} and Theorem~\ref{intro-cft}.\ref{thm:gcft-bijection}]
+%Help?
+%%FAIL
+%We need to show that the axioms in the abstract existence theorem~\ref{lcft}.\ref{thm:abstract-existence} are satisfied for the class formation $(G(\ol K/K),\{G(L/K)\},\mathbf C_{\ol K})$:
+%\begin{enumerate}
+%\item
+%{\it For every extension $L/K$, the norm homomorphism has closed image and compact kernel}. \fixme{Wait WHY IS THIS TRUE?}
+%%For compact, note product of compact is compact, still compact when pass to quotient.
+%\item
+%{\it For every prime $p$, there exists a field $K_p$ such that for $K$ containing $K_p$, $\ker(\bullet^p|_{\mathbf C_K})$ is compact and $\mathbf C_K^p$ contains $D_K$, the group of universal norms}. Recall this was the hard part of the proof for local class field theory. However, it will not be hard for us now, since we know this to be true for local class field theory, and the global Artin map is just a product of the local Artin maps, and we know $D_K=1$ for nonarchimedean local fields (Corollary \ref{intro-cft}.\ref{local-existence}). It's clear that $D_{\R}=\R_{>0}$ and $D_{\C}=\C$.
+%
+%The choice of $K$ doesn't matter. Let $\mathbf x=(x_v)_v\in \mathbf C_K$ be an universal norm. Consider $\mathbf x$ in $\I_K$ instead of $\mathbf C_K$. As $\mathbf x$ is a universal norm, for any $L/K$ there exists $c\in K^{\times}$ and $\mathbf y\in \I_L$ such that
+%\beq{eq:global-exist1}
+%\mathbf x=c\nm_{L/K}\mathbf y.
+%\eeq
+%Let $L_1\subeq L_2\subeq \cdots$ be Galois extensions whose union is $\ol K$, and choose $c_j$ so that~(\ref{eq:global-exist1}) holds for $L_j$. Note that $\fc{c_{j+1}}{c_j}\in \nm_{(L_{j})^v/K_v}((L_{j})^{v\times})$ for every $v$. 
+%Then $\rc{c_j}x_v$ converges to an element of $D_{K_v}$ for every finite $v$. (For infinite $v$, it is eventually inside $D_{K_v}$.) Let
+%\[
+%(K_{\iy}^{\times})^0:=\prod_{v\text{ real}}\R_{>0}\times \prod_{v\text{ complex}} \C\times \prod_{v\text{ finite}}\{1\}.
+%\]
+%Then we have that a sequence in $K^{\times}\mathbf x$ converges to an element of $K^{\times}(K_{\iy}^{\times})^0$. But $K^{\times}\mathbf x$ is closed by Proposition~\ref{intro-cft}.\ref{pr:k-discrete}. Hence $\mathbf x\in K^{\times}(K_{\iy}^{\times})^0$. Write $\mathbf x=c\mathbf y$, $\mathbf y\in (K_{\iy}^{\times})^0$. Then it is clear $\mathbf x$ is a $p$th power for every $p$.
+%
+%%$\mathbf y=(y_v)_v\in \mathbf C_L$ such that $\nm_{L/K}\mathbf y=\mathbf x$. In other words, for any $L/K$ there exists $c\in K^{\times}$ and $\mathbf y\in \I_L$ such that $\nm_{L/K}\mathbf y=c\mathbf x$, i.e. $\nm_{L^v/K_v}y_v=c\mathbf x_v$ for each $v$.
+%%
+%%Suppose \bwoc{} that $\mathbf x\nin \mathbf C_K^p$. Then for each $c$ there exists $v$ so that $cx_v$ is not a perfect $p$th power. Then by the fact that
+%%\[
+%%D_{K_v}\subeq K_v^p
+%%\]
+%%(axiom 2 is satisfied in the local case; see the proof REF), there is a field extension $L/K$ such that $cx_v\nin \nm_{L^v/K_v}(y_v)$ for any $y_v\in L^v$. This is a contradiction. Hence $\mathbf x \in \mathbf C_K^p$. This shows $\mathbf C_K^p\supeq D_K$.
+%\item {\it There exists a compact subgroup $U_K$ of $\mathbf C_K$ such that every closed subgroup of finite index in $\mathbf C_K$ containing $U_K$ is a norm group.} Take 
+%\[
+%U_K=\pa{K^{\times}\prod_{v\text{ infinite}}\{1\}\times \prod_{v\text{ finite}}U_v}/K^{\times}.
+%\]
+%Note this is compact since it is a product of compact groups. 
+%Suppose $H$ is a closed subgroup of index $n$ containing $U_K$. Since $n$ kills $\mathbf C_K/H$, we have
+%\[
+%\pa{K^{\times}{\prod_v}' K_v^{\times n}}/K^{\times}\subeq H.
+%\]
+%If $U_K\subeq H$ then we get
+%\[
+%\pa{K^{\times}\prod_{v\text{ real}}\R_{>0}\prod_{v\text{ complex \C}}\times \prod_{v\text{ finite}}U_v}/K^{\times}\subeq H.
+%\]
+%The LHS is $K^{\times}\mathbb U_K(1,\mm)$. %By Example~\ref{ex:class-group-idele-quotient}, $\I_K/K^{\times}\mathbb U_K\cong \Cl_K^+$. 
+%Since every group containing a norm group is a norm group, it suffices to show $K^{\times}\mathbb U_K$ is a norm group. But $K^{\times}\mathbb U_K$ corresponds to a maximal unramified
+% %by Example~\ref{ex:class-group-idele-quotient}, $\I_K/K^{\times}\mathbb U_K\cong \Cl_K^+$. Hence, using the ideal formulation of 
+%%But this is the idele class group corresponding to the narrow class group, by Example
+%%\[
+%%\pa{K^{\times}{\prod_{v\text{ finite}}}'U_v\pi_v^{n\Z}\times \prod_{v\text{ infinite}}K_v^{\times n}}/K^{\times}\subeq H.
+%%\]
+%%By Proposition~\ref{illis} there is a set $S$ such that
+%%\[
+%%\pa{K^{\times}{\prod_{v\in S}}U_v\pi_v^{n\Z}\times \prod_{v\nin S}U_v^n}/K^{\times}\subeq H
+%%\]
+%%for some finite set $S$.
+%%Take $L$ to be an extension such that $n\mid f(L^v/K_v)$ is ramified of degree at least $n$ for all $v\in S$. Then
+%\end{enumerate}
+%Note: this proof basically boils down to showing that the large Hilbert class field (defined as the maximal extension unramified at finite primes) has degree equal to the narrow class group. I don't know how to do that without first knowing the existence theorem.
+This involves explicitly constructing norm groups and calculating norm indices, which overlaps with Section~\ref{sec:2ineq-alg-proof}. The proof is omitted for now. See Cassels-Frohlich~\cite{CF69}, pg. 201-202.
+
+Theorem~\ref{intro-cft}.\ref{thm:gcft-bijection} now follows from the Existence Theorem and Theorem~\ref{thm:abstract-bijection}.
+\end{proof}
+Finally, we prove that $\phi_K$ gives a topological isomorphism  $\I_K/\ol{K^{\times}(K_{\iy}^{\times})^0}\to G(K\abe/K)$. This finishes the proof of all theorems of global class field theory.
+\begin{proof}[Proof of Theorem~\ref{intro-cft}.\ref{thm:gcft-topology}]
+%First we prove that the global Artin map $\phi_K$ is surjective\footnote{Compare with the local Artin map, which surjects onto $W(K\abe/K)$}. Let $\si\in G(K\abe/K)$; we show $\si\in \im(\phi_K)$ by successive approximation. 
+%Let 
+%\[
+%K=L_0\sub L_1\sub L_2\sub \cdots
+%\]
+%be fields whose union is $K\abe$. 
+%%Let $\mm$ be the product of the real places, and $v_1,v_2,\ldots$ be all the finite places. Let
+%%\[
+%%\mm_n=\mm v_1^n\cdots v_n^n.
+%%\]
+%%By Weak Approximation~\ref{valuations-and-completions}.\ref{thm:weak-approximation}, $K^{\times}\I_K(1,\mm_n)$ is dense in $\I_K$ for all $n$. 
+%Let
+%\[
+%U_0\supset U_1\supset U_2\supset \cdots
+%\]
+%be a sequence of neighborhoods of $1\in \I_K$ such that if $\mathbf a_i\in U_i$, then $\prod_{i=0}^{\iy}\mathbf a_i$ converges. For instance, let $v_1,v_2,\ldots $ be all the finite places, let $\mm_n=v_1^n\ldots v_n^n$, and let $U_n=\prod_{v\text{ real}}U(1,\ep_n)\times \prod_{i=1}^n I(\mm)_v\times {\prod_{v\nmid \mm\text{ finite}}}'K_v^{\times}$ where $U(1,\rc{2^n})$ is a ball in the topology of $\R$ or $\C$. Suppose we're given $\mathbf a\in \mathbf C_K$ such that $\phi_{L_n/K}(\mathbf a)=\si|_{L_n}$. By the Weak Approximation Theorem~\ref{valuations-and-completions}.\ref{thm:weak-approximation}, $K^{\times}U_i$ is dense 
+%
+% and continuity of $\phi_K$ we can find $\mathbf a_n\in K^{\times}\I_K(1,\mm_n)$ such that $\phi_{L_{n+1}/K}(\mathbf a\mathbf a_n)$
+%%weak approx- take any open sg
+%%in local case- restricted to sg of open index
+First we prove that $\phi_K$ is surjective. We know that $\phi_{H_K/K}:\I_K\to G(H_K/K)$ is surjective, where $H_K$ is the Hilbert class field (See Definition~\ref{ch:cft-app}.\ref{sec:hcf}), since this is a finite extensions. Thus it suffices to show $\phi_{H_K/K}:\I_K\to G(K\abe/H_K)$ is surjective.
+
+We know that for each place $v$ of $K$, $\phi_K:K_v\tra W(K_v\abe/K_v)$ is surjective (Theorem~\ref{intro-cft}.\ref{thm:lcft-topology}). Restricting to $U_v$, we get that $\phi_K|_{U_v}:U_v\tra I(K_v\abe/K_v)\cong I_v(K\abe/K)$ is surjective. %maybe add reference
+Since $K^{\times}\pa{\prod_{v\in V_K} U_v}/K^{\times}\subeq \I_K$, it suffices to show $\prod_{v\in V_K} I_v(K\abe/K)=G(K\abe/K)$. Let $K^{\text{ab,ur}}_v$ denote the maximal abelian extension of $K$ unramified at $v$. We have by Theorem~\ref{factorization}.\ref{decomposition-and-inertia} that
+\[
+\prod_{v\in V_K} I_v(K\abe/K)=\prod_{v\in V_K} G(K\abe/K^{\text{ab,ur}}_v)=G\pa{K\abe/\bigcap_{v\in V_K} K^{\text{ab,ur}}_v}=G(K/H_K)
+\]
+since $H_K$ is the maximal abelian extension unramified at all places. This shows surjectivity.
+
+To show the kernel is $\ol{K^{\times}(K^{\times}_{\iy})^0}$, note that this is exactly the intersection of all open subsets of finite index in $\I_K$. \fixme{Add details.}
+\end{proof}
+%\section{Global class field theory in terms of representations}
+%\textbf{Warning:} This section is written to be ``roughly" true; I'm not sure of the precise correct statements.
+%
+%We rephrase global class field theory in the form that generalizes under the Langlands program (for an introduction to the Langlands program, see Section~\ref{ch:cft-app}.\ref{sec:intro-langlands}).
+%\begin{thm}[Rephrase of GCFT]\llabel{thm:rephrase-gcft}
+%There is a bijection between continuous homomorphisms $\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}$ and continuous homomorphisms $\rh:G(\ol K/K)\to \GL_1(\C)$, given by the following.
+%\begin{align*}
+%\{
+%\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C^{\times}
+%\}
+%&\leftrightarrow
+%\{\rh:G(\ol K/K)\to \GL_1(\C)\} \\
+%\chi&\mapsto \chi\circ \phi_K^{-1}
+%\end{align*}
+%\end{thm}
+%\begin{proof}
+%From Theorem~\ref{intro-cft}.\ref{thm:gcft-topology}, the Artin map gives a topological isomorphism $ \A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to G(K\abe/K)$. It remains to note that any function $G(\ol K/K)\to \GL_1(\C)$ factors through $G(\ol K/K)\abe=G(K\abe/K)$, since $\GL_1(\C)$ is abelian.
+%\end{proof}
+%The homomorphisms $\chi:\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}\to \C$ are ``automorphic functions" on $\GL_1(\A_K)$, also known as Hecke characters, and the homomorphisms $\rh:G(\ol K/K)\to \GL_1(\C)$ are 1-dimensional ``Galois representations." Our correspondence is unsatisfactory, however, because we would like to get all continuous homomorphisms $\A_K^{\times}/K^{\times}\to \C^{\times}$, not just those factoring through $\A_K^{\times}/\ol{K^{\times}(K^{\times}_{\iy})^0}$. Since $G(K\abe/K)$ has the profinite topology, %and \C has no small subgroups
+%any continuous homomorphism $G(\ol K/K)\to \GL_1(\C)$ must have finite image, while functions $\A_K^{\times}/K^{\times}\to \C^{\times}$ can have infinite image. To remedy this, we introduce functions $G(\ol K/K)\to \GL_1(\C)$ with infinite image (no longer continuous under the complex topology). 
+%%For example, in the case $K=\Q$, we can consider the following map.
+%%\begin{ex}\llabel{ex:chi-l}
+%%Let $\ell$ be a prime of $\Q$. Define the map $\chi_{\ell}$ by
+%%\[
+%%\chi_{\ell}:\xymatrix{
+%%G(\ol{\Q}/\Q) \ar@{->>}[r] &
+%%G(\Q\abe/\Q)=G(\Q(\ze_{\iy})/\Q)\ar[r]^-{\cong} &
+%%\wh{\Z}^{\times}=\prod_p\Z_p^{\times} \ar@{->>}[r] &
+%%\GL_1(\Z_{\ell}).
+%%}
+%%\]
+%%\end{ex}
+%%Note there is a noncanonical field isomorphism $\ol{\Q_{\ell}}\cong \C$, so we can think of $\GL_1(\Z_{\ell})$ as being ``inside" $\GL_1(\C)$. %Fixing an isomorphism
+%%\begin{df}
+%%\begin{enumerate}
+%%\item
+%%%Let $v$ be an archimedean place.
+%%We say a function $\pi:\A_K^{\times}/K^{\times}\to \C$ is \textbf{algebraic} at $\iy$ if for all complex places $v$, $\pi(i_v(x))=x^m\ol x^n$ for some $m,n\in \Z$, for all real places $v$, $\pi(i_v(x))=\sign(x)^{m}x^n$ for some $m\in \{0,1\}$ and $n\in \Z$, and for all nonarchimedean places $\pi(i_v(x))=1$.
+%%\item
+%%We say a function $f:G(\ol K/K)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $\ell$ if it is in the form $\prod_{v\mid \ell} f_v$ where $f_v$ is the composition of the projection $G(\ol K/K)\to D_v(\ol K/K)\cong G(\ol{K_v}/K_v)$ and a continuous homomorphism $G(\ol{K_v}/K_v)\to \GL_1(\Q_{\ell})$.
+%%%Let $\ell$ be a prime of $\Q$, and let $v\mid \ell$ be a place of $K$. We say a function $G(\ol K/K)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $v$ if 
+%%\end{enumerate}
+%%\end{df}
+%%We have the following ``addendum" to Theorem~\ref{thm:rephrase-gcft}.
+%%\begin{thm}\llabel{thm:gcft-char2}
+%%Fixing a field homomorphism $\ol{\Q_{\ell}}\cong \C$, 
+%%there is an bijection between continuous homomorphisms $\pi:\A_K^{\times}/K^{\times}\to \C$ algebraic at $\iy$ and continuous homomorphisms $f:G(\ol K/K)\to \GL_1(\Q_{\ell})$ algebraic at $\ell$.
+%%\end{thm}
+%%%I don't think this is straightforward to prove... need to show that a place v|l with ramification degree e corresponds to e characters, i.e. we need the Z_p-rank of G(K_v^ab/K_v) to be e. (there are no nontrivial hom's from pro-l group to pro-p group)
+%%\begin{ex}
+%%In the case $K=\Q$, it's enough to introduce one new character. Let $\ad:\A_K^{\times}\to \C^{\times}$ denote the map $\ab{\mathbf x}=\prod_{v\in V_K} |x_v|_v$, and define $\chi_{\ell}$ as in Example~\ref{ex:chi-l}.
+%%
+%%Putting Theorem~\ref{thm:rephrase-gcft} and~\ref{thm:gcft-char2} together, a continuous homomorphism $\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}$ algebraic at $\iy$ corresponds to the product of a continuous homomorphism $f:G(\ol{\Q}/\Q)\to \GL_1(\ol{\Q_{\ell}})$ algebraic at $\ell$, and a homomorphism  $f:G(\ol{\Q}/\Q)\to \GL_1(\Q_{\ell})$ with finite image, via the map
+%%%
+%%%and continuous homomorphisms $G(\ol{\Q}/\Q)\to \GL_1(\Q_{\ell})$. All continuous functions $\pi:\A_K^{\times}/K^{\times}\to \C^{\times}$ are in the form $\ad^n\cdot \chi$ where $\chi$ is a finite character (i.e. a continuous homomorphism $\A_{\Q}/\ol{\Q^{\times}\R_0^{\times}\to \C^{\times}}$), and $n\in \Z$. The isomorphism is given by
+%%\begin{align*}
+%%%\{
+%%%\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}
+%%%\}
+%%%&\leftrightarrow
+%%%\{f:G(\ol{\Q}/\Q)\to \GL_1(\Q_{\ell})\} \\
+%%\pi=\ad^n\cdot \chi&\leftrightarrow \chi_{\ell}^n
+%%\cdot (\chi\circ \phi_K^{-1}).
+%%\end{align*}
+%%\end{ex}
+%For simplicity, we just consider the case of $\Q$.
+%\begin{ex}
+%We say a function $\pi:\A_{\Q}^{\times}/\Q^{\times}\to \C$ is \textbf{algebraic} at $\iy$ if $\pi(i_{\R}(x))=\sign(x)^m|x|^n$ for some $m\in \{0,1\}$ and $n\in \Z$. We say a function $\rh:G(\ol {\Q}/\Q)\to \GL_1(\Q_{\ell})$ is \textbf{algebraic} at $\ell$ if it is the composition of the projection $G(\ol {\Q}/\Q)\to D_{\ell}(\ol{\Q}/\Q)\cong G(\ol{\Q_{\ell}}/\Q_{\ell})$ and a continuous homomorphism $G(\ol{\Q_{\ell}}/\Q_{\ell})\to \GL_1(\Q_{\ell})$.
+%
+%Let $\ell$ be a prime of $\Q$. Let $\ad:\A_{\Q}^{\times}/\Q^{\times}\to \C^{\times}$ denote the map $\ab{\mathbf x}=\prod_{v\in V_{\Q}} |x_v|_v$, and define $\chi_{\ell}$ by
+%\[
+%\chi_{\ell}:\xymatrix{
+%G(\ol{\Q}/\Q) \ar@{->>}[r] &
+%G(\Q\abe/\Q)=G(\Q(\ze_{\iy})/\Q)\ar[r]^-{\cong} &
+%\wh{\Z}^{\times}=\prod_p\Z_p^{\times} \ar@{->>}[r] &
+%\GL_1(\Z_{\ell}).
+%}
+%\]
+%(Note there is a noncanonical field isomorphism $\ol{\Q_{\ell}}\cong \C$, so we can think of $\GL_1(\Z_{\ell})$ as being ``inside" $\GL_1(\C)$.)
+%
+%A continuous homomorphism $\pi:\A_K^{\times}/K^{\times}\to \C^{\times}$ algebraic at $\iy$ corresponds to the product of a continuous homomorphism $\rh:G(\ol{\Q}/\Q)\to \GL_1({\Q_{\ell}})$ algebraic at $\ell$, and a homomorphism  $\rh:G(\ol{\Q}/\Q)\to \GL_1(\ol{\Q_{\ell}})$ with finite image, via the map
+%\begin{align*}
+%\pi=\ad^n\cdot \chi&\leftrightarrow \chi_{\ell}^n
+%\cdot (\chi\circ \phi_K^{-1}).
+%\end{align*}
+%\end{ex}

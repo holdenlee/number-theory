@@ -1,0 +1,1265 @@
+
+%%%%%%%%%%%%%%
+\chapter{Ramification}
+\llabel{ramification}
+We seek to generalize the definition of discriminant over Dedekind domains $A$ which are not PID's. To do this we will first define the {\it different}, which measure how much we can enlarge $B$ so that the image of the trace map is still in $A$, then define the discriminant as the discrepancy between $B$ and the enlarged $B$, using $\chi_A$. We will find that the different is the (ideal) norm of the discriminant.
+
+We will see that our definition coincides with our previous definition when $A$ is a PID. Fortunately, we don't have to prove everything from scratch again: by localization we can always reduce to the DVR/PID case.
+
+The main use of the discriminant is to measure ramification: The primes dividing the discriminant are those that ramify. On a deeper level, the exponents measure the degree of ramification.
+%\section{Different/Discriminant}
+%prime ideal ramified iff divide disc, diff in suitable sense
+\section{Lattices and $\chi$}
+\begin{df}
+Let $A$ be a Dedekind domain, $K=\Frac(A)$, and $V$ a finite dimensional $K$-vector space. An $A$-submodule $X\subeq V$ is a \textbf{lattice} if it is finitely generated $A$-module and $\spn_K(X)=V$.
+\end{df}
+The most basic example of a latice is a fractional ideal of $K$.
+%\begin{ex}
+%$\ma$ fractional ideal of $K$ is an $A$-lattice.
+%\end{ex}
+
+We would like to measure the discrepancy between two lattices---like the norm, but measured by an {\it ideal} instead. To do this, we first need some facts from commutative algebra.
+\subsection{Filtrations of modules}
+\begin{df}
+A module is \textbf{simple} if it is nonzero and has no nonzero proper submodule. A \text{composition series} of length $m$ is a chain of submodules
+\[
+M=M_0\supset M_1\supset\cdots \supset M_m=0
+\]
+where $M_{i-1}/M_i$ is simple for each $i$. $M$ has \textbf{finite length} if it has a finite composition series.
+\end{df}
+\begin{pr}
+The simple modules are exactly those in the form $R/\mm$ where $\mm$ is a maximal ideal of $R$. If $M$ is simple, $M=R/\mm$ where $\mm=\Ann(M)$.
+\end{pr}
+The main theorem on filtrations is the following.
+\begin{thm}[Jordan-H\"older]
+Suppose $M$ has a composition series.
+\begin{enumerate}
+\item (Existence) Any chain of submodules of $M$ can be refined to a composition series.
+\item (Uniqueness) Any composition series of $M$ has the same length; moreover the number of times $R/\mm$ appears as a quotient $M_{i-1}/M_i$ in the filtration is invariant.
+% and the same multiset
+%\[
+%\set{\mm}{R/\mm\cong M_{i-1}/M_i}.
+%\]
+\end{enumerate}
+\end{thm}
+We will be applying this when $R$ is a Dedekind domain, so the maximal ideals are simply the nonzero prime ideals.
+
+We also need the following.
+\begin{pr}
+If $M/M'$ and $M'$ have finite length, then so does $M$.
+\end{pr}
+\subsection{The function $\chi_A$}
+\begin{df}
+%Two equivalent definitions of $\chi_A$.
+%\begin{enumerate}
+%\item
+Let $A$ be a Dedekind domain. 
+Define
+\[
+\chi_A:\{\text{$A$-module of finite length}\}\to \{\text{ideals of $A$}\}
+\]
+as follows: Given $M$ of finite length, with composition series
+\[
+M=M_0\supset M_1\supset \cdots \supset M_m=0
+\]
+and $A/\mfp_i\cong M_{i-1}/M_i$, define
+%\end{enumerate}
+%Finite length means there exists a filtration
+%\[
+%0=M_0\subeq M_1\subeq \cdots \subeq M_l=M
+%\]
+%such that $M_i/M_{i-1}$ is a simple $A$-module.
+%There exists filtration $0=M_0\subeq M_1\subeq \cdots \subeq M_l=M$ such that $M_i/M_{i-1}$ is a simple $A$-module ($\cong A/\mfp_i$ for some prime $0\ne \mfp_i$). Jordan-Holder theorem says $M_i/M_{i-1}$ are inependent of choice of filtration. 
+%pos char w/o problem
+%$0\ne m\in M_{\text{sim}}$ then $A\tra M_{\text{sim}}$ $a\mapsto am$.
+\[
+\chi_A(M)=\prod_{i=1}^m \mfp_i.
+\]
+\end{df}
+\begin{ex}
+The primes appearing in the filtration of an ideal $\ma\sub A$ are just the primes dividing $\ma$ with multiplicity, so 
+\[\chi_{A}(\ma)=(\ma).\]
+\end{ex}
+\begin{pr}\llabel{chi-exact}
+If $M'$ and $M''$ have finite length and $0\to M'\to M\to M''\to 0$ exact sequence of $A$-modules, then
+\[
+\chi_A(M)=\chi_A(M')\chi_A(M'').
+\]
+%%%
+\end{pr}
+%Let $A$ be a Dedekind domain, $K=\Frac(A)$, $V$ a finite-dimensional $K$-vector space, $X\subeq V$ an $A$-lattice.
+\begin{df}
+Let $A$ be a Dedekind domain, $K=\Frac(A)$, %$V$ a finite-dimensional $K$-vector space
+and $X_1,X_2\subeq V$ be $A$-lattices. Choose $X_3\subeq X_1\cap X_2$ any $A$-lattice and define
+\[
+\chi_A(X_1,X_2):=\chi_A(X_1/X_3)\chi_A(X_2/X_3)^{-1}
+\]
+as fractional ideals of $K$.
+\end{df}
+%X_1/X_3, X_2/X_3 finite length
+\begin{proof}[Proof of well-definedness]
+We show this is independent of choice of $X_3$. %It suffices to show we get the same answer
+
+Observe $\chi_A(X_1,X_2)\chi_A(X_2,X_1)=(1)$.
+Note this is independent of choice of $X_3$. It suffices to show that
+\[
+\chi_A(X_1/X_3)\chi_A(X_2/X_3)^{-1}
+=\chi_A(X_1/X_4)\chi_A(X_2/X_4)^{-1}
+\]
+when $X_4\subeq X_3$. This follows by the exact sequence
+\[
+0\to X_3/X_4\to X_1/X_4\to X_1/X_3.
+\]
+and Proposition~\ref{chi-exact}.
+\end{proof}
+%\chi(X_1/X_3)\chi(X_3/X_4)\chi(X_2/X_3)^{-1}\chi(\chi_3,\chi_4)^{-1}
+%Existence: X_1\cap X_2 is A lattice of finite length: a^{-1}X_1\subeq X_2\subeq X_1. Use finite generation.
+%\subsection{Localization technique}
+%{\color{red} Start of unedited stuff.}
+\subsection{$\chi$ and localization}
+It is easier to study $\chi_A$ when $A$ is local; in this case $\chi_A(X)$ is simply a power of the maximal ideal. To understand $\chi_A$ (and hence the discriminant) for general $A$, we thus consider the localization of $A$ at all primes. The following says that $\chi_A$ is well-behaved under localization.
+%As we will be using $\chi_A$ to define the discriminant, in light of the beginning comments, we study the behavior of $\chi_A$ under localization.
+%Problems get easier!
+%Then $X_{\mfp}=A_{\mfp}\cdot X=A_{\mfp}\ot_A X$ is an $A_{\mfp}$-lattice of $V$.
+\begin{pr}%can detect exponent
+%DVR much easier
+\llabel{chi-exponent}
+Let $A$ be a Dedekind domain and $\mfp\sub A$ be a nonzero prime. Then %and $A_{\mfp}$ the localization at $\mfp$; write $K=\Frac(A_{\mfp})$. 
+\[
+v_{\mfp}(\chi_A(\chi_1,\chi_2))
+=v_{\mfp A_{\mfp}}(\chi_{A_{\mfp}}((X_{1})_{\mfp},(X_2)_{\mfp})).
+\]
+\end{pr}
+\begin{proof}
+Note $X_{\mfp}=A_{\mfp}\cdot X=A_{\mfp}\ot_A X$ is an $A_{\mfp}$-lattice of $V$.
+
+Localization is exact, so preserves quotients. Suppose $M\supeq N$ are adjacent terms in the filtration of $A$. If $M/N=A/\mfp$ then \[M_{\mfp}/N_{\mfp}=(M/N)_{\mfp}=(A/\mfp)_{\mfp} =A_{\mfp}/\mfp A_{\mfp}\]
+while if $M/N=A/\mq$, $\mq\ne\mfp$, then $M_{\mfp}/N_{\mfp}=0$. Only the quotients with $A/\mfp$ remain; the result follows.
+\end{proof}
+\begin{pr}
+Let $A$ be a Dedekind domain with fraction field $K$, $X$ an $A$-lattice in $V$, and $\si\in \Aut_K(V)$. Then  
+\[
+\chi_A(X,\si X)=(\det\si).
+\]
+%in $I_K$, the group of fractional ideals.
+\end{pr}
+\begin{proof}
+%By Proposition to see that for all nonzero $\mfp\sub A$ prime, both sides at the same order of $\mfp$. %To do this we localize (check after localization at $\mfp$).
+%smith can. form only works with PID
+It suffices to check both sides have the same $\mfp$-valuation for every prime $\mfp$ of $A$; by Proposition~\ref{chi-exponent} this is equivalent to
+\[
+\chi_{A_{\mfp}}(X_{\mfp},\si_{\mfp} X_{\mfp})=(\det\si_{\mfp}).
+\]
+
+Thus we only need to check the proposition for the case where $A$ is a DVR, hence a PID. For all nonzero $\al\in A$, 
+\[
+\chi(X,\al \si X)=\al^n \chi(X,\si X)=\det[\al]\cdot\chi(X,\si X);
+\]
+note we used $\chi(uX,\al uX)=\al^n$ since $X$ is free over $A$, and that the matrix of the transformation $[\al]$ is simply $\al I$.
+%(Every lattice over $A$ is free; w
+Thus by choosing $\al$ such that $\al \si X\subeq X$ we may assume $\si(X)\subeq X$.
+
+%Choosing a basis $u$ can be represented by a diagonal matrix $\al_1,\ldot,s \al_n$, and $X
+By the structure theorem for modules, $X/\si X\cong A/\al_1\times \cdots \times A/\al_n$ for some $\al_j$, giving
+\[
+\chi_A(X,\si X)=(\al_1\cdots \al_n)=(\det \si).
+\]
+\end{proof}
+\subsection{Discriminant of bilinear forms}
+In this section we will define the discriminant of a bilinear form $T$ on a lattice $X$ over $K$, the fraction field of a Dedekind domain $A$. When we specialize to the case that $X$ is a extension of $A$ and $T=\tr$, then we get a generalization of our original definition~\ref{ring-of-integers}.\ref{disc-df}, in the case where $X$ is not necessarily free over $A$.
+\begin{df}
+%Keep the same assumptions, setting $K=\Frac(A)$. 
+Keep the above assumptions. 
+Let $V$ be a finite-dimensional $K$-vector space and $T:(V,V)\to K$ be a nondegenerate $K$-bilinear form. Thinking of $T$ as a map $V\ot_K V\to K$, 
+%for all $v\in V$, $T(v,v')=0$ and for all $v'$ implies $v=0$; $T(v',v)=0$ etc.
+we get a map
+\[
+\wedge^nT:\wedge^nV\ot_K \wedge^n V\to K
+\]
+defined by 
+\begin{equation}\llabel{wedge-T-def}
+\wedge^n T(v_1\wedge\cdots \wedge v_n, w_1\wedge \cdots \wedge w_n)=\sum_{\pi\in S_n}(-1)^{\sign(\pi)} T(v_1\wedge w_{\pi(1)})\cdots T(v_n\wedge w_{\pi(n)}).
+\end{equation} 
+Note $\wedge^n T\ot\wedge^n T$ is a 1-dimensional vector space over $K$, with lattice $\wedge^n X\ot_K\wedge^n X$.
+%X free mod over A - explicit
+Define the \textbf{discriminant} of $T$ on $X$ to be 
+\[\mfd_{X,T}:=\chi_A(\wedge^nT,\wedge^nX\ot \wedge^nX).\]
+\end{df}
+%The following schows that this coincides with our previous definition~\ref{ring-of-integers}.\ref{}. (ADD LINK)
+The main reason for defining the discriminant as above is because the ``$\wedge$" construction is natural and makes it easy to prove a few basic properties. 
+\begin{pr}\llabel{chi-det}
+If $X$ is free over $A$ with basis $(e_1,\ldots, e_n)$, then%, $X\cong \bigoplus_{i=1}^n Ae_i$, then 
+\[\mfd_{X,T}=(\det(T(e_i, e_j))).\]
+\end{pr}
+\begin{proof}
+%exercise in ext alg!
+%Unravel exterior algebra. Consider 
+%By the characterization of determinant in terms of exterior products,
+Note that $X\ot_K X$ is generated by $\wedge^n T(e_1\wedge \cdots \wedge e_n, e_1\wedge \cdots \wedge e_n)$. By~(\ref{wedge-T-def}), this is exactly $(\det(T(e_i, e_j)))$.
+\end{proof}
+%After we establish the properties of the discriminant, we'll only need its discription in Remark~\ref{ring-of-integers}.\ref{two-def-disc}.
+
+%We'll only really need that taking exterior product commutes with localization. 
+%Whenever possible we reduce to the free case by localization.
+%\subsection{Different}
+%We now define a related quantity called the different.
+We now give an alternative characterization of the discriminant, in terms of the {\it dual lattice}.
+\begin{df}
+Define the \textbf{dual} of $X$ with respect to $T$ by
+\[
+X_T^*:=\set{y\in V}{T(x,y)\in A\text{ for all }x\in X}.
+\]
+This is an $A$-lattice of $V$.
+\end{df}
+We first need the following.
+\begin{pr}\llabel{dual-basis}
+If $e_1,\ldots, e_n$ is a basis for $X$ over $A$, and $e_1^*,\ldots, e_n^*$ is a {\it dual basis}, i.e. $T(e_i,e_j^*)=\de_{ij}$ for each $j$, then $e_1^*,\ldots, e_n^*$ is a basis for $X^*$ over $A$.
+\end{pr}
+\begin{proof}
+%The $e_j^*$ are linearly independent so form a basis for $V$ over $K$. 
+Note $y\in X^*$ iff $T(e_j,y)\in A$ for each $j$. Writing $y=\sum_{j=1}^n a_je_j^*$, we find $T(e_j,y)=a_j$, so $y\in X^*$ iff $a_j\in A$ for each $j$, i.e. $y\in \spn_A(e_1^*,\ldots ,e_n^*)$.
+\end{proof}
+\begin{pr}
+We have
+\[
+\chi_A(X_T^*,X)=\mfd_{X,T}.
+\]
+\end{pr}
+%Free case, explicit computation (see beginning of course, A=Z, usual disc of num field); this is more general
+\begin{proof}
+We use the fact that a fractional ideal is determined by its localizations at all primes (this follows since the exponent of $\mfp$ in $\ma$ is the same as that of $\mfp A_{\mfp}$ in $\ma A_{\mfp}$, Proposition~\ref{factorization}.\ref{uf-dedekind-cor}).
+
+By using Proposition~\ref{chi-exponent}, we may localize at nonzero $\mfp\sub A$. Hence it suffices to prove may assume $A$ is DVR, i.e. free over $A$.
+
+%Write $X=\bigoplus_{i=1}^n Ae_i$, check $X_T^*=\bigoplus_{i=1}^n A\cdot e_i^*$ where $\{e_i^*\}$ is a dual basis given by $T(e_i\ot e_j^*)=\de_{ij}$.
+Write
+\[
+\colthree{e_1}{\vdots}{e_n}
+=
+B
+\colthree{e_1^*}{\vdots}{e_n^*}
+%(e_i)=(b_{i,j})(e_j^*)
+\]
+where $B=(b_{i,j})$ is a $n\times n$ matrix.
+%($X=(b_{i,j}) X_T^*$ ($b_{i,j}$ is the $u$ in the proposition))
+Then by Proposition~\ref{chi-det},
+%relate orig and dual basis
+\[
+\mfd_{X,T}=(\det(T(e_i,e_j)))=(\det(b_{i,j}))=\chi(X_T^*, BX_T^*)=\chi(X_T^*,X),
+\]
+as needed.
+\end{proof}
+\section{Discriminant and different}
+For the AKLB setup with $L/K$ finite separable, consider the nondegenerate $K$-bilinear map
+\begin{align*}
+\tr:L\times L&\to K\\
+(x,y)&\mapsto \tr_{L/K}(xy).
+\end{align*}
+\begin{df}
+Define the \textbf{codifferent}
+\[
+B^*:=B_{\tr}^*=\set{y\in L}{\tr(xy)\in A\text{ for all }x\in B}
+\]
+and the \textbf{different} and \textbf{discriminant} by
+\begin{align*}
+\mathfrak \mD_{B/A}=\mathfrak \mD_{L/K}&:=(B^*)^{-1}\\
+\mfd_{B/A}=\mfd_{L/K}&:=\mfd_{B,\tr}.
+\end{align*}
+\end{df}
+(These are fractional ideals of $K$.)
+
+Observe that $B\subeq B^*$ (in light of $\tr_{L/K}(B)\subeq A$) so $B\supeq \mathfrak \mfd_{B/A}$.
+
+%Interlude: norm of ideal $\nm_{L/K}:J_L\to J_K$ group homomorphism, $\mP\mapsto \mfp^{f_{\mP/\mfp}}$. Another view: $\nm_{L/K}(\mb)$ is the ideal generated by $\nm_{L/K}(b)$ with $b\in \mb$. Remark: when $K=\Q$, $A=\Z$ gives usual thing. $\nm_{L/\Q}(\mb)=\mathfrak N(\mb):=|\sO_L/\mb|$.
+%Example $\mb=\mP$. $|\sO_L/\mP|=p^f$. Dimension $f$ over $p$.
+%more general, between any fin sep ext.
+The following gives the precise relationship between the discriminant and different.
+\begin{pr}
+$\nm_{L/K}(\mathfrak \mD_{B/A})=\mfd_{B/A}$.
+\end{pr}
+\begin{proof}
+We have
+\[
+\mfd_{B/A}=\chi_A(B^*,B)=\chi_A(B^*/B)
+\]
+and
+\[
+\mD_{B/A} = (B^*)^{-1} = \chi_B(B^*/B).
+\]
+The result thus follows from commutativity of the following diagram.
+\[
+\xymatrixcolsep{5pc}
+\xymatrix{
+\{\text{finite length $B$-module}\}\ar[r]^{\chi_B} \ar[rd]^{\chi_A}&
+I_B\ar[d]^{\nm_{L/K}}\\
+&I_K.
+}
+\]
+We have commutativity since if $B/\mP$ is a quotient of adjacent terms in the $B$-filtration of $M$, then when we refine it to a $A$-filtration, since $B/\mP=(A/\mfp)^{f(\mP/\mfp)}$ as vector spaces, we get $f(\mP/\mfp)$ copies of $A/\mfp$.
+%decompose into simple module.
+%Reduce to $M\cong B/\mP$, $\mP$ nonzero prime. $f$-dimensional vector space over $A/\mfp$. We have $\chi_B(M)=\mP$ and $\chi_A(M)=\mfp^f=\nm_{L/K}(\mfp)$.
+\end{proof}
+\fixme{Note: Grothendieck group.}
+\subsection{Basic properties}
+First, a slightly cleaner characterization of the codifferent.
+\begin{lem}\llabel{codiff-lem}
+$\ma\in I_K$ and $\mb\in I_L$. Then
+\[
+\tr_{L/K}(\mb)\subeq \ma\iff \mb\subeq \ma \mathfrak D^{-1}_{B/A}.
+\]
+\end{lem}
+\begin{proof}
+%\begin{align*}
+%\tr(b)\sub \ma&\iff \ma^{-1} \tr(\mb)\subeq A
+%\end{align*}
+We check $\tr(\ma^{-1}\mb)\subeq A$ iff $\ma^{-1}\mb\subeq \mathfrak \mD_{L/K}^{-1}$. 
+
+The reverse direction is clear. For the forward direction, note that if $x\in \ma^{-1}\mb$ and $y\in B$, then $xy\in \ma^{-1}\mb$ and hence $\tr(xy)\in A$. This shows $x\in \mD_{B/A}^{-1}$.
+%for all $x\in \ma^{-1}\mb$, $y\in \mb$, we have $\tr(xy)\in A$ ($\ma^{-1}\mb$) and $x\in \mathfrak \mfd_{L/K}^{-1}$.
+\end{proof}
+\begin{pr}
+\begin{enumerate}$\,$
+\item (Transitivity) Let $M/L$ be a finite separable extension, % of degree $n$, 
+with $C$ the integral closure of $A$ in $M$. Then
+\[
+\mathfrak D_{C/A} =\mathfrak D_{C/B}\mathfrak D_{B/A}.
+\]
+\item (Localization) For $S\subeq A$ a multiplicative subset,
+\[
+S^{-1}\mathfrak D_{B/A} = \mathfrak D_{S^{-1}B/S^{-1}A}.
+\]
+\item (Completion) %go from AKLB to \hat{A}_{\mfp}, etc.
+\[
+\mathfrak D_{B/A} \cdot \hat{B}_{\mP} = \mathfrak D_{\hat{B}_{\mP}/\hat{A}_{\mfp}}.
+\]
+\end{enumerate}
+\end{pr}
+\begin{proof}
+\begin{enumerate}
+\item
+We have
+\begin{align*}
+&e\in \mathfrak D_{C/B}^{-1} \mathfrak D_{B/A}^{-1}\\
+\iff & \mathfrak D_{B/A} e\subeq \mathfrak D_{C/B}^{-1}\\
+{\iff}& \tr_{M/L}(\mathfrak D_{B/A}e)\subeq B&\text{Lemma~\ref{codiff-lem} with $M/L$}\\
+\iff & \mathfrak D_{B/A} \tr_{M/L}(e)\subeq B\\
+\iff & \tr_{M/L}(e)\in \mathfrak D_{B/A}^{-1}\\
+\iff & \tr_{L/K}(\tr_{M/L}(e))\subeq A&\text{Lemma~\ref{codiff-lem} with $L/K$}\\
+\iff & e\in \mathfrak D_{C/A}^{-1}.
+\end{align*}
+\item Omit.
+\item Localize at $\mfp$. May assume $A$ is a DVR. ($B$ may not be a DVR.) Consider
+\[
+\xymatrix{
+\prod_{\mP\mid \mfp} \hat{B}_{\mP} \ar[d]^{\cong} \ar@{^(->}[r]& \prod_{\mP\mid \mfp} \hat{L}_{\mP}\ar[d]^{\cong}\\
+B\ot_A \hat{A}_{\mfp}\ar@{-}[d]\ar@^{(->}[r] & L\ot_K \hat{K}_{\mfp}\ar[d]^{\tr_{L/K}\ot_K \hat{K}_{\mfp}}\\
+\hat{A}_{\mfp} \ar@^{(->}[r] & \hat{K}_{\mfp}
+}
+\]
+The top-to-bottom map on the right is $\sum \tr_{\hat{L}_{\mP}/\hat{K}_{\mfp}}$. Then
+\begin{align*}
+\mathfrak \mfd_{B/A}^{-1} \ot_A \hat{A}_{\mfp}
+&\cong \mathfrak D^{-1}_{B\ot_A \hat{A}_{\mfp}/\hat{A}_{\mfp}}\\
+&\cong \mathfrak D^{-1}_{\prod_{\mP\mid \mfp}\hat{B}_{\mP}/\hat{A}_{\mfp}}\\
+&\cong \prod_{\mP\mid \mfp} \mathfrak D^{-1}_{\hat{B}_{\mP}/\hat{A}_{\mfp}}\\
+&\cong \prod_{\mP\mid \mfp} \mathfrak \mfd_{B/A}^{-1}\ot_B \hat{B}_{\mP}
+\end{align*}
+\end{enumerate}
+\end{proof}
+\section{Discriminant and ramification}
+Recall $\ord_{\hat{\mP}} (\mathfrak D_{\hat B_{\mP}/\hat A_{\mfp}} = \ord_{\mP} (\mathfrak \mfd_{B/A})$.
+Our goal is to show that $e_{\mP/\mfp}=1$ and $\kappa(\mP)/\kappa(\mfp)$ separable (i.e. $\mP$ is unramified over $K$, iff $\mP\nmid \mathfrak \mfd_{B/A}$.
+
+In the CDVR case,
+\[
+\xymatrix{
+\mP \ar@{^(->}[r] \ar@{-}[d] & B \ar@{-}[r]\ar@{-}[d] &L \ar@{-}[d]\\
+\mfp\ar@{^(->}[r]& A\ar@{-}[r] &K
+}
+\]
+we have $B/\mfp B=B/\mP^e$. 
+\begin{lem}
+\[
+\tr_{L/K}(b)\bmod p = e\tr_{l/k} (\ol b).
+\]
+\end{lem}
+\begin{proof}
+For all $b\in B$, 
+\[
+0=\mP^e/\mP^e\subeq \mP^{e-1}/\mP^e\subeq \cdots \subeq \mP/\mP^e \subeq B/\mP^e.
+\]
+Each adjacent quotient is 1 dimensional over $l$ and hence $f$-dimensional over $k$.
+Choose a basis $\{\ol w_i\}_{i=1}^n$ ($n=ef$) for $B/\mP^e$ as $k$-vector space, such that
+\[
+\spn_k(\{w_i\}_{i=(e-j)f+1}^{ef})=\mP^{e-j}/\mP^e.
+\]
+(The last $jf$ vectors span $\mP^{e-j}/\mP^e$.) Lift $\{\ol w_i\}$ to $w_i\in B$ such that $w_i\bmod{\mP^e}=\ol w_i$. The $w_i$ are a basis of $B$ over $A$. Now
+\begin{align*}
+\tr_{L/K}(b)&=\tr_K (m_b)\\
+b w_i&=(b_{i,j}) (w_j)_{j=1}^n\\
+\ol b\ol w_i &= (\ol b_{i,j})(\ol w_j).
+\end{align*}
+%On the LHS, w
+We have
+\[
+\tr_{L/K}(b)=\sum_{i=1}^n b_{ii} \bmod{\mfp}.
+\]
+Now $(b_{i,j}\bmod{\mfp})_{fk+1\le i,j\le f(k+1)}$ represents the linear map (multiplication by $\ol b$)
+\[
+\fc{\mP^k/\mP^e}{\mP^{k+1}/\mP^{e}}\to \fc{\mP^k/\mP^e}{\mP^{k+1}/\mP^e}.
+\]
+The trace as a $k$-linear map is $\tr_{l/k}(\ol b)$. There are $e$ such $f\times f$ blocks.
+\end{proof}
+\begin{cor}
+\[
+\ord_{\mP}(\mathfrak \mfd_{B/A})\ge e-1.
+\]
+\end{cor}
+\begin{proof}
+It suffices to show
+\[
+\ord_{\mfp}(\mathfrak \mfd_{B/A})\ge (e-1)f.
+\]
+This is since $\mD_{B/A}=\mP^c$ implies $\mfd_{B/A} = \nm_{L/K}(\mP^c)=\mP^{cf}$.
+
+Now
+\[
+\mfd_{B/A}=(\det \tr_{L/K}(w_iw_j))
+\]
+same as in the previous proof. Now $w_i\in \mP$ if $f+1\le i\le n=ef$, therefore $\ol w_i\in \mP/\mP^e$.
+For all $j$, $\tr_{L/K}(w_iw_j)\in \mP\cap K=\mfp$, giving the result.
+\end{proof}
+Now consider the general case.
+\begin{thm}
+Suppose $A,B$ are Dedekind. Then
+\begin{enumerate}
+\item
+$\ord_{\mP}(\mD_{B/A})\ge e_{\mP/\mfp}-1$.
+\item
+$\mP$ is unramified over $K$ iff $\mP\nmid \mD_{L/K}$.
+\end{enumerate}
+Serre does this by Eisenstein polys.
+\end{thm}
+\begin{proof}
+\begin{enumerate}
+\item
+$\ord_{\mP}(\mD_{B/A})=\ord_{\hat{\mP}}(\mD_{\hat B_{\mP}/\hat A_{\mfp}})$. and $e_{\mP/\mfp}=e_{\hat{\mP}/\hat{\mfp}}$. Use the CDVR case.
+\item
+For ``$\Leftarrow$", note $\ord_{\mP}(\mD_{L/K})$ implies $0\ge e_{\mP/\mfp}-1$ i.e. $e_{\mP/\mfp}=1$.
+
+For ``$\implies$", it suffices to prove $p\nmid \mfd_{B/A}$. Reduce to the CDVR case.
+Now 
+\[\det(\tr_{L/K}(w_iw_j))\bmod{\mfp}=e_{\mP/\mfp}\tr_{l/k}(\ol{w_iw_j})\ne 0\]
+if $l/k$ is separable (Neukirch I.2).
+\end{enumerate}•
+\end{proof}
+%if inseparable p can still divide \md_{B/A}.
+\subsection{Types of ramification}
+\begin{df}
+$\mP$ is unramified if $e_{\mP/\mfp}$ and $l/k$ separable. For $\mP$ ramified,
+\begin{enumerate}
+\item
+$\mP$ is \textbf{tamely ramified} if either $\chr k=0$ or $\chr k\nmid e_{\mpp}$.
+\item
+$\mP$ is \textbf{wildly ramified} otherwise. 
+\end{enumerate}
+\end{df}
+\begin{thm}
+$\mP$ is tamely ramified over $K$ iff
+\[
+\ord_{\mP}(\mathfrak \mfd_{L/K})=e_{\mpp}-1.
+\]
+\end{thm}
+\begin{proof}
+Reduce to the CDVR case.\\
+
+\noindent\underline{Step 1:} We show that $\mP$ is tamely ramified iff $\tr_{L/K}(B)=A$. Observe that $\tr_{L/K}(B)$ is an ideal of $A$, so the latter is equivalent to $\tr_{L/K}(B)\pmod{\mfp}\ne 0$. But we know
+\[
+\tr_{L/K}(b)\bmod{\mfp} = e_{\mpp} \tr_{l/k} (\ol b),
+\]
+and $\tr_{l/k}(\ol b)\ne 0$ (not identically 0). Hence $e_{\mpp}\nequiv 0\pmod{\mfp}$ iff $\tr_{L/K}(b)\nequiv 0\pmod{\mfp}$.\\
+
+\noindent\underline{Step 2:} $\tr_{L/K}(B)=A\iff \ord_{\mP}(\mD_{L/K})=e_{\mpp}-1$.
+
+We've seen 
+\[
+\tr_{L/K}(\mb)\subeq \ma\iff \mb\subeq \ma\mD_{B/A}^{-1}.
+\]
+Plug in $\mb=B$ to get, as ideals of $B$,
+\begin{align*}
+A':=\tr(B)\subeq \ma&\iff B\subeq \ma\mD_{L/K}^{-1}\\
+&\iff \mD_{L/K} \subeq \ma B
+%&\iff \mD_{L/K}\cap K\subeq \ma B\cap K=\ma.
+%uh -oh \mfp B=\mP^e.
+\end{align*}
+Write $A'=\mfp^{a}$. We have $\mfp^a\mid \mD$ iff $\mfp^a\mid A'$ for $a\in \Z$. (Power can be rational.)
+
+For $a\in \Z$, $\ord_{\mfp}(A')\ge a$ iff $\ord_{\mfp}(\mD)\ge a$.
+
+Thus we get
+\[
+\ord_{\mfp}(A')\le 
+\underbrace{\ord_{\mfp}(\mD_{L/K})}_{\fc{\ord_{\mP}(\mD)}{e_{\mpp}}}
+<\ord_{\mfp}(A')+1.
+\]
+Thus $\tr_{L/K}(B)=A$ iff $a=0$ iff $\ord_{\mP}(\mD)=e-1$.
+
+Thus $\mP$ is tamely ramified iff $v(\mD)=e-1$.
+\end{proof}
+\subsection{Computation of different}
+\begin{pr}\llabel{monogenous}
+When $A$ and $B$ are CDVR's, $B$ is generated by one element over $A$ as an $A$-algebra:
+\[
+B=A[\be].
+\]
+(We say that $B$ is {\it monogenous} over $A$.)
+%, i.e. there exists $\be\in B$ such that 
+%\[
+%B=A[\be]=\bigoplus_{i=0}^{n-1} A\cdot \be^i
+%\]
+%the last equality as $A$-module. 
+
+Let $L:=\Frac(A)$, $K:=\Frac(B)$. When $L/K$ is totally ramified, then we can choose $\be$ to be any uniformizer $\pi_L$.
+\end{pr}
+\begin{proof}
+Any element of $B$ can be written as $\sum_{k\ge 0} a_k\pi_k$ where $a_k$ are fixed representatives of $l=B/(\pi_L)$. But we can choose the $a_k$ to be representatives of $k=A/(\pi_K)$, since $k=l$.
+\end{proof}
+\begin{thm}
+(Residue field extension separable.) 
+$\mathfrak \mfd_{B/A}=(f'_{\be}(\be))$ where $f_{\be}(x)\in A[x]$ is the minimal polynomial of $\be$ over $K$.
+\end{thm}
+\begin{proof}
+\begin{lem}
+\[
+\tr_{L/K}\pf{\be^k}{f'(\be)} =\begin{cases}
+0,& 0\le i\le n-2\\
+1,& i=n-1.
+\end{cases}
+\]
+\end{lem}
+\begin{proof}The eigenvalues of multiplication by $\beta$ are just the roots $\beta_{1},\ldots,\beta_{n}$
+of the characteristic polynomial. Note that if $A$ is a linear operator
+with eigenvalues $\lambda_{i}$ and $P$ is a polynomial then $P(A)$
+has eigenvalues $P(\lambda_{i})$. Hence
+\[
+\text{tr}\left(\frac{\beta^{k}}{f'(\beta)}\right)=\sum_{i=1}^{n}\frac{\beta_{i}^{k}}{f'(\beta_{i})}\]
+
+Let $D(x_{1},\ldots,x_{n})=\sum_{i<j}(x_{i}-x_{j})$. Noting $f'(\beta_{i})=\prod_{j\neq i}(\beta_{i}-\beta_{j})$,
+the above equals
+\[
+\frac{1}{D(x_{1},\ldots,x_{n})}\underbrace{\sum_{i=1}^{n}\frac{x_{i}^{k}D(x_{1},\ldots,x_{n})}{\prod_{j\neq i}(x_{i}-x_{j})}}_{P(x_{1},\ldots,x_{n})}\]
+evaluated at $(x_{1},\ldots,x_{n})=(\beta_{1},\ldots,\beta_{n})$.
+Consider $P$. Note $P$ is zero whenever $x_{i}=x_{j}$ for some
+$i\ne j$ (All except two terms are 0; those two cancel.). So $x_{i}-x_{j}\mid P$,
+and $D\mid P$. However, $P$ has degree less than $\frac{(n-1)n}{2}$
+when $k<n-1$, so must be 0. If $k=n-1$ then we know $P$ is a constant
+multiple of $D$, look at the coefficient of any term to see that
+in fact $P=D$.
+\end{proof}
+It suffices to prove
+\[
+(f_{\be}'(\be)^{-1})=B^*:=\set{b\in L}{\tr_{L/K}(bb')\in A\text{ for all }b'\in B}.
+\]
+The condition inside is equivalent to 
+\[
+\tr(b\be^j)\in A,\quad 0\le j\le n-1.
+\]
+(because $B=\bigoplus A\be^i$.)
+But by the lemma,
+\[
+\tr\pa{
+\sum_{i=0}^{n-1} a_i \fc{\be^{i+j}}{f'(\be)}}
+=a_{n-1-j}+\cdots(>).
+\]
+``Triangular."
+Therefore
+\[
+B^*=\bigoplus A\cdot \fc{\be^i}{f_{\be}'(\be)}=\prc{f'_{\be}(\be)}.
+\]
+\end{proof}
+Good exercise: Compute $\mD_{\Q_p(\ze_{p^n})/\Q_p}$. This is tamely ramified only at $n=1$. Totally ramified tower. The first step is $(\Z/p)^{\times}$, tame, everything else is $p$, wild.
+
+(Note $G(\Q(\ze_{p^n})/\Q)\cong (\Z/p^n\Z)^{\times}$ because $D_{p}\cong G(\Q_p(\ze_{p^n})/\Q_p)$.
+\section{Ramification groups}
+Local, CDVR setup.
+
+\begin{df}
+Let $i\ge -1$. The $i$th \textbf{ramification group} is
+\begin{align*}
+G_i&=\set{\si\in G}{b\in \sO_L,\,v_L(\si(b)-b)\ge i+1}\\
+&=\set{\si\in G}{v_L(\si(\be)-\be)\ge i+1}.
+\end{align*}
+\end{df}
+Observe $G_{-1}=G$, that $G_i\supeq G_j$ for $i\le j$ and $\bigcap_{i\ge -1}G_i=\{1\}$. Also note for all $i$, $G_i$ is a normal subgroup of $G$ because
+\[
+G_i=\ker(G\rightarrow \Aut(\sO_L/(\pi_L^{i+1})).
+\]
+In particular, $G_i/G_{i+1}$ is a group. Furthermore $G_i$ is defined even when $i$ is not an integer; we have $G_i=G_{\ce{i}}$. 
+
+We will study $\{G_i\}_{i\ge -1}$. We want
+\begin{enumerate}
+\item
+A formula for $v_L(\mD_{L/K})$. If at most tame, equals $e-1$, else greater.
+\item
+Look at quotients $G_i/G_{i+1}$. Abelian, cyclic, $p$-group, prime-to-$p$?
+\end{enumerate}
+\subsection{$\mD_{L/K}$ and $i_G$}
+\begin{df}
+Let $\si\in G(L/K)$. 
+Define $i_G:G\to \N_0\cup \{\iy\}$ by
+\[
+i_G(\si)=\min\set{v_L(\si(\be)-\be)}{\be\in B}.
+\]
+\end{df}
+Note that if $B=A[\be]$, then 
+\[
+i_G(\si)=v_L(\si(\be)-\be).
+\]
+Observe
+\begin{itemize}
+\item
+$i_G(\si)=\iy$ iff $\si=1$.
+\item
+$G_i=\set{\si\in G}{i_G(\si)\ge i+1}$, so $\si\in G_i$ iff $i_G(\si)\ge i+1$, so doesn't depend on choice of generator.
+\end{itemize}
+Note 
+\[
+i_G(\tau\si\tau^{-1})=i_G(\si),\quad \si,\tau\in G.
+\]
+Because $G_i\unlhd G$. Note
+\[
+i_G(\si\tau)\ge \min(i_G(\si),i_G(\tau)).
+\]
+Because
+\begin{align*}
+i_G(\si\tau)&=v_L(\si\tau\be-\be)\\
+&\ge \min(v_L(\si\tau(\be)-\tau(\be)),v_L(\tau(\be)-\be))\\
+=\min(i_G(\si),i_G(\tau)).
+\end{align*}
+since $\sO_L=\sO_K[\be]=\sO_K[\tau\be]$.
+\begin{pr}
+\[
+v(\mD_{L/K})=\sum_{\si\ne 1} i_G(\si)=\sum_{i\ge 0}(|G_i|-1).
+\]
+($\ma=(\pi_L^i)\implies v_L(a)=i$.)
+\end{pr}
+\begin{proof}
+Let $f(x)$ be the minimal polynomial for $\be$. Letting $n=[L:K]$, 
+\[
+f(x)=\prod_{i=1}^n(X-\be_i).
+\]
+Now 
+\begin{align*}
+\mD_{L/K}&=(f'(\be))\\
+&=\prod_{i>1}(\be-\be_i)\\
+&=\prod_{\si\ne 1}(\be-\si(\be)).
+\end{align*}
+Take $v_L$ for (1).
+\[
+v_L(\mD_{L/K})=\sum_{\si\ne 1}\underbrace{v_L(\be-\si(\be))}_{i_G(\si)}.
+\]
+For (2), consider multiset
+\[
+\bigsqcup_{i\ge 0} (G_i\bs \{1\}).
+\]
+finite. Note $\si\in G$ appears in $G_0,G_1,\ldots, G_{i_G(\si)-1}$, there's $i_G(\si)$. Compute the size of the multiset in two different ways
+\[
+\sum_{i\ge 0} (|G_i|-1)=\sum_{\si\ne 1} i_G(\si).
+\]
+\end{proof}
+Remark: $v_L(\mD_{L/K})=e-1$ iff $G_1=\{1\}$ (because $|G_0|=e$, iff $L/K$ is at most tame.
+
+Let's understand $\mD_{L/K}$, $i_G$ under sub and quotient group. Consider $L/L^H/K$.
+
+First, sub. 
+\begin{pr}\llabel{ram-grp-sub}
+\begin{align*}
+i_H(\si)&=i_G(\si)\text{ for all $\si\in H$}\\
+H_i&=H\cap G_i.
+\end{align*}
+\end{pr}
+\begin{proof}
+Same generator works for larger ring.
+$\sO_L=\sO_K[\be]\implies \sO_L=\sO_{K'}[\be]$. Then true by def.
+\end{proof}
+\begin{cor}
+\[
+v_L(\mD_{L/K'})=\sum_{\si\ne 1,\si\in H} \underbrace{i_G(\si)}_{i_H(\si)}.
+\]
+\end{cor}
+For quotient.
+\begin{pr}\llabel{igh-ig}
+For $H\unlhd G$, $\ol G\ne 1\in G/H$,
+\[
+i_{G/H}(\ol{\si})=\rc{e_{L/K'}}\sum_{\si\in G,\,\si\bmod H=\ol{\si}} i_G(\si).
+\]
+\end{pr}
+\begin{cor}
+\[
+v_{K'/K}(\mD_{K'/K})=\rc{e_{L/K}'} \sum_{\si\nin H,\si\in G}i_G(\si).
+\]
+\end{cor}
+Because by prev. $\sum_{\ol{\si}\ne 1} i_{G/H}(\ol{\si})$ equals RHS by prop.
+\begin{proof}
+Choose $\al\in \sO_{K'}$ and $\be\in \sO_L$ such that $\sO_{K'}=\sO_K[\al']$ and $\sO_L=\sO_K[\be]$. Then
+\begin{align*}
+e_{L/K'}i_{G/H}(\ol{\si})&=e_{L/K'}v_{K'}(\ol{\si}\al'-\al')\\
+&=v_L(\ol{\si}\al'-\al').\\
+\sum_{\si\in G}&=i_G(\si)\\
+&=\sum_{\tau\in H} \underbrace{i_G(\si\tau)}_{v_L(\si\tau\be-\be)}\\
+&=v_L\pa{\prod_{\tau\in H} (\si\tau (\be)-\be)}=before.
+\end{align*}
+fixing $\si$.
+
+It suffices to prove $(\si\ol{\al'}-\al')=\prod_{\tau\in H}(\si\tau(\be)-\be)$.
+Call LHS, RHS $\ma,\mb$.
+\begin{enumerate}
+\item
+$\ma\mid \mb$: Consider
+\[
+g(X)=\prod_{\tau\in H}(X-\tau(\be))\in \sO_{K'}[x].
+\]
+minimal polynomial of $\be/K'$. 
+\[
+\si g(X)=\prod_{\tau\in H} (X-\si\tau(\be)).
+\]
+Observe $\si\al'-\al'$ divides coefficients of $\si g(X)-g(X)$. Because for all $a\in \sO_{K'}$, $a=a_0+a_1\al'$, $\si\al= a_0+a_1\si \al'+\cdots $. Note $\si\al'-\al'\mid \si\al'^i-\al'^i$. Note $g(\be)=0$. Take $x=\be$ to get
+\[
+\si\al'-\al'\mid \si g(\be)-\underbrace{g(\be)}_0.
+\]
+\item %Min poly div here
+$\mb\mid \ma$. 
+SWITCH $f$ and $g$ below.
+Cook up a minimal polynomial to show divisibility. $\al'=\sO_K[\be]=\sO_L$. Write
+\[
+\al'=\sum_{i=0}^{n-1} a_i\be^i=:g(\be).
+\]
+$a_i\in \sO_K$. $g(X)\in \sO_K[X]$. Consider $g(X)-\al'\in \sO_{K'}[X]$. By construction has $\be$ as a root.
+
+Hence plugging in $x=\be$,
+\begin{align*}
+f(X)\mid g(X)-\al\\
+\si f(X)\mid \si(f(X))-\si(\al')\\
+\si f(\be)\mid f(\be)-\si(\al')
+\end{align*}
+giving $\pm b\mid \pm a$.
+\end{enumerate}
+\end{proof}
+{\color{red} End of unedited stuff.}
+\subsection{Filtration of ramification groups}
+\llabel{sec:ram-filt}
+We know from (??) that
+\[
+G_{-1}/G_0\cong G/I_{L/K}\cong G(l/k).
+\]
+In particular, if $k$ is finite then $G_{-1}/G_0$ is finite cyclic and if $k=\ol k$ then $G_{-1}/G_0$ is trivial. 
+%\Q[[x]] full Galois group in \Q...
+From now on assume $i\ge 0$.
+
+We aim to study the filtration 
+\begin{equation}\llabel{ramification-filtration-eq}
+G\supeq G_0\supeq G_1\supeq \cdots.
+\end{equation}
+To do this, we first study the filtration
+\begin{equation}\llabel{units-filtration-eq}
+L^{\times}\supeq U_L^0 \supeq U_L^1\supeq\cdots
+\end{equation}
+where 
+\[U_L^i=
+\begin{cases}
+\sO_L^{\times},&i=0\\
+1+\pi_L^i\sO_L,&i\ge 1.
+\end{cases}
+\]
+The quotient groups in~(\ref{units-filtration-eq}) can be understood explicitly (Proposition~\ref{units-filtration}). We will relate the two filtrations by Proposition~\ref{ramification-to-unit-group}.\footnote{This will be important in local class field theory, which says there is a canonical isomorphism $K^{\times}/\nm_{L/K}(L^{\times})\cong G(L/K)$ if $L/K$ is finite abelian.} From this we get several important corollaries about the structure of the groups $G_s$. Understanding conjugates and commutators of elements in the $G_s$ gives us several more important properties.
+%Would be true if use ``upper numbering."
+
+%Here, relate $G_i/G_{i+1}$ to $U_L^i/U_L^{i+1}$. Just injection. Galois filtration hard to understand but $U_L$'s easy.
+\begin{pr}\llabel{units-filtration}
+Let $K$ be a complete field with discrete valuation (for instance, a local field), $k$ its residue field, and $\mm$ the associated maximal ideal. %, and $U_K^{(m)}:=1+\mm^m$. 
+Then we have isomorphisms
+\begin{align*}
+U_K/U_K^{(1)}&\xra{\cong} k^{\times}&
+U_K^{(m)}/U_K^{(m+1)}&\xra{\cong} k^+\\
+u&\mapsto u\pmod{\mm}&
+1+a\pi^m&\mapsto a\pmod{\mm}.
+\end{align*}
+\end{pr}
+\begin{proof}
+For the first just note that $1+\mm$ is the multiplicative unit of $A/\mm$. For the second, note $(1+a\pi^m)(1+b\pi^m)=1+(a+b)\pi^m+\cdots$.
+%The second is composition $U_K^i/U_K^{i+1}\cong (\pi_K^i)/(\pi_K^{i+1})\cong \sO_K/(\pi_K)=k$, $(1+a)U_L^{i+1}$ to $a+(\pi_L^{i+1})$, $\pi_L^ia+(\pi_L^{i+1})$ to $a+(\pi_L)$.
+\end{proof}
+%%%%%lecture 11/15
+To construct a map $G_i/G_{i+1}\to U_L^i/U_L^{i+1}$, we first need the following characterization of $G_i$. 
+
+\begin{lem}\llabel{gi-quotient-crit}
+Suppose $L/K$ is a finite Galois extension of local fields, $\pi$ is a uniformizer of $L$, and $G=G(L/K)$. 
+For $i\in \N_0$ and $\si\in G_0$,
+\begin{equation}\llabel{gi-quotient-crit-eq}
+\si\in G_i\iff \fc{\si(\pi)}{\pi}\equiv 1\pmod{\pi_L^i}.
+\end{equation}
+\end{lem}
+\begin{proof}
+The RHS is equivalent to 
+\begin{equation}\llabel{gi-quotient-crit1}
+\si(\pi)-\pi\equiv 0\pmod{\pi_L^{i+1}}.
+\end{equation}
+We need to show this is equivalent to
+\begin{equation}\llabel{gi-quotient-crit2}
+\si(\be)-\be\equiv 0\pmod{\pi_L^{i+1}}\text{ for all }\be\in L.
+\end{equation}
+It is clear that~(\ref{gi-quotient-crit2}) implies~(\ref{gi-quotient-crit1}).
+
+First suppose $L/K$ is totally ramified. Then $\sO_L=\sO_K[\pi]$ by Proposition~\ref{monogenous}, giving that~(\ref{gi-quotient-crit1}) implies~(\ref{gi-quotient-crit2}).
+
+Now consider the general case. We know $L/L^{I_{L/K}}$ is totally ramified (Theorem~\ref{factorization}.\ref{decomposition-and-inertia}), so the theorem holds for $L/L^{I_{L/K}}$.
+Now, by Proposition~\ref{ram-grp-sub},
+ $G_i(L/L^{I_{L/K}})=G_i\cap I_{L/K}=G_i$. Furthermore, since $\pi_L$ is the same for $L/K$ and $L/L^{I_{L/K}}$, the right hand-side of~(\ref{gi-quotient-crit-eq}) does not change whether we are talking about $L/K$ or $L/L^{I_{L/K}}$. Hence the theorem for $L/L^{I_{L/K}}$ implies the theorem for $L/K$.
+\end{proof}
+\begin{pr}\llabel{ramification-to-unit-group}
+There is a well-defined injective group homomorphism
+\begin{align*}
+\te_i:G_i/G_{i+1}&\hra U_L^i/U_L^{i+1}\\
+\si&\mapsto \fc{\si(\pi)}{\pi}
+\end{align*}
+that is independent of the choice of uniformizer $\pi$.
+\end{pr}
+\begin{proof}
+Note that 
+\begin{equation}\llabel{ram-unit1}
+u\in \sO_L,\,\si\in G_i\implies\si(u)\equiv u\pmod{\pi^{i+1}}\implies \fc{\si(u)}{u}\in U_L^{i+1}.
+\end{equation}
+
+First we show $\te_i$ is a group homomorphism $G_i\to U_L^i/U_L^{i+1}$. We have
+\[
+\fc{\si\tau(\pi)}{\pi}
+= \fc{\si(\pi)}{\pi}\cdot \fc{\tau(\pi)}{\pi}\cdot \fc{\si\pf{\tau(\pi)}{\pi}}{\fc{\tau(\pi)}{\pi}}.
+\]
+Since $\fc{\tau(\pi)}{\pi}\in \sO_L$ and $\tau\in G_i$,~(\ref{ram-unit1}) gives $\fc{\si\pf{\tau(\pi)}{\pi}}{\fc{\tau(\pi)}{\pi}}\in U_L^{i+1}$. 
+
+Lemma~\ref{gi-quotient-crit} gives that the kernel is exactly $G_{i+1}$, so $\te_i$ induces an injective map $G_i/G_{i+1}\to U_L^i/U_L^{i+1}$.
+
+Now suppose $\pi'$ is another uniformizer. Write $\pi'=u\pi$ with $u\in\sO_L^{\times}$. Then $\si\in G_i$ and~(\ref{gi-quotient-crit}) give
+\[
+\fc{\si(\pi')}{\pi'} = \fc{\si(\pi)}{\pi} \cdot \underbrace{\fc{\si(u)}{u}}_{\in U_L^{i+1}}.\qedhere
+\]
+\end{proof}
+\begin{cor}
+\begin{enumerate}
+\item
+$G_0/G_1$ is finite cyclic.
+\item
+If $\chr(l)=0$ then $G_1=\{1\}$; if $\chr(l)=p\ne 0$, then for each $i\ge 1$, \[G_i/G_{i+1}=(\Z/p\Z)^{n_i}\]
+for some $n_i$.
+%$, $i\ge 1$ is a product of $(\Z/p\Z)$'s.
+\end{enumerate}
+\end{cor}
+\begin{proof}
+\begin{enumerate}
+\item
+Proposition~\ref{ramification-to-unit-group} and~\ref{units-filtration} give $G_0/G_1\hra U_L/U_L^1\cong  l^{\times}$. But any finite subgroup of a finite field must be cyclic.
+\item 
+For $\chr(l)=0$, $l^{+}$ has no finite nontrivial subgroup. %$G_i/G_{i+1}=\{1\}$. 
+For $\chr(l)=p$, we have $G_i/G_{i+1}\hra U_L^i/U_L^{i+1}\cong l^{+}$. Just note $l^+$ is a an abelian $p$-group.\qedhere
+ %$\F_p$-vector space.
+%l not nec finite
+%any extension tamely ramified when char(l)=0, no wild ramification. Geometry on complex curves, never see wild ramification. Example $\C[[t]]$.
+\end{enumerate}
+\end{proof}
+%%PUT STUFF ON TAME/WILD RAM. GRP.
+\begin{cor}\llabel{cor:G(local)=solvable}
+$G_0=I_{L/K}$ is solvable. If $G(l/k)=G_{-1}/G_0$ is solvable (in particular, if $k$ is finite) then $G$ is solvable. 
+%Far from case in number fields! Galois theory easier.
+\end{cor}
+\begin{proof}
+The series
+\[
+G_0\supeq G_1\supeq \cdots
+\]
+is a solvable series for $G$.
+\end{proof}
+\subsection{First ramification group}
+Recall that we defined $G_0=I_{L/K}$ so that we can split $L/K$ into two parts: $L/L^{I_{L/K}}$ is totally ramified while $L^{I_{L/K}}/L$ is unramified. We can further split the extension $L/L^{I_{L/K}}$ into a wildly ramified and tamely ramified part.
+\begin{df}
+Define the \textbf{wild inertia group} and \textbf{tame inertia group} to be
+\begin{align*}
+%G_0&=I_{L/K}&\text{inertia group}\\
+G_1&=I_{L/K}^{\text{wild}}\\%&\text{wild inertia group}\\
+G_0/G_1&=I_{L/K}^{\text{tame}}.%&\text{tame inertia group.}
+\end{align*}
+\end{df}
+\begin{thm}
+The extension $L/L^{I_{L/K}^{\text{wild}}}$ is wildly ramified with Galois group $G_1=I_{L/K}^{\text{wild}}$ and the extension $L^{I_{L/K}^{\text{wild}}}/L^{I_{L/K}^{\text{tame}}}$ is tamely ramified with Galois group $G_1/G_0$.
+\[
+\xymatrix{
+L \ls{d}\ar@{.}@/^1pc/[d]^{I_{L/K}^{\text{wild}}}
+ \ar@{.}@/_1pc/[d]_{\text{wild ramification}}\\
+L^{I_{L/K}^{\text{wild}}}\ls{d}
+\ar@{.}@/^1pc/[d]^{I_{L/K}^{\text{tame}}}
+\ar@{.}@/_1pc/[d]_{\text{tame ramification}}\\
+L^{I_{L/K}} \ls{d}
+\ar@{.}@/^1pc/[d]^{G/I_{L/K}=G(l/k)}
+\ar@{.}@/_1pc/[d]_{\text{unramified}}\\
+K
+}
+\]
+Moreover, $G_1$ is the unique p-Sylow subgroup of $G_0$, and
+%\end{thm}
+%\begin{cor}
+%Suppose $\chr(k)=p\ne 0$. Then the exact sequence
+%\[
+%\xymatrix{
+%1\ar[r] & G_1\ar[r]\ar@{=}[d]& G_0\ar[r]\ar@{=}[d]& G_0/G_1\ar[r]\ar@{=}[d]& 1\\
+%& I_{L/K}^{\text{wild}} & I_{L/K} & I_{L/K}^{\text{tame}}
+%}
+%\]
+%splits. %if $\chr(k)=p\ne 0$. Hence 
+%Hence
+\[
+G_0=G_1 \rtimes  G_0/G_1.
+\]
+%Note the first is a $p$-group and the latter is cyclic and prime-to-$p$.
+%warning nor dir product
+\end{thm}
+\begin{proof}
+Note $G_0/G_1\hra k^{\times}$ while $G_j/G_{j+1}\hra k^+$ for $j\ge 1$; we have $p\nmid |k^{\times}|$ while $|k|$ is a power of $p$; and $|G_1|=\prod_{1\le j\ll \iy} |G_j/G_{j+1}|$. Hence $G_1$ is a p-SSG of $G_0$; it is unique since it is normal and all $p$-SSGs are conjugate. Since the indices of the field extensions are the orders of the Galois groups, the result on tame and wild ramification follow.
+
+Now we prove the semidirect product.
+This follows directly from the Schur-Zassenhaus Lemma: If $H$ is a normal Hall subgroup of a finite group $G$, then $H$ has a complement, and hence $G=H\rtimes G/H$. (A Hall subgroup $H\subeq G$ is a group such that $\gcd(|H|,[G:H])=1$.)
+
+The following is an alternate proof. We show the exact sequence
+\[
+\xymatrix{
+1\ar[r] & G_1\ar[r]\ar@{=}[d]& G_0\ar[r]\ar@{=}[d]& G_0/G_1\ar[r]\ar@{=}[d]& 1\\
+& I_{L/K}^{\text{wild}} & I_{L/K} & I_{L/K}^{\text{tame}}
+}
+\]
+splits by showing there exists a right inverse $G_0/G_1\to G_0$ of the projection $G_0\to G_1$.\footnote{The image of $G_0/G_1$ is a {\it complement} $Q$ of $G_1$ in $G_0$; the elements of $Q$ act on $G_1$ by conjugation---this is what the semidirect product means.}
+Since $G_0/G_1$ is cyclic of order $r:=|l^{\times}|$, it suffices to find a lift $\si\in G_0$ of the generator $\ol{\si}\in G_0/G_1$ with order $r$. Write $|G_0|=p^sr$. Let
+\[
+\si=\si'^{p^{\ph(r)t}}
+\]
+where $t$ is such that $\ph(r)t\ge s$. Note $r\nmid p$ implies $p^{\ph(r)t}\equiv 1\pmod{r}$. Since $\si'^r\in G_1$, this implies $\si$ is still a lift of $\ol{\si}$. Moreover $\ph(r)t\ge s$ gives that its order is $r$, so it is the desired lift.
+\end{proof}
+%The action of the semidirect product is given by the following.
+\begin{pr}\llabel{conjugate-rg}
+For $i\ge 1$, $\si\in G_0$, $\tau\in G_i/G_{i+1}$,
+\[
+\te_i(\si\tau\si^{-1})=\te_{0}(\si)^i\te_i(\tau).
+\]
+\end{pr}
+(Here $\te_0(\si)^i$ is thought of as in $U_L/U_L^1\cong l^{\times}$, and $\te_i(\tau)\in U_L^i/U_L^{i+1}\cong l^+$.)
+\begin{proof}
+%Note $\te_0(\si)^i\in \sO_L^{\times}/U_L^1\cong l^{\times}$, acts on the one-dimensional vector space $l$, second factor in $l^{\times}$.
+It is slightly more convenient to work additively rather than multiplicatively, so we consider
+\begin{align*}
+\te_i':G_i/G_{i+1}&\hra U_L^i/U_L^{i+1}\cong (\pi^i)/(\pi^{i+1})\\
+\si&\mapsto \fc{\si(\pi)}{\pi} \mapsto 
+\begin{cases}
+\fc{\si(\pi)}{\pi},& i=0\\
+\fc{\si(\pi)}{\pi}-1,& i\ge 1,
+\end{cases}
+\end{align*}
+where $\pi$ is any uniformizer.
+
+%Using this recasting, we need to show
+%\[
+%\fc{\si\tau\si^{-1}(\pi)}{\pi}-1\equiv \pf{\si(\pi)}{\pi}^i \pa{\fc{\tau(\pi')}{\pi'}-1}\pmod{\pi_L^{i+1}}.
+%\]
+%where $\pi'=\si^{-1}(\pi)$. $\tau\in G_i$. Write $\tau(\pi')=\pi'+a$ where $a\in (\pi^{i+1})$.
+%
+%The LHS equals 
+%\[\fc{\si\tau(\pi')}{\pi}-1
+%=\fc{\cancel{\si(\pi')}+\si(a)-\cancel{\pi}}{\pi}
+%=\fc{\si(a)}{\pi}.
+%\]
+%The RHS equals
+%\[
+%\fc{\si(\pi)}{\pi}\pa{\fc{\pi'+a}{\pi'}-1}=\fc{\si(\pi)}{\pi}\fc{a}{\pi'}.
+%\]
+%Write $a=\pi^i\pi'a'$ where $a\in \sO_L$. The LHS minus RHS is
+%\[
+%\si(\pi)^j \si(a') - \si(\pi)^ia'
+%= \si(\pi)^i \underbrace{(\si(a')-a')}_{\in (\pi)}\in (\pi)^{i+1}
+%\] 
+%because $\si\in G_0$.
+%\end{proof}
+%More group theory exercises!
+%\begin{cor}
+%\[
+%\si\tau\si^{-1}\tau^{-1}\in G_{i+1}\iff \si^i\in G_1\text{ or }\tau\in G_{i+1}.
+%\]
+Define 
+\[
+\pi'=\si^{-1}(\pi)
+\]
+and let $a\in \sO_L^{\times}$ be such that
+\[
+\tau(\pi')=\pi'+a\pi'\pi^i.
+\]
+Note that
+\[
+\te_i'(\tau)=\fc{\tau(\pi')}{\pi'}=a\pi^i.
+\]
+
+Now we calculate, modulo $(\pi)^{i+1}$, that
+%\begin{align*}
+%\si^{-1}(\pi)&=\pi'\\
+%\tau(\pi')&=\pi'+\pi'\pi
+%\end{align*}
+\begin{align*}
+\te_i'(\si\tau\si^{-1})
+&=\fc{\si\tau\si^{-1}(\pi)}{\pi}-1\\
+&=\fc{\si\tau(\pi')}{\pi}-1\\
+&=\fc{\si(\pi'+a\pi'\pi^i)}{\pi}-1\\
+&=\fc{\pi+\si(a\pi'\pi^i)}{\pi}-1\\
+&=\fc{a\si(\pi'\pi^i)}{\si(\pi')}&\text{since }\si(a)\equiv a\pmod{\pi^{i+1}}\\
+&=\pf{\si(\pi)}{\pi}^ia\pi^i\\
+&=\te_0'(\si)^i\te_i'(\tau).&\qedhere
+\end{align*}
+\end{proof}
+\begin{pr}
+If $\si\in G_i$ and $\tau\in G_j$, $i,j\ge 1$, then 
+\[
+\si\tau\si^{-1}\tau^{-1}\in G_{i+j+1}.
+\]
+\end{pr}
+\begin{proof}
+\end{proof}
+\begin{cor}
+For $i\ge 1$,
+\[
+\si\tau\si^{-1}\tau^{-1}\in G_{i+1}\iff \si^i\in G_1\text{ or }\tau\in G_{i+1}.
+\]
+\end{cor}
+\begin{proof}
+We have
+\begin{align*}
+\si\tau\si^{-1}\tau^{-1}\in G_{i+1}
+&\iff  \si\tau\si^{-1} = \tau& \text{ in }G_i/G_{i+1}\\
+&\iff  \te_i'(\si\tau\si^{-1}) = \te_i' (\tau) &\text{ in }(\pi^i)/(\pi^{i+1})\\
+&\iff  \te_i'(\tau)%\underbrace{
+(\te_0'(\si)^i-1)
+%}_{\in l}
+=0
+&\text{by Proposition~\ref{conjugate-rg}}\\
+&\iff \te_i'(\tau)=0\text{ or }\te_0'(\si^1)=1\\
+&\iff \tau\in G_{i+1}\text{ or }\si^i\in G_1.
+\end{align*}
+%(pi^i)/... 1-dim l-vspace
+\end{proof}
+\begin{cor}\llabel{jump-multiple-go/g1}
+Suppose $G$ is abelian and $|G_0/G_1|\nmid i$. Then $G_i=G_{i+1}$.
+\end{cor}
+%Where do jumps occurs? Strict inclusion in filtration. 
+%For example, for $L/K=\Q_p(\ze_{p^m})/\Q_p$, $|G_0/G_1|=p-1$, $G_i\supset G_{i+1}$ only when $p-1\mid i$. Fact, happens when $i=p-1,p^2-1,\ldots, p^{m-1}-1$.
+\begin{proof}
+Write $G_0/G_1=\an{\ol{\si}}$ where $r=|G_0/G_1|$. Since $r\nmid i$, $\ol{\si}^i\ne 1$; for any lift $\si\in G_0$ of $\ol{\si}$, $\si^i\nin G_1$. Since $G$ is abelian, we get for all $\tau\in G_i$, $\si\tau\si^{-1}\tau^{-1}=1$. By the previous corollary, noting $\si^i\nin G_1$, we must have $\tau\in G_{i+1}$.
+\end{proof}
+\begin{df}
+A \textbf{jump} for $L/K$ is an integer $i$ such that
+\[
+G_i\ne G_{i+1}.
+\]
+\end{df}
+Corollary~\ref{jump-multiple-go/g1} tells us that jumps are divisible by $|G_0/G_1|$.
+\section{Herbrand's Theorem}
+\subsection{Functions $\ph$ and $\psi$}
+Note that ramification groups behave nicely under taking subgroups (i.e. passing from $M/K$ to $M/L$), by Proposition~\ref{ram-grp-sub}.
+However, the indices are screwed up when passing to quotient groups (i.e. passing from $M/K$ to $M/L$). We calculate exactly how the index changes (Herbrand's Theorem~\ref{herbrand}), and use it to define a different numbering scheme that is invariant under passing to quotient groups.
+
+It is important to know how ramification groups behave under quotients because this gives a compatible system that allows us to look at larger and larger field extensions, i.e. pass to the inverse limit.
+\begin{df}
+%For $u\in \R_{\ge -1}$, define 
+%\[
+%G_u=\set{\si\in G(L/K)}{i_G(\si)\ge u+1}.
+%\]
+%Note $G_u=G_{\ce{u}}$.
+Define $\ph_{L/K}:\R_{\ge 0}\to \R_{\ge 0}$ by
+\[\ph_{L/K}(u)=\int_0^u \rc{[G_0:G_t]}dt\]
+(recall $G_u=G_{\ce{u}}$) and extend $\ph_{L/K}$ to $\R_{\ge -1}\to \R_{\ge -1}$ by
+\[\ph(u)=u, \quad -1\le u\le 0.\]
+\end{df}
+This is a piecewise linear increasing function with $\ph_{L/K}(-1)=-1$ and with derivative at least $\rc{|G_0|}$, so it is a bijection.
+\begin{df}
+Define $\psi_{L/K}:\R_{-1}\to \R_{-1}$ by $\psi_{L/K}=\ph_{L/K}^{-1}$. Define the \textbf{upper numbering} filtration by
+\[
+G^v :=G_{\psi_{L/K}(v)},\quad v\ge -1.
+\]
+\end{df}
+%This is better for quotients.
+%{\color{red} More unedited stuff.}
+\subsection{Transitivity of $\ph$ and $\psi$}
+%Setup $L/K'/K$. Everything finite Galois with separable residue field extension. We want to relate $\ph_{L/K}$ with $\ph_{L/K'}$ and $\ph_{K'/K}$and do the same with $\psi$.
+The function $\ph_{L/K}$ gives the reindexing when we pass to the quotient Galois group.
+\begin{thm}[Herbrand's Theorem]\llabel{herbrand-thm}
+Let $L/K'/K$ be finite Galois extension with separable residue field extension.
+For all $u\ge -1$, 
+\[
+G_uH/H=(G/H)_{\ph_{L/K'}(u)}.
+\]
+\end{thm}
+Here, $G_u$ is the ramification group of $L/K$ and $(G/H)_{\ph_{L/K'}(u)}$ is the ramification group of $K'/K$. 
+
+We will need several lemmas. First we relate the function $i_{G/H}(\ol{\si})$ and $i_G$ evaluated at the lifts of $\ol{\si}$ in $G$. 
+\begin{lem}\llabel{igh-ig2}
+For $\ol{\si}\in G/H$, $j(\ol{\si})=\max_{\si \in \ol{\si}H} i_G(\si)$,
+\[
+i_{G/H}(\ol{\si})-1=\ph_{L/K'} (j(\ol{\si})-1).
+\]
+\end{lem}
+Thus applying $\ph_{L/K}$ has the effect of ``turning" $i_G$ into $i_{G/H}$. By writing out the criterion for $\si\in G_u$ or $(G/H)_u$ in terms of $i_G$ and $i_{G/H}$, respectively, we will get Herbrand's Theorem.
+\begin{proof}
+Pick $\si_0\in G$ mapping to $\ol{\si}$ such that $i_G(\si_0)=j(\ol{\si})$. Then by Proposition~\ref{igh-ig},
+\begin{equation}\llabel{herbrand-pf1}
+i_{G/H}(\ol{\si}) 
+=\rc{e_{L/K'}}\sum_{\si \in \ol{\si}H} i_G(\si)
+=\rc{e_{L/K'}}\sum_{\tau\in H} i_G(\si_0\tau).
+\end{equation}
+%We want to relate the right-hand side to $j(\ol{\si})$. Pick $\si_0\in G$ mapping to $\ol{\si}$ such that $i_G(\si_0)=j(\ol{\si})$. Then the right-hand side is
+%\[
+%\rc{e_{L/K'}}\sum_{\tau\in H} i_G(\si_0\tau).
+%\]
+
+We claim that
+\[
+i_G(\si_0\tau)=\min(i_G(\si_0),i_G(\tau))=\min(j(\ol{\si}), i_G(\tau))
+\]
+for all $\tau\in H$. Indeed, by the nonarchimedean inequality,
+\[
+i_G(\si_0\tau)=v_L(\si_0\tau(\be)-\be)\ge
+\min(v_L(\si_0\tau(\be)-\tau(\be)),v_L(\tau(\be)-\be))= \min(i_G(\si_0),i_G(\tau)).
+\]
+Consider two cases.
+\begin{enumerate}
+\item
+$i_G(\tau)=i_H(\tau)\ge i_G(\si_0)$. The above gives
+\[
+i_G(\si_0\tau)\ge \min(i_G(\si_0),i_G(\tau))\ge i_G(\si_0).
+\]
+Equality holds by the maximality assumption on $\si_0$.
+\item
+%If $\tau\nin H_{i_G(\si_0)-1}$ then 
+$i_G(\tau)<i_G(\si_0)$. Then \[i_G(\si_0\tau)=\min(i_G(\si_0),i_G(\tau))=i_G(\tau).\]
+\end{enumerate}
+The RHS of~(\ref{herbrand-pf1}) then equals $\rc{e_{L/K'}}\sum_{\tau\in H} \min(i_G(\si_0),i_G(\tau))$; 
+the result then follows from the next lemma.
+\end{proof}
+%We have $\tau\in H_{i_G(\si_0)-1}$ implies $i_G(\tau)=i_H(\tau)\ge i_G(\si_0)$. Hence by the nonarchimedean inequality,
+%\[
+%i_G(\si_0\tau)\ge \min(i_G(\si_0),i_G(\tau))\ge i_G(\si_0)
+%\]
+%since
+%%%
+%But maximality of $\si_0$ tells us $i_G(\si_0\tau)=i_{G}(\si_0)$.
+\begin{lem}
+\[
+\ph_{L/K}(u)=\rc{e_{L/K}}\sum_{\si\in G} \min(j(\ol{\si}),u+1)-1.
+\]
+\end{lem}
+\begin{proof}
+Since both sides are piecewise linear functions, and both sides equal $u$ for $-1\le u\le 0$, it suffices to show their derivatives (slopes) are equal for $u>0$.
+
+If $i-1<u<i$ where $i\in \N$, then the slope of the LHS is $\rc{[G:G_i]}$. For the RHS, since $i_G(\si)$ is an integer, each term is either $i_G(\si)$ or $u+1$; each term where $u+1$ is the minimum contributes to the slope. Hence the slope on the RHS is 
+\[
+\rc{e_{L/K}}\ab{
+\set{\si\in G}{u+1<i_G(\si)}
+}=\rc{e_{L/K}}\ab{
+\set{\si\in G}{i_G(\si)\ge i+1}
+}=\fc{|G_i|}{e_{L/K}}=\rc{[G_0:G_i]},
+\]
+as needed.
+\end{proof}
+%we get, by lemma applied to $L/K'$ with $H$,
+%\[
+%\ph_{L/K'}(i_G(\si)-1)+1.
+%\]
+%\end{proof}
+\begin{proof}[Proof of Theorem~\ref{herbrand-thm}]
+We have the following string of equivalences.
+\begin{enumerate}
+\item $\ol{\si}\in G_uH/H=G_u/G_u\cap H$
+\item There is $\si\in G$ lifting $\ol{\si}$ so that $\si\in G_u$.
+\item $j_G(\ol{\si})-1\ge u$.
+\item $\ph_{L/K'}(j_G(\ol{\si})-1)\ge\ph_{L/K'}(u)$.
+\item $i_{G/H}(\ol{\si})-1\ge\ph_{L/K'}(u)$.
+\item $\ol{\si} \in (G/H)_{\ph_{L/K'}(u)}$.
+\end{enumerate}
+We have $(3)\iff(4)$ because $\ph_{L/K'}$ is monotonically increasing and $(4)\iff (5)$ by Lemma~\ref{igh-ig2}.
+%Suppose $\ol{\si}$
+%\[
+%\ol{\si}\in G_uH/H=G_u/G_u\cap H.
+%\]
+%iff there is $\si\in G$ lifting $\ol{\si}$ such that $\si\in G_u$ (equivalently, $i_G(\si)\ge u$), iff $j_G(\ol{\si})-1\ge u$, iff (applying monotonically increasing $\ph_{L/K'}$), 
+%$\ph_{L/K'}(j_G(\ol{\si})-1)\ge\ph_{L/K'}(u)$, iff (claim 1) $i_{G/H}(\ol{\si}-1) \ge \ph_{L/K'}(u)$, iff $\ol{\si} \in (G/H)_{\ph_{L/K'}(u)}$.
+\end{proof}
+Now we prove transitivity for $\ph$ and $\psi$. 
+\begin{pr}\llabel{phi-psi-trans}
+\begin{align*}
+\ph_{L/K}&=\ph_{K'/K}\circ \ph_{L/K'}\\
+\psi_{L/K}&=\psi_{L/K'}\circ \psi_{K'/K}.
+\end{align*}
+\end{pr}
+\begin{proof}
+It suffices to prove the first equation; the first implies the second since $\ph$ and $\psi$ are inverse. For $-1\le u\le 0$ both sides equal $u$. Thus it suffices to show the derivatives of both sides are equal for $u\ge 0$. For $u\nin \Z$, the derivative on the LHS is
+\[
+\ph'_{L/K}(u)=\rc{[G_0:G_u]}.
+\]
+By the chain rule, the slope on the RHS is
+\begin{align*}
+\ph'_{K'/K}(\ph_{L/K'}(u))\ph'_{L/K'}(u)&=\fc{|(G/H)_{\ph_{L/K'}(u)}|}{|(G/H)_0|}\fc{|H_u|}{|H_0|}\\
+&=\fc{|G_uH/H||H_u|}{e_{K'/K}e_{L/K'}}&\text{by Herbrand's Theorem~\ref{herbrand}}\\
+&=\fc{|G_u/H\cap G_u||H_u|}{e_{L/K}}\\
+&=\fc{|G_u|}{|G_0|}
+\end{align*}
+using $H\cap G_u=H_u$ (Proposition~\ref{ram-grp-sub}) and multiplicativity of ramification index. The derivatives are equal, as needed.
+%lower numbering ok wrt subgroups
+\end{proof}
+Finally, we prove the most important consequence of Herbrand's Theorem: namely, by using the upper numbering (i.e. numbering using the inverse of $\ph_{L/K}$), quotients of ramification groups are preserved.
+\begin{pr}
+For all $v\ge -1$,
+\[
+G^vH/H=(G/H)^v.
+\]
+\end{pr}
+\begin{proof}
+By Herbrand's Theorem~\ref{herbrand} and transitivity of $\psi$ (Proposition~\ref{phi-psi-trans}) ($\psi_{L/K}=\psi_{L/K'}\circ \psi_{K'/K}$), we get
+\begin{align*}
+G^vH/H&=G_{\psi_{L/K}(v)}H/H\\
+&=(G/H)_{\ph_{L/K'}(\psi_{L/K}(v))}%&\text{Herbrand's Theorem}\\
+&=(G/H)_{\psi_{K'/K}(v)}=(G/H)^v.
+\qedhere
+\end{align*}
+\end{proof}
+We can now define upper numbering for infinite algebraic extensions $L/K$.
+\begin{df}
+Define
+\[
+G(L/K)^v:=\varprojlim_{K'/K\text{ finite Galois}} G(K'/K)^v.
+\]
+\end{df}
+\section{Hasse-Arf Theorem}
+We have two different filtrations, the lower numbering filtration $\{G_u\}_{u\ge -1}$ and $\{G^v\}_{v\ge -1}$.
+\begin{df}
+A \textbf{jump} is $u$ such that $G_u\ne G_{u+\ep}$ or $v$ such that $G^v\ne G^{v+\ep}$.
+\end{df}
+They are the $x$ and $y$-coordinates of jump points, i.e. where the slope of $\ph$ changes.
+
+Note a jump $u\in \Z$ since $G_u=G_{\ce{u}}$. Moreover, $u$ is a jump for the lower numbering iff $v=\ph_L/K(u)$ is a upper numbering, because $\ph,\psi$ are monotonically increasing.
+
+\begin{thm}[Hasse-Arf Theorem]
+If $G$ is finite abelian, then the jumps $v$ are integers.
+\end{thm}
+In the cyclotomic case, $G$ was abelian.
+%deeper ramification, larger and larger denominators, less and less likely get an integer out of it.
+\begin{rem}
+There is a nonabelian example where $v\nin \Z$. (See HW.)
+\end{rem}
+We postpone the proof.
+Applications.
+\begin{enumerate}
+\item
+Used in local class field theory. 
+\item
+``Conductor of Galois representations" are in $\Z$, not just in $\Q$. Finite $L/K$, $G(L/K)\to \GL_n(\C)$. %conductor for elliptic curves
+\end{enumerate}

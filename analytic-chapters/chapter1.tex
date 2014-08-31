@@ -1,0 +1,139 @@
+\chapter{Elementary estimates for primes}
+\section{Chebyshev's Theorem}
+Today we prove some asymptotic results about the distribution of prime numbers. Specifically, we derive estimates for the {\it prime-counting functions}
+\begin{align*}
+\vartheta(x)&=\sum_{p\leq x}\ln(p)\\
+\psi(x)&=\sum_{p^k\leq x}\ln(p)\\%=\sum_{p^k, p^k||x}\ln(p^k)\\
+\pi(x)&=\sum_{p\leq x} 1
+\end{align*}
+Note that we will always use $p$ to denote a prime.
+
+Lacking the tools of complex analysis, it is difficult to find the exact asymptotic formulas; however, our elementary methods suffice to determine the asymptotics up to a constant multiple. Our main result is Chebyshev's Theorem:
+\begin{thm}\cite[Theorem 6.3]{nath}
+\label{cheb}
+There exist positive constants $c_1$ and $c_2$ such that
+\begin{equation}\label{compare}
+c_1x\leq \vartheta(x)\leq \psi(x)\leq \pi(x)\ln(x)\leq c_2 x.
+\end{equation}
+for all $x\geq 2$. Moreover,
+\begin{align}
+\liminf_{x\to\infty}\frac{\vartheta(x)}{x}= \liminf_{x\to \infty} \frac{\psi(x)}{x}= \liminf_{x\to \infty}\frac{\pi(x)\ln(x)}{x}&\geq \ln(2)\label{inf}\\
+\limsup_{x\to\infty}\frac{\vartheta(x)}{x}= \limsup_{x\to \infty} \frac{\psi(x)}{x}=  \limsup_{x\to \infty}\frac{\pi(x)\ln(x)}{x}&\leq 2\ln(2) \label{sup}
+\end{align}
+\end{thm}
+We will prove this in three steps.
+%In particular, this gives a weak version of the Prime Number Theorem
+\subsection{Comparing the three functions}
+Since all terms in the sum defining $\vartheta(x)$ are included in the sum defining $\psi(x)$, $\vartheta(x)\leq \psi(x)$. %Since $\ln(p)\leq \ln(x)$ for each prime $p\leq x$, $\psi(x)\leq \pi(x)\ln(x)$. 
+%Turning $\psi(x)$ into a sum over $p$, we get
+For a given $p$ there are $\fl{\frac{\ln(x)}{\ln(p)}}$ choices for $k$ so that $p^k\leq x$, so
+\[\psi(x)=\sum_{p^k\leq x} \ln(p)=\sum_{p\leq x} \fl{\frac{\ln(x)}{\ln(p)}}\ln(p)\leq \sum_{p\leq x} \ln(x)=\pi(x)\ln(x).\]
+This shows the middle two inequalities in~(\ref{compare}).
+
+Given $\vartheta(x)\leq \psi(x)\leq \pi(x)\ln(x)$, to show that the three quantities in~(\ref{inf}) and~(\ref{sup}) are equal it suffices to show that
+\begin{equation}\label{lim}
+\liminf_{x\to\infty}\frac{\vartheta(x)}{x}\geq \liminf_{x\to \infty}\frac{\pi(x)\ln(x)}{x},\qquad
+\limsup_{x\to\infty}\frac{\vartheta(x)}{x}\geq \limsup_{x\to \infty}\frac{\pi(x)\ln(x)}{x}
+%\liminf_{x\to \infty}\left.\frac{\vartheta(x)}{x}\right/ \frac{\pi(x)\ln(x)}{x}= 1.
+\end{equation}
+To compare $\vartheta(x)=\sum_{p\leq x}\ln(p)$ and $\pi(x)\ln(x)=\sum_{p\leq x}\ln(x)$, note that for $p$ ``close" to $x$, we have $\ln(p)$ ``close" to $\ln(x)$ and relatively large, while the terms for small $p$ will not contribute much to either sum. Thus we %divide the sum in $\vartheta$ into two parts, over $p\leq x^{1-\de}$ and $p>x^{1-\de}$ for $\delta\in (0,1)$ and estimate each separately. %Let $\delta\in (0,1)$; we have
+can just consider the terms with $p>x^{1-\delta}$, where $\delta\in (0,1)$.
+\begin{align*}
+\vartheta(x)&\geq%=\sum_{p\leq x^{1-\de}} \ln(p)+ 
+\sum_{x^{1-\de}<p\leq x} \ln(p)\\
+&\geq %\sum_{p\leq x^{1-\de}} \ln(x) +
+\sum_{x^{1-\de}<p\leq x} \ln(x^{1-\delta})\\
+&=\ln(x^{1-\de})(\pi(x)-\pi(x^{1-\de}))\\
+&=(1-\de)\ln(x)(\pi(x)-\pi(x^{1-\de}))\\
+&\geq(1-\de)\ln(x)(\pi(x)-x^{1-\de})
+\end{align*}
+Hence
+\[\frac{\vartheta(x)}{x}\geq\frac{(1-\delta)\pi(x)\ln(x)}{x}-\frac{(1-\de)\ln(x)}{x^{\de}}.\]
+Letting $\de\to 0$ gives~(\ref{lim}).
+\subsection{Upper Bound}
+We show that $\vartheta(x)\leq 2x\ln(x)$. Instead of thinking about bounding $\vartheta(x)$, it is easier to think about bounding $e^{\vartheta(x)}=\prod_{p\leq x} p$.
+\begin{lem}~\cite[3.?]{pftb}
+For any $x\in \N$,
+\begin{equation}
+\label{erdos}
+\prod_{p\leq x}p\leq 4^{x-1}\end{equation}
+\end{lem}
+\begin{proof}
+Use strong induction on $x$. For $x=1,2$ the statement holds. The induction step from odd $x>1$ to $x+1$ is obvious, since $x+1$ is not a prime.
+
+Consider the induction step from even $x$ to $x+1$. Let $x=2n$. 
+The key idea is that there cannot be ``too many" primes between $n+2$ and $2n+1$, because...
+\begin{enumerate}
+\item These primes all divide $\binom{2n+1}{n}=\frac{(2n+1)!}{n!(n+1)!}$.
+\item %Since $\binom{2k+1}{k}$ is the largest binomial coefficient with top equal to $2k+1$, and $\sum_{i=0}^{2k+1} \binom{2k+1}{i}=2^{2k+1}$,
+%\[\binom{2k+1}{k}\geq \frac{2^{2k+1}}{2k+2}\geq 4^k.\]
+$\binom{2n+1}{n}$ can easily be bounded from above:
+\[\binom{2n+1}{n}=\frac{1}{2}\pa{\binom{2n+1}{n}+\binom{2n+1}{n+1}}\leq \rc{2}\sum_{i=0}^n \binom{2n+1}{i}=4^n.\]
+\end{enumerate}
+Then
+\[\prod_{p\leq x+1} p=\prod_{p\leq n+1}p\prod_{n+2\leq p\leq 2n+1} p\leq 4^n\cdot \binom{2n+1}{n}\leq 4^{2n}.\]
+%We used the following facts:
+%\begin{enumerate}
+%\item $\binom{2k+1}{k}=\frac{(2k+1)!}{k!(k+1)!}$ contains every prime between $k+2$ and $2k+1$ as a factor.
+%\item Since $\binom{2k+1}{k}$ is the largest binomial coefficient with top equal to $2k+1$, and $\sum_{i=0}^{2k+1} \binom{2k+1}{i}=2^{2k+1}$,
+%\[\binom{2k+1}{k}\geq \frac{2^{2k+1}}{2k+2}\geq 4^k.\]
+%\end{enumerate}
+%Note that binomial coefficients $\binom{2k+1}{k}$ or $\binom{2k}{k}
+\end{proof}
+Taking the logarithm of both sides of~(\ref{erdos}) gives $\vartheta(x)\leq (x-1)\ln(4)\leq 2x\ln(x)$.
+\subsection{Lower Bound}
+We show that $\liminf_{x\to \infty}\frac{\pi(x)\ln(x)}{x}\geq \ln(2)$.
+First consider when $x$ is even, say equal to $2n$. Like in Section 3, we consider a binomial coefficient, this time $\binom{2n}{n}$. We show that each prime cannot appear as a factor in $\binom{2n}{n}$ ``too many" times, so it can be bounded above by $(2n)^{\pi(2n)}$. We can easily bound $\binom{2n}{n}$ below:
+\[\binom{2n}{n}\geq \frac{2^{2n}}{2n}\]
+since it is the largest among $2, \binom{2n}{1},\ldots, \binom{2n}{2n-1}$. Putting these two bounds together will give the desired bound for $\pi(2n)$.
+
+We need the following to count the highest prime powers dividing $\binom{2n}{n}$:
+\begin{lem}\label{fact}\cite[Lemma 6.3]{pftb}
+For every positive integer $n$, 
+\[v_p(n!)=\sum_{k=1}^{\fl{\frac{\ln(n)}{\ln(p)}}} \fl{\frac{n}{p^k}},\]
+where $v_p(m)$ denotes the largest integer $i$ such that $p^i|m$.
+\end{lem}
+\begin{proof}
+%To find the highest power of $p$ dividing $n!$, 
+%we note that 
+There are $\fl{\frac{n}{p^k}}$ multiples of $p^k$ less than or equal to $n$. In the sum $\sum_{k\geq 1} \fl{\frac{n}{p^k}}$, each multiple of $p^k$ less than $n$ is counted $k$ times, once each as a multiple of $p,p^2,\ldots, p^k$.
+%We count the number of times $p$ 
+\end{proof}
+From Lemma~\ref{fact}, we get
+\[
+v_p\pa{\binom{2n}{n}} =v_p\pa{\frac{(2n)!}{n!^2}}=v_p((2n)!)-2v_p(n!)
+=\sum_{k=1}^{\fl{\frac{\ln(2n)}{\ln(p)}}} \fl{\frac{2n}{p^k}}- 2\fl{\frac{n}{p^k}}
+\]
+Since each term of the sum is at most 1,
+\[
+v_p\pa{\binom{2n}{n}}\leq \fl{\frac{\ln(2n)}{\ln(p)}}\leq \frac{\ln(2n)}{\ln(p)}.
+\]
+Thus
+\[\frac{2^{2n}}{2n}\leq \binom{2n}{n}= \prod_{p\leq 2n} p^{v_p\pa{\binom{2n}{n}}}\leq (2n)^{\pi(2n)}.\]
+Taking logs and remembering $x=2n$ gives %the desired bound.
+$x\ln(2)-\ln(x)\leq \pi(x)\ln(x)$, which gives the desired bound. For odd $x$, the value of $\frac{\pi(x)\ln(x)}{x}$ can be compared to the value for $x-1$.
+
+Finally,~(\ref{inf}) and~(\ref{sup}), and the fact that all the prime-counting functions are positive for $x\geq 2$, show the existence of $c_1$ and $c_2$ in~(\ref{compare}).  
+This finishes the proof of Theorem~\ref{cheb}.
+%\begin{enumerate}
+%\item 
+%
+%\end{enumerate}•
+\subsection{The $n$th prime}
+We found an estimate for the number of primes less than or equal to a given number; we can use this bound to find an estimate for the $n$th prime number.
+\begin{thm}\
+Let $p_n$ denote the $n$th prime number. Then there exist constants $c_3,c_4$ such that 
+\[c_3n\ln(n)\leq p_n\leq c_4n\ln(n)\]
+for all $n\geq 2$.
+\end{thm}
+\begin{proof}
+From Theorem~\ref{cheb},
+\begin{equation}
+\label{blah}
+\frac{c_1p_n}{\ln(p_n)}\leq \pi(p_n)=n\leq \frac{c_2p_n}{\ln(p_n)}, 
+\end{equation}
+so
+\[\frac{n\ln(p_n)}{c_2}\leq p_n\leq \frac{n\ln(p_n)}{c_1}.\]
+The LHS is at least $c_3n\ln(n)$ by the trivial bound $n\leq p_n$. On the RHS, use %$p_n\leq \frac{n\ln(p_n)}{c_1}$ again
+the LHS of~(\ref{blah}) again to get $\ln(p_n)\leq \ln\pa{\frac{n\ln(p_n)}{c_1}}$, giving $\ln(p_n)\leq c\ln(n)$ for some $c$. 
+\end{proof}

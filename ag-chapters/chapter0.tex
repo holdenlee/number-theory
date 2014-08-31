@@ -1,0 +1,149 @@
+\chapter{Arithmetic of quadratic forms}
+UNDER CONSTRUCTION.
+
+See Section~\ref{quadratic-forms1} for the basics of quadratic forms. The reader will also need to be familiar with $p$-adic fields (in particular, Hensel's Lemma~\ref{hensel1}).
+Let $K$ be the field $\R$ or $\Q_p$.
+\section{Quadratic forms}
+\begin{thm}
+Let $K$ be a field with characteristic unequal to 2. Then every quadratic form is equivalent to a diagonal form.
+\end{thm}
+\begin{proof}
+We may assume $f$ is nondegenerate. We induct on the rank $n$.
+Take $v$ such that $f(v)\ne 0$. Now $K^n=\spn(v)\opl \spn(v)^{\perp}$.
+\end{proof}
+\section{The Hilbert symbol}
+We first study Hasse-Minkowski for 3 variables. We examine the solutions of $x^2-ay^2-bz^2=0$.
+\begin{df}
+Define the \textbf{Hilbert symbol} $(a,b)$ by
+\[
+(a,b)=\begin{cases}
+1,&\text{if }x^2-ay^2-bz^2=0 \text{ has a solution $(x,y,z)\ne (0,0,0)$ in $k^3$,}\\
+-1.&\text{else}
+\end{cases}
+\]
+\end{df}
+\begin{pr}
+The Hilbert symbol is a nondegenerate bilinear form on $K^{\times}/K^{\times2}$.
+\end{pr}
+\begin{proof}
+The bilinearity comes from the fact that the set of $b$ for which $x^2-ay^2-bz^2=0$ has a solution is a {\it norm group}, that is, the image under the norm map of a quadratic extension.
+
+If $a=c^2\in K^{\times2}$ then a solution is $(a,1,0)$ so $(a,b)=1$. %Similarly, if $a\in K^{\times 2}$ then $(a,b)=1$. 
+Otherwise, any solution must have $z$ nonzero. There is a solution to $x^2-ay^2-bz^2=0$ iff there is a solution to
+\[
+x^2-ay^2=b,
+\]
+i.e. iff
+\[
+\nm_{K(\sqrt{a})/K}(x+y\sqrt a)=b.
+\]
+Since $K(\sqrt{a})^{\times}$ is a group and $\nm_{K(\sqrt{a})/K}$ is a group homomorphism,
+\[
+\set{b}{x^2-ay^2=b\text{ for some }b\in K}
+\]
+is a subgroup of $K^{\times}$ containing $K^{\times 2}$.
+Finish up.
+\end{proof}
+\begin{df}
+A quadratic form \textbf{represents 0}, or is \textbf{isotropic}, if it represents 0 nontrivially.
+\end{df}
+\begin{lem}
+Any quadratic form over $\Q_p$ with $p\ne 2$, with rank at least 3, is isotropic.
+\end{lem}
+\begin{proof}
+This follows directly from Chevalley-Warning~\ref{chevalley-warning}. Alternatively, note that $aX^2$ attains $\fc{p+1}2$ values and $1-bY^2$ attains $\fc{p+1}2$ values, so there is $(X,Y)$ with $aX^2=1-bY^2$.
+\end{proof}
+%\begin{lem}[Hasse-Minkowski, $n=3$]
+%The quadratic form
+%\[
+%X^2+aY^2+bZ^2=0
+%\]
+%represents 0  in $\Q$ iff it represents 0 in each $\Q_p$ and $\R$.
+%\end{lem}
+%\begin{proof}
+%The forward direction is clear, so assume $X^2+aY^2+bZ^2$ represents 0 in $\Q_p$ and $\R$.
+%
+%We use strong induction on $|a|+|b|$. If one of $a,b$ is 0 we are reduced to the (easy) two variable case. We may further assume $a,b$ are squarefree integers, as square factors can be absorbed into $Y^2$ and $Z^2$.
+%
+%The base case is $|a|+|b|=2$. The quadratic forms $X^2\pm Y^2-Z^2$ and $X^2-Y^2+Z^2$ represent 0 in $\Q$ while $X^2+Y^2+Z^2$ does not represent 0 over $\R$.
+%
+%Now we perform the induction step. Without loss of generality assume $|b|\ge |a|$; in particular $|b|>1$. Write $b=\pm p_1\cdots p_k$ where the $p_j$ are distinct primes. Taking the equation modulo $p\mid b$, we get...
+%We claim that $a$ is a square modulo $p$.
+%\end{proof}
+%\section{Quadratic forms over $\Q_p$}
+%We define two invariants for quadratic forms over $\Q_p$.
+%\begin{df}
+%Let $Q$ be a quadratic module over $\Q_p$. 
+%Choose an orthogonal basis $\{e_1,\ldots, e_n\}$, and let $a_i=e_i\cdot e_i$. Then define
+%\begin{align*}
+%d(Q)&=a_1\cdots a_n\\
+%\ep(Q)&=\prod_{1\le i<j\le n} (a_i,a_j)
+%\end{align*}
+%as an element of $\Q_p$.
+%\end{df}
+%\begin{thm}
+%Let $f$ be a quadratic form of rank $n$; let $d=d(f)$ and $\ep=\ep(f)$. Then $f$ represents 0 iff one of the following holds:
+%\begin{enumerate}
+%\item
+%$n=2$ and $d=-1$.
+%\item
+%$n=3$ and $(-1,-d)=\ep$.
+%\item
+%$n=4$ and either $d\ne 1$ or $d=1$ and $\ep=(-1,-1)$.
+%\item
+%$n\ge 5$.
+%\end{enumerate}
+%$f$ represents $a$ iff one of the following holds:
+%\begin{enumerate}
+%\item
+%$n=1$ and $a=d$.
+%\item
+%$n=2$ and $(a,-d)=\ep$.
+%\item
+%$n=3$ and either $a\ne -d$ or $a=-d$ and $(-1,-d)=\ep$.
+%\item $n\ge 4$.
+%\end{enumerate}
+%\end{thm}
+%\begin{thm}
+%Two quadratic forms over $\Q_p$ are equivalent iff they have the same rank, discriminant, and invariant $\ep$.
+%\end{thm}
+\section{Quadratic forms over $\Q$, Hasse-Minkowski theorem}
+\begin{thm}[Hasse-Minkowski]
+$f$ represents 0 iff $f$ represents 0 in $\Q_p$ for all $p$ and in $\R$.
+\end{thm}
+In other words, $f$ has a global zero iff it has a local zero everywhere.
+\begin{cor}
+$f$ represents $a\in \Q^{\times}$ iff it represents $a$ locally.
+\end{cor}
+\begin{cor}
+A quadratic form of rank at least 5 represents 0 iff it is indefinite.
+\end{cor}
+\begin{thm}
+Two quadratic forms over $\Q$ are equivalent iff they are equivalent over each $\Q_p$.
+\end{thm}
+\begin{pr}
+If $a,b,c\in \Z$ are nonzero and $p$ is a prime with $p\nmid 2abc$, then
+\[
+ax^2+by^2+cz^2
+\]
+has a nontrivial solution over $\Q$.
+\end{pr}
+\subsection{Representing integers}
+\begin{thm}[Gauss]
+A positive integer is the sum of 3 squares iff it is not in the form
+\[
+4^n(8k+7)
+\]
+for nonnegative integers $n,k$.
+\end{thm}
+\begin{thm}[Davenport-Cassels]
+
+\end{thm}
+\begin{thm}[Lagrange]
+Every positive integer is the sum of 4 squares.
+\end{thm}
+\begin{thm}[Gauss]
+Every positive integer is the sum of 3 triangular numbers.
+\end{thm}
+\section{Quadratic forms over $\Z_p$ and $\Z$}
+The methods of the previous section have limited scope when answering questions about solutions in integers. Davenport-Cassels only works when the number of variables and coefficients are small.

@@ -1,0 +1,207 @@
+\chapter{Units in number fields}\llabel{units-in-nf}
+\index{units in number fields}
+\section{Units}
+Any finitely generated abelian group is isomorphic to $A_{\text{tors}}\opl \Z^t$ where $A_{\text{tors}}$ consists of all torsion elements, i.e. elements of finite order. The number $t$ is called the \textbf{rank} of $A$.
+
+The main theorem of this chapter is the following.
+\index{Dirichlet's unit theorem}
+\begin{thm}[Dirichlet's unit theorem]\llabel{dut}
+Let $K$ be a number field with $r$ real embeddings and $2s$ nonreal complex embeddings. Then
+the group of units in $K$ is finitely generated with rank equal to $r+s-1$.
+\end{thm}
+The idea of the proof is as follows.
+\begin{enumerate}
+\item Following the idea of the proof that the class number is finite (Section~\ref{class-group}.\ref{finite-class}), we embed the set of units as a lattice in $\R^r\times \R^s$. Since we want to send a group (under multiplication) to a lattice (under addition), we take logarithms of the norm to define our embedding. In actuality, the homomorphism $L$ is not injective, but the kernel will be finite, which is good enough. (See  Proposition~\ref{luk-in-h}.)
+\item Construct independent units from elements generating the same ideal. We do this by finding $\al,\ga$ generating the same principal ideal and taking $\al\ga^{-1}$.
+Consider a fixed large symmetric convex compact set $T$ of $\R^{r}\times \C^s$, which will contain elements $\si(\al)$ by Minkowski. For $\al$ such that $L(\al)\in T$, $(\al)$ is one of a finite number of principal ideals $(\ga_k)$. Then $\al\ga_k^{-1}$ is a unit.
+
+However, since we want independent units, we look not for points in the form $L(\al)$ but rather of the form $\mathbf xL(\al)$ where $x$ has norm 1. Think of this as ``rotating" or ``twisting" the unit that we get.
+\end{enumerate}
+
+First, a basic criterion for being a unit.
+\begin{pr}
+Let $K/\Q$ be a finite extension. 
+An element $\al\in K$ is a unit if and only if $\nm(\al)=\pm 1$.
+\end{pr}
+\begin{proof}
+Suppose $\al$ is a unit. Then $\al^{-1}\in K$ and
+\[
+\nm(\al)\nm(\al^{-1})=\nm(\al\al^{-1})%=\nm(1)
+=1
+\]
+so $\nm(\al)=\pm1$.
+
+Conversely, suppose $\nm(\al)=\pm 1$. Then by Theorem~\ref{ntr-fext}, letting $\si_1=I,\ldots,\si_n$ be the distinct embeddings of $K$ to the Galois closure, we have
+\[
+\al\cdot \prod_{k=2}^n \si_k(\al)=\nm_{L/K}(\al)=\pm1.
+\]
+Hence $\al^{-1}=\pm \prod_{k=2}^n \si_k(\al)\in \sO_K$. 
+\end{proof}
+\section{Dirichlet's unit theorem}
+We now prove Dirichlet's unit theorem.
+\begin{lem}\llabel{bound-degree-norm}
+There are a finite number of algebraic integers $\al$ such that
+\begin{align*}
+[\Q(\al):\Q]&\le m\\
+|\al'|&\le M \text{ for all conjugates }\al'.
+\end{align*}
+\end{lem}
+\begin{proof}
+The second condition means that the coefficients of the minimal polynomial $f$ are bounded. Since the degree of $f$ is at most $m$, there are a finite number of possibilities for the $f$ and hence $\al$.\footnote{See Chapter~\ref{height-functions} for...}
+\end{proof}
+
+Let $\{\si_1,\ldots, \si_r\}$ be the real embeddings and $\{\si_{r+1},\bar{\si}_{r+1},\ldots, \si_{r+s},\bar{\si}_{r+s}\}$ be the complex embeddings of $K$. Since
+\[
+\nm(\al)=|\si_1(\al)|\cdots |\si_r(\al)||\si_{r+1}(\al)|^2\cdots |\si_{r+s}(\al)|^2,
+\]
+we define the homomorphism
+\begin{align*}
+&L:K^{\times}\to \R^{r+s}\\
+&L(\al)=(\ln |\si_1(\al)|,\ldots, \ln|\si_r(\al)|,2\ln |\si_{r+1}(\al)|\cdots ,2\ln |\si_{r+s}(\al)|).
+\end{align*}
+This is the composition of our previous embedding $\si$ with $f$:
+\begin{align*}
+&\si:K \to \R^r\times \C^s&\si(\al)&=(\si_1(\al_1), \ldots, \si_r(\al_r))\\
+&f:\R^r\times \R^s\to \R^{r+s}&f(x_1,\ldots, x_r,z_{r+1},\ldots, z_{r+s})&=(\ln |x_1|,\ldots, \ln|x_r|,2\ln|z_{r+1}|,\ldots, 2\ln|z_{r+s}|).
+\end{align*}
+
+\begin{pr}\llabel{luk-in-h}
+The image $L(U_K)$ is a lattice contained in the hyperplane
+\[
+H:=\set{(x_1,\ldots, x_{r+s})}{x_1+\cdots% +x_r+x_{r+1}+\cdots 
++x_{r+s}=0}.
+\]
+Moreover, $L$ has finite kernel.
+\end{pr}
+\begin{proof}
+If $L(u)=(x_1,\ldots, x_{r+s})\in U_K$ then 
+\begin{align*}
+x_1+\cdots +x_{r+s}&=\ln |\si_1(\al)|+\cdots +\ln|\si_r(\al)|+2\ln|\si_{r+1}(\al)|+\cdots +2\ln|\si_{r+s}(\al)|\\
+&=\ln|\nm(\al)|=0.
+\end{align*}
+
+To show $L(U_K)$ is a lattice it suffices to show it is discrete. To this end, we show the base elements 
+\[B(r)=\set{ (x_1,\ldots, x_{r+s})}{|x_j|\le C}\]
+centered at the origin contain finitely many points of $L(U_K)$. Indeed, if $\si(\al)\in B(r)$, then $|\si_k(\al)|<C$ for every embedding $\si_k$. By Proposition~\ref{bound-degree-norm}, there are a finite number of possibilities for $\al$.
+
+If $\al\in \ker L$, then $|\si_k(\al)|=1$ for all $k$. Again by Proposition~\ref{bound-degree-norm} there are a finite number of possibilities for $\al$.
+\end{proof}
+Since $U_K$ is abelian, we now know
+\[
+U_K\cong \underbrace{\ker(L)}_{U_K^{\text{tors}}}\oplus \underbrace{L(U_K)}_{\text{lattice of }H}.
+\]
+It remains to show the following.
+\begin{lem}
+$L(U_K)$ is a full lattice in $H$. Therefore it has rank $r+s-1$.
+\end{lem}
+\begin{proof}
+Let $\textbf x\in \R^r\times \C^s$. By Proposition~\ref{ideal-lattice}, the volume of the fundamental parallelopiped of $\si(\ma)$ is $2^{-s} \cdot \N\ma \cdot |\De_K|^{\rc2}$. Note that multiplication by $\textbf x$ %is the linear transformation represented by $\pa{\begin{smallmatrix}
+%x_1&\cdots &0\\
+%\vdots &\ddots &\vdots \\
+%0&\cdots &x_n
+%\end{smallmatrix}}$
+multiplies the norm by $\nm(x)$ (more precise here?)
+so the volume of the fundamental parallelopiped of $\si(\ma)$ is %$\det\pa{\begin{smallmatrix}
+%x_1&\cdots &0\\
+%\vdots &\ddots &\vdots \\
+%0&\cdots &x_n
+%\end{smallmatrix}}\cdot 2^{-s} \cdot \N\ma \cdot |\De_K|^{\rc2}=
+$\nm(\mathbf x)2^{-s}\N\ma\cdot |\De_K|^{\rc 2}$.
+
+Now suppose $\mathbf x$ is any element such that $\nm(\mathbf x)=1$. Let $V=2^{-s}\N\ma\cdot |\De_K|^{\rc 2}$. 
+Let $T$ be any compact convex symmetric set with volume at least $2^{r+s}V$. 
+We note the following.
+\begin{enumerate}
+\item By Minkowski's Theorem, there is point of $T$ in the lattice $\mathbf x\cdot \si(\sO_K)$. 
+\item
+Since $T$ is bounded, all elements of $T$ have norm bounded by a constant $C$. If $\si(\al)\in T$, then $\al$ has norm bounded by $C$. By Lemma~\ref{class-group}.\ref{finite-bounded-norm} there are a finite number of principal ideals with norm bounded by $C$, say $(\ga_1),\ldots, (\ga_m)$. Then if $\si(\al)\in T$, we have $(\al)=(\ga_k)$, i.e. $\al=u\ga_k$ for some unit $u$, and some $k$.
+\end{enumerate}
+In conclusion, for each $\mathbf x$ we find $\al$ such that
+\[
+T\ni \mathbf x \si(\al)=\mathbf x\si(u\ga_k)\text{ for some $k$},
+\] 
+i.e.
+\begin{equation}\llabel{x-sigma-u}
+\mathbf x \si(u)\in \bigcup_{k=1}^m \si(\ga_k^{-1}) T.
+\end{equation}
+Since $T$ is bounded, so is $\bigcup_{k=1}^m \si(\ga_k^{-1})$. There exists $C'$ so that every coordinate of $\mathbf{x}\si(u)$ is less than $C'$:
+\begin{equation}\llabel{x-sigma-u2}
+(\mathbf{x}\si(u))_k<C'.
+\end{equation}
+The idea is that this places a large constraint on the possibilities for $\ep$, so as we vary $\mathbf x$ between ``extreme" values, we will have to get linearly independent $u$.
+
+Take
+\[
+\mathbf x_k=\Big(C',\ldots, C', \underbrace{\rc{C'^{r+s-1}}}_{k},C',\ldots, C'\Big)
+\]
+Then letting $u_k$ be such that~(\ref{x-sigma-u}) holds for $x_k,u_k$, we get by~(\ref{x-sigma-u2}) that, componentwise,
+\[
+\si(u_k)< (1,\ldots,1, C'^{r+s},1, \ldots, 1), 
+\]
+i.e.
+\[
+L(u_k)=f(\si(u_k))<(0,\ldots, 0, \ln(C'^{r+s}),0,\ldots, 0).
+\]
+Note the following.
+%The key fact is that looking at the first $r+s-1$ coordinates,
+\begin{enumerate}
+\item Every entry of $L(u_k)$ is negative except for the $k$th one, which must be positive because the entries sum up to 0.
+\item The sum of entries of $L(u_k)$, omitting the last term, is positive. 
+\end{enumerate}
+The following lemma will show that $L(u_1),\ldots, L(u_{r+s-1})$ are linearly independent. It will follow that $u_1,\ldots, u_{r+s-1}$ generate a free abelian group. This means $\rank(U_K)\ge r+s-1$; we have equality by Proposition~\ref{luk-in-h} since $\dim H=r+s-1$.
+\begin{lem}
+%Suppose that $v_i=(v_{i,1},\ldots, v_{i,n})$ are vectors in $\R^n$ such that
+Suppose that $A$ is a $n\times n$ matrix such that
+\begin{enumerate}
+\item $a_{i,j}<0$ for $i\ne j$ and $a_{i,i}>0$.
+\item $\sum_{j=1}^n a_{i,j}>0$.
+\end{enumerate}
+Then %$v_1,\ldots, v_n$ are linearly independent.
+$A$ is invertible.
+\end{lem}
+\begin{proof}
+Suppose $v=\pa{\begin{smallmatrix}{v_1}\\{\vdots }\\{v_n}\end{smallmatrix}}$ is a nonzero vector.
+%$A\pa{\begin{smallmatrix}{v_1}{\vdots }{v_n}}=0$ for some nonzero vector. 
+Suppose $i$ is such that $|a_i|$ is greatest. Then looking at the $i$th component gives $\sum_{j=1}^n a_{ij}v_j=0$. Then
+\[
+\sum_{j=1}^n a_{ij}v_j>a_{ij}v_i+\sum_{j\ne i} a_{ij}v_i>0,
+\]
+so $Av\ne 0$. Thus $A$ is invertible.
+\end{proof}
+\end{proof}
+This finishes the proof of Dirichlet's Unit Theorem.
+\section{$S$-units}
+\begin{df}
+Let $S$ be a finite set of prime ideals of $K$. The \textbf{ring of $S$-integers} is
+\[
+\sO_K(S)=\bigcap_{\mfp\nin S}(\sO_K)_{\mfp}=\set{\al \in K}{\ord_{\mfp}(\al)\ge 0 \text{ for all }\mfp\nin S}.
+\]
+I.e. we allow dividing by elements whose ``only prime factors" are in $S$. 
+The group of $S$-units is the group of units in $\sO_K(S)$:
+\[
+U(S)=\sO_K(S)^{\times} =\{\al\in K\mid \ord_{\mfp}(\al)=0\text{ for all }\mfp\nin S\}.
+\]
+There are more units in $U(S)$ than in $U_K$; the following generalization of Dirichlet's theorem says that we get an ``extra" unit for every prime in $S$.
+\end{df}
+\index{Dirichlet's S-unit theorem}
+\begin{thm}[Dirichlet's S-unit theorem]\llabel{dsut}
+The group of $S$-units is finitely generated with rank $r+s+|S| -1$.
+\end{thm}
+\begin{proof}
+Let $S=\{\mfp_1,\ldots, \mfp_t\}$. 
+Consider the maps
+\[
+U_K\hra U(S)\xra{\ph} \Z^m
+\]
+where 
+\[
+\ph(x)=(\ord_{\mfp_1}(x),\ldots, \ord_{\mfp_m}(x)).
+\]
+Its kernel is $U_K$, as the elements of $U_K$ are exactly those $x$ with order 0 for every prime $\mfp$, and by definition $\ord_{\mfp}(x)=0$ for $x\in U(S)$ and $\mfp$ outside of $S$. Let $h$ be the class number of $K$. Then $\mfp_k^h=(\al_k)$ for some $\al_k$. We have
+\[
+\ph(x)=(0,\ldots, 0,\underbrace{h}_k,0\ldots, 0).
+\]
+Hence $\ph(U(S))$ is a full lattice in $\Z^m$. Since $U_K$ has rank $r+s-1$ by Dirichlet's Unit Theorem~(\ref{dut}), $U(S)$ has rank $r+s-1+m$.
+\end{proof}
+\section{Examples and algorithms}
+\section{Regulator}

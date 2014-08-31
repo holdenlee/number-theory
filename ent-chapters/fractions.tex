@@ -1,0 +1,64 @@
+\chapter{Continued fractions}
+\index{continued fractions}
+\section{Farey fractions}
+\section{Continued fractions}
+\section{Infinite continued fractions}
+To evaluate a purely periodic continued fraction $\an{\ol{a_0,\ldots, a_n}}$, we need to solve
+\[
+x=\an{a_0,\ldots, a_n,x}.
+\]
+We know we can write the right-hand side as $\fc{ax+b}{cx+d}$ for some integers (in fact, nonnegative integers) $a,b,c,d$. What are those integers? We will calculate a recursive formula for them.
+
+Writing $f_i(x)=a_i+\rc{x}$, we would like to calculate $f_0(f_1(\cdots f_n(x)\cdots))$. Note we are repeatedly applying rational functions of the form $f(x)=\fc{ax+b}{cx+d}$. There is an easy way to repeatly apply these types of functions, using matrices.
+
+Note that
+\[
+\matt abcd \coltwo xy=\fc{ax+by}{cx+dy}=\fc{a\pf xy+b}{c\pf xy+d}
+\]
+so
+\begin{equation}
+\matt abcd \coltwo xy=\coltwo{x'}{y'} \implies f\pf xy =\fc{x'}{y'}.
+\end{equation}
+This immediately gives us the following.
+\begin{pr}
+We have 
+\[
+\an{a_0,\ldots, a_n,x}=\fc{x'}{y'} \text{ where } \matt{a_n}{1}{1}{0}\cdots \matt{a_0}{1}{1}{0}\coltwo x1=\coltwo{x'}{y'}.
+\]
+More explicitly,
+\[
+\an{a_0,\ldots, a_n,x}=\fc{h_nx+h_{n-1}}{k_nx+k_{n-1}}
+\]
+where the $h_n,k_n$ are defined by the recurrence
+\begin{align*}
+h_{-2}&=0& h_{-1}&=1&h_i&=a_ih_{i-1}+h_{i-2}\\
+k_{-2}&=0& k_{-1}&=1&k_i&=a_ik_{i-1}+k_{i-2}.
+\end{align*}
+\end{pr}
+\begin{proof}
+(Note that the explicit formula can also be proved directly, using induction. To make the induction step, note $\an{a_0,\ldots, a_n,x}=\an{a_0,\ldots, a_n+\rc x}$.
+\end{proof}
+\section{Rational approximations}
+\section{Problems}
+Problems 1--7 are taken from the ARML Power Round 2007.
+\begin{enumerate}
+\item
+\begin{enumerate}
+\item
+Let $K$ be a positive integer greater than 1. Prove that the number of purely periodic numbers with period 1 that are less than $K$ is $K-1$.
+\item
+Prove that there are infinitely many purely periodic numbers with period 2 that are less than 2.
+\end{enumerate}
+\item Is $3-\sqrt 6$ purely periodic? What about $2+\sqrt 6$? If so, give a representation; if not, explain why not.
+\item If $x=\an{\ol{a,b}}$ and $y=\an{\ol{b,a}}$, what is $\fc{x}{y}$?
+\item Assume that $x=\an{\ol{a_0,\ldots, a_{k-1}}}$ and $y=\an{\ol{a_{k-1},\ldots, a_0}}$ are two purely periodic numbers of period $k$. Show that if $x$ satisfies $Ax^2+Bx+C=0$, then $y$ satisfies $Cy^2-By+A=0$.
+\item If $x$ is purely periodic, can $\rc x$ be purely periodic? If yes, give an example; if not, give a proof.
+\item Suppose $D$ and $E$ are positive integers. Let $x=D+\sqrt E$ and $\ol x=D-\sqrt E$. Prove that if $x$ is purely periodic, then $-1<\ol x<0$. Is the converse true?
+\item Suppose that $n$ is a positive integer that is not a perfect square.
+\begin{enumerate}
+\item
+Show that there is at most one integer $f(n)$ so that $f(n)+\sqrt n$ is purely periodic. Is there exactly one? What is the function $f(n)$? 
+\item For what values of $n$ is $1+\sqrt n$ purely periodic? Find a purely periodic representation of $1+\sqrt n$ for each of these values.
+\end{enumerate}
+\item Two players $A$ and $B$ alternately take chips from two piles with $a$ and $b$ chips, respectively. A move consists in taking a multiple of the other pile from a pile. The winner is the one who takes the last chip in one of the piles. Find the conditions on $a$ and $b$ in which the first player has a winning strategy. Describe the strategy? (This is 12.34 in~\cite{engel}.)
+\end{enumerate}

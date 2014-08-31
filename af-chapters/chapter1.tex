@@ -1,0 +1,1154 @@
+\chapter{Theta and elliptic functions}
+\section{Theta functions}
+\begin{df}
+A \textbf{theta function} of degree $n$ on $[\om_1,\om_2]$ 
+with parameter $b\ne0$ is an entire function $f(z)$ such that
+\[
+f(z+\om_1)=f(z),\quad f(z+\om_2)=be^{-\frac{2\pi inz}{\om_1}}f(z).
+\]
+\end{df}
+We aim to classify all such functions. For simplicity assume $\om_1=1$ and $\om_2=\tau$, with $\Im \tau>0$. (Rescale.)
+\begin{pr}
+The space of theta functions of degree $n$ and parameter $b$ forms a $n$-dimensional space. They are in the form
+\[
+\sum_{k=0}^{\iy} a_k q^k
+\]
+where $q=e^{2\pi iz}$, $a_0,\ldots, a_{n-1}$ can be freely chosen, and the coefficients satisfy the recursive relation
+\[
+a_{m+pn}=b^{-p}q_0^{mp+\frac{np(p-1)}2}a_m,\quad q_0=e^{-2\pi i \tau}.
+\]
+\fixme{DARN there are so many different definitions of the theta function.} 
+In particular, the following is a theta function of degree $1$ and parameter $b$:
+\[
+\theta(z)=\sum_{k\in \Z} (-1)^k q^{\frac{k(k-1)}2}e^{2\pi i kz}=C(q_0)\prod_{n=0}^{\iy} (1-q_0^n q)(1-q_0^{n+1}q^{-1}). 
+\]
+\end{pr}
+We have the following analogue of the fundamental theorem of algebra.
+\begin{thm}
+Any theta function of degree $n$ is in the form
+\[
+f(z)=K\theta(z-z_1)\cdots \theta(z-z_n)q^r
+\]
+for some $z_1,\ldots, z_n\in \C$ and $r\in \Z$.
+\end{thm}
+\subsection{Transformation law}
+
+
+\section{Elliptic functions}
+\begin{df}
+An \textbf{elliptic function} on the lattice $\La$ is a meromorphic function $f(z)$ on $\C$ such that
+\[
+f(z+\om)=f(z)\quad \text{for all }\om \in \La, z\in \C.
+\]
+%We call $\La$ the period.
+Denote the space of all such functions by $\C(\La)$.
+\end{df}
+
+There are nice relationships involving the zeroes and poles of elliptic functions.
+\begin{thm}Let $f$ be an elliptic function on $\La$.
+\begin{enumerate}
+\item $\sum_{w\in \C/\La} \Res_w(f)=0$.
+\item $\sum_{w\in \C/\La} \ord_w(f)=0$, i.e. in a fundamental parallelogram there are as many zeros as poles, counting multiplicities.
+\item $\sum_{w\in \C/\La} \ord_w(f)w\in \La$.
+\end{enumerate}
+\begin{proof}
+\begin{enumerate}
+\item
+\item 
+\item Label the edges of the fundamental parallelogram as follows.
+\[
+\xymatrix{
+& \al+\omega_2 \ar[rr]^{C_2} & & \al+\omega_1+\omega_2\ar[ld]^{C_3} \\
+\al\ar[ur]^{C_1} & &\al+\omega_1 \ar[ll]^{C_4}&
+}
+\]
+We calculate $\int_{\partial P} \frac{zf'(z)}{f(z)}\,dz$ in two ways.
+
+\textbf{Way 1:} 
+\[
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=\ba{
+\int_{C_1} \frac{zf'(z)}{f(z)}\,dz
++\int_{C_3} \frac{zf'(z)}{f(z)}\,dz
+}
++\ba{
+\int_{C_2} \frac{zf'(z)}{f(z)}\,dz
++\int_{C_4} \frac{zf'(z)}{f(z)}\,dz
+}.
+\]
+Noting that $C_3$ is just $C_1$ shifted by $\omega_1$ and reversed, and that $C_2$ is just $C_4$ shifted by $\omega_2$ and reversed, this equals
+\[
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+\int_{C_1} \ba{\frac{zf'(z)}{f(z)}
+-\frac{(z+\omega_1)f'(z+\omega_1)}{f(z+\omega_1 )}
+}\,dz
++
+\int_{C_4} \ba{\frac{zf'(z)}{f(z)}- \frac{(z+\omega_2)f'(z+\omega_2)}{f(z+\omega_2)}
+}\,dz.
+\]
+Since $f$ is elliptic, $f(z)=f(z+\omega_1)=f(z+\omega_2)$, giving
+\[
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+-\omega_1\int_{C_1} \frac{f'(z)}{f(z)} \,dz-\omega_2\int_{C_4} \frac{f'(z)}{f(z)}\,dz.
+\]
+Now $\ln(f(z))$ can be defined in a neighborhood around $C_1$ and $C_4$, since $f$ has no poles or zeros on $\partial P$. Since $f(\al)=f(\al+\omega_1)=f(\al+\omega_2)$, we have $\ln(f(\al+\omega_1))-\ln(f(\al))=2\pi i c_1$ and $\ln(f(\al))-\ln(f(\al+\omega_2))=2\pi i c_2$ for some integers $c_1$ and $c_2$. But these equal the above integrals by definition of $\ln f(z)$, so
+\begin{equation}\label{p1-1-1}
+\int_{\partial P} \frac{zf'(z)}{f(z)} \,dz=
+-2\pi i(\omega_1 c_1+\omega_2 c_2).
+\end{equation}
+
+\textbf{Way 2:}
+Note $\Res_a \frac{f'(z)}{f(z)}=\ord_a f$ so $\Res_a \frac{zf'(z)}{f(z)}=a \ord_a f$. Letting $a_k$ be the poles and zeros of $f$ in $P$, we get by Cauchy's Theorem that
+\begin{equation}\label{p1-1-2}
+\int_{\partial P} \frac{zf'(z)}{f(z)}=2\pi i\sum_{k} \Res_{a_k} \frac{f'(z)}{f(z)}=2\pi i \sum_{k}m_k a_k.
+\end{equation}
+Equating~(\ref{p1-1-1}) and~(\ref{p1-1-2}) give
+\[
+\sum_{k}m_ka_k=-\omega_1c_1-\omega_2c_2\equiv 0\pmod{\La}.
+\]
+\end{enumerate}
+\end{proof}
+\end{thm}
+%\begin
+\begin{df}
+The \textbf{order} of an elliptic function is the number of poles in a fundamental parallelogram.
+\end{df}
+It turns out that elliptic functions can be expressed as quotients of theta functions.
+\begin{thm}
+\[
+f(z)=K\frac{\theta(z-a_1)\cdots \theta(z-a_k)}{\theta(z-b_1)\cdots \theta(z-b_k)}, \quad \sum_{i=1}^k a_i=\sum_{i=1}^k b_i.
+\]
+\end{thm}
+\section{Weierstrass $\wp$-function}
+Our basic example of an elliptic function is the following.
+\begin{df}
+Define the Weierstrass $\wp$-function for the lattice $\La$ by
+\[
+\wp(z)=\rc{z^2}+\sum_{\la\in \La\bs\{0\}}\ba{
+\rc{(z-\la)^2}-\rc{\la^2}
+}.
+\]
+\end{df}
+\begin{pr}
+The series defining $\wp$ converges absolutely and locally uniformly on $\C-\{\La\}$. 
+$\wp$ is an even elliptic function with period $\La$, analytic except for a double pole at each point of $\La$, 
+\end{pr}
+In fact, we will see that it is the building block for all elliptic functions.
+\begin{proof}
+
+\end{proof}
+\begin{thm}
+Every even elliptic function can be written as a polynomial in $\wp$. 
+Every elliptic function can be written as a polynomial in $\wp$ and $\wp'$. 
+\end{thm}
+\begin{thm}
+\[
+\wp(z)-\wp(a)=\frac{\theta(z+a)\theta(z-a)}{\theta(z)^2} \cdot \frac{\theta'(0)^2}{\theta(a)\theta(-a)}.
+\]
+\end{thm}
+\begin{thm}[Weierstrass differential equation]
+\[
+\wp'(z)^2=4(\wp(z)-e_1)(\wp(z)-e_2)(\wp(z)-e_3)
+=4\wp(z)^3-\underbrace{60G_4}_{g_2}\wp(z)- \underbrace{140G_6}_{g_3}(z)
+\]
+\end{thm}
+This says that for every $z$, the point $(\wp(z),\wp'(z))$ lies on the elliptic curve $y^2=4x^3-60G_4-140G_6$. Together with surjectivity and the Uniformization Theorem~\ref{uniformization} this implies that all elliptic curves can be parameterized in this way. (NONZERO DISC.)
+\begin{thm}[Unifomization theorem]\llabel{uniformization}
+Let $A,B\in \C$ satisfy $A^3-27B^2\ne 0$. Then there exists a unique lattice $\La\sub \C$ such that $g_2(\La)=A$ and $g_3(\La)=B$.
+\end{thm}
+%%%%%%%%%
+\subsection{$\wp$ and lattices}
+\begin{thm}
+%cox, 10.14
+Let $L$ be the lattice corresponding to $\wp(z)$. For $\al\in \C\bs \Z$, the following are equivalent.
+\begin{enumerate}
+\item $\wp(\al z)$ is  rational function in $\wp(z)$.
+\item $\al L\subeq L$.
+\item There is an order $\sO$ in an imaginary quadratic field $K$ such that $\al\in \sO$ and $L$ is homothetic to a proper $\sO$-ideal.
+\end{enumerate}
+Then 
+\[
+\wp(\al z)=\frac{A(\wp(z))}{B(\wp(z))}
+\]
+for relatively prime polynomials $A$ and $B$ such that 
+\[
+\deg(A)=\deg(B+1)=[L:\al L]=\N\al.
+\]
+\end{thm}
+\begin{proof}
+$(1)\implies (2)$: 
+Suppose that $\wp(\al z)=\frac{A(\wp(z))}{B(\wp(z))}$ with $A$ and $B$ relatively prime. Then
+\begin{equation}
+B(\wp(z))\wp(\al z)=A(\wp(z)).
+\end{equation}
+%Note that each linear factor $\wp(z)+r$ of $A(\wp(z))$ and $B(\wp(z))$ has the same poles with the same orders as $\wp(z)$. 
+For any $\om\in L$, %both 
+$\wp(\om)$ %and $\wp(\al z)$ 
+has a pole of order 2, and each linear factor $\wp(z)+r$ of $A(\wp(z))$ and $B(\wp(z))$ has a pole of order 2. 
+In particular, for $\om=0$, we get that the order is
+\[
+2\deg(B)+2=2\deg(A)
+\]
+showing that $\deg(A)=\deg(B)+1$. Now take any $\om\in L$. Counting the order of $\om$ on both sides, we find that $\wp(\al z)$ has a pole of order 2 at $\om$. Thus $\al \om\in L$. This shows $\al L\subeq L$.
+
+$(2)\implies (1)$:
+For any $w\in L$, since $\al L\subeq L$we have
+\[
+\wp(\al (z+w))=\wp(\al z+\underbrace{\al w}_{\in L})=\wp(\al z).
+\] 
+Hence $\wp(z)$ is elliptic with $L$ as a lattice of periods. Since it is even, by (?) it is a rational function in $\wp$.
+
+$(2)\implies (3)$: %Assume $\al$ acts on $L=\an{1,\tau}$ by $\smatt abcd$. Then
+By a homothety we may suppose $L=\an{1,\tau}$. Since $L$ has rank 2 as a $\Z$-module, $\tau$ must be of degree 2 over $\Q$. Now take
+\[
+\sO=\set{\be \in \Q(\tau)}{\be L\subeq L},
+\]  
+i.e. the ``codifferent."
+
+$(3)\implies (2)$: Easy.
+
+Now, supposing (1) is true, rearrange $\wp(\al z)=\frac{A(\wp(z))}{B(\wp(z))}$ to get
+\begin{equation}\label{awpb}
+A(x)=\wp(\al z) B(x)=0.
+\end{equation}
+Fix $z$ so that $2z\nin \rc{\al}L$ and such that $A(x)-\wp(\al z)B(x)$ has distinct zeros. (Claim: Given polynomials $A$, $B$, there are only a finite nmber of values of $c$ so that $A-cB$ has multiple roots.) 
+Let $\{w_i\}$ be a set of coset representatives for $L$ in $\rc{\al}L$. We claim that the roots of~(\ref{awpb}) are exactly $z+w_i$.
+
+We have
+\[
+A(\wp(z+w_i))-\wp(\al z)B(\wp(z+w_i))=A(\wp(z+w_i))-\wp(\al (z+w_i))B(\wp(z+w_i))=0
+\]
+by blah, so $\wp(z+w_i)$ are roots of~(\ref{awpb}).
+
+Now if $\wp(z+w_i)=\wp(z+w_j)$ then by BLAH, $(z+w_i)=\pm(z+w_j)\pmod{L}$, giving either $2z\equiv w_i-w_j\in \rc{\al}L$ and $2z\in \rc{\al}$, or $w_i\equiv w_j\pmod L$. The first is impossible by assumption on $z$, so $i=j$. This shows the roots are distinct. 
+
+Finally, given any root of~(\ref{awpb}), by surjectivity of $\wp$ we can write it in the form $\wp(y)$. We have
+\[
+\wp(\al y)=\frac{A(\wp(y))}{B(\wp(y))}=\wp(\al z),
+\]
+where the first equality is by definition of $A$ and $B$ and the second is because $\wp(y)$ is a root of~(\ref{awpb}). Then by BLAH, $\al y\pm \al z\equiv 0\pmod{L}$. Since $\wp$ is even, we may replace $y$ by $-y$ as necessary, to get $\al(y-z)\equiv 0\pmod{\rc{\al} L}$. Thus  $y\in z+\rc{\al}L$ and $\wp(y)=\wp(z+w_i)$ for some $i$, as needed.
+
+Since~(\ref{awpb}) has $[L:\rc{\al}L]=[\al L:L]$ roots,~(\ref{awpb}) and hence $A$ has degree $[\al L:L]$.
+\end{proof}
+
+Note the equivalence $(2)\iff (3)$ (which incidentally has nothing to do with elliptic functions) gives that a lattice is a proper fractional ideal of $\sO$ iff it has $\sO$ as its ring of complex multiplication. Nonzero fractional ideals are homothetic iff they determine the same element in the ideal class group. Hence there is a correspondence between IDEAL CLASS GRP and homothety classes of lattices with $\sO$ as full ring of complex multiplication.
+%%%%%%%%%%%%%%%%%%%%%
+
+\chapter{Modular forms on $\SL_2(\Z)$}
+\section{$\SL_2(\Z)$ and congruence subgroups}
+\begin{df}
+$\SL_2(\Z)$ is the group of $2\times 2$ integer matrices with determinant 1.
+\[
+\SL_2(\Z):=\set{\matt abcd}{a,b,c,d\in \Z, \, ad-bc=1}.
+\]
+Define $\PSL_2(\Z)=\SL_2(\Z)/\{\pm 1\}$.
+Define the following subgroups:
+\begin{align*}
+\Ga(N)&=\set{M\in \SL_2(\Z)}{M\equiv \matt 1001\pmod{N}}\\
+\Ga_1(N)&=\set{M\in \SL_2(\Z)}{M\equiv \matt 1*01\pmod{N}}\\
+\Ga_0(N)&=\set{M\in \SL_2(\Z)}{M\equiv \matt **0* \pmod{N}}.
+\end{align*}
+Any subgroup of $\SL_2(\Z)$ containing $\Ga(N)$ for some $N$ is called a \textbf{congruence subgroup}.
+\end{df}
+\begin{df}
+%The fractional linear transformation transformation associated to $\matt abcd$ is
+%\[
+%z\mapsto \frac{az+b}{cz+d}.
+%\]
+%\end{df}
+%Note that the map $\matt abcd \mapsto \frac{az+b}{cz+d}$ is a group isomorphism between $\PSL_2(\Z)$ and the group of fractional linear transformations. We often use a matrix to denote the fractional linear transformation.
+$\SL_2(\Z)$ acts on the upper half plane $\cal H$ by
+\[
+\matt abcd z=\frac{az+b}{cz+d}.
+\]
+\end{df}
+
+We now collect some facts about $\SL_2(\Z)$ and its congruence subgroups.
+\begin{pr}
+The matrices $S=\smatt 01{-1}0$ and $T=\smatt 1101$ generate $\SL_2(\Z)$.
+\end{pr}
+
+\subsection{Cosets}
+\begin{pr}
+We have the following:
+\begin{align*}
+[\SL_2(\Z):\Ga_0(N)]&=N\prod_{p\mid N}\pa{1+\rc p}\\
+[\Ga_0(N):\Ga_1(N)]&=N\prod_{p\mid N}\pa{1-\rc p}\\
+[\Ga_1(N):\Ga(N)]&=N.
+\end{align*}
+Moreover,
+\begin{enumerate}
+\item
+Set of coset reps for $\Ga_0(N)$ in $\SL_2(\Z)$?
+\item 
+Let $S=\set{(a,b)\in (\Z/N\Z)^2}{\gcd(a,b)=1}$. For each
+\[(z,t)\in P:=\frac{S-\{(0,0)\}}{(\Z/N\Z)^{\times}}\]
+take an integer matrix of the form
+$\smatt xyzt$. These matrices
+form a set of right coset representatives for ${\Ga_0(N)}$ in $\SL_2(\Z)$. 
+\end{enumerate}
+\end{pr}
+\begin{proof}
+\begin{enumerate}
+\item
+Let $G$ be the group
+\[
+\{
+(a,y)|a\in (\Z/N\Z)^{\times},y\in \Z/N\Z
+\}/\{\pm(1,0)\}
+\]
+with the operation
+\[
+(a,y)(a',y')=(aa',ay'+a'^{-1}y).
+\]
+The fact that $G$ is a group can be shown directly, or by noting that the group structure on $G$ is the ``pushforward" of the group structure on $\Ga_0(N)$ by $\pi$ below.
+We claim that
+\[
+1\to \overline{\Ga(N)}\to \overline{\Ga_0(N)} \xra{\pi}G\to 1
+\]
+is a short exact sequence, where 
+\[
+\pi\pa{\matt ab{Nc}d}=(a,b)\bmod N.
+\]
+We verify:
+\begin{enumerate}
+\item
+$\pi$ is surjective: Given $(\ol{a},\ol{b})\in G$, we can choose $b$ so that $a\equiv \ol{a}\pmod N,b\equiv \ol{b}\pmod N$ so that $\gcd(a,b)=1$.
+Let $d$ be an integer such that $ad\equiv 1\pmod N$. By B\'ezout's Theorem we can find $k,l$ so that $ak-lb=\frac{1-ad}{N}$. Then $a(d+kN)-Nlb=1$, and the following  matrix is in $\SL_2(\Z)$.
+\[
+\pi\pa{\matt ab{Nl}{d+kN}}=(a,b).
+\]
+\item
+$\ker(\pi)=\overline{\Ga(N)}$: The inclusion $\overline{\Ga(N)}\subeq \ker (\pi)$ is clear.
+Conversely, if $A=\matt ab{Nc}d\in \Ga_0(N)$, $\pi(A)=(1,0)$, then $a\equiv 1\pmod N$ and $b\equiv 0\pmod N$; moreover $ad-(Nc)d=1$ and $a\equiv 1\pmod N$ imply $b\equiv 1 \pmod N$. 
+\end{enumerate}
+%$G$ is a group because
+%\begin{align*}
+%[(a,b,y)(a',b',y')](a'',b'',y'')=(aa'a'',bb'b'',aa'y+ab''y+b'b''y)=(a,b,y)(
+%\end{align*}
+First suppose $N\neq 2$.
+Then $|G|=\rc{2}\ph(N)N$, so
+\[
+[\PSL_2(\Z):\ol{\Ga_0(N)}]=\frac{[\PSL_2(\Z):\ol{\Ga(N)}]}{|G|}=\frac{\frac{N^3}{2}\prod_{p|N}\pa{1-\rc{p^2}}}{N\prod_{p|N}\pa{1-\rc p}}=N\prod_{p|N}\pa{1+\rc p}.
+\]
+For $N=2$, $[\PSL_2(\Z),\ol{\Ga(N)}]=6$ and $|G|=2$, so $[\PSL_2(\Z):\ol{\Ga_0(N)}]=3$ (and the above formula works as well).
+\end{enumerate}
+\end{proof}
+\subsection{Useful decompositions}
+Bruhat
+\subsection{Fundamental domains}
+\begin{df}
+Let $H$ be a subgroup of $\SL_2(\Z)$. A \textbf{fundamental domain} for $H$ is a subset of $\cal H$ such that the following hold.
+\begin{enumerate}
+\item 
+\end{enumerate}
+\end{df}
+
+\section{Modular forms}
+\begin{df}
+A \textbf{modular function} on $\SL_2(\Z)$ is a function $f:\cal H\to \C$ such that
+\begin{enumerate}
+\item $f$ is meromorphic on $\cal H$.
+\item $f$ satisfies the following transformation property.
+\[
+f\pa{\matt abcd z}=(cz+d)^k f(z)\text{ for all }\matt abcd\in \SL_2.
+\]
+\end{enumerate}
+If moreover $f$ is holomorphic on $\cal H$ we say $f$ is a 
+\textbf{weakly holomorphic modular form}, and if $f$ is holomorphic on 
+$\cal H^*=\cal H\cup \{\iy\}$, we say that $f$ is a \textbf{modular form}. ($f$ is ``holomorphic at $\iy$" if $f$ has a Fourier expansion with nonnegative exponents
+\[
+f(z)=\sum_{n\ge 0} a_nq^n,\quad q=e^{2\pi iz}.)
+\]
+We say $f$ is a \textbf{cusp form} is $a_0=0$ above. We denote
+\begin{align*}
+M_k^!&=\text{weakly holomorphic modular forms of weight }k\\
+M_k&=\text{modular forms of weight }k\\
+S_k&=\text{cusp forms of weight }k.
+\end{align*}
+\end{df}
+Note we will generalize this definition several times (add references when I put them in)
+\begin{thm}[Weight formula]
+Let $f$ be a modular form of weight $k$. Then 
+\[
+k=6\ord_i(f)+4\ord_{\om}(f)+12\ord_{i\iy}(f)
++12\sum_{z\in R_{\Ga}^{\circ}}\ord_{z}(f).
+\]
+\end{thm}
+\begin{proof}
+Don't feel like writing... will be vastly generalized using Riemann-Roch anyway.
+\end{proof}
+\section{Eisenstein series}
+The following will be our most important source of modular forms.
+\begin{df}
+Let $k\ge 4$ be even. 
+Define the \textbf{Eisenstein series} of weight $k$ as a function on lattices to be 
+\[
+G_{k}(\La)=\sum_{\om \in \La\bs\{0\}} \rc{\om^{2k}}.
+\]
+Define the Eisenstein series as a function on $\cal H$ to be
+\[
+G_k(z)=G_k((1,z))=\sum_{(a,b)\in \Z^2\bs \{0\}} \rc{(a+bz)^{2k}}.
+\]
+Define the normalized Eisenstein series as $E_k=?G_k$. 
+\end{df}
+Note that if $k$ is odd, $G_k$ as defined above will be 0.
+\begin{pr}
+$G_k$ is absolutely convergent, and is a modular form of weight $k$.
+\end{pr}
+\begin{thm}
+The Fourier expansion of $E_k$ is
+\[
+E_k(z)=1-\frac{2k}{B_k}\sum_{n=1}^{\iy} \si_{k-1}(n)q^n
+\]
+where $B_k$ is the $k$th Bernoulli number: $\frac{t}{e^t-1}=1+\sum_{n\ge 1}\frac{B_n}{n!}t^n$.
+\end{thm}
+\begin{df}
+Define 
+\begin{align*}
+\De&=\frac{E_4^3-E_6^2}{1728}
+\end{align*}
+as a function either on lattices or on $\cal H$.
+\end{df}
+$\De$ is a cusp form of weight 12, normalized so its first term is $z$. As we will see, it spans the space of cusp forms of weight 12.
+
+%%%
+The functions $G_4,G_6$ parameterize elliptic curves over $\C$. (See...) The following will be important in establishing a connection between elliptic curves and lattices.
+\begin{thm}[Uniformization theorem]
+The map $\Ga\to \C^2\bs\{\De=0\}$ defined by
+\[
+\Ga\mapsto (G_4,G_6)
+\]
+is surjective (bijection?).
+\end{thm}
+\section{The spaces $M_k$}
+\begin{thm}
+The set
+\[
+%\set{E_4^aE_6^b}{4a+6b=k}
+\set{E_{k-12r}\De^r}{0\le r\le \fl{\frac{k}{12}}, k-12r\ne 2}
+\]
+is a basis for $M_k$. Thus
+\[
+\dim(M_k)=
+\begin{cases}
+\fl{\frac{k}{12}},&k\equiv 2\pmod{12},\\
+\fl{\frac{k}{12}}+1,&k\nequiv 2\pmod{12},
+\end{cases}
+\qquad
+\dim(S_k)=
+\begin{cases}
+\fl{\frac{k}{12}}-1,&k\equiv 2\pmod{12},\\
+\fl{\frac{k}{12}},&k\nequiv 2\pmod{12}.
+\end{cases}
+\]
+\end{thm}
+\section{Dedekind eta function}
+\begin{thm}[Transformation properties of $\eta$]\label{eta-transforms}
+The function $\eta(\tau)=q^{\rc{24}}\prod_{n=1}^{\iy} (1-q^n)$ satisfies
+\begin{align*}
+\eta(\tau+1)&=e^{\frac{2\pi i}{24}}\eta(\tau)\\
+\eta\pf{-1}{\tau}&=\sqrt{\frac{\tau}{i}}\eta(\tau).
+\end{align*}
+\end{thm}
+There are two main ingredients to the proof.
+\begin{enumerate}
+\item Derive transformation properties for twisted theta functions $\te_{\chi}$ using the Poisson summation formula.
+\item Write $\eta$ in terms of theta functions using the Pentagonal Number Theorem~\ref{pentagonal}.
+\end{enumerate}
+\begin{proof}
+For the first part, note
+\[
+\eta(\tau+1)=e^{\frac{2\pi i (\tau+1)}{24}}\prod_{n=1}^{\iy}(1-e^{2\pi i (\tau+1)})=e^{\frac{\pi i}{12}}\prod_{n=1}^{\iy}(1-e^{2\pi i \tau})=\eta(\tau).
+\]
+
+For the second part, recall the transformation formula for the theta function (Proposition~\ref{l-func-dirichlet}.\ref{theta-transforms})
+\begin{equation}\label{eta-theta-transformation}
+\te_{\chi}(\tau)=\frac{G(\chi,e^{\frac{2\pi i \bullet}{r}})}{q\sqrt{\tau}} \te_{\ol{\chi}}\prc{q^2u}
+\end{equation}
+where $\chi$ is a primitive multiplicative character modulo $r$.
+
+By the Pentagonal Number Theorem,
+\begin{align}
+\nonumber
+\eta(\tau)&=q^{\rc{24}} \prod_{n=1}^{\iy} (1-q^n)\\
+\nonumber
+&=q^{\rc{24}} \sum_{n\in \Z} (-1)^n q^{\frac{3n^2+n}{2}}\\
+\nonumber
+&=\sum_{n\in \Z} (-1)^n q^{\frac{36n^2+12n+1}{24}}\\
+\nonumber
+&=\sum_{n\in \Z} (-1)^n e^{-\pi(6n+1)^2 \pf{-\tau}{24}}\\
+\nonumber
+&=\rc{2}\pa{\sum_{n\in \Z} (-1)^n e^{-\pi(6n+1)^2 \pf{-\tau}{24}}+\sum_{n\in \Z} (-1)^n e^{-\pi(-6n-1)^2 \pf{-\tau}{24}}}\\
+\label{eta-in-terms-of-theta}
+&=\theta_{\chi}\pf{-\tau}{24}
+\end{align}
+where $\chi(n)$ is the character modulo 12 taking values $1,-1,-1,1$ at $1, 5, 7, 11$, respectively.
+
+%Now we apply~(\ref{eta-theta-transformation}) to get 
+First note $G(\chi,e^{\frac{2\pi i \bullet}{r}})=e^{\frac{\pi i}{6}}-e^{\frac{5\pi i}{6}}-e^{\frac{7\pi i}{6}}+e^{\frac{11\pi i}{6}}=2\sqrt 3$. Hence
+\begin{align*}
+\eta\pa{-\rc{\tau}} &=\te_{\chi}\pf{i}{12\tau}&\by{eta-in-terms-of-theta}\\
+&=\frac{G(\chi,e^{\frac{2\pi i \bullet}{r}})}{12\sqrt{i/(12\tau)}}\te_{\chi}\pf{12\tau}{144i}&\by{eta-theta-transformation}\\
+&=\sqrt{\frac{-i\tau}{\cancel{12}}}\cancel{2\sqrt 3}\te_{\chi}\pf{12\tau}{144i}\\
+&=\sqrt{-i\tau}\eta(\tau).&\by{eta-in-terms-of-theta}
+\end{align*}
+\end{proof}
+%
+\section{Derivatives of modular forms}
+Let $f$ be a modular form of weight $k$. Is $f'$ (derivative with respect to $\tau$) a modular form? Differentiating the transformation law gives
+\begin{align}
+\nonumber f\pf{a\tau+b}{c\tau+d}&=(c\tau+d)^k f(\tau)\\
+\nonumber f'\pf{a\tau+b}{c\tau+d}(c\tau+d)^{-2}&=k(c\tau+d)^{k-1} cf(\tau)+(c\tau+d)^k f'(\tau)\\
+f'\pf{a\tau+b}{c\tau+d}&=\underbrace{k(c\tau+d)^{k+1} cf(\tau)}_{\text{Uh-oh.}}+(c\tau+d)^{k+2} f'(\tau).\label{fdifftrans}
+\end{align}
+Unfortunately, $f'$ isn't quite modular. So we need to construct a modified notion of derivative (which we'll call $\theta$) that takes $M_k$ to $M_{k+2}$. To do this, we will use the derivative and the $P$ function, defined below in terms of the $\eta$ function. 
+\begin{df}
+Define
+%\begin{align*}
+\[P(\tau)=\frac{24}{2\pi i} \frac{\eta'(\tau)}{\eta(\tau)}.\]
+%E_2(\tau)&=1-\underbrace{\frac{4}{B_2}}_{24}\su \si_1(n)q^n.
+%\end{align*}
+\end{df}
+\begin{thm}$\,$
+\begin{enumerate}
+\item
+$P=E_2$, i.e.
+\[
+P=1-\underbrace{\frac{4}{B_2}}_{24}\suo \si_1(n)q^n.
+\]
+\item
+$P$ satisfies the transformation law
+\begin{equation}\label{Ptrans}
+P(\ga \tau)=(c\tau+d)^2P(\tau)+\underbrace{\frac{12c}{2\pi i}(c\tau+d)}_{\text{``nonmodular" part}}.
+\end{equation}
+\end{enumerate}
+\end{thm}
+\begin{proof}
+For item 1, note that $\frac{d}{d\tau}=2\pi i q\frac{d}{dq}$ by the chain rule so
+\begin{align*}
+\frac{d}{d\tau}\ln \eta(\tau)&=2\pi i q\pa{\su \frac{d}{dq}\ln(1-q^n)+\frac{d}{dq} \ln q^{\rc{24}}
+}\\
+\frac{\eta'(\tau)}{\eta(\tau)}&=2\pi i\pa{\su \frac{nq^n}{1-q^n}+\rc{24}}\\
+&=2\pi i\pa{\su \sum_{m>0,n|m}q^{m}+\rc{24}}\\
+&=2\pi i\pa{\sum_{m\ge 1}\si_1(m)q^m+\rc{24}}.
+\end{align*}
+
+For item 2, note $\an{S,T}=\GL_2(\Z)$, so $\ga$ can be written as a product of $S=\matt0{-1}10,T=\matt1101,T^{-1}=\matt1101$. The base case is trivial.
+For the induction step, first differentiate the transformation laws for $\eta$ to get
+\begin{align*}
+\rc{\tau^2}\eta'(S\tau)&=\frac{\tau^{-\rc2}}{2\sqrt i}\eta(\tau)+\frac{\tau^{\rc2}}{\sqrt i} \eta'(\tau)\\
+\eta'(T\tau)&=e^{\frac{2\pi i}{24}}\eta(\tau).
+\end{align*}
+Using this we can calculate how $\frac{24}{2\pi i}\frac{\eta'}{\eta}$ transforms under $\eta$. The induction step comes from checking that if $\ga=\matt abcd$ then
+\begin{align*}
+P(S\ga\tau)&=(a\tau+b)^2P(\tau)+\frac{12a}{2\pi i}(a\tau+b)\\
+P(T^{\pm 1}\ga\tau)&=P(\ga\tau).
+\end{align*}
+\end{proof}
+
+Now we are ready to define our differential operator. 
+\begin{df}
+For $f$ a weight $k$ modular form, define
+\[
+\partial_k(f)=(12\theta-kP)f
+\]
+where
+\[
+\theta=q\frac{d}{dq}=\rc{2\pi i}\frac{d}{d\tau}.
+\]
+\end{df}
+
+\begin{thm}$\,$
+\begin{enumerate}
+\item
+$\partial_k$ is a map from $M_k$ to $M_{k+2}$.
+\item
+$\partial$ is a derivation, i.e. for $f\in M_m,g\in M_n$, we have
+\[
+\partial_{m+n}(fg)=(\partial_m f)g+f(\partial_n g).
+\]
+\item The following hold ($P=E_2,Q=E_4,R=E_6$):
+\begin{align*}
+\partial_2P&=-Q&\theta P&=\rc{12}(P^2-Q)\\
+\partial_4Q&=-4R&\theta Q&=\rc{3}(PQ-R)\\
+\partial_6R&=-6Q^2&\theta R&=\rc{2}(PR-Q^2).
+\end{align*}
+\end{enumerate}
+\end{thm}
+\begin{proof}
+For part 1, calculate $(\partial f)(A\tau)$ using~(\ref{fdifftrans}) and~(\ref{Ptrans}).
+
+For part 2,
+\[
+\partial_{m+n}(fg)=\rc{2\pi i} (fg)'-(m+n)Pfg=\rc{2\pi i}f'g-m(Pf)g+\rc{2\pi i}fg'-nf(Pg)=(\partial_mf)g+f(\partial_n g).
+\]
+
+For part 3, 
+more calculations show that $\partial_2P+P^2$ is a modular form. The equalities follow from using $\dim(M_4)=\dim(M_6)=\dim(M_8)=1$ and matching constant terms of the $q$-series.
+\end{proof}
+\begin{rem}
+Since $Q,R$ generate the space of modular forms, this completely describes the action of $\partial$ on modular forms. The fact that it is a derivation means that we can calculate its action on a polynomial in $P,Q,R$ as if it were actually a derivative, taking note what $\partial_2P,\partial_4Q,\partial_6R$ are. This is since for polynomials, stuff like the chain rule can be derived from the product rule, which we have.
+\end{rem}
+%
+\section{The $j$-function}
+\begin{df}
+Define the $j$-function (on lattices or $\cal H$) by
+\[
+j=\frac{E_4^3}{\De}.\]
+\end{df}
+Since $E_4^3$ and $\De$ are modular forms of weight $12$, $j$ is a modular function of weight $0$. The function $j$ has some very nice properties.
+
+\begin{thm}
+$j$ takes on every value in $\C$ exactly once in its fundamental domain. \fixme{in/excluding boundaries the right way}
+\end{thm}
+\begin{thm}
+A function on $\cal H$ is a modular function of weight 0 if and only if it is a rational function of $j$.
+\end{thm}
+%As an application we prove the following
+%\begin{thm}[Picard]
+%
+%\end{thm}
+\index{modular polynomial}
+\subsection{The modular polynomial $\Phi_m$}
+\begin{df}
+Define $\Phi_m(X,Y)$ so that $\Phi_m(j, Y)$ is the minimal polynomial of $j(Nz)$ over $\C(j)$. 
+\end{df}
+Note this is well-defined because $\C(j)\cong \C(X)$.
+
+This will be important when we define the moduli space of an elliptic curve, because $(j(z),j(Nz))$ will map the moduli space to an algebraic curve whose associated function field is $\C(j(z), j(Nz))$.
+\begin{pr}\label{phim}
+The following are true.
+\begin{enumerate}
+\item
+$\Phi_m(X,Y)\in \Z$.
+\item
+$\Phi_m(X,Y)$ is symmetric for $m>1$.
+\item (Kronecker's congruence)
+If $p$ is prime, then 
+\[
+\Phi_p(X,Y)=(X^p-X)(Y^p-Y)\pmod{p}.
+\]
+\item If $m$ is squarefree then $\Phi_m(X,X)$ has leading coefficient $\pm1$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+\begin{enumerate}
+\item
+\item $F(X,Y)=F(Y,X)$:
+Replacing $z$ with $-\rc{Nz}$ in 
+\[
+F(j(z),j(Nz))=0
+\]
+gives
+\begin{align*}
+F\pa{
+j\pa{-\rc{Nz}},j\pa{-\rc z}
+}=0.
+\end{align*}
+Note that $j$ is invariant under $\ga=\smatt0{1}{-1}0\in \SL_2(\Z)$ which sends $z$ to $-\rc{z}$. Hence $j\pa{-\rc{Nz}}=j(Nz)$, $j\pa{-\rc z}=j(z)$, and we get
+\[
+F(j(Nz),j(z))=0.
+\]
+Since $F(X,Y)$ is irreducible in $\C[X,Y]$, so is $F(Y,X)$. 
+Then $F(Y,j)$ is also the irreducible polynomial of $Y$ over $\C(j)$, so replacing $j$ with $X$, this says that $F(Y,X)|F(X,Y)$. The only way for this to happen is if $F(X,Y)=cF(Y,X)$. We have $F(X,Y)=cF(Y,X)=c^2F(X,Y)$, so $c=\pm 1$. If $c=-1$, then $F(X,Y)=-F(Y,X)$, and putting $X=Y$ gives $F(X,X)=0$. This shows $X-Y|F(X,Y)$, which is impossible since $F(X,Y)$ is irreducible with degree $[\Ga(1):\Ga_0(N)]>1$. Thus $F(X,Y)=F(Y,X)$.
+\item\begin{lem}
+Let $\ga_1,\ldots, \ga_{p+1}$ be coset representatives for $[\Ga(1):\Ga_0(p)]$. Then 
+\[
+\{j(p\ga_1z),\ldots,j(p\ga_{p+1}z)\}=\{j(pz)\}\cup\bc{j\pf{z+k}{p}:0\le k<p}.
+\]
+\end{lem}
+\begin{proof}
+There are indeed $p+1$ coset representatives because $\mu=N\prod_{\text{prime } q|N}\pa{1+\frac{1}{q}}=p+1$ in this case.
+%We can take $\ga_{p+1}=I$; this gives $
+%
+Given $\ga=\smatt abcd$, we have $p\ga z=\smatt{pa}{pb}cdz$. 
+For any $\ga'\in \Ga(1)$, we have $j(\ga'p\ga z)=j(p\ga z)$ since $j$ is invariant under $\Ga(1)$. By Lemma 6.3.1 we can multiply $\smatt{pa}{pb}cd$ on the left by some matrix in $\Ga(1)$ to get some $\smatt {a'}{b'}0{d'}$ with $a'd'=\det\smatt{pa}{pb}cd=p$ and $0\le b'<d'$. The $p+1$ possible matrices are $\smatt p001$ and $\smatt 1{k}0p$ for $0\leq k<p$. We claim that all these are in fact attained. Let $M$ be one of these matrices. Then by the Elementary Divisors Theorem there exist $A,B\in \Ga(1)$ such that $AMB=\smatt p001$. But then $M=A^{-1}NB$, so $j(Mz)=j(A^{-1}NBz)$, and we could have picked $B$ as a coset representative (the choice doesn't matter anyways). The lemma follows upon noting that $\smatt p001z=pz$ and $\smatt 1{k}0pz=\frac{z+k}{p}$.
+\end{proof}
+Let $\zeta_p$ be a $p$th root of unity. %and let $\mfp=\an{1-\zeta_p}$. 
+We have that $1-\zeta_p|p$: indeed 
+\[
+p=x^{p-1}+\cdots +1|_{x=1}=(1-\zeta_p)\cdots (1-\zeta^{p-1}).
+\]
+When we expand $j\pf{z+k}{p}$, its coefficients are roots of unity times the coefficients of $j(z)$. However, roots are unity are congruent to $1$ modulo $\mfp$, since $\zeta_p^k-1=(\zeta_p-1)(\zeta_p^{k-1}+\cdots +1)$. Then
+\begin{align*}
+%F(j(z),Y)&=\prod_{i=1}^{p+1}(Y-j(
+%F(X,j(pz))%&=F(j(pz),X)\\
+F(j(z),Y)%&=F(j(\\
+&=\prod_{i=1}^{p+1}(Y-j(\ga_ipz))\\
+&=(Y-j(pz))\prod_{k=1}^{p}\pa{Y-j\pf{z+k}{p}}\\
+&\equiv (Y-j(pz))\pa{Y-j\pa{\frac zp}}^p\pmod{1-\zeta_p} \\
+&\equiv (Y-j(z)^p)\pa{Y^p-j(z)}\pmod{1-\zeta_p},
+\end{align*}
+the last equation following because raising the $j$ function to the $p$th power is the same, modulo $p$, as raising each term to the $p$th power, and the coefficients (which are integers) are not affected modulo $p$, while the exponents are multiplied by $p$. 
+Replacing $j(z)$ by $X$ we get
+\[F(X,Y)\equiv (Y-X^p)(Y^p-X)\equiv X^{p+1}+Y^{p+1}-X^pY^p-XY \pmod{1-\zeta_p}.\]
+However, $\an{1-\zeta_p}\cap \Z=\an{p}$ (it contains $\an{p}$, and $\an{p}$ is maximal in $\Z$), and we know $F(X,Y)$ has integer coefficients, so congruence holds modulo $p$.
+\end{enumerate}
+\end{proof}
+\section{$j$ and Hilbert class fields}
+Our main theorem in this section (Theorem~\ref{j-generates-hilbert}) is that values of the $j$-function at quadratic integers (or equivalently quadratic ideals) generate Hilbert class fields of quadratic extensions. To prove this we first need a result on $j$ in terms of lattices.
+\begin{df}
+A \textbf{cyclic sublattice} $L'\subeq L$ is a lattice such that $L/L'$ is a cyclic group.
+\end{df}
+\begin{thm}[Correspondence between roots of $\Phi$ and cyclic sublattices]\label{cyclic-roots-phi}
+Let $m\in \N$. The following are equivalent.
+\begin{enumerate}
+\item $\Phi_m(u,v)=0$.
+\item There is a lattice $L$ with cyclic sublattice $L'\subeq L$ of index $m$ such that $u=j(L')$ and $v=j(L)$.
+\end{enumerate}
+\end{thm}
+We first characterize cyclic sublattices.
+\begin{lem}\label{char-cyclic-latt}
+The cyclic lattices of $\an{1,\tau}$ are exactly those given by
+\begin{equation}\label{cyclic-lattices}
+L'=\an{d, a+b\tau},\quad \matt ab0d\in C(m),
+\end{equation}
+where 
+\[
+C(m)=\set{\matt ab0d}{ad=m, a>0, 0\le b<d, \gcd(a,b,d)=1}.
+\]
+Moreover, these give rise to distinct lattices.
+\end{lem}
+\begin{proof}
+Suppose $L'=\an{d,a\tau+b}$. Then the presentation of the $\Z$-module $L/L'$ is  given by $\smatt ab0d$. By the structure theorem for modules, we have $ \smatt ab0d \in \SL_2(\Z)\matt {d_1}00{d_2}\SL_2(\Z)$ for some $d_1\mid d_2$ and that $L/L'\cong \Z/d_1\Z\times \Z/d_2\Z$. Note that multiplying by a matrix in $\SL_2(\Z)$ preserves the gcd of the entries. Hence we find that $d_1=\gcd(a,b,d)$. Hence 
+\begin{equation}\label{cycliciff}
+L'\text{ is cyclic }\iff\gcd(a,b,d)=1.
+\end{equation}
+
+This shows that all lattices in the form~(\ref{cyclic-lattices}) are cyclic.
+
+Now given a cyclic sublattice $L'$, let $d\in \N$ be the smallest integer in $L'$, and $a+b\tau$ be such that $L'=\an{d, a\tau+b}$. 
+%be a nonreal element of smallest absolute value, so that of those elements it makes the smallest angle with the real axis. 
+We may change $b$ by a multiple of $d$ so that $0\le b<d$.  Since $m=[L:L']=\sdetm ab0d=ad$ and $\gcd(a,b,d)=1$ by~(\ref{cycliciff}), $\smatt ab0d\in C(m)$.
+
+Uniqueness follows since $d$ is the least positive integer in $L'=\an{d, a\tau+b}$, and once $d$ is determined, $a=\frac{m}d$ and $b$ are determined.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{cyclic-roots-phi}]
+By Lemma~\ref{char-cyclic-latt}, when $L'=[d, a+b\tau]$, letting $\si=\smatt ab0d$, we have
+\[
+j(L')=j(d[1,\si \tau])=j([1,\si\tau]).
+\]
+Then
+\[
+\Phi_m(X,j(\tau))=\prod_{\si\in C(m)} (X-j(\si\tau))=\prod_{L'\text{ cyclic in }L, \,[L:L']=m} (X-j(L')).
+\]
+
+Hence any pair $(j(L),j(L'))$ is a solution; conversely, given a solution $(X,Y)$, we have $Y=j(L)$ for some $L$, and the above gives $X=j(L')$.
+\end{proof}
+
+\begin{thm}
+Let $\sO$ be an order in an imaginary quadratic field and $\ma$ a $\sO$-ideal. Then $j(\ma)$ is an algebraic integer and
+$K(j(\ma))$ is the ring class field of $\sO$.
+\end{thm}
+\begin{proof}
+Let $M=K(j(\ma))$ and $L$ be the ring class field of $\sO$. 
+
+\noindent{\underline{Step 1:}} 
+%Suppose $\al\in \sO$ is primitive. 
+Suppose $\al\ma$ is a cyclic sublattice of $\ma$; let $m=\N(\al)$. We have
+\begin{equation}
+\label{phi-ja}
+\Phi_m(j(\ma),j(\ma))=\Phi_m(j(\al\ma),j(\ma))=0,
+\end{equation}
+where the first equality is by Theorem~\ref{cyclic-roots-phi} and the second is because $\ma$ and $\al\ma$ are similar lattices. Hence $j(\ma)$ is a root of $\Phi_m(X,X)$.
+
+Pick $\al$ so that $\N\al$ is squarefree. 
+To do this we note that by Theorem~??.\ref{p=x2+ny2}
+\begin{equation}\label{spl-is-norm}
+\Spl(L/\Q)\approx \set{p\text{ prime}}{p=N(\al)\text{ for some }\al\in \sO}.
+\end{equation}
+%Take $\mfp \in \Spl(L/\Q)$. 
+Choosing such $\al$, we have $[\ma:\al\ma]=N(\al)=p$, so $\al\ma$ must be cyclic. Then the leading coefficient of $\Phi_m(X,X)$ is $\pm 1$ by Proposition~(\ref{phim}), so $j(\ma)$ is an algebraic integer.\\
+
+\noindent\underline{Step 2:} 
+We show $M= L$ by examining how primes split in $L$ and $M$, i.e. we show $\Spl(M/K)\approx \Spl(L/K)$ and use Theorem~??.\ref{split-chebotarev}. First we show $\Spl(M/K)\stackrel{\supset}{\sim} \Spl(L/K)$. 
+Take $\mfp\subeq \Spl(L/\Q)$. The idea is to use Kronecker's congruence: We know that we have 
+\begin{equation}\label{fermat-iff-p}
+a^p\equiv a\pmod{p}\text{ for every }a\in \F\iff  \F=\F_p.
+\end{equation}
+When we have $X$, $Y$ equal to values of $j$ in a field extension $M/K$ and $\Phi_p(X,Y)=0$, then this congruence gives us information about the residue field of $M$. %We can use this to show that the residue field $K(j(\mfp))$ 
+We will find that it equals $\F_p$, so $M/K$ is unramified, giving that $\mfp$ splits completely in $L$.
+
+By~(\ref{spl-is-norm}), for all but finitely many $p\in \Spl(L/\Q)$, $p=N(\al)$ for some $\al\in \sO$. As in~(\ref{phi-ja}), we get $0=\Phi_p(j(\ma),j(\ma))$. 
+By Kronecker's congruence, $0=-(j(\ma)^p-j(\ma))^2\pmod{p}$, so
+\begin{equation}\label{kronecker-ja}
+j(\ma)^p\equiv j(\ma)\pmod{p};
+\end{equation}
+{\it a fortiori} this holds modulo $\mP$.
+
+Next note $\sO_K[j(\ma)]$ has finite index in $\sO_M$, because the fact that $M=K(j(\ma))$ gives it is a full lattice in $\sO_M$ (considering them as $\Z$-modules).
+
+Now assume $p\nmid [\sO_M:\sO_K[j(\ma)]]$; we will show that~(\ref{kronecker-ja}) implies the congruence
+\begin{equation}\label{alpa}
+\al^p\equiv \al\pmod{\mP}
+\end{equation}
+for $\al\in \sO_M$. First, take $\mfp=\mP\cap K$, and note that $p\in \Spl(M/\Q)$ implies that the residue degree of $\mP$ is $p$, and hence $\al^p\equiv \al\pmod{\mfp}$ and {\it a fortiori} modulo $\mP$ for $\al\in \sO_K$. So~(\ref{alpa}) holds for $\al\in \sO[j(\ma)]$. Now for arbitrary $\al\in \sO_M$, letting $N=[\sO_M:\sO_K[j(\ma)]]$ we know 
+\begin{align*}
+(N\al)^p&\equiv N\al\pmod{\mP};\\
+\text{in particular, }N^p&\equiv N\pmod{\mP};
+\end{align*}
+But $p\nmid N$ means $N$ is invertible in $m:=\sO_M/\mP$, so dividing these two equations gives the desired answer.
+
+Now by~(\ref{fermat-iff-p}),~(\ref{alpa}) gives that $|m|=p$, i.e. $f(\mP/p)=1$ and $\mfp\in \Spl(M/\Q)$.
+
+From this step we obtain $M\subeq L$.\\
+
+\noindent\underline{Step 3:}
+Next we show $\wt{\Spl}(M/\Q)\stackrel{\sub}{\sim} \Spl(L/Q)$. Take $p\in \wt{\Spl}(M/\Q)$; assume $p$ unramified in $M$ and relatively prime to
+\[
+\De=\prod_{\{\ma,\mb\}\in C_K}(j(\ma)-j(\mb)).
+\]
+(Note this is in $\sO_L$ by step 2.)
+Using the description of $\Spl(L/\Q)$ given in step 1, it suffices to show $p=N(\al)$ for some $\al$. 
+
+We have $f(\mP/p)=1$ for some $\mP$ in $M$ above $p$. Let $\mP'$ lie above $\mP$ in $L$. Let $\mfp=\mP\cap \sO_K$; we see $f(\mfp/p)=1$ so $(p)$ splits as $\mfp\ol{\mfp}$ in $K$ and $\N\mfp=p$. Hence $\mfp\ma$ is cyclic in $\ma$. Theorem~(\ref{cyclic-roots-phi}) and Kronecker's congruence give
+\[
+0\equiv \Phi_p(j(\mfp\ma),j(\ma))\equiv (j(\ma)-j(\mfp\ma)^p)(j(\mfp\ma)^p-j(\ma))\pmod{p};
+\]
+this holds modulo $\mP'$ as well. 
+Hence we have
+\[
+j(\ma)\equiv j(\mfp\ma)^p\pmod{\mP'}\qquad\text{ or }\qquad
+j(\mfp\ma)^p\equiv j(\ma)\pmod{\mP'}.
+\]
+%Since $j(\ma)\equiv j(\ma)^p\pmod{\mP}$ from~(\ref{kronecker-jma}), we get $j(\ma)\equiv j(\mfp\ma)\pmod{\mP}$. (In the first case we can take $p$th roots because $p\perp |\sO_L/\mP'|$.) By assumption $f(\mP'/p)=1$, giving %no that was the converse, silly
+By assumption, $f(\mP/\mfp)=1$, so $\sO_L/\mP\cong \F_p$ and $j(\ma)^p\equiv j(\ma)\pmod{\mP'}$. Together with the above we find that\footnote{In the first case we can take $p$th roots because $p\perp |\sO_L/\mP'|$.}
+\[
+j(\mfp\ma)\equiv j(\ma)\pmod{\mP'}.
+\]
+If $\ma,\mfp\ma$ are in distinct ideal classes, then $\mP'\mid j(\mfp\ma)-j(\ma)\mid \De$, contradicting the fact that $p$ and $\De$ are relatively prime. Thus they are in the same ideal class, and $\mfp=(\al)$ is a principal ideal. This means $p=\N\al$ is in~\ref{spl-is-norm}, as needed.
+
+Combining steps 2 and 3 gives $L=M$.
+\end{proof}
+\section{Hecke operators}
+Hecke operators give a map on modular forms. We first define their action on lattices.
+\begin{df}
+Let $\cal L$ denote the set of full lattices in $\C$, and $\cal K=\Z^{\opl \cal L}$ denote the free abelian group generated by the elements of $\cal L$. Define the \textbf{Hecke operator} on $\cal K$ by setting
+\[
+T(n)[\La]=\sum_{\La'\in \cal L,\,[\La:\La']=n}[\La']
+\]
+and extending linearly.
+\end{df}
+The sum is finite because any $\La'$ in the sum must contain $n\La$, and $\La/n\La$ is finite. We may think of modular forms as functions on lattices $f(z)=F((1,\tau))$, hence $T(n)$ induces a map on the space of modular forms of dimension $k$, $M_k$:
+\[
+T(n)\cdot f(\tau)=n^{k-1}F(T(n)\Ga(1,\tau)).
+\]
+Note the constant $n^{k-1}$ is just to make formulas nicer.
+
+\begin{pr}
+$T(n)$ is a map $M_k\to M_k$, and restricts to a map on cusp forms $S_k\to S_k$.
+\end{pr}
+\begin{proof}
+Let $A=\matt abcd\in \SL_2(\Z)$. We have
+\begin{align*}
+T(n)\cdot f(A\tau)&=n^{k-1}F(T(n)\Ga(A\tau,1))\\
+&=n^{k-1}F[T(n)(c\tau+d)^{-1}\Ga(a\tau+b,c\tau+d)]\\
+&=n^{k-1}(c\tau+d)^{-k}F[T(n)\Ga(a\tau+b,c\tau+d)]&F\text{ homogeneous},\\
+&=(c\tau+d)^{-k}n^{k-1}F[T(n) \Ga(\tau,1)]&(\tau, 1)=(a\tau+b,c\tau+d)\\
+&=(c\tau+d)^{-k} T(n)\cdot f(\tau).
+\end{align*}
+\end{proof}
+In the following subsections, we prove several key properties of the Hecke operator, and the Hecke algebra (the algebra generated by the $T(n)$).
+\begin{itemize}
+\item
+The operators $T(n)$ are multiplicative.
+\item
+The Hecke algebra is commutative.
+\item
+The Hecke operators (on modular forms) are self-adjoint with respect to the Petersson inner product.
+\end{itemize}
+We will prove the last two items more generally, for a generalization of the Hecke operators, $T_{\al}$ where $\al$ is a {\it matrix}. We will then compute the explicit action of $T(n)$ on the Fourier coefficients of modular forms. The main application of Hecke operators is that we can diagonalize $M_k$ with respect to the Hecke algebra; thus we can speak of {\it eigenfunctions} in $M_k$. Using the multiplicativity of $T(n)$, we how that the coefficients of these eigenfunctions are multiplicative.
+%In particular, many functions we are familiar with will be eigh
+\subsection{Hecke operators on lattices}
+\begin{df}
+Define $R(n):\cal K\to \cal K$ by
+\[
+R(n)[\La]=[n\La].
+\]
+\end{df}
+\begin{thm}[Multiplicativity of Hecke operators, I]
+For any $m,n$,
+\[
+T(m)T(n)=\sum_{d\mid \gcd(m,n),\,d>0} dR(d)T\pf{mn}{d^2}.
+\]
+In particular, the following hold.
+\begin{enumerate}
+\item
+If $m\perp n$, then
+\[
+T(m)T(n)=T(mn)
+\]
+\item If $p$ is prime and $r\ge 1$ then
+\[
+T(p^r)T(p)=T(p^{r+1})+pR(p)T(p^{r-1}).
+\]
+\end{enumerate}
+\end{thm}
+Translating these properties to modular forms we get the following.
+\begin{thm}[Multiplicativity of Hecke operators, II]
+For any $m,n$,
+\[
+T(m)T(n)f=\sum_{d\mid \gcd(m,n),\,d>0} d^{k-1} T\pf{mn}{d^2}f.
+\]
+In particular, the following hold.
+\begin{enumerate}
+\item
+If $m\perp n$ then 
+\[
+T(m)T(n)f=T(mn)f.
+\]
+\item 
+If $p$ is prime and $r\ge 1$,
+\[
+T(p)T(p^r)=T(p^{r+1})f+p^{k-1}T(p^{r-1})f.
+\]
+\end{enumerate}
+\end{thm}
+\section{Simultaneous Eigenforms}
+\begin{df}
+A \textbf{simultaneous eigenform} is a modular form $f$ that is an eigenfunction for every Hecke operator $T_n$. 
+%We let $\la(n)$ denote the eigenvalue corresponding to $T_n$.
+\end{df}
+Write
+\[
+f(\tau)=\sum_{m\ge 0} c(m)q^m.
+\]
+We know that
+\[
+(T_nf)(\tau)=\sum_{m\ge 0} \ga_n(m)q^m
+\]
+where
+\[
+\ga_n(m)=\sum_{d\mid \gcd(m,n)} d^{k-1} c\pf{mn}{d^2}.
+\]
+%If $f$ is an eigenfunction of $T_n$ with eigenvalue $\la(n)$ then we have
+%Compare
+To find properties/criteria for eigenfunctions $f$, we compare:
+\begin{align}
+f(\tau)&=c(0)+c(1)q+\cdots\label{ef1}\\
+%\la(n)f(\tau)=
+(T_nf)(\tau)&=\si_{k-1}(n)c(0)+c(n)q+\cdots.\label{ef2}
+\end{align}
+
+First, we consider the nonvanishing of $c(1)$. Keep the above notation.
+\begin{thm}[Apostol, 6.14]
+Suppose $k\ge 4$ is even, and $f\in M_k$ is a simultaneous eigenform. Then
+\[
+c(1)\neq 0.
+\]
+\end{thm}
+\begin{proof}
+Let $\la(n)$ denote the eigenvalue corresponding to $f$ for $T_n$. 
+From~(\ref{ef1}) and~(\ref{ef2}) we get
+\[
+c(n)=\la(n)c(1).
+\]
+If $c(1)=0$ then $c(n)=0$ for all $n$, so $f$ is a constant, contradiction.
+\end{proof}
+
+The previous theorem allows us to normalize a simultaneous eigenform so $c(1)=1$.
+\begin{thm}[Simultaneous eigenforms have multiplicative coefficients]\label{multthm}
+Suppose 
+\[f(\tau)=\sum_{n\ge 1} c(n)q^n\in S_k\]
+with $k\ge 12$ even. Then the following are equivalent.
+\begin{enumerate}
+\item
+$f$ is a simultaneous normalized eigenform.
+\item For all $m\ge n$,
+\[
+c(m)c(n)=\sum_{d\mid \gcd(m,n)} d^{k-1} c\pf{mn}{d}.
+\]
+\end{enumerate}
+Moreover, \[\la(n)=c(n).\]
+\end{thm}
+\begin{proof}
+Again from~(\ref{ef1}) and~(\ref{ef2}), if $f$ is a simultaneous eigenform we have
+\[
+\la(n)=c(n).
+\]
+Now $\la(n)f(\tau)=(T_nf)(\tau)$  is equivalent to
+\[
+c(n)c(m)=\la(n)c(m)=\ga_n(m)=\sum_{d\mid\gcd(m,n)} d^{k-1} c\pf{mn}{d}.
+\]
+for all $m,n\ge 1$.
+\end{proof}
+\subsection{Examples}
+We can use Theorem~\ref{multthm} to conclude the multiplicativity of the coefficients $\tau(n)$ of $\Delta$.
+\begin{cor}
+Write $\De(\tau)=\su \tau(n)q^n$. Then
+\[
+\tau(m)\tau(n)=\sum_{d\mid \gcd(m,n)} d^{11} \tau\pf{mn}{d^2}.
+\]
+In particular,
+\begin{align*}
+\tau(mn)&=\tau(m)\tau(n)&\text{when }m\perp n\\
+\tau(p^{n+1})&=\tau(p^n)\tau(p)-p^{11}\tau(p^{n-1}).
+\end{align*}
+\end{cor}
+\begin{thm}[Noncuspidal eigenforms]
+The only normalized simultaneous eigenform in $M_{2k}-S_{2k}$ is $\frac{-B_{2k}}{4k}E_{2k}$.
+\end{thm}
+\begin{proof}
+The fact that $\frac{-B_{2k}}{4k}E_{2k}$ is a normalized simultaneous eigenform follows from Theorem~(\ref{multthm}). (The conditions there hold by simple calculation.)
+
+Suppose $f(\tau)=\sum_{m\ge 0} c(m)q^m$ is a normalized simultaneous eigenform. 
+Use~(\ref{ef1}) and~(\ref{ef2}) to match coefficients in $\la(n)f(\tau)=(T_nf)(\tau)$. We get 
+\begin{align*}
+\la(n)\cancel{c(0)}&=\si_{k-1}(n)\cancel{c(0)}\\%\cancelto{c(0)}{1}%
+\la(n)c(1)&=c(n)%=\pf{2k}{B_k}^2
+\end{align*}
+So the only possibility is $\la(n)=\si_{k-1}(n)$, and this completely determines all the $c(n)$ by the second equation above. (Then only one value of $c(0)$ will work.)
+\end{proof}
+\section{Existence}
+\begin{thm}
+There exists a basis of simultaneous eigenforms for $M_{2k}$.
+\end{thm}
+\begin{proof}
+Since we already have a simultaneous eigenform in $M_{2k}-S_{2k}$ and $\dim(M_{2k})-\dim(S_{2k})=1$, it suffices to show that there is a basis of simulatenous eigenforms for $S_{2k}$.
+
+We proceed in three steps.
+\begin{enumerate}
+\item
+Define the \textbf{Petersson inner product} on $S_{2k}$ by
+\[
+\an{f,g}=\int_{R_{\Ga}} f(\tau)\overline{g(\tau)} y^k\frac{dxdy}{y^2}.
+\]
+(Here $\tau=x+yi$.) It's clear that this is positive definite.
+Note the following:
+\begin{enumerate}
+\item
+$\frac{dxdy}{y^2}$ is the Haar measure with respect to $\SL_2(\Z)$ (it is invariant under the action of $\SL_2(\Z)$).
+\item
+$f(\tau)\overline{g(\tau)} y^k$ is invariant under transformation by $\SL_2(\Z)$: Using
+\[
+\Im(A\tau)=\frac{\Im(\tau)}{|c\tau+d|^2}
+\] 
+we get 
+\[f(A\tau)\overline{g(A\tau)}(\Im A\tau)^k=f(\tau)(c\tau+d)^{-k} g(\tau)\overline{(c\tau+d)^{-k}}\frac{y^k}{|c\tau+d|^{2k}}=
+f(\tau)\overline{g(\tau)}y^k.\]
+\item The integral converges. Since $f$ is cuspidal, $f(\tau)=O(e^{-|\tau|})=O(e^{-y})$. Thus the integral is dominated by
+\[
+\int_{-\rc 2}^{\rc2}\int_c^{\iy} Ce^{-y}{y^{k-2}}\,dx\,dy<\iy.
+\]
+\end{enumerate}
+\item The Hecke operators $T_n$ are self-adjoint under this inner product, i.e.
+\[
+\an{T_nf,g}=\an{f,T_ng}.
+\]
+(See pg. 82-86 of Brubaker's notes~\url{http://math.mit.edu/~brubaker/785notes.pdf}.)
+\item We use the following linear algebra theorems.
+\begin{thm}[Spectral theorem]
+A self-adjoint linear operator on a finite-dimensional $\C$-vector space has an orthogonal basis of eigenvectors (so is diagonalizable).
+\end{thm}
+\begin{thm}
+Let $\cal F$ be a commuting family of diagonalizable linear operators on a finite-dimensional vector space. Then $\cal F$ is simultaneously diagonalizable.
+\end{thm}
+Since the Hecke operators commute, the two theorems, combined with item 2, give the desired result.
+\end{enumerate}
+\end{proof}
+%\section{Partition congruences}
+
+%not integrated yet
+\begin{comment}
+\section{Derivatives of modular forms}
+Let $f$ be a modular form of weight $k$. Is $f'$ (derivative with respect to $\tau$) a modular form? Differentiating the transformation law gives
+\begin{align}
+\nonumber f\pf{a\tau+b}{c\tau+d}&=(c\tau+d)^k f(\tau)\\
+\nonumber f'\pf{a\tau+b}{c\tau+d}(c\tau+d)^{-2}&=k(c\tau+d)^{k-1} cf(\tau)+(c\tau+d)^k f'(\tau)\\
+f'\pf{a\tau+b}{c\tau+d}&=\underbrace{k(c\tau+d)^{k+1} cf(\tau)}_{\text{Uh-oh.}}+(c\tau+d)^{k+2} f'(\tau).\label{fdifftrans}
+\end{align}
+Unfortunately, $f'$ isn't quite modular. So we need to construct a modified notion of derivative (which we'll call $\theta$) that takes $M_k$ to $M_{k+2}$. To do this, we will use the derivative and the $P$ function, defined below in terms of the $\eta$ function. First, we need to the the transformation properties in Theorem~\ref{eta-transforms}.
+\begin{df}
+Define
+%\begin{align*}
+\[P(\tau)=\frac{24}{2\pi i} \frac{\eta'(\tau)}{\eta(\tau)}.\]
+%E_2(\tau)&=1-\underbrace{\frac{4}{B_2}}_{24}\su \si_1(n)q^n.
+%\end{align*}
+\end{df}
+\begin{thm}$\,$
+\begin{enumerate}
+\item
+$P=E_2$, i.e.
+\[
+P=1-\underbrace{\frac{4}{B_2}}_{24}\suo \si_1(n)q^n.
+\]
+\item
+$P$ satisfies the transformation law
+\begin{equation}\label{Ptrans}
+P(\ga \tau)=(c\tau+d)^2P(\tau)+\underbrace{\frac{12c}{2\pi i}(c\tau+d)}_{\text{``nonmodular" part}}.
+\end{equation}
+\end{enumerate}
+\end{thm}
+\begin{proof}
+For item 1, note that $\frac{d}{d\tau}=2\pi i q\frac{d}{dq}$ by the chain rule so
+\begin{align*}
+\frac{d}{d\tau}\ln \eta(\tau)&=2\pi i q\pa{\su \frac{d}{dq}\ln(1-q^n)+\frac{d}{dq} \ln q^{\rc{24}}
+}\\
+\frac{\eta'(\tau)}{\eta(\tau)}&=2\pi i\pa{\su \frac{nq^n}{1-q^n}+\rc{24}}\\
+&=2\pi i\pa{\su \sum_{m>0,n|m}q^{m}+\rc{24}}\\
+&=2\pi i\pa{\sum_{m\ge 1}\si_1(m)q^m+\rc{24}}.
+\end{align*}
+
+For item 2, note $\an{S,T}=\GL_2(\Z)$, so $\ga$ can be written as a product of $S=\matt0{-1}10,T=\matt1101,T^{-1}=\matt1101$. The base case is trivial.
+For the induction step, first differentiate the transformation laws for $\eta$ to get
+\begin{align*}
+\rc{\tau^2}\eta'(S\tau)&=\frac{\tau^{-\rc2}}{2\sqrt i}\eta(\tau)+\frac{\tau^{\rc2}}{\sqrt i} \eta'(\tau)\\
+\eta'(T\tau)&=e^{\frac{2\pi i}{24}}\eta(\tau).
+\end{align*}
+Using this we can calculate how $\frac{24}{2\pi i}\frac{\eta'}{\eta}$ transforms under $\eta$. The induction step comes from checking that if $\ga=\matt abcd$ then
+\begin{align*}
+P(S\ga\tau)&=(a\tau+b)^2P(\tau)+\frac{12a}{2\pi i}(a\tau+b)\\
+P(T^{\pm 1}\ga\tau)&=P(\ga\tau).
+\end{align*}
+\end{proof}
+
+Now we are ready to define our differential operator. 
+\begin{df}
+For $f$ a weight $k$ modular form, define
+\[
+\partial_k(f)=(12\theta-kP)f
+\]
+where
+\[
+\theta=q\frac{d}{dq}=\rc{2\pi i}\frac{d}{d\tau}.
+\]
+\end{df}
+
+\begin{thm}$\,$
+\begin{enumerate}
+\item
+$\partial_k$ is a map from $M_k$ to $M_{k+2}$.
+\item
+$\partial$ is a derivation, i.e. for $f\in M_m,g\in M_n$, we have
+\[
+\partial_{m+n}(fg)=(\partial_m f)g+f(\partial_n g).
+\]
+\item The following hold ($P=E_2,Q=E_4,R=E_6$):
+\begin{align*}
+\partial_2P&=-Q&\theta P&=\rc{12}(P^2-Q)\\
+\partial_4Q&=-4R&\theta Q&=\rc{3}(PQ-R)\\
+\partial_6R&=-6Q^2&\theta R&=\rc{2}(PR-Q^2).
+\end{align*}
+\end{enumerate}
+\end{thm}
+\begin{proof}
+For part 1, calculate $(\partial f)(A\tau)$ using~(\ref{fdifftrans}) and~(\ref{Ptrans}).
+
+For part 2,
+\[
+\partial_{m+n}(fg)=\rc{2\pi i} (fg)'-(m+n)Pfg=\rc{2\pi i}f'g-m(Pf)g+\rc{2\pi i}fg'-nf(Pg)=(\partial_mf)g+f(\partial_n g).
+\]
+
+For part 3, 
+more calculations show that $\partial_2P+P^2$ is a modular form. The equalities follow from using $\dim(M_4)=\dim(M_6)=\dim(M_8)=1$ and matching constant terms of the $q$-series.
+\end{proof}
+\begin{rem}
+Since $Q,R$ generate the space of modular forms, this completely describes the action of $\partial$ on modular forms. The fact that it is a derivation means that we can calculate its action on a polynomial in $P,Q,R$ as if it were actually a derivative, taking note what $\partial_2P,\partial_4Q,\partial_6R$ are. This is since for polynomials, stuff like the chain rule can be derived from the product rule, which we have.
+\end{rem}
+\end{comment}
+%1- theta and elliptic functions
+%2- modular forms on SL_2(Z)
+%3- modular forms on congruence subgroups
+%4- modular forms of half-integral weight
+%5- modular forms modulo p
+%6- more general automorphic forms (Fuschian groups, all that good 18785 stuff), harmonic Maass forms

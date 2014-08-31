@@ -1,0 +1,1154 @@
+\chapter{$L$-functions and Dirichlet's theorem}\llabel{l-func-dirichlet}
+\section{Outline}
+Our goal in this chapter is to study the asymptotics of 
+\[\pi(x,a\bmod N)
+=|\set{p\le x}{p\text{ prime, }p\equiv a\pmod N}|
+\]
+where $a$ is relatively prime to $N$. We define $\psi(x,a\bmod N)=\sum_{n\le x,\,n\equiv a\md{N}}\La(n)$.
+
+To study the distribution of primes in the arithmetic progression $n\equiv a\pmod N$, %we would like to consider the Dirichlet series for $\ze$, with only the terms $n\equiv a\pmod N$:
+%\[
+%\ze_{a\md N}(s)=\sum_{n\ge 1,\,n\equiv a\md N} \frac{1}{n^s}.
+%\]
+we study the asymptotics of $\psi(x,a\bmod N)$. However, this does not come from a Dirichlet series that we can easily estimate and that has nice multiplicative properties, like $\psi(x)$ comes from $\ze(x)=\prod_p\rc{1-p^{-s}}$ (after logarithmic differentiation and extracting coefficients).
+
+%However, this is not a nice function like $\ze(s)$, because it cannot be factored like $\ze(s)=\prod_p \rc{1-p^{-s}}$. This is because its coefficients are not multiplicative.
+The solution is to write $\psi(x,a\bmod N)$ in terms of Dirichlet series whose coefficients are multiplicative. For example, when considering primes $p\equiv 1\pmod 4$, 
+%we write $F(s)$ as
+%\[
+%F(s)=\rc{2}(L(s,\chi_1)+L(s,\chi_2))
+%\]
+%where
+we consider
+\begin{align*}
+%F(s)&=\frac{1}{1^s}+{\color{white}\frac{1}{3^s}}+
+%+\frac{1}{5^s}+{\color{white}\frac{1}{7^s}} + \frac{1}{9^s}+\cdots\\
+L(s,\chi_1)&=\frac{1}{1^s}+\frac{1}{3^s}+\frac{1}{5^s}+\frac{1}{7^s}+\frac{1}{9^s}\cdots=\prod_{p}\rc{1-p^{-s}}.\\
+L(s,\chi_2)&=\frac{1}{1^s}-\frac{1}{3^s}+\frac{1}{5^s}-\frac{1}{7^s}+\frac{1}{9^s}\cdots=\prod_{p\equiv 1\md 4}\rc{1-p^{-s}}\prod_{p\equiv 3\md 4}\rc{1+p^{-s}}
+%F(s)&=\rc{2}(L(s,\chi_1)+L(s,\chi_2)).
+\end{align*}
+The multiplicative structure is from the fact that the coefficients come from group homomorphisms $(\Z/N\Z)^{\times}\to \C$, i.e. Dirichlet characters (see Definition~\ref{arith-over-ff}.\ref{dir-char}).
+
+Logarithmic differentiation gives
+\begin{align*}
+-\fc{L'}{L}(s,\chi_1)&=\frac{\La(1)}{1^s}+\frac{\La(3)}{3^s}+\frac{\La(5)}{5^s}+\frac{\La(7)}{7^s}+\frac{\La(9)}{9^s}\cdots\\
+-\fc{L'}{L}(s,\chi_2)&=\frac{\La(1)}{1^s}-\frac{\La(3)}{3^s}+\frac{\La(5)}{5^s}-\frac{\La(7)}{7^s}+\frac{\La(9)}{9^s}\cdots\\
+\rc2\pa{-\fc{L'}{L}(s,\chi_1)
+-\fc{L'}{L}(s,\chi_2)}
+&=\frac{\La(1)}{1^s}
+{\color{white} \,+\, \frac{\La(3)}{3^s}}
++\frac{\La(5)}{5^s}
+{\color{white} \,+\, \frac{\La(7)}{7^s}}
++ \frac{\La(9)}{9^s}\cdots
+\end{align*}
+Taking the partial sum of coefficients of the last Dirichlet series gives the desired result. 
+In general, we can always estimate $\psi(x, a\bmod N)$ using an average of these {\it $L$-functions}.%\footnote{In practice we will actually pass from $L(s,\chi)$ to $\psi(s,\chi)$ and combine the $\psi(s,\chi)$ to estimate $\chi(s,a\bmod N)$.}
+%In particular, $\chi$ is primitive if there does not exist a character $\chi_1$ of level $M<N$ such that 
+%\[
+%\chi=\chi_1\chi_0.
+%\]
+
+The main steps in the proof are the same, except with $\ze$ replaced by $L$ and an extra recombination step at the end using character theory. The main steps are the following.
+\begin{enumerate}
+\item Functional equation and analytic continuation for $L$, Theorem~\ref{l-continues}.
+\item Product development, Theorem~\ref{xi-chi-product-development}.
+\item Estimates on $\fc{L'}{L}$ and asymptotics on number of zeros $N(T,\chi)$, Lemma~\ref{weak-L-zeros}.
+\item Zero-free region for $L$, Theorem~\ref{L-zero-free}.
+\item von Mangoldt's formula~\ref{L-von-Mangoldt-formula}.
+\end{enumerate}
+If we conly cared about bounds for a fixed modulus $N$, then that's all there is to it.
+
+However, to obtain error bounds independent of $N$, we need a zero free region independent of $N$ (Theorem~\ref{L-zero-free}). While in Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free} we had the luxury of restricting to large $|t|$, here we have to work with small $|t|$, and our resulting region may miss an ``exceptional" zero. We show there is at most 1 exception (Theorem~\ref{only-1-char}) and prove a version of the Prime Number Theorem for arithmetic progressions (Theorem~\ref{pntap}). Later we prove a stronger but ineffective bound on the ``exceptional zero" (Theorem~\ref{except-zero}) and obtain improved asymptotics (Theorem~\ref{siegel-walfisz}).
+
+\section{$L$-functions}
+\begin{df}\label{l-func-def}
+Let $\chi$ be a Dirichlet character. Define the $L$ function
+\[
+L(s,\chi):=\sum_{n=1}^{\iy} \fc{\chi(n)}{n^s},\quad \Re s>1.
+\]
+\end{df}
+By multiplicativity of $\chi$, $L$ has a product expansion
+\[
+L(s,\chi)=\prod_{p}\rc{1-\chi(p)p^{-s}}.
+\]
+Only the factors with $p\nmid N$ contribute.
+Note that if $\chi$ is of level $N$ and $\chi=\chi_1\chi_2$ with $\chi_1$ primitive of level $N_1$, then
+\begin{equation}\llabel{in-terms-of-primitive}
+L(s,\chi)=L(s,\chi_1)\prod_{p\mid N,\,p\nmid N_1}(1-\chi(p)p^{-s}).
+\end{equation}
+Thus for convenience we can often just prove results about primitive characters.
+
+By logarithmic differentiation we have
+\[
+\frac{L'}{L}(s,\chi)=-\sum_{p}\fc{(\ln p)\chi(p)p^{-s}}{1-p^{-s}}=-\sum_{n=1}^{\iy} \fc{\chi(n)\La(n)}{n^s}.
+\]
+\begin{thm}[Generalized Poisson summation]\llabel{gen-ps}
+Let $g$ be a function $\Z/N\Z\to \R$, and suppose $f$ is a $\cal C^2$ function satisfying
+\[
+|f(x)|,|\hat{f}(x)|\le C(1+|x|)^{-1-\de}
+\]
+for some $C,\de>0$. Then
+\[
+\sum_{m\in \Z} f\pf mN g(m)=\sum_{n\in \Z} \hat{f}(n) \hat{\ol{g}}(n).
+\]
+In particular, if $\chi$ is a primitive multiplicative character modulo $N$, then
+\[
+\sum_{m\in \Z} \chi(m)f\pf mN=G(\chi,\chi^+_1)\sum_{n\in \Z} \ol{\chi}(-n) \hat{f}(n).
+\]
+where $\chi^+_j(k):=e^{\frac{2\pi ijk}{N}}$.
+\end{thm}
+Here $\hat{f}(n)$ denotes the Fourier transform
+\[
+\hat{f}(y)=\int_{-\iy}^{\iy} f(x)e^{-2\pi ixy}\,dx
+\]
+and $\hat{g}(n)$ denotes the finite Fourier transform
+\[
+\hat{g}(n)=\sum_{m\md N} g(m)e^{-\frac{2\pi im}N}.
+\]
+\begin{proof}
+Consider the function 
+\[
+F(x)=\sum_{m\in \Z} f(x+m).
+\]
+Note this sum converges absolutely to a continuous function by the given conditions. 
+%We evaluate $F\pf{a}{q}$ in two ways. On one hand,
+%\[
+%F\pf{a}{q}=\sum_{n\in \Z}f\pf{a}{q} e^{-2\pi i nx}.
+%\]
+%On the other hand, 
+Since $F(x)$ has period 1 and is continuous, we can expand it in Fourier series:
+\begin{align*}
+F(x)&=\sum_{n=0}^{\iy} a_n e^{2\pi in x},
+\\
+a_n=\int_0^1 F(x)e^{-2\pi i nx}\,dx
+&=\int_0^1 \sum_{m\in \Z} f(x+m) e^{-2\pi i nx}\,dx
+=\int_{-\iy}^{\iy} f(x)e^{-2\pi inx}\,dx=\hat{f}(n).
+\end{align*}
+Plugging in $x=\frac aN$ gives 
+\[
+F\pf aN= \sum_{n\in \Z} \hat{f}(n)e^{2\pi i n\pf aN}.
+\]
+
+Now we calculate
+\begin{align*}
+\sum_{m\in \Z} f\pf mN g(m)&=\sum_{a\md N} g(a)F\pf aN\\
+&=\sum_{a\md N} g(a)\sum_{n\in \Z} \hat{f}(n)e^{2\pi in\pf aN}\\
+&=\sum_{n\in \Z} \hat{f}(n)\sum_{a\md N} g(a) e^{2\pi in\pf aN}\\
+&=\sum_{n\in \Z} \hat{f}(n)\hat{\ol{g}}(n).
+\end{align*}
+
+For the second part, note that
+\begin{align*}
+\sum_{m\in \Z}\chi(m)f\pf mN
+&=\sum_{n\in \Z}\hat{\ol{\chi}}(n) \hat{f}(m)\\
+&=\sum_{n\in \Z} G(\chi,\chi^+_1)\ol{\chi(n)}\hat{f}(n).\qedhere %&\text{in the notation of Section~\ref{arith-over-ff}.\ref{gauss-sums}}
+\end{align*}
+%\fixme{Chapter 12 stuff is for $\F_q$... but it also works with primitive characters modulo $q$, when $q$ is not prime.}
+\end{proof}
+We apply Poisson summation to derive a transformation law for generalized theta functions.
+\begin{df}
+Let $\chi$ be a multiplicative character modulo $N$. Define
+\begin{align*}
+\te_{\chi}(u)&=\sum_{n\in \Z}\chi(n)e^{-\pi n^2 u}\\
+\vartheta_{\chi}(u)&=\sum_{n\in \Z}\chi(n)ne^{-\pi n^2 u}.
+\end{align*}
+\end{df}
+Note we need to work with $\vte_{\chi}(u)$ when $\chi$ is odd, since in this case $\te_{\chi}(u)=0$ and we cannot express $L(s,\chi)$ in terms of $\te_{\chi}$.
+\begin{pr}[Transformation law for $\te_{\chi}$]\llabel{theta-transforms}
+Suppose $\chi$ is primitive. Then %letting $\chi^+(n)=e^{\frac{2\pi i n}q}$,
+\begin{align*}
+\te_{\chi}(u) &= \frac{G(\chi,\chi^+_1)}{N\sqrt u}\te_{\ol{\chi}}\prc{N^2u}\\
+\vartheta_{\chi}(u) &=-\frac{G(\chi,\chi^+)i}{N^2u^{\frac 32}}\vte_{\ol{\chi}}\prc{N^2u}.
+\end{align*}
+\end{pr}
+\begin{proof}
+Note the Fourier transform of $e^{-\pi x^2}$ is itself; moreover, if $f(x)=g(ax)$ then $\hat{f}(y)=\hat{g}\pf ya$. Hence
+\[
+\cal F(e^{-\pi u(Nx)^2})=\rc{N\sqrt u} e^{-\frac{\pi y^2}{uN^2}}.
+\]
+By the Poisson summation formula~\ref{gen-ps},
+\begin{align*}
+\te_{\chi}(u) &= \sum_{n\in \Z} \chi(n) e^{-\pi n^2u}\\
+&= \frac{G(\chi,\chi^+_1)}{N\sqrt{u}} \sum_{n\in \Z} \ol{\chi}(-n)e^{-\frac{\pi n^2}{uN^2}}\\
+&=\frac{G(\chi,\chi^+_1)}{N\sqrt u}  \te_{\ol{\chi}}\prc{N^2u}.
+\end{align*}
+For the second part, note first that $\widehat{f'}(y)=2\pi i x \hat{f}(y)$. Hence
+\[
+\cal F(Nxe^{-\pi u(Nx)^2})=\pa{-\frac{1}{2\pi u N}}\cal F\pa{\frac{d}{dx} (xe^{-\pi u (Nx)^2})}
+=-\rc{\cancel{2\pi} u N}\cdot \cancel{2\pi} i y\rc{N\sqrt u} e^{-\frac{\pi y^2}{uN^2}}=-\frac{i}{N^2u^{\fc 32}}e^{-\frac{\pi y^2}{uN^2}}.
+\]
+Then by Poisson summation,
+\begin{align*}
+\vte_{\chi}(u) &= \sum_{n\in \Z} \chi(n) ne^{-\pi n^2u}\\
+&= -\frac{G(\chi,\chi^+_1)i}{N^2u^{\frac 32}} \sum_{n\in \Z} \ol{\chi}(-n)ne^{-\frac{\pi n^2}{uN^2}}\\
+&= -\frac{G(\chi,\chi^+_1)i}{N^2u^{\frac 32}}  \vte_{\ol{\chi}}\prc{N^2u}.
+\qedhere
+\end{align*}
+\end{proof}
+From this we get the functional equation for the $L$-function. The proof is similar to that of Theorem~\ref{zeta-continues}.
+\begin{thm}\llabel{l-continues}
+Let $\chi$ be any character modulo $N$. 
+Then $L(s,\chi)$ has an meromorphic continuation to $\C$. If $\chi$ is principal then $L(s,\chi)$ has a single pole %of residue $\prod_{p\mid N}(1-p^{-s})$ 
+at $1$, and if $\chi$ is nonprincipal then $L(s,\chi)$ is entire. 
+
+Now supose $\chi$ is primitive. Defining
+\[
+\xi(s,\chi):=\pf{\pi}{N}^{-\frac{s+a}{2}}\Ga\pf{s+a}2 L(s,\chi),
+\]
+where
+\[
+a=\begin{cases}
+0,&\text{if $\chi(-1)=1$}\\
+1,&\text{if $\chi(-1)=-1$,}
+\end{cases}
+\]
+we have
+\[
+\xi(s,\chi):=\frac{G(\chi,\chi^+_1)}{i^a\sqrt q}\xi(1-s,\ol{\chi}).
+\]
+
+Moreover, for any $\chi$, $L(s,\chi)$ has zeros at $-2\N+a$ (the trivial zeros) and all other zeros are in the critical strip $0\le \Re s\le 1$.
+\end{thm}
+Note that for $\chi$ nonprincipal, partial cancellation in the Dirichlet series removes the pole at $s=1$.
+\begin{proof}
+%If $\chi$ is principal of level $N$ then
+%\[
+%L(s,\chi) =\ze(s)\prod_{p\mid N} (1-p^{-s}),
+%\]
+%so the result follows from that for $\ze$. 
+%
+Note that it suffices to prove all statements for $\chi$ primitive, in light of~(\ref{in-terms-of-primitive}). If $\chi$ is principal, the result follows from the result for $\ze$, so suppose $\chi$ is nonprincipal. Use partial summation~\ref{arith-f}.\ref{sum-parts} to find that for for $s>1$,
+\begin{equation}\llabel{bound-L-summands}
+L(s,\chi)=\int_1^{\iy} S(x) sx^{-s-1}\,dx
+\end{equation}
+where $S(x)=\sum_{n\le x}\chi(n)$.
+%\[
+%L(s,\chi)=\sum_{n=1}^{\iy} (\chi(1)+\cdots +\chi(n)) (n^{-s}-(n+1)^{-s}).
+%\]
+(We use the fact that $\lim_{N\to \iy}S(N)N^{-s}=0$ when $s>1$.) 
+Since $\chi(1)+\cdots +\chi(N)=0$ by Corollary~\ref{arith-over-ff}.\ref{sum0}, $\chi(1)+\cdots+\chi(n)\le N$. Then for $\Re s>0$, the above integral converges absolutely, extending $L(s,\chi)$ holomorphically to $\Re s>0$.\\
+%\begin{equation}\llabel{bound-L-summands}
+%\sum_{n=1}^{\iy} |(\chi(1)+\cdots +\chi(n)) (n^{-s}-(n+1)^{-s})|\le C\sum_{n=1}^{\iy} [n^{-s}-(n+1)^{-s}]=C,
+%\end{equation}
+%so the sum converges absolutely. Convergence is uniform on $\Re s>\ep$ for any $\ep>0$, because the error from truncating the sum at $m-1$ is at most $Cm^{-s}<Cm^{-\ep}$. Thus the sum defines a holomorphic function on $\Re s>0$.
+%
+%We show the functional equation for $0<s<1$; then it will give analytic continuation to all $s$.\\
+
+\noindent{\underline{Case 1:}} Suppose $\chi(-1)=1$; then $\chi(-n)=\chi(n)$. We calculate
+\[
+\int_0^{\iy} \te_{\chi}(u) u^{\frac s2}\frac{du}{u}
+\]
+in two different ways.\footnote{Unlike in Theorem~\ref{zeta-l-pnt}.\ref{zeta-continues}, there is no ``$-1$" since $\chi(0)=0$.} When $0<\Re s<1$,
+\begin{align*}
+\int_0^{\iy} \theta_{\chi}(u)u^{\frac s2} \,\frac{du}u
+&=\int_0^{\iy} \sum_{n\in\Z} \chi(n) e^{-\pi n^2u}u^{\frac s2}\frac{du}u\\
+&=2\sum_{n=1}^{\iy} \int_0^{\iy} \chi(n) e^{-\pi n^2u}u^{\frac{s}2}\,\frac{du}u&\chi(-n)=\chi(n),\,\chi(0)=0\\
+&=2\sum_{n=1}^{\iy} \int_0^{\iy} \chi(n)e^{-u} \pf{u}{\pi n^2}^{\frac s2}\,\frac{du}u&u\mapsfrom \frac{u}{\pi n^2}\\
+&=2\pi^{-\frac s2}\pa{\sum_{n=1}^{\iy} \frac{\chi(n)}{n^s}}\pa{\int_0^{\iy} e^{-u} u^{\frac s2}\,\frac{du}u}\\
+&=2\pi^{-\frac s2} L(s,\chi)\Ga\pf{s}2.
+\end{align*}
+Now using the transformation law~\ref{theta-transforms},
+\begin{align*}
+\int_0^{\iy} \te_{\chi}(u) u^{\frac s2}\frac{du}{u}
+&=\int_0^{\iy} \frac{G(\chi,\chi^+_1)}{N\sqrt u} \te_{\ol{\chi}} \prc{N^2u} u^{\frac s2}\frac{du}u\\
+&=\frac{G(\chi,\chi^+_1)}N \int_0^{\iy} \te_{\ol{\chi}} \prc{N^2u} u^{\frac s2-\rc 2}\frac{du}u\\
+&=\frac{2G(\chi,\chi^+_1)}N \sum_{n=1}^{\iy}\int_0^{\iy} \ol{\chi}(n) e^{-\frac{\pi n^2}{uN^2}} u^{\frac s2-\rc 2}\frac{du}u\\
+&=\frac{2G(\chi,\chi^+_1)}N \sum_{n=1}^{\iy}\int_0^{\iy} \ol{\chi}(n) e^{-u} \pf{\pi n^2}{uN^2}^{\frac s2-\rc 2}\frac{du}u&u\mapsfrom \frac{\pi n^2}{uN^2}\\
+&=\frac{2G(\chi,\chi^+_1)\pi^{\frac s2-\rc2}}{N^s} \sum_{n=1}^{\iy} \fc{\ol{\chi}(n)}{n^{(1-s)}}\int_0^{\iy}e^{-u} u^{\frac{1-s}{2}}\frac{du}{u}\\
+&=\frac{2G(\chi,\chi^+_1)\pi^{\frac s2-\rc2}}{N^s} L(1-s,\ol{\chi}) \Ga\pf{1-s}2.
+\end{align*}
+Equating these two calculations gives the result.
+
+\noindent{\underline{Case 2:}} Suppose $\chi(-1)=-1$. We work with $\vte_{{\chi}}$ instead of $\te_{\chi}$. To compensate for the extra factor of $n$ in $\vte_{\chi}$, we need an extra factor of $u^{\rc 2}$.  We calculate
+\[
+\int_0^{\iy} \vte_{\chi}(u) u^{\frac{s+1}2}\frac{du}{u}
+\]
+in two different ways. First,
+\begin{align*}
+\int_0^{\iy} \theta_{\chi}(u)u^{\frac{s+1}2} \,\frac{du}u
+&=\int_0^{\iy} \sum_{n\in\Z} \chi(n) ne^{-\pi n^2u}u^{\frac {s+1}2}\frac{du}u\\
+&=2\sum_{n=1}^{\iy} \int_0^{\iy} \chi(n) ne^{-\pi n^2u}u^{\frac{s+1}2}\,\frac{du}u&-n\chi(-n)=n\chi(n),\, \chi(0)=0\\
+&=2\sum_{n=1}^{\iy} \chi(n)n\int_0^{\iy} e^{-u} \pf{u}{\pi n^2}^{\frac{s+1}2}\,\frac{du}u&u\mapsfrom \frac{u}{\pi n^2}\\
+&=2\pi^{-\frac{s+1}2}\sum_{n=1}^{\iy} \frac{\chi(n)}{n^s}\int_0^{\iy} e^{-u} u^{\frac{s+1}2}\,\frac{du}u\\
+&=2\pi^{-\frac{s+1}2} L(s,\chi)\Ga\pf{s+1}2.
+\end{align*}
+Now using the transformation law~\ref{theta-transforms},
+\begin{align*}
+\int_0^{\iy} \te_{\chi}(u) u^{\frac{s+1}2}\frac{du}{u}
+&=\int_0^{\iy} -\frac{G(\chi,\chi^+)iy}{N^2u} \te_{\ol{\chi}} \prc{N^2u} u^{\frac{s+1}2}\frac{du}u\\
+&=-\frac{G(\chi,\chi^+)i}{N^2} \int_0^{\iy} \te_{\ol{\chi}} \prc{N^2u} u^{\frac s2-1}\frac{du}u\\
+&=-\frac{2G(\chi,\chi^+)i}{N^2} \sum_{n=1}^{\iy}n\ol{\chi}(n)\int_0^{\iy}  e^{-\frac{\pi n^2}{uN^2}} u^{\frac s2-1}\frac{du}u\\
+&=-\frac{2G(\chi,\chi^+)i}{N^2} \sum_{n=1}^{\iy}\int_0^{\iy} \ol{\chi}(n)n e^{-u} \pf{\pi n^2}{uN^2}^{\frac s2-1}\frac{du}u&u\mapsfrom \frac{\pi n^2}{uN^2}\\
+&=-\frac{2G(\chi,\chi^+)i\pi^{\frac s2-1}}{N^2N^{n-2}} \sum_{n=1}^{\iy} \fc{\ol{\chi}(n)}{n^{1-s}}\int_0^{\iy}e^{-u} u^{1-\frac{s}{2}}\frac{du}{u}\\
+&=-\frac{2G(\chi,\chi^+)i\pi^{\frac s2-1}}{N^s} L(1-s,\ol{\chi}) \Ga\pa{1-\frac s2}. &\qedhere
+\end{align*}
+Again matching the two calculations gives the result.
+
+From Proposition~\ref{complex-analysis}.\ref{gamma-facts}(5), $\Ga$ has no zeros, so we find that $L(s,\chi)$ is defined whenever $L(s,\ol{\chi})$ is defined; this $L$ is entire. 
+The description of the zeros of $L$ follow from the functional equation and the fact that $\Ga$ has poles at $-\N_0$. %The description of the poles follows from the fact that $\Ga$ has no zeros.
+\end{proof}
+\begin{thm}[Product development of $\xi(s,\chi)$]\llabel{xi-chi-product-development}
+Suppose $\chi$ is primitive of level $N>1$.
+The function $\xi(s,\chi)$ is entire of order 1 and has the product expansion
+\[
+\xi(s,\chi)=\xi(0,\chi)e^{Bs}\prod_{\rho\text{ zero of }\xi(s,\chi)} \pa{1-\frac s{\rh}}e^{\frac s{\rh}}.
+\]
+Then $\frac{L'}{L}(s,\chi)$ has the partial-fraction expansion
+\[
+\frac{L'}{L}(s,\chi)=B+\rc{2}\ln\pf{N}{\pi}%\ln(\pi) -\rc2\frac{\Ga'}{\Ga}\pa{\frac s2+1}
+-\rc{2}\frac{\Ga'}{\Ga}\pf{s+a}{2}
++\sum_{\rh\text{ nontrivial zero of }\zeta}\pa{\rc{s-\rh}+\rc{\rh}}.
+\]
+\end{thm}
+From now on, we only talk about nontrivial zeros of $\ze$.
+\begin{proof}
+We proceed as in Theorem~\ref{zeta-l-pnt}.\ref{xi-product-development}. 
+The argument is the same, the only major differences being that $\xi(s,\chi)$ has no poles at $s=0,1$, and the slight difference in definition of $\ze(s,\chi)$ in terms of $L(s,\chi)$, versus the definition of $\xi(s)$ in terms of $\ze(s)$. (Namely, we have $s+a$ instead of $s$, and an extra $N^{-\frac{s+a}2}$. For completeness we give the proof.
+
+To show it has order 1 we need two inequalities.\\
+
+\noindent \underline{Step 1:} There is no constant $C$ so that $\xi(s,\chi)\precsim e^{C|s|}$: Indeed, for real $s$ and any constant $C'$ we have
+\begin{align*}
+\xi(s)&=\pf{\pi}{N}^{-\frac{s+a}2}\Ga\pf{s+a}2L(s,\chi)\\
+&\succsim s^{-\rc 2}\pf{(s+a)N}{2e\pi}^{\frac{s+a}2}
+\succsim e^{C's}.
+\end{align*}
+\noindent\underline{Step 2:} There is a constant $C$ so that $\xi(s,\chi)\precsim e^{C|s|\ln|s|}$: $e^{|s|\ln|s|}\ge1$ for all $s$ so it suffices to prove this for sufficiently large $s$. By the integral and sum formulas for $\Ga$ and $\xi$, and the fact that $|x^s|=|x^{\Re s}|$, we have
+\[
+|\xi(\si+ti,\chi)|\le \pf{\pi}N^{-\frac{\si+a}{2}}\Ga\pf{\si+a}{2}L(\si,\chi),\quad \si>1.
+\]
+By symmetry of $\xi$ is suffices to consider $\si\ge \rc2$. (We have $\xi(s,\chi)=\frac{G(\chi,\chi^+)}{i^a\sqrt q}\xi(1-s,\ol{\chi})$, and the multiplier has absolute value 1.) Consider 2 cases.
+\begin{enumerate}
+\item
+$\si>2$: Then $\pi^{-\frac{\si+a}{2}}<1$ and $L(\si,\chi)<\ze(2)$ so we have by Stirling's approximation~\ref{complex-analysis}.\ref{stirling} that
+\[
+|\xi(\si+ti,\chi)|\precsim
+\ab{N^{\fc{\si+a}2}\Ga\pf{\si+ti+a}2}\\
+%\precsim %\pf{\si}{2}^{\frac{\si}2-\rc 2}e^{-\frac{\si}{2}}
+=N^{\fc{\si+a}2}e^{|(\ln\Ga)(\si+a)|}=N^{\fc{\si+a}2}e^{\pa{\frac{\si+a-1}2}\ln\frac{\si+a}2 -\frac{\si+a}2+O(1)}
+\]
+from which the result follows.
+\item
+$\frac12\le \si\le 2$: %From~(\ref{bound-zeta-summands}), we have 
+For $s$ bounded away from 1, from~(\ref{bound-L-summands}),
+\[
+L(s,\chi)=O(|s|).
+%\zeta(s)\le O(1)+|s| \sum_{n=1}^{\iy} n^{-\frac 32}=O(|s|).
+\]
+This time $\Ga\pf{\si+a}{2}=O(1)$ so
+\[
+|L(s,\chi)|\le \ab{
+\pf{\pi}{N}^{-\frac{\si+a}2}L(s,\chi)\Ga\pf{\si+a}2}
+=O(|s|)\precsim e^{C|s|\ln|s|}.
+\]
+\end{enumerate}
+This shows $\xi(s)$ has order 1.\\
+
+\noindent\underline{Step 3:} By the product development~\ref{product-development}, noting the the zeros of $\xi(s,\chi)$ are the nontrivial zeros of $L(s,\chi)$, we get
+\[
+\xi(s,\chi)=\xi(0,\chi)e^{Bs}\prod_{\rh\text{ zero of }L(s,\chi)}\pa{1-\frac{s}{\rh}}e^{\frac s{\rh}}.
+\]
+Logarithmic differentiation gives
+\[
+\frac{\xi'}{\xi}(s,\chi)=B+\sum_{\rh} \pa{\rc{s-\rh}+\rc{\rh}}.
+\]
+Since $L(s,\chi)=\pf{\pi}{N}^{\frac{s+a}2}\Ga\pf{s+a}2^{-1}\xi(s,\chi)$, we get
+\[
+\frac{L'}{L}(s,\chi)=\rc{2}\ln\pf{\pi}N -\rc2\frac{\Ga'}{\Ga}\pa{\fc{s+a}2}+B+\sum_{\rh} \pa{\rc{s-\rh}+\rc{\rh}}.\qedhere
+\]
+\end{proof}
+\section{Zeros of $L$}
+%%%%%%%%%
+\begin{lem}\llabel{weak-L-zeros}
+Define $\cal L=\ln N(|t|+2)$. Let $\chi$ be a primitive character of level $N$. 
+For $s=\si+it$ with $\si\in [-1,2]$, %and $|t|$ bounded away from 1, 
+we have
+\begin{align*}
+\frac{L'}{L}(s,\chi)&=\sum_{\rh}\pa{\rc{s-\rh}+\rc{\rh}}+O(\cal L)\\
+&=\sum_{|\Im(s-\rh)|<1} \rc{s-\rh} +O(\cal L).
+\end{align*}
+Moreover, there are $O(\ln|Nt|)$ zeros $\rh$ with $|\Im(s-\rh)|<1$, i.e. the number of zeros with imaginary part in $[t,t+1]$ is $O(\ln Nt)$, as $t\to \iy$.
+\end{lem}
+Note this gives $N(T)=O(T\ln(NT))$.
+\begin{proof}
+We follow the proof of Theorem~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros}. The case $N=1$ follows from there so we assume $N>1$. 
+
+\noindent\underline{Step 1:}
+Theorem~\ref{xi-chi-product-development} gives us
+\begin{equation}\llabel{L2-zero-sum}
+\frac{L'}{L}(s,\chi)=
+\underbrace{B+\rc2\ln\pf{N}{\pi}}_{O(1+\ln N)}
+-
+\rc2\underbrace{\frac{\Ga'}{\Ga}\pa{
+\frac {s+a}2}}_{(A)}+
+\underbrace{\sum_{\rh} \pa{\rc{
+s-\rh}+\rc{\rh}}}_{(B)}.
+\end{equation}
+From Stirling's approximation~\ref{complex-analysis}.\ref{stirling}, (A) equals
+\begin{equation}\llabel{L-gamma2-estimate}
+%\underbrace
+{\ln\ab{\frac{\si+a}{2}+\frac t2i}}%_{O(1+\ln |t|)}
+%+\underbrace{\frac{1}{2\ab{\frac{\si+a}{2}+\frac t2i}}}_{O(1)}
+%+O\pa{\ab{\frac{\si+a}{2}+i\frac t2}^{-1}}=
+%O(\ln |t|).
++O(1)=O(\cal L).
+\end{equation}
+
+Now suppose $s=2+it$. 
+Note that
+\[
+\ab{\frac{L'}{L}(s,\chi)}
+=\ab{\sum_{n=1}^{\iy} \chi(n)\La(n)n^{-2-it}}
+\le \ab{\sum_{n=1}^{\iy} (\ln n)n^{-2}}<\iy,
+\]
+so the LHS of~(\ref{L2-zero-sum}) is $O(1)$.
+Hence~(\ref{L2-zero-sum}) becomes
+\begin{equation}\llabel{L2-zero-sum2}
+O(\cal L)=\sum_{\rh} \pa{\rc{
+s-\rh}+\rc{\rh}}.
+\end{equation}
+Now finish the same way as in Theorem~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros} to conclude the first step.\\
+%We estimate the terms with $|\Im(s-\rh)|<1$ by a constant to show that there aren't too many of them: 
+%from~(\ref{zeta2-zero-sum2}) and~(\ref{gamma2-estimate}),
+%\begin{align}
+%\nonumber
+%O(\ln |t|) &= \Re\sum_{\rh}\pa{\rc{2+it-\rh}+\rc{\rh}}\\
+%\nonumber
+%&=
+%\Re\sum_{\rh}\pa{
+%\frac{(2+\Re \rh)-(t-\Im \rh)i}{(2-\Re \rh)^2+(t-\Im\rh)^2}
+%}\\
+%\nonumber
+%&\ge\sum_{\rh} \rc{4+(t-\Im \rh)^2}&\text{since $0\le \Re \rh\le 1$}\\
+%\llabel{zero-olnt}
+%&\ge \rc 5 |\set{\rh}{|\Im(s-\rh)|<1}|+\rc5 \sum_{|\Im(s-\rh)|\ge 1}\rc{(t-\Im \rh)^2}.
+%\end{align}
+%This proves the second part of the lemma.
+%Hence from~(\ref{zeta2-zero-sum2}),
+%\begin{align*}
+%\ab{\frac{\zeta'(2+it)}{\zeta(2+it)}}
+%&=\sum_{|\Im(s-\rh)|<1}\rc{s-\rh}+
+%\underbrace{\sum_{|\Im(s-\rh)|<1}\rc{\rh}}_{O(\ln|t|)}
+%+
+%\underbrace{\sum_{|\Im(s-\rh)|\ge 1}\pa{\rc{2+it-\rh}+\rc{\rh}}}_{O(\ln|t|)}
+%\end{align*}
+%as needed. (The first $O(\ln|t|)$ is because there are $O(\ln|t|)$ terms in the sum and each is at most 1 in absolute value.)\\
+
+\noindent\underline{Step 2:} Now we consider general $s=\si+it$, by comparing it to $2+it$. We have by~(\ref{L2-zero-sum}) and~(\ref{L-gamma2-estimate}) that
+\[
+\frac{L'}{L}(s,\chi)-\underbrace{\frac{L'}{L}(2+it)}_{O(1)}
+%&=O(1)+\underbrace{\rc2\pa{\ln\ab{\frac{\si}2+1+i\frac t2}-
+%\ln\ab{2+i\frac t2}}}_{O(1)}+\sum_{\rh} \pa{\rc{s-\rh}-\rc{2+it-\rh}}\\
+%&
+=O(1)+
+\sum_{|\Im(s-\rh)|<1}\rc{s-\rh}+\underbrace{\sum_{|\Im(s-\rh)|<1}\rc{2+it-\rh}}_{O(\cal L)}+
+\underbrace{\sum_{|\Im(s-\rh)|\ge1}\frac{(2-\si)+it}{(s-\rh)(2+it-\rh)}}_{O(\cal L)}.
+\]
+Finish as in Theorem~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros}, the only difference being that $\ln|t|$ is replaced by $\ln|Nt|$.
+%
+%\noindent{\underline{Step 3:}} Next we prove the theorem for nonprimitive $\chi$.
+%\end{align*}
+%The first $O(\ln|t|)$ is because there are at most $O(\ln|t|)$ terms and each term is at most 1 in absolute value; the second is because using~(\ref{zero-olnt}),
+%\[
+%\sum_{|\Im(s-\rh)|\ge1}\frac{2-\si}{(s-\rh)(2+it-\rh)}=O\pa{\sum_{|\Im(s-\rh)|\ge1}\frac{1}{\Im(s-\rh)^2}}=O(|\ln t|).
+%\]
+%Since the formula holds for $2+it$, this shows that it holds for $s+it$.
+\end{proof}
+\begin{thm}[von Mangoldt]\llabel{L-zeros}($*$) 
+As $T\to \iy$,
+\[
+N(T,\chi)=\frac{T}{\pi}\ln\pf{NT}{2\pi}-\frac{T}{\pi}+O(\ln NT).
+\]
+where the constant is independent of $N$.
+\end{thm}
+\begin{proof}
+The proof is similar to Theorem~\ref{zeta-l-pnt}.\ref{zeta-zeros}. We'll only need the weaker estimate $N(T,\chi)=O(T\ln NT)$ so we omit the proof.
+ %The major difference is the functional equation; we have $\xi(s,\chi)=\frac{G(\chi,\chi^+_1)}{i^a\sqrt q} \xi(1-s,\ol{\chi})$. (BLAH)
+%As $\zeta$ has only a countable number of zeros, we may assume $T$ is not the imaginary part of any zero.
+%
+%Let
+%\[
+%\cal R=\set{\si+it}{(s,t)\in [-1,2]\times [-T,T]}
+%\]
+%and let $C$ be the boundary of $\cal R$. (PICTURE) 
+%Since $\Ga(\ol s)=\ol{\Ga(s)}$, the zeros of $\Ga$ are symmetric across the real axis. From $\xi(s)=\pi^{-\frac s2}\zeta(s)\Ga\pf s2$, we see that $\xi$ has the same zeros and poles as $\zeta$ in this region. Now $\Ga$ has $2N(T)$ zeros (note it has no zeros on the real axis)
+%and $2$ poles in $\cal R$, namely $0$ and $1$. Hence by Cauchy's formula,
+%\[
+%\rc{2\pi i}\oint_{C} \frac{\xi'(s)}{\xi(s)} ds=2N(T)-2.
+%\]
+%Noting that $\xi(\ol{s})=\ol{\xi(s)}$ and $\xi(s)=\xi(1-s)$, change of variable shows that the integral on each of the sections of $C$ between $2$, $\rc 2+iT$, $-1$, and $\rc 2-iT$ are the same.\footnote{We used $\xi$ because its symmetry allows us to do this.} Let $C'$ be the part from $1$ to $\rc 2+iT$. Thus 
+%%(using $\pa{\prod_{k=1}^n f_k}'=\sum_{k=1}^n \frac{f_k'}{f_k}$), 
+%the above equals
+%\begin{align*}
+%\frac2{\pi i}\int_{C'} \frac{\xi'(s)}{\xi(s)} ds
+%&=\frac2{\pi i}
+%\int_{C'} -\frac{\ln \pi}{2}+\frac{\zeta'(s)}{\zeta(s)}+\frac{\pa{\Ga\pf{s}{2}}'}{\Ga\pf s2}\,ds&\frac{\pa{\prod_{k=1}^n f_k}'}{\prod_{k=1}^n f_k}=\sum_{k=1}^n \frac{f_k'}{f_k}\\
+%&=\frac2{\pi}\Im
+%\int_{C'} -\frac{\ln \pi}{2}+\frac{\zeta'(s)}{\zeta(s)}+\frac{\pa{\Ga\pf{s}{2}}'}{\Ga\pf s2}\,ds
+%&\text{(expression is real)}.
+%\end{align*}
+%We break this up into 3 integrals and estimate each part separately.
+%\begin{enumerate}
+%\item $\Im\int_{C'}-\frac{\ln \pi}{2}\,ds=-\frac{T}{2}\ln \pi$.
+%\item Using the estimate for $\frac{\zeta'}{\zeta}$ in Lemma~\ref{weak-zeta-zeros},  we evaluate the second integral. Note that $\ln\zeta$ is defined for $\Re s> 1$ and is uniformly bounded for $\Re s=2$:
+%\begin{align*}
+%(\ln\zeta)(s)&=\sum_{p\text{ prime}} \ln(1-p^{-s}) \\
+%|(\ln\zeta)(2+it)|&\le\sum_{p\text{ prime}} 2p^{-2}.
+%\end{align*}
+%(Just bound $\ln$ linearly near 1, or expand in Taylor series.)  
+%Note $\ln(x-\rh)$ is well-defined on $C'$ for any $\rh$. Hence
+%\begin{align*}
+%\Im\int_{C'}\frac{\zeta'(s)}{\zeta(s)}ds
+%&=(\Im(\ln\zeta)\pa{2+iT}-\cancelto{0}{\Im(\ln\zeta)(2)})+\int_{2+iT}^{\rc 2+iT} \frac{\zeta'(s)}{\zeta(s)}ds\\
+%&=O(1)+\int_{2+iT}^{\rc 2+iT} \Im\pa{\sum_{|\Im(s-\rh)|<1}\rc{s-\rh}}+O(\ln T)\,ds\\
+%&=O(\ln T)+\sum_{\rh}\Im(\ln(x-\rh))|^{\rc2+iT}_{2+iT}\\
+%&\le O(\ln T)+2\pi O(\ln T)
+%\end{align*}
+%since there are at most $\ln T$ terms in the sum.
+%\item We estimate the last integral using Stirling's formula. (Note that $\ln\Ga$ is well-defined for $s\in C'$.)
+%\begin{align*}
+%\int_{C'}\frac{\pa{\Ga\pf s2}'}{\Ga\pf s2}
+%&=\ba{\Im(\ln\Ga)\pf s2}^{\rc 2+iT}_2\\
+%&=\Im(\ln \Ga)\pa{\frac 14+i\frac{T}{2}}\\
+%&=\Im\ba{\pa{-\rc 4+i\frac T2}\ln\pa{\rc 4+i\frac T2}-\pa{\rc 4+i\frac T2}+O(1)}&\text{by Theorem~\ref{stirling}}\\
+%&=\frac T2\ln\pf T2-\frac T2+O(1).\qedhere
+%\end{align*}
+%\end{enumerate}
+%Now put everything together to get
+%\begin{align*}
+%2N(T)-2&=\frac{2}{\pi}\pa{-\frac T2\ln \pi+O(\ln T)+\pa{\frac T2\ln\pf T2-\frac T2+O(1)}}\\
+%N(T)&=\frac{T}{2\pi}\ln\pf{T}{2\pi}-\frac{T}{2\pi}+O(\ln T).
+%\end{align*}
+\end{proof}
+\begin{thm}[Zero-free region for $L$]\llabel{L-zero-free}
+%Let $\cal L=\ln(N(|t|+2))$.
+There exists a constant $c>0$, independent of $\chi$ and $N$, such that the following holds for all primitive $\chi$ of level $N$.
+\begin{enumerate}
+\item
+If $\chi$ is nonreal, and $s=\si+it$ is a zero of $L(s,\chi)$, then
+\begin{equation}\llabel{L-zero-bound}
+\si<1-\frac{c}{\cal L}.
+\end{equation}
+\item
+If $\chi$ is real, then with at most 1 exception (counting multiplicity), all zeros satisfy~(\ref{L-zero-bound}). If it exists, the exceptional zero is real.
+\end{enumerate}
+\end{thm}
+Unlike in Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free}, we have to worry about small $|t|$. Fortunately, $L(s,\chi)$ has no pole at $s=1$ to screw us up. Things are not so easy, however.
+\begin{proof}
+We may assume $N\ge 2$.
+
+As in Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free}, we have $0\le 3+4\cos \te+\cos 2\te$, so
+\[
+0\le 3+4\Re(\chi(n)n^{-it})+\Re(\chi(n)^2n^{-2it}).
+\]
+Multiplying by $\La(n)n^{-\si}$ and summing, we get
+\begin{equation}\llabel{zero-free-L-inequality}
+0\le 3\pa{-\frac{L'}{L}(\si,\chi_0)} 
++4\Re\pa{-\frac{L'}{L}(\si+ti,\chi)}
++\Re\pa{-\frac{L'}{L}(\si+2ti,\chi^2)},\quad\si>1.
+\end{equation}
+%Letting $r$ be the degree of the zero at $1+ti$, we have
+%\[
+%0\le\pa{\frac{3}{\si-1}+O(1)}
+%-\pa{\frac{4r}{\si-1}+O(1)}
+%+\Re\pa{-\frac{\ze'}{\ze}(\si+2ti)}\text{ as }\si\to 1^+.
+%\]
+%If $r\ge 1$, then this gives $-\frac{\ze'}{\ze}(\si+2ti)\to -\iy$ as $\si\to 1^+$, contradiction. Hence $r=0$; $1+it$ is not a zero.
+Suppose $1<\si<2$ and $\rh=(1-\de)+ti$ is zero.
+First we have
+\begin{equation}\llabel{zfli1}
+-\fc{L'}{L}(\si,\chi_0) =-\fc{\ze'}{\ze}(\si,\chi_0) - \sum_{p\mid N}\fc{(\ln p)p^{-s}}{1-p^{-s}}=\rc{\si-1} +O(\ln N).
+\end{equation}
+Next, we use the partial fraction decomposition~\ref{xi-chi-product-development}.
+%with degree $r$. 
+By  %~(\ref{zeta2-zero-sum}) and~(\ref{gamma2-estimate}), 
+Theorem~\ref{weak-L-zeros} we have
+\begin{equation}\llabel{zfli2}
+\Re\pa{-\frac{L'}{L}(s,\chi)} %= O(\cal L) -\sum_{\rh}\pa{\rc{s-\rh}+\rc{\rh}}
+\le O(\cal L)-\sum_{\rh}\Re\prc{s-\rh}.
+\end{equation}
+%(All terms in the last sum are positive.)
+\begin{enumerate}
+\item
+Suppose $\chi^2$ is not principal, i.e. $\chi$ is not real. %Suppose $\rh=(1-\de)+ti$ is a zero. 
+Now~(\ref{zfli2}) gives
+\begin{equation}
+\Re\pa{-\frac{L'}{L}(\si+ti,\chi)}\le O(\cal L)-\frac{1}{\si+\de-1}.
+\end{equation}
+Also by Theorem~\ref{weak-L-zeros}
+\begin{equation}\llabel{zero-free-L-inequality}
+%-\Re\frac{\zeta'}{\ze}(\si+ti)&\le O(\ln|t|)-\frac{1}{\si+\de-1}\\
+\Re\pa{-\frac{L'}{L}(\si+2ti,\chi^2)}\le O(\cal L(2t))=O(\cal L).
+\end{equation}
+%(SWITCH between $\cal L$ and $\ln |t|$...) 
+%For $\si>1$, plugging this into~(\ref{L-free-zeta-inequality}) gives
+%\begin{align*}
+%0&\le \frac{3}{\si-1} +O(1) +O(\cal L) -4\sum_{\rh}\Re\prc{s-\rh}+O(\cal L)
+%\\
+%\implies \frac{4}{\si+\de-1}&<\frac{3}{\si-1}+C\ln|t|
+%\end{align*}
+%for some $C$.
+%The proof is the same as Theorem~\ref{zeta-zero-bound};
+%take $\si=1+4\de$ to get
+%\[
+%\frac{4}{5\de}<\frac{3}{4\de}+C_1\ln|t|,
+%\]
+%giving
+%\[
+%\de>\frac{1}{20C_1\ln|t|}
+%\]
+%as needed. (Warning, non primitive.)
+The remainder of this case follows the lines of Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free}.
+\item
+If $\chi^2$ is principal, then we have
+\begin{align}\nonumber
+-\frac{L'}{L}(\si+2ti,\chi^2)&=-\frac{\ze'}{\ze}(\si+2it)+\sum_{p\mid N} 
+\ln p\cdot \underbrace{\frac{p^{-(\si+2ti)}}{1-p^{-(\si+2ti)}}}_{O(1)\text{ when }\si\ge 1}\\
+\llabel{L-zero-free-eq0}
+\Re\pa{-\fc{L'}{L}(\si+2ti,\chi^2)}
+&\le O(\ln (|t|+2))+\Re\prc{(\si+2ti)-1}+O(\ln N),
+\end{align}
+the last inequality following from Lemma~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros}.
+
+Putting~(\ref{zfli1}),~(\ref{zfli2}), and~(\ref{L-zero-free-eq0}) into~(\ref{zero-free-L-inequality}) give
+\begin{equation}
+0\le \pa{\fc{3}{\si-1} +O(\cal L)}+\pa{-4\sum_{\rh} \Re\prc{\si+ti-\rh}+O(\cal L)}+\pa{\Re\prc{\si+2ti-1}+O(\cal L)}\llabel{L-zero-free-eq1}
+\end{equation}
+Fix $C'>0$; when $s=\si+it$ and $|t|\ge \frac{C'}{\ln N}$ then $\rc{\si+2ti-1}=O(\ln N)$ so~(\ref{zero-free-L-inequality}) holds and we proceed as in item 1.
+
+Hence we consider $t<\frac{C'}{\ln N}$.
+We use a different approach. Note
+\[
+-\fc{L'}{L}(\si,\chi_0)\ge \fc{L'}{L}(\si,\chi)\quad
+%=\sum_{n=1}^{\iy} \fc{(1+\chi(n))\La(n)}{n^{\si}}>0\quad 
+\text{when }\si\ge 1
+\]
+because the coefficients their coefficients are $\La(n)\ge -\chi(n)\La(n)$ (and they are real)\footnote{Alternatively, put in $t=0$ in~(\ref{zero-free-L-inequality}).}. Putting in~(\ref{zfli1}) and~(\ref{zfli2}) give %%%%%
+\begin{equation}
+\label{L-zero-free-eq3}
+\rc{\si-1}\ge \sum_{\rh} \Re\prc{\si-\rh}+O(\ln N).
+\end{equation}
+Let $\si=1+\fc{2\de}{\ln N}$; we estimate the sum in terms of the real parts of $\si-\rh$. For any zero $\rho$ we have
+\begin{align}
+\nonumber
+|\Im \rh|\le \frac{\de}{\ln N}&=\rc2\frac{2\de}{\ln N}\le \Re(\si-\rh)\\
+\llabel{L-zero-free-eq2}
+|\si-\rh|^2&=[\Im(\si-\rh)]^2+[\Re(\si-\rh)]^2\\
+&\le \pa{\rc 4+1}\Re(\si-\rh)^2=\frac{5}{4}\Re(\si-\rh)^2.
+\end{align}
+Hence~(\ref{L-zero-free-eq3}) gives, for some constant $A$,
+\begin{align*}
+\pa{A+\rc{2\de}}\ln N=\rc{1-\si}+A\ln N
+&\ge \sum_{|\Im(\rh)|<\frac{\de}{\ln N}} \Re\prc{\si-\rh}\\
+&=\sum_{|\Im(\rh)|<\frac{\de}{\ln N}} \frac{\Re(\si-\rh)}{|\si-\rh|^2}\\
+&\ge \sum_{|\Im(\rh)|<\frac{\de}{\ln N}} \frac{4}{5} \sum_{\rh}\rc{1+\fc{2\de}{\ln N}-\Re(\rh)}&\by{L-zero-free-eq2}.
+\end{align*}
+If $\Re(\rh)>1-\frac{c}{\ln N}$ then it contributes $\frac 45 \frac{\ln N}{2\de+c}$ to the RHS sum. If there are two zeros (counting multiplicity), then %, blah,
+\[
+\frac{8}5 \rc{2\de+c} \le A+\rc{2\de}.
+\]
+This would be a contradiction if 
+\[
+c<\frac{2\de(3-10A\de)}{5(2\de A+1)}.
+\]
+Now choose $\de$ small enough and $c$ so that it works for case 1 and satisfies the above inequality.
+
+Finally, note $\ze(\ol{s},\chi)=\ol{\ze(s,\chi)}$ for real characters, so if $s$ is an (exceptional) zero so is $\ol{s}$. Since there is at most one exceptional zero, it can only be real.\qedhere
+%Contradiction, after modifying constant.
+\end{enumerate}
+\end{proof}
+\section{Prime number theorem in arithmetic progressions}
+\begin{thm}[von Mangoldt's formula]\llabel{L-von-Mangoldt-formula}
+For integer $x>2$, $x\ge T$, and $\chi$ primitive of level $N>1$,
+\[
+\psi(x,\chi)= -\sum_{|\Im(\rh)|<T}\frac{x^{\rh}}{\rh}
++O\pa{
+\frac{x[(\ln x)^2+(\ln NT)^2]}{T}}.
+\]
+If $\chi$ has associated primitive character $\chi_1$, then for $x\ge 1$,
+\[
+|\psi(x,\chi)-\psi(x,\chi_1)|=O(\ln N\ln x).
+\]
+\end{thm}
+Note that unlike in Theorem~\ref{von-Mangoldt-formula}, we have $\psi(x,\chi)\approx 0$ as opposed to $\psi(x)\approx x$. Remember this is expected because the average of values for a nontrivial character is 0, so there is cancellation in the sum. Moreover, there is no pole at $s=1$ for $L$ as there was in $\ze$, so the application of Cauchy's Theorem in Step 2 will not give the $x$ term.
+\begin{proof}
+\noindent{\underline{Step 1:}} We estimate $\psi(x)$ using Theorem~\ref{dirichlet}.\ref{sum-coeff-Dir}. Suppose $x$ is an integer; the theorem gives
+\begin{align*}
+\ab{\psi(x,\chi)-\pa{
+\int_{c-iT}^{c+iT} x^s\pa{-\frac{L'}{L}(s,\chi)}\frac{ds}s
+}}&\le
+\La(x)+
+\sum_{n\ge 1,\,n\ne x} \pf xn^c\chi(n)\La(n)\rc{T\ab{\ln\pf xn}}\\
+&\le 
+\ln(x)+\sum_{n\ge 1,\,n\ne x}^{\iy}\pf xn^c\fc{\ln(n)}{T\ab{\ln\pf xn}}.
+\end{align*}
+The difference is $O\pa{\fc{x(\ln x)^2}{T}}$ exactly as in~(\ref{von-M-1}).\\
+%Assume $x$ is a large integer (i.e. bounded away from 1) and take
+%\[
+%c=1+\rc{\ln x}.
+%\]
+%Note that this makes $x^c=ex=O(x)$. 
+%To estimate this sum we split it into several parts.
+%\begin{enumerate}
+%\item
+%$1\le n< \frac{x}{e}$: We have
+%\begin{align*}
+%\sum_{1\le n<\frac xe} \pf xn^c \frac{\ln n}{T}
+%&\precsim \frac{x\ln x}{T}\sum_{1\le n<x}\rc{n}\\
+%&\sim \frac{x(\ln x)^2}{T}.
+%\end{align*}
+%\item
+%$\frac xe\le n< ex$: We have
+%\begin{align*}
+%\sum_{\frac xe\le n<ex,\,n\ne x}\pf xn^c \ln n\frac{1}{T\ab{\ln\pf xn}}
+%&\precsim \sum_{\frac xe\le n<ex,\,n\ne x} \cancel{e^{1+\rc{\ln x}}} \frac{\ln n}{T\ab{\ln\pf xn}}\\
+%&\precsim \rc{T}\sum_{\frac xe\le n<ex,\,n\ne x}\frac{\ln x}{\ab{1-\frac xn}}&\text{ using $\ln x\sim x-1$ when $x\approx 1$}\\
+%&\precsim \frac{x\ln x}{T}\sum_{\frac xe\le n<ex}\frac{1}{|n-x|}\\
+%&\precsim\frac{x\ln x}{T}\sum_{1\le n< (e-1)x}\frac{1}{n}\\
+%&\sim\frac{x(\ln x)^2}{T}.
+%\end{align*}
+%\item $n\ge ex$: We have
+%\begin{align*}
+%\sum_{n\ge ex} \pf xn^c \frac{\ln n}{T}&<\frac{x}{T}\int_{ex-1}^{\iy} \frac{\ln y}{y^c}\,dy&\frac{\ln y}{y^c}\text{ decreasing for }y>e\\
+%&=\frac xT\ba{\frac{-y^{-c+1}\ln y}{c-1}-\frac{y^{-c+1}}{(c-1)^2}}^{\iy}_{ex-1}\\
+%&\sim \frac{x(\ln x)^2}{T}.
+%\end{align*}
+%\end{enumerate}
+%Putting everything together gives
+%\begin{equation}\llabel{von-M-1}
+%\ab{\psi(x)-\pa{
+%\int_{c-iT}^{c+iT} x^sf(s)\frac{ds}s
+%}}=O\pa{\frac{x(\ln x)^2}{T}}.
+%\end{equation}
+
+\noindent\underline{Step 2:} We move the line of integration to $\Re s=-1$. Assuming that $T$ is not the imaginary part of any root, by Cauchy's theorem %\fixme{PICTURE}
+\begin{multline}
+\int_{c-iT}^{c+iT} \frac{x^s}{s}\frac{L'}{L}(s,\chi)\,ds
++\underbrace{\int_{c+iT}^{-1+iT} \frac{x^s}{s}\frac{L'}{L}(s,\chi)\,ds}_{I_{h,1}}
++\underbrace{\int_{-1+iT}^{-1-iT} \frac{x^s}{s}\frac{L'}{L}(s,\chi)\,ds}_{I_{v}}
++\underbrace{\int_{-1-iT}^{c-iT} \frac{x^s}{s}\frac{L'}{L}(s,\chi)\,ds}_{I_{h,2}}\\
+=\fc{L'}{L}(0,\chi)-\sum_{|\Im\rh|<T}\frac{x^{\rh}}{\rh}.
+\end{multline}
+so
+\begin{equation}\llabel{L-von-M-2}
+\int_{c-iT}^{c+iT} \frac{x^s}{s}\pa{-\frac{L'}{L}(s)}ds=I_{h,1}+I_{h,2}+I_v+\fc{L'}{L}(0,\chi)-\sum_{\Im\rh<T}\frac{x^{\rh}}{\rh}.
+\end{equation}
+We estimate each summand.
+\begin{enumerate}
+\item For the horizontal integrals, we use the estimate~\ref{weak-L-zeros} to get
+\begin{align*}
+\ab{\frac{\ze'}{\ze}(s)}&=\ab{\sum_{|\Im(s-\rh)|<1} \rc{s-\rh}}+O(\ln NT),\quad s=\si+Ti\\
+&\le \sum_{|\Im(s-\rh)|<1}\rc{\Im(s-\rh)}+O(\ln NT).
+\end{align*}
+We would like to bound $\Im(s-\rh)$ away from 0. To do this, note that for $|T|>2$ large there are $O(\ln NT)$ roots in with $\Im \rh\in \pm[T,T+1]$ by Lemma~\ref{weak-L-zeros}. Hence by tweaking $T$ slightly we can assume $|\Im(s-\rh)|>\frac{C}{\ln|NT|}$. Also by Lemma~\ref{weak-L-zeros} there are at most $O(\ln NT)$ terms in the sum, so the sum is $O((\ln NT)^2)$. 
+Integrating gives
+\begin{align*}
+\ab{\int_{c\pm Ti}^{-1\pm Ti} \frac{x^s}{s}\frac{L'}{L}(s,\chi)\,ds}
+&=O((\ln NT)^2)O\prc T\int_{c}^{-1} |x^s|\,ds\\
+%&=O\pf{(\ln |NT|)^2}{T}O(x)\\%\ab{\ba{\frac{x^s}{\ln x}}^{-1}_c}\\
+&=O\pf{x(\ln NT)^2}{T}.
+\end{align*}
+\item For the vertical integral, we use the same estimate, this time noting that $|s-\rh|>1$ for every nontrivial zero $\rh$, since $\Re \rh>0$. This gives that $\frac{\ze'}{\ze}(s)=O(\ln NT)$ and
+\begin{align*}
+\int_{-1+Ti}^{-1-Ti}
+\frac{x^s}{s}\frac{L'}{L}(s,\chi)\,ds
+&=
+O(\ln NT)
+\int_{-1-Ti}^{-1+Ti} \frac{x^{-1}}{|s|}\,ds
+\\
+%&=
+%O\pf{\ln |NT|}{x}
+%\int_{T}^{-T} \rc{\sqrt{t^2+1}}\,dt\\
+%&=
+%O\pf{\ln |NT|}{x}
+%\int_{1}^{T+1} \rc{t}\,dt\\
+&=
+O\pf{\ln (NT)\ln(T)}{x}=O\pf{x(\ln NT)^2}{T}.
+\end{align*}
+\item
+Note by Lemma~\ref{weak-L-zeros} that $\fc{L'}{L}(0,\chi)=O(\cal L)=O(\ln (N+1))$.
+\end{enumerate}
+Step 1 and~(\ref{L-von-M-2}) together with the above  estimates give the first part of the theorem.
+
+For the second part, note that 
+\begin{align*}
+\psi(x,\chi_1)-\psi(x,\chi)&=\sum_{1\le n\le x}(\chi_1(n)-\chi(n))\La(n)n^{-s}\\
+&\le \sum_{1\le n\le x,\, n=p^r,\, p\mid N}\La(n)\\
+&\le \sum_{p\mid N}\ff{\ln x}{\ln p}\ln p\\
+&\le \sum_{p\mid N}\ln x\ln p=\ln x\ln N.
+\qedhere
+\end{align*}
+\end{proof}
+\begin{thm}\llabel{only-1-char}
+There is a constant $c>0$ such that for any distinct real $\chi_1$ and $\chi_2$ to moduli $N_1$ and $N_2$, at most one of $L(s,\chi_1)$ and $L(s,\chi_2)$ has a %n exceptional zero  
+zero $\be>1-\fc{c}{\ln (N_1N_2)}$. %(i.e. an exceptional zero when the characters are considered with level $N_1N_2$). 
+\end{thm}
+\begin{cor}\llabel{only-1-char-2}
+There is a constant $c>0$ such that the following holds: 
+Fix a level $N$. There is at most 1 character $\chi$ of level $N$ such that $L(s,\chi)$ has a zero with $\si\ge 1-\fc{c}{\cal L}$.
+\end{cor}
+\begin{proof}[Proof of Theorem~\ref{only-1-char}]
+The product $\chi_1\chi_2$ is a character with modulus $N_1N_2$. By Theorem~\ref{weak-L-zeros}, $-\frac{L'}{L}(\si,\chi)<O(\ln N_1N_2)$ for $1<\si<2$. Let
+\[
+F(s)=\ze(s)L(s,\chi_1)L(s,\chi_2)L(s,\chi_1\chi_2).
+\]
+Then by logarithmic differentiation,
+\begin{align}
+\nonumber
+-\frac{F'}{F}(s)&=-\fc{\ze'}{\ze}(s)-\fc{L'}{L}(s,\chi_1)-\fc{L'}{L}(s,\chi_2)-\fc{L'}{L}(s,\chi_1\chi_2)\\
+\nonumber
+&
+=\sum_{n=1}^{\iy} (1+\chi_1(n)+\chi_2(n)+\chi_1(n)\chi_2(n)) \La(n)n^{-s}\\
+&
+=\sum_{n=1}^{\iy} (1+\chi_1(n))(1+\chi_2(n)) \La(n)n^{-s}
+\ge 0\\
+\llabel{onechar-eq}
+\end{align}
+since the coefficients are nonnegative. 
+
+Suppose $\be_1,\be_2$ are exceptional zeros of $L(s,\chi_1), L(s,\chi_2)$; then putting Lemma~\ref{weak-zeta-zeros} into~(\ref{onechar-eq}) gives
+\[
+O(\ln N_1N_2)+ \rc{\si-1}-\rc{\si-\be_1} -\rc{\si-\be_2}\ge 0.
+\]
+Let $\de=\min(1-\be_1,1-\be_2)$. Take $\si=1+2\de$ to get $\rc{6\de}\le O(\ln N_1N_2)$, i.e. $\de\succsim \ln N_1N_2$ with constant independent of $N_1,N_2$, i.e. there is an appropriate choice of constant so that $\chi_1,\chi_2$ are not both exceptional for level $N_1N_2$. 
+\end{proof}
+\begin{proof}[Proof of Corollary~\ref{only-1-char-2}]
+Fix a primitive character $\chi$ of level $N$.
+Suppose $\chi'$ is of level $N$, whose corresponding primitive characters has level $N'$. Then the theorem gives $c$ such that at most one of $L(s,\chi')$ and $L(s,\chi)$ has a zero $\be>1-\fc{c}{\ln N'N}\ge 1-\fc{c}{\ln N}$.
+\end{proof}
+\begin{thm}[Prime number theorem in arithmetical progressions]\llabel{pntap}
+Let $C>0$ and suppose $x>e^{C(\ln N)^2}$. If there is no exceptional zero for level $N$, there exists $C'>0$ such that  
+\[
+\pi(x,a\bmod N)=(1+O(e^{-C'\sqrt{\ln x}}))\frac{\li(x)}{\ph(N)}.
+\]
+If there is an exceptional zero $\be$ of level $N$ with associated character $\chi$,
+\[
+\pi(x,a\bmod N)=\rc{\ph(N)}(\li(x)-\chi(a)\li(x^{\be})+O(xe^{-C'\sqrt{\ln x}})).
+\]
+\end{thm}
+\begin{proof}
+We have by column orthogonality~\ref{arith-over-ff}.\ref{orth} that
+\begin{equation}\llabel{psi-mod-chi}
+\psi(\chi,a\bmod N)=
+\sum_{n\le x,\,n\equiv a\md N}\chi(n)\La(N)
+=\sum_{n\le x}\rc{\ph(N)}\sum_{\chi\in \widehat{(\Z/N\Z)^{\times}}}\ol{\chi}(a) \chi(n) \La(n)
+=\rc{\ph(N)}\sum_{\chi} \ol{\chi}(a)\psi(x,\chi).
+\end{equation}
+Letting $\chi_1$ be the primitive character associated to $\chi$, by Theorem~\ref{L-von-Mangoldt-formula} we have
+\begin{equation}\llabel{psi-chi-estimate}
+\psi(x,\chi)=\begin{cases}
+-\sum_{\rho\text{ zero of }\psi(x,\chi_1)} \frac{x^{\rh}}{\rh} +O
+\pa{
+\frac{x[(\ln x)^2+(\ln NT)^2]}{T}+\ln N\ln x} ,&\chi\text{ nontrivial}\\
+\psi(x)+O(\ln N\ln x),&\chi\text{ trivial}.
+\end{cases}
+\end{equation}
+We estimate $\sum_{\rho\text{ nonexceptional zero of }\psi(x,\chi_1)} \frac{x^{\rh}}{\rh}$ in two steps.\footnote{Here ``nonexceptional" means with respect to level $N$.} %First consider the nonexceptional zeros.
+Assume $T\ge 2$.
+\begin{enumerate}
+\item By Theorem~\ref{L-zero-free}, there is a constant $c$ such that for all $|\Im(\rh)|<T$,
+\[
+|x^{\rh}|=x^{\Re\rh}\le x^{1-\fc{c}{\ln NT}}=xe^{-\fc{c\ln x}{\ln NT}}
+\]
+%(Note that this works for $|\Im(\rh)|<T$ rather than just $2\le |\Im(\rh)|<T$ in the case of the prime number theorem.)
+\item Note the zero free region in Theorem~\ref{L-zero-free} means there is a constant $d_0$, independent of $N,\chi$, so that for all nonexceptional roots $\rh$, $|\rh|\ge d_0$. Hence using $N(T)=O(T\ln NT)$ (Lemma~\ref{weak-zeta-zeros} or Theorem~\ref{L-zeros}),
+\begin{align*}
+\sum_{|\Im(\rh)|<T}\frac{1}{\ab{\rh}}
+&\le \sum_{|\Im(\rh)|<T}\frac{1}{\max(\Im(\rh),d_0)}\\
+&\le \int_0^{T} \frac{dN(t)}{\max(t,d_0)}&\text{(Riemann-Steltjes integral)}\\
+&= \frac{N(T)}{\max(T,d_0)}+\int_{d_0}^T \frac{N(t)}{t^2}\,dt
+&\text{integration by parts}\\
+&=O(\ln NT)+\int_{d_0}^T O\pf{\ln Nt}{t}dt\\
+&=O(\ln NT)+O((\ln NT)^2)=O((\ln NT)^2).
+\end{align*}
+\end{enumerate}
+Putting these two estimates together,
+\begin{align*}
+\ab{\sum_{|\Im(\rh)|<T,\,\rh\text{ nonexceptional}}\frac{x^{\rh}}{\rh}}
+&\le \max_{|\Im(\rh)|<T}(|x^{\rh}|)\sum_{|\Im(\rh)|<t}\frac{1}{|\rh|}\\
+&\le O\pa{e^{-\frac{c\ln x}{\ln NT}}(\ln NT)^2}.
+\end{align*}
+Combining with Theorem~\ref{L-von-Mangoldt-formula}, setting $T=e^{\sqrt{\ln x}}$, %(so that 
+%$xe^{-\frac{\ln x}{\ln T}}(\ln T)^2
+%=\frac{x(\ln T)^2}{T}$), 
+and using $N<e^{C\sqrt{\ln x}}$ we get 
+\begin{align}
+\nonumber
+|\psi(x,\chi)-x|&
+= O\pa{
+xe^{-\frac{c\ln x}{\ln NT}}(\ln NT)^2+\frac{x[(\ln x)^2+(\ln NT)^2]}{T}+\frac{x(\ln T)^2}{T}
+}{\color{gray}-\frac{x^{\be}}{\be}-\fc{x^{1-\be}}{1-\be}}\\
+\nonumber
+&=O\pa{
+xe^{-\fc{c\sqrt{\ln x}}{C+1}}(C+1)^2\ln x +xe^{-\sqrt{\ln x}}((\ln x)^2+(C+1)^2\ln x) +C(\ln x)^{\fc 32}
+}{\color{gray}-\frac{x^{\be}}{\be}}\\
+\llabel{psi-chi-asymptotic}
+&=O(xe^{-C_1\sqrt{\ln x}}){\color{gray}-\frac{x^{\be}}{\be}}
+\end{align}
+for some $C_1>0$ independent of $N,\chi$, where the implied constant is independent of $N,\chi$.
+
+For the trivial character,~(\ref{psi-chi-estimate}) and~(\ref{psi-asymptotic}) give
+\begin{equation}\llabel{psi-chi-asymptotic2}
+\psi(x,\chi)=x+O(xe^{-C_2\sqrt{\ln x}}+\ln x\ln T)=x+O(xe^{-C_2\sqrt{\ln x}})
+\end{equation}
+Using~(\ref{psi-mod-chi}),~(\ref{psi-chi-asymptotic}), and~(\ref{psi-chi-asymptotic2}), we get
+%\begin{equation}\llabel{eq:psi-w-except-zero}
+\[
+\psi(\chi,a\bmod N)=\rc{\ph(N)}\pa{x{\color{gray} -\fc{\chi(a)x^{\be}}{\be}}+O(xe^{-C_3\sqrt{\ln x}})}
+\]
+%\end{equation}
+where the grayed-out portion appears only if there is an exceptional zero. (Note this can happen for at most 1 character by Lemma~\ref{only-1-char}.) It remains to transfer the asymptotics of $\psi$ to that for $\pi$.
+%\begin{equation}\llabel{psi-asymptotic}
+%\psi(x)=x+O(xe^{-C'\sqrt{\ln x}}).
+%\end{equation}
+
+The same argument as in Lemma~\ref{partial-sum-pi} shows that
+\[
+\pi(x,a\bmod N)=\frac{\psi(x,a\bmod N)}{\ln x}+\int_2^x\psi(y)\frac{dy}{y(\ln y)^2}+O(x^{\rc2}),
+\]
+giving the estimate for $\pi$.
+\end{proof}
+
+\section{Siegel zero}\llabel{sec:siegel-zero}
+In this section we obtain bounds on the exceptional zero to get a better error bound for prime number theorem on arithmetic progressions. %For proofs see~\cite{Dav80}, Chapters 21-22.
+We proceed in 2 steps.
+\begin{enumerate}
+\item Show that $L'(\be,\chi)$ is small for $\be$ close to 1.
+\item Bound $L(1,\chi)$ away from 0.
+\end{enumerate}
+From this, we get that $L(\be,\chi)$ cannot be 0 for $\be$ too close to 1.
+
+Then we will be able to show the following improved form of Theorem~\ref{pntap}.
+\begin{thm}[Siegel-Walfisz]\label{siegel-walfisz}
+Given any $C$ there exists a constant $C'$ depending only on $C$ so that
+\[
+\pi(x,a\bmod N)=\fc{\li(x)}{\ph(N)}+O(xe^{-C'(\ln x)^{\rc2}})
+\]
+whenever
+\[
+N\le (\ln x)^C.
+\]
+\end{thm}
+Unfortunately, this bound is \emph{ineffective}; the proof does not give a way to compute a suitable value of $C'$.
+
+Of course, if the Riemann hypothesis were true then it would solve all our problems.
+\begin{thm}
+If the Extended Riemann hypothesis holds (all nontrivial zeros of $L(s,\chi)$ satisfy $\Re s=\rc2$), then
+\[
+\pi(x,a\bmod N)= \fc{\li(x)}{\ph(N)} +O(x^{\rc 2}(\ln x)^2)
+\]
+for $x>N^2$, 
+where the constant is independent of $N$.
+\end{thm}
+\subsection{$L'(\be,\chi)$ is not too large}
+\begin{lem}\llabel{lem:L'-not-large}
+There exists an absolute constant $C$ such that 
+\[
+|L'(\si,\chi)|<C(\ln N)^2
+\]
+for any nontrivial Dirichlet character $\chi$ modulo $N$ and any $\si$ with $1-\rc{\ln N}\le \si\le 1$.
+\end{lem}
+\begin{proof}
+Because $L(\si,\chi)=\sum_{n=1}^{\iy} \fc{\chi(n)}{n^{\si}}$, by Proposition~\ref{dirichlet}.\ref{dir-derivative} we can simply differentiate term-by-term to get
+\[
+L'(\si,\chi)=-\sum_{n=1}^{\iy} \fc{\chi(n)\ln n}{n^{\si}}.
+\]
+Now we bound this sum by breaking it up into two parts.
+
+First note that for $n\le N$, we have 
+\[1-\si\le \rc{\ln N}\le \rc{\ln n}.\]
+Hence 
+\begin{equation}\llabel{eq:siegel-zero-1}
+\rc{n^{\si}}=\rc{n}n^{1-\si}\le \rc{n}n^{\rc{\ln n}}=\fc{e}{n}.
+%\le e^{-\si\ln n}\le -\pa{1-\rc{\ln n}}\ln n=e^{1-\ln n}=\frac{e}{n}.
+\end{equation}
+
+\noindent\underline{Step 1:} We bound the sum from $n=1$ to $N$. 
+By~\eqref{eq:siegel-zero-1},
+\begin{equation}\llabel{eq:siegel-zero-2}
+\ab{\sum_{n=1}^N \fc{\chi(n)\ln n}{n^{\si}}}\le \sum_{n=1}^N \fc{e\ln n}{n}<C_1(\ln N)^2
+\end{equation}
+for some $C_1$. The last step follows from estimating using the integral $\int_{1}^N \fc{\ln x}{x}\,dx=\rc2 (\ln N)^2$.\\
+
+%Note that we engineered the bound 
+\noindent\underline{Step 2:} Now we consider the sum from $N+1$ to $\iy$. 
+Let $U(n):=\sum_{m=L+1}^n\chi(m)$ and $v(n)=\frac{\ln n}{n^{\si}}$.
+By partial summation~\ref{arith-f}.\ref{sum-parts}, we have
+\begin{align*}
+\sum_{n=N+1}^{\iy} \fc{\chi(n)\ln n}{n^{\si}}
+&=\lim_{L\to \iy}\ba{-U(L)v(L) +\sum_{n=N+1}^L U(n-1)(v(n)-v(n-1))}.
+\end{align*}
+Since $v(n)$ decreases to 0 and $|U(n)|\le N$ (as $\sum_{n=k}^{k+N-1}\chi(n)=0$ for any $k$), the first term goes to 0 and we get the bound
+\begin{align}
+\llabel{eq:siegel-zero-3}
+\ab{\sum_{n=N+1}^{\iy} \fc{\chi(n)\ln n}{n^{\si}}}\le Nv(N)&=N\frac{\ln N}{N^{\si}}\le N(\ln N)\frac{e}{N}=e\ln N.
+\end{align}
+where in the last step we used~\eqref{eq:siegel-zero-1}.\\
+
+Adding~\eqref{eq:siegel-zero-2} and~\eqref{eq:siegel-zero-3} together gives the desired bound.
+\end{proof}
+\subsection{$L(1,\chi)$ is not too small}
+\begin{thm}[Siegel's inequality]\llabel{except-zero}
+For each $\ep>0$ there exists $C_{\ep}>0$ such that 
+\[
+L(1,\chi)>C_{\ep} N^{-\ep}
+\]
+for all real Dirichlet characters $\chi$ modulo $N$.
+
+Thus there exists $C_{\ep}'>0$ such that any real zero $\be$ of $L(s,\chi)$ satisfies $1-\be>C'_{\ep}N^{-\ep}$.
+\end{thm}
+First we prove the following lemma.
+\begin{lem}\llabel{lem:l1chi-not-small}
+Let $\chi_1$ and $\chi_2$ be real primitive characters with modulus $N_1$ and $N_2$, let
+\[
+F(s):=\ze(s)L(s,\chi_1)L(s,\chi_2)L(s,\chi_1\chi_2),
+\]
+and let
+\[
+\la=L(1,\chi_1)L(1,\chi_2)L(1,\chi_1\chi_2).
+\]
+Then the following inequality holds:
+\[
+F(s)> \rc2-\frac{C\la}{1-s}(N_1N_2)^{8(1-s)},\qquad \fc78<s<1.
+\]
+\end{lem}
+Note the technique of getting information about a $L$-function of a \emph{single} character by looking at $F(s)$---a function defined using \emph{two} characters---is a lot like what we did in showing Corollary \llabel{only-1-char-2} using Theorem~\ref{only-1-char}. We'll comment more later on why we looked at $F(s)$.\footnote{A deeper reason why we often look at $F(s)$ is that it is the zeta function of a \emph{biquadratic field}. Thus we can prove nice facts about $F(s)$ by combining algebraic and analytic theory. We'll give proofs that don't require this knowledge.}
+\begin{proof}
+The main idea is to expand $F(s)$ in power series and bound its coefficients (equivalently, bound the derivatives of $F(s)$) using the inequality from Cauchy's formula, orollary~\ref{complex-analysis}.\ref{cor:cauchy-ineq}.\\
+
+We have
+\begin{align*}
+\ln F(s)&=\ln \ze(s)+\ln L(s,\chi_1)+\ln L(s,\chi_2)+\ln L(s,\chi_1\chi_2)\\
+&=\sum_{p} \pa{\ln \rc{1-p^{-s}}+\ln \rc{1-\chi_1(p)p^{-s}}+\ln \rc{1-\chi_2(p)p^{-s}}+\ln \rc{1-\chi_1(p)\chi_2(p)p^{-s}}}\\
+&=\sum_p\sum_{m=1}^{\iy} \pa{\rc mp^{-ms}+ \rc m\chi_1(p^m)p^{-ms}+\rc m\chi_2(p^m)p^{-ms}
++\rc m\chi_1(p^m)\chi_2(p^m)p^{-ms}}\\
+&=\sum_p\sum_{m=1}^{\iy}\rc m(1+\chi_1(p^m))(1+\chi_2(p^m))p^{-ms}.
+\end{align*}
+This means $\ln F(s)$ is a Dirichlet series with all coefficients positive. Because the power series of $e^x$ has positive coefficients, this means that $F(s)$ also has all coefficients positive. \fixme{We're allowed to substitute any absolutely convergent series into a power series. (Is this right?)} Suppose $F(s)=\sum_{n=1}^{\iy}\fc{f(n)}{n^s}$.
+%Moreover, the first coefficient of 
+
+Now we expand $F(s)$ in Taylor series at $s=2$. (We can't do it at $s=1$ because $F(s)$ has a pole there.) We have
+\[
+F(s)=\sum_{m=0}^{\iy} a_m(2-s)^m,\qquad a_m=(-1)^m\frac{F^{(m)}(2)}{m!}.
+\]
+We calculate the coefficients using~\ref{dirichlet}.\ref{dir-derivative} and get
+\[
+a_m=\sum_{n=1}^{\iy}\fc{f(n)(\ln n)^m}{n^2}\ge 0.
+\]
+In particular, for $m=1$ we have $a_m\ge 1$ since $f(1)\ge 1$. \fixme{It's 4.}
+
+Because we know $F(s)$ has a pole of residue $\la=L(1,\chi_1)L(1,\chi_2)L(1,\chi_1\chi_2)$, we consider the function
+\[
+F(s)-\frac{\la}{s-1}=F(s)-\fc{\la}{1-(2-s)}=\sum_{m=0}^{\iy}(a_m-\la)(2-s)^m.
+\]
+Let $\Om$ be the circle of radius $\frac{3}{2}$ (not its interior) 
+centered at 2. Then for any $\chi$ of modulus $N$, $|L(s,\chi)|\le C_1N$  for some $C_1$, for all $s$ in a bounded region away from 0 because by~\eqref{bound-L-summands}
+\[
+|L(s,\chi)|=\ab{\int_1^{\iy}S(x)sx^{-s-1}\,dx}\le 
+N\int_1^{\iy}|sx^{-s-1}|\,dx,\qquad S(x)=\sum_{n\le x}\chi(n).
+\]
+Therefore,
+\begin{equation}
+\llabel{eq:siegel-zero-4}
+|F(s)|\le (C_1N_1)(C_1N_2)(C_1N_1N_2)=C_2(N_1N_2)^2,\qquad C_2=C_1^4
+\end{equation}
+and for $s\in \Om$,
+\begin{equation}
+\llabel{eq:siegel-zero-4}
+\ab{\pf{\la}{s-1}}\le 2L(1,\chi_1)L(1,\chi_2)L(1,\chi_1\chi_2)\le 2C_2(N_1N_2)^2.
+\end{equation}
+
+Now we use the inequality from Cauchy's formula, Corollary~\ref{complex-analysis}.\ref{cor:cauchy-ineq}, to get
+\[
+|a_m-\la |\le \rc{\pf 32^m}\max_{z\in \Om}F(s)\le C_3N_1^2N_2^2\pf 23^m.
+\]
+
+To bound $F(s)-\frac{\la}{s-1}=\sum_{m=0}^{\iy}(b_m-\la)(2-s)^m$ when $\fc 78<s<1$, we first bound the sum from some $M$ (to be determined) to $\iy$.
+
+Firstly,
+\begin{align*}
+%\ab{F(s)-\fc{\la}{s-1}}
+\sum_{m=M}^{\iy}|a_m-\la|(2-s)^m
+&\le \sum_{m=M}^{\iy}
+C_3N_1^2N_2^2\ab{\fc23(2-s)}^m\\
+&\le \sum_{m=M}^{\iy}
+C_3N_1^2N_2^2\pf{3}{4}^m,& \fc 78<s<1\\
+&\le C_4N_1^2N_2^2\pf 34^M\\
+&\le C_4N_1^2N_2^2e^{-M/4},&e^{-1/4}\approx 0.78.
+\end{align*}
+
+We choose $M$ so that $C_4N_1^2N_2^2e^{-\fc M4}\in \ba{\rc 2e^{-\rc4},\rc2}$. Note the lower bound rearranges to $M\le 8\ln N_1N_2+C_5$. 
+Then because the coefficients $a_m$ are all nonnegative, we can drop some of them in the inequality to get
+\begin{align*}
+F(s)-\fc{\la}{s-1}&\ge 1-\la \sum_{m=0}^{M-1} (2-s)^m - C_4N_1^2N_2^2e^{-M/4}\\
+&>1-\fc{\la}{1-s}[(2-s)^M-1]-\rc2,&C_4N_1^2N_2^2e^{-\fc M4}\le\rc2\\
+\implies F(s)&>\rc2-\fc{\la}{1-s}(2-s)^M\\
+&\ge\rc2-\frac{\la}{1-s}e^{M(1-s)},&e^x\le1+x\\
+&>\rc2-\frac{C_6\la }{1-s}(N_1N_2)^{8(1-s)},& M\le 8\ln N_1N_2+C_5.
+\end{align*}
+This finishes the proof of the lemma.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{except-zero}]
+Fix $\ep>0$. 
+We want to choose $\chi_1$ so that $0\ge F(s)$. Consider two cases.
+\begin{enumerate}
+\item
+For some $\chi$, $L(s,\chi)$ has a real zero in the range $\pa{1-\rc{16}\ep,1}$. Then choose $\chi_1$ to be this character and $\be_1$ to be this zero. We then have $F(\be_1)=0$.
+\item
+Else, let $\chi_1$ be any primitive character and $\be_1\in \pa{1-\rc{16}\ep,1}$. Note the following:
+\begin{itemize}
+\item
+In this case there are no zeros for any L-function in $\pa{1-\rc{16}\ep,1}$, so they all have the same sign as their value at 1. The value at 1 is nonnegative (in fact, positive) because the product expansion gives that the L-function is positive for $\si>1$.
+\item $\ze(s)<0$ for $0<s<1$, and 
+\end{itemize}
+Thus $F(\be_1)< 0$.
+\end{enumerate}
+In either case $F(\be_1)\le 0$, and the choice of $\be_1$ depends only on $\ep$. 
+From Lemma~\ref{lem:l1chi-not-small}, we now get the inequality
+\begin{align*}
+0&\le \rc2-\frac{C\la}{1-\be_1}(N_1N_2)^{8(1-\be_1)}.\\
+\la&> C_{\ep,1}(N_1N_2)^{-8(1-\be_1)}
+\end{align*}
+for some $C_{\ep,1}$ depending only on $\ep$. Now we also have an upper bound for $\la$:
+\begin{align*}
+\la &=L(1,\chi_1)L(1,\chi_2)L(1,\chi_1\chi_2)\\
+&<(C_1\ln N_1)L(1,\chi_2)(C_1\ln N_1N_2).
+\end{align*}
+
+Now suppose that $N_2\ge N_1$. 
+Combining the two inequalities and noting that $\ln N_1$ is a constant depending only on $\ep$ and is less than $\ln N_2$, we have
+\begin{align*}
+L(1,\chi_2)&>C_{\ep,2}N_2^{-8(1-\be_1)}(\ln N_2)^{-1}\\
+&>C_{\ep,2}N_2^{-\fc{\ep}{2}}(\ln N_2)^{-1}\\
+&>C_{\ep,3}N^{-\ep}.
+\end{align*}
+By choosing the constant to be smaller, we may ensure that this bound also works for $N_2<N_1$.
+
+Finally, combining Lemma~\ref{lem:L'-not-large} and the bound $L(1,\chi)>C_{\ep}N^{-\ep}$ immediately gives the fact that any real zero of $L(s,\chi)$ must satisfy $\be<1-C'_{\ep}N^{-\ep}$.
+\end{proof}
+Note that it was essential to work with $F(s)$ rather than $G(s)=\ze(s)L(s,\chi)$: Something like Lemma~\ref{lem:l1chi-not-small} would go through, but if we used $G(s)$ then $G(s)$ may have a zero close to $s=1$ so we don't know the region where $G(s)$ is nonpositive, and we may have to take $s=\be_1$ arbitrarily close to 1. This kills the proof because of the term $\rc{1-s}$. When we work with $F(s)$, the case where there is a zero close to 1 is dealt with nicely.
+\subsection{Proof of Siegel-Walfisz}
+\begin{proof}[Proof of Theorem~\ref{siegel-walfisz}]
+Suppose there is an exceptional zero $\be$. By Siegel's inequality~\ref{except-zero}, for any $\ep>0$ we have
+\[
+\be-1< -C_{\ep}N^{-\ep}.
+\]
+
+The prime number theorem in arithmetic progressions~\ref{pntap} gives
+\[
+\pi(x,a\bmod N)=
+\rc{\ph(N)}(\li(x)-\chi(a)\li(x^{\be})+O(xe^{-C'\sqrt{\ln x}})).
+\]
+We show that $\li(x^{\be})$ gets absorbed into the $O$ term. Indeed, we have
+\begin{align*}
+x^{-C_{\ep}N^{-\ep}}&\le e^{-C'\sqrt{\ln x}}\\
+\iff (\ln x)C_{\ep}N^{-\ep} & \ge C'\sqrt{\ln x}\\
+\iff \sqrt{\ln x} & \ge \frac{C'}{C_{\ep}}N^{\ep}\\
+\iff \pf{C_{\ep}}{C'}^{\rc{\ep}}(\ln x)^{\rc{2\ep}}& \ge N.
+\end{align*}
+Now given $N\le (\ln x)^C$, choose $\ep=\rc{2C}$. For large enough $C'$, the equivalences above give $x^{-C_{\ep}N^{-\ep}}\le e^{-C'\sqrt{\ln x}}$. Therefore, 
+\[
+\li(x^{\be})=O\pa{x\fc{x^{\be-1}}{\be \ln x}}=O(x\cdot x^{-C_{\ep}N^{-\ep}})=O(xe^{-C'\sqrt{\ln x}})
+\]
+for some $C'>0$, as needed.
+\end{proof}

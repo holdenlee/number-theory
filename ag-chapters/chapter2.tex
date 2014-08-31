@@ -1,0 +1,109 @@
+\chapter{Diophantine approximation}
+\section{Approximation theorems}
+Any real number can be approximated to an arbitrary degree by rational numbers. However, we would like these approximations to be ``efficient," that is, have good approximations without having denominators that are too large. Dirichlet's theorem gives a measure of how well we can be guaranteed to do this.
+\begin{thm}[Dirichlet]
+Given $\al\in \R$, there are infinitely many rational numbers $\frac pq\in\Q$ such that
+\[
+\ab{\frac pq-\al}\le \rc{q^2}.
+\]
+\end{thm}
+In the other direction, it turns out that algebraic numbers cannot be approximated too closely by rationals.
+\begin{thm}[Liouville]($\dagger$)
+Let $\al\in \ol{\Q}$. There is a constant $C:=C(\al)$ such that for every $\frac{p}{q}\in \Q$, 
+%For every $C$, there are only finitely many $\frac pq\in \Q$ such that
+\[
+\ab{\frac pq-\al}\ge \frac{C}{q^d}.
+\]
+(Equivalently, for every $\ep>0$, there are only finitely many $\frac pq \in \Q$ such that $\ab{\frac pq-\al}\le \frac{C}{q^d}$.)
+\end{thm}
+\begin{proof}
+Assume $\al\nin \ol{\Q}$. 
+Let $f$ be the minimal polynomial of $\al$. 
+
+Note that $q^nf\pf pq$ is a nonzero integer, so
+\[
+\ab{q^nf \pf pq}\ge 1\implies \ab{f\pf pq}\ge \rc{q^n}.
+\]
+On the other hand, by the Intermediate Value Theorem there exists $x$ between $\frac pq$ and $\al$ such that 
+\[
+\ab{f\pf pq}=\ab{f\pf pq-f(\al)}=f'(x) \ab{\frac pq-\al}.
+\]
+Assuming $\ab{\frac pq-\al}<1$, there is a constant $C$ such that this is at most $C \ab{\frac pq-\al}$. Combining the above two inequalities gives
+\[
+\ab{\frac pq-\al}\ge \rc{Cq^n}
+\]
+for all $\frac pq$ with $\rc{\frac pq-\al}<1$, as needed.
+\end{proof}
+In fact, Liouville's Theorem can be made much stronger: $d$ can be replaced by $2+\ep$ for any $\ep>0$. This is the Thue-Siegel-Roth Theorem. We will state it for arbitrary number fields, keeping in mind that the case for $\Q$ is that described above. Recall that the natural measure of arithmetic complexity on $K$ is the height function $H_K$ (which in the case of $\Q$ is related to the numerator and denominator of the fraction).
+\begin{thm}[Thue-Siegel-Roth]
+Let $K$ be a number field, and $\al\in \ol{K}$. 
+For every $C$, there are only finitely many $\frac pq\in \Q$ such that
+\[
+\ab{\frac pq-\al}\le \frac{C}{q^{2+\ep}}.
+\]
+\end{thm}
+Remark on effectivity.
+\section{Thue-Siegel-Roth Theorem}
+\begin{lem}[Siegel's lemma]
+For a $m\times n$ matrix $M$ let $|M|=\max_{\scriptsize\begin{array}{c} 1\le i\le m\\1\le j\le n\end{array}}|m_{ij}|$
+
+Suppose $A\in \Mat_{m\times n}(\Z)$, with $n>m$. Let the row sums be
+\[
+A_i=\sum_{j=1}^n|a_{ij}|.
+\]
+Then there exists a nonzero solution $T=(t_1,\ldots, t_n)^T$ of 
+$AT=0$ 
+such that
+\[
+|T|\le (C_1\cdots C_m)^{\rc{n-m}}\le (N|A|)^{\frac{m}{n-m}}.
+\]
+\end{lem}
+\begin{proof}
+The key idea is to use the pigeonhole principle: 
+Consider a set $S$ of $T$ with $|T|$ small, say 
+\[S=\set{T}{0\le t_i\le M}.\]
+When 
+\begin{equation}\label{siegel-lemma-idea}
+|S|>|\set{AT}{T\in S}|,
+\end{equation}
+then there must be $T_1$ and $T_2$ so that $AT_1=AT_2$, or $A(T_1-T_2)=0$. We can choose $M$ large enough so that~(\ref{siegel-lemma-idea}) holds: because there are more unknowns than equations, the LHS grows faster in $M$. This value of $M$ will give our bound.
+%: There are approximately $B^n$ values of $T\in \Z^n$ with $|T|<B$, and for these $T$, the quantity $AT$ varies among approximately $(|A|B)^M$ values. When $B^N\ge (|A|B)^M$, then the Pigeonhole Principle gives $T_1\ne T_2$ with $AT_1=AT_2$, or $A(T_1-T_2)=0$.
+
+Let $R_i$ be the $i$th row of $A$. Note that fixing $i$,
+\[
+\pa{\sum_{j\mid a_{ij}<0}a_{ij}}|T| \le R_iT \le\pa{\sum_{j\mid a_{ij}>0}a_{ij}}|T|,
+\]
+so there are at most $A_i=\ce{M}\sum_{j=1}^n|a_{ij}|$ possibilities for $R_iT$. Thus we have
+\begin{align*}
+|S|&=(M+1)^n\\
+|\set{AT}{T\in S}|&=(1+\fl{M}A_1)\cdots (1+\fl{M}A_m)\le A_1\cdots A_m (1+\fl{B})^n.
+\end{align*}
+Taking $M=(A_1\cdots A_m)^{\rc{n-m}}$ gives~(\ref{siegel-lemma-idea}). As noted, using the Pigeonhole Principle gives the existence of $T_1$ and $T_2$ with $AT_1=AT_2$; take the vector $T_1-T_2$.
+\end{proof}
+\section{$S$-unit equation}
+\begin{thm}[S-unit equation]
+Let $S\subeq M_K$ be a finite set of places, and $a,b\in K^{\times}$. Then the equation
+\[
+ax+by=1
+\]
+has a finite number of solutions in $S$-units $x,y\in U(S)^{\times}$.%\sO_K(S)^{\times}
+\end{thm}
+\begin{proof}
+Let $m$ be a large integer, to be chosen.
+Every solution is in the form $x=\al X^m$ and $y=\be Y^m$ for $\al,\be$ coset representatives in $U(S)^{\times}/U(S)^{\times m}$. There are a finite number of cosets since by Dirichlet's $S$-unit theorem~\ref{units}.\ref{dsut} $U(S)$ is finitely generated. Thus it suffices to show that each equation $a\al X^m+b \be Y^m=1$ has finitely many solutions. Let $A=a\al$ and $B=b\be$. Then
+\[
+AX^m+BY^m=1.
+\]
+Write this as
+\[
+\prod_{\zeta^m=1}\pa{\frac XY -\zeta \ga}=\frac{1}{AY^m}.
+\]
+where $\ga$ is a $m$th root of $-\frac BA$. 
+
+Assume by way of contradiction that there are infinitely many solutions. We have
+\[
+\prod_{\zeta^m=1}\ab{\frac XY-\zeta \ga}_v=\ab{\frac{1}{AY^m}}_v;
+\]
+we show that for some solution, this forces $\frac XY$ to be too close to $\zeta \ga$. Since $H_K(Y)=\prod_{v\in S}\max\{1,|Y|_v^{n_v}\}$, we get $|Y|_v\ge H_K(Y)^{\rc{|S[K:\Q]}}$ for some $v$. (Why?)
+
+\end{proof}

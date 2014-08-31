@@ -1,0 +1,588 @@
+\chapter{Polynomials}\label{polynomials}
+\index{Gauss's lemma}
+\section{Gauss's argument}
+We've shown that $K[x]$ is a UFD, but the argument above does not show that $\Z[x]$ is a UFD, because division with remainder fails for $\Z[x]$. We will need a further argument. The basic idea is that a polynomial factors in $\Z[x]$ the same way it does in $\Q[x]$, except with its factors adjusted by constants so the coefficients are in $\Z$.
+
+Let $R$ be a UFD and let $K$ be the field of fractions of $R$. That is, $K$ consists of the numbers $\frac ab$ where $a,b\in R$ and $b\neq 0$, and we say $\frac ab=\frac cd$ iff $ad=bc$. For example, $\Q$ is the field of fractions for $\Z$.
+
+\begin{df}
+A nonzero polynomial $f\in R[x]$ is said to be \textbf{primitive} if all its coefficients do not have a common proper divisor; equivalently, there does not exist a prime $p\in R$ such that $p|f$.
+\end{df}
+
+\begin{lem}\label{polyintdom}
+If $R$ is an integral domain, then so is $R[x]$.
+\end{lem}
+\begin{proof}
+Take any $p,q\in R[x]$ not equal to 0. We can write
+\begin{eqnarray*}
+p=\sum_{i=0}^m a_ix^i,\,a_m\neq 0\\
+q=\sum_{i=0}^n b_ix^i,\, b_n\neq 0
+\end{eqnarray*}
+Then the leading coefficient of $pq$ is $a_mb_nx^{m+n}$. It is nonzero because since $R$ is an integral domain, $a_m,b_n\neq 0$ imply that $a_mb_n\neq 0$. Hence $pq\neq 0$. This shows that $R[x]$ is an integral domain.
+\end{proof}
+
+\begin{lem}[Gauss's lemma]\label{gausslemma}
+(A) An element of $R$ is prime in $R[x]$ iff it is a prime in $R$. Hence if a prime $p$ of $R$ divides a product $fg$ of polynomials in $R[x]$, then $p|f$ or $p|g$.\\
+(B) The product of primitive polynomials in $R[x]$ is primitive.
+\end{lem}
+\begin{proof}
+If $p\in R$ is nonzero, 
+%, any factor of $p$ in $R[x]$ must be in $R$, so any proper factorization of $p$ in $R[x]$ is a proper factorization in $R$. Hence a prime 
+and a prime in $R[x]$, then it is a prime in the subring $R$.
+
+Conversely, let $p$ be any prime element in $R$. 
+Then $R/(p)$
+ is an integral domain\footnote{
+If $I$ is an ideal, then $R/I$ is the quotient ring: Two elements $a,b$ in $R$ are considered to be the same in $R/I$ if they differ by an element in $I$. Keep in mind the example $R=\Z$; then $R/(p)$ is simply the integers modulo $p$.
+
+Now $R/(p)$ is an integral domain, because if $ab=0$ in $R/(p)$, then $ab\in (p)$, i.e. $p$ divides one of $a,b$. But since $p$ is prime either $p|a$ or $p|b$, which translates back into $a=0$ or $b=0$ in $R/(p)$. 
+} so by lemma~\ref{polyintdom}, $R/(p)[x]$ is an integral domain.
+
+Suppose $p|fg$ for $f,g\in R[x]$. 
+Then in $R/(p)[x]$, $\overline{fg}=\overline{f}\overline{g}=0$. 
+Since $R/(p)[x]$ is an integral domain, either $\overline{f}=0$ or $\overline{g}=0$. 
+In other words, either $p|f$ or $p|g$ in $R[x]$. Thus $p$ is a prime in $R[x]$.
+
+If $f,g$ are primitive, then $p\nmid  f$ and $p\nmid g$ for all primes $p\in R$. Since $p$ is also prime in $R[x]$, $p\nmid fg$. Hence $fg$ is not divisible by any prime in $R$, and it is primitive.
+\end{proof}
+\begin{lem}\label{consttimesprimitive}
+Every nonconstant polynomial $f\in K[x]$ can be written uniquely (up to multiplication by units) in the form $f=cf_0$, where $c\in K$ and $f_0$ is a primitive polynomial in $R[x]$.
+\end{lem}
+\begin{proof}
+Each coefficient $a_i$ of $f$ is in the form $\frac{p_i}{q_i}$, where $p_i,q_i\in R$. We can find a nonzero $t\in R$ such that $t$ is divisible by each denominator (for, example, take $t$ to be the product of the denominators). Then we can write
+\[tf=f_1,\]
+where $f_1\in R[x]$. Let $s\in R$ be a greatest common divisor of the coefficients of $f_1$. Then we have
+\[f=\frac{s}{t}f_0\]
+in $K[x]$ where $f_0\in R[x]$ and the coefficients of $f_0$ have no common divisor. This gives the desired representation.
+
+Next we check uniqueness. Suppose
+\[f=cf_0=c'f'_0,\]
+where $c,c'\in K$ and $f_0,f'_0\in R[x]$ are primitive. Multiply by an element of $R$ to ``clear denominators," to reduce to the case where $c,c'\in R$. Now take any prime $p|c$. Since $p$ is prime in $R[x]$, $p|c'$ or $p|f'_0$. The second is impossible since $f'_0$ is primitive. Hence $p|c'$, and we can cancel $p$. Continuing in this way, we get that $c$ and $c'$ share the same prime factors with the same multiplicities. Hence $c,c'$ are associates.
+\end{proof}
+\begin{lem}\label{divprim}
+%(A) 
+Let $f_0$ be a primitive polynomial and let $g\in R[x]$. If $f_0|g$ in $K[x]$ then $f_0|g$ in $R[x]$.\\
+%\noindent(B) If $f,g\in K[x]$ have a common factor in $K$, then they have a common factor in $R$.
+%(B) isn't necessary.
+\end{lem}
+\begin{proof}
+If $f_0|g$ in $K[x]$, then we can write $g=f_0h$ where $h\in K[x]$. 
+We need to show $h\in R[x]$. By lemma~\ref{consttimesprimitive}, we can write $h=ch_0$, where $c\in K$ and $h_0$ is primitive.  
+Then $g=cf_0h_0$. By lemma~\ref{gausslemma}, the product $f_0h_0$ of primitive polynomials is primitive. 
+We can write $c=\frac{s}{t}$, where $s,t\in R$ have no common factors. 
+If a prime $p$ in $R$ divides the denominator $t$ then 
+$p\nmid  s$ so $p|f_0h_0$, contradicting the fact that $f_0h_0$ is primitive. 
+Hence $t$ is a unit, and $c\in R$. Then $h=ch_0\in R[x]$, so $f_0|g$ in $R[x]$.\\
+%\noindent(B) Suppose $h$ is a common factor of $f,g$ in $K[x]$. 
+%Write $h=ch_0$, where $h_0$ is primitive. Then $h_0$ divides both $f$ and $g$ in $K[x]$, so by part (A), $h_0$ divides both $f$ and $g$ in $R[x]$.
+\end{proof}
+\begin{lem}\label{irreds}
+Let $f$ be a nonzero element of $R[x]$. Then $f$ is an irreducible element of $R[x]$ iff it is an irreducible element of $R$ or a primitive irreducible polynomial in $K[x]$.
+\end{lem}
+\begin{proof}
+If $f\in R$, then the only factors of $f$ in $R[x]$ are in $R$, so $f$ is irreducible in $R$ iff it is irreducible in $R[x]$. This proves the lemma for $f\in R$. Now suppose $f\not\in R$. 
+
+If $f\in R[x]$ is a primitive polynomial irreducible in $K[x]$, then it is irreducible in $R[x]$.
+
+If $f\in R[x]$ is not primitive, then it is reducible in $R[x]$. 
+Thus it suffices to show if $f\in R[x]$ is reducible in $K[x]$, then it is reducible in $R[x]$.
+Suppose $f\in R[x]$, and %is a primitive polynomial, and 
+$f=gh$ is a proper factorization of $f$ in $K[x]$. We can write $g=cg_0,h=c'h_0$ where $c,c'\in K$ and $g_0,h_0$ are primitive. Since $g_0$ and $h_0$ are both primitive, so is $g_0h_0$. Then $f=cc'(g_0h_0)$, so by uniqueness in lemma~\ref{consttimesprimitive}, $cc'$ must be in $R$ (and is the gcd of the coefficients of $f$). Thus $f=(cc')g_0h_0$ is a proper factorization of $f$ in $R[x]$ as well, as needed. %This shows that a primitive polynomial in $R[x]$ that is reducible in $K[x]$ is reducible in $R[x]$, i.e. an irreducible polynomial in $R[x]$ is irreducible in $K[x]$.
+\end{proof}
+\begin{thm}\label{rxufd}
+The ring $R[x]$ is a unique factorization domain.
+\end{thm}
+\begin{proof}
+It suffices to show that every irreducible element $f$ of $R[x]$ is a prime element, and that factoring terminates. By Lemma~\ref{irreds}, $f$ is either 
+irreducible in $R$ or a primitive irreducible polynomial in $K[x]$. In the first case $f$ is prime in $R$ ($R$ is a UFD) and hence prime in $R[x]$ by Lemma~\ref{gausslemma}.
+
+%~\ref{gausslemma}, every irreducible element of $R[x]$ in $R$ is irreducible, hence prime in $R$, and hence prime in $R[x]$.
+In the second case, $f$ is primitive irreducible in $K[x]$, thus a prime in $K[x]$, since $K[x]$ is a UFD. Hence $f|g$ or $f|h$ in $K[x]$. By Lemma~\ref{divprim}, $f|g$ or $f|h$ in $R[x]$. This shows $f$ is prime.
+
+A polynomial $f\in R[x]$ can only be the product of at most $\deg(f)$ many polynomials $p_i$ of positive degree in $R[x]$ because the sum of the degrees of the $p_i$ must equal $\deg(f)$. Factor terminates for the factors of $f$ in $R$ because factoring terminates in the UFD $R$, and the primes in $R$ dividing $f$ are the primes dividing every coefficient of $f$.
+
+Hence $R[x]$ is a UFD.
+\end{proof}
+\begin{cor}
+$\Z[x]$ is a UFD. 
+
+If $R$ is a UFD then $R[x_1,\ldots, x_n]$ is a UFD.
+\end{cor}
+\begin{proof}
+Since $\Z$ is a UFD, so is $\Z[x]$. The second statement follows from Theorem~\ref{rxufd} by induction.
+\end{proof}
+\subsection{More Proofs}
+\begin{thm}[Chinese Remainder Theorem]
+If polynomials $Q_1,\ldots, Q_n\in K[x]$ are pairwise relatively prime, then the system $P\equiv R_i\pmod{Q_i}, 1\leq i\leq n$ has a unique solution modulo $Q_1\cdots Q_n$.
+\end{thm}
+\begin{proof}
+Let $Q=Q_1\cdots Q_n$. Note $Q_i$ and $\frac{Q}{Q_i}$ are relatively prime.
+Hence by B\'ezout's Theorem there exist $f_i$ and $g_i$ so that
+\[
+f_iQ_i+g_i\frac{Q}{Q_i}=1.
+\]
+Now 
+\[(1-q_if_i)R_i=R_ig_i\frac{Q}{Q_i}\]
+is congruent to $R_i$ modulo $Q_i$, and zero modulo $Q_j$ for $j\neq i$. Hence
+\[
+P=\sum_{i=1}^n(1-q_if_i)R_i
+\]
+is the desired polynomial.
+
+For uniqueness, suppose $P_1$ and $P_2$ satisfy the conditions of the problem. Then $P_1-P_2$ is zero modulo $Q_i$. Since the $Q_i$ are pairwise relatively prime, $P_1-P_2\equiv 0\pmod{Q_1\cdots Q_n}$.
+\end{proof}
+
+\begin{thm}[Rational Roots Theorem]
+Suppose that $R$ is a UFD and $K$ its fraction field. (For instance, take $R=\Z$ and $K=\Q$.) Suppose $f(x)=a_nx^n+\cdots +a_0\in R[x]$ and $a_n\neq 0$. Then all roots of $f$ in $K$ are in the form
+\[
+\frac{
+\text{factor of }a_0}{\text{factor of }a_n}.
+\]
+In particular, if $a_n=\pm 1$, then all  roots of $f$ in $K$ are actually in $R$.
+\end{thm}
+\begin{proof}
+Write $x=\frac rs$ in simplest terms. Then multiplying through by $s^n$ gives
+\begin{align*}
+a_n\pf rs^n+\cdots +a_1\pf rs+a_0&=0\\
+a_nr^n&=-s(a_{n-1}r^{n-1}+\cdots +a_1rs^{n-2}+a_0s^{n-1}).
+\end{align*}
+Since $s$ and $r$ have no common factor, $s$ must divide $a_n$. (This uses the fact that $R$ is a UFD---how?). Rewriting as
+\[
+a_0s^n=-r(a_nr^{n-1}+\cdots +a_1s^{n-1})
+\]
+makes it clear $r$ divides $a_0$.
+\end{proof}
+\begin{rem}
+In particular, if $a_n=1$, then all roots of $f$ in $K$ are in $R$. A ring is said to be normal if whenever $t\in K$ is a root of a monic polynomial in $R[x]$, then $t\in R$. Thus the above shows that UFDs are normal. 
+\end{rem}
+\subsection{Problems}
+\begin{enumerate}
+\item
+(B\'{e}zout bound) Let $f(x,y),g(x,y)\in \mathbb C [x,y]$. Prove that either $f,g$ have a constant nonzero factor, or they have finitely many zeros $(x,y)$ in common. (Hard: They have at most $\deg(f)\deg(g)$ common zeros.)
+\item
+For a field $K$, let $K(x)$ be the field of rational functions, that is,
+\[K(x)=\bc{\frac pq\mid p,q\in K[x]}.\]
+Let $f$ and $g$ be rational functions such that $f(g(x))=x$. Prove that $f$ and $g$ are both in the form $\frac{ax+b}{cx+d}$ with $ad\neq bc$.
+\end{enumerate}
+
+In many ways, polynomials are similar to integers. Like integers, polynomials admit division with remainder, existence of greatest common divisors, and unique factorization.
+%In Section~\ref{poly2s1} we will state the main theorems concretely. In Section~\ref{poly2s2} we do some problem solving involving polynomials with integer or rational coefficients, and in Section~\ref{poly2s3} we give some surprising applications to number theory. For the more advanced reader, in the last section we restate the results of Section~\ref{poly2s1} more abstractly and prove them. We will see that the core reason behind unique factorization for integers and for polynomials are the same.
+%Note this is a continuation of Lecture 8; in particular, we assume knowledge of the basic definitions, etc. given there. 
+
+\section{Main Theorems}\label{poly2s1}
+In this section $K$ will stand for $\C$ (the complex numbers), $\R$ (the real numbers), $\Q$ (the rational numbers), or $\Z/p\Z$ (the integers modulo $p$), while $R$ will stand for any one of the before sets or $\Z$ (the integers). Note that the sets we label with $K$ all have multiplicative inverses, i.e. are {\it fields}.
+
+Our first result is that when we divide polynomials, we can be assured to get a remainder with degree smaller than our divisor.
+\begin{thm}[Division with remainder]\label{dwr}
+If $f,g\in K[x]$, then there exist polynomials $q,r\in K[x]$ such that $\deg r<\deg g$ and
+\[f=qg+r.\]
+
+If $f,g\in \Z[x]$ and $g$ is monic, then there exist $q,r\in \Z[x]$ such that $\deg r<\deg g$ and
+\[f=gq+r.\]
+\end{thm}
+\begin{proof}
+This is the division algorithm familiar from high school algebra class. Namely, if $f$ has leading term $ax^n$ and $g$ has leading term $bx^m$ with $n\geq m$, then $f-\frac{a}{b}x^{n-m}$ has degree less than $f$. Thus we can keep subtracting multiples of $g$ from $f$ until the result has degree less than $\deg g$.
+
+If $g$ is monic, then $b=1$ so at each stage we subtracted an integer polynomial multiple of $g$, and both the quotient $q$ and the remainder $r$ will have integer coefficients.
+\end{proof}
+
+\begin{thm}[B\'{e}zout]
+Given $f,g\in R[x]$, there exists a polynomial $h$, called the \textbf{greatest common divisor} and denoted $\gcd(f,g)$, such that the following hold:
+\begin{enumerate}
+\item
+$h$ divides both $f$ and $g$.
+\item
+If $p$ divides both $f$ and $g$ then $p$ divides $h$.
+\end{enumerate}
+
+Let $f,g\in K[x]$. There exist polynomials $u,v\in K[x]$ so that $uf+vg=\text{gcd}(f,g)$.
+\end{thm}
+(Note that $h$ is only determined up to a unit. We'll ``sweep this under the rug" and allow any choice of $h$ up to that constant.)
+
+To calculate the gcd, we often use the Euclidean algorithm. Given polynomials $f$ and $g$, for any polynomial $q$ we have
+\[
+\gcd(f,g)=\gcd(g,f-qg).
+\]
+Supposing $\deg f\geq \deg g$, take $q$ so that $f-qg=r$ has degree less than $g$, as in the division algorithm; this reduces the degree of $f$. Repeating this process decreases the degrees of the polynomials; we eventually get to $\gcd(h,0)$ in which case the answer is seen to be $h$.
+
+\begin{thm}[Unique factorization]
+Every polynomial in $R[x]$ factors uniquely in $R[x]$, up to constants. In fact, every polynomial in $R[x_1,\ldots, x_n]$ factors uniquely in $R[x_1,\ldots, x_n]$, up to constants.
+\end{thm}
+
+We give two more useful results.
+
+\begin{thm} [Chinese Remainder Theorem] If polynomials $Q_1,\ldots, Q_n\in K[x]$ are pairwise relatively prime, then the system $P\equiv R_i\pmod{Q_i}, 1\leq i\leq n$ has a unique solution modulo $Q_1\cdots Q_n$.
+\end{thm}
+
+\begin{thm}[Rational Roots Theorem]
+Suppose $f(x)=a_nx^n+\cdots +a_0$ is a polynomial with integer coefficients and with $a_n\neq 0$. Then all rational roots of $f$ are in the form
+\[
+\frac{
+\text{factor of }a_0}{\text{factor of }a_n}.
+\]
+In particular, if $a_n=\pm 1$, then all rational roots of $f$ are integers.
+\end{thm}
+
+Here's a cute application of B\'ezout's Theorem:
+\begin{ex}
+Let $f,g$ be polynomials with integer coefficients and with no common factor. Prove that $\text{gcd}(f(n),g(n)),n\in \mathbb Z$ can only attain a finite number of values.
+\end{ex}
+{\it Solution.} By B\'ezout's Theorem, we have $u(x)f(x)+v(x)g(x)=1$ for some $u,v\in \mathbb{Q}[x]$ and nonzero. Clearing denominators of $u$ and $v$, we get $u'(x)f(x)+v'(x)g(x)=k$ for some $u',v'\in \Z[x]$ and nonzero $k\in \Z$. Hence $\text{gcd}(f(n),g(n))\mid k$.
+
+\subsection{Problems}
+\begin{enumerate}
+\item{}[1] Show by example we cannot always carry out division with remainder in $\Z[x]$ and that B\'ezout's Theorem does not hold for $\Z[x]$. 
+
+\item{}[1] Compute the greatest common divisors in $\Z[x]$:
+\begin{enumerate}
+\item $\gcd(x^6-x^5-x^2+1, x^3-2x^2+2x-1)$.
+\item $\gcd(x^{12}-1,x^8+1)$.
+\end{enumerate}
+
+\item{} Find the greatest common divisor in $\Z[x]$:
+\begin{enumerate}
+\item{}[2] $\gcd(x^n-1,x^m-1)$.
+\item{}[2.5] $\gcd(x^n+1,x^m+1)$.
+\end{enumerate}
+Are your answers the same if we work in $(\Z/p\Z)[x]$?
+
+\item{}[1.5] Let $n>0$ be an integer.  Find the remainder upon division of
+$x^n+x^{n-1}+\cdots+1$ by:
+\begin{enumerate}
+\item $x^2+1$.
+\item $x^2+x+1$.
+\item $x^2-x+1$.
+\end{enumerate}
+
+\item{}[2.5] Let $f,g$ be relatively prime polynomials with integer coefficients. Prove that there exist nonzero polynomials $u,v$ with integer coefficients such that $uf+vg=k$ where $k$ is a nonzero integer. %If $k_0$ denotes the least such $k$, prove that $k_0\mid k$. 
+
+Suppose that $u_1f+v_1g=k_0$ and $u_1,v_1$ are integer polynomials with $u_1=\sum_{i= 0}^m a_ix^i,v=\sum_{i=0}^n b_ix^i$, $\deg(u_1)<\deg(g)$, $\gcd(a_0,\ldots, a_m,b_0,\ldots, b_n)=1$. Prove that $k_0\mid k$.
+
+\item{}[3] Let $f:\mathbb Q\to \mathbb Q$ satisfy $f(f(f(x)))+2f(f(x))+f(x)=4x$. and $f(f(\cdots f(x)))=x$ where $f$ is taken 2009 times. Prove that $f(x)=x$.
+
+\item{}[3] (BAMO 2004) Find all polynomials $f$ with integer coefficients taking irrationals to irrationals. 
+
+\item{}[5] (USAMO 1997/3) Prove that for any integer $n$, there exists a unique polynomial $Q$ with coefficients in $\{0,1,\ldots, 9\}$ such that $Q(-2)=Q(-5)=n$.
+
+\item{}[2] For how many integers $n$ is $\frac{n^3+1000}{n-10}$ an integer?
+
+\item{}[2] Suppose that $f$ and $g$ are integer polynomials such that $f(n)/g(n)$ is an integer for infinitely many $n\in\mathbb Z$. Show that as polynomials, $g(x)$ divides $f(x)$.
+
+\item{}[5] (IMO 2002/3) Find all pairs of integers $m > 2, n > 2$ such that there are infinitely many positive integers $a$ for which $a^n + a^2 - 1$ divides $a^m + a-1$.
+\end{enumerate}
+
+
+
+
+
+\section{Arithmetic Properties}\label{poly2s2}
+In this section we concentrate on polynomials with integer coefficients. The following is a simple but very useful idea.
+\begin{thm}\label{polyntdiv}
+If $P$ has integer coefficients, then $a-b\mid P(a)-P(b)$ for all integers $a,b$.
+\end{thm}
+\begin{proof}
+Let $m=a-b$. Then $a\equiv b\pmod m$. Let $P=c_nx^n+\cdots +c_1x+c_0$. Then
+\[
+c_na^n+\cdots +c_1a+c_0\equiv 
+c_nb^n+\cdots +c_1b+c_0\pmod m
+\]
+giving $P(a)\equiv P(b)\pmod m$, as needed.
+%From number theory we know that if $c\equiv d\pmod m$ and $e\cong f$\pmod m$ then $c+e\equiv d+f \pmod m$ and $ce\equiv df\pmod m$. Since a polynomial is just a
+
+\end{proof}
+Here is a typical application. Note the use of the extremal principle.
+\begin{ex}[USAMO 1974/1] $P(x)$ is a polynomial with integral coefficients. If $a,b,c$ are integers so that $P(a)=b,P(b)=c,P(c)=a$, prove that $a=b=c$.
+\end{ex}
+\begin{proof}
+If not, then no two are equal. Without loss of generality, assume that $c$ is between $a$ and $b$. Then 
+\[|P(a)-P(b)|=|c-b|<|b-a|.\]
+However, $b-a\mid P(b)-P(a)$, a contradiction.
+\end{proof}
+\begin{ex}
+Let $P$ be a nonconstant polynomial with integer coefficients. Prove that there is an integer $x$ so that $P(x)$ is composite.
+\end{ex}
+\begin{proof}
+Take $n$ so that $P(n)$ is nonzero. Suppose it is prime. For all $k\in \mathbb{Z}$, we have $P(n)\mid P(n+kP(n))-P(n)$, and hence $P(n)\mid P(n+kP(n))$ . If $P(x)$ is not composite for any integer $x$, then $P(n+kP(n))$ is $\pm P(n)$ or 0 for all $k\in \mathbb Z$. $P$ attains one of these values infinitely many times, so must be constant, a contradiction.
+\end{proof}
+
+%Note that the solution is similar to the techniques in the last section; we're using a similar idea to Lagrange Interpolation, but here 
+One question we could ask is what values a polynomial can take modulo a given integer $m$ as $x$ ranges over the residues modulo $m$. (From Theorem~\ref{polyntdiv} we know that the value modulo $m$ depends only on $x$ modulo $m$.)
+We know by the Lagrange Interpolation formula that we can manufacture a polynomial taking arbitrary values at a given set of points if we're allowed to divide---so it works for $\R,\Q$, and even $\Z/p\Z$. However Lagrange Interpolation will not work modulo $m$ for $m$ composite because in general we cannot divide modulo $m$ (for example, 2 has no inverse modulo 4). For instance, Theorem~\ref{polyntdiv} already tells us that given $P(x)$, $P(x+p)$ cannot be any residue modulo $p^2$; it can only be those residues that are congruent to $x$ modulo $p$.
+
+\begin{ex}[TST 2007/6]
+For a polynomial $P(x)$ with integer coefficients, $r(2i-1)$ (for $i=1,2,3,\ldots, 512$) is the remainder obtained when $P(2i-1)$ is divided by 1024. The sequence
+\[(r(1),r(3),\ldots, r(1023))\]
+is called the \emph{remainder sequence} of $P(x)$. A remainder sequence is called \emph{complete} if it is a permutation of $(1,3,5,\ldots, 1023)$. Prove that there are no more than $2^{35}$ different complete remainder sequences.
+\end{ex}
+
+\noindent {\it Solution.} \textbf{Step 1}
+
+For $i\in \mathbb{N}$, let 
+\[P_i(x)=\prod_{k=1}^i (x-(2k-1)).\]
+(Define $P_0(x)=1$.)
+By Problem 7, any polynomial with integer coefficients can be written in the form $\sum_{0\leq i \leq n} c_iP_i(x)$.\\
+
+\noindent\textbf{Step 2}
+
+Let $a_i=\sum_{k=0}^{\infty} \left\lfloor \frac{i}{2^k}\right\rfloor$. We claim that $2^{a_i}\mid P_i(x)$ for all $i\in\mathbb{N}$ and all odd $x$. For a prime $p$ and $n\in \mathbb{Z}$, denote by $v_p(n)$ the exponent of the highest power of $p$ dividing $n$ (by convention $v_p(0)=\infty$). For given odd $x$ let $f(\alpha)$ be the number of values of $k$ ($0\leq k\leq i-1$) where $2^{\alpha}\mid x-1-2k$. Then
+\[v_2(P_i(x))=\sum_{k=0}^{i-1} v_2(x-1-2k)=\sum_{\alpha=1}^{\infty}f(\alpha)\]
+since each $k$ with $2^{\alpha}\mid\mid x-1-2k$ is counted $\alpha$ times in either sum. %It suffices to show that $f(\alpha)\geq \left\lfloor \frac{1}{2^{\alpha-1}}\right\rfloor$. Then we would have $v_2(P_i(x))\geq \sum_{\alpha=1}^{\infty} \left\lfloor\frac{1}{2^{\alpha}}$ as desired.
+
+Since any set of $2^{\alpha-1}$ consecutive even integers has one divisible by $2^{\alpha}$, any set of $i$ consecutive even integers has at least $\left\lfloor \frac{i}{2^{\alpha-1}}\right\rfloor$ integers divisible by $2^{\alpha}$. Hence $f(\alpha)\geq \left\lfloor \frac{i}{2^{\alpha-1}}\right\rfloor$, and $v_2(P_i(x))\geq \sum_{\alpha=0}^{\infty} \left\lfloor\frac{i}{2^{\alpha}}\right\rfloor$ as desired.
+
+Note $a_0=0,a_1=1,a_2=3,a_3=4,a_4=7,a_5=8$, and $a_i\geq 10$ for $i\geq 6$.\\
+
+\noindent \textbf{Step 3}
+
+Next, we claim that if $P(x)=\sum_{0\leq i \leq n} c_iP_i(x)$ has a complete remainder sequence then $c_1$ is odd. ($c_0$ obviously needs to be odd.) We have $4\mid P(4k+i)-P(i)$ for any integer $i$; hence $r(4k+1)\equiv r(1)\pmod{4}$ and $r(4k+3)\equiv r(3)\pmod{4}$ for each $k$. In order for the remainder sequence to be complete, we need $r(1)\not\equiv r(3)\pmod{4}$. But noting that $a_i\geq 2$ and $P_i(x)\equiv 0\pmod{4}$ for odd $x$ and $i\geq 2$, we have $P(3)-P(1)\equiv c_1(P_1(3)-P_1(1))\equiv 2c_1\pmod{4}$. Hence $c_1$ is odd.\\
+
+\noindent \textbf{Step 4} 
+
+Since for any odd $x$, $P_i(x)$ is divisible by $2^{a_i}$, if we mod out $c_i$ by $2^{10-a_i}$, and delete the terms with $P_i$ for $i\geq 6$ (where $a_i\geq 10$), we get a polynomial with the same remainder sequence as $P_i$. If $P(x)$ gives a complete remainder sequence, then $c_0$ is odd, so there are $2^9$ choices for it; $c_1$ is odd, so there are at most $2^8$ choices for $c_1\pmod{2^9}$ ($a_1=1$); for $2\leq i\leq 5$ there are at most $2^{10-a_i}$ choices for $c_{i}\pmod{2^{10-a_i}}$. Hence the number of complete remainder sequences is at most
+\[2^9\cdot 2^8\cdot\prod_{i=2}^5 2^{10-\alpha_i}=2^9\cdot 2^8\cdot 2^7\cdot2^6\cdot2^3\cdot2^2=2^{35}.\]
+$\square$
+
+Rather than ask about polynomials with integer coefficients, we could ask about polynomials with integer values, that is $P$ such that $P(n)$ is an integer whenever $n$ is an integer. It turns out that there is a nice description of such polynomials, as the following example shows.
+\begin{thm}
+Let $f(x)\in \mathbb C[x]$. Then the following are
+equivalent:
+\begin{enumerate}
+\item[a.] For every $x\in \mathbb Z$, $f(x)\in\mathbb Z$.
+\item[b.] For $n+1$ consecutive integers $x$, where $n$ is the degree of $f$, $f(x)\in\mathbb Z$.
+\item[c.] There are $a_0,a_1,\ldots,a_n\in\mathbb Z$ with \[f(x) =
+a_n\binom xn + a_{n-1}\binom x{n-1} + \cdots+a_0\binom x0.\]
+\end{enumerate}
+\end{thm}
+Here $\binom{x}{n}$ is defined as 
+\[\frac{x^{\underline{n}}}{n!}=\frac{x(x-1)\ldots (x-(n-1))}{n!}\]
+
+%If $f(x)$ is a polynomial of degree $n$ that takes on
+%integer values for $n+1$ consecutive integer values of $x$, then
+%$f(m)$ is an integer for all $m\in\mathbb Z$.
+\begin{proof}
+The assertions $(a)\Rightarrow (b)$ and $(c)\Rightarrow (a)$ are clear ($\binom{x}{i}$ are integers for all integers $x$ and nonnegative integers $i$, by combinatorial argument).
+
+Suppose (b) holds. First assume that $f(x)$ takes on integer values at $0,1,\ldots, n$. We inductively build the sequence $a_0,a_1,\ldots$ so that the polynomial \[P_m(x)=a_m\binom xm + a_{m-1}\binom x{m-1} + \cdots+a_0\binom x0\] matches the value of $f(x)$ at $x=0,\ldots,m$. Define $a_0=f(0)$; once $a_0,\ldots, a_m$ have been defined, let 
+\[a_{m+1}=f(m+1)-P_m(m+1).\]
+Noting that $\binom{x}{m+1}$ equals 1 at $x=m+1$ and 0 for $0\leq x\leq m$, this gives $P_{m+1}(x)=f(x)$ for $x=0,1,\ldots, m+1$. Now $P_n(x)$ is a degree $n$ polynomial that agrees with $f(x)$ at $x=0,1,\ldots, n$, so they must be the same polynomial.
+
+Now if $f$ takes on integer values for any $n+1$ consecutive values $m,\ldots,m+n$, then by the argument above on $f(x-m)$, $f(x)$ takes on integer values for all $x$; in particular, for $x=0,1,\ldots, n$. Use the above argument to get the desired representation in (c).
+\end{proof}
+The key idea here in both examples that once we know that $P(x)=R(x)$ at some points $x_1,\ldots, x_n$, then we can write 
+\begin{equation}\label{polyntrootfact}
+P(x)=R(x)+(x-x_1)\cdots (x-x_n)Q(x).
+\end{equation}
+When we're working over $\Q$ or $\R$,~(\ref{polyntrootfact}) doesn't put a restriction on other values of $P$, but when we're working over $\Z$ or $\Z/m\Z$, then it does. For instance, if we're working over $\Z$ and $x_1,\ldots, x_n$ are integers, then we know $P(x)$ and $R(x)$ have to differ by a multiple of $(x-x_1)\cdots (x-x_n)$. %See the exercises for further applications of this idea.
+
+
+\subsection{Problems}
+\begin{enumerate}
+\item{} [1] Suppose $P$ is a polynomial with integer coefficients such that $P(0)$ and $P(1)$ are both odd. Show that $P$ has no integer root.
+
+\item{} [2] (Schur) Let $P$ be a nonconstant polynomial with integer coefficients. Prove that the set of primes dividing $P(n)$ for some integer $n$ is infinite.
+
+\item{} [2] Polynomial $P(x)$ has integer coefficients, and satisfies $P(2)=18$ and $P(3)=20$. Find all possible integer roots of $P(x)=0$.
+
+\item{} [3] (Putnam 2008) Let $p$ be prime. Let $h(x)$ be a polynomial with integer coefficients such that $h(0),h(1),\ldots, h(p^2-1)$ are distinct modulo $p^2$. Show that $h(0),h(1),\ldots, h(p^3-1)$ are distinct modulo $p^3$.
+
+\item{}[4] (IMO 2006/5) Let $P(x)$ be a polynomial of degree $n>1$ with integer coefficients and let $k$ be a positive integer. Consider the polynomial
+\[Q(x)=\underbrace{P(P(\cdots P(P}_{k\text{ times}}(x)))).\]
+Prove that there are at most $n$ integers such that $Q(t)=t$.
+
+\item{}[4] (MOSP 2001) Let $f$ be a polynomial with rational coefficients such that $f(n)\in \mathbb{Z}$ for all $n\in \mathbb{Z}$. Prove that for any integers $m,n$, the number
+\[\text{lcm}[1,2,\ldots, \deg(f)]\cdot \frac{f(m)-f(n)}{m-n}\]
+is an integer.
+
+\item{}[2] (Helpful for the next few problems) 
+Let $f(x)\in R[x]$, and let $p_0,p_1,\ldots$ be a sequence of  polynomials whose leading coefficients $u_0,u_1,\ldots $ are units (i.e. invertible), and $\deg(p_i)=i$. Show that $f$ can be uniquely written in the form
+\[f(x)=a_np_n(x)+\ldots +a_1p_1(x)+a_0p_0(x).\]
+In particular, this is true for $p_i(x)=x^{\underline{i}}=x(x-1)\cdots (x-i+1)$.
+
+\item{}[2.5] How many polynomials of degree at most 5 with integer coefficients satisfy $0\leq P(x)<120$ for $x=0,1,2,3,4,5$?
+
+\item{}[4] (USAMO 1995/4) Suppose $q_0,q_1,q_2,\ldots$ is an infinite sequence of integers satisfying the following two conditions:
+\begin{enumerate}
+\item $m-n$ divides $q_m-q_n$ for $m>n\geq 0$,
+\item there is a polynomial $P$ such that $|q_n|<P(n)$ for all $n$.
+\end{enumerate}
+Prove that there is a polynomial $Q$ such that $q_n=Q(n)$ for each $n$.
+
+\item{}[5] (TST 2008/9) Let $n$ be a positive integer. Given an integer coefficient polynomial $f(x)$ define its \emph{signature modulo} $n$ to be the ordered sequence $f(1),\ldots, f(n)$ modulo $n$. Of the $n^n$ such $n$-term sequences of integers modulo $n$, how many are the signature of some polynomial $f(x)$ if $n$ is a positive integer not divisible by the cube of a prime? (Easier variant: if $n$ is not divisible hy the square of a prime)
+
+\item{}[5] (variant of TST 2005/3) For a positive integer $n$, let $S$ denote the set of polynomials $P(x)$ of degree $n$ with positive integer coefficients not exceeding $n!$. A polynomial $P(x)$ in set $S$ is called \emph{fine} if for any positive integer $k$, the sequence $P(1),P(2),P(3),\ldots$ contains infinitely many integers relatively prime to $k$. %Prove that at least $71$ percent of the polynomials in the set $S$ are fine.
+Prove that the proportion of fine polynomials is at most 
+\[\prod_{\text{prime }p\leq n} \left(1-\frac{1}{p^p}\right).\]
+(Original statement: Prove that between $71 \%$ and $75\%$ of the polynomials in the set $S$ are fine.)
+
+\item{}[5] Suppose $f(x)$ is a polynomial of degree $d$ taking integer values such that
+\[m-n\mid{f(m)-f(n)}\]
+for all pairs of integers $(m,n)$ satisfying $0\leq m,n\leq d$. Is it necessarily true that
+\[m-n\mid{f(m)-f(n)}\]
+for all pairs of integers $(m,n)$?
+\end{enumerate}
+
+\section{Polynomials in Number Theory}\label{poly2s3}
+We give an interesting application of polynomials to number theory. Recall the following.
+\begin{thm}[Vieta's Theorem]
+Let $r_1,\ldots, r_n$ be the roots of $\sum_{i=0}^n a_ix^i$, and let \[s_j=\sum_{1\leq i_1<\ldots<i_j\leq n}r_{i_1}\cdots r_{i_j}.\] Then $s_j=(-1)^j\frac{a_{n-j}}{a_n}$.
+\end{thm}
+\index{Wolstenholme's Theorem}
+\begin{thm}[Wolstenholme]
+Prove that $\binom{pa}{pb}\equiv \binom{a}{b}\pmod{p^3}$ for prime $p\geq 5$.
+\end{thm}
+\begin{proof}
+By Fermat's Little Theorem, $x^{p-1}\equiv 1\pmod{p}$. Thus in $\mathbb{Z}/p\mathbb{Z}$, \begin{equation}
+x^{p-1}-1\equiv \prod_{i=1}^{p-1} (x-i)\pmod{p}.\label{wolst-flt}
+\end{equation}
+Write $(x-1)^{\underline{p-1}}=\sum_{i=0}^{p-1} a_ix^i$. Then matching coefficients on both sides of~(\ref{wolst-flt}) gives
+\begin{equation}
+a_i\equiv 0\pmod{p}\text{ for all }1\leq i<p-1.
+\label{wolst-coeff}
+\end{equation}
+Since $p\geq 5$, letting $x=p$ gives
+\[(p-1)!=(x-1)^{\underline{p-1}}=p^{p-1}+\left(\sum_{i=2}^{p-2} a_ip^i\right)+a_1p+(p-1)!\]
+since $(-1)(-2)\cdots (-p+1)=(-1)^{p-1}(p-1)!=(p-1)!$. Subtracting $(p-1)!$ on both sides,
+\[0=p^{p-1}+\left(\sum_{j=2}^{p-2} a_ip^i\right)+a_1p.\]
+Using~(\ref{wolst-coeff}), $p^3\mid a_ip^i$ for $2\leq i<p-1$. Hence, since $p\geq 5$, $p^3\mid p^{p-1} +\sum_{i=2}^{p-2} a_ip^i$. Since $p^3$ divides the LHS, $p^3\mid a_1p$ and $p^2\mid a_1$. Now  $p^3\mid(kp)^{p-1}+\left( \sum_{i=2}^{p-2} a_i (kp)^i \right)$ as well and we get
+\begin{align}
+\nonumber(kp-1)^{\underline{p-1}}&=(x-1)^{\underline{p-1}}|_{x=pk}\\
+\nonumber&=(kp)^{p-1}+\left(\sum_{j=2}^{p-1} a_i(kp)^i\right)+a_1kp+(p-1)!\\
+&\equiv (p-1)!\pmod{p^3}.\label{wolst-eq}
+\end{align}
+Now,
+\begin{align}
+\nonumber\binom{pa}{pb}
+&=\frac{(pa)^{\underline{pb}}}{(pb)!}\\
+\nonumber&=\frac{\prod_{i=a-b+1}^{a}[(pi)(pi-1)^{\underline{p-1}}]}{\prod_{i=1}^b [(pi)(pi-1)^{\underline{p-1}}]}\\
+%\nonumber&=\frac{a^{\underline{b}}}{b!} \left[\prod_{i=1}^b \frac{[p(i+a-b)-1]^{\underline{p-1}}}{(pi-1)^{\underline{p-1}}}\right]\\
+&=\frac{a^{\underline{b}}}{b!} \left[\prod_{i=1}^b \frac{[p(i+a-b)-1]^{\underline{p-1}}}{(pi-1)^{\underline{p-1}}}\right]\label{wolst-prod}
+\end{align}
+By~(\ref{wolst-eq}), $[p(i+a-b)-1]^{\underline{p-1}}\equiv (pi-1)^{\underline{p-1}}\pmod{p^3}$. Hence~(\ref{wolst-prod}) becomes $\binom{a}{b}$ modulo $p^3$, as needed.
+\end{proof}
+\index{Lucas's Theorem}
+\begin{thm}[Lucas's Theorem]
+Suppose that the base $p$ expansions of $m$ and $n$ are
+\begin{align*}
+m&=(m_k\ldots m_1m_0)_p,\\
+n&=(n_k\ldots n_1n_0)_p.
+\end{align*}
+Then
+\[
+\binom mn\equiv \binom{m_k}{n_k}\cdots \binom{m_1}{n_1}\binom{m_0}{n_0}.
+\]
+\end{thm}
+\begin{proof}
+We have the identity
+\[
+(1+X)^{m}=(1+X)^{m_kp^k}\cdots (1+X)^{m_1p}(1+X)^{m_0}.
+\]
+Now take both sides modulo $p$ and use the fact that $(1+X)^{p^n}\equiv 1+X^{p^n}\pmod{p}$ to obtain
+\[
+(1+X)^m\equiv (1+X^{p^k})^{m_k}\cdots (1+X^{p})^{m_1}(1+X)^{m_0}\pmod{p}.
+\]
+Now match the coefficients of $X^n$ on each side. The coefficient on the left hand side is $\binom mn$. For the right hand side, note the only way to get the term $X^n$ is by choosing $X^{n_jp^j}$ from the term $(1+X^{p^j})^{m_j}$, simply by uniqueness of base $p$ representation; the coefficient of $X^{n_jp^j}$ is $\binom{n_j}{m_j}$. 
+Hence the coefficient of $X^n$ on the right hand side is $\binom{m_k}{n_k}\cdots \binom{m_1}{n_1}\binom{m_0}{n_0}$. Equating the coefficients gives the desired result.
+\end{proof}
+\begin{cor}
+Let $n$ be a positive integer, and let $B(n)$ be the number of 1's in the binary expansion of $n$. 
+Then the number of odd entries in the $n$th row of Pascal's triangle is $2^{B(n)}$.
+\end{cor}
+\subsection{Problems}
+\begin{enumerate}
+\item{} [3] Prove that for prime $p\geq 5$,
+\[p^2|(p-1)!\left(1+\frac{1}{2}+\cdots +\frac{1}{p-1}\right).\]
+
+\item{} [3.5] (APMO 2006/3) Prove that for prime $p\geq 5$, $\binom{p^2}{p}\equiv p \pmod{p^5}$.
+
+\item{} [3.5] (ISL 2005/N3) Let $a,b,c,d,e,f$ be positive integers. Suppose that the sum $S=a+b+c+d+e+f$ divides both $abc+def$ and $ab+bc+ca-de-ef-fd$. Prove that $S$ is composite.
+
+\item{} [5] (China TST 2009/3) Prove that for any odd prime $p$, the number of positive integers $n$ satisfying $p\mid n!+1$ is less than or equal to $cp^{\frac{2}{3}}$, where $c$ is a constant independent of $p$.\footnote{Hint: A polynomial of degree $n$ over a field (such as $\Z/p\Z$) can have at most $n$ zeros.}
+
+\item{} [4-5] (TST 2002/2) Let $p$ be a prime number greater than 5. For any positive integer $x$, define
+\[f_p(x)=\sum_{k=1}^{p-1}\frac{1}{(px+k)^2}.\]
+Prove that for all positive integers $x$ and $y$ the numerator of $f_p(x)-f_p(y)$, when written in lowest terms, is divisible by $p^3$.
+\end{enumerate}
+(MOSP 2007/2.2) Let $d$ be a positive integer. Integers $t_1,t_2,\ldots, t_d$ and real numbers $a_1,\ldots, a_d$ are given such that
+\[
+a_1t_1^j+a_2t_2^j+\cdots +a_dt_d^j
+\]
+is an integer for all integers $j$ with $0\le j<d$. Prove that
+\[
+a_1t_1^d+a_2t_2^d+\cdots +a_dt_d^d
+\]
+is also an integer.
+\index{resultant}
+\section{Resultant}\label{resultant}
+\begin{df}
+Let $R$ be a UFD, and let $A(x)=a_mx^m+\cdots +a_0$ and $B(x)=b_nx^n+\cdots +b_0$ be in $R[x]$.
+Define
+\[
+M(A,B)=
+\begin{bmatrix}a_{0} & \cdots & \cdots & \cdots & a_{m} & 0 & 0\\
+0 & \ddots & \ddots & \ddots & \ddots & \ddots & 0\\
+0 & 0 & a_{0} & \cdots & \cdots & \cdots & a_{m}\\
+b_{0} & \cdots & \cdots & b_{n} & 0 & 0 & 0\\
+0 & \ddots & \ddots & \ddots & \ddots & 0 & 0\\
+0 & 0 & \ddots & \ddots & \ddots & \ddots & 0\\
+0 & 0 & 0 & b_{0} & \cdots & \cdots & b_{n}
+\end{bmatrix}
+\]
+where the first $n$ rows contain the $a_j$ and the last $m$ rows contain the $b_j$.
+The \textbf{resultant} of $A$ and $B$ is
+\[
+\Res(A,B)=\det(M(A,B)).
+\]
+\end{df}
+Note that $\Res(A,B)$ is homogeneous of degree $n$ in $a_0,\ldots, a_m$ and homogeneous of degree $m$ in $b_0,\ldots, b_n$. The main use of the resultant is that considering it as a function of $a_0,\ldots, a_m,b_0,\ldots, b_n$, it tells us when $A$ and $B$ have a common factor.
+
+For homogeneous polynomails, we write $A(x,y)=a_mX^m+\cdots + a_0Y^m$ and $B(x,y)=b_nX^n+\cdots + b_0Y^n$ and 
+define the resultant the same way.
+\begin{pr}\label{resultant-properties}$\,$
+\begin{enumerate}
+\item
+$\Res(A,B)=0$ if and only if $A$ and $B$ have a common factor, i.e. have a common zero in $\ol{K}$.
+\item
+If $a_mb_n\ne 0$, and $A=a_m\prod_{j=1}^m(X-\al_j)$, $B=b_n\prod_{k=1}^n(X-\be_k)$, then
+\[
+\Res(A,B)=a_m^nb_n^m\prod_{j=1}^m\prod_{k=1}^n (\al_j-\be_k).
+\]
+\item
+There exist polynomials $F,G\in R[a_0,\ldots, b_n][X]$ such that
+\[
+FA+GB=\Res(A,B).
+\]
+\end{enumerate}
+\end{pr}
+\begin{proof}$\,$
+\begin{enumerate}
+\item $A$ and $B$ have a common factor in $K[X]$ if and only if there exist polynomials nonzero polynomials $C(x)=c_{m-1}X^{m-1}+\cdots +c_0$ and $D(x)=d_{n-1}X^{n-1}+\cdots +d_0$ is $K[X]$ such that $AC=BD$ and $\deg C\le m-1$ and $\deg(D)\le n-1$. Multiplying out $AC=BD$ and treating it as a system of linear equations in the $c_j$ and $d_j$, we get that the determinant of the coefficient matrix is $\pm \Res(A,B)$. Thus there is a nonzero solution if and only if $\Res(A,B)=0$.
+\item 
+First assume $a_m=b_n=1$. We considering the coefficients $a_k,b_k$ and $\Res(A,B)$ as functions of the roots, $\al_1,\ldots, \al_m,\be_1,\ldots, \be_n$. 
+By Vieta's formulas, $a_{m-k}$ is homogeneous of degree $k$ in $\al_1,\ldots, \al_m$ and $b_{n-k}$ is homogeneous of degree $k$ in $\be_1,\ldots, b_n$. The ``big formula" for the determinant says that $\Res(A,B)$ is the sum of entries of the form $\prod_{k=1}^{m+n}M_{k,\si(k)}$, where $M=M(A,B)$. 
+\begin{itemize}
+\item For $1\le k\le n$, $M_{k,\si(k)}$ is either a polynomial of degree $\si(k)-k$ in the $\al_j$ or zero, and
+\item For $1\le k\le m$, $M_{n+k,\si(n+k)}$ is a polynomial of degree $\si(n+k)-k$ in the $\be_j$. 
+\end{itemize}
+Hence if $\prod_{k=1}^{m+n}M_{k,\si(k)}\ne 0$, then it has degree
+%if the degree of $M_{k,\si(k)}$ in the $\al_j,\be_j$ is
+\[
+\sum_{k=1}^n (\si(k)-k)+\sum_{k=1}^m (\si(m+k)-k)=\sum_{k=1}^{m+n}\si(m+n) -\sum_{k=1}^n k-\sum_{k=1}^mk=mn.
+\]
+Now when $\al_j=\be_k$, then by part 1, $\Res(A,B)=0$. Hence $\al_j-\be_k$ divides $\Res(A,B)$. By comparing degrees, we must have
+\[
+\Res(A,B)=C\prod_{j=1}^m\prod_{k=1}^n (\al_j-\be_k).
+\]
+To compute $C$, note that there is exactly one term in the determinant that gives $a_m^n=(\al_1\cdots \al_m)^n$, so $C=1$. 
+By scaling, the desired result holds for $a_m,b_n\ne 0$.
+\item We have
+\[
+M(A,B)\colthree{X^{m+n-1}}{\vdots}{1}
+=\begin{pmatrix}X^{n-1}A\\ \vdots\\ A\\ X^{m-1}B\\ \vdots\\ B\end{pmatrix}.
+\]
+Let $C$ denote the cofactor matrix of $M(A,B)$. Multiplying by $C^T$ on both sides gives
+\[
+\Res(A,B)\colthree{X^{m+n-1}}{\vdots}{1}=C^T\begin{pmatrix}X^{n-1}A\\ \vdots\\ A\\ X^{m-1}B\\ \vdots\\ B\end{pmatrix}.
+\]
+Let the coefficients of $F,G$ be given by the bottom row of $C^T$. Then multiplying out the matrices and looking at the bottommost entry gives the desired conclusion.\qedhere
+\end{enumerate}
+\end{proof}

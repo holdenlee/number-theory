@@ -1,0 +1,953 @@
+%%%TODO
+%Thm. 5.4 is incorrect. For real extensions, it should be $f$ represents $\pm m$. 
+%Thm. 4.6 is incorrect. For real extensions, we need absolute value: $\fc{|\Nm_{K/\Q}(\al)|}{a}. Also $\al$ needs to be positive.
+%To fix: For the real case, the existence of $\ma$ with $\ma\ol{\ma}=(m)$ means $f$ represents $\pm m$. If $-1\in \Nm$ then we're okay. Otherwise, we need to intersect with the norm group (of elements, not ideals).
+%%%
+%Quadratic rings
+\chapter{The algebra of quadratic forms}\llabel{quadratic-forms}
+
+%\fixme{Theorems 5.4
+
+We follow Cox~\cite{Co89}, except for the proof of Gauss composition, when we follow Cassels (add reference). The last section is based on Bhargava's paper~\cite{Bh04}.
+\section{Quadratic forms}\llabel{quadratic-forms1}
+\begin{df}
+Let $R$ be an integral domain. A \textbf{quadratic form} on $R$ is a function on $R^n$, in the form
+\[
+f(x_1,\ldots, x_n)=\sum_{1\le i\le j\le n} a_{ij}x_ix_j.
+\]
+Supposing $R$ is a UFD, we say $f$ is \textbf{primitive} iff $\gcd_{1\le i\le j\le n} a_{ij}=1$.
+\end{df}
+%(Equivalently, $f(ax)=a^2f(x)$, and $(x,y)\mapsto f(x+y)-f(x)-f(y)$ is a bilinear form.)
+
+A quadratic form may be represented by a matrix
+\[
+Q=\left[\begin{array}{ccccc}
+a_{11} & \frac{a_{12}}{2} & \cdots & \frac{a_{1,n-1}}{2} & \frac{a_{1,n}}{2}\\
+\frac{a_{12}}{2} & a_{22} & \cdots & \frac{a_{2,n-1}}{2} & \frac{a_{2,n}}{2}\\
+\vdots & \vdots & \ddots & \vdots & \vdots\\
+\frac{a_{1,n-1}}{2} & \frac{a_{2,n-1}}{2} & \cdots & a_{n-1,n-1} & \frac{a_{n-1,n}}{2}\\
+\frac{a_{1,n}}{2} & \frac{a_{2,n}}{2} & \cdots & \frac{a_{n-1,n}}{2} & a_{nn}\end{array}\right]
+\]
+(working in $K=\Frac(R)$ as necessary to allow division by 2); we have
+\[
+f(\mathbf x)=\mathbf x Q\mathbf x^T.
+\]
+\begin{df}
+We say two forms $f$ and $g$ are \textbf{equivalent} if there are is an invertible matrix $A$ (i.e. a matrix with determinant a unit) such that
+\[
+f(\mathbf x)=g(\mathbf x A^T).
+\]
+We say $f$ and $g$ are \textbf{properly equivalent} if $\det(A)=1$. 
+\end{df}
+Note that the matrices corresponding to $f$ and $g$ are related by 
+\[Q_f=A^TQ_gA.\]
+%The \textbf{discriminant} of a form is the determinant of the associated matrix.
+
+For the rest of this chapter, we will focus on integral binary quadratic forms, i.e. those in two variables over $\Z$.
+\section{Representing integers}
+\begin{df}
+We say that $f$ \textbf{represents} $n$ if there exists $\mathbf x=(x_1,\ldots, x_n)$ such that $f(\mathbf x)=n$. We say that $f$ \textbf{properly represents} $n$ if we can choose $\mathbf x$ so that $\gcd(x_1,\ldots, x_n)=1$.
+\end{df}
+\begin{lem}\llabel{pr-rep}%Cox, lemma 2.3
+A form $f(x,y)$ properly represents $n$ if and only if $f(x,y)$ is properly equivalent to the form $nx^2+b'xy+c'y^2$ for some $b',c'\in \Z$.
+\end{lem}
+\begin{proof}
+If $f(p,q)=n$ with $(p,q)$ relatively prime, then by B\'ezout we can find $r,s$ such that $ps-qr=1$. Let $f(x,y)=ax^2+bxy+cy^2$.  Then $f$ is equivalent to 
+\[
+f(px+ry, qx+sy) =\underbrace{f(p,q)}_{n}x^2+(2apr+bps+brq+2cqs)xy+f(r,s)y^2.
+\]
+
+For the converse, note that $nx^2+bxy+cy^2$ properly represents $n$ by taking $(x,y)=(1,0)$.
+\end{proof}
+
+\begin{thm}\llabel{represent-iff-square}
+Let $n\ne 0$ and $d$ be integers. Then the following are equivalent.
+\begin{enumerate}
+\item There exists a binary quadratic form of discriminant $d$ which properly represents $n$.
+\item $d$ is square modulo $4n$.
+\end{enumerate}
+\end{thm}
+\begin{proof}
+Suppose $f$ is a binary quadratic form of discriminant $d$ properly representing $n$. Then by Lemma~\ref{pr-rep}, $f$ is equivalent to some form $nx^2+bxy+cy^2$. Hence the discriminant is $d=b^2-4nc$, and $d\equiv b^2\pmod{4n}$.
+
+Conversely, suppose $b^2\equiv d\pmod{4n}$, so $b^2=d+4nc$ for some integer $n$, i.e. $d=b^2-4nc$. Then
+\[
+f(x,y)=nx^2+bxy+cy^2
+\]
+properly represents $n$, as $f(1,0)=n$, and $\disc(f)=b^2-4nc=d$.
+%Conversely, suppose $f(x_0,y_0)$ for some $f(x,y)=ax^2+bxy+cy^2$. First consider the case when $\gcd(y_0,4n)=1$. Then
+%\begin{align*}
+%n&=ax_0^2+bx_0y_0+cy_0^2\\
+%4an&=
+%\end{align*}
+\end{proof}
+\begin{cor}\llabel{cor-represent-iff-square}
+Let $n$ be an integer and $p$ an odd prime not representing $n$. Then $\pf{-n}{p}=1$ iff $p$ is represented by a primitive form of discriminant $-4n$.
+%(prim.?)
+\end{cor}
+\begin{proof}
+Note $\pf{-n}{p}=1$ iff $\pf{-4n}{p}=1$, and this is equivalent to the second statement by the theorem.
+\end{proof}
+The results in this section are particularly useful if there are few quadratic forms with determinant $d$. There is a method to list all these quadratic forms, as we will show in the next section.
+\section{Reduction of quadratic forms}
+We would like to have a canonical representative for every equivalence class of binary quadratic forms. We choose the one with ``smallest" coefficients. This is made precise by the following definition.
+\begin{df}
+A positive definite binary quadratic form $ax^2+bxy+cy^2$ is \textbf{reduced} if it is primitive and
+\[
+|b|\le a\le c
+\]
+and
+\[
+b\ge 0\text{ if } |b|=a\text{ or }a=c.
+\]
+\end{df}
+\begin{thm}\llabel{one-reduced}
+Every equivalence class of primitive binary quadratic forms contains exactly one reduced form.
+\end{thm}
+\fixme{There's a more enlightening proof using the action of GL2 on the upper half plane.}
+\begin{proof}
+\noindent{\underline{Existence, Step 1:}} We first show there is a form in the class with $|b|\le a\le c$.
+
+Take the form $f(x)=ax^2+bxy+cy^2$ in the equivalence class such that $|b|$ is smallest. Note $a,c> 0$ because the form is positive definite. We claim that $a,c\ge|b|$. Indeed, we have
+\[
+f(x+my,y)=ax^2+(2am+b)xy+(am^2+c)y^2,
+\]
+so $-b\le 2am+b\le b$ for all $m\in \Z$, giving $a \ge|b|$. Similarly, $c\ge |b|$.
+
+Next, if $a>c$, then %we consider
+%\[
+%f(-y,x)=cx^2-bxy+ay^2
+%\]
+replacing $(x,y)$ by $(-y,x)$ we get $c>a\ge|b|$.\\
+
+\noindent{\underline{Step 2:}} The form is reduced unless $b<0$ and $a=-b$ or $a=c$. We tackle these cases next. In these cases $ax^2-bxy+cy^2$ is reduced, so it suffices to show $ax^2\pm bxy +cy^2$ are equivalent. In these two cases we make the following substitutions:
+\begin{align*}
+f(x,y)&=ax^2-axy+cy^2\implies& f(x+y,y)&=ax^2+axy+cy^2\\
+f(x,y)&=ax^2+bxy+ay^2\implies & f(-y,x)&=ax^2-bxy+ay^2.
+\end{align*}
+
+%Next we show uniqueness.
+%The idea is to unique identify equivalence classes of forms by the smallest integers they represent, with multiplicity.
+\noindent{\underline{Uniqueness, Step 1:}} We claim that for $(x,y)\in \Z^2$ with $xy\ne 0$, and $f(x,y)=ax^2+bxy+cy^2$ with $a,c\ge |b|$, we have 
+\[
+f(x,y)\ge (a-|b|+c)\min(x^2,y^2).
+\]
+Indeed, \wog{} assume $x\ge y$. Then
+\[
+f(x,y)\ge (a-|b|)xy+cy^2\ge(a-|b|+c)y^2.
+\]
+As a corollary, for $xy\ne 0$,
+\[
+ax^2+bxy+cy^2\ge a-|b|+c
+\]
+with equality iff $x,y=\pm1$, $xy=-\sign(b)$.\\
+
+\noindent{\underline{Step 2:}} To distinguish between reduced forms, we examine the smallest nonzero values attained by a them, and the number of primitive solutions to them. Note all solutions $(x,y)$ with $xy=0$ and one of $|x|,|y|\ge 2$ are removed from consideration.
+\begin{enumerate}
+\item If $|b|<a<c$, then the smallest values attained by $f$ primitively are
+\[
+a<c<a-|b|+c
+\]
+with solutions $(\pm1,0)$, $(0\pm 1)$ and $\pm (-1,\sign(b))$ respectively.
+\item If $b\ge 0$ and $|b|=a<c$, then the smallest values attained by $f$ primitively are
+\[
+a<c=a-|b|+c;
+\]
+the first has 2 solutions and the latter has 4 primitive solutions.
+\item If $b\ge 0$ and $|b|<a=c$, then the smallest values attained by $f$ primitively are
+\[
+a=c<a-|b|+c;
+\]
+the first has 4 solutions and the latter has 2 primitive solutions.
+\item If $b\ge 0$ and $|b|=a=c$, then the smallest value attained by $f$ primitively is 
+\[
+a=c=a-|b|+c
+\]
+which has 6 primitive solutions.
+\end{enumerate}
+After examining this data, the only reduced forms that could be equivalent are those falling in the first category with opposite $b$'s, i.e. $ax^2\pm bxy+cy^2$. But any change of variables sending one to the other must preserve the solutions $(\pm 1,0)$ and $(0,\pm1)$, so must have matrix $\smatt{\pm1}0{0}{\pm1}$. If this matrix has determinant 1, then it must be $\pm I$ and cannot change between the two forms.
+\end{proof}
+Suppose $d<0$; note that there is an algorithm to list all reduced quadratic forms with discriminant $d$. The conditions $|b|\le a\le c$ and $b^2-4ac=d$ give
+\[
+d=b^2-4ac \le a^2-4a^2=-3a^2.
+\]
+Hence
+\[
+a\le \sqrt{-\frac{d}{3}}.
+\]
+We simply check for solutions to $b^2-4ac=d$ for all $0\le |b|\le a\le\sqrt{-\frac{d}{3}}$.
+
+%%%x^2+ny^2, small n
+\subsection{Examples}
+\begin{ex}
+When $n=1,2,3$, the above check gives that the only reduced form of discriminant $-4n$ is $x^2+ny^2$.
+
+Combining this fact with Theorem~\ref{represent-iff-square}, we get that $f$ properly represents $m$ iff $d:=-4n$ is a square modulo $4m$, i.e. $-1$ is a square modulo $m$. Thus we have the chain of equivalences:
+\begin{enumerate}
+\item $f$ represents $m$.
+\item $f$ properly represents $\frac{m}{k^2}$ for some square factor $k^2\mid m$.
+\item $d$ is a square modulo $\frac{m}{k^2}$ for some $m$.
+\item $d$ is a square modulo $\frac{m}{k^2}$ for the largest square factor $k^2\mid m$.
+\item $d$ is a square modulo $p$ for every $p\mid m$ with $\ord_p(m)$ odd.
+\end{enumerate}
+By quadratic reciprocity, we have
+\begin{align*}
+\pf{-1}{p}&=(-1)^{\frac{p-1}2}=\begin{cases}
+1,&p\equiv 1\pmod 4\\
+-1,&p\equiv 3\pmod 4
+\end{cases}\\
+\pf{-2}{p}&=(-1)^{\frac{p-1}2}(-1)^{\frac{p^2-1}8}=\begin{cases}
+1,&p\equiv 1,3\pmod 8\\
+-1,&p\equiv 5,7\pmod 8
+\end{cases}\\
+\pf{-3}{p}&=(-1)^{\frac{p-1}2}(-1)^{\frac{3-1}2\cdot \frac{p-1}2}\pf{p}3=\begin{cases}
+1,&p\equiv 1\pmod 3\\
+-1,&p\equiv 2\pmod 3.
+\end{cases}
+\end{align*}
+Hence we have the following.
+\[
+\begin{tabular}{|c|c|}
+\hline
+$m$\text{ represented by}&\text{iff every such prime has even exponent in }$m$\\
+\hline
+$x^2+y^2$& $p\equiv 3\pmod 4$\\
+\hline
+$x^2+2y^2$& $p\equiv 5,7\pmod 8$\\
+\hline
+$x^2+3y^2$& $p\equiv 2\pmod 3$\\
+\hline
+\end{tabular}
+\]
+\end{ex}
+Compare this with the proof using factorization in $\Z[\sqrt{-d}]$.\footnote{When $d=3$ we have to be slightly careful.} In particular, note that $\Z[\sqrt{-d}]$ is a UFD when $d=1,2$, and in these cases, there is exactly one form of discriminant $-4d$. {\it This is not a coincidence!}
+
+Next we show the following.
+\begin{ex}\llabel{x25y2}
+A positive integer $n$ is represented by $x^2+5y^2$ iff
+\begin{enumerate}
+\item Any prime $p\equiv 11, 13, 17, 19\pmod{20}$ appears in $n$ with even exponent.
+\item There are an even number of prime divisors that are $p\equiv 2,3,7\pmod{20}$, counting multiplicity.
+\item (No restriction on primes $p\equiv 1, 5,9\pmod{20}$.)
+\end{enumerate}
+\end{ex}
+Note this condition is quite different from the ones before!
+\begin{proof}[Proof 1]
+This time we have to check $a\le \sqrt{-\frac{20}{3}}<3$. The reduced forms of discriminant $-20$ are
+\begin{align*}
+f(x)&:=x^2+5y^2\\
+g(x)&=2x^2+2xy+3y^2.
+\end{align*}
+We run into trouble already: Theorem~\ref{represent-iff-square} fails to distinguish between these. We still start with the same argument, though.\\
+
+\noindent{\underline{Step 1:}} By Corollary~\ref{represent-iff-square}, a prime $p$ is represented by $f$ or $g$ iff $\pf{-5}{p}=1$. By quadratic reciprocity,
+\[
+\pf{-5}{p}=(-1)^{\frac{p-1}2}\pf{p}{5}=\begin{cases}
+1,&p\equiv 1,3,7,9\pmod{20}\\
+-1,&p\equiv 11, 13, 17,19\pmod{20}.
+\end{cases}
+\]
+
+\noindent{\underline{Step 2:}} Now we distinguish between these two cases. By checking modulo 4, we see that $f$ only represents primes $p\equiv 1,9\pmod{20}$ (and 5) and $g$ only represents primes $p\equiv 3,7\pmod{20}$ (and 2).\footnote{These sets are disjoint; we say $f,g$ are unique in their {\it genus}.} By Step 1, $f$, $g$ must represent all of these respective primes.\\ %Also note $f$ represents 5 but not 2, and $g$ represents 2 but not 5.\\
+
+\noindent{\underline{Step 3:}} We have the desired result for primes. How to pass to products of primes? First note that primes $p\equiv 11, 13, 17, 19\pmod{20}$ have to appear with even exponent (if $x^2+5y^2\equiv 0\pmod{p}$, since $\pf{-5}p=-1$, we must have $p\mid x,y$; now divide $x,y$ by $p$ and repeat).
+
+Now consider the magical identity
+\begin{equation}\llabel{x25y2-magic}
+(2x^2+2xy+3y^2)(2z^2+2zw+3w^2)
+=(2xy+xw+yz+3yw)^2+5(xw-yz)^2,
+\end{equation}
+which says that a product of numbers represented by $g$ is represented by $f$! This immediately gives the sufficiency condition.
+
+For the necessary condition, note we may divide $x,y$ by 2 until they are not both even. 
+Now take it modulo 8 to see that  $n\equiv 1,4,5,6\pmod 8$. This gives that item 2 is necessary.
+\end{proof}
+Wait a minute. Where does the magical identity come from? Historically this was the way such problems were solved, and in fact the motivation for {\it composing} quadratic forms: for primitive quadratic forms $f,g,h$, we say $f\circ g=h$ iff there exist integral bilinear forms $B_1,B_2$ satisfying certain conditions such that
+\[
+f(\mathbf x)g(\mathbf y)=h(B_1(\mathbf x,\mathbf y),B_2(\mathbf x,\mathbf y)).
+\]
+
+We won't go into the historical details, because the modern way of thinking of composition is cleaner (see Section~\ref{g-comp}). We know we had the ``composition law"
+\[
+(a^2+b^2)(c^2+d^2)=(ac-bd)^2+(ad+bc)^2.
+\]
+We can view this as coming from the identity
+\begin{equation}\llabel{fermat-id-explained}
+\nm_{K/\Q}(a+bi)\nm_{K/\Q}(c+di)=\nm_{K/\Q}((a+bi)(c+di))
+\end{equation}
+where $K=\Q(i)$, so $\nm_{K/\Q}(z)=|z|^2$. We now look at a different proof of Example~\ref{x25y2}.
+\begin{proof}[Proof 2]
+This time the complication comes from that $\Z[\sqrt{-5}]$ is not a UFD, nor PID; its ideal class group has order 2, with representatives 
+\begin{align*}
+\ma&=1\\
+\mb&=(3,1+\sqrt{-5}).
+\end{align*}
+
+\noindent{\underline{Step 1:}}
+Let $p$ be prime. 
+As in the proof of Theorem~\ref{uf}.\ref{number-sum-of-squares}, we factor the equation $x^2+5y^2=p$ in $\Z[\sqrt{-5}]$ to get
+\[
+(x+\sqrt{-5}y)(x-\sqrt{-5}y)=p.
+\]
+Now we know the ideal $(p)$ splits iff $x^2+5\pmod p$ splits, i.e. $\pf{-5}{p}=1$. We calculated that this happens when $p\equiv 1,3,5,7,9\pmod{20}$.\\
+
+\noindent{\underline{Step 2:}}
+So if $p$ is of the above form, we know that either $p$ is a product of two principal ideals, or two (conjugate) ideals similar to $\mb$. In the two cases, we have respectively
+\begin{align*}
+(p)&=(\la)(\ol{\la})\\
+(p)&=\la(3,1+\sqrt{-5})\ol{\la}(3,1+\sqrt{-5})
+\end{align*}
+for some $\la\in \Q(\sqrt{-5})$. 
+Then calculating the norm of the ideal in $K=\Q(\sqrt{-5})$ gives
+\begin{align*}
+p&=\nm_{K/\Q}(\la)\\
+p&=\underbrace{\mathfrak N((3,1+\sqrt{-5}))}_3\nm_{K/\Q}(\la)^2.
+\end{align*}Let $\la=x+y\sqrt{-5}$.
+In the first case, we must have $p=x^2+5y^2$, so $p\equiv 1,5,9\pmod{20}$, while in the second case, we must have $p=3(x^2+5y^2)$ ($x,y\in \Q$, here) so when $p$ is odd, $p\equiv 3\cdot 1,3\cdot 9\pmod{20}$. (We can check that $x,y$ do not have 2 or 5 in the denominator by an infinite descent argument, so we may consider $x,y\in \Z/20\Z$.) $p=2$ is possible as $(2,1+\sqrt{-5})^2=(2)$. 
+Thus again we've distinguished between the two cases.\\
+
+\noindent{\underline{Step 3:}}
+A prime $p\equiv 1,5,9\pmod{20}$ splits into two principal ideals, a prime $p\equiv 2,3,7\pmod{20}$ splits into two ideals of type $\mb$, and a prime $p\equiv 11,13, 17, 19\pmod{20}$ remains prime. In order for $(n)$ to split into two principal ideals, we must be able to write
+\[
+(n)=\mc\ol{\mc}
+\]
+where $\mc$ is a product of ideals, containing an {\it even} number of prime ideals of type $\mb$, and $\ol{\mc}$ contains the conjugates of those ideals. (Two ideals of type $\mb$ multiply to a principal ideal.) The result follows.
+\end{proof}
+It seems like the quadratic forms in the first proof are related to the ideals in the second proof. This is indeed the case: we can explain~(\ref{x25y2-magic}) similarly to~(\ref{fermat-id-explained}) by
+\begin{align*}
+&\quad \frac{\nm_{K/\Q}(2x+(1+\sqrt{-5})y)}{\mathfrak N (2,1+\sqrt{-5})}\cdot \frac{\nm_{K/\Q}(2z+(1+\sqrt{-5})w)}{\mathfrak N(2,1+\sqrt{-5})}\\
+&=\frac{\nm_{K/\Q}((2x+(1+\sqrt{-5})y)(2z+(1+\sqrt{-5})w))}
+{\mathfrak N((2))}
+\end{align*}
+The two forms on the LHS are exactly those on the LHS of~(\ref{x25y2-magic}) while that on the RHS can be written in the form $B_1^2+5B_2^2$ because $\rc 2(2x+(1+\sqrt{-5})y)(2z+(1+\sqrt{-5})w)$ is an integral ideal. We will see that in this way the group law on ideal classes translates into a group law on quadratic forms.
+
+After we establish Gauss composition, we will show the equivalence between a quadratic form $Q$ representing a prime $p$, and $(p)$ splitting into ideals of a certain form (Theorem~\ref{pr:rep-iff-ideal}). The above proof was a specific example of this.
+%\section{Orders}
+\section{Ideals on quadratic rings}
+\begin{df}
+We will be considering rings that are free $\Z$-modules of finite rank. We call such rings \textbf{quadratic}, \textbf{cubic}, \textbf{quartic}, and \textbf{quintic}, if the rank is 2, 3, 4, or 5, respectively.
+\end{df}
+The rings we are primarily interested are integral domains, which are exactly the rings that can be embedded in field extensions.
+\begin{df}
+An \textbf{order} $\sO$ in a finite extension $K/\Q$ is a subring of $K$ containing 1, that is a free $\Z$-module of rank $[K:\Q]$.
+\end{df}
+The maximal order of $K$ is simply $\sO_K$, the ring of integers of $K$.
+\begin{df}
+Let $R$ be a ring that is a free $\Z$-module of finite rank. 
+The \textbf{conductor} of $R$ is the greatest integer $n$ for which there exists a ring $T$ such that
+\[
+\sO=\Z+nT.
+\]
+(Necessarily, $T$ has the same rank.)
+\end{df}
+
+%\section{Ideals of quadratic rings}
+%\begin{df}
+%A \textbf{quadratic ring} is a free $\Z$-module of rank 2.
+%\end{df}
+%Note that $\Z[\al]$ is a quadratic ring for any algebraic integer $\al$ with degree 2. In fact, any quadratic ring that is an integral domain is of this form. 
+%However, quadratic rings also include those that are not integral domains.
+
+If $S$ is a quadratic ring then $S=\an{1,\tau}$ for some $\tau$ satisfying a quadratic equation $\tau^2+b\tau+c=0$. If this polynomial is irreducible over $\Z$, then $S$ can be embedded in a quadratic field extension. Otherwise, $S$ is not an integral domain. 
+We make the following definitions. The first four are equivalent to our previous definitions when $S$ is integrally closed.
+\begin{enumerate}
+\item The discriminant of $S$ is the discriminant of the characteristic polynomial, $b^2-4c$.
+\item Conjugation is the linear transformation that takes 1 to 1 and switches the zeros of $x^2+bx+c$.
+\item The norm of an element $\al\in S$ is $\al\ol{\al}$.
+\item The numerical norm $\mathfrak N_R(\ma)$ of an ideal $\ma\in R$ to be $[R:I]=|R/I|$.\footnote{For fractional ideals $\ma$, i.e. $R$-submodules of $R\ot_{\Z}\Q$, take a fractional ideal $\mb$ containing $\ma$ and $R$ and define $\mathfrak N_R(\ma)=\frac{[\mb:\ma]}{[\mb:R]}$.}
+\item A basis $(\al,\be)$ for $\ma\subeq R$ is positively oriented if
+\[
+\frac{\detm{\al}{\ol{\al}}{\be}{\ol{\be}}}{\disc(S)}=\frac{\al \ol{\be}-\be\ol{\al}}{d}>0.
+\]
+\end{enumerate}
+We now describe all quadratic rings.
+%\begin{ex}
+%Suppose $d$ is squarefree, and let $\tau_d=\begin{cases}
+%\sqrt{d},&d\nequiv 1\pmod{4}\\
+%\frac{1+\sqrt{d}}2,&\equiv 1\pmod 4
+%\end{cases}$.
+%The unique quadratic ring of conductor $n$ in $\Q(\sqrt d)$ is $\Z[n\tau]=\an{1,n\tau}$. (Combine this with later proposition...)
+%\end{ex}
+\begin{pr}
+There is a bijection between $D=\set{d\in \Z}{d\equiv 0,1\pmod 4}$ and quadratic rings (up to isomorphism), given by
+\[
+S:d\mapsto\Z[\tau_d]
+\]
+where $\tau_d$ satisfies a monic quadratic equation with discriminant $d$.
+
+Moreover,
+\[d=f^2d_K,\]
+where $f$ is the conductor of $\Z[\tau_d]$ and, when $d$ is nonsquare, $d_K$ is the discriminant of $\Q(\tau_d)$  ($d_K\equiv 0,1\pmod 4$ and $16\nmid d_K$).
+\begin{enumerate}
+\item An integer $d\in D$ corresponds to a integral domain if and only if $d$ is not a square.
+\item If $d=0$ then $S(d)=\Z[x]/(x^2)$.
+\item If $d$ is a nonzero square then $S(d)=\Z\cdot (1,1)+\sqrt{d}(\Z\opl \Z)$.
+\item If $d_K\equiv 1\pmod 4$, $d_K\ne 1$, then $S(d)=\Z[f\tau]=\an{1,f\tau}$ where $\tau=\frac{1+\sqrt{d_K}}2$.
+\item If $d_K\equiv 0\pmod 4$ then $S(d)=\Z[f\tau]=\an{1,f\tau}$ where $\tau=\frac{\sqrt{d_K}}2$---the root of the nonsquare part of $d$.
+\end{enumerate}
+\end{pr}
+\begin{proof}
+Note the map is well-defined, because any two quadratic equations with discriminant $d$, say $x^2+b_jx+c_j$, $j=1,2$, have $b_1\equiv b_2\equiv d\pmod 2$ and hence are related by the change of variable $x\mapsto x+k$ for some $k$. The map is injective because the discriminant doesn't change under replacing $\tau$ with $\tau+k$.
+
+For item 1, note $d$ is a square iff the characteristic polynomial factors. Item 2 is clear; for item 3 note that we have the homomorphism
+\begin{align*}
+\Z[\tau]/(\tau^2-d)&\hra \Z[\tau]/(\tau-\sqrt{d})\times  \Z[\tau]/(\tau+\sqrt{d})\cong\Z\times \Z\\
+1&\mapsto (1,1)\\
+\tau&\mapsto (\sqrt d,-\sqrt d)
+\end{align*}
+with image $\Z\cdot (1,1)+\sqrt{d}(\Z\opl \Z)$.
+
+Now write $d=f^2d_K$; we will show $f$ is the conductor. Choose $b=0$ or $1$ with $b\equiv d \pmod 4$ and $c$ such that $b^2-4c=d$, and let 
+\begin{align*}
+S(d_K)&=\Z[\tau]/(\tau^2+b\tau+c)=\Z\ba{\frac{-b+\sqrt{d_K}}2}\\
+S(d)&=\Z[\tau]/(\tau^2+fb\tau+fc)=\Z\ba{\frac{-fb+f\sqrt{d_K}}2}. 
+\end{align*}
+Now $S(d_K)$ is the ring of integers of $S(d)$, so the largest quadratic ring containing $S(d)$; moreover the above representation gives
+\begin{equation}\llabel{conductor-in-qring}
+S(d)=\Z+fS(d_K),
+\end{equation}
+so $f$ must be the conductor.
+
+Items 4 and 5 come from~(\ref{conductor-in-qring}) and the fact that $\Z\ba{\frac{-b+\sqrt{d_K}}2}=\Z[\tau_K]$.
+\end{proof}
+\subsection{Proper and invertible ideals}
+From now on, assume that $d$ is not a square. We create a bijection between the ``ideal class group" of a quadratic ring of discriminant $d$ and quadratic forms of discriminant $d$. To do this we first have to define the ``ideal class group" of a quadratic ring. This is more complicated than defining it for a ring of integers, because a general order is not a Dedekind domain. We find that we first have to restrict the ideals under consideration, in order for inverses to exist.{\footnote{Else we only get a semigroup.}} Later we restrict the ideals further so that we have unique factorization.
+\index{proper ideal}
+\begin{df}\llabel{df:proper-ideal}
+A \textbf{proper ideal} of $\sO$ is an ideal such that
+\[
+\sO=\set{\be\in K}{\be\ma\subeq\ma}.
+\]
+(In general we only have $\subeq$.)
+\end{df}
+Note that for the maximal order $\sO_K$, all ideals are proper, and for any order, all principal ideals are proper. Furthermore, any ideal is proper for exactly most one order, namely the order $\set{\be\in K}{\be\ma\subeq\ma}$. The following tells us exactly which order that is.
+\begin{lem}\llabel{proper-ideal-of}
+Suppose $\ma=(\al, \be)$ is an ideal in a order of a quadratic field.
+
+Suppose $\tau=\frac{\be}{\al}$ has degree 2 over $\Q$ and satisfies the equation
+\[
+ax^2+bx+c=0
+\]
+where $a>0$, $b$, and $c$ are integers with $\gcd(a,b,c)=1$. Let $K=\Q(\tau)$. Then $\ma$ is a proper ideal of $R:=(1,a\tau)$, and 
+\[
+\mathfrak N_R(\ma)=\frac{\nm_{K/\Q}(\al)}{a}.
+\]
+\end{lem}
+\fixme{As stated this only works for imaginary quadratic fields.}
+\begin{proof}
+Let $\sO$ be the order. 
+Now $(1,\tau)$ is also a fractional ideal of $\sO\subeq \Q(\tau)$. 
+We know $\sO=\set{\be\in K}{\be\ma\subeq\ma}$. Now, $\be$ is in this set iff
+\begin{align*}
+\be&\in (1,\tau)\\
+\be\tau &\in (1,\tau),
+\end{align*}
+i.e.
+\begin{align*}
+\be&=p+q\tau\text{ for some }p,q\in \Z\\
+\be\tau &=(p+q\tau)\tau=p\tau +q\pa{-\frac ba\tau-\frac ca}\in (1,\tau);
+\end{align*}
+since $\gcd(a,b,c)=1$, this is true iff $a\mid q$. Hence $\sO=(1,a\tau)$.
+
+For the second part, note
+\[
+\fN(\ma)=[\sO:\ma]=
+\frac{[\sO:(1,\tau)]}{[\ma:(1,\tau)]}=
+\frac{[\al(1,\tau):(1,\tau)]}{[(1,a\tau):(1,\tau)]}=\frac{\nm(\al)}{a}.
+\]
+\end{proof}
+\begin{pr}
+Let $\ma$ be a fractional $\sO$-ideal. Then $\ma$ is proper iff it is invertible. Hence the proper fractional ideals form a group $I(\sO)$ under multiplication.
+\end{pr}
+\begin{proof}
+If $\ma$ is invertible, then $\ma\mb=\sO$ for some $\mb$. If $\be\ma\subeq \ma$, then
+\[
+\be\sO=
+\be (\ma\mb)=(\be\ma)\mb\subeq \ma\mb=\sO
+\]
+so $\be\in \sO$. This shows $\ma$ is proper.
+
+Conversely, suppose $\ma$ is proper. Write $\ma=\al(1,\tau)$. Letting $ax^2+bx+c$ be the minimal polynomial of $\tau$ with integer coefficients, by Lemma~\ref{proper-ideal-of}, $\sO=(1,a\tau)$. We show that
+\[
+\ma\ol{\ma}=\frac{\nm_{K/\Q}(\al)}{a}\sO;
+\]
+it will follow that $\frac{a}{\nm_{K/\Q}(\al)}\ol{\ma}$ is the inverse of $\ma$.
+
+First note %that by Lemma~\ref{proper-ideal-of}, $\ol{\ma}=\ol{\al}(1,\ol{\tau})$ is actually an ideal of $(1,a\ol{\tau})=\sO$.
+$\sO=\ol{\sO}$, since $\sO=(1,a\tau)=(1,a\ol{\tau})$ (on account of $a\tau+a\ol{\tau}=-b$).  Hence $\ol{\ma}$ is actually an ideal of $\sO$. Next, we calculate
+\begin{align*}
+\ma\ol{\ma}&=\al(1,\tau)\ol{\al}(1,\ol{\tau})\\
+&=\nm_{K/\Q}(\al)(1,\tau,\ol{\tau}, \tau\ol{\tau})\\
+&=\nm_{K/\Q}(\al)\pa{1, \tau+\ol{\tau}, \tau,-\frac ca}\\
+&=\nm_{K/\Q}(\al)\pa{1,-\frac ba, -\frac ca,\tau}\\
+&=\frac{\nm_{K/\Q}(\al)}{a}\pa{1,a\tau}
+\end{align*}
+as needed (using $\gcd(a,b,c)=1$ in the last step).
+\end{proof}
+Let $P(\sO)$ be the subgroup of principal ideals in $I(\sO)$. Define the \textbf{class group} of $\sO$ to be
+\[
+C(\sO)=I(\sO)/P(\sO).
+\]
+Let $P^+(\sO)$ be the subgroup of principal ideals in the form $(\al)$ where $\al$ is {\it totally positive}, i.e. positive under every real embedding. (This is an empty condition if $\sO$ is imaginary.)
+\index{narrow class group}
+Define the \textbf{narrow class group} of $\sO$ to be
+\[
+C^+(\sO)=I(\sO)/P^+(\sO).
+\]
+(This is an example of what is called a ray class group in class field theory.)
+%\begin{pr}
+%If $\ma\subeq R$ is an ideal with basis $\{\al, \be\}$ and $d$ is the discriminant, then
+%\[
+%\ab{\matt{\al}{\ol{\al}}{\be}{\ol{\be}}}=d\cdot \N(\ma)^2.
+%\]
+%WHHAAAT?
+%\end{pr}
+%\begin{proof}
+%Take a basis $(a_1,a_2)$ and let $A$ be so that $A\coltwo{a_1}{a_2}=\coltwo{\al}{\be}$. Then
+%\[\ab{\matt{\al}{\ol{\al}}{\be}{\ol{\be}}}
+%=\det\pa{A\matt{\al}{\ol{\al}}{\be}{\ol{\be}}}^2=\det(A)^2d=\N(\ma)d.
+%\]
+%\end{proof}
+%Here the subscript $K$ simply means we are considering $\sO$ in the ring $\sO_K$.
+\section{Gauss composition}\llabel{g-comp}
+%
+\index{Gauss composition}
+\begin{thm}[Correspondence between ideals and binary quadratic forms]\llabel{ideal-form-correspondence}
+There is a bijection between
+\begin{enumerate}
+\item narrow ideals classes in quadratic rings with given orientation and
+\item binary quadratic forms (up to proper equivalence),
+\end{enumerate}
+given by 
+\begin{align*}
+\pa{\ma=(\al,\be),R}&\mapsto \frac{\nm_{K/\Q}(\al x-\be y)}{\mathfrak N_R(\ma)}\\
+\pa{\pa{1,\frac{-b+\sqrt d}{2a}},\Z\ba{\frac{-b+\sqrt d}{2}}}&\mapsfrom Q(x,y)=ax^2+bxy+cy^2
+\end{align*}
+where $K$ is the quadratic field containing $\ma$, $(\al,\be)$ is a positively oriented basis for $\ma$, and $d=b^2-4ac$.
+This restricts to a bijection between {\it invertible} oriented ideal classes in the order of discriminant $d$ and {\it primitive} binary quadratic forms of discriminant $d$:
+\[
+C^+(\sO(d))\overset{\cong}{\leftrightarrow} C(d).
+\]
+%The correspondence is given by the following. For an ideal $I$ with ordered basis $(\al, \be)$, define
+%\[
+%Q(I)(x,y)=\frac{\N(\al x+\be y)}{\N(y)}
+%\]
+%and for a binary quadratic form $Q=ax^2+bxy+cy^2$ define
+%\[
+%I(Q)=\pa{a,\frac{-b+\sqrt d}{2}}\subeq \C.
+%\]
+\end{thm}
+\begin{cor}[Gauss composition]\llabel{gauss-composition}
+There exists a group structure on equivalence classes of binary quadratic forms, induced by the group structure on ideal classes.
+\end{cor}
+\begin{proof}
+\noindent{\underline{Step 1:}} We show the forward map is well-defined. We need to check two things.
+\begin{enumerate}
+\item Change of basis gives an equivalent form: 
+Temporarily write $Q_{a_1,a_2}(x,y)=\frac{\nm_{K/\Q}(a_1x-a_2y)}{\mathfrak N\ma}$.
+Suppose $\ma=(a_1,a_2)=(b_1,b_2)$ where both bases are positively oriented. We can write
+\[
+\coltwo{b_1}{-b_2}=A\coltwo{a_1}{-a_2},\quad A\in \SL_2(\Z).
+\]
+%First note that $\N\ma=
+Then 
+\begin{equation}\llabel{ideal-qform-change-basis}
+Q_{b_1,b_2}(x,y)=
+\frac{\nm_{K/\Q}\pa{(x,y)\coltwo{b_1}{-b_2}}}{\mathfrak N_{R} (\ma)}=
+\frac{\nm_{K/\Q}\pa{(x,y)A\coltwo{a_1}{-a_2}}}{\mathfrak N_R (\ma)}=
+Q_{a_1,a_2}\pa{
+(x,y)A
+}
+\end{equation}
+so the quadratic forms are equivalent.
+\item Multiplying by a totally positive element gives an equivalent form: Suppose $\la$ is totally positive. Then $\nm_{K/\Q}(\la)>0$. First note that $(\la a_1,\la a_2)$ is also positively oriented:
+\[
+%\frac{\detm{a_1}{\ol{a_1}}{b_1}{\ol{b_1}}}{\sqrt{d}}=\nm_{K/\Q}(\la)\mathfrak N_R(\al)
+%=\mathfrak N_R(\la \al)>0.
+\frac{\detm{\la a_1}{\ol{\la a_1}}{\la b_1}{\ol{\la b_1}}}{d}
+=
+\nm_{K/\Q}(\la)\frac{\detm{a_1}{\ol{a_1}}{b_1}{\ol{b_1}}}{d}>0.
+\]
+Then
+\begin{align*}
+Q_{\la a_1,\la a_2}(x,y)&=
+\frac{\nm(\la a_1x-\la a_2 y)}{\mathfrak N_R(\la \ma)}\\
+&=\frac{\nm_{K/\Q}(a_1x-a_2y)}{\mathfrak N_R(\ma)}\\
+&=Q_{a_1,a_2}(x,y)
+\end{align*}
+as needed.
+\end{enumerate}
+\noindent{\underline{Step 2:}} We show this map is injective.
+First note an alternate characterization for the forward map. Writing $(\al,\be)=\al(1,\tau)$, we find that the quadratic form corresponding to $(\al,\be)$ is
+\begin{align}
+\nonumber
+Q_{\al,\be}(x,y)&=\frac{\nm_{K/\Q}(\al x-\be y)}{\mathfrak N_R(\ma)}\\
+\nonumber
+&=\frac{(\al x-\be y)(\ol{\al}x-\ol{\be}y)}{\mathfrak N_R(\ma)}\\
+\nonumber
+&=\frac{\al\ol{\al}x^2 -(\al\ol{\be}+\ol{\al}\be)xy+\be\ol{\be} y^2}{\mathfrak N_R(\ma)}\\
+\llabel{qform-factored}
+&=\frac{\nm_{K/\Q}(\al)}{\mathfrak N_R(\ma)}(x-\tau y)(x-\ol{\tau} y),&\tau=\frac{\be}{\al}.
+\end{align}
+
+Suppose $Q_{a_1,a_2}(x,y)\sim Q_{b_1,b_2}(x,y)$. By changing the basis of $\mb=(b_1,b_2)$, which by~(\ref{ideal-qform-change-basis}) corresponds to changing the basis of the quadratic form, we may assume $Q_{a_1,a_2}(x,y)= Q_{b_1,b_2}(x,y)$. The above factorization~(\ref{qform-factored}) says that one of the following holds:
+\begin{enumerate}
+\item $\frac{a_1}{a_2}=\frac{b_1}{b_2}$. Letting $\la=\frac{a_1}{b_1}=\frac{a_2}{b_2}$, we find $\ma=\la\mb$. Since both bases are positively oriented,
+\[
+0<\frac{\detm{a_1}{\ol{a_1}}{a_2}{\ol{a_2}}}{\detm{b_1}{\ol{b_1}}{b_2}{\ol{b_2}}}=\nm_{K/\Q}(\la),
+\]
+showing either $\la$ or $-\la$ is totally positive.
+\item $\frac{a_1}{a_2}=\frac{\ol{b_1}}{\ol{b_2}}$. We show that this kind of ``disorientation" is impossible. Let $\la=\frac{a_1}{\ol{b_1}}=\frac{a_2}{\ol{b_2}}$. Then
+\[
+0<\frac{\detm{a_1}{\ol{a_1}}{a_2}{\ol{a_2}}}{\detm{b_1}{\ol{b_1}}{b_2}{\ol{b_2}}}=-\frac{\detm{a_1}{\ol{a_1}}{a_2}{\ol{a_2}}}{\detm{\ol{b_1}}{b_1}{\ol{b_2}}{b_2}}=-\nm_{K/\Q}(\la),
+\]
+giving $\nm_{K/\Q}(\la)<0$. But
+\begin{align*}
+Q_{b_1,b_2}(x,y)&=\frac{(b_1x-b_2y)(\ol{b_1}x-\ol{b_2}y)}{\mathfrak N_R(\ma)}\\
+Q_{a_1,a_2}(x,y)&=\frac{(a_1x-a_2y)(\ol{a_1}x-\ol{a_2}y)}{\mathfrak N_R(\mb)}
+=\la\ol{\la}\frac{(\ol{b_1}x-\ol{b_2}y)(b_1x-b_2y)}{\mathfrak N_R(\mb)};
+\end{align*}
+equating gives $\nm_{K/\Q}(\la)>0$, contradiction.
+\end{enumerate}
+\noindent{\underline{Step 3:}} Applying the reverse map and then the forward map gives the identity.
+
+Given $Q(x,y)=ax^2+bxy+cy^2=a(x-\tau y)(x-\ol{\tau}y)$, the reverse map takes it to $\ma:=(1,\tau)$.
+%We first show that $\{1,\tau:=\frac{-b+\sqrt{d}}{2a}\}$ is in fact a $\Z$-basis for $(1,\tau)$ (not just a generating set over $\sO$). Indeed, $\sO=\pa{1,\frac{a}{\gcd(a,b,c)}\tau}$ and $\pa{\frac{a}{\gcd(a,b,c)}\tau}\tau=\frac{a}{\gcd(a,b,c)}(-b\tau-c)\in (1,\tau)$.
+Note $\{1,\tau:=\frac{-b+\sqrt{d}}{2a}\}$ is in fact a $\Z$-basis for $(1,\tau)$ over $R:=\Z[a\tau]=\Z\ba{\frac{-b+\sqrt{d}}{2}}$ (not just a generating set over $\sO$). Indeed, $a\tau(\tau)=(-b\tau-c)\in (1,\tau)$. In exactly the same way, $\{1,a\tau\}$ is a $\Z$-basis for $R$ over $R$.
+
+By~(\ref{qform-factored}), the forward map then takes $(\ma,R)$ to
+\[\frac{1}{\mathfrak N_R(\ma)}(x-\tau y)(x-\ol{\tau} y)=
+[\ma:R](x-\tau y)(x-\ol{\tau} y)=
+a(x-\tau y)(x-\ol{\tau} y).\]
+%This step is a bit more messy than it needs to be right now...
+%(note to self: Make sure $\N\ma$ has been def'd for $\ma$ fractional)\\
+
+\noindent{\underline{Step 4:}} Invertible classes correspond to primitive forms. Suppose $\ma=\al(1,\tau)$ is invertible and $\tau$ satisfies $ax^2+bx+c=0$, where $\gcd(a,b,c)=1$. Then by Lemma~\ref{proper-ideal-of}, $a=\frac{\nm_{K/\Q}(\al)}{\mathfrak N_R(\ma)}$. Hence by~(\ref{qform-factored}), the quadratic form is $ax^2+bxy+cy^2$, which is primitive.
+
+Conversely suppose $Q$ is primitive. Then by Proposition~\ref{proper-ideal-of}, the corresponding ideal $(1,\tau)$ is proper in $R:=(1,a\tau)$. %But $(1,a\tau)$ is exactly the order of discriminant $d$.
+
+The fact that the discriminant is preserved can be seen from the reverse map.
+\end{proof}
+\begin{ex}\llabel{ex:id-qf}
+We calculate the binary quadratic form corresponding to the order $\sO$ of discriminant $d$. This will be the identity element in the form class group $C(D)$. %Let
+We have $\sO=(1,\tau)$ where
+\[
+\tau=\begin{cases}
+\frac{1+\sqrt{d}}{2},&d\equiv 1\pmod{4}\\
+\frac{\sqrt{d}}2,&d\equiv 0\pmod{4}.
+\end{cases}.
+\]
+Then
+\[
+Q_{\sO}(x,y)=\nm_{K/\Q}(x+y\tau)=\begin{cases}
+x^2-\frac{d}{4}y^2,&d\equiv 0\pmod 4\\
+x^2+xy-\frac{d-1}{4}y^2,&d\equiv 1\pmod 4.
+\end{cases}
+\]
+This is consistent with the fact that $x^2-\frac{d}{4}$ and $x^2+x-\frac{d-1}{4}$ are the minimal polynomials of $\tau$ in the two cases, respectively.
+%where $\tau$ satisfies 
+%\begin{align*}
+%x^2-\frac{d}{4}&=0,&d\equiv 0\pmod4\\
+%x^2+xy-\frac{d-1}{4}&=0,&d\equiv 1\pmod4.
+%\end{align*}
+\end{ex}
+\begin{thm}\llabel{pr:rep-iff-ideal}
+Let $\ma$ be an invertible ideal in the quadratic ring $\sO$ and $f$ its associated quadratic binary form. Let $m$ be a nonzero integer. Then the following are equivalent.
+\begin{enumerate}
+\item
+There exists $\ma'$ in the same ideal class as $\ma$ with
+\[
+\ma'\ol{\ma'}=(m).
+\]
+\item
+There exists $\ma'$ in the same ideal class as $\ma$ with $\mathfrak N_{\sO}(\ma')=m$.
+\item 
+$f$ represents $m$.
+\end{enumerate}
+\end{thm}
+\fixme{As written this only works for imaginary quadratic fields. For real fields, $f$ may represent $-m$ instead.}
+\begin{proof}
+Equivalence of the first two items is clear. We show $(2)\iff (3)$.
+
+Suppose $f$ represents $m$. Suppose $m=d^2a$, and $f$ represents $a$ primitively. By Proposition~\ref{pr-rep}, $f$ is equivalent to a form $ax^2+bxy+cy^2$. By Gauss composition, this form corresponds to an ideal $\ma'=a(1,\tau)$ with $a\tau^2+b\tau+c=0$ inside $\sO=(1,a\tau)$. %By Lemma~\ref{proper-ideal-of} it is a proper ideal of $
+Hence $\fN_{\sO}(\ma')=a$. Then
+\[
+\fN_{\sO}(d \ma')=d^2a,
+\]
+as needed.
+
+Conversely, suppose $\fN_{\sO}(\ma)=m$. Write $\ma=\al(1,\tau)$ with $\nm_{K/\Q}(\al)>0$. Suppose $a\tau^2+b\tau+c=0$ with $\gcd(a,b,c)=1$, so $\sO=(1,a\tau)$ and %$\fN_{\sO}(\ma)=\fc{\nm_{K/\Q}(\al)}{a}$ %(Lemma~\ref{proper-ideal-of}). 
+$\fN_{\sO}((1,\tau))=\rc{a}$.
+The corresponding quadratic form is
+\[
+g(x,y)=\fc{\nm_{K/\Q}(x-\tau y)}{\fN_{\sO}((1,\tau))}
+=a\nm_{K/\Q}(x-\tau y).
+\]
+Since $\al\in \sO=(1,a\tau)$, we have $\al=p-qa\tau$ for some $p,q\in \Z$. We have $\al\tau = p\tau -q(-b\tau-c)=(p+qb)\tau+cq$; since $\al\tau\in \sO=(1,a\tau)$ as well, we get $\fc{p+qb}{a}\in \Z$. Now by Lemma~\ref{proper-ideal-of},
+\begin{align*}
+m=
+\fN_{\sO}(\ma)&=\fc{\nm_{K/\Q}(\al)}{a}\\
+&=\rc{a^2}\cdot a \nm_{K/\Q}(p-qa\tau)\\
+&=\rc{a^2}g(p,aq)\\
+&=g\pa{\fc pa,q}\\
+&=g\pa{\fc{-bq-p}a,q}&g(x,y)=g\pa{-\fc bay-x,y}.
+\end{align*}
+We showed above that $\fc{-bq-p}a\in \Z$, as needed. (Think of the last step as ``root flipping.")
+%(???) Then
+%\[
+%a\nm_{K/\Q}(p-\tau q)=
+%a\rc{a^2} \nm_{K/\Q}(\al)=\fN_{\sO}(\ma)
+%\]
+%by Lemma~\ref{proper-ideal-of}.
+\end{proof}
+\section{Ideal class group of an order}
+Suppose $\sO$ is an order in the field $K$, and $\sO_K$ is the ring of integers (the maximal order).
+We want to relate $C(\sO)$ to $C(\sO_K)$, because the latter is the most ``natural" class group for $K$. In reality, we will relate $C(\sO)$ to a quotient of a subgroup of $I(\sO_K)$, a generalized ideal class group of $\sO_K$. %The main theorem is the following.
+
+After learning class field theory, which relates generalized class ideal class groups to extensions of $K$, we will see that the primes represented by the quadratic form corresponding to $\sO$ can be characterized in terms of a certain field extensions $L/K$. 
+
+\fixme{CHANGE NOTATION: Replace $\Id$ with $I$ and $\Cl$ with $C$ in earlier chapters.}
+\begin{df}
+Define
+\begin{align*}
+I_K(f)&=%\{\text{fractional ideals in $K$ relatively prime to $f$}\}
+\set{\ma\in I_K}{\ma\text{ relatively prime to }f\sO_K}\\
+P_{K}(\Z,f)&=\set{\al\sO_K}{\al\equiv a\pmod{f\sO_K}\text{ for some }a\in \Z}\\
+I_K(\sO,f)&=\set{\ma\in I(\sO)}{\ma\text{ relatively prime to }f\sO}.
+\end{align*}
+\end{df}
+\begin{thm}\llabel{class-group-O}
+Let $f$ be the conductor of $\sO$, i.e. $\sO=\Z+f\sO_K$. 
+There is an isomorphism
+\[
+I_K(f)/P_K(\Z,f)\to I(\sO)/P(\sO)=C(\sO)
+\]
+induced by the map $g:I_K(f)\to I(\sO)$,
+\[
+g(\ma)=\ma\cap \sO.
+\]
+\end{thm}
+First, a preliminary lemma.
+\begin{lem}
+Let $\sO$ be an order of conductor $f$. Then every $\sO$-ideal prime to $f$ is proper.
+\end{lem}
+\begin{proof}
+Cox, Prop. 7.20.
+Suppose $\ma$ is prime to $f$. Then $\ma+f\sO=\sO$. Suppose $\be\ma\subeq \ma$. Then
+\[
+\be \sO=\be(\ma+f\sO)=\be \ma +\be f\sO\subeq \ma+f\sO_K\subeq \sO
+\]
+so $\be \in \sO$. Thus $\ma$ is proper.
+\end{proof}
+\begin{proof}[Proof of Theorem~\ref{class-group-O}]
+\noindent\underline{Step 1:} We show there is a norm-preserving isomorphism 
+\begin{align*}
+I_K(f)&\to I(\sO,f)\\
+\ma&\mapsto \ma\cap \sO\\
+\mb\sO_K&\mapsfrom \mb.
+\end{align*}
+\noindent\underline{Step 2:} The map above induces an isomorphism $I_K(f)/P_K(\Z,f)\to I(\sO,f)/P(\sO,f)$\\
+
+\noindent\underline{Step 3:} The inclusion $I(\sO,f)\hra I(\sO)$ induces an isomorphism $I(\sO,f)/P(\sO,f)\to I(\sO)/P(\sO)$. This follows from Theorem~\ref{gant}.\ref{gen-id-class}.
+\end{proof}
+\section{Cube law}
+We now derive quadratic composition in a different way. We will associate a ``cube" of integers with three quadratic forms. In order to identify equivalent binary quadratic forms, we mod out by $\SL_2(\Z)^3$. After decreeing that the sum of forms making up any cube is 0, we find that we have
+\begin{enumerate}
+\item identified quadratic forms up to equivalence, and
+\item recovered our original composition law.
+\end{enumerate}
+Later we will see that these ideas generalize to composition laws for other polynomial forms and associated ideals/rings.
+%When we quotient out by $\SL_2(\Z)^3$, we will get the quadratic forms up to equivalence. The composition law on cubes will hence translate to a composition law for quadratic forms. This not only gives an elegant way to derive (??), but as we will see, it generalizes to...
+
+Let $\cal C_2=\Z^2\otimes \Z^2\ot\Z^2$. Choosing a basis $(v_1,v_2)$ for $\Z^2$, every element of $\cal C^2$ can be written in the form
+\begin{align*}
+&\quad av_1\otimes v_1\ot v_1 + bv_1\ot v_2\ot v_1 +c v_2\ot v_1\ot v_1 +d v_2\ot v_2\ot v_1\\
+&+ev_1\otimes v_1\ot v_2 + fv_1\ot v_2\ot v_2 +g v_2\ot v_1\ot v_2 +h v_2\ot v_2\ot v_2.
+\end{align*}
+We represent this graphically as a \textbf{cube}.
+\[
+\xymatrix{
+& e \ar@{-}[rr]\ar@{-}[dd] & & f \ar@{-}[dd]\\
+a \ar@{-}[ur] \ar@{-}[rr] \ar@{-}[dd] & & b \ar@{-}[ur]\ar@{-}[dd] & \\
+& g \ar@{-}[rr] & & h \\
+c \ar@{-}[ur] \ar@{-}[rr] & & d \ar@{-}[ur] &
+}
+\quad
+\xymatrix{
+& 112 \ar@{-}[rr]\ar@{-}[dd] & & 122 \ar@{-}[dd]\\
+111 \ar@{-}[ur] \ar@{-}[rr] \ar@{-}[dd] & & 121 \ar@{-}[ur]\ar@{-}[dd] & \\
+& 212 \ar@{-}[rr] & & 222 \\
+211 \ar@{-}[ur] \ar@{-}[rr] & & 221 \ar@{-}[ur] &
+}
+\]
+Think of this as a higher-dimensional analogue of a matrix. Let $M_i,N_i$ for $i=1,2,3$ be the two matrices obtained by slicing the cube along the 3 possible directions.
+\begin{align*}
+M_1=\matt abcd,&\quad N_1=\matt efgh\\
+M_2=\matt aceg,&\quad N_2=\matt bdfh\\
+M_3=\matt aebf,&\quad N_3=\matt cgdh.
+\end{align*}
+Define an action of $\Ga=\SL_2(\Z)\times\SL_2(\Z)\times\SL_2(\Z)$ on $\cal C_2$ by letting $\smatt rstu$ in the $i$th factor of $\SL_2(\Z)^3$ act on $A$ by sending
+\[
+\coltwo{M_i}{N_i}\mapsto \matt rstu\coltwo{M_i}{N_i}=\coltwo{rM_i+sN_i}{tM_i+uN_i}.
+\]
+Note that the actions of the 3 factors of $\SL_2(\Z)$ commute, in the same way that row and column operations commute for a matrix.
+
+Now associate a cube $A$ with three binary quadratic forms $Q_1^A,Q_2^A,Q_3^A$ by letting
+\[
+Q_i^A(x,y)=-\det(M_ix-N_iy).
+\]
+We call $A$ \textbf{projective} if $Q_1^A,Q_2^A,Q_3^A$ are all primitive.
+
+Invariant theory gives the following result.
+\begin{pr}
+The ring of invariants of $\cal C_2$ under $\SL_2(\Z)^3$ is
+\[
+(\cal C_2)^{\SL_2(\Z)^3}=\Z[\disc(A)]
+\]
+where
+\begin{align*}
+\disc(A)&:=\disc(Q_1)=\disc(Q_2)=\disc(Q_3)\\
+&=\sum_{s,t\text{ long diagonal}} s^2t^2-2\sum_{s,t,u,v\text{ face}}stuv+4\sum_{s,t,u,v \text{ regular tetrahedrom}} stuv.
+\end{align*}
+\end{pr}
+(The fact that $\disc(A)$ is invariant is easy to see; we shall not need the opposite implication.)
+
+%We now induce a group structure on equivalence classes of binary quadratic forms with discriminant $D$.
+%\begin{df}
+%%Consider the free abelian group generated by integer quadratic forms. 
+%Let $G$ be the free abelian group generated by integer quadratic forms, with the relations
+%\begin{align*}
+%
+%\end{align*}
+%\[Q_1^A+Q_2^A+Q_3^A=0\text{ for every cube }A.\]
+%\end{df}
+We now prove the bijection in Theorem~\ref{ideal-form-correspondence} and Gauss composition (Corollary~\ref{gauss-composition}) in a different way, using cubes. The idea is to associate triples of ideals multiplying to 1 with triples of quadratic forms in the same cube (which we will deem to add up to 0), and in this way transfer the group structure from narrow ideal classes to classes of quadratic forms.
+\begin{df}
+We say that three oriented fractional ideals $I_1,I_2,I_3$ in a quadratic ring $S$ form a \textbf{balanced triple} if
+\begin{align*}
+I_1I_2I_3&\subeq S\text{ and}\\
+\N(I_1)\N(I_2)\N(I_3)&=1.
+\end{align*}
+We say two balanced triples $(I_1,I_2,I_3)$ and $(I_1',I_2',I_3')$ are equivalent if there are $\la_1,\la_2,\la_3$ such that
+\begin{align*}
+I_1&=\la_1 I_1'\\
+I_2&=\la_2 I_2'\\
+I_3&=\la_3 I_3'.
+\end{align*}
+\end{df}
+\begin{thm}
+There is a bijection between equivalence classes of cubes, and ordered pairs $(S,(I_1,I_2,I_3))$ where $S$ is a quadratic ring and $(I_1,I_2,I_3)$ is a balanced triple modulo equivalence.
+\[
+\Z^2\ot\Z^2\ot\Z^2/\SL_2(\Z)^3\leftrightarrow \{(S,(I_1,I_2,I_3))\}
+\]
+If $(\al_1,\al_2)$, $(\be_1,\be_2)$ and $(\ga_1,\ga_2)$ are correctly oriented bases for $I_1$, $I_2$, and $I_3$, then the cube is given by $(a_{ijk})_{1\le i,j,k\le 2}$ where
+\[
+\al_i\be_j\ga_k = c_{ijk}+a_{ijk} \tau
+\]
+and $\tau$ is such that 
+\begin{align*}
+\tau^2-\frac d4&=0,&d\equiv 0\pmod 4\\
+\tau^2-\tau-\frac{d-1}{4}&=0,&d\equiv 1\pmod 4.
+\end{align*}
+\end{thm}
+%\begin{proof}
+%\noindent{\underline{Step 1:}} We show the map is well defined, i.e. if we change bases for $I_1,I_2,I_3$ or switch to an equivalent balanced triple, we obtain an equivalent cube.
+%\begin{enumerate}
+%\item
+%Suppose we change the basis for $I_1$ from $(\al_1,\al_2)$ to $(\al_1',\al_2')$, with $\coltwo{\al_1'}{\al_2'}=A \coltwo{\al_1}{\al_2}$. Then
+%\[
+%\coltwo{\al_1'\be_j\ga_k}{\al_2'\be_j\ga_k}
+%=A\coltwo{\al_1\be_j\ga_k}{\al_2\be_j\ga_k}
+%\implies \coltwo{a_{1jk}'}{a_{2jk}'}= A\coltwo{a_{1jk}}{a_{2jk}}.
+%\]
+%Hence 
+%\[
+%\coltwo{
+%\matt{a_{111}'}{a_{112}'}{a_{121}'}{a_{122}'}
+%}{
+%\matt{a_{211}'}{a_{212}'}{a_{221}'}{a_{222}'}
+%}
+%=
+%A
+%\coltwo{
+%\matt{a_{111}}{a_{112}}{a_{121}}{a_{122}}
+%}{
+%\matt{a_{211}}{a_{212}}{a_{221}}{a_{222}}
+%},
+%\]
+%showing that the cube transforms by $(A, I, I)$. The other changes of basis are similar.
+%\item
+%Suppose we change $(I_1,I_2,I_3)$ to $(\la_1I_1,\la_2I_2,\la_3I_3)$, multiplying the bases by $\la_1,\la_2,\la_3$, respectively. Then all entries of the cube are multiplied by $\la_1\la_2\la_3=1$, so the cube does not change.
+%\end{enumerate}
+%\noindent{\underline{Step 2:}} We show that given a cube $A$, there is exactly one pair $(S,(I_1,I_2,I_3))$ mapping to it. First we show that $S$ is determined by $A$. 
+%
+%First suppose $I_1=I_2=I_3=S$, $\al_1=\be_1=\ga_1=1$, and $\al_2=\be_2=\ga_2$. Then the associated cubes are given below:\\
+%
+%\noindent \begin{tabular}{|c|c|c|}
+%\hline
+%$d\pmod 4$&$(\al_i\be_j\ga_k)$ & $(\al_{ijk})$\\
+%\hline
+%0&& \xymatrix{
+%& 1 \ar@{-}[rr]\ar@{-}[dd] & & 0 \ar@{-}[dd]\\
+%0 \ar@{-}[ur] \ar@{-}[rr] \ar@{-}[dd] & & 1 \ar@{-}[ur]\ar@{-}[dd] & \\
+%& 0 \ar@{-}[rr] & & \frac d4 \\
+%1 \ar@{-}[ur] \ar@{-}[rr] & & 0 \ar@{-}[ur] &
+%}\\
+%\hline
+%1&& \xymatrix{
+%& 1 \ar@{-}[rr]\ar@{-}[dd] & & 1 \ar@{-}[dd]\\
+%0 \ar@{-}[ur] \ar@{-}[rr] \ar@{-}[dd] & & 1 \ar@{-}[ur]\ar@{-}[dd] & \\
+%& 1 \ar@{-}[rr] & & \frac{d+3}{4} \\
+%1 \ar@{-}[ur] \ar@{-}[rr] & & 1 \ar@{-}[ur] &
+%}\\
+%\hline
+%\end{tabular}\\
+%
+%\noindent They have discriminant $d$. As in step 1, transforming the basis $(1,\tau)$ by $A$ to a basis of $I_1$ means operating on the cube by $(A,I,I)$. %this changes the discriminant by $\det(A)^2=\N(I_1)^2$ (calculation!). 
+%The quadratic form changes from
+%\[
+%Q_1(x,y)=-\det\pa{\begin{pmatrix}x&-y\end{pmatrix}\begin{pmatrix}M_i&N_i\end{pmatrix}}
+%\]
+%to
+%\[
+%Q_1'(x,y)=-\det\pa{\begin{pmatrix}x&-y\end{pmatrix}A\begin{pmatrix}M_i&N_i\end{pmatrix}}.
+%\]
+%We may view this as changing the basis of the quadratic form by $A$, so the determinant multiplies by $\det(A)^2=\mathfrak(I_1)^2$. The same applies for $I_2$ and $I_3$.
+%
+%Thus changing the ideals from $(S,S,S)$ to $(I_1,I_2,I_3)$ the discriminant changes by $\N(I_1)^2\N(I_2)^2\N(I_3)^2$, so
+%\[
+%\disc(\cal A)=\cancelto{1}{\N(I_1)^2\N(I_2)^2\N(I_3)^2}\disc(S).
+%\]
+%This shows that $\disc(S)$ and hence $S$ is determined by $A$.
+%\noindent{\underline{Step 3:}} Next we show the ideals are uniquely determined.
+%\end{proof}
+%
+%%\begin{thm}
+%%Let $D\equiv 0,1\pmod{4}$, and let
+%%\[
+%%\begin{cases}
+%%Q_{\text{id,D}}&=x^2-\frac{D}{4}y^2\\
+%%Q_{\text{id,D}}&=x^2-xy+\frac{1-D}{4}y^2.
+%%\end{cases}
+%%\]
+%%\begin{enumerate}
+%%\item There exists a unique group law on the set of $\SL_2(\Z)$-equivalence classes of binary quadratic forms with discriminant $D$ such that
+%%\begin{align*}
+%%[Q_{\text{id,D}}]&=0\\
+%%[Q_1^A]+[Q_2^A]+[Q_3^A]&=0\text{ for every projective $A$}.
+%%\end{align*}
+%%This is the same as the group law in Corollary~(\ref{gauss-composition}).
+%%\item There exists a unique group law on $\cal C_2/\SL_2(\Z)$ whose such that $A_{\text{id},D}=0$ and 
+%%the projections
+%%\[
+%%p_i([A])=[Q_i^A]
+%%\]
+%%are group homomorphisms (with the group structures above).
+%%\end{enumerate}
+%%
+%%Furthermore, given $Q_1,Q_2,Q_3$ summing to 0, there exists a unique cube (up to $\Ga$-equivalence) such that $Q_i^A=Q_i$, $1\le i\le 3$.
+%%\end{thm}
+%%%From this we get that $Q_1^A+Q_2^A=-Q_3^A$ in $G$, so that $G$ as a set is the set of quadratic forms, modulo some equivalence relation. Our main theorem is that this is exactly the composition law derived earlier.
+%%\begin{proof}
+%%
+%\end{proof}
