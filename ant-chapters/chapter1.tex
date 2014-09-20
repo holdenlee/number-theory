@@ -63,7 +63,7 @@ $\al\be MN\subeq MN$ and $(\al+\be)MN\subeq MN$.
 Hence $\al\be$ and $\al+\be$ are integral over $A$ by Lemma~\ref{criterion-for-integrality} as needed.
 \end{proof}
 %\begin{df}
-%The integral closure of $\Z$ in $L$ is called the \textbf{ring of integers} $\sO_L$.
+%The integral closure of $\Z$ in $L$ is called the \textbf{ring of integers} $\cO_L$.
 %\end{df}
 For the rest of this chapter, $A$ is an integral domain, $K$ is its fraction field, $L$ is an extension of $K$, and $B$ is the integral closure of $A$ in $L$. %This is the setup for much of algebraic number theory.
 \begin{equation}\llabel{aklb}
@@ -79,7 +79,7 @@ $A$ is \textbf{integrally closed} or \textbf{normal} if its integral closure in 
 
 \begin{pr}
 If $L$ is algebraic over $K$ then every element of $L$ can be written as $\fc{b}{a}$ where $b\in B$ and $a\in A$. Thus  $L=\Frac(B)$.
-In particular, for any extension $L/\Q$, $\Frac(\sO_L)=L$.
+In particular, for any extension $L/\Q$, $\Frac(\cO_L)=L$.
 \end{pr}
 \begin{proof}
 Given $\al\in L$, suppose that it satisfies the equation
@@ -94,9 +94,9 @@ Hence $a_n\al$ is integral over $A$, i.e. $a_n\al \in B$. This shows $\al$ is in
 
 For the last part, take $K=\Q$ and $A=\Z$.
 \end{proof}
-For short we call~(\ref{aklb}) the ``AKLB" setup if we further assume $A$ is integrally closed in $K$. In the usual case, $A$ is the integral closure of $\Z$ in $K$. in this case, we write $A=\sO_K$.\footnote{Later on, when we take $K$ to be an extension of the $p$-adic field $\Q_p$, we will use $\sO_K$ to denote the integral closure of $\Z_p$ in $K$.}
+For short we call~(\ref{aklb}) the ``AKLB" setup if we further assume $A$ is integrally closed in $K$. In the usual case, $A$ is the integral closure of $\Z$ in $K$. in this case, we write $A=\cO_K$.\footnote{Later on, when we take $K$ to be an extension of the $p$-adic field $\Q_p$, we will use $\cO_K$ to denote the integral closure of $\Z_p$ in $K$.}
 
-When $F=\ol{\Q}$, the algebraic closure of $\Q$, $a\in \ol{\Q}$ is called an algebraic number and $a\in \sO_{\Q}$ is an algebraic integer.
+When $F=\ol{\Q}$, the algebraic closure of $\Q$, $a\in \ol{\Q}$ is called an algebraic number and $a\in \cO_{\Q}$ is an algebraic integer.
 \index{rational roots theorem}
 \begin{thm}[Rational Roots Theorem]\llabel{rational-roots-thm}
 A UFD is integrally closed.
@@ -138,12 +138,12 @@ is a chain of integral extensions, so item 2 follows from 1.\qedhere
 \end{enumerate}
 \end{proof}
 Combining this proposition with Lemma~\ref{criterion-for-integrality} we get the following:
-\begin{pr}[Transitivity of integrality]\llabel{integrality}$\,$
-\vspace{0cm}
+\begin{pr}[Transitivity of integrality]\llabel{integrality}
 Let $A\subeq B\subeq C$ be integral domains and $K$, $L$, $M$ be their fraction fields.
 \begin{enumerate}
 \item If $B$ is integral over $A$ and $C$ is integral over $B$, then $C$ is integral over $A$.
 \item Let $A'$ is the integral closure of $A$ over $B$ and $A''$ be the integral closure of $A'$ over $C$. Let $A'''$ be the integral closure of $A$ in $C$. %Then $A''=A'''$ and $A'=A''\cap L$.
+Then $A''=A'''$.
 \item The integral closure of $A$ is integrally closed.
 \end{enumerate}
 \end{pr}
@@ -307,13 +307,13 @@ D(\be_1,\ldots, \be_m)=\det(\sigma_i\be_j)^2\neq 0.
 \end{enumerate}
 Here {\it perfect} means that the map $a\mapsto (b\mapsto (a,b))$ is an isomorphism $L\to L^*$, and similarly for $b\mapsto (a\mapsto(a,b))$. This is equivalent to saying that the bilinear form is nondegenerate. %compare to nondegenerate 
 \end{pr}
-\begin{proof}
+\begin{proof} (Unfinished) 
 Use Proposition~\ref{ntr-fext}(1b), and that $\si_k,\det$ are both multiplicative. Inequality follows from independence of characters:
 
 Let $G$ be a group, $F$ a field. Then the homomorphisms $G\to F^{\times}$ are linearly independent. 
 %(In fact, the same is true if $F^{\times}$ is replaced by $\End(V)$ where $V$ is a finite-dimensional vector space over $F$.)?
 \end{proof}
-Thus for $K$ of degree $m$ over $\Q$, we can talk of $\disc(\sO_K/\Z)$.
+Thus for $K$ of degree $m$ over $\Q$, we can talk of $\disc(\cO_K/\Z)$.
 
 A closely related quantity to the discriminant is the {\it different}.
 \begin{df}
@@ -368,10 +368,10 @@ If $A$ is Noetherian, then $M'$ is finitely generated, so its submodule $B$ is f
 \end{proof}
 The following is immediate:
 \begin{thm}
-If $K$ is finite over $\Q$ (i.e. a number field), then $\sO_K$ is a finitely generated $\Z$-module. It is the largest subring that is finitely generated over $\Z$.
+If $K$ is finite over $\Q$ (i.e. a number field), then $\cO_K$ is a finitely generated $\Z$-module. It is the largest subring that is finitely generated over $\Z$.
 \end{thm}
 \begin{df}
-A basis for $\sO_K$ as a $\Z$-module is called an \textbf{integral basis}.
+A basis for $\cO_K$ as a $\Z$-module is called an \textbf{integral basis}.
 \end{df}
 \begin{pr}\llabel{disc-calc}
 Suppose $K$ has characteristic 0 (so $L$ separable over $K$), $L=K[\be]$, and $f$ is the minimal polynomial of $\be$ over $K$. Let $f(X)=\prod (X-\be_i)$ in the Galois closure of $L$. Then 
@@ -403,14 +403,14 @@ For the second equality, note by Proposition~\ref{ntr-fext}(1c) that
 \end{align*}
 \end{proof}
 \begin{pr}%\llabel{crit-int-basis}
-If $K=\Q[\al]$, $\al\in \sO_K$, and $D(1,\al,\ldots, \al^{m-1})=\disc(\sO/\Z)$ then $\{1,\al,\ldots, \al^{m-1}\}$ is an integral basis.
+If $K=\Q[\al]$, $\al\in \cO_K$, and $D(1,\al,\ldots, \al^{m-1})=\disc(\cO/\Z)$ then $\{1,\al,\ldots, \al^{m-1}\}$ is an integral basis.
 \end{pr}
 \begin{proof}
 Using change-of-basis and the correspondence between index and determinant,
 \[
-D(1,\al,\ldots, \al^{m-1})=\disc(\sO_K/\Z)\cdot [\sO_K:\Z[\al]]^2.
+D(1,\al,\ldots, \al^{m-1})=\disc(\cO_K/\Z)\cdot [\cO_K:\Z[\al]]^2.
 \]
-Now $\disc(\sO_K/\Z)\in \Z$ so $[\sO_K:\Z[\al]]=1$.
+Now $\disc(\cO_K/\Z)\in \Z$ so $[\cO_K:\Z[\al]]=1$.
 \end{proof}
 \begin{thm}[Stickelberger's Theorem]\llabel{stickelberger}$\,$
 \begin{enumerate}
@@ -418,7 +418,7 @@ Now $\disc(\sO_K/\Z)\in \Z$ so $[\sO_K:\Z[\al]]=1$.
 complex (nonreal) embeddings $K\to \C$. 
 Then
 \[\sign[\disc(K/\Q)]=(-1)^{s/2}.\] 
-\item $\disc(\sO_K/\Z)\equiv 0\ore 1\pmod 4$.
+\item $\disc(\cO_K/\Z)\equiv 0\ore 1\pmod 4$.
 \end{enumerate}
 \end{thm}
 \begin{proof}
@@ -429,7 +429,7 @@ Then
 %
 %Then
 %\begin{align*}
-%\disc(\sO_K/\Z)&=\det(\si_i\al_j)^2\\
+%\disc(\cO_K/\Z)&=\det(\si_i\al_j)^2\\
 %&=(P-N)^2\\
 %&=(P+N)^2-4PN.
 %\end{align*}
@@ -438,7 +438,7 @@ Then
 %P&=\sum_{\text{even }\pi\in S_m}\prod_{i=1}^m\si_i\al_{\nu^{-1}\pi(i)}\\
 %N&=\sum_{\text{odd }\pi\in S_m}\prod_{i=1}^m\si_i\al_{\nu^{-1}\pi(i)}\\
 %\end{align*}
-%and hence $\si$ permutes $\{P,N\}$. We conclude $\si$ fixes $P+N,PN$ and these are rational. Since they are integral over $\Z$ they are integers. Thus $\disc(\sO_K/\Z)\equiv (P+N)^2\equiv 0 \text{ or } 1\pmod4$.
+%and hence $\si$ permutes $\{P,N\}$. We conclude $\si$ fixes $P+N,PN$ and these are rational. Since they are integral over $\Z$ they are integers. Thus $\disc(\cO_K/\Z)\equiv (P+N)^2\equiv 0 \text{ or } 1\pmod4$.
 %
 Write $K=\Q[\al]$ by the Primitive Element Theorem and $\al_1,\ldots, \al_r$ be the real conjugates and $\be_1,\ol{\be_1},\ldots, \be_s,\ol{\be_s}$ be the complex conjugates. By Proposition~\ref{disc-calc},
 \[\sign(D(1,\al,\ldots, \al^{m-1}))=\sign\pa{\prod_{1\le j\le s} (\be_j-\ol{\be_j})^2}=\prod_{1\le j\le s}i^2=(-1)^{s/2}.\]
@@ -449,7 +449,7 @@ N&=\sum_{\text{odd }\pi\in S_m}\prod_{i=1}^m\si_i\al_{\pi(i)}.
 \end{align*}
 Then
 \begin{align*}
-\disc(\sO_K/\Z)&=\det(\si_i\al_j)^2\\
+\disc(\cO_K/\Z)&=\det(\si_i\al_j)^2\\
 &=(P-N)^2\\
 &=(P+N)^2-4PN.
 \end{align*}
@@ -490,8 +490,8 @@ Suppose that $K,L$ are field extensions of $\Q$ such that
 Let $d=\gcd(\disc(K/\Q),\disc(L/\Q))$. 
 Then 
 \begin{enumerate}
-\item $\sO_K\subeq d^{-1}\sO_K\sO_L$.
-\item If $\sO_{KL}=\sO_K\sO_L$, then $\disc(KL/\Q)=\disc(K/\Q)^{[L:\Q]}\disc(L/\Q)^{[K:\Q]}$.
+\item $\cO_K\subeq d^{-1}\cO_K\cO_L$.
+\item If $\cO_{KL}=\cO_K\cO_L$, then $\disc(KL/\Q)=\disc(K/\Q)^{[L:\Q]}\disc(L/\Q)^{[K:\Q]}$.
 \end{enumerate}
 \end{pr}
 \fixme{In particular, COROLLARY.}
@@ -511,11 +511,11 @@ Fix an embedding $\si:L\hra \C$, and let $\si_1,\ldots, \si_m$ be all embeddings
 \sum_{i=1}^m \si_k(\al_i) x_i =\si_k(\ga),\quad 1\le k\le m.
 \]
 By Cramer's rule, letting $D=\det[(\si_k(\al_i))_{k,i}]$ we get $Dx_i=D_i$ where $D_i$ has the $i$th column of $D$ replaced by $(\si_k(\al_i))_{k=1}^m$. Note that $D$ and $D_i$ are both algebraic integers.
-Using $\disc(\sO_K/\Z)=D^2$ (Proposition~\ref{disc-and-fe}), we get
+Using $\disc(\cO_K/\Z)=D^2$ (Proposition~\ref{disc-and-fe}), we get
 \[
-\disc(\sO_K/\Z)x_i=DD_i.
+\disc(\cO_K/\Z)x_i=DD_i.
 \]
-Hence $\disc(\sO_K/\Z)x_i$ is an algebraic integer (in $\sO_L$). Since the $\be_j$ are an integral basis for $\sO_L$, this forces $r\mid \disc(\sO_K/\Z)$. Similarly, $r\mid \disc(\sO_L/\Z)$, as needed.
+Hence $\disc(\cO_K/\Z)x_i$ is an algebraic integer (in $\cO_L$). Since the $\be_j$ are an integral basis for $\cO_L$, this forces $r\mid \disc(\cO_K/\Z)$. Similarly, $r\mid \disc(\cO_L/\Z)$, as needed.
 
 Now we prove the second part. Choose $(\al_1,\ldots, \al_m)$ a basis for $K/\Q$ and $(\be_1,\ldots, \be_n)$ a basis for $L/\Q$. Then $(\al_j\be_k)_{1\le j\le m,1\le k\le n}$ is a basis for $KL/\Q$. For $\ga\in KL$, let $(\ga)_{j,k}$ denote the coordinate of $\al_j\be_k$ in $\ga$. Then the $mn\times mn$ matrix
 \begin{align*}
