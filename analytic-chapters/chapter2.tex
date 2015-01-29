@@ -247,7 +247,7 @@ The \textbf{order} of an entire function $f$ is the smallest $\al\in [0,\iy]$ su
 \]
 for all $\ep>0$. 
 \end{df}
-\begin{thm}\llabel{product-development}
+\begin{thm}[Product development]\llabel{product-development}
 Let $z_n$ be a sequence with $\lim_{n\to \iy} |z_n|=\iy$.
 %\item
 %(Existence) There is an entire function with zeros exactly the $z_n$.
@@ -744,7 +744,7 @@ where the von Mangoldt function $\La(n)$ is defined as
 \]
 
 The most important property of $\ze$ is its analytic continuation and functional equation.
-\begin{thm}\llabel{zeta-continues}
+\begin{thm}[Analytic continuation and functional equation for $\zeta$]\llabel{zeta-continues}
 $\zeta(s)$ can be analytically continued to a meromorphic function with a simple pole at $s=0,1$. %with residue 1. 
 It satisfies the functional equation
 \[
@@ -769,7 +769,7 @@ For all $u$ with $\Re u>0$,
 \te\prc u = u^{\rc2} \te(u).
 \]
 \end{pr}
-This is a special case of Proposition~\ref{l-func-dirichlet}.\ref{theta-transforms}.
+This is a special case of Proposition~\ref{theta-transforms}.
 \begin{proof}[Proof of Theorem~\ref{zeta-continues}]
 We first analytically continue $\zeta$ to $\Re s>0$, show the functional equation is true for $0<\Re s<1$, and use it to establish analytic continuation to $\C$.
 
@@ -820,8 +820,8 @@ The functional equation for $\xi$ gives
 \begin{align*}
 \ze(s)&=\pi^{\fc s2} \Ga\pf s2^{-1}\pi^{-\fc{1-s}2} \Ga\pf{1-s}2\ze(1-s)\\
 &=\pi^{s-\rc2} \frac{\Ga\pf{1-s}2}{\Ga\pf{s}2}\ze(1-s)\\
-&=\pi^{s-\rc2}\Ga\pf{1-s}2 \Ga\pa{1-\fc s2} \frac{\sin\pf{\pi s}2}{\pi}\ze(1-s)&\text{by Proposition~\ref{complex-analysis}.\ref{gamma-facts}(5)}\\
-&=2(2\pi)^{s-1}\sin\pf{\pi s}2\Ga(1-s)\ze(1-s)&\text{by Proposition~\ref{complex-analysis}.\ref{gamma-facts}(6)}
+&=\pi^{s-\rc2}\Ga\pf{1-s}2 \Ga\pa{1-\fc s2} \frac{\sin\pf{\pi s}2}{\pi}\ze(1-s)&\text{by Proposition~\ref{gamma-facts}(5)}\\
+&=2(2\pi)^{s-1}\sin\pf{\pi s}2\Ga(1-s)\ze(1-s)&\text{by Proposition~\ref{gamma-facts}(6)}
 \end{align*}
 
 Finally, the statement about zeros follows from the fact that $\ze$ has no zeros with $\Re s>1$ (as $\fc{\ze'}{\ze}$ is holomorphic there) and the functional equation, noting $\sin\pf{\pi s}{2}=0$ exactly when $s$ is an even integer, with the zero at $s=0$ cancelled by the pole at 1 of $\ze$.
@@ -840,7 +840,7 @@ From now on, unless otherwise specified, when we say zero of $\ze$ we mean {\it 
 \begin{proof}
 Note $(s^2-s)\xi(s)$ is entire because $\xi$ only has 2 simple poles at $0,1$. To show it has order 1 we need two inequalities.\\
 
-\noindent \underline{Step 1:} There is no constant $C$ so that $(s^2-s)\xi(s)\precsim e^{C|s|}$: Indeed, for real $s$ and any constant $C$, by Stirling's approximation~\ref{complex-analysis}.\ref{stirling} we have
+\noindent \underline{Step 1:} There is no constant $C$ so that $(s^2-s)\xi(s)\precsim e^{C|s|}$: Indeed, for real $s$ and any constant $C$, by Stirling's approximation~\ref{stirling} we have
 \begin{align*}
 (s^2-s)\xi(s)&=(s^2-s)\pi^{-\frac s2}\Ga\pf s2\ze(s)\\
 &\succsim s^{-\rc 2}\pf{s}{2e\pi}^{\frac s2}
@@ -854,7 +854,7 @@ By symmetry of $\xi$ is suffices to consider $\si\ge \rc2$. (``Nudging" $|s|$ in
 Consider 2 cases.
 \begin{enumerate}
 \item
-$\si>2$: Then $\pi^{-\frac{\si}{2}}<1$ and $\ze(\si)<\ze(2)$ so by Stirling's approximation~\ref{complex-analysis}.\ref{stirling},
+$\si>2$: Then $\pi^{-\frac{\si}{2}}<1$ and $\ze(\si)<\ze(2)$ so by Stirling's approximation~\ref{stirling},
 \[
 |\xi(\si+ti)|\precsim
 \Ga\pf{\si}2
@@ -876,7 +876,7 @@ s^2\pi^{-\frac{\si}2}\zeta(s)\Ga\pf{\si}2}
 \end{enumerate}
 This shows $(s^2-s)\xi(s)$ has order 1.\\
 
-\noindent\underline{Step 3:} By the product development~\ref{complex-analysis}.\ref{product-development}, noting the the zeros of $(s^2-s)\xi$ are the nontrivial zeros of $\ze$ (since $\Ga$ has no zeros and trivial zeros of $\ze$ come from the poles of $\Ga$ in the definition of $\xi$), we get
+\noindent\underline{Step 3:} By the product development~\ref{product-development}, noting the the zeros of $(s^2-s)\xi$ are the nontrivial zeros of $\ze$ (since $\Ga$ has no zeros and trivial zeros of $\ze$ come from the poles of $\Ga$ in the definition of $\xi$), we get
 \[
 (s^2-s)\xi(s)=e^{A+Bs}\prod_{\rh\text{ zero of }\zeta}\pa{1-\frac{s}{\rh}}e^{\frac s{\rh}}.
 \]
@@ -1162,7 +1162,7 @@ For an integer $x>2$ and $x\ge T$,
 \end{equation}
 \end{thm}
 \begin{proof}
-\noindent{\underline{Step 1:}} We estimate $\psi(x)$ using Theorem~\ref{dirichlet}.\ref{sum-coeff-Dir}. Suppose $x$ is an integer; the theorem gives
+\noindent{\underline{Step 1:}} We estimate $\psi(x)$ using Theorem~\ref{sum-coeff-Dir}. Suppose $x$ is an integer; the theorem gives
 \begin{align*}
 \ab{\psi(x)-\pa{
 \int_{c-iT}^{c+iT} x^s\pa{-\fc{\ze'}{\ze}(s)\frac{ds}s
@@ -1351,7 +1351,7 @@ First note
 %\]
 %Note $\pi(x)=\sum_{n\le x}\si(n)$, and define $\pi'(x)=\sum_{n\le x}\si'(n)$. Note that $\pi(x)-\pi'(x) 
 
-\noindent{\underline{Part 1:}} By partial summation~\ref{arith-f}.\ref{sum-parts} with $u=\La_1$, $U=\psi_1$, and $v=\frac{1}{\ln x}$,
+\noindent{\underline{Part 1:}} By partial summation~\ref{sum-parts} with $u=\La_1$, $U=\psi_1$, and $v=\frac{1}{\ln x}$,
 \begin{align*}
 \pi(x)&=\sum_{n\le x} \ga(n)\\
 &=\sum_{n\le x}\La_1(n) \rc{\ln n}\\

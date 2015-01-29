@@ -27,7 +27,7 @@ L(s,\chi_1)&=\frac{1}{1^s}+\frac{1}{3^s}+\frac{1}{5^s}+\frac{1}{7^s}+\frac{1}{9^
 L(s,\chi_2)&=\frac{1}{1^s}-\frac{1}{3^s}+\frac{1}{5^s}-\frac{1}{7^s}+\frac{1}{9^s}\cdots=\prod_{p\equiv 1\md 4}\rc{1-p^{-s}}\prod_{p\equiv 3\md 4}\rc{1+p^{-s}}
 %F(s)&=\rc{2}(L(s,\chi_1)+L(s,\chi_2)).
 \end{align*}
-The multiplicative structure is from the fact that the coefficients come from group homomorphisms $(\Z/N\Z)^{\times}\to \C$, i.e. Dirichlet characters (see Definition~\ref{arith-over-ff}.\ref{dir-char}).
+The multiplicative structure is from the fact that the coefficients come from group homomorphisms $(\Z/N\Z)^{\times}\to \C$, i.e. Dirichlet characters (see Definition~\ref{dir-char}).
 
 Logarithmic differentiation gives
 \begin{align*}
@@ -58,7 +58,7 @@ The main steps in the proof are the same, except with $\ze$ replaced by $L$ and 
 \end{enumerate}
 If we conly cared about bounds for a fixed modulus $N$, then that's all there is to it.
 
-However, to obtain error bounds independent of $N$, we need a zero free region independent of $N$ (Theorem~\ref{L-zero-free}). While in Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free} we had the luxury of restricting to large $|t|$, here we have to work with small $|t|$, and our resulting region may miss an ``exceptional" zero. We show there is at most 1 exception (Theorem~\ref{only-1-char}) and prove a version of the Prime Number Theorem for arithmetic progressions (Theorem~\ref{pntap}). Later we prove a stronger but ineffective bound on the ``exceptional zero" (Theorem~\ref{except-zero}) and obtain improved asymptotics (Theorem~\ref{siegel-walfisz}).
+However, to obtain error bounds independent of $N$, we need a zero free region independent of $N$ (Theorem~\ref{L-zero-free}). While in Theorem~\ref{zeta-zero-free} we had the luxury of restricting to large $|t|$, here we have to work with small $|t|$, and our resulting region may miss an ``exceptional" zero. We show there is at most 1 exception (Theorem~\ref{only-1-char}) and prove a version of the Prime Number Theorem for arithmetic progressions (Theorem~\ref{pntap}). Later we prove a stronger but ineffective bound on the ``exceptional zero" (Theorem~\ref{except-zero}) and obtain improved asymptotics (Theorem~\ref{siegel-walfisz}).
 
 \section{$L$-functions}
 \begin{df}\label{l-func-def}
@@ -186,7 +186,7 @@ Then by Poisson summation,
 \end{align*}
 \end{proof}
 From this we get the functional equation for the $L$-function. The proof is similar to that of Theorem~\ref{zeta-continues}.
-\begin{thm}\llabel{l-continues}
+\begin{thm}[Analytic continuation and functional equation for $L$-functions]\llabel{l-continues}
 Let $\chi$ be any character modulo $N$. 
 Then $L(s,\chi)$ has an meromorphic continuation to $\C$. If $\chi$ is principal then $L(s,\chi)$ has a single pole %of residue $\prod_{p\mid N}(1-p^{-s})$ 
 at $1$, and if $\chi$ is nonprincipal then $L(s,\chi)$ is entire. 
@@ -217,7 +217,7 @@ Note that for $\chi$ nonprincipal, partial cancellation in the Dirichlet series 
 %\]
 %so the result follows from that for $\ze$. 
 %
-Note that it suffices to prove all statements for $\chi$ primitive, in light of~(\ref{in-terms-of-primitive}). If $\chi$ is principal, the result follows from the result for $\ze$, so suppose $\chi$ is nonprincipal. Use partial summation~\ref{arith-f}.\ref{sum-parts} to find that for for $s>1$,
+Note that it suffices to prove all statements for $\chi$ primitive, in light of~(\ref{in-terms-of-primitive}). If $\chi$ is principal, the result follows from the result for $\ze$, so suppose $\chi$ is nonprincipal. Use partial summation~\ref{sum-parts} to find that for for $s>1$,
 \begin{equation}\llabel{bound-L-summands}
 L(s,\chi)=\int_1^{\iy} S(x) sx^{-s-1}\,dx
 \end{equation}
@@ -226,7 +226,7 @@ where $S(x)=\sum_{n\le x}\chi(n)$.
 %L(s,\chi)=\sum_{n=1}^{\iy} (\chi(1)+\cdots +\chi(n)) (n^{-s}-(n+1)^{-s}).
 %\]
 (We use the fact that $\lim_{N\to \iy}S(N)N^{-s}=0$ when $s>1$.) 
-Since $\chi(1)+\cdots +\chi(N)=0$ by Corollary~\ref{arith-over-ff}.\ref{sum0}, $\chi(1)+\cdots+\chi(n)\le N$. Then for $\Re s>0$, the above integral converges absolutely, extending $L(s,\chi)$ holomorphically to $\Re s>0$.\\
+Since $\chi(1)+\cdots +\chi(N)=0$ by Corollary~\ref{sum0}, $\chi(1)+\cdots+\chi(n)\le N$. Then for $\Re s>0$, the above integral converges absolutely, extending $L(s,\chi)$ holomorphically to $\Re s>0$.\\
 %\begin{equation}\llabel{bound-L-summands}
 %\sum_{n=1}^{\iy} |(\chi(1)+\cdots +\chi(n)) (n^{-s}-(n+1)^{-s})|\le C\sum_{n=1}^{\iy} [n^{-s}-(n+1)^{-s}]=C,
 %\end{equation}
@@ -238,7 +238,7 @@ Since $\chi(1)+\cdots +\chi(N)=0$ by Corollary~\ref{arith-over-ff}.\ref{sum0}, $
 \[
 \int_0^{\iy} \te_{\chi}(u) u^{\frac s2}\frac{du}{u}
 \]
-in two different ways.\footnote{Unlike in Theorem~\ref{zeta-l-pnt}.\ref{zeta-continues}, there is no ``$-1$" since $\chi(0)=0$.} When $0<\Re s<1$,
+in two different ways.\footnote{Unlike in Theorem~\ref{zeta-continues}, there is no ``$-1$" since $\chi(0)=0$.} When $0<\Re s<1$,
 \begin{align*}
 \int_0^{\iy} \theta_{\chi}(u)u^{\frac s2} \,\frac{du}u
 &=\int_0^{\iy} \sum_{n\in\Z} \chi(n) e^{-\pi n^2u}u^{\frac s2}\frac{du}u\\
@@ -284,7 +284,7 @@ Now using the transformation law~\ref{theta-transforms},
 \end{align*}
 Again matching the two calculations gives the result.
 
-From Proposition~\ref{complex-analysis}.\ref{gamma-facts}(5), $\Ga$ has no zeros, so we find that $L(s,\chi)$ is defined whenever $L(s,\ol{\chi})$ is defined; this $L$ is entire. 
+From Proposition~\ref{gamma-facts}(5), $\Ga$ has no zeros, so we find that $L(s,\chi)$ is defined whenever $L(s,\ol{\chi})$ is defined; this $L$ is entire. 
 The description of the zeros of $L$ follow from the functional equation and the fact that $\Ga$ has poles at $-\N_0$. %The description of the poles follows from the fact that $\Ga$ has no zeros.
 \end{proof}
 \begin{thm}[Product development of $\xi(s,\chi)$]\llabel{xi-chi-product-development}
@@ -302,7 +302,7 @@ Then $\frac{L'}{L}(s,\chi)$ has the partial-fraction expansion
 \end{thm}
 From now on, we only talk about nontrivial zeros of $\ze$.
 \begin{proof}
-We proceed as in Theorem~\ref{zeta-l-pnt}.\ref{xi-product-development}. 
+We proceed as in Theorem~\ref{xi-product-development}. 
 The argument is the same, the only major differences being that $\xi(s,\chi)$ has no poles at $s=0,1$, and the slight difference in definition of $\ze(s,\chi)$ in terms of $L(s,\chi)$, versus the definition of $\xi(s)$ in terms of $\ze(s)$. (Namely, we have $s+a$ instead of $s$, and an extra $N^{-\frac{s+a}2}$. For completeness we give the proof.
 
 To show it has order 1 we need two inequalities.\\
@@ -320,7 +320,7 @@ To show it has order 1 we need two inequalities.\\
 By symmetry of $\xi$ is suffices to consider $\si\ge \rc2$. (We have $\xi(s,\chi)=\frac{G(\chi,\chi^+)}{i^a\sqrt q}\xi(1-s,\ol{\chi})$, and the multiplier has absolute value 1.) Consider 2 cases.
 \begin{enumerate}
 \item
-$\si>2$: Then $\pi^{-\frac{\si+a}{2}}<1$ and $L(\si,\chi)<\ze(2)$ so we have by Stirling's approximation~\ref{complex-analysis}.\ref{stirling} that
+$\si>2$: Then $\pi^{-\frac{\si+a}{2}}<1$ and $L(\si,\chi)<\ze(2)$ so we have by Stirling's approximation~\ref{stirling} that
 \[
 |\xi(\si+ti,\chi)|\precsim
 \ab{N^{\fc{\si+a}2}\Ga\pf{\si+ti+a}2}\\
@@ -370,8 +370,10 @@ we have
 Moreover, there are $O(\ln|Nt|)$ zeros $\rh$ with $|\Im(s-\rh)|<1$, i.e. the number of zeros with imaginary part in $[t,t+1]$ is $O(\ln Nt)$, as $t\to \iy$.
 \end{lem}
 Note this gives $N(T)=O(T\ln(NT))$.
+
+We follow the proof of Theorem~\ref{weak-zeta-zeros}. 
 \begin{proof}
-We follow the proof of Theorem~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros}. The case $N=1$ follows from there so we assume $N>1$. 
+The case $N=1$ follows from there so we assume $N>1$. 
 
 \noindent\underline{Step 1:}
 Theorem~\ref{xi-chi-product-development} gives us
@@ -384,7 +386,7 @@ Theorem~\ref{xi-chi-product-development} gives us
 \underbrace{\sum_{\rh} \pa{\rc{
 s-\rh}+\rc{\rh}}}_{(B)}.
 \end{equation}
-From Stirling's approximation~\ref{complex-analysis}.\ref{stirling}, (A) equals
+From Stirling's approximation~\ref{stirling}, (A) equals
 \begin{equation}\llabel{L-gamma2-estimate}
 %\underbrace
 {\ln\ab{\frac{\si+a}{2}+\frac t2i}}%_{O(1+\ln |t|)}
@@ -444,7 +446,7 @@ Now finish the same way as in Theorem~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros} to 
 \sum_{|\Im(s-\rh)|<1}\rc{s-\rh}+\underbrace{\sum_{|\Im(s-\rh)|<1}\rc{2+it-\rh}}_{O(\cal L)}+
 \underbrace{\sum_{|\Im(s-\rh)|\ge1}\frac{(2-\si)+it}{(s-\rh)(2+it-\rh)}}_{O(\cal L)}.
 \]
-Finish as in Theorem~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros}, the only difference being that $\ln|t|$ is replaced by $\ln|Nt|$.
+Finish as in Theorem~\ref{weak-zeta-zeros}, the only difference being that $\ln|t|$ is replaced by $\ln|Nt|$.
 %
 %\noindent{\underline{Step 3:}} Next we prove the theorem for nonprimitive $\chi$.
 %\end{align*}
@@ -533,11 +535,11 @@ If $\chi$ is nonreal, and $s=\si+it$ is a zero of $L(s,\chi)$, then
 If $\chi$ is real, then with at most 1 exception (counting multiplicity), all zeros satisfy~(\ref{L-zero-bound}). If it exists, the exceptional zero is real.
 \end{enumerate}
 \end{thm}
-Unlike in Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free}, we have to worry about small $|t|$. Fortunately, $L(s,\chi)$ has no pole at $s=1$ to screw us up. Things are not so easy, however.
+Unlike in Theorem~\ref{zeta-zero-free}, we have to worry about small $|t|$. Fortunately, $L(s,\chi)$ has no pole at $s=1$ to screw us up. Things are not so easy, however.
 \begin{proof}
 We may assume $N\ge 2$.
 
-As in Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free}, we have $0\le 3+4\cos \te+\cos 2\te$, so
+As in Theorem~\nref{zeta-zero-free}, we have $0\le 3+4\cos \te+\cos 2\te$, so
 \[
 0\le 3+4\Re(\chi(n)n^{-it})+\Re(\chi(n)^2n^{-2it}).
 \]
@@ -598,7 +600,7 @@ Also by Theorem~\ref{weak-L-zeros}
 %\de>\frac{1}{20C_1\ln|t|}
 %\]
 %as needed. (Warning, non primitive.)
-The remainder of this case follows the lines of Theorem~\ref{zeta-l-pnt}.\ref{zeta-zero-free}.
+The remainder of this case follows the lines of Theorem~\nref{zeta-zero-free}.
 \item
 If $\chi^2$ is principal, then we have
 \begin{align}\nonumber
@@ -608,7 +610,7 @@ If $\chi^2$ is principal, then we have
 \Re\pa{-\fc{L'}{L}(\si+2ti,\chi^2)}
 &\le O(\ln (|t|+2))+\Re\prc{(\si+2ti)-1}+O(\ln N),
 \end{align}
-the last inequality following from Lemma~\ref{zeta-l-pnt}.\ref{weak-zeta-zeros}.
+the last inequality following from Lemma~\ref{weak-zeta-zeros}.
 
 Putting~(\ref{zfli1}),~(\ref{zfli2}), and~(\ref{L-zero-free-eq0}) into~(\ref{zero-free-L-inequality}) give
 \begin{equation}
@@ -672,7 +674,7 @@ If $\chi$ has associated primitive character $\chi_1$, then for $x\ge 1$,
 \end{thm}
 Note that unlike in Theorem~\ref{von-Mangoldt-formula}, we have $\psi(x,\chi)\approx 0$ as opposed to $\psi(x)\approx x$. Remember this is expected because the average of values for a nontrivial character is 0, so there is cancellation in the sum. Moreover, there is no pole at $s=1$ for $L$ as there was in $\ze$, so the application of Cauchy's Theorem in Step 2 will not give the $x$ term.
 \begin{proof}
-\noindent{\underline{Step 1:}} We estimate $\psi(x)$ using Theorem~\ref{dirichlet}.\ref{sum-coeff-Dir}. Suppose $x$ is an integer; the theorem gives
+\noindent{\underline{Step 1:}} We estimate $\psi(x)$ using Theorem~~\ref{sum-coeff-Dir}. Suppose $x$ is an integer; the theorem gives
 \begin{align*}
 \ab{\psi(x,\chi)-\pa{
 \int_{c-iT}^{c+iT} x^s\pa{-\frac{L'}{L}(s,\chi)}\frac{ds}s
@@ -827,7 +829,7 @@ If there is an exceptional zero $\be$ of level $N$ with associated character $\c
 \]
 \end{thm}
 \begin{proof}
-We have by column orthogonality~\ref{arith-over-ff}.\ref{orth} that
+We have by column orthogonality~\ref{orth} that
 \begin{equation}\llabel{psi-mod-chi}
 \psi(\chi,a\bmod N)=
 \sum_{n\le x,\,n\equiv a\md N}\chi(n)\La(N)
@@ -949,7 +951,7 @@ There exists an absolute constant $C$ such that
 for any nontrivial Dirichlet character $\chi$ modulo $N$ and any $\si$ with $1-\rc{\ln N}\le \si\le 1$.
 \end{lem}
 \begin{proof}
-Because $L(\si,\chi)=\sum_{n=1}^{\iy} \fc{\chi(n)}{n^{\si}}$, by Proposition~\ref{dirichlet}.\ref{dir-derivative} we can simply differentiate term-by-term to get
+Because $L(\si,\chi)=\sum_{n=1}^{\iy} \fc{\chi(n)}{n^{\si}}$, by Proposition~\ref{dir-derivative} we can simply differentiate term-by-term to get
 \[
 L'(\si,\chi)=-\sum_{n=1}^{\iy} \fc{\chi(n)\ln n}{n^{\si}}.
 \]
@@ -973,7 +975,7 @@ for some $C_1$. The last step follows from estimating using the integral $\int_{
 %Note that we engineered the bound 
 \noindent\underline{Step 2:} Now we consider the sum from $N+1$ to $\iy$. 
 Let $U(n):=\sum_{m=L+1}^n\chi(m)$ and $v(n)=\frac{\ln n}{n^{\si}}$.
-By partial summation~\ref{arith-f}.\ref{sum-parts}, we have
+By partial summation~\ref{sum-parts}, we have
 \begin{align*}
 \sum_{n=N+1}^{\iy} \fc{\chi(n)\ln n}{n^{\si}}
 &=\lim_{L\to \iy}\ba{-U(L)v(L) +\sum_{n=N+1}^L U(n-1)(v(n)-v(n-1))}.
@@ -1014,7 +1016,7 @@ F(s)> \rc2-\frac{C\la}{1-s}(N_1N_2)^{8(1-s)},\qquad \fc78<s<1.
 \end{lem}
 Note the technique of getting information about a $L$-function of a \emph{single} character by looking at $F(s)$---a function defined using \emph{two} characters---is a lot like what we did in showing Corollary \llabel{only-1-char-2} using Theorem~\ref{only-1-char}. We'll comment more later on why we looked at $F(s)$.\footnote{A deeper reason why we often look at $F(s)$ is that it is the zeta function of a \emph{biquadratic field}. Thus we can prove nice facts about $F(s)$ by combining algebraic and analytic theory. We'll give proofs that don't require this knowledge.}
 \begin{proof}
-The main idea is to expand $F(s)$ in power series and bound its coefficients (equivalently, bound the derivatives of $F(s)$) using the inequality from Cauchy's formula, orollary~\ref{complex-analysis}.\ref{cor:cauchy-ineq}.\\
+The main idea is to expand $F(s)$ in power series and bound its coefficients (equivalently, bound the derivatives of $F(s)$) using the inequality from Cauchy's formula, Corollary~\ref{cor:cauchy-ineq}.\\
 
 We have
 \begin{align*}
@@ -1031,7 +1033,7 @@ Now we expand $F(s)$ in Taylor series at $s=2$. (We can't do it at $s=1$ because
 \[
 F(s)=\sum_{m=0}^{\iy} a_m(2-s)^m,\qquad a_m=(-1)^m\frac{F^{(m)}(2)}{m!}.
 \]
-We calculate the coefficients using~\ref{dirichlet}.\ref{dir-derivative} and get
+We calculate the coefficients using~\ref{dir-derivative} and get
 \[
 a_m=\sum_{n=1}^{\iy}\fc{f(n)(\ln n)^m}{n^2}\ge 0.
 \]
@@ -1058,7 +1060,7 @@ and for $s\in \Om$,
 \ab{\pf{\la}{s-1}}\le 2L(1,\chi_1)L(1,\chi_2)L(1,\chi_1\chi_2)\le 2C_2(N_1N_2)^2.
 \end{equation}
 
-Now we use the inequality from Cauchy's formula, Corollary~\ref{complex-analysis}.\ref{cor:cauchy-ineq}, to get
+Now we use the inequality from Cauchy's formula, Corollary~\ref{cor:cauchy-ineq}, to get
 \[
 |a_m-\la |\le \rc{\pf 32^m}\max_{z\in \Om}F(s)\le C_3N_1^2N_2^2\pf 23^m.
 \]

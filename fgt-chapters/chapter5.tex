@@ -69,16 +69,17 @@ The two cases we will be working with are $R=\Z/N\Z$ (Section~\ref{dir-char-ss})
 
 We proceed to give an explicit description of characters for abelian groups. First, recall the following theorem.
 %Note that since $(\zmod{p})^{\times}$ is abelian, its representations are all one-dimensional; there are $p-1$ of them. 
-\begin{thm}[Structure Theorem for Abelian Groups]
+\begin{thm}[Structure Theorem for Abelian Groups]\llabel{thm:structure-abelian}
 Let $G$ be a finite abelian group. Then there exist positive integers $m_1,\ldots, m_k$ so that
 \[G\cong \zmod{m_1}\times \cdots \times \zmod{m_k}.\]
 \end{thm}
-\begin{thm}\llabel{char}
+\begin{thm}[Characters of abelian groups]\llabel{char}
 The group $G=\zmod{m_1}\times \cdots \times \zmod{m_k}$ has $|G|$ characters and each is given by an element $(r_1,\ldots, r_k)\in \zmod{m_1}\times \cdots \times \zmod{m_k}$:
 \[\chi_{r_1,\ldots, r_k}(n_1,\ldots, n_k)=\prod_{j=1}^k e^{\frac{2\pi ir_jn_j}{m_j}}.\]
 Moreover the set of characters $\widehat{G}$ form a multiplicative group isomorphic to $G$.\footnote{This is a noncanonical isomorphism.}
 \end{thm}
 \begin{proof}
+Use Theorem~\ref{thm:structure-abelian}.
 It is easy to check that $\chi=\chi_{r_1,\ldots, r_k}$ is a homomorphism. Let $e_j$ be the element in $G$ with 1 in the $j$th coordinate and 0's elsewhere. Since $\chi(e_j)^{m_j}=1$, we must have $\chi(e_j)=e^{\frac{2\pi ir_j}{m_j}}$ for some $r_j$. Each element of $G$ can be expressed as a combination of the $e_j$, so this shows all characters are in the above form.
 
 This shows that $(r_1,\ldots, r_k)\send \chi_{r_1,\ldots, r_k}$ is surjective and hence an isomorphism.
@@ -201,7 +202,7 @@ By row orthogonality, $\rc{q-1}\sum_{\psi \in \widehat{\F_q^{\times}}} \psi(y) \
 \end{align}
 The Gauss sums are the coefficients of the expansion of $\chi$ in terms of multiplicative characters. %Similarly,
 The next theorem tells us how to calculate Gauss sums.
-\begin{thm}\llabel{egau}
+\begin{thm}[Magnitude of Gauss sums]\llabel{egau}
 Let $\psi_0$ and $\chi_0$ denote the trivial multiplicative and additive characters on $\F_q$, respectively. Then for multiplicative and additive characters $\psi$ and $\chi$ on $\F_q$, we have 
 \[
 G(\psi,\chi)
@@ -250,7 +251,7 @@ In either case, Corollary~\ref{sum0} gives the inner sum to be 0. Hence $|G(\psi
 %In the last step, we used Corollary~\ref{sum0}, noting that as $g_1$ ranges over $\F_q$, $g_1(h-1)$ ranges over $\F_q$ for $h\neq 1$, and is constantly 0 for $h=1$.
 \end{proof}
 We will need the following fact later on.
-\begin{pr}\llabel{gaussprop}
+\begin{pr}[Gauss sum dependence on additive character]\llabel{gaussprop}
 Let $R=\F_q$ or $\Z/N\Z$. 
 For $a\in R^{\times}$ and $b\in R$,
 \[G(\psi,\chi_{ab})=\overline{\psi(a)}G(\psi,\chi_b).\]
