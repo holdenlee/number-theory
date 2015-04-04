@@ -229,18 +229,19 @@ Different values of $b$ give equivalent valuations. If $v(K^{\times})$ is discre
 \end{pr}
 We say $|\cdot|$ is discrete when $|K^{\times}|$ is a discrete subgroup of $\R_{>0}$.
 
-\begin{pr}[Recovering ring of integers from valuation]\llabel{pr:val-OK}
-Assume $K$ is complete and equipped with a nonarchimedean valuation. Then
+\begin{pr}[Valuation defines subrings]\llabel{pr:val-OK}
+Suppose $K$ is equipped with a nonarchimedean valuation. Then
 \begin{enumerate}
 \item
-$A=\cO_K:=\set{a\in K}{|a|\le1}$ is a subring of $K$, with 
+$A:=\set{a\in K}{|a|\le1}$ is a subring of $K$, with 
 \item
-$U=\cO_K^{\times}:=\set{a\in K}{|a|=1}$ as its group of units, and
+$U:=\set{a\in K}{|a|=1}$ is a group, and 
 \item
-$\mm:=\set{a\in K}{|a|<1}$ as its unique maximal ideal.
+$\mfp:=\set{a\in K}{|a|<1}$ is a prime ideal.
+%its unique maximal ideal.
 \end{enumerate}
 %Suppose $K$ is complete. 
-The valuation is discrete if and only if $\mm$ is principal; then $A$ is a DVR. In that case, if $\pi$ is such that $|\pi|<1$ is as large as possible, then $\pi$ generates $\mm$, and is called a \vocab{uniformizer}.
+%The valuation is discrete if and only if $\mm$ is principal; then $A$ is a DVR. In that case, if $\pi$ is such that $|\pi|<1$ is as large as possible, then $\pi$ generates $\mm$, and is called a \vocab{uniformizer}.
 \end{pr}
 \begin{proof}
 Straightforward.
@@ -327,9 +328,7 @@ x^n+a_{n-1}x^{n-1}+\cdots +a_0=0.
 By Proposition~\ref{nonarch-crit}, $a_j\in \Z$ gives $|a_j|\le 1$.
 By the nonarchimedean property,
 \[|\al|^n=|a_{n-1}\al^{n-1}+\cdots +a_0|\le \max_{0\le m\le n-1}|a_{m}||\al^{m}|\le \max_{0\le m\le n-1}|\al|^m.\]
-Hence $|\al|<1$.
-
-Let $B$ be the ring of integers of $|\cdot|$ and $\mm$ its maximal ideal. Since $\mm$ is prime in $B$, $\mfp:=\mm\cap A$ is prime in $A$. Note $\mfp\ne (0)$ because if so $|\cdot|$ is trivial.
+Hence $|\al|<1$. This means if $A$ is as in Proposition~\ref{pr:val-OK}---the ring of integers of $|\cdot|$, then $\cO_K\subeq A$. Let $\mP$ be the prime ideal corresponding to $|\cdot|$. Since $\mP$ is prime in $A$, $\mfp:=\mP\cap \cO_K$ is prime in $\cO_K$. Note $\mfp\ne (0)$ because if so $|\cdot|$ is trivial.
 
 Now suppose $v_{\mfp}(y)=n$. Let $\pi\in \mfp\bs \mfp^2$ be a uniformizer. Then $(y\pi^{-n})$ is a fractional ideal; suppose ideals $\mfp_1,\ldots, \mfp_m$ appear in its factorization with exponents at least $-k$. Take $b\in \bigcap_{j=1}^n \mfp_j^k$. Then $(y\pi^{-n}b)$ is an integral ideal $(c)$ not divisible by $\mfp$. We have $c\in A\bs \mfp$. Writing $|\pi|=\prc{\mathfrak N\mfp}^a$, we have
 \[
@@ -560,11 +559,25 @@ the isomorphism coming from Theorem~\ref{ostrowski2}. Note that complex conjugat
 Let $L/K$ be extensions of number fields. If $v$ is a place corresponding to a prime $\mfp$ of $K$, then the places $w\mid v$ in $L$ correspond to primes $\mP\mid \mfp$. If $v$ is a place of $K$ corresponding to an embedding $\si:K\to \R\text{ or }\C$, then the places $w\mid v$ correspond to of $\si$ to $L$.
 \end{cor}
 \subsection{Completions of nonarchimedean fields}
-Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. Let $\pi$ be a \vocab{local uniformizing parameter}, i.e. the largest element of $K$ with $|\pi|<1$ (i.e., $\pi$ is a uniformizer in the completion $K_{\pi}$). Equivalently, $\pi$ generates the maximal ideal $\mm$ in the subring of $\pi$-integers.
-
-Since $K$ is dense in $\hat K$ and 
+Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. Since $K$ is dense in $\hat K$ and 
 \[|K\bs\{0\}|=\set{|\pi|^m}{m\in \Z}\]
 is discrete in $\hat K$, we get $|K|=|\hat K|$.
+
+Proposition~\ref{pr:val-OK} becomes much nicer when we look at the completion $\hat K$.
+\begin{pr}[Valuation defines subrings]\llabel{pr:val-OK}
+Let $\hat K$ be complete with a nonarchimedean valuation. Then
+\begin{enumerate}
+\item
+$A = \cO_{\hat K}:=\set{a\in \hat K}{|a|\le1}$ is a subring of $\hat K$, with 
+\item
+$U = \cO_{\hat K}^{\times}:=\set{a\in \hat K}{|a|=1}$ the unit group, and 
+\item
+$\mm:=\set{a\in K}{|a|<1}$ its unique maximal ideal
+%its unique maximal ideal.
+\end{enumerate}
+Let $\pi$ be a \vocab{uniformizer}, i.e. the largest element of $K$ with $|\pi|<1$. %(i.e., $\pi$ is a uniformizer in the completion $K_{\pi}$). Equivalently, $\pi$ generates the maximal ideal $\mm$ in the subring of $\pi$-integers.
+Then $\pi$ generates $\mm$.
+\end{pr}
 
 \begin{pr}\llabel{pi-adic-expansion}
 Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. 
@@ -575,7 +588,7 @@ Let $S$ be a set of representatives for $A/\mm$. Then every element of $\hat K$ 
 (More precisely, the sum represents $\lim_{m\to \iy}\sum_{n=N}^{m}a_n\pi^n$.) 
 The norm is given by
 \[
-\ab{\sum_{n\ge N} a_n \pi^n}=|\pi|^{-n_0},\quad a_{N}\ne0.
+\ab{\sum_{n\ge N} a_n \pi^n}=|\pi|^{N},\quad a_{N}\ne0.
 \]
 \end{pr}
 In other words, we can write elements of $\hat{K}$ as ``numbers with infinite $\pi$-expansions going off to the left," as we saw in section~\ref{padic-exs}.
@@ -588,6 +601,7 @@ set $x_{n+1}=x_n-a_n\pi^n$. Starting this process at $x=x_N$, we get
 \[
 x=\sum_{n\ge N} a_n\pi^n.
 \]
+We have $x-x_N\pi^N\in \pi^{-N+1}$ so $|x|=|\pi|^{N}$.
 \end{proof}
 We have a surprising result that is not true in the archimedean case.
 \begin{pr}\llabel{pr:sum-nonarch}
@@ -612,15 +626,15 @@ We show $s_n=\sum_{m=1}^n x_n$ be the sequence of partial sums. We show $s_n$ is
 Thus we have two ways to think of a $\mfp$-adic valuation.
 
 We've thought of it analytically: give $K$ a metric and take the completion of $K$ as a metric space to obtain $\wh K$. 
-The algebraic notion of completion is the following: the completion of a ring $A$ with respect to an ideal $\mm$ is defined as $\hat{A}=\varprojlim_{n\ge 0} A/\mm^n$.
+The algebraic notion of completion is the following: the completion of a ring $A$ with respect to an ideal $\mfp$ is defined as $\hat{A}=\varprojlim_{n\ge 0} A/\mfp^n$.
 
 To connect up the analytic and algebraic definitions of the completion, note that 
 %The algebraic way is that the completion of a ring $A$ with respect to an ideal $\mm$ is defined as 
-$\hat{A}=\varprojlim_{n\ge 0} A/\mm^n$ is the completion of $\hat{A}$ with the topology given by the neighborhood base $\{\mm^n\}_{n\ge 0}$; this gives $A$ the structure of a topological ring.
+$\hat{A}=\varprojlim_{n\ge 0} A/\mfp^n$ is the completion of $\hat{A}$ with the topology given by the neighborhood base $\{\mfp^n\}_{n\ge 0}$; this gives $A$ the structure of a topological ring.
 
-Now if $K$ is a field with a discrete nonarchimedean valuation, then we can define $A=\cO_K$ and $\mm$ as in Proposition~\ref{pr:val-OK}. The topology given by the valuation is exactly the topology that has the neighborhood base of 0 being $\{\mm^n\}_{n\ge 0}$. This shows the following.
+Now if $K$ is a field with a discrete nonarchimedean valuation, then we can define $A$ and $\mfp$ as in Proposition~\ref{pr:val-OK}. The topology given by the valuation is exactly the topology that has the neighborhood base of 0 being $\{\mfp^n\}_{n\ge 0}$. This shows the following.
 \begin{pr}
-Let $K$ be a field with a discrete nonarchimedean valuation. Then defining $\cO_K,\mm$ as in Proposition~\ref{pr:val-OK}, 
+Let $K$ be a field with a discrete nonarchimedean valuation. Then defining $A,\mfp$ as in Proposition~\ref{pr:val-OK}, 
 %The following are equivalent characterizations of $\hat{K}$.
 %\begin{enumerate}
 %\item The completion of $K$ under $|\cdot|$, i.e. under the $\pi$-adic topology.
@@ -635,7 +649,7 @@ Let $K$ be a field with a discrete nonarchimedean valuation. Then defining $\cO_
 %\item (*) The inverse limit $\varinjlim R/\mm^n$.
 %\end{enumerate}
 \[
-\hat{K}=\Frac(\varprojlim \cO_K/\mm^n).
+\hat{K}=\Frac(\varprojlim A/\mfp^n).
 \]
 \end{pr}
 %\begin{proof}
@@ -650,16 +664,16 @@ e^x=\sum_{n=1}^{\iy} \frac{x^n}{n!}=1+x+\frac{x^2}{2!}+\cdots.
 \end{df}
 We investigate the convergence of $e^x$. 
 \begin{pr}
-$e^x$ converges for $\ord_p(x)>\rc{p-1}$.
+$e^x$ converges for $v_p(x)>\rc{p-1}$.
 \end{pr}
 \begin{proof}
 Writing $a=a_rp^r+\cdots +a_0$ in base $p$, we find by Example~\ref{factorial-order} that
 \[
-\ord_p(n!)=\frac{n-\sum_{i=0}^r a_i}{p-1}.
+v_p(n!)=\frac{n-\sum_{i=0}^r a_i}{p-1}.
 \]
 Hence 
-\[\ord_p\pf{x^n}{n!}=n\ord_p(x)-\frac{n-\sum_{i=0}^r a_i}{p-1}=n\pa{\ord_p(x)-\rc{p-1}}+o(n).\]
-By Proposition~\ref{pr:sum-nonarch}, $e^x$ converges if and only if $\ord_p\pf{x^n}{n!}\to -\iy$; this gives the result.
+\[v_p\pf{x^n}{n!}=nv_p(x)-\frac{n-\sum_{i=0}^r a_i}{p-1}=n\pa{v_p(x)-\rc{p-1}}+o(n).\]
+By Proposition~\ref{pr:sum-nonarch}, $e^x$ converges if and only if $v_p\pf{x^n}{n!}\to -\iy$; this gives the result.
 \end{proof}
 
 \section{Hensel's lemma}
@@ -737,38 +751,38 @@ and let $L/K$ be finite separable of degree $n$. Then $|\cdot|_K$ extends unique
 Neukirch, pg. 131-132.
 \end{proof}
 \begin{df}
-Let $K$ be henselian. Let $\ord:K^{\times}\to \Z$ be the corresponding additive valuation, extended to $K^{\text{al}\times}\to \Q$. Given a polynomial
+Let $K$ be henselian. Let $v:K^{\times}\to \Z$ be the corresponding additive valuation, extended to $K^{\text{al}\times}\to \Q$. Given a polynomial
 \[
 f(X)=X^n+a_{n-1}X^{n-1}+\cdots +a_0\in K[X]
 \]
-define the \textbf{Newton polygon} of $f(X)$ to be the lower convex hull\footnote{draw the convex hull, and remove the segments joining $(0,\ord a_0)$ and $(n,0)$ from the top}
+define the \textbf{Newton polygon} of $f(X)$ to be the lower convex hull\footnote{draw the convex hull, and remove the segments joining $(0,v(a_0))$ and $(n,0)$ from the top}
  of
 \[
-P_i:=(i,\ord(a_{i})).
+P_i:=(i,v(a_{i})).
 \]
 \end{df}
 %[EXAMPLE HERE.]
 \begin{pr}
 Suppose the bottom of the Newton polygon has segments of $x$-length $n_i$ and slope $-s_i$. Then 
 \begin{enumerate}
-\item $f(X)$ has exactly $n_i$ roots $\al\in K^{\text{al}}$ with $\ord(\al)=s_i$, and
-\item $f_i(X)=\prod_{\ord(\al_i)=s_i} (X-\al_i)$ has coefficients in $K$.
+\item $f(X)$ has exactly $n_i$ roots $\al\in K^{\text{al}}$ with $v(\al)=s_i$, and
+\item $f_i(X)=\prod_{v(\al_i)=s_i} (X-\al_i)$ has coefficients in $K$.
 \end{enumerate}
 \end{pr}
 \begin{proof}
 We prove the following statement by induction: if $f(X)=\prod (X-\al_j)\in \ol{K}[X]$ and exactly $n_i$ of the roots $\al_j$ have order equal to $s_i$, then the Newton's polygon of $f(X)$ has a segment of slope $-s_i$ and $x$-length $n_i$.
 
-The case $n=1$ follows since the only line segment on the bottom joins $(0, \ord(\al_i))$ and $(1,0)$. Now suppose the claim proved for $n$. Consider
+The case $n=1$ follows since the only line segment on the bottom joins $(0, v(\al_i))$ and $(1,0)$. Now suppose the claim proved for $n$. Consider
 \[
 g(X)=(X-\al)f(X)=\sum_{k=0}^{n+1} (a_{k-1}-\al a_{k})X^k
 \]
 (where nonexistent coefficients are set to 0). 
-Let $t=\ord(\al)$. 
+Let $t=v(\al)$. 
 Let $k_0$ be the point such that the slopes of the line segments of Newton's polygon $N$ for $k<k_0$ are $s\le -t$, and such that the slopes of the line segments of $N$ for $k>k_0$ are greater than $s>-t$. Let
 \begin{align*}
-d_k&=\ord(a_k)\\
+d_k&=v(a_k)\\
 \ell_k&=\text{$y$-value of intersection of $N$ with $x=k$}\\
-d_k'&=\ord(a_{k-1}-\al a_{k})\\
+d_k'&=v(a_{k-1}-\al a_{k})\\
 \ell_k'&=\begin{cases}
 \ell_k+t,&0\le k\le k_0\\
 \ell_{k-1}&k_0<k\le n.
@@ -817,8 +831,8 @@ Here is an example with $p=5$, $f(X)=(X-5)(X-10)(X-15)(X-125)$ and $\al=25$.\foo
 
 Consider 2 cases. We will use 
 \[
-d_k'=\ord(a_{k-1}-\al a_{k})\ge 
-\min(\ord(a_{k-1}),\ord(\al a_{k}))=\min(d_{k-1},d_k+t),
+d_k'=v(a_{k-1}-\al a_{k})\ge 
+\min(v(a_{k-1}),v(\al a_{k}))=\min(d_{k-1},d_k+t),
 \]
 with equality holding if $d_{k-1}\ne d_k+t$.
 \begin{enumerate}
@@ -910,9 +924,9 @@ Using Krasner's Lemma, we show that polynomials that are close together have roo
 %%\ep=\frac{\min_{i\ne j}|\al_i-\al_j|^n}{\max()}
 %%\]
 %\end{thm}
-\begin{proof}
- Choose $\de$ so this last quantity is at most $\min_{i\ne j} |\al_i-\al_j|$. Then by Krasner's Lemma~\ref{krasner}, $\al\in K[\be]$. Since $\be$ and $\al$ both have degree $n$ over $K$, $K(\al)=K(\be)$.
-\end{proof}
+%\begin{proof}
+% Choose $\de$ so this last quantity is at most $\min_{i\ne j} |\al_i-\al_j|$. Then by Krasner's Lemma~\ref{krasner}, $\al\in K[\be]$. Since $\be$ and $\al$ both have degree $n$ over $K$, $K(\al)=K(\be)$.
+%\end{proof}
 In fact, we have the following stronger result.
 Using Krasner's Lemma, we show that polynomials that are close together have roots generating the same extensions.
 \begin{thm}\llabel{krasner-poly}
@@ -968,7 +982,7 @@ From this we get that every field extension of $\Q_p$ can be described by a fiel
 Let $L/\Q_p$ be a finite extension. Then there is a finite extension $K/\Q$ such that $[K:\Q]=[L:\Q_p]=n$ and $K\cdot \Q_p=L$.
 \end{cor}
 \begin{proof}
-Using the primitive element theorem, choose $\al$ so that $\Q_p(\al)=L$. Let $g\in \Q_p[X]$ be the minimal polynomial of $\al$. By Theorem~\ref{krasner-poly}, for $g$ close enough to $f$, there is a root $\be$ of $g$ such that $\Q_p(\al)=\Q_p(\be)$. Take $g\in \Q[X]$ sufficiently close, and $L=K(\be)$. Then 
+Using the primitive element theorem, choose $\al$ so that $\Q_p(\al)=L$. Let $f\in \Q_p[X]$ be the minimal polynomial of $\al$. By Theorem~\ref{krasner-poly}, for $g$ close enough to $f$, there is a root $\be$ of $g$ such that $\Q_p(\al)=\Q_p(\be)$. Take $g\in \Q[X]$ sufficiently close, and $L=K(\be)$. Then 
 \[K\cdot \Q_p=K(\al)=K(\be)=L.\qedhere \]
 \end{proof}
 %%%%%%%%%%%%%%%%%%%%5
@@ -1240,7 +1254,7 @@ v_{\mP}(\al^n)&= nv_{\mP}(\al)\\
 v_{\mP}(a_k\al^k)&= e+kv_{\mP}(\al)>e,&1\le k\le n-1\\
 v_{\mP}(a_0)&=e.
 \end{align*}
-Since $f(\al)=\al^n+\cdots +a_0=0$, the minimum valuation must be attained for two terms. The only way this is possible is if $nv_{\mP}(\al)=e$. Then  $\ord_{\mP}(\al)=1$ and $n=e$, as needed.
+Since $f(\al)=\al^n+\cdots +a_0=0$, the minimum valuation must be attained for two terms. The only way this is possible is if $nv_{\mP}(\al)=e$. Then  $v_{\mP}(\al)=1$ and $n=e$, as needed.
 \end{proof}
 
 \begin{thm}\llabel{thm:tot-ram-eis}
@@ -1257,18 +1271,18 @@ The totally ramified extensions of $K$ are exactly those of the form $K(\al)$ wh
 %Suppose $\al$ is the root of an Eisenstein polynomial $f$. By Lemma~\ref{newton-lemma}, since the \fixme{lower?} Newton polygon consists of just the segment joining $(0,1)$ and $(n,0)$, we have that $\ord(\al)=\rc n$, i.e. the prime ideal $\mfp$ of $K$ equals $(\al)^n$, i.e. the extension is totally ramified of degree $n$.
 The forward direction follows directly from Theorem~\ref{eisenstein-ramification}.
 
-Conversely, let $L/K$ be a totally ramified extension. Take $\al$ to be a generator of the maximal ideal $\mP$ of $\cO_L$. Note $\ord(\al)=\rc n$ since $(\al)^n=\mfp$. Note that for any $a_{n-1},\ldots, a_0$, we have
+Conversely, let $L/K$ be a totally ramified extension. Take $\al$ to be a generator of the maximal ideal $\mP$ of $\cO_L$. Note $v(\al)=\rc n$ since $(\al)^n=\mfp$. Note that for any $a_{n-1},\ldots, a_0$, we have
 \[
-\ord(a_k\al^k)=\ord(a_k)+\frac{k}{n}\equiv \frac{k}{n}\pmod 1,
+v(a_k\al^k)=v(a_k)+\frac{k}{n}\equiv \frac{k}{n}\pmod 1,
 \]
-since $\ord(a_k)$ is an integer. Thus, the nonzero terms $a_k\al^k$, $0\le k<n$, have different orders. Thus by Proposition~\ref{elem-prop-dv}, $a_{n-1}\al^{n-1}+\cdots +a_0\ne 0$ unless all coefficients are 0. This shows that $\al$ must have degree $n$; suppose $\al^n+a_{n-1}\al^{n-1}+\cdots +a_0=0$. Again by Proposition~\ref{elem-prop-dv}, the minimum order is attained for two terms. We have
+since $v(a_k)$ is an integer. Thus, the nonzero terms $a_k\al^k$, $0\le k<n$, have different orders. Thus by Proposition~\ref{elem-prop-dv}, $a_{n-1}\al^{n-1}+\cdots +a_0\ne 0$ unless all coefficients are 0. This shows that $\al$ must have degree $n$; suppose $\al^n+a_{n-1}\al^{n-1}+\cdots +a_0=0$. Again by Proposition~\ref{elem-prop-dv}, the minimum order is attained for two terms. We have
 \begin{align*}
-\ord_{\mfp}(\al^n)&=n\ord_{\mfp}(\al)=1\\
-\ord_{\mfp}(a_k\al^k)&=k\ord(a_k)+\frac{k}{n},&0\le k\le n-1.
+v_{\mfp}(\al^n)&=nv_{\mfp}(\al)=1\\
+v_{\mfp}(a_k\al^k)&=kv(a_k)+\frac{k}{n},&0\le k\le n-1.
 \end{align*}
 The only way this can happen 
 % as observed above...
-is if $\al^n$ and $\ord(a_0)$ are the nonzero terms with least order. This gives $\ord(a_0)=1$, and $\ord(a_k)>0$ for $1\le k\le n$, i.e. the polynomial is Eisenstein.
+is if $\al^n$ and $v(a_0)$ are the nonzero terms with least order. This gives $v(a_0)=1$, and $v(a_k)>0$ for $1\le k\le n$, i.e. the polynomial is Eisenstein.
 \end{proof}
 \begin{thm}
 Suppose $L/K$ is a totally and tamely ramified extension of degree $n$.
@@ -1299,7 +1313,7 @@ for $\pi \in \mfp$.
 %\]
 %By Theorem~\ref{unram-ram}, $K(\ze_n,u^{\rc n})$ is unramified over $K$. But $K($
 %\end{enumerate}
-Take $\be\in \mP$. Since $L/K$ is totally ramified, $\ord_{\mfp}(\be^n)=1$. Hence $\be^n=u\pi$ for some $u\in B^{\times}$, and $\be$ is a zero of
+Take $\be\in \mP$. Since $L/K$ is totally ramified, $v_{\mfp}(\be^n)=1$. Hence $\be^n=u\pi$ for some $u\in B^{\times}$, and $\be$ is a zero of
 \[
 g(X):=X^n-u\pi.
 \]
