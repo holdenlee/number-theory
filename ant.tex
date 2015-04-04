@@ -1,14 +1,44 @@
-\documentclass[12pt]{book}
+%\documentclass[12pt]{book}
+%
+%\input{beginning/packages.tex}
+%\input{beginning/theoremdef.tex}
+%\input{beginning/macros.tex}
+%\input{beginning/formatting.tex}
+%\input{beginning/other.tex}
+%
+%\def\name{Algebraic Number Theory}
+%
+%\input{beginning/titlepage.tex}
 
-\input{beginning/packages.tex}
-\input{beginning/theoremdef.tex}
-\input{beginning/macros.tex}
-\input{beginning/formatting.tex}
-\input{beginning/other.tex}
+
+\def\filepath{C:/Users/Owner/Dropbox/Math/templates}
+%\def\filepath{C:/Users/holden-lee/Dropbox/Math/templates}
+
+\input{\filepath/packages_book.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros.tex}
+\input{\filepath/formatting.tex}
+\input{\filepath/other.tex}
+\input{\filepath/theorem_num.tex}
 
 \def\name{Algebraic Number Theory}
 
-\input{beginning/titlepage.tex}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Algebraic Number Theory, \S\emph{\thechapter.\thesection}}
+\chead{} 
+\rhead{\sectiontitle} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+%\setlength\textheight{648pt}
+
+%\input{beginning/titlepage.tex}
+\input{\filepath/titlepage.tex}
 
 \begin{document}
 \maketitle

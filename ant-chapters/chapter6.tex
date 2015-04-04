@@ -14,7 +14,7 @@ Here is some motivation for considering $\mfp$-adic fields.
 \section{Case study: $p$-adic integers}\llabel{padic-exs}
 We first examine how $p$-adic rationals are defined, before generalizing to other number fields.
 
-Often we look at the integers modulo higher and higher powers of a prime $p$; for example,  when we were looking at the existence of primitive roots (Theorem~\ref{multiplicative}.\ref{primitive-roots-exist}) or the structure of $\Z/p^n\Z$ (Theorem~\ref{multiplicative}.\ref{mult-structure}). Hensel's lemma told us that under certain conditions we can lift solutions modulo higher and higher powers of $p$.
+Often we look at the integers modulo higher and higher powers of a prime $p$; for example,  when we were looking at the existence of primitive roots (Theorem~\ref{primitive-roots-exist}) or the structure of $\Z/p^n\Z$ (Theorem~\ref{mult-structure}). Hensel's lemma told us that under certain conditions we can lift solutions modulo higher and higher powers of $p$.
 
 Rather than work with powers of $p$ piecemeal, we can devise a structure that holds information modulo all powers of $p$ at once. To do this, we define the ring $p$-adic integers $\Z_p$ and $p$-adic rationals $\Q_p$, which contain $\Z$ and $\Q$, respectively. We will do this in two ways:
 \begin{enumerate}
@@ -66,7 +66,7 @@ The ring structure is defined by componentwise addition and multiplication. The 
 %\begin{proof}
 %See 18.705 notes.
 %\end{proof}
-In light of Theorem~\ref{galois}.\ref{inv-limit-comp-seq}, we can phrase this definition in a more abstract way:
+In light of Theorem~\ref{inv-limit-comp-seq}, we can phrase this definition in a more abstract way:
 \[
 \Z_p=\varprojlim \Z/p^n\Z
 \]
@@ -97,7 +97,7 @@ Note that
 \]
 because any inverse modulo $p^n$ can be lifted to an inverse modulo $p^{n+1}$.
 
-The proposition follows from taking inverse limits in Theorem~\ref{multiplicative}.\ref{mult-structure}.
+The proposition follows from taking inverse limits in Theorem~\ref{mult-structure}.
 \end{proof}
 \subsection{Monsky's Theorem*}
 We use the $2$-adic valuation to prove the following theorem from combinatorial geometry. Surprisingly, no proof is known that does not use $p$-adics.
@@ -111,7 +111,7 @@ The idea of the proof is as follows.
 \item By Sperner's Lemma (from graph theory), the coloring in such a subdivision is inconsistent. %if there were such a subdivision, one ``rainbow" triangle would have to exist, a contradiction.
 \end{enumerate}
 \begin{proof}
-We postpone the proof of the first item.\footnote{There is a way around it; see Proofs from the Book.} Assuming it, 
+We omit the proof of the first item.\footnote{There is a way around it; see Proofs from the Book.} \fixme{Add a proof.} Assuming it, 
 color the points of the plane in three colors depending on which of the following conditions is satisfied.
 \begin{enumerate}
 \item[(A)] $|x|_2<1,|y|_2<1$
@@ -206,7 +206,7 @@ In the special case $K=\Q$, $\mfp=(p)$, we have
 \]
 \end{ex}
 \begin{pr}\llabel{nonarch-crit}
-A valuation is nonarchimedean if and only if it is bounded on $\Z$. Hence if $\chr(K)\ne 0$, then $K$ only has nonarchimedean valuations.
+A valuation is nonarchimedean if and only if it is bounded on $\Z$ (in fact, bounded by 1). Hence if $\chr(K)\ne 0$, then $K$ only has nonarchimedean valuations.
 \end{pr}
 \begin{proof}
 If $|\cdot|$ is archimedean, then $|1+\cdots +1|\le |1|=1$, so $|n|\le 1$ for any $n\in \Z$.
@@ -229,16 +229,23 @@ Different values of $b$ give equivalent valuations. If $v(K^{\times})$ is discre
 \end{pr}
 We say $|\cdot|$ is discrete when $|K^{\times}|$ is a discrete subgroup of $\R_{>0}$.
 
-Using the above correspondence, we find
+\begin{pr}[Recovering ring of integers from valuation]\llabel{pr:val-OK}
+Assume $K$ is complete and equipped with a nonarchimedean valuation. Then
 \begin{enumerate}
 \item
-$A:=\set{a\in K}{|a|\le1}$ is a subring of $K$, with 
+$A=\cO_K:=\set{a\in K}{|a|\le1}$ is a subring of $K$, with 
 \item
-$U:=\set{a\in K}{|a|=1}$ as its group of units, and
+$U=\cO_K^{\times}:=\set{a\in K}{|a|=1}$ as its group of units, and
 \item
 $\mm:=\set{a\in K}{|a|<1}$ as its unique maximal ideal.
 \end{enumerate}
-The valuation is discrete if and only if $\mm$ is principal; then $A$ is a DVR.
+%Suppose $K$ is complete. 
+The valuation is discrete if and only if $\mm$ is principal; then $A$ is a DVR. In that case, if $\pi$ is such that $|\pi|<1$ is as large as possible, then $\pi$ generates $\mm$, and is called a \vocab{uniformizer}.
+\end{pr}
+\begin{proof}
+Straightforward.
+\end{proof}
+%Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. Let $\pi$ be a local uniformizing parameter, i.e. the largest element of $K$ with $|\pi|<1$. Equivalently, $\pi$ generates the maximal ideal $\mm$ in the subring of $\pi$-integers.
 
 \begin{pr}[Elementary properties of discrete valuations]\llabel{elem-prop-dv}
 $\,$
@@ -249,6 +256,9 @@ $|a+b|\le \max(|a|,|b|)$ with equality if $|a|\ne |b|$.
 \item If $a_1+\cdots +a_n=0$, then the maximum valuation of the summands must be attained for at least two of them.
 \end{enumerate}
 \end{pr}
+\begin{proof}
+Straightforward.
+\end{proof}
 \subsection{Equivalent valuations}
 A valuation on $K$ defines a metric (and hence a topology) on $K$ by
 \[
@@ -307,10 +317,10 @@ A \textbf{place} is an equivalence class of nontrivial valuations on $K$.\footno
 
 We aim to classify all places in a number field $K$. %To do this, we first classify all places of $\Q$, and then consider how places in a field extension correspond to places in the base field.
 \begin{pr}\llabel{nonarch-vals}
-Let $K/\Q$ be an algebraic extension. Then the places on $K$ are exactly the $\mfp$-adic valuations $|\cdot|_{\mfp}$ for $\mfp$ a prime ideal of $\sO_K$. %for some prime ideal $\mfp$ of $A:=\sO_K$. 
+Let $K/\Q$ be an algebraic extension. Then the places on $K$ are exactly the $\mfp$-adic valuations $|\cdot|_{\mfp}$ for $\mfp$ a prime ideal of $\cO_K$. %for some prime ideal $\mfp$ of $A:=\cO_K$. 
 \end{pr}
 \begin{proof}
-Since $K$ is algebraic over $\Q$, an element $\al\in \sO_K$ satisfies a monic polynomial equation with coefficients in $\Z$:
+Since $K$ is algebraic over $\Q$, an element $\al\in \cO_K$ satisfies a monic polynomial equation with coefficients in $\Z$:
 \[
 x^n+a_{n-1}x^{n-1}+\cdots +a_0=0.
 \]
@@ -378,7 +388,7 @@ The nonarchimedean valuations are given by Proposition~\ref{nonarch-vals}.\qedhe
 %Moreover, two equivalent valuations would have the same $A$ and hence correspond to the same prime $p$.\qedhere
 \end{enumerate}
 \end{proof}
-Later on we will return to the question of finding all valuations on an extension of $\Q$ (Theorem~\ref{vals-on-num-fields}).
+Later on we will return to the question of finding all valuations on an extension of $\Q$ (Theorem~\ref{vals-on-number-fields}).
 %Let $K$ be a number field. 
 %We know that for each prime ideal $\mfp$ there corresponds a $\mfp$-adic valuation, and that these valuations are inequivalent by Proposition~\ref{val-equiv-crit}. However, there are more valuations given by real and complex embeddings. (WHY DO WE CARE?)
 %We now classify the places of $K$.
@@ -471,6 +481,7 @@ to find $\ph(a)$ can be arbitrarily close to $(a_1,\ldots, a_n)$.
 \end{proof}
 Note that if we include only the finite places, then this follows from the %CITE 
 Chinese remainder theorem.
+\fixme{Add a brief explanation of strong approximation.}
 \section{Completion}
 \begin{df}
 Let $K$ be a field with valuation $|\cdot|$. The \textbf{completion} of $K$, denoted $\hat{K}$ is the field containing $K$ (i.e. there is a injection $K\hra \hat{K}$ preserving valuation) satisfying the following properties.
@@ -493,12 +504,37 @@ See any book on real analysis for the details.
 For the second part, given a sequence $\{a_n\}\in \hat K$, map it to $\lim_{n\to \iy}\ph(a_n)\in L$. 
 Uniqueness follows from the universal property.
 \end{proof}
-\subsection{Completions of archimedean fields}
+\subsection{Completions of archimedean fields; Classification of places}
 \begin{thm}[Ostrowski]\llabel{ostrowski2}\llabel{vals-on-number-fields}
 The only complete archimedean fields, up to isomorphism of valued fields and equivalence of valuation, are $\R$ and $\C$.
 \end{thm}
 \begin{proof}
-See Neukirch, p. 124.
+\fixme{(See Neukirch, p. 124. I don't quite see the motivation for this proof.)}
+Suppose $K$ is a complete archimedean field. Then on $\Q$, by the first Ostrowski Theorem~\ref{ostrowski}, $\ved$ is equivalent to the usual valuation $\ved_\iy$. By Proposition \ref{val-equiv-crit}, by raising to a power we may assume it is exactly the usual valuation. We must have $\wh Q=\R\subeq K$.
+
+We show every element $\xi\in K$ satisfies a quadratic equation over $\R$. This is equivalent to saying that $\min_{z\in \C} f(z)=0$ where
+\[
+f(z)=|\xi^2-(z+\ol z) \xi +z \ol z|.
+\]
+Let $m=\min |f(z)|$; by way of contradiction suppose $m\ne 0$. Note $S=\set{z}{f(z)=m}$ is compact; let $z_0$ be an element of $S$ of maximal absolute value. 
+
+The idea is the following: perturb (the $n$th power of) $\xi^2-(z_0+\ol{z_0}) \xi +z_0 \ol{z_0}$ so that the valuation is very close to $m^n$; taking $n\to \iy$ we force all roots to have absolute value $m$; however, we can ensure one of the roots has larger absolute value, a contradiction.
+
+Consider the polynomial
+\[
+G(x) = (x^2-(z_0+\ol{z_0})x+z_0\ol{z_0})^n -(-\ep)^n.
+\]
+We have by the triangle inequality
+\[
+G(\xi) \le m^n +\ep^n \implies G(\xi)\le (m^n+\ep^n)^2.
+\]
+On the other hand, note $|G(x)|^2$ factors into quadratics so by definition of $m$, we have $|G(\xi)|^2\ge m^{2n}$. We can do better: let $z_1$ be the root of $x^2-(z_0+\ol{z_0})x+z_0\ol{z_0}+\ep=0$; we have $|z_1|>m=|z_0|$.  Now $z_1$ is a root of $G(x)$, so one of the quadratic factors of $|G(x)|^2$ is $x^2-(z_1+\ol{z_1})x+z_1\ol{z_1}$ which by the assumption on $z_0$, must be $>m$ at $x=\xi$. We get 
+\[
+m^{2n-1}(\xi^2-(z_1+\ol{z_1})\xi+z_1\ol{z_1})
+\le |G(\xi)|^2
+\le (m^n+\ep^n)^2
+\]
+which is a contradiction for $n$ large enough.
 \end{proof}
 We can now finish our classification of places on $K/\Q$.
 \begin{thm}[Classification of places of $K$]
@@ -514,7 +550,7 @@ real imbedding, and
 \end{thm}
 The valuations corresponding to prime ideals, i.e. $\mfp$-adic valuations, are called \textbf{finite places}, while the those corresponding to real and complex embeddings are called \textbf{infinite (real or complex) places}.
 \begin{proof}
-The nonarchimedean valuations of $K$ are given by Proposition~\ref{nonarch-val}, while each archimedean valuation $v$ corresponds to an embedding (respecting valuations)
+The nonarchimedean valuations of $K$ are given by Proposition~\ref{nonarch-vals}, while each archimedean valuation $v$ corresponds to an embedding (respecting valuations)
 \[
 K\hra K_v\cong \R\text{ or }\C,
 \]
@@ -524,13 +560,14 @@ the isomorphism coming from Theorem~\ref{ostrowski2}. Note that complex conjugat
 Let $L/K$ be extensions of number fields. If $v$ is a place corresponding to a prime $\mfp$ of $K$, then the places $w\mid v$ in $L$ correspond to primes $\mP\mid \mfp$. If $v$ is a place of $K$ corresponding to an embedding $\si:K\to \R\text{ or }\C$, then the places $w\mid v$ correspond to of $\si$ to $L$.
 \end{cor}
 \subsection{Completions of nonarchimedean fields}
-Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. Let $\pi$ be a local uniformizing parameter, i.e. the largest element of $K$ with $|\pi|<1$. Equivalently, $\pi$ generates the maximal ideal $\mm$ in the subring of $\pi$-integers.
+Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. Let $\pi$ be a \vocab{local uniformizing parameter}, i.e. the largest element of $K$ with $|\pi|<1$ (i.e., $\pi$ is a uniformizer in the completion $K_{\pi}$). Equivalently, $\pi$ generates the maximal ideal $\mm$ in the subring of $\pi$-integers.
 
 Since $K$ is dense in $\hat K$ and 
 \[|K\bs\{0\}|=\set{|\pi|^m}{m\in \Z}\]
 is discrete in $\hat K$, we get $|K|=|\hat K|$.
 
 \begin{pr}\llabel{pi-adic-expansion}
+Suppose $K$ is a field with a discrete nonarchimedean valuation $|\cdot|$. 
 Let $S$ be a set of representatives for $A/\mm$. Then every element of $\hat K$ has a unique expression in the form
 \[
 \sum_{n\ge N} a_n \pi^n.
@@ -543,21 +580,47 @@ The norm is given by
 \end{pr}
 In other words, we can write elements of $\hat{K}$ as ``numbers with infinite $\pi$-expansions going off to the left," as we saw in section~\ref{padic-exs}.
 \begin{proof}
-Let $\{s_n\}_{n\ge 1}$ be a Cauchy sequence in $K$. Let
+Suppose $|x_n|=|\pi|^n$. Then $x\pi^{-n}\in A$, so there exists $s\in S$ with $x\pi^{-n}-a\in \mm$. Then 
 \[
-s_n=\sum_{m\gg -\iy} a_n(m)\pi^j;
+|x_n-a_n\pi^n|=|\pi^{n+1}|;
 \]
-where $a_n(m)\in S$; this sum is finite. We have
+set $x_{n+1}=x_n-a_n\pi^n$. Starting this process at $x=x_N$, we get 
 \[
-|s_{n_1}-s_{n_2}|=p^{-\min\set{m}{a_{n_1}(m)\ne a_{n_2}(m)}}.
-\]
-Hence for each $m$, $a_n(m)$ eventually stabilizes, say at $a_n$. Then
-\[
-\lim_{n\to \iy} s_n=\sum_{n\gg -\iy} a_n\pi^n.
+x=\sum_{n\ge N} a_n\pi^n.
 \]
 \end{proof}
+We have a surprising result that is not true in the archimedean case.
+\begin{pr}\llabel{pr:sum-nonarch}
+Let $K$ be a field complete with respect to a discrete nonarchimedean valuation. 
+Suppose $x_n\to 0$. Then $\sum_{n=1}^{\iy} x_n$ converges.
+\end{pr}
+\begin{proof}
+We show $s_n=\sum_{m=1}^n x_n$ be the sequence of partial sums. We show $s_n$ is Cauchy. For each $\ep>0$ there is $N$ such that for $n\ge N$, $|x_n|\le \ep$. Then by the nonarchimedean property, for all $n'>n\ge N$, $|s_{n'}-s_n|=|x_{n+1}\cdots +x_{n'}|\le \ep$. Thus $s_n$ is Cauchy and hence converges.
+%Let $\{s_n\}_{n\ge 1}$ be a Cauchy sequence in $K$. Let
+%\[
+%s_n=\sum_{m\gg -\iy} a_n(m)\pi^j;
+%\]
+%where $a_n(m)\in S$; this sum is finite. We have
+%\[
+%|s_{n_1}-s_{n_2}|=p^{-\min\set{m}{a_{n_1}(m)\ne a_{n_2}(m)}}.
+%\]
+%Hence for each $m$, $a_n(m)$ eventually stabilizes, say at $a_n$. Then
+%\[
+%\lim_{n\to \iy} s_n=\sum_{n\gg -\iy} a_n\pi^n.
+%\]
+\end{proof}
 Thus we have two ways to think of a $\mfp$-adic valuation.
+
+We've thought of it analytically: give $K$ a metric and take the completion of $K$ as a metric space to obtain $\wh K$. 
+The algebraic notion of completion is the following: the completion of a ring $A$ with respect to an ideal $\mm$ is defined as $\hat{A}=\varprojlim_{n\ge 0} A/\mm^n$.
+
+To connect up the analytic and algebraic definitions of the completion, note that 
+%The algebraic way is that the completion of a ring $A$ with respect to an ideal $\mm$ is defined as 
+$\hat{A}=\varprojlim_{n\ge 0} A/\mm^n$ is the completion of $\hat{A}$ with the topology given by the neighborhood base $\{\mm^n\}_{n\ge 0}$; this gives $A$ the structure of a topological ring.
+
+Now if $K$ is a field with a discrete nonarchimedean valuation, then we can define $A=\cO_K$ and $\mm$ as in Proposition~\ref{pr:val-OK}. The topology given by the valuation is exactly the topology that has the neighborhood base of 0 being $\{\mm^n\}_{n\ge 0}$. This shows the following.
 \begin{pr}
+Let $K$ be a field with a discrete nonarchimedean valuation. Then defining $\cO_K,\mm$ as in Proposition~\ref{pr:val-OK}, 
 %The following are equivalent characterizations of $\hat{K}$.
 %\begin{enumerate}
 %\item The completion of $K$ under $|\cdot|$, i.e. under the $\pi$-adic topology.
@@ -572,35 +635,40 @@ Thus we have two ways to think of a $\mfp$-adic valuation.
 %\item (*) The inverse limit $\varinjlim R/\mm^n$.
 %\end{enumerate}
 \[
-\hat{K}=\Frac(\varprojlim A/\mm^n).
+\hat{K}=\Frac(\varprojlim \cO_K/\mm^n).
 \]
 \end{pr}
 %\begin{proof}
-%Indeed, elements of $\sO_{\hat{K}}$ are given by $\sum_{n\ge 0}a_n\pi^n$; we can think of this as an element in $A/
+%Indeed, elements of $\cO_{\hat{K}}$ are given by $\sum_{n\ge 0}a_n\pi^n$; we can think of this as an element in $A/
 %\end{proof}
-To connect up the analytic and algebraic definitions of the completion, note that the completion of a ring $A$ with respect to an ideal $\mm$ is defined as $\hat{A}=\varprojlim_{n\ge 0} A/\mm^n$, with the topology given by a neighborhood base at 0 being $\{\mm^n\}_{n\ge 0}$.
+
 \begin{df}
 Define the exponential function as a power series
 \[
 e^x=\sum_{n=1}^{\iy} \frac{x^n}{n!}=1+x+\frac{x^2}{2!}+\cdots.
 \]
 \end{df}
-We investigate the convergence of $e^x$. Writing $a=a_rp^r+\cdots +a_0$ in base $p$, we find by Example~\ref{factor-divisibility}.\ref{factorial-order} that
+We investigate the convergence of $e^x$. 
+\begin{pr}
+$e^x$ converges for $\ord_p(x)>\rc{p-1}$.
+\end{pr}
+\begin{proof}
+Writing $a=a_rp^r+\cdots +a_0$ in base $p$, we find by Example~\ref{factorial-order} that
 \[
 \ord_p(n!)=\frac{n-\sum_{i=0}^r a_i}{p-1}.
 \]
 Hence 
 \[\ord_p\pf{x^n}{n!}=n\ord_p(x)-\frac{n-\sum_{i=0}^r a_i}{p-1}=n\pa{\ord_p(x)-\rc{p-1}}+o(n).\]
-Since $e^x$ converges if and only if $\ord_p\pf{x^n}{n!}\to -\iy$, we get the following.
-\begin{pr}
-$e^x$ converges for $\ord_p(x)>\rc{p-1}$.
-\end{pr}
+By Proposition~\ref{pr:sum-nonarch}, $e^x$ converges if and only if $\ord_p\pf{x^n}{n!}\to -\iy$; this gives the result.
+\end{proof}
 
 \section{Hensel's lemma}
-The following is the first version of Hensel's lemma for $\pi$-adics. \fixme{COMPARE TO ELEMENTARY STATEMENT IN TERMS OF MODS.}
+The following is the first version of Hensel's lemma for $\pi$-adics. 
+
+\fixme{Also state the elementary version of Hensel's lemma for reference.}
 \index{Hensel's lemma}
 \begin{lem}[Hensel's lemma, I]\llabel{hensel1}
-Let $f(X)\in A[X]$, and $a_0$ be a simple root of $f(X)$ modulo $\pi$, i.e. $f(a_0)\equiv 0\pmod{\pi}$ and $f'(a_0)\nequiv 0\pmod{\pi}$. Then there exists a unique root $a$ of $f(X)$ with $a\equiv a_0\pmod{\pi}$.
+Let $A$ be a complete local ring, $f(X)\in A[X]$, and $a_0$ be a simple root of $f(X)$ modulo $\pi$, i.e. $f(a_0)\equiv 0\pmod{\pi}$ and $f'(a_0)\nequiv 0\pmod{\pi}$. Then there exists a unique root $a$ of $f(X)$ with $a\equiv a_0\pmod{\pi}$.
 \end{lem}
 Note this can be generalized as follows: Suppose $f(a_0)\equiv 0\pmod{\pi^n}$ and $v_{\pi}(f'(a_0))=k<n$. Then there is a unique root $a$ of $f(X)$ with $a\equiv a_0\pmod{\pi^{n-k}}$. The proof is the same, and is left to the reader!
 \begin{proof}
@@ -622,21 +690,24 @@ Since $f'(a_n)\nequiv 0\pmod{\pi}$ and $f(a_n)\equiv 0\pmod{\pi^{n+1}}$, we can 
 \end{proof}
 The first form of Hensel's lemma tells us about lifting a root $a_0$ of $\ol f$ ($f$ modulo $\pi$) to a root $a$ of $f$ in $K$. We can think of this as lifting a linear factor $x-a_0$ of $\ol f$ to a linear factor $x-a$ of $f$. A stronger form of Hensel's lemma says that we can in fact lift any factor of $f$ to one of $\ol{f}$.
 \begin{thm}[Hensel's lemma, II]\llabel{hensel2}
-Let $k$ be the residue field of $A$ and $f$ be a monic polynomial. If $\ol f=g_0h_0$ where $g_0$ and $h_0$ are monic and relatively prime, then $f=gh$ for some $g$ and $h$ such that $\ol{g}=g_0$ and $\ol{h}=h_0$. (uniqueness)
+Let $k$ be the residue field of $A$ and $f$ be a monic polynomial. If $\ol f=g_0h_0$ where $g_0$ and $h_0$ are monic and relatively prime, then $f=gh$ for some $g$ and $h$ such that $\ol{g}=g_0$ and $\ol{h}=h_0$.
 
 If $\ol f=g_1\cdots g_n$ is the complete factorization of $\ol f$ in $k[X]$, then the complete factorization of $f$ in $K[X]$ is $f=f_1\cdots f_n$ where $\ol{f_j}=g_j$.
 \end{thm}
+\fixme{Add a statement about uniqueness.}
 \begin{proof}
 First we need the following lemma, which tells us that if the reductions of polynomials are relatively prime, then so are the original polynomials.
-\begin{lem}
+\begin{lem}\llabel{lem:naka-bezout}
 Let $A$ be a local ring with residue field $k$. If $g,h\in A[X]$ are such that $\ol{g}$ and $\ol{h}$ are relatively prime, then $g$ and $h$ are relatively prime in $A[X]$ and there exist polynomials $u, v$ with $\deg u<\deg h$ and $\deg v<\deg g$ such that 
 \[
 ug+vh=1.
 \]
 \end{lem}
 \begin{proof}
-Since $\ol g$ and $\ol h$ are relatively prime in $k[X]=(A/\mm)[X]$, $(\ol g, \ol h)=A[X]/\mm A[X]$ and $(g,h)+\mm A[X]=A[X]$. Since $A[X]/\mm A[X]$ is finitely generated (on account of $g,h$ being monic), %see ``$\implies$" in Lemma~\ref{criterion-for-integrality}
-by Nakayama's Lemma $(g,h)=A[X]$. We can choose $u,v$ such that $ug+vh=1$; drop all terms with higher degree.
+Since $\ol g$ and $\ol h$ are relatively prime in $k[X]=(A/\mm)[X]$, $(\ol g, \ol h)=A[X]/\mm A[X]$ and $(g,h)+\mm A[X]=A[X]$. 
+Nakayama's lemma says that if $A$ is a local ring with maximal ideal $\mm$ and $M\supeq N$ are $A$-modules with $M=N+\mm M$, then $M=N$. Apply this with $M=A[X]$, which is finitely generated over $A$ to get $A[X]=(g,h)$. 
+%Since $A[X]/\mm A[X]$ is finitely generated (on account of $g,h$ being monic), %see ``$\implies$" in Lemma~\ref{criterion-for-integrality}
+This means we can choose $u,v$ such that $ug+vh=1$. To satisfy the degree condition, drop all terms with higher degree.
 \end{proof}
 We proceed as in the proof of Theorem~\ref{hensel1}. Suppose we have found $g_n$ and $h_n$ such that
 \[
@@ -646,7 +717,7 @@ We have
 \[
 (g_n+v\pi^{n+1})(h_n+u\pi^{n+1})\equiv g_nh_n+(ug_n+vh_n)\pi^{n+1}\pmod{\pi^{n+2}}.
 \]
-By the lemma we can choose $u$ and $v$ such that the above is congruent to $f$ modulo $\pi^{n+2}$. Again let $g_{n+1}=g_n+v\pi^{n+1}$, $h_{n+1}=h_n+u\pi^{n+1}$, and take the limit as $n\to \iy$.
+By Lemma~\ref{lem:naka-bezout} we can choose $u$ and $v$ such that the above is congruent to $f$ modulo $\pi^{n+2}$. Again let $g_{n+1}=g_n+v\pi^{n+1}$, $h_{n+1}=h_n+u\pi^{n+1}$, and take the limit as $n\to \iy$.
 
 The second part follows from induction. Note $f=f_1\cdots f_n$ is the complete factorization because any factorization of $f$ gives a factorization for $\ol f$.
 \end{proof}
@@ -781,11 +852,12 @@ Here is an alternate definition of a place.
 Let $(K,v)$ be a field with valuation and $L/K$ be an extension. A \textbf{place} on $L$ over $v$ is a $G(\ol K_v/K_v)$-orbit on $\Hom_K(L,\ol K_v)$.
 \end{df}
 \begin{ex}
-Let $K=\R$, and $L$ a fiinite extension of $K$. Then the places of $L$ over $\R$ are just $\Hom_K(L,\R)$, the real embeddings of $L$, and the complex places are just $G(\C/\R)\bs\Hom_K(L,\C)$, i.e. pairs of complex conjugate embeddings.
+Let $K=\R$, and $L$ a finite extension of $K$. Then the places of $L$ over $\R$ are just $\Hom_K(L,\R)$, the real embeddings of $L$, and the complex places are just $G(\C/\R)\bs\Hom_K(L,\C)$, i.e. pairs of complex conjugate embeddings.
 \end{ex}
 We show this is equivalent to our previous definition.
 \begin{thm}
-Assume...
+%Assume...
+Let $K$ be a number field. 
 There is a bijective correspondence between equivalence classes of valuations $w\mid v$, $v$ on $K$, and $G(\ol K_v/K_v)$-orbits on $\Hom_K(L,\ol K_v)$:
 \[
 \set{w\mid v}{w\in M_L}\xrightarrow{\cong} G(\ol K_v/K_v)\bs\Hom_K(L,\ol K_v).
@@ -794,17 +866,20 @@ There is a bijective correspondence between equivalence classes of valuations $w
 Letting $\ol v$ be the unique extension of $v$ to $\ol K_v$, 
 the embedding $\tau:L\hra \ol K_v$ is associated to the valuation $\ad_{\ol{v}}$ restricted to $L$.
 \end{thm}
+\begin{proof}
+\fixme{Add me.}
+\end{proof}
 %
 \section{Krasner's lemma and consequences}
-The following is a surprising result... 
+The following shows a surprising difference between local and global fields.
 \index{Krasner's lemma}
 \llabel{Krasner's lemma}
 \begin{lem}[Krasner's lemma]\llabel{krasner}
-Let $K$ be complete with respect to a nonarchimedean valuation $|\cdot|$, and extend $|\cdot|$ to an algebraic closure $K^{\text{al}}$. Let $\al,\be\in K^{\text{al}}$. If $\be$ is separable over $K[\al]$, and
+Let $K$ be complete with respect to a nonarchimedean valuation $|\cdot|$, and extend $|\cdot|$ to an algebraic closure $K^{\text{al}}$. Let $\al,\be\in K^{\text{al}}$. If $\be$ is separable over $K(\al)$, and
 \begin{equation}\llabel{belong-ineq}
 |\be-\al|<|\be'-\be|
 \end{equation}
-for any conjugate $\be'\ne \be$ of $\be$ over $K$, then $\be\in K[\al]$.
+for any conjugate $\be'\ne \be$ of $\be$ over $K$, then $\be\in K(\al)$.
 \end{lem}
 We say that $\al$ {\it belongs} to $\be$ if inequality~(\ref{belong-ineq}) holds.
 \begin{proof}
@@ -905,20 +980,20 @@ A \textbf{local field} is a field $K$ with a nontrivial valuation $\ad$ such tha
 \end{df}
 Note this requires that $K$ is complete.
 \begin{pr}\llabel{ring-of-integers-compact}
-Let $K$ be complete with respect to a discrete nonarchimedean valuation. Then $A$ is compact if and only if $k:=A/\mm$ is finite.
+Let $K$ be complete with respect to a discrete nonarchimedean valuation. (Then we can define $A:=\cO_K=\set{x\in K}{|x|\ge 0}$ and $\mm = \set{x\in K}{|x|>0}$.) Then $A$ is compact if and only if $k:=A/\mm$ is finite.
 \end{pr}
 \begin{proof}
 Suppose $A$ is compact.
 Note $\mm=\set{x}{|x|<1}$ is open, and any translate of it is open. Note $A=\bigsqcup_{a\in A/\mm} a+\mm$ where the union is over representatives in $A/\mm$. A finite number of these cover $A$, so $k$ is finite.
 
-Conversely, suppose $k:=A/\mm$ is bounded. It suffices to show that $A$ is closed and totally bounded\footnote{A set is {\it totally bounded} if for every $r$, $A$ can be covered by a finite number of sets with diameter at most $r$.}.
+Conversely, suppose $k:=A/\mm$ is finite. It suffices to show that $A$ is closed and totally bounded\footnote{A set is {\it totally bounded} if for every $r$, $A$ can be covered by a finite number of sets with diameter at most $r$.}.
 \begin{enumerate}
 \item $A$ is closed since $A=\set{x}{|x|\le |\pi|}$.
 \item $A$ is totally bounded: Given $\ep>0$, choose $r$ so that $|\pi|^{r+1}<\ep$. Now every element is in a ball of radius 1 centered at one of the finite number of points in the form $a_0+a_1\pi+\cdots+a_r\pi^r$. \qedhere
 \end{enumerate}
 \end{proof}
 \begin{pr}\llabel{compact-sets-in-lf}
-If $K$ has finite residue field then $\sO_K^{\times}$, $\mfp^n$, and $1+\mfp^n$ are all compact.
+If $K$ has finite residue field then $\cO_K^{\times}$, $\mfp^n$, and $1+\mfp^n$ are all compact.
 \end{pr}
 \begin{proof}
 From Proposition~\ref{ring-of-integers-compact}, $A$ is compact. The above are all closed subsets of $A$ so compact.
@@ -932,10 +1007,11 @@ The following is a complete classification of local fields, up to isomorphism.
 \item Field of formal Laurent series $k((T))$ over finite field.
 \end{enumerate}
 \end{thm}
+All local fields are either $\R$, $\C$, or are complete with respect to a discrete nonarchidean valuation.
 \begin{proof}
 Neukirch, p. 135.
 \end{proof}
-\fixme{Fill in: local fields vastly simplify things because...}
+\fixme{To add: Explanation of why local fields are much easier to study.}
 %
 \subsection{Open sets and continuity}
 \begin{pr}\llabel{power-open}
@@ -945,14 +1021,22 @@ For any local field $K$ and any $n$, the $n$th power map is open on $K^{\times}$
 For $K=\R$ or $\C$, this is clear.
 
 For $K$ $\pi$-adic, this is an easy consequence of Hensel's Lemma. Let $y\in K^{\times n}$. We may suppose $v(y)=0$. Suppose $x_0^p-y=0$. Let $k=v(p)$ and
-let $\ep$ be such that $v(\ep-y)\ge 2k+1$. Consider the polynomial $f(x)=x^n-y$. Now $f(x_0)\equiv 0\pmod{\pi^{2k+1}}$ so by Hensel's Lemma $x_0$ lifts to a solution of $f$ in $K$. (The version of Hensel in ACIM, p. 14. Add this in.)
+let $\ep$ be such that $v(\ep-y)\ge 2k+1$. Consider the polynomial $f(x)=x^n-y$. Now $f(x_0)\equiv 0\pmod{\pi^{2k+1}}$ so by Hensel's Lemma $x_0$ lifts to a solution of $f$ in $K$. 
+\fixme{This is the version of Hensel in ACIM, p. 14. Add this in.}
 \end{proof}
 \begin{pr}\llabel{pr:nm-cont}
-For any extension of local fields $L/K$, any $\si\in G(L/K)$ acts as a homeomorphism, and the norm map $\nm_{L/K}$ is continuous and open on $K^{\times}$.
+For any extension of local fields $L/K$, any $\si\in G(L/K)$ acts as a homeomorphism, and the norm map $\nm_{L/K}$ is continuous on $K^{\times}$.
 \end{pr}
+\begin{proof}
+In the case $\C/\R$, we can verify this directly. Otherwise, $L$ is complete with respect to a discrete nonarchimedean valuation. We show that $\si$ preserves distance. Because $\si$ is a field automorphism it suffices to show $|\si(x)|=|x|$. 
+Let $\pi$ be a uniformizer. For $\si\in G(L/K)$, $\si \mm=\mm$, so it must take the uniformizer to another uniformizer, $\si(\pi)=\pi'=a_1\pi+a_2\pi^2+\cdots $ with $a_1\ne 0$. Then $\si(a_j\pi^j+a_{j+1}\pi^{j+1}+\cdots)=a_j{\pi'}^j+a_{j+1}{\pi'}^{j+1}$ have the same valuation, as needed. 
+%\fixme{Add.}
+
+$\nm_{L/K}(x) = \prod_{\si\in G(L/K)}\si(x)$ by Proposition~\ref{ntr-fext}. $\si$ and multiplication are continuous, so $\nm_{L/K}$ is continuous.
+\end{proof}
 \section{Unramified extensions}
 \begin{df}
-Let $K$ be a complete field with residue field $k$; let $L$ be a finite extension of $K$ with residue field $l$. We say $L/K$ is \textbf{unramified} if $l/k$ is separable and the prime ideal $\mfp$ in $\sO_K$ does not ramify in $L$.
+Let $K$ be a complete field with residue field $k$; let $L$ be a finite extension of $K$ with residue field $l$. We say $L/K$ is \textbf{unramified} if $l/k$ is separable and the prime ideal $\mfp$ in $\cO_K$ does not ramify in $L$.
 
 $L/K$ is \textbf{totally ramified} if $\mfp$ ramifies completely; by the degree equation this is equivalent to $l=k$.
 \end{df}
@@ -979,10 +1063,12 @@ Suppose (1) holds. Then $\ol{g}$ has $\ol{\al}$ as a root. Note $L=K(\al)$ gives
 
 Suppose (2) holds. We have
 \[
-[L:K]\le \deg g=\deg \ol{g}= [l:k],
+[L:K]= \deg g=\deg \ol{g}= [l:k],
 \]
-the last equality following since $\ol{g}$ is the minimal polynomial of $\ol{\al}$. % and has no repeated roots.
-But $[L:K]\ge[l:k]$, so equality holds and $\mfp$ (the prime ideal of $\sO_K$) is unramified by~(\ref{doesnt-ramify}). %Note $L/K$ is separable because $g$ has no repeated roots.
+the first equality is because $\al$ is a root of $g$ and the fact that $\ol g$ is irreducible means $g$ is irreducible (hence the minimal polynomial of $\al$); and 
+the last equality is because $\ol{g}$ is the minimal polynomial of $\ol{\al}$. % and has no repeated roots.
+%But $[L:K]\ge[l:k]$, so equality holds and 
+Hence $\mfp$ (the prime ideal of $\cO_K$) is unramified by~(\ref{doesnt-ramify}). %Note $L/K$ is separable because $g$ has no repeated roots.
 Thus $L/K$ is unramified.
 \end{proof}
 For local fields, the property of being unramified behaves well under extensions and products.
@@ -1004,9 +1090,9 @@ K&&&K&&&K&
 \]
 \end{pr}
 \begin{proof}
-Let $k,l,m,n$ be the residue fields of $K,L,M,LM$, and $\mfp$, $\mP$, and $\mP'$ be the prime ideals of $\sO_K$, $\sO_L$, $\sO_M$, respectively.
+Let $k,l,m,n$ be the residue fields of $K,L,M,LM$, and $\mfp$, $\mP$, and $\mP'$ be the prime ideals of $\cO_K$, $\cO_L$, $\cO_M$, respectively.
 \begin{enumerate}
-\item We have $\mfp\sO_M=\mP\sO_L=\mP'$. Separability is transitive, so $M/K$ is unramified.
+\item We have $\mfp\cO_M=\mP\cO_L=\mP'$. Separability is transitive, so $M/K$ is unramified.
 \item Write $L=K(\al)$. By Proposition~\ref{complete-unramified-criteria}, we can find $g$ with $\al$ as root such that $\ol{g}$ is the minimal polynomial of $l=k(\al)$ over $k$, and is separable. Then the minimal polynomial for $n=m(\al)$ over $m$ divides $\ol{g}$, hence is separable. By Proposition~\ref{complete-unramified-criteria} again, $LM/M$ is unramified.
 \item By part 2, $LM/M$ is unramified. Since $M/K$ is unramified, by part 1 $LM/K$ is unramified.\qedhere
 \end{enumerate}
@@ -1016,24 +1102,26 @@ Let $K$ be a field; fix an algebraic closure.
 There is an equivalence of categories between
 \begin{itemize}
 \item finite unramified extensions $L/K$, and  
-\item finite separable extensions $l/k$.
+\item finite separable extensions $l/k$,
 \end{itemize}
-\[
-\xymatrix{
-L_1\ar[r]\ar[d] &L_2\ar[d]\\
-l_1=L_1/\mfp_1\ar[r]&l_2=L_2/\mfp_2.
-}
-\]
+where the morphisms are field inclusions. (All maps between fields are inclusions.)
+%\[
+%\xymatrix{
+%L_1\ar[r]\ar[d] &L_2\ar[d]\\
+%l_1=L_1/\mfp_1\ar[r]&l_2=L_2/\mfp_2.
+%}
+%\]
+The equivalence is given by $L\mapsto \cO_L/\mP$ where $\mP$ is the prime in $\cO_L$.
 
 Moreover,
 \begin{enumerate}
-\item $L\subeq M$ if and only if $l\subeq m$.
+\item $L\subeq M$ if and only if $l\subeq m$.\footnote{This is part of the statement of equivalence of categories.}
 \item The residue field of $LM$ is $lm$.
 \item $L/K$ is Galois if and only if $l/k$ is Galois, and
 \[
 G(L/K)\xra{\cong} G(l/k)
 \]
-by restricting $\si\in G(L/K)$ to $B=\sO_L$ and modding out by $\mP B$.
+by restricting $\si\in G(L/K)$ to $B=\cO_L$ and modding out by $\mP B$.
 \end{enumerate}
 \end{thm}
 \begin{proof}
@@ -1049,7 +1137,7 @@ Now $LM$ is also unramified (Proposition~\ref{unramified-props}) and has residue
 \] 
 showing $L\subeq M$.
 
-If $l=m$, then the above shows that $L=M$. Hence the map is injective. The action on maps $L_1\to L_2$ is self-explanatory.
+If $l=m$, then the above shows that $L=M$. Hence the map is injective. %The action on maps $L_1\to L_2$ is self-explanatory.
 
 For (3), note an extension is Galois iff it is the (minimal) splitting field of a separable polynomial $f$. Take $g$ to be the minimal polynomial of a primitive element $\al$; note $\ol{\al}$ generates $l/k$. 
 Note by Proposition~\ref{complete-unramified-criteria}, $\ol{g}$ is separable. 
@@ -1058,7 +1146,7 @@ If $L/K$ is Galois, then $g$ splits over $L$ so %and that its roots generate $L/
 $\ol{g}$ splits over $l$. Combining the previous two statements, $l/k$ is Galois.
 Conversely, suppose $l/k$ is Galois. Since $\ol{g}$ splits into nonrepeated linear factors, Hensel's Lemma~\ref{hensel2} lifts it to a factorization of $g$. Hence $g$ splits over $K$ into distinct linear factors, showing $L/K$ is Galois.
 \end{proof}
-Suppose $k$ is a finite field. In this case, the separable extensions $l/k$ are exactly the finite extensions. Moreover, we understand what these extensions are; there is one of each degree, and we can find the corresponding $L/K$ explicitly. Furthermore, by surjectivity in (3), $G(L/K)$ contains a unique element mapping to the Frobenius element in $G(l/k)$; see Definition~\ref{intro-cft}.\ref{frobenius-element}.
+Suppose $k$ is a finite field. In this case, the separable extensions $l/k$ are exactly the finite extensions. Moreover, we understand what these extensions are; there is one of each degree, and we can find the corresponding $L/K$ explicitly. Furthermore, by surjectivity in (3), $G(L/K)$ contains a unique element mapping to the Frobenius element in $G(l/k)$; see Definition~\ref{frobenius-element}.
 %\begin{rem}\llabel{unram-finite-field}$\,$
 %Suppose $k$ is a finite field (in particular, this is true if $K$ is the completion of a number field).
 %\begin{enumerate}
@@ -1098,7 +1186,8 @@ K
 }
 \]
 \end{thm}
-We call $L_u$ the \textbf{maximal unramified extension} of $K$ contained in $L$. \fixme{This is useful...} \fixme{Defining this when $L/K$ is infinite}
+We call $L_u$ the \textbf{maximal unramified extension} of $K$ contained in $L$. %\fixme{This is useful...} 
+\fixme{We can define this when $L/K$ is infinite (details).}
 \begin{proof}
 Let $L_u$ be the compositum of all unramified extensions of $K$ contained in $L$. Then $L_u$ is unramified by Proposition~\ref{unramified-props}, and it contains all unramified extensions of $K$ contained in $L$.
 
@@ -1148,13 +1237,13 @@ Let $\mP^e|| \mfp$. Note $e\le n=[L:K]$.
 We calculate the valuation of $f(\al)$ with respect to $\mP$.
 \begin{align*}
 v_{\mP}(\al^n)&= nv_{\mP}(\al)\\
-v_{\mP}(a_k\al^k)&= e+k\ord>e,&1\le k\le n-1\\
+v_{\mP}(a_k\al^k)&= e+kv_{\mP}(\al)>e,&1\le k\le n-1\\
 v_{\mP}(a_0)&=e.
 \end{align*}
-Since $f(\al)=\al^n+\cdots +a_0=0$, the minimum valuation must be attained for two terms. The only way this is possible is if $n\ord_{\mP}(\al)=e$. Then  $\ord_{\mP}(\al)=1$ and $n=e$, as needed.
+Since $f(\al)=\al^n+\cdots +a_0=0$, the minimum valuation must be attained for two terms. The only way this is possible is if $nv_{\mP}(\al)=e$. Then  $\ord_{\mP}(\al)=1$ and $n=e$, as needed.
 \end{proof}
 
-\begin{thm}
+\begin{thm}\llabel{thm:tot-ram-eis}
 Let $K$ be complete with respect to a nonarchimedean valuation. 
 The totally ramified extensions of $K$ are exactly those of the form $K(\al)$ where $\al$ is the root of an Eisenstein polynomial.
 \end{thm}
@@ -1168,7 +1257,7 @@ The totally ramified extensions of $K$ are exactly those of the form $K(\al)$ wh
 %Suppose $\al$ is the root of an Eisenstein polynomial $f$. By Lemma~\ref{newton-lemma}, since the \fixme{lower?} Newton polygon consists of just the segment joining $(0,1)$ and $(n,0)$, we have that $\ord(\al)=\rc n$, i.e. the prime ideal $\mfp$ of $K$ equals $(\al)^n$, i.e. the extension is totally ramified of degree $n$.
 The forward direction follows directly from Theorem~\ref{eisenstein-ramification}.
 
-Conversely, let $L/K$ be a totally ramified extension. Take $\al$ to be a generator of the maximal ideal $\mP$ of $\sO_L$. Note $\ord(\al)=\rc n$ since $(\al)^n=\mfp$. Note that for any $a_{n-1},\ldots, a_0$, we have
+Conversely, let $L/K$ be a totally ramified extension. Take $\al$ to be a generator of the maximal ideal $\mP$ of $\cO_L$. Note $\ord(\al)=\rc n$ since $(\al)^n=\mfp$. Note that for any $a_{n-1},\ldots, a_0$, we have
 \[
 \ord(a_k\al^k)=\ord(a_k)+\frac{k}{n}\equiv \frac{k}{n}\pmod 1,
 \]
@@ -1251,12 +1340,12 @@ Suppose that $K\subeq L,M$ are finite extensions. If $L/K$ and $M/K$ are tamely 
 \end{enumerate}
 \end{pr}
 \begin{thm}
-Let $K$ be a field with characteristic 0 and finite residue field, and let $\mfp$ be a prime in $\sO_K$. 
+Let $K$ be a field with characteristic 0 and finite residue field, and let $\mfp$ be a prime in $\cO_K$. 
 Given $n$, there are only finitely many %totally ramified 
 extensions of $K_{\mfp}$ with degree at most $n$.
 \end{thm}
 \begin{proof}
-First we show that there are finitely many totally ramified extensions of degree $n$. Every such extension is realized by adjoining a root of an Eisenstein polynomial of degree $n$. By taking the coefficients, an Eisenstein polynomial can be identified with a point of 
+First we show that there are finitely many totally ramified extensions of degree $n$. By Theorem~\ref{thm:tot-ram-eis}, very such extension is realized by adjoining a root of an Eisenstein polynomial of degree $n$. By taking the coefficients, an Eisenstein polynomial can be identified with a point of 
 \begin{equation}\llabel{poly-compact}
 \underbrace{\mfp\times \cdots \times \mfp}_{n-1}\times A^{\times}\pi.
 \end{equation}
@@ -1435,20 +1524,22 @@ The completions of $L$ with respect to the extensions $|\cdot|'$ of $|\cdot|$ ar
 Suppose we are given an extension $|\cdot|'$. Let $\hat{L}$ be the completion of $L$ with respect to $|\cdot|'$.
 \[
 \xymatrix{
-L=K[\al]\ar@{^(->}[r]\ar@{-}[d] & \hat L=\hat K[\al]\ar@{-}[d]\\
+L=K(\al)\ar@{^(->}[r]\ar@{-}[d] & \hat L=\hat K(\al)\ar@{-}[d]\\
 K\ar[r] & \hat{K}
 }
 \]
-Note $\hat K[\al]$ contains $\al$ and is complete (as it is a finite-dimensional vector space over a complete field), so $\hat L=\hat K[\al]$. Then considering the extension $\hat L/\hat K$, $\al$ is the root of one of the irreducible factors of $f$ in $\hat K[X]$.
+To see $\hat L = \hat K(\al)$, note we have $\hat L=\wh{K(\al)}\supeq \wh K(\al)$; for the reverse inclusion note $\hat K(\al)$ contains $\al$ and is complete (as it is a finite-dimensional vector space over a complete field). 
 
-Conversely, given an irreducible factor $g$ of $h$ in $\hat K[X]$, consider $\hat K[\al']=\hat K[X]/(g)$. 
+Now considering the extension $\hat L/\hat K$, $\al$ is the root of one of the irreducible factors of $f$ in $\hat K[X]$.
+
+Conversely, given an irreducible factor $h$ of $f$ in $\hat K[X]$, consider $\hat K(\al')=\hat K[X]/\an{h}$. 
+The valuation on $\hat K$ extends uniquely to $\hat K(\al')$ by Theorem~\ref{extend-discrete-valuations}. Then let $K(\al)\hra \hat K(\al')$ be the map sending $\al$ to $\al'$. (This makes sense as the minimal polynomials of $\al,\al'$ over $K$ are both $f$.) By the same argument as before, $\hat L=\wh{K(\al)}=\hat K(\al')$, as desired.
 \[
 \xymatrix{
 L=K(\al)\ar@{^(->}[r]\ar@{-}[d] & \hat L=\hat K(\al')\ar@{-}[d]\\
 K\ar[r] & \hat{K}
 }
 \]
-The valuation on $\hat K$ extends uniquely to $\hat K(\al')$ by Theorem~\ref{extend-discrete-valuations}. Then let $K(\al)\hra \hat K(\al')$ be the map sending $\al$ to $\al'$. (This makes sense as the minimal polynomials of $\al,\al'$ over $K$ are both $f$.) By the same reason as before, $\hat L=\hat K(\al)$, as desired.
 \end{proof}
 %%segway here
 \begin{thm}\llabel{completion-tensor}
@@ -1495,7 +1586,7 @@ Keep the same notation as above. Then
 \end{enumerate}
 \end{cor}
 \begin{proof}
-Using Proposition~\ref{ring-of-integers}.\ref{ntr-fext}(1) and Theorem~\ref{ext-val-irr}, we see
+Using Proposition~\ref{ntr-fext}(1) and Theorem~\ref{ext-val-irr}, we see
 \begin{align*}
 \nm_{L/K}(\al)&=\prod_{\al'\text{ root of }f}\al'=\pa{\prod_{\al'\text{ root of }f_1}\al'}\cdots \pa{\prod_{\al'\text{ root of }f_n}\al'}
 =\prod_{i=1}^n \nm_{L_i/\hat K}(\al)\\
@@ -1513,7 +1604,16 @@ Let $L/K$ be a finite extension of number fields, with normalized nonarchimedean
 \]
 \end{lem}
 \begin{proof}
-Easy, see Milne pg. 132.
+We check equality on the completions. Let $p$ be the characteristic of the residue fields, and $\pi_v\in K_v, \pi_w\in L_w$ be prime. 
+Since $\ved_w$ is a map $L^{\times}\to p^{\Z}$, it suffices to check that $\ved_w$ and ${\ved_w'}^{[L_w:K_v]}$ agree for one element that does not get sent to 1. We check them on $\pi_v$. 
+Note that if $\mP$ is the prime corresponding to $w$, $\fN \mP = |\cO_L/\mP \cO_L| = |\cO_{L_w}/\pi_w \cO_{L_w}|=|l|$ where $l=\cO_{L_w}/\pi_w\cO_{L_w}$ and similarly for $K$. 
+% and $k = \cO_{K_v}/\pi_v$. 
+Then 
+\[
+|\pi_v|_w = \prc{|l|}^{e(\pi_w/\pi_v)} = \prc{|k|}^{e(L_w/K_v)f(L_w/K_v)} = |\pi_v|_v^{[L_w:K_v]}
+\]
+by the degree equation~\ref{deg-eq}. %\ref
+%milne pg. 132.
 \end{proof}
 
 \begin{thm}[Product formula]\llabel{product-formula}
@@ -1574,7 +1674,7 @@ We have
 \prod_{w\mid v} \ab{\nm_{L_w/ K_v}(\al)}_{w}^{\rc{[L:K]}}
 &\text{by Lemma~\ref{compare-normed-val}}\\
 &=\prod_{w\mid v}\ab{\al}_w
-&\text{by Theorem~\ref{valuations-and-completions}.\ref{extend-discrete-valuations}}
+&\text{by Theorem~\ref{extend-discrete-valuations}}
 %&\text{by Lemma~\ref{local-global-degree}}\\
 %=\prod_{w\mid v}\ve{\al}_w.
 %\stackrel{\ref{complete-ntr}}
@@ -1602,7 +1702,7 @@ The product formula will be useful when defining a measure of size independent o
 %If $\ve{\cdot}$ is the normalized valuation of $|\cdot|$, then $\ve{\cdot}=|\cdot|^{n}$, where $n=[L:K]$.
 %\end{lem}
 %\begin{proof}
-%Let $\mfp=(\pi)$ and $\mP=(\Pi)$ be the prime ideals of $\sO_K$ and $\sO_L$, respectively. Then $\pi=c\Pi^e$ for some $c\in \sO_L^{\times}$. Letting $f$ be the residue degree,
+%Let $\mfp=(\pi)$ and $\mP=(\Pi)$ be the prime ideals of $\cO_K$ and $\cO_L$, respectively. Then $\pi=c\Pi^e$ for some $c\in \cO_L^{\times}$. Letting $f$ be the residue degree,
 %\[
 %\ve{\pi}=\ve{\Pi}^e?=?\prc{\N\mP}^e=\prc{\N\mfp}^{ef}=\ab{\pi}^{n}.
 %\]
