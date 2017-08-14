@@ -1,0 +1,117 @@
+%\documentclass[12pt]{book}
+%
+%\input{beginning/packages.tex}
+%\input{beginning/theoremdef.tex}
+%\input{beginning/macros.tex}
+%\input{beginning/formatting.tex}
+%\input{beginning/other.tex}
+
+\def\filepath{templates}
+%\def\filepath{C:/Users/holden-lee/Dropbox/Math/templates}
+
+\input{\filepath/packages_book.tex}
+\input{\filepath/theorems_with_boxes.tex}
+\input{\filepath/macros_published.tex}
+\input{\filepath/formatting.tex}
+\input{\filepath/other.tex}
+\input{\filepath/theorem_num.tex}
+
+\def\name{Number Theory}
+
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Number Theory, \S\emph{\thechapter.\thesection}}
+\chead{} 
+\rhead{\sectiontitle} 
+\lfoot{} 
+\cfoot{\thepage} 
+\rfoot{} % !! Remember to change the problem set number
+\renewcommand{\headrulewidth}{.3pt} 
+%\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{0in}
+%\setlength\textheight{648pt}
+
+%\input{beginning/titlepage.tex}
+\input{\filepath/titlepage.tex}
+\begin{document}
+\maketitle
+
+\input{beginning/intro.tex}
+
+\frontmatter
+
+\mainmatter 
+\pagestyle{fancy}
+
+%\part{Elementary Number Theory}
+%\input{ent-chapters/chapter1.tex}
+%\input{ent-chapters/chapter2.tex}
+%\input{ent-chapters/chapter3.tex}
+%\input{ent-chapters/chapter4.tex}
+%\input{ent-chapters/chapter5.tex}
+%\input{ent-chapters/chapter6.tex}
+%\input{ent-chapters/fractions.tex}
+%\part{Field and Galois Theory}
+%\input{fgt-chapters/chapter1.tex}
+%\input{fgt-chapters/chapter2.tex}
+%\input{fgt-chapters/chapter3.tex}
+%\input{fgt-chapters/chapter4.tex}
+%\input{fgt-chapters/chapter5.tex}
+\part{Algebraic Number Theory}
+\input{ant-chapters/chapter1.tex}
+\input{ant-chapters/chapter2.tex}
+\input{ant-chapters/chapter3.tex}
+\input{ant-chapters/quadratic.tex}
+\input{ant-chapters/chapter4.tex}
+\input{ant-chapters/chapter5.tex}
+\input{ant-chapters/chapter6.tex}
+\input{ant-chapters/chapter7.tex}
+\input{ant-chapters/chapter8.tex}
+\part{Class Field Theory}
+\input{cft-chapters/chapter1.tex}
+%\input{cft-chapters/chapter2.tex}
+%lubin-tate theory is unfinished.
+\input{cft-chapters/chapter3.tex}
+\input{cft-chapters/chapter4.tex}
+\input{cft-chapters/lcft.tex}
+\input{cft-chapters/chapter6.tex}
+\input{cft-chapters/chapter7.tex}
+\input{ag-chapters/CM.tex}
+\part{Analytic Number Theory}
+\input{analytic-chapters/chapter1.tex}
+\input{analytic-chapters/chapter2.tex}
+\input{analytic-chapters/chapter3.tex}
+\input{analytic-chapters/chapter4.tex}
+%\input{analytic-chapters/l-nf.tex}
+%\part{Automorphic Forms}
+%\input{af-chapters/chapter1.tex}
+%\part{Arithmetic Geometry}
+%%under construction (quadratic forms)
+%%\input{ag-chapters/chapter0.tex}
+%\input{ag-chapters/chapter1.tex}
+%\input{ag-chapters/chapter2.tex}
+%%unfinished
+%%\input{ag-chapters/elliptic.tex}
+%\input{ag-chapters/CM.tex}
+%\part{Arithmetic Dynamics}
+%\input{ad-chapters/chapter1.tex}
+%%\part{Combinatorial Number Theory}
+%%\input{cnt-chapters/chapter1.tex}
+%%\part{Computational Number Theory}
+%%\input{comp-chapters/chapter1.tex}
+%%\part{Abelian Varieties}
+
+\appendix
+
+\input{ent-chapters/chapter4.tex}
+\input{ent-chapters/chapter6.tex}
+\input{fgt-chapters/chapter1.tex}
+\input{fgt-chapters/chapter2.tex}
+\input{fgt-chapters/chapter4.tex}
+\input{fgt-chapters/chapter5.tex}
+
+\bibliographystyle{alpha}
+\bibliography{\filepath/refs}
+\printindex
+\end{document}

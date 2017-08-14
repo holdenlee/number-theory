@@ -1,0 +1,10 @@
+#!/bin/bash
+
+lc2 analytic-nt-draft
+lc2 analytic-nt
+lc2 ant-draft
+lc2 ant-draft
+lc2 elliptic-draft
+lc2 elliptic
+lc2 number-theory-draft
+lc2 number-theory
