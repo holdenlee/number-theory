@@ -125,9 +125,9 @@ p&=1+X^{p^{r-1}}+\cdots +X^{(p-1)p^{r-1}}|_{X=1}\\
 \end{align*}
 where $u=\prod_{\zeta' \text{ primitive $p^r$th root of unity}}\frac{1-\zeta'}{1-\zeta_{p^r}}$ is a unit by Proposition~\ref{cyclotomic-unit}. Thus $(p)=(\pi)^{\ph(p^r)}$.
 
-%Note this gives another proof that $[\Q[\zeta]:\Q]=\ph(p^r)$: From the degree equation (Theorem \ref{factorization}.\ref{deg-eq}), we get that $[\Q[\zeta]:\Q]\ge \ph(p^r)$; on the other hand $[\Q[\zeta]:\Q]\le \ph(p^r)$ since the cyclotomic polynomial has degree $\ph(p^r)$.
+%Note this gives another proof that $[\Q[\zeta]:\Q]=\ph(p^r)$: From the degree equation (Theorem \ref{deg-eq}), we get that $[\Q[\zeta]:\Q]\ge \ph(p^r)$; on the other hand $[\Q[\zeta]:\Q]\le \ph(p^r)$ since the cyclotomic polynomial has degree $\ph(p^r)$.
 %To finish the proof of (1), note that if $\pi$ is not prime, then factoring $\pi$ further, we get strict inequality in the degree equation, $[\Q[\zeta]:\Q]> \ph(p^r)$, a contradiction. Thus $\pi$ is prime.
-From the degree equation (Theorem~\ref{factorization}.\ref{deg-eq}), we get that $[\Q[\zeta]:\Q]\ge \ph(p^r)$ with strict inequality when $\pi$ factors further. On the other hand $[\Q[\zeta]:\Q]\le \ph(p^r)$ since the cyclotomic polynomial has degree $\ph(p^r)$. Hence equality must hold, and $\pi$ must be prime, giving (1) and (2).
+From the degree equation (Theorem~\ref{deg-eq}), we get that $[\Q[\zeta]:\Q]\ge \ph(p^r)$ with strict inequality when $\pi$ factors further. On the other hand $[\Q[\zeta]:\Q]\le \ph(p^r)$ since the cyclotomic polynomial has degree $\ph(p^r)$. Hence equality must hold, and $\pi$ must be prime, giving (1) and (2).
 
 The degree equation for $(p)=(\pi)^{\ph(p^r)}$ reads
 \[
@@ -138,7 +138,7 @@ so we must have $f((\pi)/(p))=1$, i.e. the natural map \begin{equation}\llabel{f
 \end{equation}
 is an isomorphism.
 
-We first calculate $\disc(\Z[\zeta_p]/\Z)$. By Proposition~\ref{ring-of-integers}.\ref{disc-calc},
+We first calculate $\disc(\Z[\zeta_p]/\Z)$. By Proposition~\ref{disc-calc},
 \begin{align*}
 \disc(\Z[\zeta_{p^r}]/\Z)&=\pm \nm_{\Q(\zeta_{p^r})/\Q} (\Phi'_{p^r}(\zeta))\\
 \Phi'_{p^r}(\zeta)
@@ -154,7 +154,7 @@ where we set $\ze_p=\ze^{p^{r-1}}$; this is a primitive $p$th root of unity. We 
 \item $\nm_{\Q(\ze_p)/\Q}(p^r)=(p^r)^{[\Q(\ze_p):\Q]}=p^{rp^{r-1}(p-1)}$.
 \item $\nm_{\Q(\ze_p)/\Q}(\ze_{p^r}^{-1})=\pm 1$ since $\ze_{p^r}^{-1}$ is a unit.
 \item $\nm_{\Q(\ze_p)/\Q}(\ze_p-1)=p^{p^{r-1}}$: The minimal polynomial of $\ze_p-1$ over $\Q$ is 
-$\Phi_{p^r}(X+1)$, whose constant term is $\Phi_{p}(1)=X^{p^{r-1}(p-1)}+\cdots +X^{p^{r-1}}+1|_{X=1}=p$. Hence by Proposition~\ref{ring-of-integers}.\ref{ntr-fext}(1c), we have
+$\Phi_{p^r}(X+1)$, whose constant term is $\Phi_{p}(1)=X^{p^{r-1}(p-1)}+\cdots +X^{p^{r-1}}+1|_{X=1}=p$. Hence by Proposition~\ref{ntr-fext}(1c), we have
 \[
 \nm_{\Q(\ze_p)/\Q}(\ze_p-1)=(\pm p)^{[\Q(\ze_{p^r}):\Q(\ze_p)]}
 =\pm p^{\frac{\ph(p^r)}{\ph(p)}}=\pm p^{p^{r-1}}.
@@ -165,7 +165,7 @@ Combining these we get
 \disc(\Z[\ze_{p^r}]/\Z)=\nm_{\Q(\ze_{p^r})/\Q}\frac{p^r \zeta_{p^r}^{-1}}{\ze_p-1}=\frac{p^{r(p-1)p^{r-1}}\cdot \pm1}{\pm p^{p^{r-1}}}=\pm p^{p^{r-1}(pr-r-1)}.
 \end{equation}
 
-By Proposition~\ref{ring-of-integers}.\ref{disc-basis} (fix this a bit), we have
+By Proposition~\ref{disc-basis} (fix this a bit), we have
 \[
 \pm p^{p^{r-1}(pr-r-1)}=\disc(\sO_K/\Z)=(\sO_K:\Z[\ze_{p^r}])^2\disc(\Z[\ze]/\Z).
 \]
@@ -181,9 +181,9 @@ Suppose $\sO_K=\Z[\ze_{p^r}]+\pi^n\sO_K$. Then substitution into~(\ref{okz}) giv
 \[
 \sO_K=\Z[\ze_{p^r}]+\pi\sO_K=\Z[\ze_{p^r}]+\pi(\Z[\ze_{p^r}]+\pi^n\sO_K) =\Z[\ze_{p^r}]+\pi^{n+1}\sO_K.
 \]
-Hence by induction, $\sO_K=\Z[\ze_{p^r}]+\pi^n\sO_K$ for all $n$. However, $(p)=(\pi)^{\ph(p^r)}$ so this means $\sO_K=\Z[\ze_{p^r}]+p^n\sO_K$ for all $n$. Taking $n=m$,~\eqref{power-p-ok} gives $\sO_K=\Z[\ze_{p^r}]$, proving (3). Together with~(\ref{disc-cyclotomic-p}), this gives (4). The second part of (4) now follows from Theorem~\ref{factorization}.\ref{crit-ram} (A prime ramifies if and only if it divides the discriminant).
+Hence by induction, $\sO_K=\Z[\ze_{p^r}]+\pi^n\sO_K$ for all $n$. However, $(p)=(\pi)^{\ph(p^r)}$ so this means $\sO_K=\Z[\ze_{p^r}]+p^n\sO_K$ for all $n$. Taking $n=m$,~\eqref{power-p-ok} gives $\sO_K=\Z[\ze_{p^r}]$, proving (3). Together with~(\ref{disc-cyclotomic-p}), this gives (4). The second part of (4) now follows from Theorem~\ref{crit-ram} (A prime ramifies if and only if it divides the discriminant).
 
-All embeddings of $\Q(\ze_n)$ are complex, and there are $\ph(n)=[\Q(\ze_n):\Q]$ of them. By Theorem~\ref{ring-of-integers}.\ref{stickelberger}(1), the sign is $(-1)^{\ph(p^r)}$.
+All embeddings of $\Q(\ze_n)$ are complex, and there are $\ph(n)=[\Q(\ze_n):\Q]$ of them. By Theorem~\ref{stickelberger}(1), the sign is $(-1)^{\ph(p^r)}$.
 \end{proof}
 Now we prove the analogous result for $\Q(\ze_{n})$, for any $n\in\N$, by taking compositums of fields of the form $\Q(\ze_{p^r})$.
 \begin{thm}
@@ -221,8 +221,8 @@ $\ze_{p^r}=\ze_{n}^m$ and $\ze_{m}=\ze_n^{p^r}$, we consider
 By Proposition~\ref{cyclotomic-p}(2), $(p)=\mfp^{\ph(p^r)}$ in $\Q[\ze_{p^r}]$, while by part 2, $p$ splits into disctinct factors. Matching factorizations in $\Q[\ze_{p^rm}]$, we get that each $\mfp_i\sO_K$ must be a perfect $\ph(p^r)$th power. %(clearly, distinct primes are relatively prime).
 Hence $[\Q(\ze_n):\Q]\ge \ph(p^r)$, and equality must hold. Then $[\Q(\ze_n):\Q]=\ph(p^r)\ph(m)=\ph(n)$ showing (1).
 
-Item (2) follows from Proposition~\ref{ring-of-integers}.\ref{disc-compositum} since by (3), $\disc(\Q(\ze_{p^r})/\Q)$ and $\disc(\Q(\ze_{m})/\Q)$ are relatively prime.
-Item (3) follows from Proposition~\ref{ring-of-integers}.\ref{disc-compositum} as well. The factorization comes from the fact that since $[\Q(\ze_{p^rm}):\Q(\ze_m)]=\ph(p^r)$ and each $\mfp_i$ is the $\ph(p^r)$th power of an ideal, 
+Item (2) follows from Proposition~\ref{disc-compositum} since by (3), $\disc(\Q(\ze_{p^r})/\Q)$ and $\disc(\Q(\ze_{m})/\Q)$ are relatively prime.
+Item (3) follows from Proposition~\ref{disc-compositum} as well. The factorization comes from the fact that since $[\Q(\ze_{p^rm}):\Q(\ze_m)]=\ph(p^r)$ and each $\mfp_i$ is the $\ph(p^r)$th power of an ideal, 
 %we have equality in~\eqref{cyclotomic-compositum}, 
 the degree equation says each $\mfp_i$ must actually be the  $\ph(p^r)$th power of a {\it prime} ideal.
 \end{proof}
@@ -238,7 +238,7 @@ Then the prime factorization of $(p)$ in $\Q(\ze_n)$ is
 \]
 where $\mP_j$ are distinct primes, each with residue degree $f$ over $\Q$, and $g=\frac{\ph(m)}{f}$.
 \end{thm}
-\begin{proof}($\dagger$)\footnote{For an alternate proof see Example~\ref{intro-cft}.\ref{cyclotomic-frobenius}.} 
+\begin{proof}($\dagger$)\footnote{For an alternate proof see Example~\ref{cyclotomic-frobenius}.} 
 To use Theorem~\ref{compute-fact-pB}, we find the factorization of $\Phi_n(X)$ modulo $p$. We have
 \begin{equation}\llabel{cyclotomic-factorization-p-eq1}
 \Phi_n(X)=\prod_{j\modt{n}}(X-\ze_n^j)

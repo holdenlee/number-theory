@@ -50,15 +50,15 @@ The general statement follows by multiplicativity of $\nm_{L/K}$.
 \item $G(L/K)$ acts transitively on $\{\mP_1,\ldots, \mP_g\}$, so each $\mP_i$ occurs $\frac{m}{g}=ef$ times in $\{\si \mP\mid \si\in G(L/K)\}$.
 \item 
 First suppose $L/K$ is Galois. We use the description in terms of Galois conjugates to relate the norms of elements with the norms of ideals.
-By part 2 and Proposition~\ref{ring-of-integers}.\ref{ntr-fext}(2b), we have
+By part 2 and Proposition~\ref{ntr-fext}(2b), we have
 \[
-\nm_{L/K}(\be B)\cdot B\stackrel{(2)}=\prod_{\si\in G(L/K)} \si(\be B) =\pa{\prod_{\si\in G(L/K)}\si(\be)}B\stackrel{\ref{ring-of-integers}.\ref{ntr-fext}}=\nm_{L/K}(\be) \cdot B.
+\nm_{L/K}(\be B)\cdot B\stackrel{(2)}=\prod_{\si\in G(L/K)} \si(\be B) =\pa{\prod_{\si\in G(L/K)}\si(\be)}B\stackrel{\ref{ntr-fext}}=\nm_{L/K}(\be) \cdot B.
 \]
 Hence, $\nm_{L/K}(\be)\cdot A$ and $\nm_{L/K}(\be\cdot B)$ determine the same ideal in $B$. Since $\Id(A)\to \Id(B)$ is injective, they are equal in $A$.
 
-Now consider the general case. Let $M$ be the Galois closure of $L$ over $K$, let $C=\sO_M$, and let $d=[M:L]$. Then the above, together with part 1 and Proposition~\ref{ring-of-integers}.\ref{nm-elem-pr}(5), give
+Now consider the general case. Let $M$ be the Galois closure of $L$ over $K$, let $C=\sO_M$, and let $d=[M:L]$. Then the above, together with part 1 and Proposition~\ref{nm-elem-pr}(5), give
 \[
-\nm_{L/K}(\be\cdot B)^d\stackrel{(1)}= \nm_{M/K}(\be\cdot B)=\nm_{M/K}(\be) \cdot A \stackrel{\ref{ring-of-integers}.\ref{nm-elem-pr}(5)}= \nm_{L/K}(\be)^d\cdot A.
+\nm_{L/K}(\be\cdot B)^d\stackrel{(1)}= \nm_{M/K}(\be\cdot B)=\nm_{M/K}(\be) \cdot A \stackrel{\ref{nm-elem-pr}(5)}= \nm_{L/K}(\be)^d\cdot A.
 \]
 Since $\Id(B)$ is torsion-free, $\nm_{L/K}(\be\cdot B)=\nm_{L/K}(\be)\cdot A$.\qedhere
 \end{enumerate}

@@ -663,7 +663,7 @@ gives
 \[
 \rc{2\pi i} \lim_{T\to \iy}\int_{c-iT}^{c+iT} x^s f(s)\frac{ds}{s}=\sum_{n<x} a_n+\frac{a_x}{2}(x\in \N_0).
 \]
-We use the more precise statement giving error bounds (Corollary~\ref{dirichlet}.\ref{sum-coeff-Dir}).
+We use the more precise statement giving error bounds (Corollary~1).
 
 We want a Dirichlet series where the sum of the first $N$ terms is related to $\pi(N)$.
 Let
@@ -684,7 +684,7 @@ $-\frac{\zeta'}{\zeta}$ continues into a meromorphic function on $\C$ (since $\z
 We will need the following.
 \begin{enumerate}
 \item
-We apply the product development (Theorem~\ref{complex-analysis}.\ref{product-development}) on $\xi(s)=\pi^{-\frac s2}\zeta(s)\Ga\pf s2$ to obtain
+We apply the product development (Theorem~1) on $\xi(s)=\pi^{-\frac s2}\zeta(s)\Ga\pf s2$ to obtain
 \[
 \frac{\zeta'(s)}{\zeta(s)}=\sum_{\rh\text{ zero of }\zeta}\pa{\rc{s-\rh}+\rc{\rh}}+\cdots
 \]
@@ -692,7 +692,7 @@ We apply the product development (Theorem~\ref{complex-analysis}.\ref{product-de
 %\[
 %\frac{\ze'(s)}{\ze(s)}=\sum_{|T-\Im \rh|<1}\rc{s-\rh}+O(\ln T).
 %\]
-%(See Theorem~\ref{zeta-l-pnt}.\ref{zeta-product-development}).
+%(See Theorem~1).
 \item
 Using the above equation for $\frac{\zeta'}{\zeta}$, we calculate the asymptotics of $N(T)$, the number of zeros in $\set{\si+it}{(\si,t)\in[0,1]\times[-T,T]}$ (Theorem~\ref{zeta-zeros}).
 \item
@@ -715,7 +715,7 @@ The \textbf{Riemann zeta function} is defined by %, the $L$-function with charac
 %\zeta(s,a)&=\sum_{n=0}^{\iy} \rc{(n+a)^s},&0<a\le 1.
 %\end{align*}
 \]
-when $\Re s>1$. This will be generalized to $L$-functions $L(s,\chi)$ in Definition~\ref{l-func-dirichlet}.\ref{l-func-def}.
+when $\Re s>1$. This will be generalized to $L$-functions $L(s,\chi)$ in Definition~1.
 \end{df}
 %Note that the $L$-function and $\zeta(s,a)$ are generalizations of $\zeta$ in different directions.
 %Note
@@ -923,7 +923,7 @@ Theorem~\ref{xi-product-development} gives us
 \underbrace{\sum_{\rh} \pa{\rc{%\si+it
 s-\rh}+\rc{\rh}}}_{(B)}.
 \end{equation}
-From Stirling's approximation~\ref{complex-analysis}.\ref{stirling}, (A) equals
+From Stirling's approximation~1, (A) equals
 \begin{equation}\llabel{gamma2-estimate}
 %\underbrace{
 \ln\ab{\frac{\si}{2}+1+i\frac t2}%}_{O(1+\ln |t|)}
@@ -1036,7 +1036,7 @@ and let $C$ be the boundary of $\cal R$. \fixme{(PICTURE)}
 %Since $\Ga(\ol s)=\ol{\Ga(s)}$, the zeros of $\Ga$ are symmetric across the real axis. 
 From $\xi(s)=\pi^{-\frac s2}\zeta(s)\Ga\pf s2$, we see that $\xi$ has the same zeros as $\zeta$ in this region, and simple poles at $0$ and $1$. %Now $\Ga$ has $2N(T)$ zeros (note it has no zeros on the real axis)
 %and $2$ poles in $\cal R$, namely $0$ and $1$. 
-Hence by Cauchy's residue formula~\ref{complex-analysis}.\ref{residue},
+Hence by Cauchy's residue formula~1,
 \[
 \rc{2\pi i}\oint_{C} \frac{\xi'(s)}{\xi(s)} ds=2N(T)-2.
 \]
@@ -1069,12 +1069,12 @@ Note $\ln(x-\rh)$ is well-defined on $C'$ for any $\rh$. Hence by Theorem~\ref{w
 &\le O(\ln T)+2\pi O(\ln T)
 \end{align*}
 since there are at most $\ln T$ terms in the sum.
-\item We estimate the last integral using Stirling's formula~\ref{complex-analysis}.\ref{stirling}. (Note that $\ln\Ga$ is well-defined for $s\in C'$.)
+\item We estimate the last integral using Stirling's formula~1. (Note that $\ln\Ga$ is well-defined for $s\in C'$.)
 \begin{align*}
 \int_{C'}\frac{\pa{\Ga\pf s2}'}{\Ga\pf s2}
 &=\ba{\Im(\ln\Ga)\pf s2}^{\rc 2+Ti}_2\\
 &=\Im(\ln \Ga)\pa{\frac 14+\frac{T}{2}i}\\
-&=\Im\ba{\pa{-\rc 4+\frac T2i}\ln\pa{\rc 4+\frac T2i}-\pa{\rc 4+\frac T2i}+O(1)}\\%&\text{by Theorem~\ref{complex-analysis}.\ref{stirling}}\\
+&=\Im\ba{\pa{-\rc 4+\frac T2i}\ln\pa{\rc 4+\frac T2i}-\pa{\rc 4+\frac T2i}+O(1)}\\%&\text{by Theorem~1\\
 &=\frac T2\ln\pf T2-\frac T2+O(1).&\qedhere
 \end{align*}
 \end{enumerate}

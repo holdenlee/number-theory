@@ -132,8 +132,8 @@ Assume AKLB, and $K/L$ is finite separable. If $A$ is a Dedekind domain, then so
 \end{thm}$\,$
 \begin{proof}$\,$
 \begin{enumerate}
-\item $B$ is noetherian: By Proposition~\ref{ring-of-integers}.\ref{fgoie}, $B$ is a finitely generated $A$-module, hence a Noetherian $A$-module, hence Noetherian as a ring.
-\item $B$ is integrally closed by Proposition~\ref{ring-of-integers}.\ref{integrality}(2).
+\item $B$ is noetherian: By Proposition~\ref{fgoie}, $B$ is a finitely generated $A$-module, hence a Noetherian $A$-module, hence Noetherian as a ring.
+\item $B$ is integrally closed by Proposition~\ref{integrality}(2).
 \item Every nonzero prime ideal $\mq$ of $B$ is maximal: Take a nonzero $\be\in \mq$ and let its minimal polynomial be $x^n+a_{n-1}x^{n-1}+\cdots +a_n$. Then $a_n=-\be^n-\cdots -a_1\be\in \be B\cap A\subeq \mq\cap A$. This shows $\mq\cap A\ne 0$; since $A$ is Dedekind and $\mq\cap A$ is prime, $\mq\cap A$ is maximal and $A/\mq$ is a field. Since $B$ is integral over $A$, $B/\mq$ is integral over $A/\mq$.
 \begin{lem}\llabel{int-dom-field}
 An integral domain $B$ containing a field $k$ and algebraic over $k$ is a field.
@@ -332,7 +332,7 @@ Now suppose $B$ is reduced. By the Scheinnullstellensatz, $\cap_{\mfp \text{ pri
 \]
 Since $\dim_k B$ is assumed finite, $B$ has only finitely many prime ideals, say $\mfp_1,\ldots, \mfp_g$.
 
-Each $B/\mfp_i$ is a {\it{finite separable}} (as $k$ is perfect) extension of $k$, so by Proposition~\ref{ring-of-integers}.\ref{disc-and-fe}(2) (nondegeneracy of trace pairing), $\disc((B/\mfp_i)/k)\ne 0$. Since $B=B/\cap_{i=1}^g \mfp_i=\prod_{i=1}^g \mfp_i$, by taking the union of the bases for $B/\mfp_i$, we get $\disc(B/k)\ne 0$.
+Each $B/\mfp_i$ is a {\it{finite separable}} (as $k$ is perfect) extension of $k$, so by Proposition~\ref{disc-and-fe}(2) (nondegeneracy of trace pairing), $\disc((B/\mfp_i)/k)\ne 0$. Since $B=B/\cap_{i=1}^g \mfp_i=\prod_{i=1}^g \mfp_i$, by taking the union of the bases for $B/\mfp_i$, we get $\disc(B/k)\ne 0$.
 \end{proof}
 \item 
 Let $\mfp B=\prod_i \mP_i^{e_i}$. 
@@ -510,7 +510,7 @@ Hence
 
 The second part follows from the fact that if $G$ acts on $S$ and $G$ is the stabilizer of $s\in S$, then $tGt^{-1}$ is the stabilizer of $ts$.
 
-For the equivalences, use the second part and the fundamental theorem of Galois theory~\ref{galois}.\ref{ftogt}.
+For the equivalences, use the second part and the fundamental theorem of Galois theory~\ref{ftogt}.
 \end{proof}
 We first show that $\mP_D$ is non-split in $L$ and prove item 3 of Theorem~\ref{decomposition-and-inertia}.
 

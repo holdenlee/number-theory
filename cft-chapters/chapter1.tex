@@ -7,7 +7,7 @@ In Section~\ref{sec:frobenius-elements} we'll introduce the Frobenius map, which
 \index{Frobenius element}
 In order to define the Artin map and state the main theorems of class field theory, we first need to understand the Frobenius map. This map takes prime ideals inside a field $K$ to automorphisms in a Galois group $G(L/K)$. One reason for studying the Frobenius map is that $\Frob_{L/K}(\mfp)$ gives information on how the prime ideal $\mfp$ splits in a Galois extension. First, we'll define the Frobenius element and explain what it tells us about the splitting of primes. Next, we'll look at the example of a cyclotomic extension, which suggests that something deeper is going on with the Frobenius map, which we'll attempt to explain with class field theory.
 
-The reader may wish to review Section~\ref{factorization}.\ref{sec:decomposition-and-inertia}, on the decomposition and inertia groups.
+The reader may wish to review Section~\ref{sec:decomposition-and-inertia}, on the decomposition and inertia groups.
 
 The results in this section will apply to both local and global fields.
 \begin{df}\llabel{frobenius-element}
@@ -26,7 +26,7 @@ Let $\mP$ be any prime dividing $\mfp$, and define $\text{Frob}_{L/K}(\mfp)=(\mf
 In the local case, when there is only one prime, we will simply write $\Frob_{L/K}$.
 \end{df}
 \begin{proof}[Proof of existence of $(\mP,L/K)$]
-When $\mfp$ is unramified in $L$, $I(\mP)=1$ so from Corollary~\ref{factorization}.\ref{ses-inertia-decomp}, the map $D_{L/K}(\mP)\to G(l/k)$ is an isomorphism. Thus there is a unique element of $D_{L/K}(\mP)$ whose image is the Frobenius element.
+When $\mfp$ is unramified in $L$, $I(\mP)=1$ so from Corollary~\ref{ses-inertia-decomp}, the map $D_{L/K}(\mP)\to G(l/k)$ is an isomorphism. Thus there is a unique element of $D_{L/K}(\mP)$ whose image is the Frobenius element.
 \end{proof}
 %Note that the Frobenius element exists by Theorem~\ref{unramified-is-separable}(3). 
 To show the above definition is valid, we need to show that changing the prime above $\mfp$ corresponds to conjugating the Frobenius element.
@@ -140,14 +140,14 @@ But since $p\nmid n$, the $n$th roots of unity are distinct modulo $p$. (More pr
 %\pmod{p}.
 %\]
 %In particular, if $f(\ze_n)\in (p)$ then $\si(f(\ze_n))\in (p)$, i.e. $\si\in D(p)$.  
-%Thus $\si$ is the Frobenius element of $p$. %Hence $\si$ must be the $p$th power map.%\footnote{Note this argument implies $|D(\mP)|=\ord_{n}(p)$; hence combined with~(\ref{cyclotomic-factorization-1}), we can give an alternate proof of Theorem~\ref{cyclotomic}.\ref{cyclotomic-factorization-p}.}
+%Thus $\si$ is the Frobenius element of $p$. %Hence $\si$ must be the $p$th power map.%\footnote{Note this argument implies $|D(\mP)|=\ord_{n}(p)$; hence combined with~(\ref{cyclotomic-factorization-1}), we can give an alternate proof of Theorem~\ref{cyclotomic-factorization-p}.}
 
 This shows that for a prime $p\nmid n$, under the identification $G(K/\Q)\cong(\Z/n\Z)^{\times}$, we have
 \[
 (p,\Q(\ze_n)/\Q)=p\bmod n.
 \]
 \end{ex}
-This calculation of the Frobenius elements gives a complete characterization of how primes split in cyclotomic extensions. We obtain a simple proof of Theorem~\ref{cyclotomic}.\ref{cyclotomic-factorization-p}, which we restate here.
+This calculation of the Frobenius elements gives a complete characterization of how primes split in cyclotomic extensions. We obtain a simple proof of Theorem~\ref{cyclotomic-factorization-p}, which we restate here.
 \begin{thm}\llabel{thm:cyclotomic-factorization-p-2}
 Suppose that $n=p^rm$, where $p\nmid m$. Let 
 \[
@@ -164,7 +164,7 @@ In particular,
 \text{ splits completely in $\Q(\ze_n)$ iff }p\equiv 1\pmod n.\]
 \end{thm}
 \begin{proof}
-For $r=0$, i.e. $n=m$, the automorphism $\ze_n\mapsto \ze_n^p$ has order $\ord_m(p)$, so the result follows from Example~\ref{cyclotomic-frobenius} and Proposition~\ref{frob-1-split-completely}. For $r>0$, note that $(p)$ totally ramifies in $\Q(\ze_{p^r})$ by Proposition~\ref{cyclotomic}.\ref{cyclotomic-p}, and $\Q(\ze_{n})$ is the compositum $\Q(\ze_{p^r})\Q(\ze_m)$.
+For $r=0$, i.e. $n=m$, the automorphism $\ze_n\mapsto \ze_n^p$ has order $\ord_m(p)$, so the result follows from Example~\ref{cyclotomic-frobenius} and Proposition~\ref{frob-1-split-completely}. For $r>0$, note that $(p)$ totally ramifies in $\Q(\ze_{p^r})$ by Proposition~\ref{cyclotomic-p}, and $\Q(\ze_{n})$ is the compositum $\Q(\ze_{p^r})\Q(\ze_m)$.
 \end{proof}
 
 %Note this example works for $\Q_p(\ze_n)/\Q_p$ as well, provided that $p\nmid n$. No... G(K/Q) not Z/n.
@@ -277,7 +277,7 @@ Thus, we instead focus on a set of primes $S$ and consider extensions $L/K$ that
 %Thus, when we define Frobenius elements, we have to exclude the primes that ramify, and when we define a reciprocity map we have to exclude the subgroup that these primes generate.
 When we define Frobenius elements, we have to exclude $S$, and when we define a reciprocity map we have to exclude the subgroup that these primes generate. (Note that unlike in local reciprocity, we will not define $\phi_K$ with domain $K^{\times}$, but rather with domain a subgroup of the ideal group $I_K$.)
  
-Letting $S$ range over all finite subsets, we will account for all finite abelian extensions $L/K$, because each extension is ramified at only finitely many primes (Theorem~\ref{factorization}.\ref{crit-ram}).
+Letting $S$ range over all finite subsets, we will account for all finite abelian extensions $L/K$, because each extension is ramified at only finitely many primes (Theorem~\ref{crit-ram}).
 
 %Work with fractional ideals instead
 This motivates the following definition.
@@ -410,7 +410,7 @@ But by definition, the left-hand side is $\Frob_{L/K'}(\mfp)$ and the right-hand
 \begin{ex}[Cyclotomic extensions]
 \llabel{ex:cyclotomic-gcft} 
 %Continuing the discussion in Section~\ref{sec:frob-map-nice}, we show that the global reciprocity theorem holds for a cyclotomic extension $\Q(\ze_n)/\Q$. Besides serving as a concrete example of global reciprocity, we will need to prove this special case before we can prove the general case.
-In Section~\ref{sec:frob-map-nice}, we showed that the global reciprocity theorem (part 1 above) holds for a cyclotomic extension $\Q(\ze_n)/\Q$. Indeed, letting $\mm$ be $n\iy$, we have that $I_K^{\mm}/P_K(1,{\mm})\xra{\cong}G(\Q(\ze_n)/\Q)$ as in~(\ref{eq:frob-for-cyclo}). (Note that $\nm_{L/K}(I_L^{S})\subeq P_K(1,{\mm})$ will follow from the first inequality~\ref{gcft}.\ref{first-inequality}.) 
+In Section~\ref{sec:frob-map-nice}, we showed that the global reciprocity theorem (part 1 above) holds for a cyclotomic extension $\Q(\ze_n)/\Q$. Indeed, letting $\mm$ be $n\iy$, we have that $I_K^{\mm}/P_K(1,{\mm})\xra{\cong}G(\Q(\ze_n)/\Q)$ as in~(\ref{eq:frob-for-cyclo}). (Note that $\nm_{L/K}(I_L^{S})\subeq P_K(1,{\mm})$ will follow from the first inequality~\ref{first-inequality}.) 
 \end{ex}
 
 \index{conductor}
@@ -509,7 +509,7 @@ Note the topology on $\I_K^S$ is just the product topology, and that $\mathbb I=
 $\I_K^S$ is locally compact.
 \end{pr}
 \begin{proof}
-$\prod_{v\in S} K^{\times}_v$ is a finite product of locally compact spaces; $\prod_{v\nin S} \sO_v^{\times}$ is a product of compact spaces (Proposition~\ref{lg-fields}.\ref{compact-sets-in-lf}) so compact by Tychonoff's Theorem. Since a finite product of locally compact spaces is compact, the result follows.
+$\prod_{v\in S} K^{\times}_v$ is a finite product of locally compact spaces; $\prod_{v\nin S} \sO_v^{\times}$ is a product of compact spaces (Proposition~\ref{compact-sets-in-lf}) so compact by Tychonoff's Theorem. Since a finite product of locally compact spaces is compact, the result follows.
 \end{proof}
 
 Think of the ideles as a thickening of ideals: it includes factors for infinite places, and includes units at finite primes. We can embed $K^{\times}$ via the diagonal map, and $K_v^{\times}$ via the inclusion map.
@@ -529,7 +529,7 @@ containing $i(a)$. If $i(b)\in U$ with $a\ne b$, then
 \[
 \prod_v|b-a|_v<\ep^{|S|}<1,
 \]
-contradicting the product formula~\ref{lg-fields}.\ref{product-formula}. Hence $i(K^{\times})\cap U=\{i(a)\}$.
+contradicting the product formula~\ref{product-formula}. Hence $i(K^{\times})\cap U=\{i(a)\}$.
 \end{proof}
 \index{idele class group}
 \begin{df}
@@ -630,7 +630,7 @@ We have $\ker p=\mathbb U_K(1,\mm)$, and $\coker p\circ i=I^{S(\mm)}/p(K(1,\mm))
 \]
 which gives the bottom isomorphism.
 
-The top map is clearly injective. For surjectivity, take $a\in \I_K$. By the weak approximation theorem~\ref{valuations-and-completions}.\ref{thm:weak-approx}, there exists $b$ so that $\fc{a_v}{b_v}\in \mfp^{m(\mfp)}+1$ for every $v=v_{\mfp}$ dividing $\mm$. Then $\fc{a}{b}\in \I_K(1,{\mm})$, and its image varies in $\I_K$ from $a$ by the constant factor $b\in K^{\times}$.
+The top map is clearly injective. For surjectivity, take $a\in \I_K$. By the weak approximation theorem~\ref{thm:weak-approx}, there exists $b$ so that $\fc{a_v}{b_v}\in \mfp^{m(\mfp)}+1$ for every $v=v_{\mfp}$ dividing $\mm$. Then $\fc{a}{b}\in \I_K(1,{\mm})$, and its image varies in $\I_K$ from $a$ by the constant factor $b\in K^{\times}$.
 
 Now we show the second diagram. (Warning: this proof is not very enlightening.) Let $p$ and $p'$ denote the maps $\I_K\to I_K$ and $\I_K(1,\mm)\to I_K^S$, respectively. Note that the first diagram gives isomorphisms
 \[
@@ -732,7 +732,7 @@ $I(\mm)_v\subeq \nm_{L^v/K_v}(L^v)$ for all $v\mid \mm$. Now note the following.
 \[
 \nm_{L^v/K_v}(L^{v\times})=\pi_v^{[L^v:K_v]\Z}\sO_v^{\times}\supeq \sO_v^{\times}.
 \]
-This is a consequence of local class field theory (Example~\ref{lcft}.\ref{ex:unramified-rec}).
+This is a consequence of local class field theory (Example~\ref{ex:unramified-rec}).
 \item $\nm_{L^v/K_v}(L^v)$ is an open subgroup of $K_v$ (this is the easy direction in Theorem~\ref{local-existence}) and $U_v^{(n)}:=1+\pi_v^n\sO_v$ is a neighborhood base of 1 in $K_v$.
 \end{enumerate}
 By item 1, $\mm$ doesn't need to include the places where $L/K$ is unramified, and by item 2, for all ramified $v$ we can choose the power of $v$ in $\mm$ large enough to force $U_v^{(n)}\subeq \nm_{L^v/K_v}(L^{v\times})$. Then we will have $\mathbb U_K(1,\mm)\subeq \nm_{L/K}(\I_L)$.
@@ -874,7 +874,7 @@ f(\nm_{K'/K}({K'}^{\times}))|_{K'}=\{1\}.
 \end{enumerate}
 Then $f$ equals the reciprocity map $\phi_K$.
 \end{lem}
-For the proof, see Section~\ref{lcft}.\ref{sec:lcft-uniqueness}.
+For the proof, see Section~\ref{sec:lcft-uniqueness}.
 \begin{proof}[Proof of Theorem~\ref{thm:gcft-equivalent}, Part 2]
 Given $\psi_{L/K}$ we define $\phi_{L/K}$ using~\eqref{gcft-equivalent2}.
 The $\psi_{L/K}$ are compatible by Remark~\eqref{rem:gcft-ideals}, so the $\phi_{L/K}$ are compatible (details omitted) and we can define $\phi_{K}=\varprojlim_{L/K} \phi_{L/K}$ where the limit is over $L/K$ in the given family. Let $L'$ be the compositum of the fields $L$.

@@ -52,7 +52,7 @@ By linear independence of the characters $\tau\in G$, $b$ is not identically zer
 and $c_{\si}=b(e)\si(b(e))^{-1}$, 
 so $c$ is a coboundary.
 
-The infinite case follows from the finite case and Theorem~\ref{group-hom-cohom}.\ref{profinite-lim2}.
+The infinite case follows from the finite case and Theorem~\ref{profinite-lim2}.
 
 For the second part, note that $H^1(G,L^{\times})=\ker(N)/\im(D)=0$ gives $\ker(N)=\im(D)$. Here $N$ is the norm map $\nm_{L/K}$ and $D$ is the map $\si-1$, i.e. the map $v\mapsto \frac{\si(v)}{v}$.
 \end{proof}
@@ -64,7 +64,7 @@ H^r(G,L^+)=0, \quad r>0.
 \]
 \end{thm}
 \begin{proof}
-From the normal basis theorem~\ref{galois}.\ref{nbt}, there exists $\al\in L$ such that $\set{\si\al}{\si\in G}$ is a basis for $L$ over $K$. We get that $K[G]\cong L$ as $G$-modules by the map
+From the normal basis theorem~\ref{nbt}, there exists $\al\in L$ such that $\set{\si\al}{\si\in G}$ is a basis for $L$ over $K$. We get that $K[G]\cong L$ as $G$-modules by the map
 \[
 \sum_{\si\in G} a_{\si} \si \mapsto \sum_{\si\in G} a_{\si} \si\al.
 \]
@@ -112,7 +112,7 @@ K^{\times}/K^{\times n} \cong H^1(G(K^s/K),\mu_n)=\Hom(G(K^s/K),\mu_n).
 Let $G=G(L/K)$, and denote the forward map by $B(L)=K^{\times}\cap L^{\times n}$. The key step is showing that~\eqref{degree-order} holds; we do this by interpreting $K^{\times}\cap L^{\times n}$ as a 0th cohomology module.  
 The inclusions $L\supeq K(B(L)^{\rc n})$ and $B(K(B^{\rc n}))\supeq B$ are easily seen to hold (Step 2), so~(\ref{degree-order}) will give that equality holds (Steps 3-4).\\
 
-\noindent\underline{Step 1:} By Theorem~\ref{group-hom-cohom}.\ref{les-ext}, the short exact sequence of $G$-modules 
+\noindent\underline{Step 1:} By Theorem~\ref{les-ext}, the short exact sequence of $G$-modules 
 \[
 1\to \mu_n \to L^{\times}\xrightarrow{x\mapsto x^n} L^{\times n}\to 1 
 \]
@@ -124,8 +124,8 @@ We need not go further because Hilbert's Theorem 90 (Theorem~\ref{h90}) tells us
 \[
 H^1(G(L/K), L^{\times})=1.
 \]
-Next, note that $H^0(G, H)$ is simply the subgroup of $H$ fixed by $G$, and that the subfield of $L$ fixed by $G$ is $K$.  %(fixed field theorem~\ref{fields}.\ref{fixed-field}). 
-As $\mu_n\sub K$, $G$ acts trivially on $\mu_n$ and $H^{1}(G,\mu_n)=\Hom(G,\mu_n)$ by Corollary~\ref{group-hom-cohom}.\ref{h1-is-hom}.  
+Next, note that $H^0(G, H)$ is simply the subgroup of $H$ fixed by $G$, and that the subfield of $L$ fixed by $G$ is $K$.  %(fixed field theorem~\ref{fixed-field}). 
+As $\mu_n\sub K$, $G$ acts trivially on $\mu_n$ and $H^{1}(G,\mu_n)=\Hom(G,\mu_n)$ by Corollary~\ref{h1-is-hom}.  
 The sequence becomes
 \[
 1\to \mu_n\to K^{\times}\xra{x\mapsto x^n} K^{\times}\cap L^{\times n} \to \Hom(G, \mu_n)\to 1,
@@ -134,7 +134,7 @@ giving an isomorphism
 \[
 K^{\times}\cap L^{\times n}/K^{\times n}\cong \Hom(G, \mu_n).
 \]
-The map is $\partial^1(a)=\pa{\si\mapsto\frac{\si(a^{\rc n})}{a^{\rc n}}}$, as shown by tracing through the construction in Theorem~\ref{group-hom-cohom}.\ref{les}. This proves Proposition~\ref{pr:kummer-char}.
+The map is $\partial^1(a)=\pa{\si\mapsto\frac{\si(a^{\rc n})}{a^{\rc n}}}$, as shown by tracing through the construction in Theorem~\ref{les}. This proves Proposition~\ref{pr:kummer-char}.
 \[
 \xymatrix{
 && K^{\times}\cap L^{\times n}\ar[d]\\
@@ -187,7 +187,7 @@ H&\xra{\Phi} \set{h\in \Hom(G,\mu_n)}{H\subeq \ker h}\cong \Hom(G/H,\mu_n)\\
 Indeed, clearly $\Psi(\Phi(H))\supeq H$, and we have equality since for every $g\in G\bs H$ we can find $h\in \Hom(G,\mu_n)$ with kernel containing $H$, so that $h(g)\ne 1$. Since $\Hom(G,\mu_n)\cong G$, they have the same number of subgroups, and this is a bijection.
 }.
 But as the $a^{\rc n}$ generate $L$ over $K$ and the fixed field of $G$ is $K$, $\bigcap_{h\in H'} \ker h=1$. Thus $H=\{1\}$.
-%The fixed field of $G$ is $K$ %(fixed field theorem~\ref{field}.\ref{fixed-field}) 
+%The fixed field of $G$ is $K$ %(fixed field theorem~\ref{fixed-field}) 
 %so the only element of $B(L)$ fixed by all elements of $H$ is 1. Then $H=\Hom(G,\mu_n)$.
 Hence $|B(L)|=|G|=|B|$, and $B=B(L)$.
 \end{proof}
@@ -262,7 +262,7 @@ Combining~(\ref{roots-indpt-index1}) and~(\ref{roots-indpt-index2}) gives~(\ref{
 \end{proof}
 \section{Nonabelian Galois cohomology}\llabel{sec:nonabelian-galois-cohom}
 \index{descent}
-Because of the definition of $H^1$ in Section~\ref{group-hom-cohom}.\ref{nonabelian-cohom}, we find that we can often interpret $H^1(G(L/K),A)$ as parameterizing certain algebraic structures, specifically a set of them defined over $K$ that become isomorphic in $L$. (This is known as {\it descent} because it answers the question, how many ways can an algebraic structure (or in general, a variety) ``descend" from $L$ to $K$?)
+Because of the definition of $H^1$ in Section~\ref{nonabelian-cohom}, we find that we can often interpret $H^1(G(L/K),A)$ as parameterizing certain algebraic structures, specifically a set of them defined over $K$ that become isomorphic in $L$. (This is known as {\it descent} because it answers the question, how many ways can an algebraic structure (or in general, a variety) ``descend" from $L$ to $K$?)
 In general,
 \begin{multline}
 H^1(G(L/K),\{\text{automorphisms preserving $V$ over $K$}\})\\
@@ -318,7 +318,7 @@ For the second part, the exact sequence
 \[
 1\to \SL_n(L)\to GL_n(L)\xra{\det} L^{\times}\to 1
 \]
-gives the long exact sequence~\ref{group-hom-cohom}.\ref{thm:nonabelian-les}
+gives the long exact sequence~\ref{thm:nonabelian-les}
 \[
 \xymatrix{
 H^0(G,\GL_n(L))\ar[r]^{\det}\ar@{=}[d] & H^0(G,L^{\times}) \ar[r]\ar@{=}[d] & H^1(G,\SL_n(L))\ar[r] & H^1(G,\GL_n(L))\ar@{=}[d]\\
@@ -389,7 +389,7 @@ We show the following.
 \[
 d(\si t)=f^{-1}\si tft^{-1}\si^{-1}=(f^{-1}\si f\si^{-1})[\si (f^{-1}tft^{-1})\si^{-1}]=d(\si )\circ d(t)^{\si }.
 \]
-(See Definition~\ref{group-hom-cohom}.\ref{df:nonabelian-cocycles}.) 
+(See Definition~\ref{df:nonabelian-cocycles}.) 
 Next, we show $\te(V',x')$ does not depend on the choice of $f$: Let $d_f(\si )=f^{-1}\si f\si^{-1}$ and $d_g(s)=g^{-1}\si g\si^{-1}$. Then
 \[
 d_g(\si )=g^{-1}\si g\si^{-1}= g^{-1}f(f^{-1}\si f\si^{-1})\si f^{-1}g\si^{-1}
@@ -656,7 +656,7 @@ By the Noether-Skolem Theorem~\ref{thm:noether-skolem}, every automorphism of $\
 %\]
 Along with~(\ref{eq:brauer-descent}) this proves the first part.
 
-The long exact sequence \ref{group-hom-cohom}.\ref{thm:nonabelian-les} of~\eqref{eq:noether-skolem} gives 
+The long exact sequence \ref{thm:nonabelian-les} of~\eqref{eq:noether-skolem} gives 
 \[
 0=H^1(G,\GL_n(L))\to H^1(G,\PGL_n(L))\xra{\De_n} H^2(G,L^{\times}),
 \]
@@ -677,7 +677,7 @@ If $f:x\to a$ and $f':x'\to a'$ are $L$-linear maps, then we have the $L$-linear
 %(\cal M_n(L),x)\to (\cal M_n(L),a)$ and $f':(\cal M_{n'}(L),x')\to (\cal M_n(L),a')$ are $L$-linear maps, then we have the $L$-linear map
 \[f\ot f':x\ot x'\to a\ot a'.\]
 %(\cal M_{nn'}(L),x\ot x')\to (\cal M_{nn'}(L),
-Now $\te_n,\te_{n'}$ map $A$ and $A'$ to $c_{\si}=f^{-1}\circ f^{\si}$ and $c'_{\si}={f'}^{-1}\circ {f'}^{\si}$. Suppose $c_{\si}$ and $c'_{\si}$ are represented by conjugation by $S_{\si}$ and $S'_{\si}$, respectively. Now $\te_{nn'}$ maps $A\ot A'$ onto $d_{\si}=(f\ot f')^{-1}\circ (f\ot f')^{\si}$, which corresponds to conjugation by $S_{\si}\ot S'_{\si}$. Then by the description of $\De$ in Theorem~\ref{group-hom-cohom}.\ref{df:nonabelian-cocycles}, we see that
+Now $\te_n,\te_{n'}$ map $A$ and $A'$ to $c_{\si}=f^{-1}\circ f^{\si}$ and $c'_{\si}={f'}^{-1}\circ {f'}^{\si}$. Suppose $c_{\si}$ and $c'_{\si}$ are represented by conjugation by $S_{\si}$ and $S'_{\si}$, respectively. Now $\te_{nn'}$ maps $A\ot A'$ onto $d_{\si}=(f\ot f')^{-1}\circ (f\ot f')^{\si}$, which corresponds to conjugation by $S_{\si}\ot S'_{\si}$. Then by the description of $\De$ in Theorem~\ref{df:nonabelian-cocycles}, we see that
 \[
 \de_{nn'}(A\ot A')=\bc{a_{\si,\tau}= i_{nn'}^{-1}[(S_{\si}\ot S'_{\si}) \si (S_{\tau}\ot S'_{\tau})(S_{\si\tau}\ot S'_{\si\tau})^{-1}]}=\de_n(A)\de_n(A')
 \]
@@ -776,7 +776,7 @@ For any Galois extension $L/K$ there is an exact sequence
 \end{thm}
 \begin{proof}
 Since $H^1(L/K)=0$ by Hilbert's Theorem 90 (\ref{h90}), 
-the inflation-restriction exact sequence~\ref{group-hom-cohom}.\ref{inflate-restrict} with $G=G(M/K)$ and $H=G(M/L)$ gives
+the inflation-restriction exact sequence~\ref{inflate-restrict} with $G=G(M/K)$ and $H=G(M/L)$ gives
 \[
 0\to H^2(L/K)\xra{\Inf} H^2(M/K)\xra{\Res} H^2(M/L). 
 \]
