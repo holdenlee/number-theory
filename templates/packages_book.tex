@@ -1,0 +1,131 @@
+\documentclass[12pt]{book}
+\usepackage{etex}
+%this prevents the "No room for a new \dimen" error that comes from loading too many packages (tikz+xy in particular)
+
+%load geometry first (sets up page)
+\usepackage[top=1.2in, bottom=1.2in, left=1in, right=1in]{geometry}
+
+%main packages
+\usepackage{amscd}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{array}
+\usepackage{bbm}
+%\usepackage{asymptote}
+\usepackage{cancel}
+\usepackage{chemarrow}
+\usepackage{cmap}
+\usepackage{courier}
+\usepackage[usenames,dvipsnames]{color}%%%
+%\usepackage{color}
+%\usepackage{ctable} %You must load ctable after tikz.
+\usepackage{enumerate}
+\usepackage{enumitem}%resume lists
+\usepackage{fancyhdr}
+\usepackage{listings}
+\lstset{
+	basicstyle=\small\ttfamily,
+	keywordstyle=\color{blue},
+	language=python,
+	xleftmargin=16pt,
+}
+\usepackage{makeidx}
+%\usepackage{marvosym}%doesn't work
+\usepackage{mathdots}%iddots: dots going northeast
+\usepackage{mathtools}
+\usepackage{mathrsfs}
+%\usepackage{hyperref}
+%\usepackage{sidecap}
+\usepackage{stackrel}
+\usepackage{stmaryrd}%\mapsfrom
+\usepackage{tabularx}
+\usepackage{tikz}
+\usepackage{ctable}
+\usepackage{titlesec}
+\usepackage{titletoc}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{wasysym}
+\usepackage{wrapfig}
+\usepackage{yhmath}
+%\usepackage{yhmath}%arcs
+\usepackage[all,cmtip]{xy}%Commutative diagrams
+%\usepackage[usenames,dvipsnames]{xcolor}%tikz loads xcolor
+
+
+\usepackage[usenames,dvipsnames]{color} % Required for specifying custom colors and referring to colors by name
+\usepackage[pdftex]{hyperref} % For hyperlinks in the PDF
+\hypersetup{
+  colorlinks=true,
+  linkcolor=MyBlue, 
+  citecolor=MyRed,
+  urlcolor= MyBlue
+}
+
+\definecolor{MyRed}{rgb}{0.99, 0.0, 0.0} 
+\definecolor{MyGreen}{rgb}{0.0,0.4,0.0} 
+\definecolor{MyBlue}{rgb}{0.0, 0.0, 0.6}
+
+%load hyperref last
+%\usepackage{hyperref}
+%\usepackage{listings}
+%\lstset{
+%	basicstyle=\small\ttfamily,
+%	keywordstyle=\color{blue},
+%	language=python,
+%	xleftmargin=16pt,
+%}
+%this causes an error. No idea why.
+
+\usetikzlibrary{calc,trees,positioning,arrows,chains,shapes.geometric,%
+    decorations.pathreplacing,decorations.pathmorphing,shapes,%
+    matrix,shapes.symbols,shadows,fadings}
+
+%\input xy
+%\xyoption{all}
+
+%http://www.simonsilk.com/content/simonsilk/2011-jun/latex-list-notations-nomenclature
+\usepackage[refpage]{nomencl}
+\renewcommand{\nomname}{List of Notations}
+\renewcommand*{\pagedeclaration}[1]{\unskip\dotfill\hyperpage{#1}}
+\makenomenclature
+%The first line invokes the nomenclature package, and the option refpage means that the list will include, for each symbol in the list,  the page number on which you added it with the \nomenclature command. Leave it out to remove page numbers. The second line is the title at the top of the list of notations. The third line changes the page numbers in the list so they are right-justified with a line of dots connecting them back to the description of the symbol. By default, they follow the description after a comma and the word "page." The last line tells Latex you're using nomenclature so it will generate and look for the associated intermediate files during successive runs.
+
+\makeindex
+
+\setcounter{tocdepth}{3}
+\setcounter{secnumdepth}{3}
+%\pagenumbering{arabic}
+
+%http://tex.stackexchange.com/questions/142982/how-to-get-the-current-chapter-name-section-name-subsection-name-etc?lq=1
+\usepackage{etoolbox}
+% Patch the sectioning commands to provide a hook to be used later
+\preto{\chapter}{\def\leveltitle{\chaptertitle}}
+\preto{\section}{\def\leveltitle{\sectiontitle}}
+\preto{\subsection}{\def\leveltitle{\subsectiontitle}}
+\preto{\subsubsection}{\def\leveltitle{\subsubsectiontitle}}
+
+\makeatletter
+% \@sect is called with normal sectioning commands
+% Argument #8 to \@sect is the title
+% Thus \section{Title} will do \gdef\sectiontitle{Title}
+\pretocmd{\@sect}
+  {\expandafter\gdef\leveltitle{#8}}
+  {}{}
+% \@ssect is called with *-sectioning commands
+% Argument #5 to \@ssect is the title
+\pretocmd{\@ssect}
+  {\expandafter\gdef\leveltitle{#5}}
+  {}{}
+% \@chapter is called by \chapter (without *)
+% Argument #2 to \@chapter is the title
+\pretocmd{\@chapter}
+  {\expandafter\gdef\leveltitle{#2}}
+  {}{}
+% \@schapter is called with \chapter*
+% Argument #1 to \@schapter is the title
+\pretocmd{\@schapter}
+  {\expandafter\gdef\leveltitle{#1}}
+  {}{}
+\makeatother
