@@ -37,9 +37,9 @@ There are two versions of the files. The "-draft" file will contain labels and c
 
 Shortlinks to the pdfs:
 
-+ Algebraic number theory: [tiny.cc/algnt](tiny.cc/algnt)
-+ Analytic number theory: [tiny.cc/annt](tiny.cc/annt)
-+ Number theory: [tiny.cc/ntbook](tiny.cc/ntbook)
++ Algebraic number theory: [tiny.cc/algnt](http://tiny.cc/algnt)
++ Analytic number theory: [tiny.cc/annt](http://tiny.cc/annt)
++ Number theory: [tiny.cc/ntbook](http://tiny.cc/ntbook)
 
 # Contributors
 
