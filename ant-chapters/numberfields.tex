@@ -1,0 +1,159 @@
+\chapter{Number Fields}\llabel{ring-of-integers}
+
+A natural way to begin a book about Algebraic Number Theory is by introducing number fields.
+We will start with a short introduction. Then we'll have a quick refresher on algebraic numbers and minimal polynomials, and finally, we'll define number fields and generalize them.
+
+\section{Introduction}
+
+Formally, algebraic number fields are finite degree field extensions\footnote{TODO: Explain this in a book about Field and Galois theory} of the rational numbers.
+For much of this book we'll work in a more general context of arbitrary (but usually finite) field extensions. However, to get some intuition, we can think
+of number fields as rational numbers extended by ``external'' elements.
+
+\begin{ex}
+    A typical number field is $\Q(\sqrt{2}) = \left\{m + n \sqrt{2} \mid m,n \in \Q\right\}$. It even has a name - it's called a quadratic field.
+\end{ex}
+
+It's clearly a field: it's closed under addition and multiplication, and inherits other field properties from $\Q$. It's larger than $\Q$ but much smaller than $\R$.
+
+As we'll see in the next chapter, just as number fields generalize the rational numbers,
+we can use them to study integers in a more general context - which we'll do in the next chapter.
+To talk about number fields, it's important to understand the concept of algebraic numbers first\footnote{This part will be moved to a book about Field and Galois theory someday}.
+
+\section{Algebraic Numbers}
+\begin{df}
+    \textbf{Algebraic numbers} are complex numbers that are roots of a polynomial with coefficients in $\Q$. The set of algebraic numbers is denoted $\overline{\Q}$.
+\end{df}
+
+\begin{ex}$\,$
+    \begin{itemize}
+        \item $1$ is a root of $1-x$ and $3x-3$.
+        \item $\frac{1}{2}$ is a root of $2x - 1$ and $x - \frac{1}{2}$.
+        \item $\sqrt{2}$ is a root of $x^2 - 2$ and $x^5 + 2x^4 - 2x^3 - 4x^2$.
+        \item $i$ is a root of $x^2 + 1$.
+        \item $\pi$ is not a root of any polynomial with rational coefficients.
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    A number is algebraic if any such polynomial exist. Since we're working in $\Q$ we can scale the polynomial to be monic (i.e. with 1 as a leading coefficient). The monic polynomial with a smallest degree is called a \textbf{minimal polynomial} over $\Q$.
+\end{df}
+
+\begin{df}
+    The \textbf{degree} of algebraic number $\alpha$ is denoted $\deg \alpha$ and defined as the degree of its minimal polynomial.
+\end{df}
+
+\begin{ex} Examples of minimal polynomials:
+    \begin{itemize}
+        \item The minimal polynomial of $1$ is $x-1$. So $\deg 1 = 1$.
+        \item The minimal polynomial of $\frac{1}{2}$ is $x - \frac{1}{2}$. So $\deg \frac{1}{2} = 1$.
+        \item The minimal polynomial of $\sqrt{2}$ is $x^2 - 2$. So $\deg \sqrt{2} = 2$.
+        \item The minimal polynomial of $i$ is $x^2 + 1$. So $\deg i = 2$.
+        \item The minimal polynomial of $\sqrt[3]{2}$ is $x^3 - 2$. So $\deg \sqrt[3]{2} = 3$.
+    \end{itemize}
+\end{ex}
+
+\begin{df}
+    If the coefficients of the minimal polynomial are all integers, we call the corresponding algebraic number an \textbf{algebraic integer}. Thus $1$, $i$ and $\sqrt{2}$ are algebraic integers, while $\frac{1}{2}$ is not.
+    The set of algebraic integers is denoted $\overline{\Z}$.
+\end{df}
+
+\begin{df}
+    Given an algebraic number $\alpha$ with minimal polynomial $P$ of degree $n$, the $n$ roots of $P$ are called the \textbf{Galois conjugates} of $\alpha$.
+\end{df}
+
+\begin{ex} Examples of Galois conjugates:
+    \begin{itemize}
+        \item Galois conjugates of $1$ over $\Q$ are $\left\{1\right\}$
+        \item Galois conjugates of $\sqrt{2}$ over $\Q$ are $\left\{\sqrt{2}, -\sqrt{2}\right\}$
+        \item Galois conjugates of $\sqrt[3]{2}$ over $\Q$ are $\left\{\sqrt[3]{2}, \omega\sqrt[3]{2}, \omega^2\sqrt[3]{2}\right\}$ (where $\omega$ is a primitive cube root of unity). Note that these conjugates don't lie in $\Q(\sqrt[3](2))$.
+    \end{itemize}
+\end{ex}
+
+There is one more interesting aspect about minimal polynomials and conjugates: conjugates always come together.
+
+\begin{thm}
+    Let $\al$ be an algebraic number with a minimal polynomial $A(x)$, and let $B(x)$ be another polynomial such that $B(\al) = 0$. Then $A(x)$ divides $B(x)$.
+\end{thm}
+\begin{proof}
+    By the division algorithm for polynomials, we can express $B(x) = A(x)Q(x) + R(x)$, with $\deg R(x) < \deg A(x)$. By substituting $\al$ we get $0 = R(\al)$.
+    If $R(x)$ is not a zero polynomial, we get a contradiction - $\al$ is a root of $R(x)$, which has a degree lower than the degree of the minimal polynomial of $\al$.
+    Hence, $R(x)$ must be a zero polynomial, and thus $B(x) = A(x)Q(x)$ as desired (proving that $A(x)$ divides $B(x)$).
+\end{proof}
+
+This has some nice consequences - for example, if we know $a_1, a_2, \ldots a_n$ are conjugates over $\Q$, and that $P(a_1) = 0$, we immediately infer, without further checking, that $P(a_2) = \ldots = P(a_n) = 0$.
+To reuse a previous example, since $\sqrt{2}$ and $-\sqrt{2}$ are conjugates, if we know that $\sqrt{2}$ is a root of $P(x) = x^5 + 2x^4 - 2x^3 - 4x^2$, we immediately conclude that $-\sqrt{2}$ is also a root.
+
+\section{Algebraic properties}
+
+\noindent Algebraic numbers are just one example of a more generic phenomena. To talk about their properties more generally, we first need to first define a few terms:
+
+\begin{df}
+    Let $A$ be a field, and $L$ be an extension field of $A$. An element $x \in L$ is \textbf{algebraic} over $A$ if it is the zero of a non-zero polynomial with coefficient in $A$.
+\end{df}
+
+\begin{ex}
+    Algebraic numbers are, by definition, algebraic over $\Q$. Algebraic integers are also algebraic over $\Q$ (they are also roots of polynomials with coefficients in $\Z$, but we don't say they're algebraic over $\Z$, because $\Z$ is not a field).
+\end{ex}
+
+\begin{df}
+    The \textbf{algebraic closure} of $A$ in $L$ is the set of elements of $L$ algebraic over $A$. If every element of $L$ is algebraic over $A$ we say $L$ is an \textbf{algebraic extension} of $A$.
+\end{df}
+
+\noindent The algebraic closure of $A$ is often denoted $\overline{A}$. This is why the algebraic closure of $\Q$ - the set of algebraic numbers - is denoted $\overline\Q$.
+For more examples, the algebraic closure of $\R$ is $\C$. The algebraic closure of $\C$ is $\C$.
+
+\noindent One last definition worth knowing, even though we won't use often, is:
+
+\begin{df}
+    A field $F$ is \textbf{algebraically closed} if every nonconstant polynomial in $F[x]$ has a root in $F$.
+\end{df}
+
+Clearly, $\C$ is algebraically closed. Another examples of algebraically closed fields include $\overline\Q$ and finite fields.
+
+All of the definitions from the previous section carry over - for example we define minimal polynomials and degrees for arbitrary field extension in the same way. 
+
+\section{Number fields}
+
+Having defined algebraic numbers, we can now introduce the concept of number fields.
+A number field is a field that contains $\Q$ as a subfield, and is generated by adjoining a finite number of algebraic numbers to $\Q$. More formally:
+
+\begin{df}
+    A \textbf{number field} is a finite field extension $K$ of the field of rational numbers $\Q$.
+\end{df}
+
+In particular, every finite extension is algebraic.
+
+\begin{rem}
+    $\R$ and $\C$ are not number fields, because they can't be generated by adjoining a \textit{finite} number of elements to $\Q$. In other words, they are not finite extensions of $\Q$.
+\end{rem}
+
+\begin{ex}
+    For example, $\Q(\sqrt{2}) = \left\{\frac{a + b \sqrt{2}}{c + d \sqrt{2}} : a,b,c,d \in \Q\right\}$ is a number field.
+\end{ex}
+
+\noindent Rationalizing the denominator shows that that this is equivalent to $\Q[\sqrt{2}] = \left\{a + b \sqrt{2} : a,b \in \Q\right\}$. In other words, $\Q(\sqrt{2}) \cong \Q[\sqrt{2}]$. This holds for every algebraic number $\alpha$ (as we prove more generally in Proposition~\ref{l-eq-frac-b}).
+Therefore, we usually think of elements of $\Q(\alpha)$ as numbers of form $a + b\alpha$ with $a, b \in \Q$.
+
+\begin{df}
+    The \textbf{degree} of a number field $K$ over $\Q$, denoted $[K:\Q]$ is the dimension of $K$ as a vector space over $\Q$.
+\end{df}
+
+\begin{ex} Number fields as vector spaces:
+    \begin{itemize}
+        \item The degree of $\Q(\sqrt{2})$ is equal to 2, with basis being $\left\{1, \sqrt{2}\right\}$.
+        \item The degree of $\Q(\sqrt[3]{2})$ is equal to 3, with basis being $\left\{1, \sqrt[3]{2}, \sqrt[3]{4}\right\}$.
+        \item And in general - the degree of $\Q(\al)$ is equal to $\deg \al$ (Exercise~\ref{ex-degree-elm}).
+    \end{itemize}
+\end{ex}
+
+In the following chapters, we will usually prove results in a more general setting
+of arbitrary field extensions $L/K$ instead of focusing on number fields which are a special case ($L/\Q$).
+Nevertheless, we'll sometimes refer to number fields in our examples.
+
+\section{Problems}
+\begin{enumerate}
+    \item Verify that $\Q(\alpha)$ forms a $\Q$-vector space.
+    \item Find a minimal polynomial of $\sqrt{2} + \sqrt{3}$.
+    \item Show that $\Q(\sqrt{2}) \cong \Q[x]/(x^2 - 2)$ as fields.
+    \item Show that the degree of $\Q(\al)$ is equal to $\deg \al$ \llabel{ex-degree-elm}.
+\end{enumerate}
